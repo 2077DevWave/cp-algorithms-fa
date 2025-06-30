@@ -1,4 +1,4 @@
-# Algorithms for Competitive Programming
+# Algorithms for Competitive Programming (fa)
 
 [![Contributors](https://img.shields.io/github/contributors/cp-algorithms/cp-algorithms.svg)](https://github.com/cp-algorithms/cp-algorithms/graphs/contributors)
 [![Pull Requests](https://img.shields.io/github/issues-pr/cp-algorithms/cp-algorithms.svg)](https://github.com/cp-algorithms/cp-algorithms/pulls)
