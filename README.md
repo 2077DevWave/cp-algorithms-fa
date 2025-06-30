@@ -1,4 +1,4 @@
-# Algorithms for Competitive Programming (fa)
+# Algorithms for Competitive Programming | الگوریتم‌ها برای برنامه‌نویسی رقابتی
 
 [![Contributors](https://img.shields.io/github/contributors/cp-algorithms/cp-algorithms.svg)](https://github.com/cp-algorithms/cp-algorithms/graphs/contributors)
 [![Pull Requests](https://img.shields.io/github/issues-pr/cp-algorithms/cp-algorithms.svg)](https://github.com/cp-algorithms/cp-algorithms/pulls)
@@ -6,13 +6,15 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/cp-algorithms/cp-algorithms/test.yml)](https://github.com/cp-algorithms/cp-algorithms/actions?query=branch%3Amain+workflow%3Atest)
 [![Translation Progress](https://img.shields.io/badge/translation_progress-85.2%25-yellowgreen.svg)](https://github.com/cp-algorithms/cp-algorithms/wiki/Translation-Progress)
 
-The goal of this project is to translate the wonderful resource
-[https://e-maxx.ru/algo](https://e-maxx.ru/algo) which provides descriptions of many algorithms
-and data structures especially popular in field of competitive programming.
-Moreover we want to improve the collected knowledge by extending the articles
-and adding new articles to the collection.
+هدف این پروژه ترجمه منبع فوق‌العاده
+[https://e-maxx.ru/algo](https://e-maxx.ru/algo)
+است که توضیحات مربوط به بسیاری از الگوریتم‌ها و ساختمان‌های داده را ارائه می‌دهد،
+به‌ویژه آن‌هایی که در زمینه برنامه‌نویسی رقابتی محبوب هستند.
+علاوه بر این، ما قصد داریم دانش گردآوری‌شده را با گسترش مقالات
+و افزودن مقالات جدید به این مجموعه بهبود دهیم.
 
-Compiled pages are published at [https://cp-algorithms.com/](https://cp-algorithms.com/).
+
+صفحات گردآوری‌شده در [http://cp-algorithm.sideco.ir](http://cp-algorithm.sideco.ir) منتشر شده‌اند.
 
 ## Changelog
 
