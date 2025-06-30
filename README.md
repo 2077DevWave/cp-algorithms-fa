@@ -1,10 +1,10 @@
 # Algorithms for Competitive Programming | الگوریتم‌ها برای برنامه‌نویسی رقابتی
 
-[![Contributors](https://img.shields.io/github/contributors/2077DevWave/cp-algorithms-fa.svg)](https://github.com/cp-algorithms/cp-algorithms/graphs/contributors)
-[![Pull Requests](https://img.shields.io/github/issues-pr/2077DevWave/cp-algorithms-fa.svg)](https://github.com/cp-algorithms/cp-algorithms/pulls)
-[![Closed Pull Requests](https://img.shields.io/github/issues-pr-closed/2077DevWave/cp-algorithms-fa.svg)](https://github.com/cp-algorithms/cp-algorithms/pulls?q=is%3Apr+is%3Aclosed)
-[![Build](https://img.shields.io/github/actions/workflow/status/2077DevWave/cp-algorithms-fa/test.yml)](https://github.com/cp-algorithms/cp-algorithms/actions?query=branch%3Amain+workflow%3Atest)
-[![Translation Progress](https://img.shields.io/badge/translation_progress-0.1%25-yellowgreen.svg)](https://github.com/cp-algorithms/cp-algorithms/wiki/Translation-Progress)
+[![Contributors](https://img.shields.io/github/contributors/2077DevWave/cp-algorithms-fa.svg)](https://github.com/2077DevWave/cp-algorithms-fa/graphs/contributors)
+[![Pull Requests](https://img.shields.io/github/issues-pr/2077DevWave/cp-algorithms-fa.svg)](https://github.com/2077DevWave/cp-algorithms-fa/pulls)
+[![Closed Pull Requests](https://img.shields.io/github/issues-pr-closed/2077DevWave/cp-algorithms-fa.svg)](https://github.com/2077DevWave/cp-algorithms-fa/pulls?q=is%3Apr+is%3Aclosed)
+[![Build](https://img.shields.io/github/actions/workflow/status/2077DevWave/cp-algorithms-fa/test.yml)](https://github.com/2077DevWave/cp-algorithms-fa/actions?query=branch%3Amain+workflow%3Atest)
+[![Translation Progress](https://img.shields.io/badge/translation_progress-0.1%25-yellowgreen.svg)](https://github.com/2077DevWave/cp-algorithms-fa/wiki/Translation-Progress)
 
 هدف این پروژه ترجمه منبع فوق‌العاده
 [https://e-maxx.ru/algo](https://e-maxx.ru/algo)
