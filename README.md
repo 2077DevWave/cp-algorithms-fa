@@ -1,10 +1,10 @@
 # Algorithms for Competitive Programming | الگوریتم‌ها برای برنامه‌نویسی رقابتی
 
-[![Contributors](https://img.shields.io/github/contributors/cp-algorithms/cp-algorithms.svg)](https://github.com/cp-algorithms/cp-algorithms/graphs/contributors)
-[![Pull Requests](https://img.shields.io/github/issues-pr/cp-algorithms/cp-algorithms.svg)](https://github.com/cp-algorithms/cp-algorithms/pulls)
-[![Closed Pull Requests](https://img.shields.io/github/issues-pr-closed/cp-algorithms/cp-algorithms.svg)](https://github.com/cp-algorithms/cp-algorithms/pulls?q=is%3Apr+is%3Aclosed)
-[![Build](https://img.shields.io/github/actions/workflow/status/cp-algorithms/cp-algorithms/test.yml)](https://github.com/cp-algorithms/cp-algorithms/actions?query=branch%3Amain+workflow%3Atest)
-[![Translation Progress](https://img.shields.io/badge/translation_progress-85.2%25-yellowgreen.svg)](https://github.com/cp-algorithms/cp-algorithms/wiki/Translation-Progress)
+[![Contributors](https://img.shields.io/github/contributors/2077DevWave/cp-algorithms-fa.svg)](https://github.com/cp-algorithms/cp-algorithms/graphs/contributors)
+[![Pull Requests](https://img.shields.io/github/issues-pr/2077DevWave/cp-algorithms-fa.svg)](https://github.com/cp-algorithms/cp-algorithms/pulls)
+[![Closed Pull Requests](https://img.shields.io/github/issues-pr-closed/2077DevWave/cp-algorithms-fa.svg)](https://github.com/cp-algorithms/cp-algorithms/pulls?q=is%3Apr+is%3Aclosed)
+[![Build](https://img.shields.io/github/actions/workflow/status/2077DevWave/cp-algorithms-fa/test.yml)](https://github.com/cp-algorithms/cp-algorithms/actions?query=branch%3Amain+workflow%3Atest)
+[![Translation Progress](https://img.shields.io/badge/translation_progress-0.1%25-yellowgreen.svg)](https://github.com/cp-algorithms/cp-algorithms/wiki/Translation-Progress)
 
 هدف این پروژه ترجمه منبع فوق‌العاده
 [https://e-maxx.ru/algo](https://e-maxx.ru/algo)
@@ -16,7 +16,7 @@
 
 صفحات گردآوری‌شده در [http://cp-algorithm.sideco.ir](http://cp-algorithm.sideco.ir) منتشر شده‌اند.
 
-## Changelog
+## تغییرات
 
 - October, 2024: Welcome new maintainers: [jxu](https://github.com/jxu), [mhayter](https://github.com/mhayter) and [kostero](https://github.com/kostero)!
 - October, 15, 2024: GitHub pages based mirror is now served at [https://gh.cp-algorithms.com/](https://gh.cp-algorithms.com/), and an auxiliary competitive programming library is available at [https://lib.cp-algorithms.com/](https://lib.cp-algorithms.com/).
@@ -29,7 +29,7 @@
 - June 5, 2022: Enabled content tabs and sidebar navigation. The navigation is moved to a [separate page](https://cp-algorithms.com/navigation.html) and its structure should be adjusted in [navigation.md](https://github.com/cp-algorithms/cp-algorithms/blob/main/src/navigation.md) whenever a new article is created or an old one is moved.
 - January 16, 2022: Switched to the [MkDocs](https://www.mkdocs.org/) site generator with the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme, which give the website a more modern look, brings a couple of new features (dark mode, better search, ...), makes the website more stable (in terms of rendering math formulas), and makes it easier to contribute.
 
-### New articles
+### مقالات جدید
 
 - (21 May 2025) [Simulated Annealing](https://cp-algorithms.com/num_methods/simulated_annealing.html)
 - (12 July 2024) [Manhattan distance](https://cp-algorithms.com/geometry/manhattan-distance.html)
