@@ -10,8 +10,7 @@ e_maxx_link: all_submasks
 
 Given a bitmask $m$, you want to efficiently iterate through all of its submasks, that is, masks $s$ in which only bits that were included in mask $m$ are set.
 
-Consider the implementation of this algorithm, based on tricks with bit operations:
-
+پیاده‌سازی این الگوریتم را در نظر بگیرید که بر اساس ترفندهایی با عملیات های بیتی انجام شده است:
 ```cpp
 int s = m;
 while (s > 0) {
