@@ -1,98 +1,99 @@
 ---
 tags:
   - Translated
+  - Translated-fa
 e_maxx_link: stacks_for_minima
 ---
 
 # Minimum stack / Minimum queue
 
-In this article we will consider three problems: 
-first we will modify a stack in a way that allows us to find the smallest element of the stack in $O(1)$, then we will do the same thing with a queue, and finally we will use these data structures to find the minimum in all subarrays of a fixed length in an array in $O(n)$
+داخل این مقاله به سه سوال میپردازیم: 
+ابتدا یک پشته را طوری تغییر می‌دهیم که بتوانیم کوچکترین عنصر آن را در زمان $O(1)$ پیدا کنیم، سپس همین کار را با یک صف انجام می‌دهیم، و در نهایت از این داده‌ساختارها استفاده می‌کنیم تا کمینه را در تمام زیرآرایه‌های یک آرایه با طول ثابت، در زمان $O(n)$ پیدا کنیم.
 
 ## Stack modification
 
-We want to modify the stack data structure in such a way, that it possible to find the smallest element in the stack in $O(1)$ time, while maintaining the same asymptotic behavior for adding and removing elements from the stack.
-Quick reminder, on a stack we only add and remove elements on one end.
+می‌خواهیم داده‌ساختار پشته را طوری تغییر دهیم که پیدا کردن کوچکترین عنصر در پشته در زمان $O(1)$ ممکن شود، در حالی که پیچیدگی زمانی اضافه و حذف کردن عناصر از پشته مثل قبل باقی بماند.
+یادآوری: در یک پشته، ما فقط از یک انتها عناصر را اضافه و حذف می‌کنیم.
 
-To do this, we will not only store the elements in the stack, but we will store them in pairs: the element itself and the minimum in the stack starting from this element and below.
+برای این کار، ما عناصر را به صورت زوج در پشته ذخیره می‌کنیم: خود عنصر و کمینه آرایه از عنصر کنونی به قبل.
 
 ```cpp
 stack<pair<int, int>> st;
 ```
 
-It is clear that finding the minimum in the whole stack consists only of looking at the value `stack.top().second`.
+واضح است که برای پیدا کردن کمینه در کل پشته، کافی است فقط به مقدار `stack.top().second` نگاه کنیم.
 
-It is also obvious that adding or removing a new element to the stack can be done in constant time.
+همچنین واضح است که اضافه یا حذف کردن یک عنصر جدید به پشته در زمان ثابت انجام می‌شود.
 
-Implementation:
+پیاده‌سازی:
 
-* Adding an element:
+*   اضافه کردن یک عنصر:
 ```cpp
 int new_min = st.empty() ? new_elem : min(new_elem, st.top().second);
 st.push({new_elem, new_min});
 ```
 
-* Removing an element:
+*   حذف کردن یک عنصر:
 ```cpp
 int removed_element = st.top().first;
 st.pop();
 ```
 
-* Finding the minimum:
+*   پیدا کردن کمینه:
 ```cpp
 int minimum = st.top().second;
 ```
 
 ## Queue modification (method 1)
 
-Now we want to achieve the same operations with a queue, i.e. we want to add elements at the end and remove them from the front.
+حالا می‌خواهیم همین عملیات‌ها را با یک صف انجام دهیم، یعنی می‌خواهیم عناصر را به انتها اضافه کرده و از ابتدا حذف کنیم.
 
-Here we consider a simple method for modifying a queue.
-It has a big disadvantage though, because the modified queue will actually not store all elements.
+در اینجا یک روش ساده برای تغییر دادن صف را بررسی می‌کنیم.
+هرچند، این روش یک عیب بزرگ دارد، زیرا صف تغییریافته در واقع تمام عناصر را ذخیره نمی‌کند.
 
-The key idea is to only store the items in the queue that are needed to determine the minimum.
-Namely we will keep the queue in nondecreasing order (i.e. the smallest value will be stored in the head), and of course not in any arbitrary way, the actual minimum has to be always contained in the queue.
-This way the smallest element will always be in the head of the queue.
-Before adding a new element to the queue, it is enough to make a "cut":
-we will remove all trailing elements of the queue that are larger than the new element, and afterwards add the new element to the queue. 
-This way we don't break the order of the queue, and we will also not loose the current element if it is at any subsequent step the minimum. 
-All the elements that we removed can never be a minimum itself, so this operation is allowed.
-When we want to extract an element from the head, it actually might not be there (because we removed it previously while adding a smaller element). 
-Therefore when deleting an element from a queue we need to know the value of the element.
-If the head of the queue has the same value, we can safely remove it, otherwise we do nothing.
+ایده اصلی این است که فقط عناصری را در صف ذخیره کنیم که برای تعیین کمینه لازم هستند.
+به طور مشخص، ما صف را به ترتیب غیر نزولی نگه می‌داریم (یعنی کوچکترین مقدار در ابتدای صف ذخیره می‌شود) و البته به طوری که کمینه واقعی همیشه در صف وجود داشته باشد.
+به این ترتیب، کوچکترین عنصر همیشه در ابتدای صف خواهد بود.
+قبل از اضافه کردن یک عنصر جدید به صف، کافی است یک «برش» ایجاد کنیم:
+ما تمام عناصر انتهایی صف را که از عنصر جدید بزرگتر هستند حذف می‌کنیم، و سپس عنصر جدید را به صف اضافه می‌کنیم.
+با این کار، ترتیب صف به هم نمی‌خورد و همچنین مطمئن می‌شویم عنصری که ممکن است در آینده کمینه باشد از دست نمی‌رود.
+تمام عناصری که ما حذف کردیم هرگز نمی‌توانند خودشان کمینه باشند، بنابراین این عملیات مجاز است.
+وقتی می‌خواهیم یک عنصر را از ابتدا خارج کنیم، ممکن است آن عنصر واقعاً آنجا نباشد (چون قبلاً هنگام اضافه کردن یک عنصر کوچکتر، آن را حذف کرده‌ایم).
+بنابراین، هنگام حذف یک عنصر از صف، باید مقدار آن عنصر را بدانیم.
+اگر ابتدای صف همان مقدار را داشت، می‌توانیم با خیال راحت آن را حذف کنیم، در غیر این صورت هیچ کاری انجام نمی‌دهیم.
 
-Consider the implementations of the above operations:
+پیاده‌سازی عملیات‌های بالا را در نظر بگیرید:
 
 ```cpp
 deque<int> q;
 ```
 
-* Finding the minimum:
+*   پیدا کردن کمینه:
 ```cpp
 int minimum = q.front();
 ```
 
-* Adding an element:
+*   اضافه کردن یک عنصر:
 ```cpp
 while (!q.empty() && q.back() > new_element)
     q.pop_back();
 q.push_back(new_element);
 ```
 
-* Removing an element:
+*   حذف کردن یک عنصر:
 ```cpp
 if (!q.empty() && q.front() == remove_element)
     q.pop_front();
 ```
 
-It is clear that on average all these operation only take $O(1)$ time (because every element can only be pushed and popped once).
+واضح است که به طور متوسط تمام این عملیات‌ها فقط زمان $O(1)$ می‌برند (چون هر عنصر فقط یک بار می‌تواند به صف اضافه و از آن خارج شود).
 
 ## Queue modification (method 2)
 
-This is a modification of method 1.
-We want to be able to remove elements without knowing which element we have to remove.
-We can accomplish that by storing the index for each element in the queue.
-And we also remember how many elements we already have added and removed.
+این نسخه‌ی اصلاح‌شده‌ی روش ۱ است.
+می‌خواهیم بتوانیم عناصر را بدون دانستن اینکه کدام عنصر باید حذف شود، حذف کنیم.
+برای این کار، اندیس هر عنصر را در صف (queue) ذخیره می‌کنیم.
+همچنین، تعداد عناصری که تاکنون اضافه و حذف کرده‌ایم را نیز به خاطر می‌سپاریم.
 
 ```cpp
 deque<pair<int, int>> q;
@@ -100,12 +101,12 @@ int cnt_added = 0;
 int cnt_removed = 0;
 ```
 
-* Finding the minimum:
+* پیدا کردن کمینه:
 ```cpp
 int minimum = q.front().first;
 ```
 
-* Adding an element:
+* اضافه کردن یک عنصر:
 ```cpp
 while (!q.empty() && q.back().first > new_element)
     q.pop_back();
@@ -113,7 +114,7 @@ q.push_back({new_element, cnt_added});
 cnt_added++;
 ```
 
-* Removing an element:
+* حذف کردن یک عنصر:
 ```cpp
 if (!q.empty() && q.front().second == cnt_removed) 
     q.pop_front();
@@ -122,28 +123,28 @@ cnt_removed++;
 
 ## Queue modification (method 3)
 
-Here we consider another way of modifying a queue to find the minimum in $O(1)$.
-This way is somewhat more complicated to implement, but this time we actually store all elements.
-And we also can remove an element from the front without knowing its value.
+در اینجا روش دیگری برای تغییر یک صف (queue) را بررسی می‌کنیم تا بتوانیم کمینه را در زمان O(1) پیدا کنیم.
+پیاده‌سازی این روش کمی پیچیده‌تر است، اما این بار تمام عناصر را واقعاً ذخیره می‌کنیم.
+و همچنین می‌توانیم یک عنصر را از ابتدای صف بدون دانستن مقدارش حذف کنیم.
 
-The idea is to reduce the problem to the problem of stacks, which was already solved by us.
-So we only need to learn how to simulate a queue using two stacks.
+ایده این است که مسئله را به مسئله‌ی پشته‌ها (stacks) کاهش دهیم، که قبلاً توسط ما حل شده است.
+بنابراین، فقط باید یاد بگیریم که چگونه با استفاده از دو پشته، یک صف را شبیه‌سازی کنیم.
 
-We make two stacks, `s1` and `s2`. 
-Of course these stack will be of the modified form, so that we can find the minimum in $O(1)$. 
-We will add new elements to the stack `s1`, and remove elements from the stack `s2`.
-If at any time the stack `s2` is empty, we move all elements from `s1` to `s2` (which essentially reverses the order of those elements).
-Finally finding the minimum in a queue involves just finding the minimum of both stacks.
+دو پشته به نام‌های `s1` و `s2` می‌سازیم.
+البته این پشته‌ها از نوع اصلاح‌شده خواهند بود، تا بتوانیم کمینه را در زمان O(1) پیدا کنیم.
+عناصر جدید را به پشته‌ی `s1` اضافه می‌کنیم و عناصر را از پشته‌ی `s2` حذف می‌کنیم.
+اگر در هر زمانی پشته‌ی `s2` خالی شد، تمام عناصر را از `s1` به `s2` منتقل می‌کنیم (این کار اساساً ترتیب آن عناصر را معکوس می‌کند).
+در نهایت، پیدا کردن کمینه در یک صف، شامل پیدا کردن کمینه‌ی هر دو پشته است.
 
-Thus we perform all operations in $O(1)$ on average (each element will be once added to stack `s1`, once transferred to `s2`, and once popped from `s2`)
+بنابراین، همه‌ی عملیات را به طور متوسط در زمان O(1) انجام می‌دهیم (هر عنصر یک بار به پشته‌ی `s1` اضافه می‌شود، یک بار به `s2` منتقل می‌شود و یک بار از `s2` بیرون کشیده می‌شود).
 
-Implementation:
+پیاده‌سازی:
 
 ```cpp
 stack<pair<int, int>> s1, s2;
 ```
 
-* Finding the minimum:
+* پیدا کردن کمینه:
 ```cpp
 if (s1.empty() || s2.empty()) 
     minimum = s1.empty() ? s2.top().second : s1.top().second;
@@ -151,13 +152,13 @@ else
     minimum = min(s1.top().second, s2.top().second);
 ```
 
-* Add element:
+* اضافه کردن عنصر:
 ```cpp
 int minimum = s1.empty() ? new_element : min(new_element, s1.top().second);
 s1.push({new_element, minimum});
 ```
 
-* Removing an element:
+* حذف کردن یک عنصر:
 ```cpp
 if (s2.empty()) {
     while (!s1.empty()) {
@@ -173,17 +174,17 @@ s2.pop();
 
 ## Finding the minimum for all subarrays of fixed length
 
-Suppose we are given an array $A$ of length $N$ and a given $M \le N$.
-We have to find the minimum of each subarray of length $M$ in this array, i.e. we have to find:
+فرض کنید آرایه‌ی $A$ به طول $N$ و یک عدد $M \le N$ به ما داده شده است.
+ما باید کمینه‌ی هر زیرآرایه به طول $M$ در این آرایه را پیدا کنیم، یعنی باید مقادیر زیر را بیابیم:
 
 $$\min_{0 \le i \le M-1} A[i], \min_{1 \le i \le M} A[i], \min_{2 \le i \le M+1} A[i],~\dots~, \min_{N-M \le i \le N-1} A[i]$$
 
-We have to solve this problem in linear time, i.e. $O(n)$.
+باید این مسئله را در زمان خطی، یعنی $O(n)$، حل کنیم.
 
-We can use any of the three modified queues to solve the problem.
-The solutions should be clear:
-we add the first $M$ element of the array, find and output its minimum, then add the next element to the queue and remove the first element of the array, find and output its minimum, etc. 
-Since all operations with the queue are performed in constant time on average, the complexity of the whole algorithm will be $O(n)$.
+می‌توانیم برای حل این مسئله از هر یک از سه صف (queue) اصلاح‌شده استفاده کنیم.
+راه‌حل واضح است:
+ما $M$ عنصر اول آرایه را به صف اضافه می‌کنیم، کمینه‌ی آن را پیدا و چاپ می‌کنیم، سپس عنصر بعدی را به صف اضافه کرده و قدیمی‌ترین عنصر را از صف حذف می‌کنیم، کمینه‌ی جدید را پیدا و چاپ می‌کنیم، و این روند را ادامه می‌دهیم.
+از آنجایی که تمام عملیات با صف به طور متوسط در زمان ثابت انجام می‌شوند، پیچیدگی کل الگوریتم $O(n)$ خواهد بود.
 
 ## Practice Problems
 * [Queries with Fixed Length](https://www.hackerrank.com/challenges/queries-with-fixed-length/problem)
