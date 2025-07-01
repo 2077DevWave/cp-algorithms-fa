@@ -1585,54 +1585,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#stack-modification" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      Stack modification
+      پیاده سازی صف
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#queue-modification-method-1" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      Queue modification (method 1)
+      پیاده سازی با صف (روش اول)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#queue-modification-method-2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      Queue modification (method 2)
+      پیاده سازی صف (روش دوم)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#queue-modification-method-3" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      Queue modification (method 3)
+      پیاده سازی صف (روش سوم)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#finding-the-minimum-for-all-subarrays-of-fixed-length" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      Finding the minimum for all subarrays of fixed length
+      پیدا کردن کمینه تمام زیرآرایه ها با طول ثابت
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#practice-problems" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      Practice Problems
+      سوالات
     </span>
   </a>
   
@@ -6686,7 +6686,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="1 ژوئیهٔ 2025 19:34:45 UTC">1 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="1 ژوئیهٔ 2025 20:38:27 UTC">1 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6721,7 +6721,7 @@ Describe the issue of this article in detail.
 <h1 id="_1">پشته کمینه / صف کمینه<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>داخل این مقاله به سه سوال میپردازیم: 
 ابتدا یک پشته را طوری تغییر می‌دهیم که بتوانیم کوچکترین عنصر آن را در زمان <span class="arithmatex">$O(1)$</span> پیدا کنیم، سپس همین کار را با یک صف انجام می‌دهیم، و در نهایت از این داده‌ساختارها استفاده می‌کنیم تا کمینه را در تمام زیرآرایه‌های یک آرایه با طول ثابت، در زمان <span class="arithmatex">$O(n)$</span> پیدا کنیم.</p>
-<h2 id="stack-modification">Stack modification<a class="headerlink" href="#stack-modification" title="Permanent link">&para;</a></h2>
+<h2 id="_2">پیاده سازی صف<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>می‌خواهیم داده‌ساختار پشته را طوری تغییر دهیم که پیدا کردن کوچکترین عنصر در پشته در زمان <span class="arithmatex">$O(1)$</span> ممکن شود، در حالی که پیچیدگی زمانی اضافه و حذف کردن عناصر از پشته مثل قبل باقی بماند.
 یادآوری: در یک پشته، ما فقط از یک انتها عناصر را اضافه و حذف می‌کنیم.</p>
 <p>برای این کار، ما عناصر را به صورت زوج در پشته ذخیره می‌کنیم: خود عنصر و کمینه آرایه از عنصر کنونی به قبل.</p>
@@ -6749,7 +6749,7 @@ Describe the issue of this article in detail.
 </code></pre></div></p>
 </li>
 </ul>
-<h2 id="queue-modification-method-1">Queue modification (method 1)<a class="headerlink" href="#queue-modification-method-1" title="Permanent link">&para;</a></h2>
+<h2 id="_3">پیاده سازی با صف (روش اول)<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>حالا می‌خواهیم همین عملیات‌ها را با یک صف انجام دهیم، یعنی می‌خواهیم عناصر را به انتها اضافه کرده و از ابتدا حذف کنیم.</p>
 <p>در اینجا یک روش ساده برای تغییر دادن صف را بررسی می‌کنیم.
 هرچند، این روش یک عیب بزرگ دارد، زیرا صف تغییریافته در واقع تمام عناصر را ذخیره نمی‌کند.</p>
@@ -6787,7 +6787,7 @@ Describe the issue of this article in detail.
 </li>
 </ul>
 <p>واضح است که به طور متوسط تمام این عملیات‌ها فقط زمان <span class="arithmatex">$O(1)$</span> می‌برند (چون هر عنصر فقط یک بار می‌تواند به صف اضافه و از آن خارج شود).</p>
-<h2 id="queue-modification-method-2">Queue modification (method 2)<a class="headerlink" href="#queue-modification-method-2" title="Permanent link">&para;</a></h2>
+<h2 id="_4">پیاده سازی صف (روش دوم)<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>این نسخه‌ی اصلاح‌شده‌ی روش ۱ است.
 می‌خواهیم بتوانیم عناصر را بدون دانستن اینکه کدام عنصر باید حذف شود، حذف کنیم.
 برای این کار، اندیس هر عنصر را در صف (queue) ذخیره می‌کنیم.
@@ -6818,7 +6818,7 @@ Describe the issue of this article in detail.
 </code></pre></div></p>
 </li>
 </ul>
-<h2 id="queue-modification-method-3">Queue modification (method 3)<a class="headerlink" href="#queue-modification-method-3" title="Permanent link">&para;</a></h2>
+<h2 id="_5">پیاده سازی صف (روش سوم)<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>در اینجا روش دیگری برای تغییر یک صف (queue) را بررسی می‌کنیم تا بتوانیم کمینه را در زمان O(1) پیدا کنیم.
 پیاده‌سازی این روش کمی پیچیده‌تر است، اما این بار تمام عناصر را واقعاً ذخیره می‌کنیم.
 و همچنین می‌توانیم یک عنصر را از ابتدای صف بدون دانستن مقدارش حذف کنیم.</p>
@@ -6863,7 +6863,7 @@ Describe the issue of this article in detail.
 </code></pre></div></p>
 </li>
 </ul>
-<h2 id="finding-the-minimum-for-all-subarrays-of-fixed-length">Finding the minimum for all subarrays of fixed length<a class="headerlink" href="#finding-the-minimum-for-all-subarrays-of-fixed-length" title="Permanent link">&para;</a></h2>
+<h2 id="_6">پیدا کردن کمینه تمام زیرآرایه ها با طول ثابت<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>فرض کنید آرایه‌ی <span class="arithmatex">$A$</span> به طول <span class="arithmatex">$N$</span> و یک عدد <span class="arithmatex">$M \le N$</span> به ما داده شده است.
 ما باید کمینه‌ی هر زیرآرایه به طول <span class="arithmatex">$M$</span> در این آرایه را پیدا کنیم، یعنی باید مقادیر زیر را بیابیم:</p>
 <div class="arithmatex">$$\min_{0 \le i \le M-1} A[i], \min_{1 \le i \le M} A[i], \min_{2 \le i \le M+1} A[i],~\dots~, \min_{N-M \le i \le N-1} A[i]$$</div>
@@ -6872,7 +6872,7 @@ Describe the issue of this article in detail.
 راه‌حل واضح است:
 ما <span class="arithmatex">$M$</span> عنصر اول آرایه را به صف اضافه می‌کنیم، کمینه‌ی آن را پیدا و چاپ می‌کنیم، سپس عنصر بعدی را به صف اضافه کرده و قدیمی‌ترین عنصر را از صف حذف می‌کنیم، کمینه‌ی جدید را پیدا و چاپ می‌کنیم، و این روند را ادامه می‌دهیم.
 از آنجایی که تمام عملیات با صف به طور متوسط در زمان ثابت انجام می‌شوند، پیچیدگی کل الگوریتم <span class="arithmatex">$O(n)$</span> خواهد بود.</p>
-<h2 id="practice-problems">Practice Problems<a class="headerlink" href="#practice-problems" title="Permanent link">&para;</a></h2>
+<h2 id="_7">سوالات<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://www.hackerrank.com/challenges/queries-with-fixed-length/problem">Queries with Fixed Length</a></li>
 <li><a href="https://cses.fi/problemset/task/3221">Sliding Window Minimum</a></li>
@@ -6881,7 +6881,7 @@ Describe the issue of this article in detail.
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (62.699999999999996%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (31.09%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (3.11%)</li><li><a href="https://github.com/r7919" title="r7919" data-bi-name="contributorprofile" target="_blank">r7919</a> (1.55%)</li><li><a href="https://github.com/prashant-raghu" title="prashant-raghu" data-bi-name="contributorprofile" target="_blank">prashant-raghu</a> (1.04%)</li><li><a href="https://github.com/Tushar0009" title="Tushar0009" data-bi-name="contributorprofile" target="_blank">Tushar0009</a> (0.52%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (60.11%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (34.2%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (3.11%)</li><li><a href="https://github.com/r7919" title="r7919" data-bi-name="contributorprofile" target="_blank">r7919</a> (1.04%)</li><li><a href="https://github.com/prashant-raghu" title="prashant-raghu" data-bi-name="contributorprofile" target="_blank">prashant-raghu</a> (1.04%)</li><li><a href="https://github.com/Tushar0009" title="Tushar0009" data-bi-name="contributorprofile" target="_blank">Tushar0009</a> (0.52%)</li></ul>
 </ul>
                 
               </article>
