@@ -1,97 +1,96 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: dijkstra
 ---
 
-# Dijkstra Algorithm
+# الگوریتم دایکسترا
 
-You are given a directed or undirected weighted graph with $n$ vertices and $m$ edges. The weights of all edges are non-negative. You are also given a starting vertex $s$. This article discusses finding the lengths of the shortest paths from a starting vertex $s$ to all other vertices, and output the shortest paths themselves.
+یک گراف وزن‌دار جهت‌دار یا بدون جهت با $n$ رأس و $m$ یال به شما داده شده است. وزن تمام یال‌ها نامنفی است. یک رأس شروع $s$ نیز به شما داده می‌شود. این مقاله به یافتن طول کوتاه‌ترین مسیرها از رأس شروع $s$ به تمام رئوس دیگر و همچنین خودِ کوتاه‌ترین مسیرها می‌پردازد.
 
-This problem is also called **single-source shortest paths problem**.
+این مسئله با نام **مسئلهٔ کوتاه‌ترین مسیر از یک منبع واحد** نیز شناخته می‌شود.
 
-## Algorithm
+## الگوریتم
 
-Here is an algorithm described by the Dutch computer scientist Edsger W. Dijkstra in 1959.
+در ادامه، الگوریتمی که توسط دانشمند کامپیوتر هلندی، ادسخر دایکسترا (Edsger W. Dijkstra) در سال ۱۹۵۹ توصیف شد، ارائه می‌شود.
 
-Let's create an array $d[]$ where for each vertex $v$ we store the current length of the shortest path from $s$ to $v$ in $d[v]$.
-Initially $d[s] = 0$, and for all other vertices this length equals infinity.
-In the implementation a sufficiently large number (which is guaranteed to be greater than any possible path length) is chosen as infinity.
+بیایید آرایه‌ای به نام $d[]$ ایجاد کنیم که در آن برای هر رأس $v$، طول فعلی کوتاه‌ترین مسیر از $s$ به $v$ را در $d[v]$ ذخیره کنیم.
+در ابتدا $d[s] = 0$ است و برای تمام رئوس دیگر این طول برابر با بی‌نهایت است.
+در پیاده‌سازی، یک عدد به اندازه کافی بزرگ (که تضمین می‌شود از هر طول مسیر ممکنی بزرگتر باشد) به عنوان بی‌نهایت انتخاب می‌شود.
 
 $$d[v] = \infty,~ v \ne s$$
 
-In addition, we maintain a Boolean array $u[]$ which stores for each vertex $v$ whether it's marked. Initially all vertices are unmarked:
+علاوه بر این، یک آرایهٔ بولی $u[]$ نگهداری می‌کنیم که برای هر رأس $v$ مشخص می‌کند آیا آن رأس علامت‌گذاری شده است یا خیر. در ابتدا هیچ رأسی علامت‌گذاری نشده است:
 
 $$u[v] = {\rm false}$$
 
-The Dijkstra's algorithm runs for $n$ iterations. At each iteration a vertex $v$ is chosen as unmarked vertex which has the least value $d[v]$:
+الگوریتم دایکسترا برای $n$ تکرار اجرا می‌شود. در هر تکرار، یک رأس $v$ به عنوان رأس علامت‌گذاری نشده‌ای که کمترین مقدار $d[v]$ را دارد انتخاب می‌شود:
 
-Evidently, in the first iteration the starting vertex $s$ will be selected.
+بدیهی است که در اولین تکرار، رأس شروع $s$ انتخاب خواهد شد.
 
-The selected vertex $v$ is marked. Next, from vertex $v$ **relaxations** are performed: all edges of the form $(v,\text{to})$ are considered, and for each vertex $\text{to}$ the algorithm tries to improve the value $d[\text{to}]$. If the length of the current edge equals $len$, the code for relaxation is:
+رأس انتخاب‌شده $v$ علامت‌گذاری می‌شود. سپس، از رأس $v$ عملیات **ریلکسیشن (relaxation)** انجام می‌شود: تمام یال‌های به شکل $(v, \text{to})$ در نظر گرفته می‌شوند و برای هر رأس $\text{to}$، الگوریتم سعی می‌کند مقدار $d[\text{to}]$ را بهبود بخشد. اگر طول یال فعلی برابر با $len$ باشد، کد برای ریلکسیشن به این صورت است:
 
 $$d[\text{to}] = \min (d[\text{to}], d[v] + len)$$
 
-After all such edges are considered, the current iteration ends. Finally, after $n$ iterations, all vertices will be marked, and the algorithm terminates. We claim that the found values $d[v]$ are the lengths of shortest paths from $s$ to all vertices $v$.
+پس از بررسی تمام این یال‌ها، تکرار فعلی به پایان می‌رسد. در نهایت، پس از $n$ تکرار، تمام رئوس علامت‌گذاری خواهند شد و الگوریتم خاتمه می‌یابد. ما ادعا می‌کنیم که مقادیر یافت‌شده $d[v]$ طول کوتاه‌ترین مسیرها از $s$ به تمام رئوس $v$ هستند.
 
-Note that if some vertices are unreachable from the starting vertex $s$, the values $d[v]$ for them will remain infinite. Obviously, the last few iterations of the algorithm will choose those vertices, but no useful work will be done for them. Therefore, the algorithm can be stopped as soon as the selected vertex has infinite distance to it.
+توجه داشته باشید که اگر برخی از رئوس از رأس شروع $s$ قابل دسترسی نباشند، مقادیر $d[v]$ برای آن‌ها بی‌نهایت باقی خواهد ماند. بدیهی است که چند تکرار آخر الگوریتم آن رئوس را انتخاب خواهند کرد، اما کار مفیدی برای آن‌ها انجام نخواهد شد. بنابراین، الگوریتم را می‌توان به محض اینکه رأس انتخاب‌شده فاصلهٔ بی‌نهایت داشته باشد، متوقف کرد.
 
-### Restoring Shortest Paths 
+### بازیابی کوتاه‌ترین مسیرها
 
-Usually one needs to know not only the lengths of shortest paths but also the shortest paths themselves. Let's see how to maintain sufficient information to restore the shortest path from $s$ to any vertex. We'll maintain an array of predecessors $p[]$ in which for each vertex $v \ne s$, $p[v]$ is the penultimate vertex in the shortest path from $s$ to $v$. Here we use the fact that if we take the shortest path to some vertex $v$ and remove $v$ from this path, we'll get a path ending in at vertex $p[v]$, and this path will be the shortest for the vertex $p[v]$. This array of predecessors can be used to restore the shortest path to any vertex: starting with $v$, repeatedly take the predecessor of the current vertex until we reach the starting vertex $s$ to get the required shortest path with vertices listed in reverse order. So, the shortest path $P$ to the vertex $v$ is equal to:
+معمولاً لازم است علاوه بر طول کوتاه‌ترین مسیرها، خودِ مسیرها را نیز بدانیم. بیایید ببینیم چگونه می‌توان اطلاعات کافی برای بازیابی کوتاه‌ترین مسیر از $s$ به هر رأس را نگهداری کرد. ما یک آرایه از پیشین‌ها (predecessors) به نام $p[]$ نگهداری می‌کنیم که در آن برای هر رأس $v \ne s$، $p[v]$ رأس ماقبل آخر در کوتاه‌ترین مسیر از $s$ به $v$ است. در اینجا از این واقعیت استفاده می‌کنیم که اگر کوتاه‌ترین مسیر به یک رأس $v$ را در نظر بگیریم و $v$ را از این مسیر حذف کنیم، مسیری به دست می‌آوریم که به رأس $p[v]$ ختم می‌شود و این مسیر کوتاه‌ترین مسیر برای رأس $p[v]$ خواهد بود. این آرایه از پیشین‌ها می‌تواند برای بازیابی کوتاه‌ترین مسیر به هر رأس استفاده شود: با شروع از $v$، به طور مکرر پیشینِ رأس فعلی را می‌گیریم تا به رأس شروع $s$ برسیم و کوتاه‌ترین مسیر مورد نیاز را با رئوس به ترتیب معکوس به دست آوریم. بنابراین، کوتاه‌ترین مسیر $P$ به رأس $v$ برابر است با:
 
 $$P = (s, \ldots, p[p[p[v]]], p[p[v]], p[v], v)$$
 
-Building this array of predecessors is very simple: for each successful relaxation, i.e. when for some selected vertex $v$, there is an improvement in the distance to some vertex $\text{to}$, we update the predecessor vertex for $\text{to}$ with vertex $v$:
+ساختن این آرایه از پیشین‌ها بسیار ساده است: برای هر ریلکسیشن موفق، یعنی زمانی که برای یک رأس انتخاب شده $v$، بهبودی در فاصله تا یک رأس $\text{to}$ وجود دارد، ما رأس پیشین برای $\text{to}$ را با رأس $v$ به‌روزرسانی می‌کنیم:
 
 $$p[\text{to}] = v$$
 
-## Proof
+## اثبات
 
-The main assertion on which Dijkstra's algorithm correctness is based is the following:
+ادعای اصلی که صحت الگوریتم دایکسترا بر آن استوار است، به شرح زیر است:
 
-**After any vertex $v$ becomes marked, the current distance to it $d[v]$ is the shortest, and will no longer change.**
+**پس از اینکه هر رأس $v$ علامت‌گذاری شد، فاصلهٔ فعلی تا آن، یعنی $d[v]$، کوتاه‌ترین فاصله است و دیگر تغییر نخواهد کرد.**
 
-The proof is done by induction. For the first iteration this statement is obvious: the only marked vertex is $s$, and the distance to is $d[s] = 0$ is indeed the length of the shortest path to $s$. Now suppose this statement is true for all previous iterations, i.e. for all already marked vertices; let's prove that it is not violated after the current iteration completes. Let $v$ be the vertex selected in the current iteration, i.e. $v$ is the vertex that the algorithm will mark. Now we have to prove that $d[v]$ is indeed equal to the length of the shortest path to it $l[v]$.
+اثبات با استقرا انجام می‌شود. برای اولین تکرار این گزاره بدیهی است: تنها رأس علامت‌گذاری شده $s$ است و فاصله تا آن $d[s] = 0$ در واقع طول کوتاه‌ترین مسیر به $s$ است. حال فرض کنید این گزاره برای تمام تکرارهای قبلی، یعنی برای تمام رئوس از قبل علامت‌گذاری شده، درست باشد؛ بیایید ثابت کنیم که پس از تکمیل تکرار فعلی، این گزاره نقض نمی‌شود. فرض کنید $v$ رأسی است که در تکرار فعلی انتخاب شده است، یعنی $v$ رأسی است که الگوریتم آن را علامت‌گذاری خواهد کرد. اکنون باید ثابت کنیم که $d[v]$ در واقع برابر با طول کوتاه‌ترین مسیر به آن، یعنی $l[v]$ است.
 
-Consider the shortest path $P$ to the vertex $v$. This path can be split into two parts: $P_1$ which consists of only marked nodes (at least the starting vertex $s$ is part of $P_1$), and the rest of the path $P_2$ (it may include a marked vertex, but it always starts with an unmarked vertex). Let's denote the first vertex of the path $P_2$ as $p$, and the last vertex of the path $P_1$ as $q$.
+کوتاه‌ترین مسیر $P$ به رأس $v$ را در نظر بگیرید. این مسیر را می‌توان به دو بخش تقسیم کرد: $P_1$ که فقط از رئوس علامت‌گذاری شده تشکیل شده است (حداقل رأس شروع $s$ بخشی از $P_1$ است) و بقیه مسیر $P_2$ (ممکن است شامل یک رأس علامت‌گذاری شده باشد، اما همیشه با یک رأس علامت‌گذاری نشده شروع می‌شود). بیایید اولین رأس مسیر $P_2$ را $p$ و آخرین رأس مسیر $P_1$ را $q$ بنامیم.
 
-First we prove our statement for the vertex $p$, i.e. let's prove that $d[p] = l[p]$.
-This is almost obvious: on one of the previous iterations we chose the vertex $q$ and performed relaxation from it.
-Since (by virtue of the choice of vertex $p$) the shortest path to $p$ is the shortest path to $q$ plus edge $(p,q)$, the relaxation from $q$ set the value of $d[p]$ to the length of the shortest path $l[p]$.
+ابتدا گزاره خود را برای رأس $p$ اثبات می‌کنیم، یعنی بیایید ثابت کنیم که $d[p] = l[p]$ است.
+این تقریباً بدیهی است: در یکی از تکرارهای قبلی ما رأس $q$ را انتخاب کرده و از آن ریلکسیشن انجام دادیم.
+از آنجا که (به دلیل انتخاب رأس $p$) کوتاه‌ترین مسیر به $p$ برابر با کوتاه‌ترین مسیر به $q$ به علاوه یال $(p, q)$ است، ریلکسیشن از $q$ مقدار $d[p]$ را برابر با طول کوتاه‌ترین مسیر $l[p]$ قرار داده است.
 
-Since the edges' weights are non-negative, the length of the shortest path $l[p]$ (which we just proved to be equal to $d[p]$) does not exceed the length $l[v]$ of the shortest path to the vertex $v$. Given that $l[v] \le d[v]$ (because Dijkstra's algorithm could not have found a shorter way than the shortest possible one), we get the inequality:
+از آنجا که وزن یال‌ها نامنفی است، طول کوتاه‌ترین مسیر $l[p]$ (که ما ثابت کردیم برابر با $d[p]$ است) از طول $l[v]$ کوتاه‌ترین مسیر به رأس $v$ بیشتر نیست. با توجه به اینکه $l[v] \le d[v]$ (چون الگوریتم دایکسترا نمی‌توانسته راهی کوتاه‌تر از کوتاه‌ترین راه ممکن پیدا کند)، به نابرابری زیر می‌رسیم:
 
 $$d[p] = l[p] \le l[v] \le d[v]$$
 
-On the other hand, since both vertices $p$ and $v$ are unmarked, and the current iteration chose vertex $v$, not $p$, we get another inequality:
+از سوی دیگر، از آنجا که هر دو رأس $p$ و $v$ علامت‌گذاری نشده‌اند و تکرار فعلی رأس $v$ را انتخاب کرده است، نه $p$، نابرابری دیگری به دست می‌آوریم:
 
 $$d[p] \ge d[v]$$
 
-From these two inequalities we conclude that $d[p] = d[v]$, and then from previously found equations we get:
+از این دو نابرابری نتیجه می‌گیریم که $d[p] = d[v]$، و سپس از معادلات قبلی به دست می‌آوریم:
 
 $$d[v] = l[v]$$
 
-Q.E.D.
+و حکم ثابت می‌شود.
 
-## Implementation
+## پیاده‌سازی
 
-Dijkstra's algorithm performs $n$ iterations. On each iteration it selects an unmarked vertex $v$ with the lowest value $d[v]$, marks it and checks all the edges $(v, \text{to})$ attempting to improve the value $d[\text{to}]$.
+الگوریتم دایکسترا $n$ تکرار انجام می‌دهد. در هر تکرار، یک رأس علامت‌گذاری نشده $v$ با کمترین مقدار $d[v]$ را انتخاب کرده، آن را علامت‌گذاری می‌کند و تمام یال‌های $(v, \text{to})$ را بررسی می‌کند تا مقدار $d[\text{to}]$ را بهبود بخشد.
 
-The running time of the algorithm consists of:
+زمان اجرای الگوریتم شامل موارد زیر است:
 
-* $n$ searches for a vertex with the smallest value $d[v]$ among $O(n)$ unmarked vertices
-* $m$ relaxation attempts
+* $n$ بار جستجو برای یافتن رأسی با کمترین مقدار $d[v]$ در میان $O(n)$ رأس علامت‌گذاری نشده.
+* $m$ بار تلاش برای ریلکسیشن.
 
-For the simplest implementation of these operations on each iteration vertex search requires $O(n)$ operations, and each relaxation can be performed in $O(1)$. Hence, the resulting asymptotic behavior of the algorithm is:
+برای ساده‌ترین پیاده‌سازی این عملیات، در هر تکرار، جستجوی رأس به $O(n)$ عملیات نیاز دارد و هر ریلکسیشن می‌تواند در $O(1)$ انجام شود. از این رو، پیچیدگی مجانبی حاصل از الگوریتم به صورت زیر است:
 
-$$O(n^2+m)$$ 
+$$O(n^2+m)$$
 
-This complexity is optimal for dense graph, i.e. when $m \approx n^2$.
-However in sparse graphs, when $m$ is much smaller than the maximal number of edges $n^2$, the problem can be solved in $O(n \log n + m)$ complexity. The algorithm and implementation can be found on the article [Dijkstra on sparse graphs](dijkstra_sparse.md).
+این پیچیدگی برای گراف‌های متراکم، یعنی زمانی که $m \approx n^2$، بهینه است.
+با این حال، در گراف‌های خلوت، زمانی که $m$ بسیار کوچکتر از حداکثر تعداد یال‌ها یعنی $n^2$ است، مسئله را می‌توان با پیچیدگی $O(n \log n + m)$ حل کرد. الگوریتم و پیاده‌سازی آن را می‌توانید در مقاله [دایکسترا روی گراف‌های خلوت](dijkstra_sparse.md) بیابید.
 
-
-```{.cpp file=dijkstra_dense}
+```cpp {.cpp file=dijkstra_dense}
 const int INF = 1000000000;
 vector<vector<pair<int, int>>> adj;
 
@@ -126,15 +125,15 @@ void dijkstra(int s, vector<int> & d, vector<int> & p) {
 }
 ```
 
-Here the graph $\text{adj}$ is stored as adjacency list: for each vertex $v$ $\text{adj}[v]$ contains the list of edges going from this vertex, i.e. the list of `pair<int,int>` where the first element in the pair is the vertex at the other end of the edge, and the second element is the edge weight.
+در اینجا گراف $\text{adj}$ به صورت لیست مجاورت ذخیره شده است: برای هر رأس $v$، $\text{adj}[v]$ شامل لیستی از یال‌های خروجی از این رأس است، یعنی لیستی از `pair<int,int>` که عنصر اول در زوج، رأس انتهای دیگر یال و عنصر دوم، وزن یال است.
 
-The function takes the starting vertex $s$ and two vectors that will be used as return values.
+تابع، رأس شروع $s$ و دو بردار را به عنوان مقادیر بازگشتی دریافت می‌کند.
 
-First of all, the code initializes arrays: distances $d[]$, labels $u[]$ and predecessors $p[]$. Then it performs $n$ iterations. At each iteration the vertex $v$ is selected which has the smallest distance $d[v]$ among all the unmarked vertices. If the distance to selected vertex $v$ is equal to infinity, the algorithm stops. Otherwise the vertex is marked, and all the edges going out from this vertex are checked. If relaxation along the edge is possible (i.e. distance $d[\text{to}]$ can be improved), the distance $d[\text{to}]$ and predecessor $p[\text{to}]$ are updated.
+ابتدا کد آرایه‌ها را مقداردهی اولیه می‌کند: فواصل $d[]$، برچسب‌ها $u[]$ و پیشین‌ها $p[]$. سپس $n$ تکرار انجام می‌دهد. در هر تکرار، رأس $v$ که کمترین فاصله $d[v]$ را در میان تمام رئوس علامت‌گذاری نشده دارد، انتخاب می‌شود. اگر فاصله تا رأس انتخاب شده $v$ برابر با بی‌نهایت باشد، الگوریتم متوقف می‌شود. در غیر این صورت، رأس علامت‌گذاری شده و تمام یال‌های خروجی از این رأس بررسی می‌شوند. اگر ریلکسیشن در طول یال ممکن باشد (یعنی فاصله $d[\text{to}]$ بتواند بهبود یابد)، فاصله $d[\text{to}]$ و پیشین $p[\text{to}]$ به‌روزرسانی می‌شوند.
 
-After performing all the iterations array $d[]$ stores the lengths of the shortest paths to all vertices, and array $p[]$ stores the predecessors of all vertices (except starting vertex $s$). The path to any vertex $t$ can be restored in the following way:
+پس از انجام تمام تکرارها، آرایه $d[]$ طول کوتاه‌ترین مسیرها به تمام رئوس را ذخیره می‌کند و آرایه $p[]$ پیشین‌های تمام رئوس (به جز رأس شروع $s$) را ذخیره می‌کند. مسیر به هر رأس $t$ را می‌توان به روش زیر بازیابی کرد:
 
-```{.cpp file=dijkstra_restore_path}
+```cpp {.cpp file=dijkstra_restore_path}
 vector<int> restore_path(int s, int t, vector<int> const& p) {
     vector<int> path;
 
@@ -147,16 +146,16 @@ vector<int> restore_path(int s, int t, vector<int> const& p) {
 }
 ```
 
-## References
+## منابع
 
 * Edsger Dijkstra. A note on two problems in connexion with graphs [1959]
 * Thomas Cormen, Charles Leiserson, Ronald Rivest, Clifford Stein. Introduction to Algorithms [2005]
 
-## Practice Problems
-* [Timus - Ivan's Car](http://acm.timus.ru/problem.aspx?space=1&num=1930) [Difficulty:Medium]
+## مسائل تمرینی
+* [Timus - Ivan's Car](http://acm.timus.ru/problem.aspx?space=1&num=1930) [سختی: متوسط]
 * [Timus - Sightseeing Trip](http://acm.timus.ru/problem.aspx?space=1&num=1004)
-* [SPOJ - SHPATH](http://www.spoj.com/problems/SHPATH/) [Difficulty:Easy]
-* [Codeforces - Dijkstra?](http://codeforces.com/problemset/problem/20/C) [Difficulty:Easy]
+* [SPOJ - SHPATH](http://www.spoj.com/problems/SHPATH/) [سختی: آسان]
+* [Codeforces - Dijkstra?](http://codeforces.com/problemset/problem/20/C) [سختی: آسان]
 * [Codeforces - Shortest Path](http://codeforces.com/problemset/problem/59/E)
 * [Codeforces - Jzzhu and Cities](http://codeforces.com/problemset/problem/449/B)
 * [Codeforces - The Classic Problem](http://codeforces.com/problemset/problem/464/E)
@@ -191,4 +190,3 @@ vector<int> restore_path(int s, int t, vector<int> const& p) {
 * [CSES - Shortest Routes 1](https://cses.fi/problemset/task/1671)
 * [CSES - Flight Discount](https://cses.fi/problemset/task/1195)
 * [CSES - Flight Routes](https://cses.fi/problemset/task/1196)
-

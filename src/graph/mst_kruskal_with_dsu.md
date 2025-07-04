@@ -1,26 +1,26 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: mst_kruskal_with_dsu
 ---
 
-# Minimum spanning tree - Kruskal with Disjoint Set Union
+# درخت پوشای کمینه - کراسکال با ساختار داده اجتماع مجموعه‌های مجزا (DSU)
 
-For an explanation of the MST problem and the Kruskal algorithm, first see the [main article on Kruskal's algorithm](mst_kruskal.md).
+برای مطالعه‌ی توضیحات مسئله درخت پوشای کمینه (MST) و الگوریتم کراسکال، ابتدا به [مقاله اصلی الگوریتم کراسکال](mst_kruskal.md) مراجعه کنید.
 
-In this article we will consider the data structure ["Disjoint Set Union"](../data_structures/disjoint_set_union.md) for implementing Kruskal's algorithm, which will allow the algorithm to achieve the time complexity of $O(M \log N)$.
+در این مقاله، ساختار داده ["اجتماع مجموعه‌های مجزا" (Disjoint Set Union)](../data_structures/disjoint_set_union.md) را برای پیاده‌سازی الگوریتم کراسکال بررسی می‌کنیم. این ساختار داده به الگوریتم اجازه می‌دهد تا به پیچیدگی زمانی $O(M \log N)$ دست یابد.
 
-## Description
+## توضیحات
 
-Just as in the simple version of the Kruskal algorithm, we sort all the edges of the graph in non-decreasing order of weights.
-Then put each vertex in its own tree (i.e. its set) via calls to the `make_set` function - it will take a total of $O(N)$.
-We iterate through all the edges (in sorted order) and for each edge determine whether the ends belong to different trees (with two `find_set` calls in $O(1)$ each).
-Finally, we need to perform the union of the two trees (sets), for which the DSU `union_sets` function will be called - also in $O(1)$.
-So we get the total time complexity of $O(M \log N + N + M)$ = $O(M \log N)$.
+درست مانند نسخه ساده الگوریتم کراسکال، تمام یال‌های گراف را بر اساس وزنشان به صورت غیر نزولی مرتب می‌کنیم.
+سپس هر رأس را از طریق فراخوانی تابع `make_set` در درخت (مجموعه) خودش قرار می‌دهیم. این کار در مجموع $O(N)$ زمان می‌برد.
+بر روی تمام یال‌ها (به ترتیب مرتب‌شده) پیمایش می‌کنیم و برای هر یال، با دو فراخوانی `find_set` که هر کدام در $O(1)$ انجام می‌شود، بررسی می‌کنیم که آیا دو سر یال به درخت‌های متفاوتی تعلق دارند یا خیر.
+در نهایت، باید دو درخت (مجموعه) را با یکدیگر ادغام کنیم که برای این کار تابع `union_sets` از DSU فراخوانی می‌شود - این عمل نیز در $O(1)$ انجام می‌گیرد.
+بنابراین، پیچیدگی زمانی کل برابر با $O(M \log N + N + M)$ = $O(M \log N)$ خواهد بود.
 
-## Implementation
+## پیاده‌سازی
 
-Here is an implementation of Kruskal's algorithm with Union by Rank.
+در ادامه یک پیاده‌سازی از الگوریتم کراسکال با استفاده از تکنیک Union by Rank آمده است.
 
 ```cpp
 vector<int> parent, rank;
@@ -76,8 +76,8 @@ for (Edge e : edges) {
 }
 ```
 
-Notice: since the MST will contain exactly $N-1$ edges, we can stop the for loop once we found that many.
+توجه: از آنجایی که درخت پوشای کمینه دقیقاً $N-1$ یال خواهد داشت، می‌توانیم حلقه for را به محض پیدا کردن این تعداد یال متوقف کنیم.
 
-## Practice Problems
+## مسائل تمرینی
 
-See [main article on Kruskal's algorithm](mst_kruskal.md) for the list of practice problems on this topic.
+برای مشاهده لیست مسائل تمرینی مرتبط با این موضوع، به [مقاله اصلی الگوریتم کراسکال](mst_kruskal.md) مراجعه کنید.

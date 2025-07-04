@@ -1,19 +1,19 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: balanced_ternary
 ---
 
-# Balanced Ternary
+# مبنای سه متوازن
 
-!["Setun computer using Balanced Ternary system"](https://earltcampbell.files.wordpress.com/2014/12/setun.jpeg?w=300)
+!["کامپیوتر Setun با استفاده از سیستم مبنای سه متوازن"](https://earltcampbell.files.wordpress.com/2014/12/setun.jpeg?w=300)
 
-This is a non-standard but still positional **numeral system**. Its feature is that digits can have one of the values `-1`, `0` and `1`.
-Nevertheless, its base is still `3` (because there are three possible values). Since it is not convenient to write `-1` as a digit,
-we'll use letter `Z` further for this purpose. If you think it is quite a strange system - look at the picture - here is one of the
-computers utilizing it.
+این یک دستگاه اعداد غیر استاندارد اما همچنان موضعی است. ویژگی آن این است که ارقام می‌توانند یکی از مقادیر `-1`، `0` و `1` را داشته باشند.
+با این وجود، مبنای آن همچنان `3` است (چون سه مقدار ممکن وجود دارد). از آنجایی که نوشتن `-1` به عنوان یک رقم راحت نیست،
+در ادامه از حرف `Z` برای این منظور استفاده خواهیم کرد. اگر فکر می‌کنید این یک سیستم عجیب است - به تصویر نگاه کنید - در اینجا یکی از
+کامپیوترهایی است که از آن استفاده می‌کند.
 
-So here are few first numbers written in balanced ternary:
+در اینجا چند عدد اول که در مبنای سه متوازن نوشته شده‌اند، آمده است:
 
 ```nohighlight
     0    0
@@ -28,7 +28,7 @@ So here are few first numbers written in balanced ternary:
     9    100
 ```
 
-This system allows you to write negative values without leading minus sign: you can simply invert digits in any positive number.
+این سیستم به شما اجازه می‌دهد مقادیر منفی را بدون علامت منفی پیشوند بنویسید: شما می‌توانید به سادگی ارقام هر عدد مثبت را معکوس کنید.
 
 ```nohighlight
     -1   Z
@@ -38,47 +38,47 @@ This system allows you to write negative values without leading minus sign: you 
     -5   Z11
 ```
 
-Note that a negative number starts with `Z` and positive with `1`.
+توجه داشته باشید که یک عدد منفی با `Z` و یک عدد مثبت با `1` شروع می‌شود.
 
-## Conversion algorithm
+## الگوریتم تبدیل
 
-It is easy to represent a given number in **balanced ternary** via temporary representing it in normal ternary number system. When value is
-in standard ternary, its digits are either `0` or `1` or `2`. Iterating from the lowest digit we can safely skip any `0`s and `1`s,
-however `2` should be turned into `Z` with adding `1` to the next digit. Digits `3` should be turned into `0` on the same terms -
-such digits are not present in the number initially but they can be encountered after increasing some `2`s.
+نمایش یک عدد معین در **مبنای سه متوازن** از طریق نمایش موقت آن در دستگاه اعداد مبنای سه معمولی آسان است. وقتی یک مقدار در
+مبنای سه استاندارد است، ارقام آن `0`، `1` یا `2` هستند. با پیمایش از کم‌ارزش‌ترین رقم، می‌توانیم با خیال راحت از هر `0` و `1` عبور کنیم،
+اما `2` باید به `Z` تبدیل شود و به رقم بعدی `1` اضافه گردد. رقم `3` نیز باید با همین شرایط به `0` تبدیل شود -
+چنین ارقامی در ابتدا در عدد وجود ندارند اما ممکن است پس از افزایش برخی از `2`ها با آنها مواجه شویم.
 
-**Example 1:** Let us convert `64` to balanced ternary. At first we use normal ternary to rewrite the number:
+**مثال ۱:** بیایید `64` را به مبنای سه متوازن تبدیل کنیم. ابتدا از مبنای سه معمولی برای بازنویسی عدد استفاده می‌کنیم:
 
 $$ 64_{10} = 02101_{3} $$
 
-Let us process it from the least significant (rightmost) digit:
+بیایید آن را از کم‌ارزش‌ترین رقم (راست‌ترین) پردازش کنیم:
 
-- `1`,`0` and `1` are skipped as it is.( Because `0` and `1` are allowed in balanced ternary )
-- `2` is turned into `Z` increasing the digit to its left, so we get `1Z101`.
+- `1`، `0` و `1` همانطور که هستند، نادیده گرفته می‌شوند. (زیرا `0` و `1` در مبنای سه متوازن مجاز هستند)
+- `2` به `Z` تبدیل می‌شود و رقم سمت چپ خود را یک واحد افزایش می‌دهد، بنابراین به `1Z101` می‌رسیم.
 
-The final result is `1Z101`.
+نتیجه نهایی `1Z101` است.
 
-Let us convert it back to the decimal system by adding the weighted positional values:
+بیایید آن را با جمع کردن مقادیر موضعی وزن‌دار به سیستم ده‌دهی برگردانیم:
 
 $$ 1Z101 = 81 \cdot 1 + 27 \cdot (-1) + 9 \cdot 1 + 3 \cdot 0 + 1 \cdot 1 = 64_{10} $$
 
-**Example 2:** Let us convert `237` to balanced ternary. At first we use normal ternary to rewrite the number:
+**مثال ۲:** بیایید `237` را به مبنای سه متوازن تبدیل کنیم. ابتدا از مبنای سه معمولی برای بازنویسی عدد استفاده می‌کنیم:
 
 $$ 237_{10} = 22210_{3} $$
 
-Let us process it from the least significant (rightmost) digit:
+بیایید آن را از کم‌ارزش‌ترین رقم (راست‌ترین) پردازش کنیم:
 
-- `0` and `1` are skipped as it is.( Because `0` and `1` are allowed in balanced ternary )
-- `2` is turned into `Z` increasing the digit to its left, so we get `23Z10`.
-- `3` is turned into `0` increasing the digit to its left, so we get `30Z10`.
-- `3` is turned into `0` increasing the digit to its left( which is by default `0` ), and so we get `100Z10`.
+- `0` و `1` همانطور که هستند، نادیده گرفته می‌شوند. (زیرا `0` و `1` در مبنای سه متوازن مجاز هستند)
+- `2` به `Z` تبدیل می‌شود و رقم سمت چپ خود را یک واحد افزایش می‌دهد، بنابراین به `23Z10` می‌رسیم.
+- `3` به `0` تبدیل می‌شود و رقم سمت چپ خود را یک واحد افزایش می‌دهد، بنابراین به `30Z10` می‌رسیم.
+- `3` به `0` تبدیل می‌شود و رقم سمت چپ خود را (که به طور پیش‌فرض `0` است) یک واحد افزایش می‌دهد، و بنابراین به `100Z10` می‌رسیم.
 
-The final result is `100Z10`.
+نتیجه نهایی `100Z10` است.
 
-Let us convert it back to the decimal system by adding the weighted positional values:
+بیایید آن را با جمع کردن مقادیر موضعی وزن‌دار به سیستم ده‌دهی برگردانیم:
 
 $$ 100Z10 = 243 \cdot 1 + 81 \cdot 0 + 27 \cdot 0 + 9 \cdot (-1) + 3 \cdot 1 + 1 \cdot 0 = 237_{10} $$
 
-## Practice Problems
+## مسائل تمرینی
 
 * [Topcoder SRM 604, Div1-250](http://community.topcoder.com/stat?c=problem_statement&pm=12917&rd=15837)

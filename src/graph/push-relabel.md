@@ -1,99 +1,97 @@
 ---
 tags:
-  - Translated
-e_maxx_link: preflow_push
+  - AI Translated
+e_maxx_link: push-relabel
 ---
 
-# Maximum flow - Push-relabel algorithm
+# شار بیشینه - الگوریتم Push-relabel
 
-The push-relabel algorithm (or also known as preflow-push algorithm) is an algorithm for computing the maximum flow of a flow network.
-The exact definition of the problem that we want to solve can be found in the article [Maximum flow - Ford-Fulkerson and Edmonds-Karp](edmonds_karp.md).
+الگوریتم push-relabel (که با نام الگوریتم preflow-push نیز شناخته می‌شود) الگوریتمی برای محاسبه‌ی شار بیشینه در یک شبکه‌ی شار است.
+تعریف دقیق مسئله‌ای که می‌خواهیم حل کنیم را می‌توانید در مقاله‌ی [شار بیشینه - Ford-Fulkerson و Edmonds-Karp](edmonds_karp.md) بیابید.
 
-In this article we will consider solving the problem by pushing a preflow through the network, which will run in $O(V^4)$, or more precisely in $O(V^2 E)$, time.
-The algorithm was designed by Andrew Goldberg and Robert Tarjan in 1985.
+در این مقاله، به حل مسئله از طریق «هل دادن» یک پیش‌شار (preflow) در شبکه می‌پردازیم که در زمان $O(V^4)$ یا به طور دقیق‌تر $O(V^2 E)$ اجرا می‌شود.
+این الگوریتم توسط Andrew Goldberg و Robert Tarjan در سال ۱۹۸۵ طراحی شد.
 
-## Definitions
+## تعاریف
 
-During the algorithm we will have to handle a **preflow** - i.e. a function $f$ that is similar to the flow function, but does not necessarily satisfies the flow conservation constraint.
-For it only the constraints
+در طول اجرای الگوریتم، با یک **پیش‌شار** (preflow) سروکار داریم؛ یعنی تابعی مانند $f$ که شبیه تابع شار است، اما لزوماً قید بقای شار را برآورده نمی‌کند.
+برای آن، تنها باید قیود زیر برقرار باشند:
 
 $$0 \le f(e) \le c(e)$$
 
-and
+و
 
 $$\sum_{(v, u) \in E} f((v, u)) \ge \sum_{(u, v) \in E} f((u, v))$$
 
-have to hold.
+بنابراین، ممکن است یک رأس، شار بیشتری از آنچه توزیع می‌کند دریافت کند.
+می‌گوییم این رأس دارای شار اضافی است و مقدار آن را با تابع **اضافه** (excess) به صورت $x(u) =\sum_{(v, u) \in E} f((v, u)) - \sum_{(u, v) \in E} f((u, v))$ تعریف می‌کنیم.
 
-So it is possible for some vertex to receive more flow than it distributes.
-We say that this vertex has some excess flow, and define the amount of it with the **excess** function $x(u) =\sum_{(v, u) \in E} f((v, u)) - \sum_{(u, v) \in E} f((u, v))$.
+همانند تابع شار، با استفاده از تابع پیش‌شار نیز می‌توانیم ظرفیت‌های باقیمانده و گراف باقیمانده را تعریف کنیم.
 
-In the same way as with the flow function, we can define the residual capacities and the residual graph with the preflow function.
+الگوریتم با یک پیش‌شار اولیه (که در آن برخی رئوس اضافه دارند) شروع می‌شود و در طول اجرا، این پیش‌شار مدیریت و اصلاح می‌شود.
+اگر بخواهیم کمی از جزئیات را بگوییم، الگوریتم یک رأس با اضافه را انتخاب کرده و این اضافه را به رئوس همسایه «هل» می‌دهد (push می‌کند).
+این کار تا زمانی تکرار می‌شود که تمام رئوس، به جز منبع و مقصد، از اضافه خالی شوند.
+به راحتی می‌توان دید که یک پیش‌شار بدون اضافه، یک شار معتبر است.
+این باعث می‌شود الگوریتم با یک شار واقعی خاتمه یابد.
 
-The algorithm will start off with an initial preflow (some vertices having excess), and during the execution the preflow will be handled and modified.
-Giving away some details already, the algorithm will pick a vertex with excess, and push the excess to neighboring vertices.
-It will repeat this until all vertices, except the source and the sink, are free from excess.
-It is easy to see, that a preflow without excess is a valid flow.
-This makes the algorithm terminate with an actual flow.
+هنوز دو مشکل وجود دارد که باید با آن‌ها مقابله کنیم.
+اول، چگونه تضمین کنیم که این فرآیند واقعاً پایان می‌یابد؟
+و دوم، چگونه تضمین کنیم که این فرآیند به ما یک شار بیشینه می‌دهد و نه فقط یک شار تصادفی؟
 
-There are still two problem, we have to deal with.
-First, how do we guarantee that this actually terminates?
-And secondly, how do we guarantee that this will actually give us a maximum flow, and not just any random flow?
+برای حل این مشکلات به کمک تابع دیگری به نام تابع **برچسب‌گذاری** (labeling) یا $h$ نیاز داریم که اغلب به آن تابع **ارتفاع** (height) نیز گفته می‌شود و به هر رأس یک عدد صحیح نسبت می‌دهد.
+یک برچسب‌گذاری را معتبر می‌نامیم اگر $h(s) = |V|$ و $h(t) = 0$ باشد و همچنین اگر یال $(u, v)$ در گراف باقیمانده وجود داشته باشد (یعنی یال $(u, v)$ ظرفیت مثبتی در گراف باقیمانده داشته باشد)، آنگاه $h(u) \le h(v) + 1$ برقرار باشد.
+به عبارت دیگر، اگر امکان افزایش شار از $u$ به $v$ وجود داشته باشد، ارتفاع $v$ می‌تواند حداکثر یک واحد کمتر از ارتفاع $u$ باشد، اما می‌تواند مساوی یا حتی بیشتر هم باشد.
 
-To solve these problems we need the help of another function, namely the **labeling** functions $h$, often also called **height** function, which assigns each vertex an integer.
-We call a labeling is valid, if $h(s) = |V|$, $h(t) = 0$, and $h(u) \le h(v) + 1$ if there is an edge $(u, v)$ in the residual graph - i.e. the edge $(u, v)$ has a positive capacity in the residual graph.
-In other words, if it is possible to increase the flow from $u$ to $v$, then the height of $v$ can be at most one smaller than the height of $u$, but it can be equal or even higher.
+توجه به این نکته مهم است که اگر یک تابع برچسب‌گذاری معتبر وجود داشته باشد، آنگاه هیچ مسیر افزایشی از $s$ به $t$ در گراف باقیمانده وجود ندارد.
+زیرا چنین مسیری طولی حداکثر برابر با $|V| - 1$ یال خواهد داشت و هر یال می‌تواند ارتفاع را حداکثر یک واحد کاهش دهد، که این با توجه به اینکه ارتفاع اولیه $h(s) = |V|$ و ارتفاع نهایی $h(t) = 0$ است، غیرممکن می‌باشد.
 
-It is important to note, that if there exists a valid labeling function, then there doesn't exist an augmenting path from $s$ to $t$ in the residual graph.
-Because such a path will have a length of at most $|V| - 1$ edges, and each edge can decrease the height only by at most by one, which is impossible if the first height is $h(s) = |V|$ and the last height is $h(t) = 0$.
+با استفاده از این تابع برچسب‌گذاری، می‌توانیم استراتژی الگوریتم push-relabel را بیان کنیم:
+ما با یک پیش‌شار معتبر و یک تابع برچسب‌گذاری معتبر شروع می‌کنیم.
+در هر مرحله، مقداری از اضافه را بین رئوس push کرده و برچسب‌های رئوس را به‌روزرسانی می‌کنیم.
+باید اطمینان حاصل کنیم که پس از هر مرحله، پیش‌شار و برچسب‌گذاری همچنان معتبر باقی بمانند.
+سپس وقتی الگوریتم به پایان می‌رسد، پیش‌شار به یک شار معتبر تبدیل شده است.
+و از آنجایی که یک برچسب‌گذاری معتبر نیز داریم، هیچ مسیری بین $s$ و $t$ در گراف باقیمانده وجود ندارد، که به این معنی است که شار به‌دست آمده در واقع یک شار بیشینه است.
 
-Using this labeling function we can state the strategy of the push-relabel algorithm:
-We start with a valid preflow and a valid labeling function.
-In each step we push some excess between vertices, and update the labels of vertices.
-We have to make sure, that after each step the preflow and the labeling are still valid.
-If then the algorithm determines, the preflow is a valid flow.
-And because we also have a valid labeling, there doesn't exists a path between $s$ and $t$ in the residual graph, which means that the flow is actually a maximum flow.
+اگر الگوریتم Ford-Fulkerson را با الگوریتم push-relabel مقایسه کنیم، به نظر می‌رسد که این دو الگوریتم دوگان (dual) یکدیگر هستند.
+الگوریتم Ford-Fulkerson در تمام مدت یک شار معتبر را حفظ کرده و آن را تا زمانی که دیگر مسیر افزایشی وجود نداشته باشد بهبود می‌بخشد، در حالی که در الگوریتم push-relabel در هیچ زمانی مسیر افزایشی وجود ندارد و ما پیش‌شار را تا زمانی که به یک شار معتبر تبدیل شود، بهبود می‌دهیم.
 
-If we compare the Ford-Fulkerson algorithm with the push-relabel algorithm it seems like the algorithms are the duals of each other.
-The Ford-Fulkerson algorithm keeps a valid flow at all time and improves it until there doesn't exists an augmenting path any more, while in the push-relabel algorithm there doesn't exists an augmenting path at any time, and we will improve the preflow until it is a valid flow.
+## الگوریتم
 
-## Algorithm
+ابتدا باید گراف را با یک پیش‌شار و یک تابع برچسب‌گذاری معتبر مقداردهی اولیه کنیم.
 
-First we have to initialize the graph with a valid preflow and labeling function.
+استفاده از پیش‌شار خالی - مانند کاری که در الگوریتم Ford-Fulkerson انجام می‌شود - ممکن نیست، زیرا در این صورت یک مسیر افزایشی وجود خواهد داشت و این بدان معناست که هیچ برچسب‌گذاری معتبری وجود ندارد.
+بنابراین، هر یال خروجی از $s$ را با ظرفیت بیشینه‌ی خود مقداردهی می‌کنیم: $f((s, u)) = c((s, u))$.
+و تمام یال‌های دیگر را با صفر مقداردهی می‌کنیم.
+در این حالت، یک برچسب‌گذاری معتبر وجود دارد، یعنی $h(s) = |V|$ برای رأس منبع و $h(u) = 0$ برای سایر رئوس.
 
-Using the empty preflow - like it is done in the Ford-Fulkerson algorithm - is not possible, because then there will be an augmenting path and this implies that there doesn't exists a valid labeling.
-Therefore we will initialize each edges outgoing from $s$ with its maximal capacity: $f((s, u)) = c((s, u))$.
-And all other edges with zero.
-In this case there exists a valid labeling, namely $h(s) = |V|$ for the source vertex and $h(u) = 0$ for all other.
+حال بیایید دو عملیات را با جزئیات بیشتری شرح دهیم.
 
-Now let's describe the two operations in more detail.
+با عملیات `push`، سعی می‌کنیم تا حد امکان شار اضافی را از یک رأس $u$ به یک رأس همسایه $v$ هل دهیم.
+یک قانون داریم: تنها مجاز به push کردن شار از $u$ به $v$ هستیم اگر $h(u) = h(v) + 1$ باشد.
+به زبان ساده، شار اضافی باید به سمت پایین جریان یابد، اما نه با شیب خیلی زیاد.
+البته، ما فقط می‌توانیم به اندازه‌ی $\min(x(u), c((u, v)) - f((u, v)))$ شار را push کنیم.
 
-With the `push` operation we try to push as much excess flow from one vertex $u$ to a neighboring vertex $v$.
-We have one rule: we are only allowed to push flow from $u$ to $v$ if $h(u) = h(v) + 1$.
-In layman's terms, the excess flow has to flow downwards, but not too steeply.
-Of course we only can push $\min(x(u), c((u, v)) - f((u, v)))$ flow.
+اگر یک رأس دارای اضافه باشد، اما امکان push کردن این اضافه به هیچ‌کدام از رئوس مجاور وجود نداشته باشد، باید ارتفاع این رأس را افزایش دهیم.
+این عملیات را `relabel` (برچسب‌گذاری مجدد) می‌نامیم.
+ما ارتفاع را تا جایی که ممکن است افزایش می‌دهیم، به طوری که اعتبار برچسب‌گذاری حفظ شود.
 
-If a vertex has excess, but it is not possible to push the excess to any adjacent vertex, then we need to increase the height of this vertex.
-We call this operation `relabel`.
-We will increase it by as much as it is possible, while still maintaining validity of the labeling.
+به طور خلاصه، الگوریتم به این صورت است:
+یک پیش‌شار معتبر و یک برچسب‌گذاری معتبر را مقداردهی اولیه می‌کنیم.
+تا زمانی که بتوانیم عملیات push یا relabel را انجام دهیم، آن‌ها را اجرا می‌کنیم.
+پس از آن، پیش‌شار در واقع یک شار است و ما آن را برمی‌گردانیم.
 
-To recap, the algorithm in a nutshell is:
-We initialize a valid preflow and a valid labeling.
-While we can perform push or relabel operations, we perform them.
-Afterwards the preflow is actually a flow and we return it.
+## پیچیدگی
 
-## Complexity
+به راحتی می‌توان نشان داد که بیشینه برچسب یک رأس $2|V| - 1$ است.
+در این نقطه، تمام اضافه‌های باقیمانده می‌توانند و به منبع بازگردانده خواهند شد.
+این حداکثر $O(V^2)$ عملیات relabel را به ما می‌دهد.
 
-It is easy to show, that the maximal label of a vertex is $2|V| - 1$.
-At this point all remaining excess can and will be pushed back to the source.
-This gives at most $O(V^2)$ relabel operations.
+همچنین می‌توان نشان داد که حداکثر $O(V E)$ عملیات push اشباع‌کننده (push که در آن ظرفیت کل یال استفاده می‌شود) و حداکثر $O(V^2 E)$ عملیات push غیراشباع‌کننده (push که در آن ظرفیت یک یال به طور کامل استفاده نمی‌شود) انجام خواهد شد.
+اگر یک ساختمان داده انتخاب کنیم که به ما امکان پیدا کردن رأس بعدی با اضافه را در زمان $O(1)$ بدهد، آنگاه پیچیدگی کل الگوریتم $O(V^2 E)$ خواهد بود.
 
-It can also be showed, that there will be at most $O(V E)$ saturating pushes (a push where the total capacity of the edge is used) and at most $O(V^2 E)$ non-saturating pushes (a push where the capacity of an edge is not fully used) performed.
-If we pick a data structure that allows us to find the next vertex with excess in $O(1)$ time, then the total complexity of the algorithm is $O(V^2 E)$.
+## پیاده‌سازی
 
-## Implementation
-
-```{.cpp file=push_relabel}
+```cpp
 const int inf = 1000000000;
 
 int n;
@@ -162,10 +160,10 @@ int max_flow(int s, int t) {
 }
 ```
 
-Here we use the queue `excess_vertices` to store all vertices that currently have excess.
-In that way we can pick the next vertex for a push or a relabel operation in constant time.
+در اینجا از صف `excess_vertices` برای ذخیره‌ی تمام رئوسی که در حال حاضر دارای اضافه هستند استفاده می‌کنیم.
+به این ترتیب می‌توانیم رأس بعدی را برای عملیات push یا relabel در زمان ثابت انتخاب کنیم.
 
-And to make sure that we don't spend too much time finding the adjacent vertex to whom we can push, we use a data structure called **current-arc**.
-Basically we will iterate over the edges in a circular order and always store the last edge that we used.
-This way, for a certain labeling value, we will switch the current edge only $O(n)$ time.
-And since the relabeling already takes $O(n)$ time, we don't make the complexity worse.
+و برای اطمینان از اینکه زمان زیادی را صرف پیدا کردن رأس مجاوری که می‌توانیم به آن push کنیم، نمی‌کنیم، از یک ساختمان داده به نام **current-arc** استفاده می‌کنیم.
+اساساً، ما روی یال‌ها به صورت دایره‌ای پیمایش می‌کنیم و همیشه آخرین یالی را که استفاده کرده‌ایم ذخیره می‌کنیم.
+به این ترتیب، برای یک مقدار برچسب‌گذاری مشخص، یال جاری را تنها $O(n)$ بار تغییر می‌دهیم.
+و از آنجایی که عملیات relabel خود $O(n)$ زمان می‌برد، پیچیدگی را بدتر نمی‌کنیم.

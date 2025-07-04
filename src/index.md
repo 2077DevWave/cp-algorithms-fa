@@ -1,5 +1,7 @@
 ---
-title: Main Page
+tags:
+  - AI Translated
+title: صفحه اصلی
 search:
   exclude: true
 ---

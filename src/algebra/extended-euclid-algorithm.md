@@ -1,6 +1,6 @@
 ---
 tags:
-  - Translated
+  
 e_maxx_link: extended_euclid_algorithm
 ---
 

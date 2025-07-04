@@ -1,6 +1,6 @@
 ---
 tags:
-  - Translated
+  
 e_maxx_link: johnson_problem_1
 ---
 

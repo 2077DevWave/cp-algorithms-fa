@@ -1,48 +1,46 @@
 ---
-title: Finding articulation points in a graph in O(N+M)
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: cutpoints
 ---
-# Finding articulation points in a graph in $O(N+M)$
 
-We are given an undirected graph. An articulation point (or cut vertex) is defined as a vertex which, when removed along with associated edges, makes the graph disconnected (or more precisely, increases the number of connected components in the graph). The task is to find all articulation points in the given graph.
+# پیدا کردن رئوس برشی در یک گراف با پیچیدگی $O(N+M)$
 
-The algorithm described here is based on [depth first search](depth-first-search.md) and has $O(N+M)$ complexity, where $N$ is the number of vertices and $M$ is the number of edges in the graph.
+یک گراف بدون جهت به ما داده شده است. یک رأس برشی (یا cut vertex) به عنوان رأسی تعریف می‌شود که با حذف آن به همراه یال‌های متصل به آن، گراف ناهمبند می‌شود (یا به طور دقیق‌تر، تعداد مؤلفه‌های همبندی در گراف افزایش می‌یابد). مسئله، پیدا کردن تمام رئوس برشی در گراف داده شده است.
 
-## Algorithm
+الگوریتم توصیف شده در اینجا بر اساس [جستجوی عمق اول](depth-first-search.md) است و دارای پیچیدگی زمانی $O(N+M)$ است که در آن $N$ تعداد رئوس و $M$ تعداد یال‌های گراف است.
 
-Pick an arbitrary vertex of the graph $root$ and run [depth first search](depth-first-search.md) from it. Note the following fact (which is easy to prove):
+## الگوریتم
 
-- Let's say we are in the DFS, looking through the edges starting from vertex $v\ne root$.
-If the current edge $(v, to)$ is such that none of the vertices $to$ or its descendants in the DFS traversal tree has a back-edge to any of ancestors of $v$, then $v$ is an articulation point. Otherwise, $v$ is not an articulation point.
+یک رأس دلخواه از گراف مانند $root$ را انتخاب کرده و [جستجوی عمق اول](depth-first-search.md) را از آن اجرا می‌کنیم. به نکته زیر توجه کنید (که اثبات آن ساده است):
 
-- Let's consider the remaining case of $v=root$.
-This vertex will be the point of articulation if and only if this vertex has more than one child in the DFS tree.
+-   فرض کنید در حین اجرای DFS، در حال پیمایش یال‌های خروجی از رأس $v \ne root$ هستیم. اگر یال فعلی $(v, to)$ به گونه‌ای باشد که هیچ‌کدام از رأس $to$ یا نوادگان آن در درخت پیمایش DFS، یال برگشتی (back-edge) به هیچ‌یک از اجداد $v$ نداشته باشند، آنگاه $v$ یک رأس برشی است. در غیر این صورت، $v$ رأس برشی نیست.
 
-Now we have to learn to check this fact for each vertex efficiently. We'll use "time of entry into node" computed by the depth first search.
+-   حال حالت باقی‌مانده یعنی $v=root$ را در نظر بگیریم. این رأس یک رأس برشی خواهد بود اگر و تنها اگر بیش از یک فرزند در درخت DFS داشته باشد.
 
-So, let $tin[v]$ denote entry time for node $v$. We introduce an array $low[v]$ which will let us check the fact for each vertex $v$. $low[v]$ is the minimum of $tin[v]$, the entry times $tin[p]$ for each node $p$ that is connected to node $v$ via a back-edge $(v, p)$ and the values of $low[to]$ for each vertex $to$ which is a direct descendant of $v$ in the DFS tree:
+اکنون باید یاد بگیریم که این شرط را برای هر رأس به طور کارآمد بررسی کنیم. ما از «زمان ورود به گره» که توسط جستجوی عمق اول محاسبه می‌شود، استفاده خواهیم کرد.
 
-$$low[v] = \min \begin{cases} tin[v] \\ tin[p] &\text{ for all }p\text{ for which }(v, p)\text{ is a back edge} \\ low[to]& \text{ for all }to\text{ for which }(v, to)\text{ is a tree edge} \end{cases}$$
+بنابراین، فرض کنید $tin[v]$ زمان ورود به گره $v$ را نشان دهد. ما آرایه‌ای به نام $low[v]$ معرفی می‌کنیم که به ما امکان می‌دهد این شرط را برای هر رأس $v$ بررسی کنیم. $low[v]$ برابر با کمینه مقدار $tin[v]$، زمان‌های ورود $tin[p]$ برای هر گره $p$ که از طریق یک یال برگشتی $(v, p)$ به گره $v$ متصل است، و مقادیر $low[to]$ برای هر رأس $to$ که فرزند مستقیم $v$ در درخت DFS است، می‌باشد:
 
-Now, there is a back edge from vertex $v$ or one of its descendants to one of its ancestors if and only if vertex $v$ has a child $to$ for which $low[to] < tin[v]$. If $low[to] = tin[v]$, the back edge comes directly to $v$, otherwise it comes to one of the ancestors of $v$.
+$$low[v] = \min \begin{cases} tin[v] \\ tin[p] &\text{ برای تمام رئوس }p\text{ که }(v, p)\text{ یک یال برگشتی است} \\ low[to]& \text{ برای تمام رئوس }to\text{ که }(v, to)\text{ یک یال درختی است} \end{cases}$$
 
-Thus, the vertex $v$ in the DFS tree is an articulation point if and only if $low[to] \geq tin[v]$.
+حال، یک یال برگشتی از رأس $v$ یا یکی از نوادگانش به یکی از اجدادش وجود دارد، اگر و تنها اگر رأس $v$ فرزندی مانند $to$ داشته باشد که $low[to] < tin[v]$ برقرار باشد. اگر $low[to] = tin[v]$ باشد، یال برگشتی مستقیماً به $v$ می‌رسد، در غیر این صورت به یکی از اجداد $v$ می‌رسد.
 
-## Implementation
+بنابراین، یک رأس $v$ (که ریشه نیست) در درخت DFS یک رأس برشی است اگر و تنها اگر فرزندی مانند `to` داشته باشد که شرط $low[to] \geq tin[v]$ برای آن برقرار باشد.
 
-The implementation needs to distinguish three cases: when we go down the edge in DFS tree, when we find a back edge to an ancestor of the vertex and when we return to a parent of the vertex. These are the cases:
+## پیاده‌سازی
 
-- $visited[to] = false$ - the edge is part of DFS tree;
-- $visited[to] = true$ && $to \neq parent$ - the edge is back edge to one of the ancestors;
-- $to = parent$ - the edge leads back to parent in DFS tree.
+پیاده‌سازی باید بین سه حالت تمایز قائل شود: وقتی در درخت DFS از یک یال به سمت پایین می‌رویم، وقتی یک یال برگشتی به یکی از اجداد رأس پیدا می‌کنیم و وقتی به والد یک رأس برمی‌گردیم. این حالت‌ها عبارتند از:
 
-To implement this, we need a depth first search function which accepts the parent vertex of the current node.
+-   $visited[to] = false$ - یال بخشی از درخت DFS است؛
+-   $visited[to] = true$ && $to \neq parent$ - یال، یک یال برگشتی به یکی از اجداد است؛
+-   $to = parent$ - یال به والد در درخت DFS برمی‌گردد.
+
+برای پیاده‌سازی این منطق، به یک تابع جستجوی عمق اول نیاز داریم که رأس والدِ گره فعلی را به عنوان ورودی بپذیرد.
 
 ```cpp
-int n; // number of nodes
-vector<vector<int>> adj; // adjacency list of graph
+int n; // تعداد گره‌ها
+vector<vector<int>> adj; // لیست مجاورت گراف
 
 vector<bool> visited;
 vector<int> tin, low;
@@ -80,13 +78,13 @@ void find_cutpoints() {
 }
 ```
 
-Main function is `find_cutpoints`; it performs necessary initialization and starts depth first search in each connected component of the graph.
+تابع اصلی `find_cutpoints` است؛ این تابع مقداردهی‌های اولیه لازم را انجام می‌دهد و جستجوی عمق اول را در هر مؤلفه همبندی گراف آغاز می‌کند.
 
-Function `IS_CUTPOINT(a)` is some function that will process the fact that vertex $a$ is an articulation point, for example, print it (Caution that this can be called multiple times for a vertex).
+تابع `IS_CUTPOINT(a)` تابعی است که این واقعیت را که رأس $a$ یک رأس برشی است پردازش می‌کند، برای مثال، آن را چاپ می‌کند (توجه داشته باشید که این تابع ممکن است برای یک رأس چندین بار فراخوانی شود).
 
-## Practice Problems
+## مسائل تمرینی
 
-- [UVA #10199 "Tourist Guide"](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=13&page=show_problem&problem=1140) [difficulty: low]
-- [UVA #315 "Network"](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=5&page=show_problem&problem=251) [difficulty: low]
-- [SPOJ - Submerging Islands](http://www.spoj.com/problems/SUBMERGE/)
-- [Codeforces - Cutting Figure](https://codeforces.com/problemset/problem/193/A)
+-   [UVA #10199 "Tourist Guide"](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=13&page=show_problem&problem=1140) [سختی: کم]
+-   [UVA #315 "Network"](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=5&page=show_problem&problem=251) [سختی: کم]
+-   [SPOJ - Submerging Islands](http://www.spoj.com/problems/SUBMERGE/)
+-   [Codeforces - Cutting Figure](https://codeforces.com/problemset/problem/193/A)

@@ -1,40 +1,40 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: big_integer
 ---
 
-# Arbitrary-Precision Arithmetic
+# حساب با دقت دلخواه
 
-Arbitrary-Precision arithmetic, also known as "bignum" or simply "long arithmetic" is a set of data structures and algorithms which allows to process much greater numbers than can be fit in standard data types. Here are several types of arbitrary-precision arithmetic.
+حساب با دقت دلخواه، که با نام‌های "bignum" یا به سادگی "حساب طولانی" نیز شناخته می‌شود، مجموعه‌ای از ساختمان داده‌ها و الگوریتم‌ها است که امکان پردازش اعدادی بسیار بزرگتر از آنچه در انواع داده استاندارد جا می‌شوند را فراهم می‌کند. در اینجا چندین نوع از حساب با دقت دلخواه معرفی می‌شود.
 
-## Classical Integer Long Arithmetic
+## حساب طولانی کلاسیک برای اعداد صحیح
 
-The main idea is that the number is stored as an array of its "digits" in some base. Several most frequently used bases are decimal, powers of decimal ($10^4$ or $10^9$) and binary.
+ایده اصلی این است که عدد به صورت آرایه‌ای از «ارقام» آن در یک مبنای مشخص ذخیره می‌شود. چند مبنای متداول عبارتند از دهدهی، توان‌هایی از ده ($10^4$ یا $10^9$) و دودویی.
 
-Operations on numbers in this form are performed using "school" algorithms of column addition, subtraction, multiplication and division. It's also possible to use fast multiplication algorithms: fast Fourier transform and Karatsuba algorithm.
+عملیات روی اعداد در این قالب با استفاده از الگوریتم‌های «مدرسه‌ای» جمع، تفریق، ضرب و تقسیم ستونی انجام می‌شود. همچنین می‌توان از الگوریتم‌های ضرب سریع مانند تبدیل فوریه سریع و الگوریتم کاراتسوبا استفاده کرد.
 
-Here we describe long arithmetic for only non-negative integers. To extend the algorithms to handle negative integers one has to introduce and maintain additional "negative number" flag or use two's complement integer representation.
+در اینجا ما حساب طولانی را فقط برای اعداد صحیح غیرمنفی شرح می‌دهیم. برای توسعه الگوریتم‌ها جهت پشتیبانی از اعداد صحیح منفی، باید یک پرچم اضافی «عدد منفی» تعریف و نگهداری شود یا از نمایش اعداد صحیح به روش مکمل دو استفاده کرد.
 
-### Data Structure
+### ساختمان داده
 
-We'll store numbers as a `vector<int>`, in which each element is a single "digit" of the number.
+ما اعداد را به صورت یک `vector<int>` ذخیره خواهیم کرد که در آن هر عنصر یک «رقم» از عدد است.
 
 ```cpp
 typedef vector<int> lnum;
 ```
 
-To improve performance we'll use $10^9$ as the base, so that each "digit" of the long number contains 9 decimal digits at once.
+برای بهبود عملکرد، از $10^9$ به عنوان مبنا استفاده خواهیم کرد، به طوری که هر «رقم» از عدد طولانی، ۹ رقم دهدهی را به یکباره در خود جای دهد.
 
 ```cpp
 const int base = 1000*1000*1000;
 ```
 
-Digits will be stored in order from least to most significant. All operations will be implemented so that after each of them the result doesn't have any leading zeros, as long as operands didn't have any leading zeros either. All operations which might result in a number with leading zeros should be followed by code which removes them. Note that in this representation there are two valid notations for number zero: and empty vector, and a vector with a single zero digit.
+ارقام به ترتیب از کم‌ارزش به پرارزش ذخیره خواهند شد. تمام عملیات به گونه‌ای پیاده‌سازی می‌شوند که پس از هر کدام، نتیجه هیچ صفر پیشرویی نداشته باشد، به شرطی که عملوندها نیز صفر پیشرو نداشته باشند. تمام عملیاتی که ممکن است منجر به عددی با صفرهای پیشرو شوند، باید با کدی دنبال شوند که آن‌ها را حذف می‌کند. توجه داشته باشید که در این نمایش، دو نماد معتبر برای عدد صفر وجود دارد: یک `vector` خالی و یک `vector` با یک رقم صفر.
 
-### Output
+### خروجی
 
-Printing the long integer is the easiest operation. First we print the last element of the vector (or 0 if the vector is empty), followed by the rest of the elements padded with leading zeros if necessary so that they are exactly 9 digits long.
+چاپ عدد صحیح طولانی ساده‌ترین عملیات است. ابتدا آخرین عنصر `vector` (یا 0 اگر `vector` خالی باشد) را چاپ می‌کنیم و سپس بقیه عناصر را در صورت لزوم با صفرهای پیشرو طوری چاپ می‌کنیم که دقیقاً ۹ رقم طول داشته باشند.
 
 ```cpp
 printf ("%d", a.empty() ? 0 : a.back());
@@ -42,11 +42,11 @@ for (int i=(int)a.size()-2; i>=0; --i)
 	printf ("%09d", a[i]);
 ```
 
-Note that we cast `a.size()` to integer to avoid unsigned integer underflow if vector contains less than 2 elements.
+توجه داشته باشید که `a.size()` را به عدد صحیح تبدیل می‌کنیم تا در صورتی که `vector` کمتر از ۲ عنصر داشته باشد، از سرریز زیرین عدد صحیح بدون علامت جلوگیری شود.
 
-### Input
+### ورودی
 
-To read a long integer, read its notation into a `string` and then convert it to "digits":
+برای خواندن یک عدد صحیح طولانی، نمایش آن را در یک `string` می‌خوانیم و سپس آن را به «ارقام» تبدیل می‌کنیم:
 
 ```cpp
 for (int i=(int)s.length(); i>0; i-=9)
@@ -56,7 +56,7 @@ for (int i=(int)s.length(); i>0; i-=9)
 		a.push_back (atoi (s.substr (i-9, 9).c_str()));
 ```
 
-If we use an array of `char` instead of a `string`, the code will be even shorter:
+اگر به جای `string` از آرایه‌ای از `char` استفاده کنیم، کد کوتاه‌تر هم می‌شود:
 
 ```cpp
 for (int i=(int)strlen(s); i>0; i-=9) {
@@ -65,16 +65,16 @@ for (int i=(int)strlen(s); i>0; i-=9) {
 }
 ```
 
-If the input can contain leading zeros, they can be removed as follows:
+اگر ورودی ممکن است حاوی صفرهای پیشرو باشد، می‌توان آنها را به صورت زیر حذف کرد:
 
 ```cpp
 while (a.size() > 1 && a.back() == 0)
 	a.pop_back();
 ```
 
-### Addition
+### جمع
 
-Increment long integer $a$ by $b$ and store result in $a$:
+افزودن $b$ به عدد صحیح طولانی $a$ و ذخیره نتیجه در $a$:
 
 ```cpp
 int carry = 0;
@@ -87,9 +87,9 @@ for (size_t i=0; i<max(a.size(),b.size()) || carry; ++i) {
 }
 ```
 
-### Subtraction
+### تفریق
 
-Decrement long integer $a$ by $b$ ($a \ge b$) and store result in $a$:
+کم کردن $b$ از عدد صحیح طولانی $a$ ($a \ge b$) و ذخیره نتیجه در $a$:
 
 ```cpp
 int carry = 0;
@@ -102,11 +102,11 @@ while (a.size() > 1 && a.back() == 0)
 	a.pop_back();
 ```
 
-Note that after performing subtraction we remove leading zeros to keep up with the premise that our long integers don't have leading zeros.
+توجه داشته باشید که پس از انجام تفریق، صفرهای پیشرو را حذف می‌کنیم تا با این فرض که اعداد صحیح طولانی ما صفرهای پیشرو ندارند، سازگار بمانیم.
 
-### Multiplication by short integer
+### ضرب در عدد صحیح کوتاه
 
-Multiply long integer $a$ by short integer $b$ ($b < base$) and store result in $a$:
+ضرب عدد صحیح طولانی $a$ در عدد صحیح کوتاه $b$ ($b < base$) و ذخیره نتیجه در $a$:
 
 ```cpp
 int carry = 0;
@@ -121,11 +121,11 @@ while (a.size() > 1 && a.back() == 0)
 	a.pop_back();
 ```
 
-Additional optimization: If runtime is extremely important, you can try to replace two divisions with one by finding only integer result of division (variable `carry`) and then use it to find modulo using multiplication. This usually makes the code faster, though not dramatically.
+بهینه‌سازی اضافی: اگر زمان اجرا بسیار مهم است، می‌توانید سعی کنید دو تقسیم را با یک تقسیم جایگزین کنید، به این صورت که فقط خارج قسمت صحیح تقسیم (متغیر `carry`) را پیدا کرده و سپس با استفاده از ضرب، باقیمانده را پیدا کنید. این کار معمولاً کد را سریع‌تر می‌کند، هرچند نه به طور چشمگیر.
 
-### Multiplication by long integer
+### ضرب در عدد صحیح طولانی
 
-Multiply long integers $a$ and $b$ and store result in $c$:
+ضرب اعداد صحیح طولانی $a$ و $b$ و ذخیره نتیجه در $c$:
 
 ```cpp
 lnum c (a.size()+b.size());
@@ -139,9 +139,9 @@ while (c.size() > 1 && c.back() == 0)
 	c.pop_back();
 ```
 
-### Division by short integer
+### تقسیم بر عدد صحیح کوتاه
 
-Divide long integer $a$ by short integer $b$ ($b < base$), store integer result in $a$ and remainder in `carry`:
+تقسیم عدد صحیح طولانی $a$ بر عدد صحیح کوتاه $b$ ($b < base$)، ذخیره خارج قسمت در $a$ و باقیمانده در `carry`:
 
 ```cpp
 int carry = 0;
@@ -154,44 +154,43 @@ while (a.size() > 1 && a.back() == 0)
 	a.pop_back();
 ```
 
-## Long Integer Arithmetic for Factorization Representation
+## حساب اعداد صحیح طولانی با نمایش به صورت تجزیه
 
-The idea is to store the integer as its factorization, i.e. the powers of primes which divide it.
+ایده این است که عدد صحیح را به صورت تجزیه به عوامل اول آن ذخیره کنیم، یعنی توان‌های اعداد اولی که آن را عاد می‌کنند.
 
-This approach is very easy to implement, and allows to do multiplication and division easily (asymptotically faster than the classical method), but not addition or subtraction. It is also very memory-efficient compared to the classical approach.
+این رویکرد پیاده‌سازی بسیار ساده‌ای دارد و امکان انجام ضرب و تقسیم را به راحتی فراهم می‌کند (از نظر مجانبی سریع‌تر از روش کلاسیک)، اما برای جمع یا تفریق مناسب نیست. همچنین در مقایسه با روش کلاسیک، از نظر حافظه بسیار کارآمد است.
 
-This method is often used for calculations modulo non-prime number M; in this case a number is stored as powers of divisors of M which divide the number, plus the remainder modulo M.
+این روش اغلب برای محاسبات به پیمانه عدد غیر اول M استفاده می‌شود؛ در این حالت، یک عدد به صورت توان‌های مقسوم‌علیه‌های M که عدد را عاد می‌کنند، به علاوه باقیمانده به پیمانه M ذخیره می‌شود.
 
-## Long Integer Arithmetic in prime modulos (Garner Algorithm)
+## حساب اعداد صحیح طولانی در پیمانه‌های اول (الگوریتم گارنر)
 
-The idea is to choose a set of prime numbers (typically they are small enough to fit into standard integer data type) and to store an integer as a vector of remainders from division of the integer by each of those primes.
+ایده این است که مجموعه‌ای از اعداد اول (که معمولاً به اندازه‌ای کوچک هستند که در انواع داده عدد صحیح استاندارد جا شوند) انتخاب کرده و یک عدد صحیح را به صورت `vector`ی از باقیمانده‌های تقسیم آن عدد بر هر یک از آن اعداد اول ذخیره کنیم.
 
-Chinese remainder theorem states that this representation is sufficient to uniquely restore any number from 0 to product of these primes minus one. [Garner algorithm](garners-algorithm.md) allows to restore the number from such representation to normal integer.
+قضیه باقیمانده چینی بیان می‌کند که این نمایش برای بازیابی یکتای هر عددی از 0 تا حاصلضرب این اعداد اول منهای یک، کافی است. [الگوریتم گارنر](garners-algorithm.md) امکان بازیابی عدد از چنین نمایشی را به یک عدد صحیح معمولی فراهم می‌کند.
 
-This method allows to save memory compared to the classical approach (though the savings are not as dramatic as in factorization representation). Besides, it allows to perform fast addition, subtraction and multiplication in time proportional to the number of prime numbers used as modulos (see [Chinese remainder theorem](chinese-remainder-theorem.md) article for implementation).
+این روش در مقایسه با رویکرد کلاسیک باعث صرفه‌جویی در حافظه می‌شود (اگرچه این صرفه‌جویی به اندازه نمایش به صورت تجزیه چشمگیر نیست). علاوه بر این، امکان انجام سریع عملیات جمع، تفریق و ضرب را در زمانی متناسب با تعداد اعداد اول استفاده شده به عنوان پیمانه فراهم می‌کند (برای پیاده‌سازی به مقاله [قضیه باقیمانده چینی](chinese-remainder-theorem.md) مراجعه کنید).
 
-The tradeoff is that converting the integer back to normal form is rather laborious and requires implementing classical arbitrary-precision arithmetic with multiplication. Besides, this method doesn't support division.
+نقطه ضعف این است که تبدیل عدد به شکل عادی آن بسیار پرزحمت است و به پیاده‌سازی حساب با دقت دلخواه کلاسیک به همراه ضرب نیاز دارد. علاوه بر این، این روش از تقسیم پشتیبانی نمی‌کند.
 
-## Fractional Arbitrary-Precision Arithmetic
+## حساب با دقت دلخواه برای اعداد کسری
 
-Fractions occur in programming competitions less frequently than integers, and long arithmetic is much trickier to implement for fractions, so programming competitions feature only a small subset of fractional long arithmetic.
+اعداد کسری در مسابقات برنامه‌نویسی کمتر از اعداد صحیح ظاهر می‌شوند و پیاده‌سازی حساب طولانی برای کسرها بسیار دشوارتر است، بنابراین مسابقات برنامه‌نویسی تنها زیرمجموعه کوچکی از حساب طولانی کسری را شامل می‌شوند.
 
-### Arithmetic in Irreducible Fractions
+### حساب در کسرهای ساده‌نشدنی
 
-A number is represented as an irreducible fraction $\frac{a}{b}$, where $a$ and $b$ are integers. All operations on fractions can be represented as operations on integer numerators and denominators of these fractions. Usually this requires using classical arbitrary-precision arithmetic for storing numerator and denominator, but sometimes a built-in 64-bit integer data type suffices.
+یک عدد به صورت یک کسر ساده‌نشدنی $\frac{a}{b}$ نمایش داده می‌شود که در آن $a$ و $b$ اعداد صحیح هستند. تمام عملیات روی کسرها را می‌توان به صورت عملیات روی صورت و مخرج صحیح این کسرها نمایش داد. معمولاً این کار به استفاده از حساب با دقت دلخواه کلاسیک برای ذخیره صورت و مخرج نیاز دارد، اما گاهی اوقات یک نوع داده عدد صحیح ۶۴ بیتی داخلی کافی است.
 
-### Storing Floating Point Position as Separate Type
+### ذخیره موقعیت ممیز شناور به عنوان نوع جداگانه
 
-Sometimes a problem requires handling very small or very large numbers without allowing overflow or underflow. Built-in double data type uses 8-10 bytes and allows values of the exponent in $[-308; 308]$ range, which sometimes might be insufficient.
+گاهی اوقات یک مسئله نیازمند مدیریت اعداد بسیار کوچک یا بسیار بزرگ بدون اجازه سرریز یا سرریز زیرین است. نوع داده `double` داخلی از ۸-۱۰ بایت استفاده می‌کند و مقادیر توان را در محدوده $[-308; 308]$ مجاز می‌داند که گاهی ممکن است کافی نباشد.
 
-The approach is very simple: a separate integer variable is used to store the value of the exponent, and after each operation the floating-point number is normalized, i.e. returned to $[0.1; 1)$ interval by adjusting the exponent accordingly. 
+رویکرد بسیار ساده است: یک متغیر صحیح جداگانه برای ذخیره مقدار توان استفاده می‌شود و پس از هر عملیات، عدد ممیز شناور نرمال‌سازی می‌شود، یعنی با تنظیم متناسب توان، به بازه $[0.1; 1)$ بازگردانده می‌شود.
 
-When two such numbers are multiplied or divided, their exponents should be added or subtracted, respectively. When numbers are added or subtracted, they have to be brought to common exponent first by multiplying one of them by 10 raised to the power equal to the difference of exponent values.
+هنگام ضرب یا تقسیم دو عدد از این نوع، توان‌های آنها باید به ترتیب جمع یا تفریق شوند. هنگام جمع یا تفریق اعداد، ابتدا باید آنها را با ضرب یکی از آنها در ۱۰ به توان اختلاف مقدار توان‌ها، به توان مشترک رساند.
 
-As a final note, the exponent base doesn't have to equal 10. Based on the internal representation of floating-point numbers, it makes most sense to use 2 as the exponent base.
+به عنوان نکته پایانی، مبنای توان لزوماً نباید برابر ۱۰ باشد. بر اساس نمایش داخلی اعداد ممیز شناور، منطقی‌ترین کار استفاده از ۲ به عنوان مبنای توان است.
 
-## Practice Problems
-
+## مسائل تمرینی
 
 * [UVA - How Many Fibs?](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1124)
 * [UVA - Product](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1047)

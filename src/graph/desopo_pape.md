@@ -1,54 +1,54 @@
 ---
 tags:
-  - Translated
-e_maxx_link: levit_algorithm
+  - AI Translated
+e_maxx_link: desopo_pape
 ---
 
-# D´Esopo-Pape algorithm
+# الگوریتم D´Esopo-Pape
 
-Given a graph with $n$ vertices and $m$ edges with weights $w_i$ and a starting vertex $v_0$.
-The task is to find the shortest path from the vertex $v_0$ to every other vertex.
+گرافی با $n$ رأس و $m$ یال با وزن‌های $w_i$ و یک رأس شروع $v_0$ داده شده است.
+هدف، پیدا کردن کوتاه‌ترین مسیر از رأس $v_0$ به تمام رئوس دیگر است.
 
-The algorithm from D´Esopo-Pape will work faster than [Dijkstra's algorithm](dijkstra.md) and the [Bellman-Ford algorithm](bellman_ford.md) in most cases, and will also work for negative edges.
-However not for negative cycles.
+الگوریتم D´Esopo-Pape در بیشتر موارد سریع‌تر از [الگوریتم دایکسترا](dijkstra.md) و [الگوریتم بلمن-فورد](bellman_ford.md) عمل می‌کند و همچنین برای یال‌های با وزن منفی نیز کار می‌کند.
+اما برای دورهای با وزن منفی کارایی ندارد.
 
-## Description
+## توضیحات
 
-Let the array $d$ contain the shortest path lengths, i.e. $d_i$ is the current length of the shortest path from the vertex $v_0$ to the vertex $i$.
-Initially this array is filled with infinity for every vertex, except $d_{v_0} = 0$.
-After the algorithm finishes, this array will contain the shortest distances.
+فرض کنید آرایه $d$ طول کوتاه‌ترین مسیرها را نگه دارد، یعنی $d_i$ طول فعلی کوتاه‌ترین مسیر از رأس $v_0$ به رأس $i$ است.
+در ابتدا این آرایه برای هر رأس با بی‌نهایت پر می‌شود، به جز $d_{v_0} = 0$.
+پس از پایان الگوریتم، این آرایه حاوی کوتاه‌ترین فاصله‌ها خواهد بود.
 
-Let the array $p$ contain the current ancestors, i.e. $p_i$ is the direct ancestor of the vertex $i$ on the current shortest path from $v_0$ to $i$.
-Just like the array $d$, the array $p$ changes gradually during the algorithm and at the end takes its final values.
+فرض کنید آرایه $p$ نیاکان (والدین) فعلی را نگه دارد، یعنی $p_i$ والد مستقیم رأس $i$ در کوتاه‌ترین مسیر فعلی از $v_0$ به $i$ است.
+همانند آرایه $d$، آرایه $p$ نیز به تدریج در طول الگوریتم تغییر می‌کند و در پایان مقادیر نهایی خود را می‌گیرد.
 
-Now to the algorithm.
-At each step three sets of vertices are maintained:
+حال به خود الگوریتم می‌پردازیم.
+در هر مرحله، سه مجموعه از رئوس نگهداری می‌شوند:
 
-- $M_0$ - vertices, for which the distance has already been calculated (although it might not be the final distance)
-- $M_1$ - vertices, for which the distance currently is calculated
-- $M_2$ - vertices, for which the distance has not yet been calculated
+-   $M_0$ - رئوسی که فاصله برای آن‌ها محاسبه شده است (اگرچه ممکن است فاصله نهایی نباشد)
+-   $M_1$ - رئوسی که فاصله برای آن‌ها در حال محاسبه است
+-   $M_2$ - رئوسی که فاصله برای آن‌ها هنوز محاسبه نشده است
 
-The vertices in the set $M_1$ are stored in a bidirectional queue (deque).
+رئوس موجود در مجموعه $M_1$ در یک صف دوطرفه (`deque`) ذخیره می‌شوند.
 
-At each step of the algorithm we take a vertex from the set $M_1$ (from the front of the queue).
-Let $u$ be the selected vertex.
-We put this vertex $u$ into the set $M_0$.
-Then we iterate over all edges coming out of this vertex.
-Let $v$ be the second end of the current edge, and $w$ its weight.
+در هر مرحله از الگوریتم، یک رأس از مجموعه $M_1$ (از ابتدای صف) برمی‌داریم.
+فرض کنید $u$ رأس انتخاب شده باشد.
+این رأس $u$ را در مجموعه $M_0$ قرار می‌دهیم.
+سپس تمام یال‌های خروجی از این رأس را پیمایش می‌کنیم.
+فرض کنید $v$ رأس دیگر یال فعلی و $w$ وزن آن باشد.
 
-- If $v$ belongs to $M_2$, then $v$ is inserted into the set $M_1$ by inserting it at the back of the queue.
-$d_v$ is set to $d_u + w$.
-- If $v$ belongs to $M_1$, then we try to improve the value of $d_v$: $d_v = \min(d_v, d_u + w)$.
-Since $v$ is already in $M_1$, we don't need to insert it into $M_1$ and the queue.
-- If $v$ belongs to $M_0$, and if $d_v$ can be improved $d_v > d_u + w$, then we improve $d_v$ and insert the vertex $v$ back to the set $M_1$, placing it at the beginning of the queue.
+-   اگر $v$ به $M_2$ تعلق داشته باشد، آنگاه $v$ با اضافه شدن به انتهای صف، در مجموعه $M_1$ قرار می‌گیرد.
+    مقدار $d_v$ برابر با $d_u + w$ می‌شود.
+-   اگر $v$ به $M_1$ تعلق داشته باشد، سعی می‌کنیم مقدار $d_v$ را بهبود دهیم: $d_v = \min(d_v, d_u + w)$.
+    از آنجایی که $v$ از قبل در $M_1$ قرار دارد، نیازی به اضافه کردن مجدد آن به $M_1$ و صف نیست.
+-   اگر $v$ به $M_0$ تعلق داشته باشد، و اگر بتوان $d_v$ را بهبود داد ($d_v > d_u + w$)، آنگاه $d_v$ را بهبود داده و رأس $v$ را دوباره به مجموعه $M_1$ بازمی‌گردانیم و آن را در ابتدای صف قرار می‌دهیم.
 
-And of course, with each update in the array $d$ we also have to update the corresponding element in the array $p$.
+و البته، با هر به‌روزرسانی در آرایه $d$، باید عنصر متناظر در آرایه $p$ را نیز به‌روز کنیم.
 
-## Implementation
+## پیاده‌سازی
 
-We will use an array $m$ to store in which set each vertex is currently.
+از یک آرایه $m$ برای ذخیره اینکه هر رأس در حال حاضر در کدام مجموعه قرار دارد، استفاده خواهیم کرد.
 
-```{.cpp file=desopo_pape}
+```cpp file=desopo_pape
 struct Edge {
     int to, w;
 };
@@ -87,7 +87,8 @@ void shortest_paths(int v0, vector<int>& d, vector<int>& p) {
 }
 ```
 
-## Complexity
+## پیچیدگی
 
-The algorithm usually performs quite fast - in most cases, even faster than Dijkstra's algorithm.
-However there exist cases for which the algorithm takes exponential time, making it unsuitable in the worst-case. See discussions on [Stack Overflow](https://stackoverflow.com/a/67642821) and [Codeforces](https://codeforces.com/blog/entry/3793) for reference.
+این الگوریتم معمولاً بسیار سریع عمل می‌کند - در بیشتر موارد، حتی سریع‌تر از الگوریتم دایکسترا.
+با این حال، مواردی وجود دارند که الگوریتم زمان نمایی می‌برد، که آن را برای بدترین حالت نامناسب می‌سازد.
+برای مرجع، به بحث‌ها در [Stack Overflow](https://stackoverflow.com/a/67642821) و [Codeforces](https://codeforces.com/blog/entry/3793) مراجعه کنید.

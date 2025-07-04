@@ -1,6 +1,6 @@
 ---
 tags:
-  - Translated
+  
 e_maxx_link: voronoi_diagram_2d_n4
 ---
 

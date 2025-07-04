@@ -1,22 +1,22 @@
 ---
 tags:
-  - Translated
-e_maxx_link: bipartite_checking
+  - AI Translated
+e_maxx_link: bipartite-check
 ---
 
-# Check whether a graph is bipartite
+# بررسی دو بخشی بودن یک گراف
 
-A bipartite graph is a graph whose vertices can be divided into two disjoint sets so that every edge connects two vertices from different sets (i.e. there are no edges which connect vertices from the same set). These sets are usually called sides.
+گراف دو بخشی گرافی است که رئوس آن را می‌توان به دو مجموعه مجزا تقسیم کرد، به طوری که هر یال، دو رأس از مجموعه‌های متفاوت را به هم وصل کند (یعنی هیچ یالی وجود ندارد که دو رأس از یک مجموعه را به هم متصل کند). این مجموعه‌ها معمولاً «بخش» نامیده می‌شوند.
 
-You are given an undirected graph. Check whether it is bipartite, and if it is, output its sides.
+یک گراف بدون جهت به شما داده می‌شود. بررسی کنید که آیا این گراف دو بخشی است یا خیر، و اگر هست، بخش‌های آن را خروجی دهید.
 
-## Algorithm
+## الگوریتم
 
-There exists a theorem which claims that a graph is bipartite if and only if all its cycles have even length. However, in practice it's more convenient to use a different formulation of the definition: a graph is bipartite if and only if it is two-colorable.
+قضیه‌ای وجود دارد که بیان می‌کند یک گراف دو بخشی است اگر و تنها اگر تمام دورهای آن طول زوج داشته باشند. با این حال، در عمل استفاده از یک صورت‌بندی دیگر از تعریف راحت‌تر است: یک گراف دو بخشی است اگر و تنها اگر دو-رنگ‌پذیر باشد.
 
-Let's use a series of [breadth-first searches](breadth-first-search.md), starting from each vertex which hasn't been visited yet. In each search, assign the vertex from which we start to side 1. Each time we visit a yet unvisited neighbor of a vertex assigned to one side, we assign it to the other side. When we try to go to a neighbor of a vertex assigned to one side which has already been visited, we check that it has been assigned to the other side; if it has been assigned to the same side, we conclude that the graph is not bipartite. Once we've visited all vertices and successfully assigned them to sides, we know that the graph is bipartite and we have constructed its partitioning.
+بیایید از یک سری [جستجوی اول سطح](breadth-first-search.md) استفاده کنیم که از هر رأسی که هنوز بازدید نشده شروع می‌شود. در هر جستجو، رأسی که از آن شروع می‌کنیم را به بخش ۱ اختصاص می‌دهیم. هر بار که همسایه هنوز بازدید نشده‌ی یک رأس که به یک بخش تخصیص داده شده را بازدید می‌کنیم، آن را به بخش دیگر اختصاص می‌دهیم. وقتی سعی می‌کنیم به همسایه‌ای از یک رأس که به یک بخش تخصیص داده شده و قبلاً بازدید شده است برویم، بررسی می‌کنیم که آیا به بخش دیگر تخصیص داده شده است یا خیر؛ اگر به همان بخش تخصیص داده شده باشد، نتیجه می‌گیریم که گراف دو بخشی نیست. هنگامی که تمام رئوس را بازدید کرده و با موفقیت به بخش‌ها تخصیص دادیم، می‌دانیم که گراف دو بخشی است و افراز آن را ساخته‌ایم.
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
 int n;
@@ -47,7 +47,7 @@ for (int st = 0; st < n; ++st) {
 cout << (is_bipartite ? "YES" : "NO") << endl;
 ```
 
-### Practice problems:
+### مسائل تمرینی:
 
 - [SPOJ - BUGLIFE](http://www.spoj.com/problems/BUGLIFE/)
 - [Codeforces - Graph Without Long Directed Paths](https://codeforces.com/contest/1144/problem/F)

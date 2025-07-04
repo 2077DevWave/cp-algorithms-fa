@@ -1,6 +1,6 @@
 ---
 tags:
-  - Translated
+  
 e_maxx_link: longest_increasing_subseq_log
 ---
 

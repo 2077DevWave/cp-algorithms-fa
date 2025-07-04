@@ -1,6 +1,6 @@
 ---
 tags:
-  - Translated
+  
 e_maxx_link: length_of_segments_union
 ---
 

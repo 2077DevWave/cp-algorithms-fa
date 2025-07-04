@@ -1,26 +1,26 @@
 ---
 tags:
-  - Translated
-e_maxx_link: preflow_push_faster
+  - AI Translated
+e_maxx_link: push-relabel-faster
 ---
 
-# Maximum flow - Push-relabel method improved
+# جریان بیشینه - روش Push-relabel بهبودیافته
 
-We will modify the [push-relabel method](push-relabel.md) to achieve a better runtime.
+در این مقاله، [روش push-relabel](push-relabel.md) را برای دستیابی به زمان اجرای بهتر، اصلاح می‌کنیم.
 
-## Description
+## توضیحات
 
-The modification is extremely simple:
-In the previous article we chosen a vertex with excess without any particular rule.
-But it turns out, that if we always choose the vertices with the **greatest height**, and apply push and relabel operations on them, then the complexity will become better.
-Moreover, to select the vertices with the greatest height we actually don't need any data structures, we simply store the vertices with the greatest height in a list, and recalculate the list once all of them are processed (then vertices with already lower height will be added to the list), or whenever a new vertex with excess and a greater height appears (after relabeling a vertex).
+این اصلاح بسیار ساده است:
+در مقاله قبلی، رأسی با جریان اضافی را بدون هیچ قانون خاصی انتخاب می‌کردیم.
+اما مشخص شده است که اگر همیشه رأس‌هایی با **بیشترین ارتفاع** را انتخاب کرده و عملیات push و relabel را روی آن‌ها اعمال کنیم، پیچیدگی زمانی بهبود می‌یابد.
+علاوه بر این، برای انتخاب رأس‌هایی با بیشترین ارتفاع، در واقع نیازی به ساختمان داده‌ی خاصی نداریم. ما به سادگی رأس‌های با بیشترین ارتفاع را در یک لیست ذخیره می‌کنیم و این لیست را پس از پردازش همه‌ی آن‌ها مجدداً محاسبه می‌کنیم (در این صورت رأس‌هایی با ارتفاع کمتر به لیست اضافه می‌شوند)، یا هر زمان که یک رأس جدید با جریان اضافی و ارتفاع بیشتر ظاهر شود (پس از relabel کردن یک رأس)، لیست را به‌روزرسانی می‌کنیم.
 
-Despite the simplicity, this modification reduces the complexity by a lot.
-To be precise, the complexity of the resulting algorithm is $O(V E + V^2 \sqrt{E})$, which in the worst case is $O(V^3)$.
+با وجود سادگی، این تغییر، پیچیدگی را به میزان قابل توجهی کاهش می‌دهد.
+به‌طور دقیق، پیچیدگی الگوریتم حاصل برابر با $O(V E + V^2 \sqrt{E})$ است که در بدترین حالت $O(V^3)$ می‌شود.
 
-This modification was proposed by Cheriyan and Maheshwari in 1989.
+این اصلاح توسط Cheriyan و Maheshwari در سال 1989 پیشنهاد شد.
 
-## Implementation
+## پیاده‌سازی
 
 ```{.cpp file=push_relabel_faster}
 const int inf = 1000000000;

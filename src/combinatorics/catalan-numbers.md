@@ -1,53 +1,53 @@
 ---
 tags:
-  - Translated
-e_maxx_link: catalan_numbers
+  - AI Translated
+e_maxx_link: catalan-numbers
 ---
 
-# Catalan Numbers
-Catalan numbers is a number sequence, which is found useful in a number of combinatorial problems, often involving recursively-defined objects.
+# اعداد کاتالان
+اعداد کاتالان یک دنباله‌ی عددی هستند که در تعدادی از مسائل ترکیبیاتی، به‌ویژه آن‌هایی که شامل اشیاء تعریف‌شده به صورت بازگشتی هستند، کاربرد دارند.
 
-This sequence was named after the Belgian mathematician [Catalan](https://en.wikipedia.org/wiki/Eug%C3%A8ne_Charles_Catalan), who lived in the 19th century. (In fact it was known before to Euler, who lived a century before Catalan).
+این دنباله به نام ریاضی‌دان بلژیکی، [کاتالان](https://en.wikipedia.org/wiki/Eug%C3%A8ne_Charles_Catalan) که در قرن نوزدهم می‌زیست، نام‌گذاری شده است. (در واقع، این دنباله پیش از او برای اویلر، که یک قرن قبل از کاتالان زندگی می‌کرد، شناخته شده بود).
 
-The first few Catalan numbers $C_n$ (starting from zero):
+چند عدد کاتالان اول $C_n$ (با شروع از صفر) عبارتند از:
 
  $1, 1, 2, 5, 14, 42, 132, 429, 1430, \ldots$
 
-### Application in some combinatorial problems
+### کاربرد در برخی مسائل ترکیبیاتی
 
-The Catalan number $C_n$ is the solution for
+عدد کاتالان $C_n$ پاسخ مسائل زیر است:
 
-- Number of correct bracket sequence consisting of $n$ opening and $n$ closing brackets.
-- The number of rooted full binary trees with $n + 1$ leaves (vertices are not numbered). A rooted binary tree is full if every vertex has either two children or no children.
-- The number of ways to completely parenthesize $n + 1$ factors.
-- The number of triangulations of a convex polygon with $n + 2$ sides (i.e. the number of partitions of polygon into disjoint triangles by using the diagonals).
-- The number of ways to connect the $2n$ points on a circle to form $n$ disjoint chords.
-- The number of [non-isomorphic](https://en.wikipedia.org/wiki/Graph_isomorphism) full binary trees with $n$ internal nodes (i.e. nodes having at least one son).
-- The number of monotonic lattice paths from point $(0, 0)$ to point $(n, n)$ in a square lattice of size $n \times n$, which do not pass above the main diagonal (i.e. connecting $(0, 0)$ to $(n, n)$).
-- Number of permutations of length $n$ that can be [stack sorted](https://en.wikipedia.org/wiki/Stack-sortable_permutation) (i.e. it can be shown that the rearrangement is stack sorted if and only if there is no such index $i < j < k$, such that $a_k < a_i < a_j$ ).
-- The number of [non-crossing partitions](https://en.wikipedia.org/wiki/Noncrossing_partition) of a set of $n$ elements.
-- The number of ways to cover the ladder $1 \ldots n$ using $n$ rectangles (The ladder consists of $n$ columns, where $i^{th}$ column has a height $i$).
+- تعداد دنباله‌های پرانتزبندی صحیح متشکل از $n$ پرانتز باز و $n$ پرانتز بسته.
+- تعداد درختان دودویی کاملِ ریشه‌دار با $n + 1$ برگ (رأس‌ها شماره‌گذاری نشده‌اند). یک درخت دودویی ریشه‌دار کامل است اگر هر رأس یا دو فرزند داشته باشد یا هیچ فرزندی نداشته باشد.
+- تعداد روش‌های پرانتزبندی کامل $n + 1$ عامل.
+- تعداد مثلث‌بندی‌های یک چندضلعی محدب با $n + 2$ ضلع (یعنی تعداد راه‌های افراز چندضلعی به مثلث‌های مجزا با استفاده از قطرها).
+- تعداد روش‌های اتصال $2n$ نقطه روی یک دایره برای تشکیل $n$ وتر غیرمتقاطع.
+- تعداد درختان دودویی کامل [غیر یکریخت](https://en.wikipedia.org/wiki/Graph_isomorphism) با $n$ گره داخلی (یعنی گره‌هایی که حداقل یک فرزند دارند).
+- تعداد مسیرهای شبکه‌ای یکنوا از نقطه $(0, 0)$ به نقطه $(n, n)$ در یک شبکه مربعی به اندازه $n \times n$، که از بالای قطر اصلی (قطری که $(0, 0)$ را به $(n, n)$ وصل می‌کند) عبور نمی‌کنند.
+- تعداد جایگشت‌های به طول $n$ که می‌توانند [با پشته مرتب‌سازی شوند](https://en.wikipedia.org/wiki/Stack-sortable_permutation) (یعنی می‌توان نشان داد که یک بازآرایی با پشته مرتب‌شدنی است اگر و تنها اگر هیچ اندیس $i < j < k$ وجود نداشته باشد که $a_k < a_i < a_j$).
+- تعداد [افرازهای غیرمتقاطع](https://en.wikipedia.org/wiki/Noncrossing_partition) یک مجموعه از $n$ عنصر.
+- تعداد روش‌های پوشاندن نردبان $1 \ldots n$ با استفاده از $n$ مستطیل (نردبان از $n$ ستون تشکیل شده است، که ستون $i$-ام ارتفاع $i$ دارد).
 
 
-## Calculations
+## محاسبات
 
-There are two formulas for the Catalan numbers: **Recursive and Analytical**. Since, we believe that all the mentioned above problems are equivalent (have the same solution), for the proof of the formulas below we will choose the task which it is easiest to do.
+دو فرمول برای اعداد کاتالان وجود دارد: **بازگشتی و تحلیلی**. از آنجا که معتقدیم تمام مسائل ذکر شده در بالا معادل هستند (پاسخ یکسانی دارند)، برای اثبات فرمول‌های زیر، مسئله‌ای را انتخاب می‌کنیم که اثبات با آن ساده‌تر است.
 
-### Recursive formula
+### فرمول بازگشتی
  
 $$C_0 = C_1 = 1$$
 
 $$C_n = \sum_{k = 0}^{n-1} C_k C_{n-1-k} , {n} \geq 2$$
 
-The recurrence formula can be easily deduced from the problem of the correct bracket sequence.
+فرمول بازگشتی را می‌توان به راحتی از مسئله دنباله پرانتزبندی صحیح استنتاج کرد.
 
-The leftmost opening parenthesis $l$ corresponds to certain closing bracket $r$, which divides the sequence into 2 parts which in turn should be a correct sequence of brackets. Thus formula is also divided into 2 parts. If we denote $k = {r - l - 1}$, then for fixed $r$, there will be exactly $C_k C_{n-1-k}$ such bracket sequences. Summing this over all admissible $k's$, we get the recurrence relation on $C_n$.
+چپ‌ترین پرانتز باز $l$ به یک پرانتز بسته مشخص $r$ متناظر است، که دنباله را به دو بخش تقسیم می‌کند که هر کدام به نوبه خود باید یک دنباله پرانتزبندی صحیح باشند. بنابراین فرمول نیز به دو بخش تقسیم می‌شود. اگر $k = {r - l - 1}$ را تعریف کنیم، آنگاه برای یک $r$ ثابت، دقیقاً $C_k C_{n-1-k}$ دنباله پرانتزی وجود خواهد داشت. با جمع زدن این مقدار روی تمام $k$های مجاز، به رابطه بازگشتی برای $C_n$ می‌رسیم.
 
-You can also think it in this manner. By definition, $C_n$ denotes number of correct bracket sequences. Now, the sequence may be divided into 2 parts of length $k$ and ${n - k}$, each of which should be a correct bracket sequence. Example :
+همچنین می‌توانید به این شکل فکر کنید. طبق تعریف، $C_n$ تعداد دنباله‌های پرانتزبندی صحیح را نشان می‌دهد. حال، دنباله ممکن است به دو بخش به طول $k$ و ${n - k}$ تقسیم شود، که هر کدام باید یک دنباله پرانتزبندی صحیح باشند. مثال:
 
-$( ) ( ( ) )$ can be divided into $( )$ and $( ( ) )$, but cannot be divided into $( ) ($ and $( ) )$. Again summing over all admissible $k's$, we get the recurrence relation on $C_n$.
+$( ) ( ( ) )$ می‌تواند به دو بخش $( )$ و $( ( ) )$ تقسیم شود، اما نمی‌تواند به $( ) ($ و $( ) )$ تقسیم شود. دوباره با جمع زدن روی تمام $k$‌های مجاز، به رابطه بازگشتی برای $C_n$ می‌رسیم.
 
-#### C++ implementation 
+#### پیاده‌سازی با C++
 
 ```cpp
 const int MOD = ....
@@ -67,25 +67,25 @@ void init() {
 }
 ```
 
-### Analytical formula
+### فرمول تحلیلی
 
 $$C_n = \frac{1}{n + 1} {\binom{2n}{n}}$$
 
-(here $\binom{n}{k}$ denotes the usual binomial coefficient, i.e. number of ways to select $k$ objects from set of $n$ objects).
+(در اینجا $\binom{n}{k}$ ضریب دوجمله‌ای معمول را نشان می‌دهد، یعنی تعداد راه‌های انتخاب $k$ شیء از مجموعه‌ی $n$ شیء).
 
-The above formula can be easily concluded from the problem of the monotonic paths in square grid. The total number of  monotonic paths in the lattice size of $n \times n$ is given by $\binom{2n}{n}$.
+فرمول بالا را می‌توان به راحتی از مسئله مسیرهای یکنوا در شبکه مربعی نتیجه گرفت. تعداد کل مسیرهای یکنوا در یک شبکه به اندازه $n \times n$ برابر با $\binom{2n}{n}$ است.
 
-Now we count the number of monotonic paths which cross the main diagonal. Consider such paths crossing the main diagonal and find the first edge in it which is above the diagonal. Reflect the path about the diagonal all the way, going after this edge. The result is always a monotonic path in the grid $(n - 1) \times (n + 1)$. On the other hand, any monotonic path in the lattice $(n - 1) \times (n + 1)$ must intersect the diagonal. Hence, we enumerated all monotonic paths crossing the main diagonal in the lattice $n \times n$.
+حال تعداد مسیرهای یکنوایی که از قطر اصلی عبور می‌کنند را می‌شماریم. چنین مسیرهایی را که از قطر اصلی عبور می‌کنند در نظر بگیرید و اولین یالی را که بالای قطر اصلی قرار دارد پیدا کنید. کل مسیر را بعد از این یال، نسبت به قطر اصلی بازتاب دهید. نتیجه همیشه یک مسیر یکنوا در شبکه $(n - 1) \times (n + 1)$ خواهد بود. از طرف دیگر، هر مسیر یکنوا در شبکه $(n - 1) \times (n + 1)$ باید قطر را قطع کند. از این رو، ما تمام مسیرهای یکنوایی را که از قطر اصلی در شبکه $n \times n$ عبور می‌کنند، شمارش کرده‌ایم.
 
-The number of monotonic paths in the lattice $(n - 1) \times (n + 1)$ are $\binom{2n}{n-1}$ . Let us call such paths as "bad" paths. As a result, to obtain the number of monotonic paths which do not cross the main diagonal, we subtract the above "bad" paths, obtaining the formula:
+تعداد مسیرهای یکنوا در شبکه $(n - 1) \times (n + 1)$ برابر با $\binom{2n}{n-1}$ است. بیایید این مسیرها را مسیرهای «بد» بنامیم. در نتیجه، برای به دست آوردن تعداد مسیرهای یکنوایی که از قطر اصلی عبور نمی‌کنند، مسیرهای «بد» فوق را کم می‌کنیم و به فرمول زیر می‌رسیم:
 
 $$C_n = \binom{2n}{n} - \binom{2n}{n-1} = \frac{1}{n + 1} \binom{2n}{n} , {n} \geq 0$$
 
-## Reference
+## مرجع
 
-- [Catalan Number by Tom Davis](http://www.geometer.org/mathcircles/catalan.pdf)
+- [اعداد کاتالان نوشته تام دیویس](http://www.geometer.org/mathcircles/catalan.pdf)
 
-## Practice Problems
+## مسائل تمرینی
 - [Codechef - PANSTACK](https://www.codechef.com/APRIL12/problems/PANSTACK/)
 - [Spoj - Skyline](http://www.spoj.com/problems/SKYLINE/)
 - [UVA - Safe Salutations](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=932)

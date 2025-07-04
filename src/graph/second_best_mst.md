@@ -1,81 +1,79 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: second_best_mst
 ---
 
-# Second Best Minimum Spanning Tree
+# دومین درخت پوشای کمینه
 
-A Minimum Spanning Tree $T$ is a tree for the given graph $G$ which spans over all vertices of the given graph and has the minimum weight sum of all the edges, from all the possible spanning trees.
-A second best MST $T'$ is a spanning tree, that has the second minimum weight sum of all the edges, from all the possible spanning trees of the graph $G$.
+یک درخت پوشای کمینه (Minimum Spanning Tree) $T$ برای یک گراف داده‌شده‌ی $G$ درختی است که تمام رئوس گراف را پوشش می‌دهد و از بین تمام درخت‌های پوشای ممکن، کمترین مجموع وزن یال‌ها را دارد.
+یک دومین درخت پوشای کمینه $T'$، درخت پوشایی است که از بین تمام درخت‌های پوشای ممکن برای گراف $G$، دومین مجموع وزن کمینه را در بین یال‌هایش دارد.
 
-## Observation
+## مشاهده
 
-Let $T$ be the Minimum Spanning Tree of a graph $G$.
-It can be observed, that the second best Minimum Spanning Tree differs from $T$ by only one edge replacement. (For a proof of this statement refer to problem 23-1 [here](http://www-bcf.usc.edu/~shanghua/teaching/Spring2010/public_html/files/HW2_Solutions_A.pdf)).
+فرض کنید $T$ درخت پوشای کمینه گراف $G$ باشد.
+می‌توان مشاهده کرد که دومین درخت پوشای کمینه با درخت پوشای کمینه ($T$) فقط در یک یال تفاوت دارد. (برای اثبات این گزاره، به مسئله‌ی ۱-۲۳ [اینجا](http://www-bcf.usc.edu/~shanghua/teaching/Spring2010/public_html/files/HW2_Solutions_A.pdf) مراجعه کنید).
 
-So we need to find an edge $e_{new}$ which is in not in $T$, and replace it with an edge in $T$ (let it be $e_{old}$) such that the new graph $T' = (T \cup \{e_{new}\}) \setminus \{e_{old}\}$ is a spanning tree and the weight difference ($e_{new} - e_{old}$) is minimum.
+بنابراین، باید یالی مانند $e_{new}$ را پیدا کنیم که در $T$ وجود ندارد و آن را با یک یال از $T$ (فرض کنید $e_{old}$) جایگزین کنیم، به طوری که گراف جدید $T' = (T \cup \{e_{new}\}) \setminus \{e_{old}\}$ یک درخت پوشا باشد و اختلاف وزن ($e_{new} - e_{old}$) کمینه شود.
 
+## استفاده از الگوریتم کراسکال
 
-## Using Kruskal's Algorithm
+می‌توانیم ابتدا با استفاده از الگوریتم کراسکال، درخت پوشای کمینه (MST) را پیدا کنیم و سپس تلاش کنیم هر بار یک یال از آن را حذف کرده و با یال دیگری جایگزین کنیم.
 
-We can use Kruskal's algorithm to find the MST first, and then just try to remove a single edge from it and replace it with another.
+۱. یال‌ها را در زمان $O(E \log E)$ مرتب کرده، سپس با استفاده از الگوریتم کراسکال در زمان $O(E)$ یک MST پیدا کنید.
+۲. به ازای هر یال موجود در MST (که $V-1$ یال خواهد داشت)، آن را به طور موقت از لیست یال‌ها خارج کنید تا نتواند انتخاب شود.
+۳. سپس، با استفاده از یال‌های باقی‌مانده، دوباره در زمان $O(E)$ یک MST پیدا کنید.
+۴. این کار را برای تمام یال‌های موجود در MST تکرار کرده و بهترین نتیجه را از بین همه انتخاب کنید.
 
-1. Sort the edges in $O(E \log E)$, then find a MST using Kruskal in $O(E)$.
-2. For each edge in the MST (we will have $V-1$ edges in it) temporarily exclude it from the edge list so that it cannot be chosen.
-3. Then, again try to find a MST in $O(E)$ using the remaining edges.
-4. Do this for all the edges in MST, and take the best of all.
+توجه: نیازی به مرتب‌سازی دوباره‌ی یال‌ها در مرحله ۳ نیست.
 
-Note: we don’t need to sort the edges again in for Step 3.
+بنابراین، پیچیدگی زمانی کلی برابر با $O(E \log V + E + V E)$ = $O(V E)$ خواهد بود.
 
-So, the overall time complexity will be $O(E \log V + E + V E)$ = $O(V E)$.
+## مدل‌سازی به مسئله‌ی پایین‌ترین جد مشترک (LCA)
 
+در رویکرد قبلی، تمام حالت‌های ممکن برای حذف یک یال از MST را امتحان کردیم.
+در اینجا دقیقاً برعکس عمل خواهیم کرد.
+سعی می‌کنیم هر یالی را که از قبل در MST وجود ندارد، اضافه کنیم.
 
-## Modeling into a Lowest Common Ancestor (LCA) problem
+۱. یال‌ها را در زمان $O(E \log E)$ مرتب کرده، سپس با استفاده از الگوریتم کراسکال در زمان $O(E)$ یک MST پیدا کنید.
+۲. به ازای هر یال $e$ که در MST وجود ندارد، آن را به طور موقت به MST اضافه کنید تا یک دور ایجاد شود. این دور از LCA عبور خواهد کرد.
+۳. یال $k$ با بیشترین وزن را در این دور پیدا کنید که با $e$ برابر نباشد. این کار با دنبال کردن والدین رئوس یال $e$ تا رسیدن به LCA انجام می‌شود.
+۴. یال $k$ را به طور موقت حذف کنید تا یک درخت پوشای جدید ایجاد شود.
+۵. اختلاف وزن $\delta = weight(e) - weight(k)$ را محاسبه کرده و آن را به همراه یال تغییریافته به خاطر بسپارید.
+۶. مرحله ۲ را برای تمام یال‌های دیگر تکرار کنید و درخت پوشایی را که کمترین اختلاف وزن را با MST دارد، برگردانید.
 
-In the previous approach we tried all possibilities of removing one edge of the MST.
-Here we will do the exact opposite.
-We try to add every edge that is not already in the MST.
+پیچیدگی زمانی الگوریتم به نحوه‌ی محاسبه‌ی $k$ها بستگی دارد، که همان یال‌های با بیشترین وزن در مرحله ۲ این الگوریتم هستند.
+یک راه برای محاسبه‌ی بهینه‌ی آن‌ها در زمان $O(E \log V)$، تبدیل مسئله به یک مسئله‌ی پایین‌ترین جد مشترک (LCA) است.
 
-1. Sort the edges in $O(E \log E)$, then find a MST using Kruskal in $O(E)$.
-2. For each edge $e$ not already in the MST, temporarily add it to the MST, creating a cycle. The cycle will pass through the LCA.
-3. Find the edge $k$ with maximal weight in the cycle that is not equal to $e$, by following the parents of the nodes of edge $e$, up to the LCA.
-4. Remove $k$ temporarily, creating a new spanning tree.
-5. Compute the weight difference $\delta = weight(e) - weight(k)$, and remember it together with the changed edge.
-6. Repeat step 2 for all other edges, and return the spanning tree with the smallest weight difference to the MST.
+ما با ریشه‌دار کردن MST، مسئله‌ی LCA را پیش‌پردازش می‌کنیم و همچنین بیشترین وزن یال‌ها را برای هر رأس در مسیر به سمت اجدادش محاسبه خواهیم کرد.
+این کار را می‌توان با استفاده از [پرش دودویی (Binary Lifting)](lca_binary_lifting.md) برای LCA انجام داد.
 
-The time complexity of the algorithm depends on how we compute the $k$s, which are the maximum weight edges in step 2 of this algorithm.
-One way to compute them efficiently in $O(E \log V)$ is to transform the problem into a Lowest Common Ancestor (LCA) problem.
+پیچیدگی زمانی نهایی این رویکرد $O(E \log V)$ است.
 
-We will preprocess the LCA by rooting the MST and will also compute the maximum edge weights for each node on the paths to their ancestors. 
-This can be done using [Binary Lifting](lca_binary_lifting.md) for LCA.
-
-The final time complexity of this approach is $O(E \log V)$.
-
-For example:
+برای مثال:
 
 <div style="text-align: center;">
   <img src="second_best_mst_1.png" alt="MST">
-  <img src="second_best_mst_2.png" alt="Second best MST">
+  <img src="second_best_mst_2.png" alt="دومین MST کمینه">
   <br />
 
-*In the image left is the MST and right is the second best MST.*
+*در تصویر، سمت چپ MST و سمت راست دومین MST کمینه است.*
 </div>
 
+در گراف داده‌شده، فرض کنید MST را در رأس آبی‌رنگ بالا ریشه‌دار کنیم، و سپس الگوریتم خود را با انتخاب یال‌هایی که در MST نیستند، اجرا کنیم.
+فرض کنید اولین یال انتخاب‌شده، یال $(u, v)$ با وزن ۳۶ باشد.
+اضافه کردن این یال به درخت، یک دور به صورت ۳۶ - ۷ - ۲ - ۳۴ ایجاد می‌کند.
 
-In the given graph suppose we root the MST at the blue vertex on the top, and then run our algorithm by start picking the edges not in MST.
-Let the edge picked first be the edge $(u, v)$ with weight 36.
-Adding this edge to the tree forms a cycle 36 - 7 - 2 - 34.
+حالا با پیدا کردن $\text{LCA}(u, v) = p$، یال با بیشترین وزن را در این دور پیدا می‌کنیم.
+ما یال با بیشترین وزن را در مسیرهای از $u$ به $p$ و از $v$ به $p$ محاسبه می‌کنیم.
+توجه: در برخی موارد، $\text{LCA}(u, v)$ می‌تواند با $u$ یا $v$ برابر باشد.
+در این مثال، یال با وزن ۳۴ به عنوان یال با بیشترین وزن در دور به دست می‌آید.
+با حذف این یال، یک درخت پوشای جدید به دست می‌آوریم که اختلاف وزنی برابر با تنها ۲ واحد دارد.
 
-Now we will find the maximum weight edge in this cycle by finding the $\text{LCA}(u, v) = p$.
-We compute the maximum weight edge on the paths from $u$ to $p$ and from $v$ to $p$.
-Note: the $\text{LCA}(u, v)$ can also be equal to $u$ or $v$ in some case.
-In this example we will get the edge with weight 34 as maximum edge weight in the cycle.
-By removing the edge we get a new spanning tree, that has a weight difference of only 2.
+پس از انجام این کار برای تمام یال‌های دیگری که بخشی از MST اولیه نیستند، می‌بینیم که این درخت پوشا، در کل دومین درخت پوشای کمینه نیز بوده است.
+انتخاب یال با وزن ۱۴، وزن درخت را ۷ واحد افزایش می‌دهد، انتخاب یال با وزن ۲۷ آن را ۱۴ واحد افزایش می‌دهد، انتخاب یال با وزن ۲۸ آن را ۲۱ واحد افزایش می‌دهد و انتخاب یال با وزن ۳۹، وزن درخت را ۵ واحد افزایش می‌دهد.
 
-After doing this also with all other edges that are not part of the initial MST, we can see that this spanning tree was also the second best spanning tree overall.
-Choosing the edge with weight 14 will increase the weight of the tree by 7, choosing the edge with weight 27 increases it by 14, choosing the edge with weight 28 increases it by 21, and choosing the edge with weight 39 will increase the tree by 5.
-
-## Implementation
+## پیاده‌سازی
 ```cpp
 struct edge {
     int s, e, w, id;
@@ -148,7 +146,7 @@ int main(void) {
         size[i] = 1;
     }
     for (int i = 1; i <= m; i++) {
-        cin >> a >> b >> w; // 1-indexed
+        cin >> a >> b >> w; // اندیس‌گذاری از ۱
         edges.push_back({a, b, w, i - 1});
     }
     sort(edges.begin(), edges.end());
@@ -195,10 +193,10 @@ int main(void) {
 }
 ```
 
-## References
+## منابع
 
-1. Competitive Programming-3, by Steven Halim
-2. [web.mit.edu](http://web.mit.edu/6.263/www/quiz1-f05-sol.pdf)
+۱. Competitive Programming-3، نوشته‌ی Steven Halim
+۲. [web.mit.edu](http://web.mit.edu/6.263/www/quiz1-f05-sol.pdf)
 
-## Problems
+## مسائل
 * [Codeforces - Minimum spanning tree for each edge](https://codeforces.com/problemset/problem/609/E)

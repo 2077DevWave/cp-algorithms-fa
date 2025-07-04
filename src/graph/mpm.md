@@ -1,42 +1,43 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: mpm
 ---
 
-# Maximum flow - MPM algorithm
+# جریان بیشینه - الگوریتم MPM
 
-MPM (Malhotra, Pramodh-Kumar and Maheshwari) algorithm solves the maximum flow problem in $O(V^3)$. This algorithm is similar to [Dinic's algorithm](dinic.md).
+الگوریتم MPM (مخفف Malhotra, Pramodh-Kumar and Maheshwari) مسئله جریان بیشینه را در زمان $O(V^3)$ حل می‌کند. این الگوریتم شبیه به [الگوریتم دینیک](dinic.md) است.
 
-## Algorithm
+## الگوریتم
 
-Like Dinic's algorithm, MPM runs in phases, during each phase we find the blocking flow in the layered network of the residual network of $G$.
-The main difference from Dinic's is how we find the blocking flow.
-Consider the layered network $L$.
-For each node we define its' _inner potential_ and _outer potential_ as:
+مانند الگوریتم دینیک، MPM در فازهایی اجرا می‌شود که طی هر فاز، جریان مسدودکننده را در شبکه لایه‌ایِ گراف باقیمانده $G$ پیدا می‌کنیم.
+تفاوت اصلی آن با الگوریتم دینیک در نحوه یافتن جریان مسدودکننده است.
+شبکه لایه‌ای $L$ را در نظر بگیرید.
+برای هر گره، _پتانسیل داخلی_ و _پتانسیل خارجی_ آن را به صورت زیر تعریف می‌کنیم:
 
 $$\begin{align}
 p_{in}(v) &= \sum\limits_{(u, v)\in L}(c(u, v) - f(u, v)) \\\\
 p_{out}(v) &= \sum\limits_{(v, u)\in L}(c(v, u) - f(v, u))
 \end{align}$$
 
-Also we set $p_{in}(s) = p_{out}(t) = \infty$.
-Given $p_{in}$ and $p_{out}$ we define the _potential_ as $p(v) = min(p_{in}(v), p_{out}(v))$.
-We call a node $r$ a _reference node_ if $p(r) = min\{p(v)\}$.
-Consider a reference node $r$.
-We claim that the flow can be increased by $p(r)$ in such a way that $p(r)$ becomes $0$.
-It is true because $L$ is acyclic, so we can push the flow out of $r$ by outgoing edges and it will reach $t$ because each node has enough outer potential to push the flow out when it reaches it.
-Similarly, we can pull the flow from $s$.
-The construction of the blocked flow is based on this fact.
-On each iteration we find a reference node and push the flow from $s$ to $t$ through $r$.
-This process can be simulated by BFS.
-All completely saturated arcs can be deleted from $L$ as they won't be used later in this phase anyway.
-Likewise, all the nodes different from $s$ and $t$ without outgoing or incoming arcs can be deleted.
+همچنین، قرار می‌دهیم $p_{in}(s) = p_{out}(t) = \infty$.
+با داشتن $p_{in}$ و $p_{out}$، _پتانسیل_ را به صورت $p(v) = min(p_{in}(v), p_{out}(v))$ تعریف می‌کنیم.
+گره $r$ را یک _گره مرجع_ می‌نامیم اگر $p(r) = min\{p(v)\}$ باشد.
+یک گره مرجع $r$ را در نظر بگیرید.
+ادعا می‌کنیم که جریان را می‌توان به اندازه‌ی $p(r)$ افزایش داد به طوری که $p(r)$ برابر با $0$ شود.
+این ادعا درست است زیرا $L$ غیرمدور است، پس می‌توانیم جریان را از $r$ از طریق یال‌های خروجی‌اش هدایت کنیم (push) و این جریان به $t$ خواهد رسید. دلیل این امر آن است که هر گره پتانسیل خارجی کافی برای هدایت جریانی که به آن می‌رسد را دارد.
+به طور مشابه، می‌توانیم جریان را از $s$ بیرون بکشیم (pull).
+ساخت جریان مسدودکننده بر اساس این واقعیت است.
+در هر تکرار، یک گره مرجع پیدا کرده و جریان را از $s$ به $t$ از طریق $r$ عبور می‌دهیم.
+این فرآیند را می‌توان با BFS شبیه‌سازی کرد.
+تمام یال‌های کاملاً اشباع‌شده را می‌توان از $L$ حذف کرد، زیرا در ادامه این فاز به هر حال استفاده نخواهند شد.
+به همین ترتیب، تمام گره‌های به جز $s$ و $t$ که یال ورودی یا خروجی ندارند را نیز می‌توان حذف کرد.
 
-Each phase works in $O(V^2)$ because there are at most $V$ iterations (because at least the chosen reference node is deleted), and on each iteration we delete all the edges we passed through except at most $V$.
-Summing, we get $O(V^2 + E) = O(V^2)$.
-Since there are less than $V$ phases (see the proof [here](dinic.md)), MPM works in $O(V^3)$ total.
+هر فاز در زمان $O(V^2)$ اجرا می‌شود، زیرا حداکثر $V$ تکرار وجود دارد (چون حداقل گره مرجع انتخاب‌شده حذف می‌شود)، و در هر تکرار، تمام یال‌هایی که از آنها عبور کرده‌ایم به جز حداکثر $V$ یال را حذف می‌کنیم.
+در مجموع، به $O(V^2 + E) = O(V^2)$ می‌رسیم.
+از آنجایی که کمتر از $V$ فاز وجود دارد (اثبات را [اینجا](dinic.md) ببینید)، الگوریتم MPM در مجموع در زمان $O(V^3)$ اجرا می‌شود.
 
-## Implementation
+## پیاده‌سازی
 
 ```{.cpp file=mpm}
 struct MPM{

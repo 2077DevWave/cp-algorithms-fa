@@ -1,113 +1,113 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: mst_prim
 ---
 
-# Minimum spanning tree - Prim's algorithm
+# درخت پوشای کمینه - الگوریتم پریم
 
-Given a weighted, undirected graph $G$ with $n$ vertices and $m$ edges.
-You want to find a spanning tree of this graph which connects all vertices and has the least weight (i.e. the sum of weights of edges is minimal).
-A spanning tree is a set of edges such that any vertex can reach any other by exactly one simple path.
-The spanning tree with the least weight is called a minimum spanning tree.
+یک گراف وزن‌دار و بدون جهت $G$ با $n$ رأس و $m$ یال داده شده است.
+شما می‌خواهید یک درخت پوشا از این گراف پیدا کنید که تمام رئوس را به هم متصل کرده و کمترین وزن را داشته باشد (یعنی مجموع وزن یال‌ها کمینه باشد).
+یک درخت پوشا مجموعه‌ای از یال‌هاست به طوری که از هر رأس بتوان دقیقاً از طریق یک مسیر ساده به هر رأس دیگری رسید.
+به درخت پوشا با کمترین وزن، درخت پوشای کمینه گفته می‌شود.
 
-In the left image you can see a weighted undirected graph, and in the right image you can see the corresponding minimum spanning tree.
+در تصویر سمت چپ می‌توانید یک گراف وزن‌دار بدون جهت و در تصویر سمت راست، درخت پوشای کمینه متناظر با آن را مشاهده کنید.
 
 <div style="text-align: center;">
-  <img src="MST_before.png" alt="Random graph">
-  <img src="MST_after.png" alt="MST of this graph">
+  <img src="MST_before.png" alt="یک گراف تصادفی">
+  <img src="MST_after.png" alt="درخت پوشای کمینه این گراف">
 </div>
 
-It is easy to see that any spanning tree will necessarily contain $n-1$ edges.
+به راحتی می‌توان دید که هر درخت پوشایی لزوماً $n-1$ یال خواهد داشت.
 
-This problem appears quite naturally in a lot of problems.
-For instance in the following problem:
-there are $n$ cities and for each pair of cities we are given the cost to build a road between them (or we know that is physically impossible to build a road between them).
-We have to build roads, such that we can get from each city to every other city, and the cost for building all roads is minimal.
+این مسئله به طور طبیعی در مسائل زیادی ظاهر می‌شود.
+برای مثال در مسئله زیر:
+$n$ شهر وجود دارد و برای هر جفت شهر، هزینه ساخت جاده بین آن‌ها داده شده است (یا می‌دانیم که ساخت جاده بین آن‌ها از نظر فیزیکی غیرممکن است).
+باید جاده‌ها را طوری بسازیم که بتوان از هر شهر به هر شهر دیگری رفت و هزینه ساخت تمام جاده‌ها کمینه باشد.
 
-## Prim's Algorithm
+## الگوریتم پریم
 
-This algorithm was originally discovered by the Czech mathematician Vojtěch Jarník in 1930.
-However this algorithm is mostly known as Prim's algorithm after the American mathematician Robert Clay Prim, who rediscovered and republished it in 1957.
-Additionally Edsger Dijkstra published this algorithm in 1959.
+این الگوریتم در اصل توسط ریاضی‌دان چک، Vojtěch Jarník در سال ۱۹۳۰ کشف شد.
+با این حال، این الگوریتم بیشتر با نام الگوریتم پریم شناخته می‌شود که برگرفته از نام ریاضی‌دان آمریکایی، Robert Clay Prim است که آن را در سال ۱۹۵۷ دوباره کشف و منتشر کرد.
+علاوه بر این، Edsger Dijkstra نیز این الگوریتم را در سال ۱۹۵۹ منتشر کرد.
 
-### Algorithm description
+### شرح الگوریتم
 
-Here we describe the algorithm in its simplest form.
-The minimum spanning tree is built gradually by adding edges one at a time.
-At first the spanning tree consists only of a single vertex (chosen arbitrarily).
-Then the minimum weight edge outgoing from this vertex is selected and added to the spanning tree.
-After that the spanning tree already consists of two vertices.
-Now select and add the edge with the minimum weight that has one end in an already selected vertex (i.e. a vertex that is already part of the spanning tree), and the other end in an unselected vertex.
-And so on, i.e. every time we select and add the edge with minimal weight that connects one selected vertex with one unselected vertex.
-The process is repeated until the spanning tree contains all vertices (or equivalently until we have $n - 1$ edges).
+در اینجا الگوریتم را در ساده‌ترین شکل خود توصیف می‌کنیم.
+درخت پوشای کمینه به تدریج و با افزودن یال‌ها یکی پس از دیگری ساخته می‌شود.
+در ابتدا درخت پوشا تنها از یک رأس (که به صورت دلخواه انتخاب می‌شود) تشکیل شده است.
+سپس یالی با کمترین وزن که از این رأس خارج می‌شود، انتخاب شده و به درخت پوشا اضافه می‌شود.
+پس از آن، درخت پوشا شامل دو رأس خواهد بود.
+حالا یالی با کمترین وزن را انتخاب و اضافه می‌کنیم که یک سر آن در یک رأسِ از قبل انتخاب شده (یعنی رأسی که قبلاً جزئی از درخت پوشا شده) و سر دیگر آن در یک رأس انتخاب نشده قرار دارد.
+این روند به همین ترتیب ادامه می‌یابد، یعنی هر بار یالی با کمترین وزن را انتخاب و اضافه می‌کنیم که یک رأس انتخاب شده را به یک رأس انتخاب نشده متصل می‌کند.
+این فرآیند تا زمانی که درخت پوشا شامل تمام رئوس شود (یا معادل آن، تا زمانی که $n - 1$ یال داشته باشیم) تکرار می‌شود.
 
-In the end the constructed spanning tree will be minimal.
-If the graph was originally not connected, then there doesn't exist a spanning tree, so the number of selected edges will be less than $n - 1$.
+در پایان، درخت پوشای ساخته شده، کمینه خواهد بود.
+اگر گراف اصلی همبند نباشد، آنگاه درخت پوشایی وجود نخواهد داشت، بنابراین تعداد یال‌های انتخاب شده کمتر از $n - 1$ خواهد بود.
 
-### Proof
+### اثبات
 
-Let the graph $G$ be connected, i.e. the answer exists.
-We denote by $T$ the resulting graph found by Prim's algorithm, and by $S$ the minimum spanning tree.
-Obviously $T$ is indeed a spanning tree and a subgraph of $G$.
-We only need to show that the weights of $S$ and $T$ coincide.
+فرض کنید گراف $G$ همبند است، یعنی جواب وجود دارد.
+گراف حاصل از الگوریتم پریم را با $T$ و درخت پوشای کمینه را با $S$ نمایش می‌دهیم.
+واضح است که $T$ در واقع یک درخت پوشا و زیرگرافی از $G$ است.
+فقط باید نشان دهیم که وزن‌های $S$ و $T$ یکسان هستند.
 
-Consider the first time in the algorithm when we add an edge to $T$ that is not part of $S$.
-Let us denote this edge with $e$, its ends by $a$ and $b$, and the set of already selected vertices as $V$ ($a \in V$ and $b \notin V$, or vice versa).
+اولین باری را در الگوریتم در نظر بگیرید که یالی به $T$ اضافه می‌کنیم که جزئی از $S$ نیست.
+این یال را با $e$، دو سر آن را با $a$ و $b$ و مجموعه رئوس از قبل انتخاب شده را با $V$ نشان می‌دهیم ($a \in V$ و $b \notin V$ یا برعکس).
 
-In the minimal spanning tree $S$ the vertices $a$ and $b$ are connected by some path $P$.
-On this path we can find an edge $f$ such that one end of $f$ lies in $V$ and the other end doesn't.
-Since the algorithm chose $e$ instead of $f$, it means that the weight of $f$ is greater or equal to the weight of $e$.
+در درخت پوشای کمینه $S$، رئوس $a$ و $b$ با مسیری به نام $P$ به هم متصل هستند.
+در این مسیر می‌توانیم یالی مانند $f$ پیدا کنیم که یک سر آن در $V$ و سر دیگرش خارج از $V$ باشد.
+از آنجایی که الگوریتم، $e$ را به جای $f$ انتخاب کرده است، به این معنی است که وزن $f$ بزرگتر یا مساوی وزن $e$ است.
 
-We add the edge $e$ to the minimum spanning tree $S$ and remove the edge $f$.
-By adding $e$ we created a cycle, and since $f$ was also part of the only cycle, by removing it the resulting graph is again free of cycles.
-And because we only removed an edge from a cycle, the resulting graph is still connected.
+یال $e$ را به درخت پوشای کمینه $S$ اضافه کرده و یال $f$ را حذف می‌کنیم.
+با افزودن $e$ یک دور ایجاد کردیم، و از آنجا که $f$ نیز بخشی از تنها دور موجود بود، با حذف آن، گراف حاصل دوباره بدون دور خواهد بود.
+و چون ما فقط یک یال از یک دور را حذف کرده‌ایم، گراف حاصل همچنان همبند است.
 
-The resulting spanning tree cannot have a larger total weight, since the weight of $e$ was not larger than the weight of $f$, and it also cannot have a smaller weight since $S$ was a minimum spanning tree.
-This means that by replacing the edge $f$ with $e$ we generated a different minimum spanning tree.
-And $e$ has to have the same weight as $f$.
+درخت پوشای حاصل نمی‌تواند وزن کل بیشتری داشته باشد، زیرا وزن $e$ بیشتر از وزن $f$ نبود، و همچنین نمی‌تواند وزن کمتری داشته باشد زیرا $S$ یک درخت پوشای کمینه بود.
+این به این معنی است که با جایگزین کردن یال $f$ با $e$، ما یک درخت پوشای کمینه متفاوت تولید کرده‌ایم.
+و وزن $e$ باید با وزن $f$ یکسان باشد.
 
-Thus all the edges we pick in Prim's algorithm have the same weights as the edges of any minimum spanning tree, which means that Prim's algorithm really generates a minimum spanning tree.
+بنابراین، تمام یال‌هایی که در الگوریتم پریم انتخاب می‌کنیم، وزن‌های یکسانی با یال‌های هر درخت پوشای کمینه دارند، که به این معنی است که الگوریتم پریم واقعاً یک درخت پوشای کمینه تولید می‌کند.
 
-## Implementation
+## پیاده‌سازی
 
-The complexity of the algorithm depends on how we search for the next minimal edge among the appropriate edges.
-There are multiple approaches leading to different complexities and different implementations.
+پیچیدگی الگوریتم به این بستگی دارد که چگونه یال کمینه بعدی را از میان یال‌های مناسب جستجو می‌کنیم.
+رویکردهای متعددی وجود دارد که به پیچیدگی‌ها و پیاده‌سازی‌های متفاوتی منجر می‌شوند.
 
-### Trivial implementations: $O(n m)$ and $O(n^2 + m \log n)$
+### پیاده‌سازی‌های ساده: $O(n m)$ و $O(n^2 + m \log n)$
 
-If we search the edge by iterating over all possible edges, then it takes $O(m)$ time to find the edge with the minimal weight.
-The total complexity will be $O(n m)$.
-In the worst case this is $O(n^3)$, really slow.
+اگر با پیمایش تمام یال‌های ممکن به دنبال یال مورد نظر بگردیم، پیدا کردن یال با کمترین وزن $O(m)$ زمان می‌برد.
+پیچیدگی کل $O(n m)$ خواهد بود.
+در بدترین حالت این برابر با $O(n^3)$ است که بسیار کند است.
 
-This algorithm can be improved if we only look at one edge from each already selected vertex.
-For example we can sort the edges from each vertex in ascending order of their weights, and store a pointer to the first valid edge (i.e. an edge that goes to an non-selected vertex).
-Then after finding and selecting the minimal edge, we update the pointers.
-This give a complexity of $O(n^2 + m)$, and for sorting the edges an additional $O(m \log n)$, which gives the complexity $O(n^2 \log n)$ in the worst case.
+این الگوریتم را می‌توان بهبود بخشید اگر فقط به یک یال از هر رأس از قبل انتخاب شده نگاه کنیم.
+برای مثال، می‌توانیم یال‌های هر رأس را به ترتیب صعودی وزنشان مرتب کرده و یک اشاره‌گر به اولین یال معتبر (یعنی یالی که به یک رأس انتخاب نشده می‌رود) ذخیره کنیم.
+سپس پس از یافتن و انتخاب یال کمینه، اشاره‌گرها را به‌روزرسانی می‌کنیم.
+این کار پیچیدگی $O(n^2 + m)$ و برای مرتب‌سازی یال‌ها $O(m \log n)$ اضافه می‌کند که در بدترین حالت پیچیدگی $O(n^2 \log n)$ را به ما می‌دهد.
 
-Below we consider two slightly different algorithms, one for dense and one for sparse graphs, both with a better complexity.
+در ادامه دو الگوریتم کمی متفاوت را بررسی می‌کنیم، یکی برای گراف‌های متراکم و دیگری برای گراف‌های خلوت که هر دو پیچیدگی بهتری دارند.
 
-### Dense graphs: $O(n^2)$
+### گراف‌های متراکم: $O(n^2)$
 
-We approach this problem from a different angle:
-for every not yet selected vertex we will store the minimum edge to an already selected vertex.
+ما از زاویه‌ای دیگر به این مسئله می‌پردازیم:
+برای هر رأس که هنوز انتخاب نشده است، یال با کمترین وزن به یک رأس از قبل انتخاب شده را ذخیره می‌کنیم.
 
-Then during a step we only have to look at these minimum weight edges, which will have a complexity of $O(n)$.
+سپس در هر مرحله، فقط باید به این یال‌های با وزن کمینه نگاه کنیم که پیچیدگی آن $O(n)$ خواهد بود.
 
-After adding an edge some minimum edge pointers have to be recalculated.
-Note that the weights only can decrease, i.e. the minimal weight edge of every not yet selected vertex might stay the same, or it will be updated by an edge to the newly selected vertex.
-Therefore this phase can also be done in $O(n)$.
+پس از افزودن یک یال، برخی از اشاره‌گرهای یال کمینه باید دوباره محاسبه شوند.
+توجه داشته باشید که وزن‌ها فقط می‌توانند کاهش یابند، یعنی یال با کمترین وزن برای هر رأس انتخاب نشده ممکن است همان باقی بماند یا با یک یال به رأس تازه انتخاب شده به‌روز شود.
+بنابراین، این مرحله نیز می‌تواند در $O(n)$ انجام شود.
 
-Thus we received a version of Prim's algorithm with the complexity $O(n^2)$.
+در نتیجه، به نسخه‌ای از الگوریتم پریم با پیچیدگی $O(n^2)$ رسیدیم.
 
-In particular this implementation is very convenient for the Euclidean Minimum Spanning Tree problem:
-we have $n$ points on a plane and the distance between each pair of points is the Euclidean distance between them, and we want to find a minimum spanning tree for this complete graph.
-This task can be solved by the described algorithm in $O(n^2)$ time and $O(n)$ memory, which is not possible with [Kruskal's algorithm](mst_kruskal.md).
+این پیاده‌سازی به ویژه برای مسئله درخت پوشای کمینه اقلیدسی (Euclidean Minimum Spanning Tree) بسیار مناسب است:
+$n$ نقطه روی یک صفحه داریم و فاصله بین هر جفت نقطه، فاصله اقلیدسی بین آن‌هاست و می‌خواهیم یک درخت پوشای کمینه برای این گراف کامل پیدا کنیم.
+این کار را می‌توان با الگوریتم توصیف شده در زمان $O(n^2)$ و حافظه $O(n)$ حل کرد، که با [الگوریتم کراسکال](mst_kruskal.md) امکان‌پذیر نیست.
 
 ```cpp
 int n;
-vector<vector<int>> adj; // adjacency matrix of graph
-const int INF = 1000000000; // weight INF means there is no edge
+vector<vector<int>> adj; // ماتریس مجاورت گراف
+const int INF = 1000000000; // وزن INF به معنی عدم وجود یال است
 
 struct Edge {
     int w = INF, to = -1;
@@ -146,20 +146,20 @@ void prim() {
 }
 ```
 
-The adjacency matrix `adj[][]` of size $n \times n$ stores the weights of the edges, and it uses the weight `INF` if there doesn't exist an edge between two vertices.
-The algorithm uses two arrays: the flag `selected[]`, which indicates which vertices we already have selected, and the array `min_e[]` which stores the edge with minimal weight to an selected vertex for each not-yet-selected vertex (it stores the weight and the end vertex).
-The algorithm does $n$ steps, in each iteration the vertex with the smallest edge weight is selected, and the `min_e[]` of all other vertices gets updated.
+ماتریس مجاورت `adj[][]` با اندازه $n \times n$ وزن یال‌ها را ذخیره می‌کند و اگر یالی بین دو رأس وجود نداشته باشد از وزن `INF` استفاده می‌کند.
+الگوریتم از دو آرایه استفاده می‌کند: پرچم `selected[]` که نشان می‌دهد کدام رئوس را قبلاً انتخاب کرده‌ایم، و آرایه `min_e[]` که برای هر رأس هنوز انتخاب نشده، یال با کمترین وزن به یک رأس انتخاب شده را ذخیره می‌کند (وزن و رأس مقصد را ذخیره می‌کند).
+الگوریتم $n$ مرحله انجام می‌دهد، در هر تکرار، رأسی که کوچکترین وزن یال را دارد انتخاب شده و `min_e[]` برای تمام رئوس دیگر به‌روزرسانی می‌شود.
 
-### Sparse graphs: $O(m \log n)$
+### گراف‌های خلوت: $O(m \log n)$
 
-In the above described algorithm it is possible to interpret the operations of finding the minimum and modifying some values as set operations.
-These two classical operations are supported by many data structure, for example by `set` in C++ (which are implemented via red-black trees).
+در الگوریتم توصیف شده در بالا، می‌توان عملیات یافتن کمینه و تغییر برخی مقادیر را به عنوان عملیات روی مجموعه (set) تفسیر کرد.
+این دو عملیات کلاسیک توسط بسیاری از ساختمان داده‌ها پشتیبانی می‌شوند، برای مثال `set` در C++ (که از طریق درخت‌های قرمز-سیاه پیاده‌سازی شده‌اند).
 
-The main algorithm remains the same, but now we can find the minimum edge in $O(\log n)$ time.
-On the other hand recomputing the pointers will now take $O(n \log n)$ time, which is worse than in the previous algorithm.
+الگوریتم اصلی همان است، اما اکنون می‌توانیم یال کمینه را در زمان $O(\log n)$ پیدا کنیم.
+از طرف دیگر، محاسبه مجدد اشاره‌گرها اکنون $O(n \log n)$ زمان می‌برد که بدتر از الگوریتم قبلی است.
 
-But when we consider that we only need to update $O(m)$ times in total, and perform $O(n)$ searches for the minimal edge, then the total complexity will be $O(m \log n)$.
-For sparse graphs this is better than the above algorithm, but for dense graphs this will be slower.
+اما وقتی در نظر بگیریم که در کل فقط به $O(m)$ به‌روزرسانی نیاز داریم و $O(n)$ جستجو برای یال کمینه انجام می‌دهیم، آنگاه پیچیدگی کل $O(m \log n)$ خواهد بود.
+برای گراف‌های خلوت، این بهتر از الگوریتم بالا است، اما برای گراف‌های متراکم کندتر خواهد بود.
 
 ```cpp
 const int INF = 1000000000;
@@ -208,7 +208,7 @@ void prim() {
 }
 ```
 
-Here the graph is represented via a adjacency list `adj[]`, where `adj[v]` contains all edges (in form of weight and target pairs) for the vertex `v`.
-`min_e[v]` will store the weight of the smallest edge from vertex `v` to an already selected vertex (again in the form of a weight and target pair).
-In addition the queue `q` is filled with all not yet selected vertices in the order of increasing weights `min_e`.
-The algorithm does `n` steps, on each of which it selects the vertex `v` with the smallest weight `min_e` (by extracting it from the beginning of the queue), and then looks through all the edges from this vertex and updates the values in `min_e` (during an update we also need to also remove the old edge from the queue `q` and put in the new edge).
+در اینجا گراف از طریق یک لیست مجاورت `adj[]` نمایش داده می‌شود که در آن `adj[v]` شامل تمام یال‌ها (به صورت زوج‌های وزن و مقصد) برای رأس `v` است.
+`min_e[v]` وزن کوچکترین یال از رأس `v` به یک رأس از قبل انتخاب شده را ذخیره می‌کند (دوباره به صورت زوج وزن و مقصد).
+علاوه بر این، صف `q` با تمام رئوس هنوز انتخاب نشده به ترتیب افزایش وزن `min_e` پر می‌شود.
+الگوریتم `n` مرحله انجام می‌دهد، در هر مرحله رأس `v` با کوچکترین وزن `min_e` را انتخاب می‌کند (با استخراج آن از ابتدای صف)، و سپس تمام یال‌های این رأس را بررسی کرده و مقادیر را در `min_e` به‌روزرسانی می‌کند (در حین به‌روزرسانی، باید یال قدیمی را از صف `q` حذف کرده و یال جدید را وارد کنیم).

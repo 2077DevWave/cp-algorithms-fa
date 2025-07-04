@@ -1,39 +1,39 @@
 ---
 tags:
-  - Translated
-e_maxx_link: prufer_code_cayley_formula
+  - AI Translated
+e_maxx_link: pruefer_code
 ---
 
-# Prüfer code
+# کد Prüfer
 
-In this article we will look at the so-called **Prüfer code** (or Prüfer sequence), which is a way of encoding a labeled tree into a sequence of numbers in a unique way.
+در این مقاله به بررسی کد موسوم به **کد Prüfer** (یا دنباله Prüfer) خواهیم پرداخت که روشی برای رمزگذاری یک درخت برچسب‌دار به یک دنباله از اعداد به روشی منحصر به فرد است.
 
-With the help of the Prüfer code we will prove **Cayley's formula** (which specified the number of spanning trees in a complete graph).
-Also we show the solution to the problem of counting the number of ways of adding edges to a graph to make it connected.
+با کمک کد Prüfer، **فرمول کیلی** (Cayley's formula) را اثبات خواهیم کرد (که تعداد درخت‌های فراگیر را در یک گراف کامل مشخص می‌کند).
+همچنین راه‌حل مسئله شمارش تعداد راه‌های اضافه کردن یال به یک گراف برای همبند کردن آن را نشان می‌دهیم.
 
-**Note**, we will not consider trees consisting of a single vertex - this is a special case in which multiple statements clash.
+**نکته**، درخت‌هایی که فقط از یک رأس تشکیل شده‌اند را در نظر نخواهیم گرفت - این یک حالت خاص است که در آن چندین گزاره با هم در تضاد قرار می‌گیرند.
 
-## Prüfer code
+## کد Prüfer
 
-The Prüfer code is a way of encoding a labeled tree with $n$ vertices using a sequence of $n - 2$ integers in the interval $[0; n-1]$.
-This encoding also acts as a **bijection** between all spanning trees of a complete graph and the numerical sequences.
+کد Prüfer روشی برای رمزگذاری یک درخت برچسب‌دار با $n$ رأس با استفاده از یک دنباله از $n - 2$ عدد صحیح در بازه $[0; n-1]$ است.
+این رمزگذاری همچنین به عنوان یک **تناظر یک به یک** (bijection) بین تمام درخت‌های فراگیر یک گراف کامل و دنباله‌های عددی عمل می‌کند.
 
-Although using the Prüfer code for storing and operating on tree is impractical due the specification of the representation, the Prüfer codes are used frequently: mostly in solving combinatorial problems.
+اگرچه استفاده از کد Prüfer برای ذخیره‌سازی و کار با درخت به دلیل مشخصات این نمایش، غیرعملی است، کدهای Prüfer به طور مکرر استفاده می‌شوند: عمدتاً در حل مسائل ترکیبیاتی.
 
-The inventor - Heinz Prüfer - proposed this code in 1918 as a proof for Cayley's formula.
+مخترع آن - Heinz Prüfer - این کد را در سال ۱۹۱۸ به عنوان اثباتی برای فرمول کیلی پیشنهاد داد.
 
-### Building the Prüfer code for a given tree
+### ساخت کد Prüfer برای یک درخت داده شده
 
-The Prüfer code is constructed as follows.
-We will repeat the following procedure $n - 2$ times:
-we select the leaf of the tree with the smallest number, remove it from the tree, and write down the number of the vertex that was connected to it.
-After $n - 2$ iterations there will only remain $2$ vertices, and the algorithm ends.
+کد Prüfer به صورت زیر ساخته می‌شود.
+رویه زیر را $n - 2$ بار تکرار می‌کنیم:
+برگ درخت با کوچکترین شماره را انتخاب کرده، آن را از درخت حذف می‌کنیم و شماره رأسی که به آن متصل بود را یادداشت می‌کنیم.
+پس از $n - 2$ تکرار، تنها ۲ رأس باقی می‌ماند و الگوریتم پایان می‌یابد.
 
-Thus the Prüfer code for a given tree is a sequence of $n - 2$ numbers, where each number is the number of the connected vertex, i.e. this number is in the interval $[0, n-1]$.
+بنابراین کد Prüfer برای یک درخت داده شده، دنباله‌ای از $n - 2$ عدد است که هر عدد شماره رأس متصل به برگ حذف شده است، یعنی این عدد در بازه $[0, n-1]$ قرار دارد.
 
-The algorithm for computing the Prüfer code can be implemented easily with $O(n \log n)$ time complexity, simply by using a data structure to extract the minimum (for instance `set` or `priority_queue` in C++), which contains a list of all the current leafs.
+الگوریتم محاسبه کد Prüfer را می‌توان به راحتی با پیچیدگی زمانی $O(n \log n)$ پیاده‌سازی کرد، تنها با استفاده از یک ساختمان داده برای استخراج کمینه (به عنوان مثال `set` یا `priority_queue` در C++) که لیستی از تمام برگ‌های فعلی را در خود نگه می‌دارد.
 
-```{.cpp file=pruefer_code_slow}
+```cpp file=pruefer_code_slow
 vector<vector<int>> adj;
 
 vector<int> pruefer_code() {
@@ -68,34 +68,34 @@ vector<int> pruefer_code() {
 }
 ```
 
-However the construction can also be implemented in linear time.
-Such an approach is described in the next section.
+با این حال، این ساختار را می‌توان در زمان خطی نیز پیاده‌سازی کرد.
+چنین رویکردی در بخش بعدی توضیح داده شده است.
 
-### Building the Prüfer code for a given tree in linear time
+### ساخت کد Prüfer برای یک درخت داده شده در زمان خطی
 
-The essence of the algorithm is to use a **moving pointer**, which will always point to the current leaf vertex that we want to remove.
+اساس این الگوریتم استفاده از یک **اشاره‌گر متحرک** است که همیشه به رأس برگ فعلی که می‌خواهیم حذف کنیم، اشاره می‌کند.
 
-At first glance this seems impossible, because during the process of constructing the Prüfer code the leaf number can increase and decrease.
-However after a closer look, this is actually not true.
-The number of leafs will not increase. Either the number decreases by one (we remove one leaf vertex and don't gain a new one), or it stay the same (we remove one leaf vertex and gain another one).
-In the first case there is no other way than searching for the next smallest leaf vertex.
-In the second case, however, we can decide in $O(1)$ time, if we can continue using the vertex that became a new leaf vertex, or if we have to search for the next smallest leaf vertex.
-And in quite a lot of times we can continue with the new leaf vertex.
+در نگاه اول این کار غیرممکن به نظر می‌رسد، زیرا در طول فرآیند ساخت کد Prüfer، شماره برگ می‌تواند افزایش و کاهش یابد.
+با این حال، با نگاهی دقیق‌تر، این موضوع در واقع درست نیست.
+تعداد برگ‌ها افزایش نخواهد یافت. یا تعداد آن‌ها یکی کم می‌شود (یک رأس برگ را حذف می‌کنیم و برگ جدیدی به دست نمی‌آوریم)، یا ثابت می‌ماند (یک رأس برگ را حذف می‌کنیم و یک رأس برگ دیگر به دست می‌آوریم).
+در حالت اول، راهی جز جستجو برای کوچکترین رأس برگ بعدی وجود ندارد.
+اما در حالت دوم، می‌توانیم در زمان $O(1)$ تصمیم بگیریم که آیا می‌توانیم از رأسی که به برگ جدید تبدیل شده استفاده کنیم یا باید به دنبال کوچکترین رأس برگ بعدی بگردیم.
+و در بسیاری از موارد می‌توانیم با رأس برگ جدید ادامه دهیم.
 
-To do this we will use a variable $\text{ptr}$, which will indicate that in the set of vertices between $0$ and $\text{ptr}$ is at most one leaf vertex, namely the current one.
-All other vertices in that range are either already removed from the tree, or have still more than one adjacent vertices.
-At the same time we say, that we haven't removed any leaf vertices bigger than $\text{ptr}$ yet.
+برای انجام این کار از یک متغیر $\text{ptr}$ استفاده می‌کنیم که نشان می‌دهد در مجموعه رئوس بین $0$ و $\text{ptr}$ حداکثر یک رأس برگ وجود دارد و آن هم رأس فعلی است.
+تمام رئوس دیگر در این محدوده یا قبلاً از درخت حذف شده‌اند یا هنوز بیش از یک رأس مجاور دارند.
+همزمان، می‌گوییم که هنوز هیچ رأس برگی بزرگتر از $\text{ptr}$ را حذف نکرده‌ایم.
 
-This variable is already very helpful in the first case.
-After removing the current leaf node, we know that there cannot be a leaf node between $0$ and $\text{ptr}$, therefore we can start the search for the next one directly at $\text{ptr} + 1$, and we don't have to start the search back at vertex $0$.
-And in the second case, we can further distinguish two cases:
-Either the newly gained leaf vertex is smaller than $\text{ptr}$, then this must be the next leaf vertex, since we know that there are no other vertices smaller than $\text{ptr}$.
-Or the newly gained leaf vertex is bigger.
-But then we also know that it has to be bigger than $\text{ptr}$, and can start the search again at $\text{ptr} + 1$.
+این متغیر در حالت اول بسیار مفید است.
+پس از حذف گره برگ فعلی، می‌دانیم که هیچ گره برگی بین $0$ و $\text{ptr}$ وجود ندارد، بنابراین می‌توانیم جستجو برای گره بعدی را مستقیماً از $\text{ptr} + 1$ شروع کنیم و نیازی به شروع جستجو از رأس $0$ نیست.
+و در حالت دوم، می‌توانیم دو حالت را بیشتر تفکیک کنیم:
+یا رأس برگ تازه به دست آمده کوچکتر از $\text{ptr}$ است، که در این صورت باید برگ بعدی باشد، زیرا می‌دانیم که هیچ رأس دیگری کوچکتر از $\text{ptr}$ وجود ندارد.
+یا رأس برگ تازه به دست آمده بزرگتر است.
+اما در این حالت نیز می‌دانیم که باید بزرگتر از $\text{ptr}$ باشد و می‌توانیم جستجو را دوباره از $\text{ptr} + 1$ شروع کنیم.
 
-Even though we might have to perform multiple linear searches for the next leaf vertex, the pointer $\text{ptr}$ only increases and therefore the time complexity in total is $O(n)$.
+اگرچه ممکن است مجبور شویم چندین جستجوی خطی برای رأس برگ بعدی انجام دهیم، اشاره‌گر $\text{ptr}$ فقط افزایش می‌یابد و بنابراین پیچیدگی زمانی در کل $O(n)$ است.
 
-```{.cpp file=pruefer_code_fast}
+```cpp file=pruefer_code_fast
 vector<vector<int>> adj;
 vector<int> parent;
 
@@ -141,46 +141,46 @@ vector<int> pruefer_code() {
 }
 ```
 
-In the code we first find for each its ancestor `parent[i]`, i.e. the ancestor that this vertex will have once we remove it from the tree.
-We can find this ancestor by rooting the tree at the vertex $n-1$.
-This is possible because the vertex $n-1$ will never be removed from the tree.
-We also compute the degree for each vertex.
-`ptr` is the pointer that indicates the minimum size of the remaining leaf vertices (except the current one `leaf`).
-We will either assign the current leaf vertex with `next`, if this one is also a leaf vertex and it is smaller than `ptr`, or we start a linear search for the smallest leaf vertex by increasing the pointer.
+در کد، ابتدا برای هر رأس، والد آن `parent[i]` را پیدا می‌کنیم، یعنی والدی که این رأس پس از حذف شدنش از درخت خواهد داشت.
+می‌توانیم این والد را با ریشه‌دار کردن درخت در رأس $n-1$ پیدا کنیم.
+این کار ممکن است زیرا رأس $n-1$ هرگز از درخت حذف نخواهد شد.
+همچنین درجه هر رأس را محاسبه می‌کنیم.
+`ptr` اشاره‌گری است که حداقل برچسب رئوس برگ باقیمانده (به جز رأس فعلی `leaf`) را نشان می‌دهد.
+ما یا رأس برگ فعلی را با `next` جایگزین می‌کنیم، اگر آن هم به یک رأس برگ تبدیل شود و از `ptr` کوچکتر باشد، یا با افزایش اشاره‌گر، یک جستجوی خطی برای کوچکترین رأس برگ شروع می‌کنیم.
 
-It can be easily seen, that this code has the complexity $O(n)$.
+به راحتی می‌توان دید که این کد دارای پیچیدگی $O(n)$ است.
 
-### Some properties of the Prüfer code
+### برخی از ویژگی‌های کد Prüfer
 
-- After constructing the Prüfer code two vertices will remain.
-  One of them is the highest vertex $n-1$, but nothing else can be said about the other one.
-- Each vertex appears in the Prüfer code exactly a fixed number of times - its degree minus one.
-  This can be easily checked, since the degree will get smaller every time we record its label in the code, and we remove it once the degree is $1$.
-  For the two remaining vertices this fact is also true.
+- پس از ساخت کد Prüfer دو رأس باقی می‌ماند.
+  یکی از آن‌ها رأس با بالاترین شماره، یعنی $n-1$ است، اما در مورد دیگری نمی‌توان چیز بیشتری گفت.
+- هر رأس دقیقاً به تعداد ثابتی در کد Prüfer ظاهر می‌شود - درجه آن منهای یک.
+  این را می‌توان به راحتی بررسی کرد، زیرا هر بار که برچسب آن را در کد ثبت می‌کنیم، درجه‌اش کمتر می‌شود و زمانی که درجه آن به $1$ برسد، آن را حذف می‌کنیم.
+  برای دو رأس باقی‌مانده نیز این واقعیت صادق است.
 
-### Restoring the tree using the Prüfer code
+### بازیابی درخت با استفاده از کد Prüfer
 
-To restore the tree it suffice to only focus on the property discussed in the last section.
-We already know the degree of all the vertices in the desired tree.
-Therefore we can find all leaf vertices, and also the first leaf that was removed in the first step (it has to be the smallest leaf).
-This leaf vertex was connected to the vertex corresponding to the number in the first cell of the Prüfer code.
+برای بازیابی درخت، کافی است فقط روی خاصیتی که در بخش قبل بحث شد تمرکز کنیم.
+ما از قبل درجه تمام رئوس در درخت مورد نظر را می‌دانیم.
+بنابراین می‌توانیم تمام رئوس برگ و همچنین اولین برگی که در مرحله اول حذف شده است را پیدا کنیم (این باید کوچکترین برگ باشد).
+این رأس برگ به رأسی متصل بود که شماره آن در اولین خانه کد Prüfer قرار دارد.
 
-Thus we found the first edge removed by when then the Prüfer code was generated.
-We can add this edge to the answer and reduce the degrees at both ends of the edge.
+بنابراین ما اولین یالی که هنگام تولید کد Prüfer حذف شده بود را پیدا کردیم.
+می‌توانیم این یال را به جواب اضافه کرده و درجه‌ها را در دو سر یال کاهش دهیم.
 
-We will repeat this operation until we have used all numbers of the Prüfer code:
-we look for the minimum vertex with degree equal to $1$, connect it with the next vertex from the Prüfer code, and reduce the degree.
+این عملیات را تا زمانی که از تمام اعداد کد Prüfer استفاده کنیم تکرار می‌کنیم:
+به دنبال کوچکترین رأسی با درجه برابر با $1$ می‌گردیم، آن را به رأس بعدی از کد Prüfer متصل می‌کنیم و درجه‌ها را کاهش می‌دهیم.
 
-In the end we only have two vertices left with degree equal to $1$.
-These are the vertices that didn't got removed by the Prüfer code process.
-We connect them to get the last edge of the tree.
-One of them will always be the vertex $n-1$.
+در پایان تنها دو رأس با درجه برابر با $1$ باقی می‌ماند.
+اینها رئوسی هستند که در فرآیند کد Prüfer حذف نشدند.
+آنها را به هم متصل می‌کنیم تا آخرین یال درخت را به دست آوریم.
+یکی از آنها همیشه رأس $n-1$ خواهد بود.
 
-This algorithm can be **implemented** easily in $O(n \log n)$: we use a data structure that supports extracting the minimum (for example `set<>` or `priority_queue<>` in C++) to store all the leaf vertices.
+این الگوریتم را می‌توان به راحتی در $O(n \log n)$ **پیاده‌سازی** کرد: ما از یک ساختمان داده که از استخراج کمینه پشتیبانی می‌کند (به عنوان مثال `set<>` یا `priority_queue<>` در C++) برای ذخیره تمام رئوس برگ استفاده می‌کنیم.
 
-The following implementation returns the list of edges corresponding to the tree.
+پیاده‌سازی زیر لیستی از یال‌های متناظر با درخت را برمی‌گرداند.
 
-```{.cpp file=pruefer_decode_slow}
+```cpp file=pruefer_decode_slow
 vector<pair<int, int>> pruefer_decode(vector<int> const& code) {
     int n = code.size() + 2;
     vector<int> degree(n, 1);
@@ -207,15 +207,15 @@ vector<pair<int, int>> pruefer_decode(vector<int> const& code) {
 }
 ```
 
-### Restoring the tree using the Prüfer code in linear time
+### بازیابی درخت با استفاده از کد Prüfer در زمان خطی
 
-To obtain the tree in linear time we can apply the same technique used to obtain the Prüfer code in linear time.
+برای به دست آوردن درخت در زمان خطی، می‌توانیم از همان تکنیکی که برای به دست آوردن کد Prüfer در زمان خطی استفاده شد، استفاده کنیم.
 
-We don't need a data structure to extract the minimum.
-Instead we can notice that, after processing the current edge, only one vertex becomes a leaf.
-Therefore we can either continue with this vertex, or we find a smaller one with a linear search by moving a pointer.
+ما به ساختمان داده برای استخراج کمینه نیازی نداریم.
+در عوض، می‌توانیم متوجه شویم که پس از پردازش یال فعلی، تنها یک رأس به برگ تبدیل می‌شود.
+بنابراین می‌توانیم یا با این رأس ادامه دهیم، یا با حرکت دادن یک اشاره‌گر، یک رأس کوچکتر را با جستجوی خطی پیدا کنیم.
 
-```{.cpp file=pruefer_decode_fast}
+```cpp file=pruefer_decode_fast
 vector<pair<int, int>> pruefer_decode(vector<int> const& code) {
     int n = code.size() + 2;
     vector<int> degree(n, 1);
@@ -244,82 +244,82 @@ vector<pair<int, int>> pruefer_decode(vector<int> const& code) {
 }
 ```
 
-### Bijection between trees and Prüfer codes
+### تناظر یک به یک بین درخت‌ها و کدهای Prüfer
 
-For each tree there exists a Prüfer code corresponding to it.
-And for each Prüfer code we can restore the original tree.
+برای هر درخت یک کد Prüfer متناظر با آن وجود دارد.
+و برای هر کد Prüfer می‌توانیم درخت اصلی را بازیابی کنیم.
 
-It follows that also every Prüfer code (i.e. a sequence of $n-2$ numbers in the range $[0; n - 1]$) corresponds to a tree.
+از این رو نتیجه می‌شود که هر کد Prüfer (یعنی دنباله‌ای از $n-2$ عدد در بازه $[0; n - 1]$) نیز متناظر با یک درخت است.
 
-Therefore all trees and all Prüfer codes form a bijection (a **one-to-one correspondence**).
+بنابراین، همه درخت‌ها و همه کدهای Prüfer یک تناظر یک به یک (**one-to-one correspondence**) تشکیل می‌دهند.
 
-## Cayley's formula
+## فرمول کیلی
 
-Cayley's formula states that the **number of spanning trees in a complete labeled graph** with $n$ vertices is equal to:
+فرمول کیلی بیان می‌کند که **تعداد درخت‌های فراگیر در یک گراف کامل برچسب‌دار** با $n$ رأس برابر است با:
 
 $$n^{n-2}$$
 
-There are multiple proofs for this formula.
-Using the Prüfer code concept this statement comes without any surprise.
+اثبات‌های متعددی برای این فرمول وجود دارد.
+با استفاده از مفهوم کد Prüfer، این گزاره جای تعجب ندارد.
 
-In fact any Prüfer code with $n-2$ numbers from the interval $[0; n-1]$ corresponds to some tree with $n$ vertices.
-So we have $n^{n-2}$ different such Prüfer codes.
-Since each such tree is a spanning tree of a complete graph with $n$ vertices, the number of such spanning trees is also $n^{n-2}$.
+در واقع، هر کد Prüfer با $n-2$ عدد از بازه $[0; n-1]$ متناظر با یک درخت با $n$ رأس است.
+بنابراین ما $n^{n-2}$ کد Prüfer متفاوت از این نوع داریم.
+از آنجایی که هر چنین درختی یک درخت فراگیر از یک گراف کامل با $n$ رأس است، تعداد چنین درختان فراگیری نیز $n^{n-2}$ است.
 
-## Number of ways to make a graph connected
+## تعداد راه‌های همبند کردن یک گراف
 
-The concept of Prüfer codes are even more powerful.
-It allows to create a lot more general formulas than Cayley's formula.
+مفهوم کدهای Prüfer حتی از این هم قدرتمندتر است.
+این مفهوم اجازه می‌دهد تا فرمول‌های بسیار کلی‌تری نسبت به فرمول کیلی ایجاد کنیم.
 
-In this problem we are given a graph with $n$ vertices and $m$ edges.
-The graph currently has $k$ components.
-We want to compute the number of ways of adding $k-1$ edges so that the graph becomes connected (obviously $k-1$ is the minimum number necessary to make the graph connected).
+در این مسئله، یک گراف با $n$ رأس و $m$ یال به ما داده شده است.
+گراف در حال حاضر دارای $k$ مؤلفه همبندی است.
+می‌خواهیم تعداد راه‌های اضافه کردن $k-1$ یال را طوری محاسبه کنیم که گراف همبند شود (بدیهی است که $k-1$ حداقل تعداد یال لازم برای همبند کردن گراف است).
 
-Let us derive a formula for solving this problem.
+بیایید فرمولی برای حل این مسئله استخراج کنیم.
 
-We use $s_1, \dots, s_k$ for the sizes of the connected components in the graph.
-We cannot add edges within a connected component.
-Therefore it turns out that this problem is very similar to the search for the number of spanning trees of a complete graph with $k$ vertices.
-The only difference is that each vertex has actually the size $s_i$: each edge connecting the vertex $i$, actually multiplies the answer by $s_i$.
+از $s_1, \dots, s_k$ برای اندازه‌های مؤلفه‌های همبندی در گراف استفاده می‌کنیم.
+ما نمی‌توانیم یال‌هایی را در داخل یک مؤلفه همبندی اضافه کنیم.
+بنابراین، مشخص می‌شود که این مسئله بسیار شبیه به جستجوی تعداد درختان فراگیر یک گراف کامل با $k$ رأس است.
+تنها تفاوت این است که هر رأس در واقع اندازه $s_i$ را دارد: هر یالی که رأس $i$ را متصل می‌کند، در واقع پاسخ را در $s_i$ ضرب می‌کند.
 
-Thus in order to calculate the number of possible ways it is important to count how often each of the $k$ vertices is used in the connecting tree.
-To obtain a formula for the problem it is necessary to sum the answer over all possible degrees.
+بنابراین برای محاسبه تعداد راه‌های ممکن، مهم است که بشماریم هر یک از $k$ رأس چند بار در درخت متصل‌کننده استفاده می‌شود.
+برای به دست آوردن فرمولی برای مسئله، لازم است پاسخ را بر روی تمام درجه‌های ممکن جمع بزنیم.
 
-Let $d_1, \dots, d_k$ be the degrees of the vertices in the tree after connecting the vertices.
-The sum of the degrees is twice the number of edges:
+فرض کنید $d_1, \dots, d_k$ درجه‌های رئوس در درخت پس از اتصال رئوس باشند.
+مجموع درجه‌ها دو برابر تعداد یال‌ها است:
 
 $$\sum_{i=1}^k d_i = 2k - 2$$
 
-If the vertex $i$ has degree $d_i$, then it appears $d_i - 1$ times in the Prüfer code.
-The Prüfer code for a tree with $k$ vertices has length $k-2$.
-So the number of ways to choose a code with $k-2$ numbers where the number $i$ appears exactly $d_i - 1$ times is equal to the **multinomial coefficient**
+اگر رأس $i$ دارای درجه $d_i$ باشد، آنگاه $d_i - 1$ بار در کد Prüfer ظاهر می‌شود.
+کد Prüfer برای درختی با $k$ رأس دارای طول $k-2$ است.
+بنابراین تعداد راه‌های انتخاب یک کد با $k-2$ عدد که در آن عدد $i$ دقیقاً $d_i - 1$ بار ظاهر شود، برابر است با **ضریب چندجمله‌ای** (multinomial coefficient)
 
 $$\binom{k-2}{d_1-1, d_2-1, \dots, d_k-1} = \frac{(k-2)!}{(d_1-1)! (d_2-1)! \cdots (d_k-1)!}.$$
 
-The fact that each edge adjacent to the vertex $i$ multiplies the answer by $s_i$ we receive the answer, assuming that the degrees of the vertices are $d_1, \dots, d_k$:
+با توجه به این واقعیت که هر یال مجاور رأس $i$ پاسخ را در $s_i$ ضرب می‌کند، ما با فرض اینکه درجه رئوس $d_1, \dots, d_k$ باشد، به پاسخ زیر می‌رسیم:
 
 $$s_1^{d_1} \cdot s_2^{d_2} \cdots s_k^{d_k} \cdot \binom{k-2}{d_1-1, d_2-1, \dots, d_k-1}$$
 
-To get the final answer we need to sum this for all possible ways to choose the degrees:
+برای به دست آوردن پاسخ نهایی، باید این عبارت را برای تمام راه‌های ممکن برای انتخاب درجه‌ها جمع بزنیم:
 
 $$\sum_{\substack{d_i \ge 1 \\\\ \sum_{i=1}^k d_i = 2k -2}} s_1^{d_1} \cdot s_2^{d_2} \cdots s_k^{d_k} \cdot \binom{k-2}{d_1-1, d_2-1, \dots, d_k-1}$$
 
-Currently this looks like a really horrible answer, however we can use the **multinomial theorem**, which says:
+در حال حاضر این پاسخ واقعاً وحشتناک به نظر می‌رسد، اما می‌توانیم از **قضیه چندجمله‌ای** (multinomial theorem) استفاده کنیم که می‌گوید:
 
 $$(x_1 + \dots + x_m)^p = \sum_{\substack{c_i \ge 0 \\\\ \sum_{i=1}^m c_i = p}} x_1^{c_1} \cdot x_2^{c_2} \cdots x_m^{c_m} \cdot \binom{p}{c_1, c_2, \dots c_m}$$
 
-This look already pretty similar.
-To use it we only need to substitute with $e_i = d_i - 1$:
+این عبارت در حال حاضر بسیار شبیه به نظر می‌رسد.
+برای استفاده از آن فقط باید با $e_i = d_i - 1$ جایگزین کنیم:
 
 $$\sum_{\substack{e_i \ge 0 \\\\ \sum_{i=1}^k e_i = k - 2}} s_1^{e_1+1} \cdot s_2^{e_2+1} \cdots s_k^{e_k+1} \cdot \binom{k-2}{e_1, e_2, \dots, e_k}$$
 
-After applying the multinomial theorem we get the **answer to the problem**:
+پس از اعمال قضیه چندجمله‌ای، **پاسخ مسئله** را به دست می‌آوریم:
 
 $$s_1 \cdot s_2 \cdots s_k \cdot (s_1 + s_2 + \dots + s_k)^{k-2} = s_1 \cdot s_2 \cdots s_k \cdot n^{k-2}$$
 
-By accident this formula also holds for $k = 1$.
+به طور تصادفی این فرمول برای $k=1$ نیز صادق است.
 
-## Practice problems
+## مسائل تمرینی
 
 - [UVA #10843 - Anne's game](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=20&page=show_problem&problem=1784)
 - [Timus #1069 - Prufer Code](http://acm.timus.ru/problem.aspx?space=1&num=1069)

@@ -1,222 +1,224 @@
 ---
+tags:
+  - AI Translated
 search:
   exclude: true
 ---
 
-- Home
-    - [Main Page](index.md)
-    - [Navigation](navigation.md)
-    - [Tag index](tags.md)
-    - [How to Contribute](contrib.md)
-    - [Code of conduct](code_of_conduct.md)
-    - [Preview](preview.md)
-- Algebra
-    - Fundamentals
-        - [Binary Exponentiation](algebra/binary-exp.md)
-        - [Euclidean algorithm for computing the greatest common divisor](algebra/euclid-algorithm.md)
-        - [Extended Euclidean Algorithm](algebra/extended-euclid-algorithm.md)
-        - [Linear Diophantine Equations](algebra/linear-diophantine-equation.md)
-        - [Fibonacci Numbers](algebra/fibonacci-numbers.md)
-    - Prime numbers
-        - [Sieve of Eratosthenes](algebra/sieve-of-eratosthenes.md)
-        - [Linear Sieve](algebra/prime-sieve-linear.md)
-        - [Primality tests](algebra/primality_tests.md)
-        - [Integer factorization](algebra/factorization.md)
-    - Number-theoretic functions
-        - [Euler's totient function](algebra/phi-function.md)
-        - [Number of divisors / sum of divisors](algebra/divisors.md)
-    - Modular arithmetic
-        - [Modular Inverse](algebra/module-inverse.md)
-        - [Linear Congruence Equation](algebra/linear_congruence_equation.md)
-        - [Chinese Remainder Theorem](algebra/chinese-remainder-theorem.md)
-        - [Garner's Algorithm](algebra/garners-algorithm.md)
-        - [Factorial modulo p](algebra/factorial-modulo.md)
-        - [Discrete Log](algebra/discrete-log.md)
-        - [Primitive Root](algebra/primitive-root.md)
-        - [Discrete Root](algebra/discrete-root.md)
-        - [Montgomery Multiplication](algebra/montgomery_multiplication.md)
-    - Number systems
-        - [Balanced Ternary](algebra/balanced-ternary.md)
-        - [Gray code](algebra/gray-code.md)
-    - Miscellaneous
-        - [Bit manipulation](algebra/bit-manipulation.md)
-        - [Enumerating submasks of a bitmask](algebra/all-submasks.md)
-        - [Arbitrary-Precision Arithmetic](algebra/big-integer.md)
-        - [Fast Fourier transform](algebra/fft.md)
-        - [Operations on polynomials and series](algebra/polynomial.md)
-        - [Continued fractions](algebra/continued-fractions.md)
-        - [Factoring Exponentiation](algebra/factoring-exp.md)
-- Data Structures
-    - Fundamentals
-        - [Minimum Stack / Minimum Queue](data_structures/stack_queue_modification.md)
-        - [Sparse Table](data_structures/sparse-table.md)
-    - Trees
-        - [Disjoint Set Union](data_structures/disjoint_set_union.md)
-        - [Fenwick Tree](data_structures/fenwick.md)
-        - [Sqrt Decomposition](data_structures/sqrt_decomposition.md)
-        - [Segment Tree](data_structures/segment_tree.md)
-        - [Treap](data_structures/treap.md)
-        - [Sqrt Tree](data_structures/sqrt-tree.md)
-        - [Randomized Heap](data_structures/randomized_heap.md)
-    - Advanced
-        - [Deleting from a data structure in O(T(n) log n)](data_structures/deleting_in_log_n.md)
-- Dynamic Programming
-    - [Introduction to Dynamic Programming](dynamic_programming/intro-to-dp.md)
-    - [Knapsack Problem](dynamic_programming/knapsack.md)
-    - DP optimizations
-        - [Divide and Conquer DP](dynamic_programming/divide-and-conquer-dp.md)
-        - [Knuth's Optimization](dynamic_programming/knuth-optimization.md)
-    - Tasks
-        - [Dynamic Programming on Broken Profile. Problem "Parquet"](dynamic_programming/profile-dynamics.md)
-        - [Finding the largest zero submatrix](dynamic_programming/zero_matrix.md)
-- String Processing
-    - Fundamentals
-        - [String Hashing](string/string-hashing.md)
-        - [Rabin-Karp for String Matching](string/rabin-karp.md)
-        - [Prefix function - Knuth-Morris-Pratt](string/prefix-function.md)
-        - [Z-function](string/z-function.md)
-        - [Suffix Array](string/suffix-array.md)
-        - [Aho-Corasick algorithm](string/aho_corasick.md)
-    - Advanced
-        - [Suffix Tree](string/suffix-tree-ukkonen.md)
-        - [Suffix Automaton](string/suffix-automaton.md)
-        - [Lyndon factorization](string/lyndon_factorization.md)
-    - Tasks
-        - [Expression parsing](string/expression_parsing.md)
-        - [Manacher's Algorithm - Finding all sub-palindromes in O(N)](string/manacher.md)
-        - [Finding repetitions](string/main_lorentz.md)
-- Linear Algebra
-    - Matrices
-        - [Gauss & System of Linear Equations](linear_algebra/linear-system-gauss.md)
-        - [Gauss & Determinant](linear_algebra/determinant-gauss.md)
-        - [Kraut & Determinant](linear_algebra/determinant-kraut.md)
-        - [Rank of a matrix](linear_algebra/rank-matrix.md)
-- Combinatorics
-    - Fundamentals
-        - [Finding Power of Factorial Divisor](algebra/factorial-divisors.md)
-        - [Binomial Coefficients](combinatorics/binomial-coefficients.md)
-        - [Catalan Numbers](combinatorics/catalan-numbers.md)
-    - Techniques
-        - [The Inclusion-Exclusion Principle](combinatorics/inclusion-exclusion.md)
-        - [Burnside's lemma / Pólya enumeration theorem](combinatorics/burnside.md)
-        - [Stars and bars](combinatorics/stars_and_bars.md)
-        - [Generating all K-combinations](combinatorics/generating_combinations.md)
-    - Tasks
-        - [Placing Bishops on a Chessboard](combinatorics/bishops-on-chessboard.md)
-        - [Balanced bracket sequences](combinatorics/bracket_sequences.md)
-        - [Counting labeled graphs](combinatorics/counting_labeled_graphs.md)
-- Numerical Methods
-    - Search
-        - [Binary Search](num_methods/binary_search.md)
-        - [Ternary Search](num_methods/ternary_search.md)
-        - [Newton's method for finding roots](num_methods/roots_newton.md)
-        - [Simulated Annealing](num_methods/simulated_annealing.md)
-    - Integration
-        - [Integration by Simpson's formula](num_methods/simpson-integration.md)
-- Geometry
-    - Elementary operations
-        - [Basic Geometry](geometry/basic-geometry.md)
-        - [Finding the equation of a line for a segment](geometry/segment-to-line.md)
-        - [Intersection Point of Lines](geometry/lines-intersection.md)
-        - [Check if two segments intersect](geometry/check-segments-intersection.md)
-        - [Intersection of Segments](geometry/segments-intersection.md)
-        - [Circle-Line Intersection](geometry/circle-line-intersection.md)
-        - [Circle-Circle Intersection](geometry/circle-circle-intersection.md)
-        - [Common tangents to two circles](geometry/tangents-to-two-circles.md)
-        - [Length of the union of segments](geometry/length-of-segments-union.md)
-    - Polygons
-        - [Oriented area of a triangle](geometry/oriented-triangle-area.md)
-        - [Area of simple polygon](geometry/area-of-simple-polygon.md)
-        - [Check if points belong to the convex polygon in O(log N)](geometry/point-in-convex-polygon.md)
-        - [Minkowski sum of convex polygons](geometry/minkowski.md)
-        - [Pick's Theorem - area of lattice polygons](geometry/picks-theorem.md)
-        - [Lattice points of non-lattice polygon](geometry/lattice-points.md)
-    - Convex hull
-        - [Convex hull construction](geometry/convex-hull.md)
-        - [Convex hull trick and Li Chao tree](geometry/convex_hull_trick.md)
-    - Sweep-line
-        - [Search for a pair of intersecting segments](geometry/intersecting_segments.md)
-    - Planar graphs
-        - [Finding faces of a planar graph](geometry/planar.md)
-        - [Point location in O(log N)](geometry/point-location.md)
-    - Miscellaneous
-        - [Finding the nearest pair of points](geometry/nearest_points.md)
-        - [Delaunay triangulation and Voronoi diagram](geometry/delaunay.md)
-        - [Vertical decomposition](geometry/vertical_decomposition.md)
-        - [Half-plane intersection - S&I Algorithm in O(N log N)](geometry/halfplane-intersection.md)
-        - [Manhattan Distance](geometry/manhattan-distance.md)
-- Graphs
-    - Graph traversal
-        - [Breadth First Search](graph/breadth-first-search.md)
-        - [Depth First Search](graph/depth-first-search.md)
-    - Connected components, bridges, articulations points
-        - [Finding Connected Components](graph/search-for-connected-components.md)
-        - [Finding Bridges in O(N+M)](graph/bridge-searching.md)
-        - [Finding Bridges Online](graph/bridge-searching-online.md)
-        - [Finding Articulation Points in O(N+M)](graph/cutpoints.md)
-        - [Strongly Connected Components and Condensation Graph](graph/strongly-connected-components.md)
-        - [Strong Orientation](graph/strong-orientation.md)
-    - Single-source shortest paths
-        - [Dijkstra - finding shortest paths from given vertex](graph/dijkstra.md)
-        - [Dijkstra on sparse graphs](graph/dijkstra_sparse.md)
-        - [Bellman-Ford - finding shortest paths with negative weights](graph/bellman_ford.md)
-        - [0-1 BFS](graph/01_bfs.md)
-        - [D´Esopo-Pape algorithm](graph/desopo_pape.md)
-    - All-pairs shortest paths
-        - [Floyd-Warshall - finding all shortest paths](graph/all-pair-shortest-path-floyd-warshall.md)
-        - [Number of paths of fixed length / Shortest paths of fixed length](graph/fixed_length_paths.md)
-    - Spanning trees
-        - [Minimum Spanning Tree - Prim's Algorithm](graph/mst_prim.md)
-        - [Minimum Spanning Tree - Kruskal](graph/mst_kruskal.md)
-        - [Minimum Spanning Tree - Kruskal with Disjoint Set Union](graph/mst_kruskal_with_dsu.md)
-        - [Second best Minimum Spanning Tree - Using Kruskal and Lowest Common Ancestor](graph/second_best_mst.md)
-        - [Kirchhoff Theorem](graph/kirchhoff-theorem.md)
-        - [Prüfer code](graph/pruefer_code.md)
-    - Cycles
-        - [Checking a graph for acyclicity and finding a cycle in O(M)](graph/finding-cycle.md)
-        - [Finding a Negative Cycle in the Graph](graph/finding-negative-cycle-in-graph.md)
-        - [Eulerian Path](graph/euler_path.md)
-    - Lowest common ancestor
-        - [Lowest Common Ancestor](graph/lca.md)
-        - [Lowest Common Ancestor - Binary Lifting](graph/lca_binary_lifting.md)
-        - [Lowest Common Ancestor - Farach-Colton and Bender algorithm](graph/lca_farachcoltonbender.md)
-        - [Solve RMQ by finding LCA](graph/rmq_linear.md)
-        - [Lowest Common Ancestor - Tarjan's off-line algorithm](graph/lca_tarjan.md)
-    - Flows and related problems
-        - [Maximum flow - Ford-Fulkerson and Edmonds-Karp](graph/edmonds_karp.md)
-        - [Maximum flow - Push-relabel algorithm](graph/push-relabel.md)
-        - [Maximum flow - Push-relabel algorithm improved](graph/push-relabel-faster.md)
-        - [Maximum flow - Dinic's algorithm](graph/dinic.md)
-        - [Maximum flow - MPM algorithm](graph/mpm.md)
-        - [Flows with demands](graph/flow_with_demands.md)
-        - [Minimum-cost flow](graph/min_cost_flow.md)
-        - [Assignment problem](graph/Assignment-problem-min-flow.md)
-    - Matchings and related problems
-        - [Bipartite Graph Check](graph/bipartite-check.md)
-        - [Kuhn's Algorithm - Maximum Bipartite Matching](graph/kuhn_maximum_bipartite_matching.md)
-        - [Hungarian Algorithm](graph/hungarian-algorithm.md)
-    - Miscellaneous
-        - [Topological Sorting](graph/topological-sort.md)
-        - [Edge connectivity / Vertex connectivity](graph/edge_vertex_connectivity.md)
-        - [Tree painting](graph/tree_painting.md)
-        - [2-SAT](graph/2SAT.md)
-        - [Heavy-light decomposition](graph/hld.md)
-- Miscellaneous
-    - Sequences
-        - [RMQ task (Range Minimum Query - the smallest element in an interval)](sequences/rmq.md)
-        - [Longest increasing subsequence](sequences/longest_increasing_subsequence.md)
-        - [Search the subsegment with the maximum/minimum sum](others/maximum_average_segment.md)
-        - [K-th order statistic in O(N)](sequences/k-th.md)
-        - [MEX task (Minimal Excluded element in an array)](sequences/mex.md)
-    - Game Theory
-        - [Games on arbitrary graphs](game_theory/games_on_graphs.md)
-        - [Sprague-Grundy theorem. Nim](game_theory/sprague-grundy-nim.md)
-    - Schedules
-        - [Scheduling jobs on one machine](schedules/schedule_one_machine.md)
-        - [Scheduling jobs on two machines](schedules/schedule_two_machines.md)
-        - [Optimal schedule of jobs given their deadlines and durations](schedules/schedule-with-completion-duration.md)
-    - Miscellaneous
-        - [Tortoise and Hare Algorithm (Linked List cycle detection)](others/tortoise_and_hare.md)
-        - [Josephus problem](others/josephus_problem.md)
-        - [15 Puzzle Game: Existence Of The Solution](others/15-puzzle.md)
-        - [The Stern-Brocot Tree and Farey Sequences](others/stern_brocot_tree_farey_sequences.md)
+- خانه
+    - [صفحه اصلی](index.md)
+    - [ناوبری](navigation.md)
+    - [فهرست برچسب‌ها](tags.md)
+    - [چگونه مشارکت کنیم](contrib.md)
+    - [آیین‌نامه رفتاری](code_of_conduct.md)
+    - [پیش‌نمایش](preview.md)
+- جبر
+    - مبانی
+        - [توان‌رسانی دودویی](algebra/binary-exp.md)
+        - [الگوریتم اقلیدس برای محاسبه بزرگترین مقسوم‌علیه مشترک](algebra/euclid-algorithm.md)
+        - [الگوریتم اقلیدس تعمیم‌یافته](algebra/extended-euclid-algorithm.md)
+        - [معادلات سیاله خطی](algebra/linear-diophantine-equation.md)
+        - [اعداد فیبوناچی](algebra/fibonacci-numbers.md)
+    - اعداد اول
+        - [غربال اراتستن](algebra/sieve-of-eratosthenes.md)
+        - [غربال خطی](algebra/prime-sieve-linear.md)
+        - [آزمون‌های اول بودن](algebra/primality_tests.md)
+        - [تجزیه اعداد صحیح](algebra/factorization.md)
+    - توابع نظریه اعداد
+        - [تابع فی اویلر](algebra/phi-function.md)
+        - [تعداد مقسوم‌علیه‌ها / جمع مقسوم‌علیه‌ها](algebra/divisors.md)
+    - حساب پیمانه‌ای
+        - [وارون پیمانه‌ای](algebra/module-inverse.md)
+        - [معادله همنهشتی خطی](algebra/linear_congruence_equation.md)
+        - [قضیه باقیمانده چینی](algebra/chinese-remainder-theorem.md)
+        - [الگوریتم `Garner`](algebra/garners-algorithm.md)
+        - [فاکتوریل به پیمانه p](algebra/factorial-modulo.md)
+        - [لگاریتم گسسته](algebra/discrete-log.md)
+        - [ریشه اولیه](algebra/primitive-root.md)
+        - [ریشه گسسته](algebra/discrete-root.md)
+        - [ضرب `Montgomery`](algebra/montgomery_multiplication.md)
+    - دستگاه‌های اعداد
+        - [سه‌سه‌ای متوازن](algebra/balanced-ternary.md)
+        - [کد گِرِی](algebra/gray-code.md)
+    - متفرقه
+        - [عملیات بیتی](algebra/bit-manipulation.md)
+        - [شمارش زیرماسک‌های یک بیت‌ماسک](algebra/all-submasks.md)
+        - [محاسبات با دقت دلخواه](algebra/big-integer.md)
+        - [تبدیل سریع فوریه](algebra/fft.md)
+        - [عملیات روی چندجمله‌ای‌ها و سری‌ها](algebra/polynomial.md)
+        - [کسرهای مسلسل](algebra/continued-fractions.md)
+        - [تجزیه توان](algebra/factoring-exp.md)
+- ساختمان داده‌ها
+    - مبانی
+        - [پشته کمینه / صف کمینه](data_structures/stack_queue_modification.md)
+        - [جدول پراکنده](data_structures/sparse-table.md)
+    - درخت‌ها
+        - [ساختار داده اجتماع-جداگانه](data_structures/disjoint_set_union.md)
+        - [درخت فن‌ویک](data_structures/fenwick.md)
+        - [تجزیه رادیکالی](data_structures/sqrt_decomposition.md)
+        - [درخت بازه‌ها](data_structures/segment_tree.md)
+        - [تریپ (`Treap`)](data_structures/treap.md)
+        - [درخت رادیکالی (`Sqrt Tree`)](data_structures/sqrt-tree.md)
+        - [هیپ تصادفی](data_structures/randomized_heap.md)
+    - پیشرفته
+        - [حذف از یک ساختمان داده در O(T(n) log n)](data_structures/deleting_in_log_n.md)
+- برنامه‌نویسی پویا
+    - [مقدمه‌ای بر برنامه‌نویسی پویا](dynamic_programming/intro-to-dp.md)
+    - [مسئله کوله‌پشتی](dynamic_programming/knapsack.md)
+    - بهینه‌سازی‌های برنامه‌نویسی پویا
+        - [برنامه‌نویسی پویای تقسیم و غلبه](dynamic_programming/divide-and-conquer-dp.md)
+        - [بهینه‌سازی `Knuth`](dynamic_programming/knuth-optimization.md)
+    - مسائل
+        - [برنامه‌نویسی پویا روی پروفایل شکسته. مسئله "پارکت"](dynamic_programming/profile-dynamics.md)
+        - [یافتن بزرگترین زیرماتریس صفر](dynamic_programming/zero_matrix.md)
+- پردازش رشته
+    - مبانی
+        - [هشینگ رشته](string/string-hashing.md)
+        - [الگوریتم رابین-کارپ برای تطبیق رشته](string/rabin-karp.md)
+        - [تابع پیشوندی - کنوث-موریس-پرت (KMP)](string/prefix-function.md)
+        - [تابع `Z`](string/z-function.md)
+        - [آرایه پسوندی](string/suffix-array.md)
+        - [الگوریتم آهو-کوراسیک](string/aho_corasick.md)
+    - پیشرفته
+        - [درخت پسوندی](string/suffix-tree-ukkonen.md)
+        - [اتوماتای پسوندی](string/suffix-automaton.md)
+        - [تجزیه لیندون](string/lyndon_factorization.md)
+    - مسائل
+        - [تجزیه عبارت](string/expression_parsing.md)
+        - [الگوریتم ماناکر - یافتن تمام زیرپالیندروم‌ها در O(N)](string/manacher.md)
+        - [یافتن تکرارها](string/main_lorentz.md)
+- جبر خطی
+    - ماتریس‌ها
+        - [گاوس و دستگاه معادلات خطی](linear_algebra/linear-system-gauss.md)
+        - [گاوس و دترمینان](linear_algebra/determinant-gauss.md)
+        - [`Kraut` و دترمینان](linear_algebra/determinant-kraut.md)
+        - [رتبه ماتریس](linear_algebra/rank-matrix.md)
+- ترکیبیات
+    - مبانی
+        - [یافتن توان مقسوم‌علیه فاکتوریل](algebra/factorial-divisors.md)
+        - [ضرایب دوجمله‌ای](combinatorics/binomial-coefficients.md)
+        - [اعداد کاتالان](combinatorics/catalan-numbers.md)
+    - تکنیک‌ها
+        - [اصل شمول و عدم شمول](combinatorics/inclusion-exclusion.md)
+        - [لم برنساید / قضیه شمارش پولیا](combinatorics/burnside.md)
+        - [ستاره‌ها و خطوط](combinatorics/stars_and_bars.md)
+        - [تولید تمام ترکیب‌های Kتایی](combinatorics/generating_combinations.md)
+    - مسائل
+        - [قرار دادن فیل‌ها در صفحه شطرنج](combinatorics/bishops-on-chessboard.md)
+        - [دنباله‌های پرانتز متوازن](combinatorics/bracket_sequences.md)
+        - [شمارش گراف‌های برچسب‌دار](combinatorics/counting_labeled_graphs.md)
+- روش‌های عددی
+    - جستجو
+        - [جستجوی دودویی](num_methods/binary_search.md)
+        - [جستجوی سه‌سه‌ای](num_methods/ternary_search.md)
+        - [روش نیوتن برای یافتن ریشه‌ها](num_methods/roots_newton.md)
+        - [تبرید شبیه‌سازی‌شده](num_methods/simulated_annealing.md)
+    - انتگرال‌گیری
+        - [انتگرال‌گیری با فرمول سیمپسون](num_methods/simpson-integration.md)
+- هندسه
+    - عملیات مقدماتی
+        - [هندسه پایه](geometry/basic-geometry.md)
+        - [یافتن معادله خط یک پاره‌خط](geometry/segment-to-line.md)
+        - [نقطه تقاطع خطوط](geometry/lines-intersection.md)
+        - [بررسی تقاطع دو پاره‌خط](geometry/check-segments-intersection.md)
+        - [تقاطع پاره‌خط‌ها](geometry/segments-intersection.md)
+        - [تقاطع دایره و خط](geometry/circle-line-intersection.md)
+        - [تقاطع دو دایره](geometry/circle-circle-intersection.md)
+        - [مماس‌های مشترک دو دایره](geometry/tangents-to-two-circles.md)
+        - [طول اجتماع پاره‌خط‌ها](geometry/length-of-segments-union.md)
+    - چندضلعی‌ها
+        - [مساحت جهت‌دار مثلث](geometry/oriented-triangle-area.md)
+        - [مساحت چندضلعی ساده](geometry/area-of-simple-polygon.md)
+        - [بررسی تعلق نقاط به چندضلعی محدب در O(log N)](geometry/point-in-convex-polygon.md)
+        - [جمع مینکوفسکی چندضلعی‌های محدب](geometry/minkowski.md)
+        - [قضیه پیک - مساحت چندضلعی‌های شبکه‌ای](geometry/picks-theorem.md)
+        - [نقاط شبکه‌ای چندضلعی غیرشبکه‌ای](geometry/lattice-points.md)
+    - پوش محدب
+        - [ساخت پوش محدب](geometry/convex-hull.md)
+        - [ترفند پوش محدب و درخت `Li Chao`](geometry/convex_hull_trick.md)
+    - خط جاروب
+        - [جستجوی یک جفت پاره‌خط متقاطع](geometry/intersecting_segments.md)
+    - گراف‌های مسطح
+        - [یافتن وجه‌های یک گراف مسطح](geometry/planar.md)
+        - [مکان‌یابی نقطه در O(log N)](geometry/point-location.md)
+    - متفرقه
+        - [یافتن نزدیک‌ترین جفت نقاط](geometry/nearest_points.md)
+        - [مثلث‌بندی دلونی و دیاگرام ورونوی](geometry/delaunay.md)
+        - [تجزیه عمودی](geometry/vertical_decomposition.md)
+        - [تقاطع نیم‌صفحه‌ها - الگوریتم `S&I` در O(N log N)](geometry/halfplane-intersection.md)
+        - [فاصله منهتن](geometry/manhattan-distance.md)
+- گراف‌ها
+    - پیمایش گراف
+        - [جستجوی اول سطح (BFS)](graph/breadth-first-search.md)
+        - [جستجوی اول عمق (DFS)](graph/depth-first-search.md)
+    - مؤلفه‌های همبندی، پل‌ها، نقاط مفصلی
+        - [یافتن مؤلفه‌های همبندی](graph/search-for-connected-components.md)
+        - [یافتن پل‌ها در O(N+M)](graph/bridge-searching.md)
+        - [یافتن پل‌ها به صورت آنلاین](graph/bridge-searching-online.md)
+        - [یافتن نقاط مفصلی در O(N+M)](graph/cutpoints.md)
+        - [مؤلفه‌های قویاً همبند و گراف انقباضی](graph/strongly-connected-components.md)
+        - [جهت‌دهی قوی](graph/strong-orientation.md)
+    - کوتاه‌ترین مسیرهای تک‌مبدأ
+        - [دایکسترا - یافتن کوتاه‌ترین مسیرها از یک رأس معین](graph/dijkstra.md)
+        - [دایکسترا روی گراف‌های خلوت](graph/dijkstra_sparse.md)
+        - [بلمن-فورد - یافتن کوتاه‌ترین مسیرها با وزن‌های منفی](graph/bellman_ford.md)
+        - [جستجوی اول سطح صفر و یک (0-1 BFS)](graph/01_bfs.md)
+        - [الگوریتم `D'Esopo-Pape`](graph/desopo_pape.md)
+    - کوتاه‌ترین مسیرهای بین تمام زوج‌ها
+        - [فلوید-وارشال - یافتن تمام کوتاه‌ترین مسیرها](graph/all-pair-shortest-path-floyd-warshall.md)
+        - [تعداد مسیرها با طول ثابت / کوتاه‌ترین مسیرها با طول ثابت](graph/fixed_length_paths.md)
+    - درخت‌های پوشا
+        - [درخت پوشای کمینه - الگوریتم پریم](graph/mst_prim.md)
+        - [درخت پوشای کمینه - کروسکال](graph/mst_kruskal.md)
+        - [درخت پوشای کمینه - کروسکال با ساختار داده اجتماع-جداگانه](graph/mst_kruskal_with_dsu.md)
+        - [دومین درخت پوشای کمینه بهتر - با استفاده از کروسکال و پایین‌ترین جد مشترک](graph/second_best_mst.md)
+        - [قضیه کیرشهف](graph/kirchhoff-theorem.md)
+        - [کد پروفر](graph/pruefer_code.md)
+    - دورها
+        - [بررسی غیرمدور بودن گراف و یافتن دور در O(M)](graph/finding-cycle.md)
+        - [یافتن دور منفی در گراف](graph/finding-negative-cycle-in-graph.md)
+        - [مسیر اویلری](graph/euler_path.md)
+    - پایین‌ترین جد مشترک
+        - [پایین‌ترین جد مشترک (LCA)](graph/lca.md)
+        - [پایین‌ترین جد مشترک - پرش دودویی](graph/lca_binary_lifting.md)
+        - [پایین‌ترین جد مشترک - الگوریتم `Farach-Colton` و `Bender`](graph/lca_farachcoltonbender.md)
+        - [حل RMQ با یافتن LCA](graph/rmq_linear.md)
+        - [پایین‌ترین جد مشترک - الگوریتم آفلاین `Tarjan`](graph/lca_tarjan.md)
+    - شار و مسائل مرتبط
+        - [شار بیشینه - فورد-فالکرسون و ادموندز-کارپ](graph/edmonds_karp.md)
+        - [شار بیشینه - الگوریتم `Push-relabel`](graph/push-relabel.md)
+        - [شار بیشینه - الگوریتم بهبودیافته `Push-relabel`](graph/push-relabel-faster.md)
+        - [شار بیشینه - الگوریتم دینیک](graph/dinic.md)
+        - [شار بیشینه - الگوریتم `MPM`](graph/mpm.md)
+        - [شار با تقاضا](graph/flow_with_demands.md)
+        - [شار با کمترین هزینه](graph/min_cost_flow.md)
+        - [مسئله تخصیص](graph/Assignment-problem-min-flow.md)
+    - تطابق و مسائل مرتبط
+        - [بررسی دوبخشی بودن گراف](graph/bipartite-check.md)
+        - [الگوریتم کوهن - تطابق بیشینه در گراف دوبخشی](graph/kuhn_maximum_bipartite_matching.md)
+        - [الگوریتم مجارستانی](graph/hungarian-algorithm.md)
+    - متفرقه
+        - [مرتب‌سازی توپولوژیک](graph/topological-sort.md)
+        - [همبندی یالی / همبندی رأسی](graph/edge_vertex_connectivity.md)
+        - [رنگ‌آمیزی درخت](graph/tree_painting.md)
+        - [دو-ارضاپذیری (2-SAT)](graph/2SAT.md)
+        - [تجزیه سنگین-سبک](graph/hld.md)
+- متفرقه
+    - دنباله‌ها
+        - [مسئله RMQ (پرس‌وجوی کمینه بازه - کوچکترین عنصر در یک بازه)](sequences/rmq.md)
+        - [طولانی‌ترین زیردنباله صعودی](sequences/longest_increasing_subsequence.md)
+        - [جستجوی زیربازه با بیشترین/کمترین مجموع](others/maximum_average_segment.md)
+        - [آماره مرتبه K-ام در O(N)](sequences/k-th.md)
+        - [مسئله MEX (کمترین عنصر حذف‌شده در یک آرایه)](sequences/mex.md)
+    - نظریه بازی‌ها
+        - [بازی‌ها روی گراف‌های دلخواه](game_theory/games_on_graphs.md)
+        - [قضیه اسپراگ-گراندی. نیم (Nim)](game_theory/sprague-grundy-nim.md)
+    - زمان‌بندی‌ها
+        - [زمان‌بندی کارها روی یک ماشین](schedules/schedule_one_machine.md)
+        - [زمان‌بندی کارها روی دو ماشین](schedules/schedule_two_machines.md)
+        - [زمان‌بندی بهینه کارها با توجه به مهلت‌ها و مدت‌زمانشان](schedules/schedule-with-completion-duration.md)
+    - متفرقه
+        - [الگوریتم لاک‌پشت و خرگوش (تشخیص دور در لیست پیوندی)](others/tortoise_and_hare.md)
+        - [مسئله یوسف](others/josephus_problem.md)
+        - [بازی پازل ۱۵: وجود راه‌حل](others/15-puzzle.md)
+        - [درخت اشترن-بروکوت و دنباله‌های فارِی](others/stern_brocot_tree_farey_sequences.md)

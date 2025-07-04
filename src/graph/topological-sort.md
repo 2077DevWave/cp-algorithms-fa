@@ -1,64 +1,52 @@
 ---
 tags:
-  - Translated
-e_maxx_link: topological_sort
+  - AI Translated
+e_maxx_link: topological-sort
 ---
 
-# Topological Sorting
+# مرتب‌سازی توپولوژیک
 
-You are given a directed graph with $n$ vertices and $m$ edges.
-You have to find an **order of the vertices**, so that every edge leads from the vertex with a smaller index to a vertex with a larger one.
+یک گراف جهت‌دار با $n$ رأس و $m$ یال به شما داده شده است. شما باید **ترتیبی از رأس‌ها** را پیدا کنید، به طوری که هر یال از رأسی با اندیس کوچکتر به رأسی با اندیس بزرگتر برود.
 
-In other words, you want to find a permutation of the vertices (**topological order**) which corresponds to the order defined by all edges of the graph.
+به عبارت دیگر، شما می‌خواهید یک جایگشت از رأس‌ها (**ترتیب توپولوژیک**) را پیدا کنید که با ترتیب تعریف شده توسط تمام یال‌های گراف مطابقت داشته باشد.
 
-Here is one given graph together with its topological order:
+در اینجا یک گراف داده شده به همراه ترتیب توپولوژیک آن آمده است:
 
 <div style="text-align: center;">
   <img src="topological_1.png" alt="example directed graph">
   <img src="topological_2.png" alt="one topological order">
 </div>
 
-Topological order can be **non-unique** (for example, if there exist three vertices $a$, $b$, $c$ for which there exist paths from $a$ to $b$ and from $a$ to $c$ but not paths from $b$ to $c$ or from $c$ to $b$).
-The example graph also has multiple topological orders, a second topological order is the following:
+ترتیب توپولوژیک می‌تواند **یکتا نباشد** (برای مثال، اگر سه رأس $a$، $b$ و $c$ وجود داشته باشند که مسیرهایی از $a$ به $b$ و از $a$ به $c$ موجود باشد اما مسیری از $b$ به $c$ یا از $c$ به $b$ وجود نداشته باشد). گراف مثال نیز چندین ترتیب توپولوژیک دارد، ترتیب توپولوژیک دوم به صورت زیر است:
 <div style="text-align: center;">
   <img src="topological_3.png" alt="second topological order">
 </div>
 
-A Topological order may **not exist** at all.
-It only exists, if the directed graph contains no cycles.
-Otherwise, there is a contradiction: if there is a cycle containing the vertices $a$ and $b$, then $a$ needs to have a smaller index than $b$ (since you can reach $b$ from $a$) and also a bigger one (as you can reach $a$ from $b$).
-The algorithm described in this article also shows by construction, that every acyclic directed graph contains at least one topological order.
+یک ترتیب توپولوژیک ممکن است اصلاً **وجود نداشته باشد**. این ترتیب تنها در صورتی وجود دارد که گراف جهت‌دار هیچ دوری نداشته باشد. در غیر این صورت، یک تناقض وجود دارد: اگر دوری شامل رأس‌های $a$ و $b$ باشد، آنگاه $a$ باید اندیسی کوچکتر از $b$ داشته باشد (چون می‌توانید از $a$ به $b$ برسید) و همچنین اندیسی بزرگتر (چون می‌توانید از $b$ به $a$ برسید). الگوریتم توصیف شده در این مقاله همچنین با ساختن نشان می‌دهد که هر گراف جهت‌دار بدون دور، حداقل یک ترتیب توپولوژیک دارد.
 
-A common problem in which topological sorting occurs is the following. There are $n$ variables with unknown values. For some variables, we know that one of them is less than the other. You have to check whether these constraints are contradictory, and if not, output the variables in ascending order (if several answers are possible, output any of them). It is easy to notice that this is exactly the problem of finding the topological order of a graph with $n$ vertices.
+یک مسئله رایج که در آن مرتب‌سازی توپولوژیک به کار می‌آید به شرح زیر است. $n$ متغیر با مقادیر نامعلوم وجود دارد. برای برخی متغیرها، می‌دانیم که یکی از آنها کوچکتر از دیگری است. شما باید بررسی کنید که آیا این محدودیت‌ها متناقض هستند یا خیر، و اگر نیستند، متغیرها را به ترتیب صعودی خروجی دهید (اگر چندین جواب ممکن است، هر کدام را می‌توانید خروجی دهید). به راحتی می‌توان متوجه شد که این دقیقاً مسئله یافتن ترتیب توپولوژیک یک گراف با $n$ رأس است.
 
-## The Algorithm
+## الگوریتم
 
-To solve this problem, we will use [depth-first search](depth-first-search.md).
+برای حل این مسئله، از [جستجوی اول عمق](depth-first-search.md) استفاده خواهیم کرد.
 
-Let's assume that the graph is acyclic. What does the depth-first search do?
+فرض کنیم گراف بدون دور است. جستجوی اول عمق چه کاری انجام می‌دهد؟
 
-When starting from some vertex $v$, DFS tries to traverse along all edges outgoing from $v$.
-It stops at the edges for which the ends have been already been visited previously, and traverses along the rest of the edges and continues recursively at their ends.
+هنگام شروع از یک رأس $v$، DFS سعی می‌کند تمام یال‌های خروجی از $v$ را پیمایش کند. پیمایش در یال‌هایی که رأس‌های انتهایی آنها قبلاً بازدید شده‌اند متوقف می‌شود و در امتداد بقیه یال‌ها ادامه یافته و به صورت بازگشتی در انتهای آنها ادامه می‌یابد.
 
-Thus, by the time of the function call $\text{dfs}(v)$ has finished, all vertices that are reachable from $v$ have been either directly (via one edge) or indirectly visited by the search.
+بنابراین، تا زمانی که فراخوانی تابع $\text{dfs}(v)$ به پایان می‌رسد، تمام رأس‌هایی که از $v$ قابل دسترسی هستند، به صورت مستقیم (از طریق یک یال) یا غیرمستقیم توسط جستجو بازدید شده‌اند.
 
-Let's append the vertex $v$ to a list, when we finish $\text{dfs}(v)$. Since all reachable vertices have already been visited, they will already be in the list when we append $v$.
-Let's do this for every vertex in the graph, with one or multiple depth-first search runs.
-For every directed edge $v \rightarrow u$ in the graph, $u$ will appear earlier in this list than $v$, because $u$ is reachable from $v$.
-So if we just label the vertices in this list with $n-1, n-2, \dots, 1, 0$, we have found a topological order of the graph.
-In other words, the list represents the reversed topological order.
+بیایید رأس $v$ را زمانی که کار $\text{dfs}(v)$ تمام می‌شود، به یک لیست اضافه کنیم. از آنجایی که تمام رأس‌های قابل دسترس قبلاً بازدید شده‌اند، آنها هنگام اضافه کردن $v$ از قبل در لیست خواهند بود. این کار را برای هر رأس در گراف، با یک یا چند بار اجرای جستجوی اول عمق انجام می‌دهیم. برای هر یال جهت‌دار $v \rightarrow u$ در گراف، $u$ زودتر از $v$ در این لیست ظاهر می‌شود، زیرا $u$ از $v$ قابل دسترسی است. بنابراین اگر رأس‌های این لیست را با $n-1, n-2, \dots, 1, 0$ برچسب‌گذاری کنیم، یک ترتیب توپولوژیک از گراف را پیدا کرده‌ایم. به عبارت دیگر، لیست، ترتیب توپولوژیک معکوس را نشان می‌دهد.
 
-These explanations can also be presented in terms of exit times of the DFS algorithm.
-The exit time for vertex $v$ is the time at which the function call $\text{dfs}(v)$ finished (the times can be numbered from $0$ to $n-1$).
-It is easy to understand that exit time of any vertex $v$ is always greater than the exit time of any vertex reachable from it (since they were visited either before the call $\text{dfs}(v)$ or during it). Thus, the desired topological ordering are the vertices in descending order of their exit times.
+این توضیحات را می‌توان بر اساس زمان خروج الگوریتم DFS نیز ارائه داد. زمان خروج برای رأس $v$ زمانی است که فراخوانی تابع $\text{dfs}(v)$ به پایان رسیده است (زمان‌ها را می‌توان از $0$ تا $n-1$ شماره‌گذاری کرد). به راحتی می‌توان فهمید که زمان خروج هر رأس $v$ همیشه بیشتر از زمان خروج هر رأسی است که از آن قابل دسترسی است (زیرا آنها یا قبل از فراخوانی $\text{dfs}(v)$ یا در طول آن بازدید شده‌اند). بنابراین، ترتیب توپولوژیک مورد نظر، رأس‌ها به ترتیب نزولی زمان خروجشان است.
 
-## Implementation
+## پیاده‌سازی
 
-Here is an implementation which assumes that the graph is acyclic, i.e. the desired topological ordering exists. If necessary, you can easily check that the graph is acyclic, as described in the article on [depth-first search](depth-first-search.md).
+در اینجا یک پیاده‌سازی ارائه شده است که فرض می‌کند گراف بدون دور است، یعنی ترتیب توپولوژیک مورد نظر وجود دارد. در صورت لزوم، می‌توانید به راحتی بررسی کنید که آیا گراف بدون دور است یا خیر، همانطور که در مقاله [جستجوی اول عمق](depth-first-search.md) توضیح داده شده است.
 
 ```cpp
-int n; // number of vertices
-vector<vector<int>> adj; // adjacency list of graph
+int n; // تعداد رأس‌ها
+vector<vector<int>> adj; // لیست مجاورت گراف
 vector<bool> visited;
 vector<int> ans;
 
@@ -84,15 +72,15 @@ void topological_sort() {
 }
 ```
 
-The main function of the solution is `topological_sort`, which initializes DFS variables, launches DFS and receives the answer in the vector `ans`. It is worth noting that when the graph is not acyclic, `topological_sort` result would still be somewhat meaningful in a sense that if a vertex $u$ is reachable from vertex $v$, but not vice versa, the vertex $v$ will always come first in the resulting array. This property of the provided implementation is used in [Kosaraju's algorithm](./strongly-connected-components.md) to extract strongly connected components and their topological sorting in a directed graph with cycles.
+تابع اصلی این راه‌حل `topological_sort` است که متغیرهای DFS را مقداردهی اولیه می‌کند، DFS را اجرا می‌کند و پاسخ را در وکتور `ans` دریافت می‌کند. شایان ذکر است که وقتی گراف بدون دور نباشد، نتیجه `topological_sort` هنوز تا حدودی معنادار خواهد بود به این معنا که اگر رأس $u$ از رأس $v$ قابل دسترسی باشد، اما برعکس آن صادق نباشد، رأس $v$ همیشه در آرایه حاصل، اول خواهد آمد. این ویژگی پیاده‌سازی ارائه شده در [الگوریتم Kosaraju](./strongly-connected-components.md) برای استخراج مؤلفه‌های قویاً همبند و مرتب‌سازی توپولوژیک آنها در یک گراف جهت‌دار با دور استفاده می‌شود.
 
-## Practice Problems
+## مسائل تمرینی
 
-- [SPOJ TOPOSORT - Topological Sorting [difficulty: easy]](http://www.spoj.com/problems/TOPOSORT/)
-- [UVA 10305 - Ordering Tasks [difficulty: easy]](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1246)
-- [UVA 124 - Following Orders [difficulty: easy]](https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=60)
-- [UVA 200 - Rare Order [difficulty: easy]](https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=136)
-- [Codeforces 510C - Fox and Names [difficulty: easy]](http://codeforces.com/problemset/problem/510/C)
+- [SPOJ TOPOSORT - Topological Sorting [سطح: آسان]](http://www.spoj.com/problems/TOPOSORT/)
+- [UVA 10305 - Ordering Tasks [سطح: آسان]](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1246)
+- [UVA 124 - Following Orders [سطح: آسان]](https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=60)
+- [UVA 200 - Rare Order [سطح: آسان]](https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=136)
+- [Codeforces 510C - Fox and Names [سطح: آسان]](http://codeforces.com/problemset/problem/510/C)
 - [SPOJ RPLA - Answer the boss!](https://www.spoj.com/problems/RPLA/)
 - [CSES - Course Schedule](https://cses.fi/problemset/task/1679)
 - [CSES - Longest Flight Route](https://cses.fi/problemset/task/1680)

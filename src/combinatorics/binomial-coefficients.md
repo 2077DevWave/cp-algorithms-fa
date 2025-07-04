@@ -1,76 +1,76 @@
 ---
 tags:
-  - Translated
-e_maxx_link: binomial_coeff
+  - AI Translated
+e_maxx_link: binomial-coefficients
 ---
 
-# Binomial Coefficients
+# ضرایب دوجمله‌ای
 
-Binomial coefficients $\binom n k$ are the number of ways to select a set of $k$ elements from $n$ different elements without taking into account the order of arrangement of these elements (i.e., the number of unordered sets).
+ضرایب دوجمله‌ای $\binom n k$ تعداد راه‌های انتخاب یک مجموعه k عضوی از n عضو متفاوت، بدون در نظر گرفتن ترتیب چیدمان این اعضا است (یعنی، تعداد مجموعه‌های غیرمرتب).
 
-Binomial coefficients are also the coefficients in the expansion of $(a + b) ^ n$ (so-called binomial theorem):
+ضرایب دوجمله‌ای همچنین ضرایب بسط عبارت $(a + b) ^ n$ هستند (که به آن قضیه دوجمله‌ای می‌گویند):
 
 $$ (a+b)^n = \binom n 0 a^n + \binom n 1 a^{n-1} b + \binom n 2 a^{n-2} b^2 + \cdots + \binom n k a^{n-k} b^k + \cdots + \binom n n b^n $$
 
-It is believed that this formula, as well as the triangle which allows efficient calculation of the coefficients, was discovered by Blaise Pascal in the 17th century. Nevertheless, it was known to the Chinese mathematician Yang Hui, who lived in the 13th century. Perhaps it was discovered by a Persian scholar Omar Khayyam. Moreover, Indian mathematician Pingala, who lived  earlier in the 3rd. BC, got similar results. The merit of the Newton is that he generalized this formula for exponents that are not natural.
+باور بر این است که این فرمول و همچنین مثلثی که امکان محاسبه سریع ضرایب را فراهم می‌کند، توسط بلز پاسکال در قرن هفدهم کشف شده است. با این وجود، این موارد برای ریاضیدان چینی، یانگ هوی که در قرن سیزدهم زندگی می‌کرد، شناخته شده بود. شاید این فرمول توسط دانشمند ایرانی، عمر خیام کشف شده باشد. علاوه بر این، ریاضیدان هندی، پینگالا، که پیشتر در قرن سوم پیش از میلاد زندگی می‌کرد، به نتایج مشابهی دست یافته بود. شایستگی نیوتن در این است که او این فرمول را برای توان‌هایی که طبیعی نیستند، تعمیم داد.
 
-## Calculation
+## محاسبه
 
-**Analytic formula** for the calculation:
+**فرمول تحلیلی** برای محاسبه:
 
 $$ \binom n k = \frac {n!} {k!(n-k)!} $$
 
-This formula can be easily deduced from the problem of ordered arrangement (number of ways to select $k$ different elements from $n$ different elements). First, let's count the number of ordered selections of $k$ elements. There are $n$ ways to select the first element, $n-1$ ways to select the second element, $n-2$ ways to select the third element, and so on. As a result, we get the formula of the number of ordered arrangements: $n (n-1) (n-2) \cdots (n - k + 1) = \frac {n!} {(n-k)!}$. We can easily move to unordered arrangements, noting that each unordered arrangement corresponds to exactly $k!$ ordered arrangements ($k!$ is the number of possible permutations of $k$ elements). We get the final formula by dividing $\frac {n!} {(n-k)!}$ by $k!$.
+این فرمول را می‌توان به راحتی از مسئله چیدمان مرتب استنتاج کرد (تعداد راه‌های انتخاب k عضو متفاوت از n عضو متفاوت). ابتدا تعداد انتخاب‌های مرتب k عضو را می‌شماریم. n راه برای انتخاب عضو اول، n-۱ راه برای انتخاب عضو دوم، n-۲ راه برای انتخاب عضو سوم و به همین ترتیب وجود دارد. در نتیجه، به فرمول تعداد چیدمان‌های مرتب می‌رسیم: $n (n-1) (n-2) \cdots (n - k + 1) = \frac {n!} {(n-k)!}$. می‌توانیم با توجه به این نکته که هر چیدمان غیرمرتب دقیقاً با $k!$ چیدمان مرتب مطابقت دارد ($k!$ تعداد جایگشت‌های ممکن k عضو است)، به سادگی به چیدمان‌های غیرمرتب برسیم. با تقسیم $\frac {n!} {(n-k)!}$ بر $k!$ به فرمول نهایی می‌رسیم.
 
-**Recurrence formula** (which is associated with the famous "Pascal's Triangle"):
+**فرمول بازگشتی** (که با «مثلث پاسکال» معروف مرتبط است):
 
 $$ \binom n k = \binom {n-1} {k-1} + \binom {n-1} k $$
 
-It is easy to deduce this using the analytic formula.
+استنتاج این فرمول با استفاده از فرمول تحلیلی آسان است.
 
-Note that for $n \lt k$ the value of $\binom n k$ is assumed to be zero.
+توجه داشته باشید که برای $n \lt k$، مقدار $\binom n k$ صفر در نظر گرفته می‌شود.
 
-## Properties
+## ویژگی‌ها
 
-Binomial coefficients have many different properties. Here are the simplest of them:
+ضرایب دوجمله‌ای ویژگی‌های متفاوت بسیاری دارند. در اینجا ساده‌ترین آن‌ها آورده شده است:
 
-*   Symmetry rule:
+*   قاعده تقارن:
 
     \[ \binom n k = \binom n {n-k} \]
 
-*   Factoring in:
+*   فاکتورگیری:
 
     \[ \binom n k = \frac n k \binom {n-1} {k-1} \]
 
-*   Sum over $k$:
+*   جمع روی $k$:
 
     \[ \sum_{k = 0}^n \binom n k = 2 ^ n \]
 
-*   Sum over $n$:
+*   جمع روی $n$:
 
     \[ \sum_{m = 0}^n \binom m k = \binom {n + 1} {k + 1} \]
 
-*   Sum over $n$ and $k$:
+*   جمع روی $n$ و $k$:
 
     \[ \sum_{k = 0}^m  \binom {n + k} k = \binom {n + m + 1} m \]
 
-*   Sum of the squares:
+*   مجموع مربعات:
 
     \[ {\binom n 0}^2 + {\binom n 1}^2 + \cdots + {\binom n n}^2 = \binom {2n} n \]
 
-*   Weighted sum:
+*   جمع وزن‌دار:
 
     \[ 1 \binom n 1 + 2 \binom n 2 + \cdots + n \binom n n = n 2^{n-1} \]
 
-*   Connection with the [Fibonacci numbers](../algebra/fibonacci-numbers.md):
+*   ارتباط با [اعداد فیبوناچی](../algebra/fibonacci-numbers.md):
 
     \[ \binom n 0 + \binom {n-1} 1 + \cdots + \binom {n-k} k + \cdots + \binom 0 n = F_{n+1} \]
 
-## Calculation
+## محاسبه
 
-### Straightforward calculation using analytical formula
+### محاسبه مستقیم با استفاده از فرمول تحلیلی
 
-The first, straightforward formula is very easy to code, but this method is likely to overflow even for relatively small values of $n$ and $k$ (even if the answer completely fit into some datatype, the calculation of the intermediate factorials can lead to overflow). Therefore, this method often can only be used with [long arithmetic](../algebra/big-integer.md):
+فرمول اول که مستقیم است، کدنویسی بسیار ساده‌ای دارد، اما این روش احتمالاً حتی برای مقادیر نسبتاً کوچک n و k نیز دچار سرریز (overflow) می‌شود (حتی اگر پاسخ نهایی کاملاً در یک نوع داده جای بگیرد، محاسبه فاکتوریل‌های میانی می‌تواند منجر به سرریز شود). بنابراین، این روش اغلب فقط با استفاده از [محاسبات با اعداد بزرگ](../algebra/big-integer.md) قابل استفاده است:
 
 ```cpp
 int C(int n, int k) {
@@ -83,11 +83,11 @@ int C(int n, int k) {
 }
 ```
 
-### Improved implementation
+### پیاده‌سازی بهبودیافته
 
-Note that in the above implementation numerator and denominator have the same number of factors ($k$), each of which is greater than or equal to 1. Therefore, we can replace our fraction with a product $k$ fractions, each of which is real-valued. However, on each step after multiplying current answer by each of the next fractions the answer will still be integer (this follows from the property of factoring in). 
+توجه داشته باشید که در پیاده‌سازی بالا، صورت و مخرج کسر به تعداد یکسانی ($k$) عامل دارند که هر کدام بزرگتر یا مساوی ۱ هستند. بنابراین، می‌توانیم کسر خود را با حاصل‌ضرب k کسر که هر کدام مقداری حقیقی دارند، جایگزین کنیم. با این حال، در هر مرحله پس از ضرب پاسخ فعلی در هر یک از کسرهای بعدی، پاسخ همچنان عددی صحیح خواهد بود (این موضوع از خاصیت فاکتورگیری ناشی می‌شود).
 
-C++ implementation:
+پیاده‌سازی در C++:
 
 ```cpp
 int C(int n, int k) {
@@ -98,13 +98,13 @@ int C(int n, int k) {
 }
 ```
 
-Here we carefully cast the floating point number to an integer, taking into account that due to the accumulated errors, it may be slightly less than the true value (for example, $2.99999$ instead of $3$).
+در اینجا ما با دقت عدد اعشاری را به یک عدد صحیح تبدیل می‌کنیم، با در نظر گرفتن این که به دلیل خطاهای انباشته شده، ممکن است مقدار آن کمی کمتر از مقدار واقعی باشد (برای مثال، ۲.۹۹۹۹۹ به جای ۳).
 
-### Pascal's Triangle
+### مثلث پاسکال
 
-By using the recurrence relation we can construct a table of binomial coefficients (Pascal's triangle) and take the result from it. The advantage of this method is that intermediate results never exceed the answer and calculating each new table element requires only one addition. The flaw is slow execution for large $n$ and $k$ if you just need a single value and not the whole table (because in order to calculate $\binom n k$ you will need to build a table of all $\binom i j, 1 \le i \le n, 1 \le j \le n$, or at least to $1 \le j \le \min (i, 2k)$). The time complexity can be considered to be $\mathcal{O}(n^2)$.
+با استفاده از رابطه بازگشتی می‌توانیم جدولی از ضرایب دوجمله‌ای (مثلث پاسکال) بسازیم و نتیجه را از آن برداریم. مزیت این روش این است که نتایج میانی هرگز از پاسخ نهایی تجاوز نمی‌کنند و محاسبه هر عنصر جدید جدول تنها به یک عمل جمع نیاز دارد. نقطه ضعف آن، اجرای کند برای n و k بزرگ است، اگر فقط به یک مقدار واحد و نه کل جدول نیاز داشته باشید (زیرا برای محاسبه $\binom n k$ باید جدولی از تمام $\binom i j$ها برای $1 \le i \le n, 1 \le j \le n$ یا حداقل برای $1 \le j \le \min (i, 2k)$ بسازید). پیچیدگی زمانی را می‌توان $\mathcal{O}(n^2)$ در نظر گرفت.
 
-C++ implementation:
+پیاده‌سازی در C++:
 
 ```cpp
 const int maxn = ...;
@@ -117,33 +117,33 @@ for (int n = 1; n <= maxn; ++n) {
 }
 ```
 
-If the entire table of values is not necessary, storing only two last rows of it is sufficient (current $n$-th row and the previous $n-1$-th).
+اگر به کل جدول مقادیر نیازی نباشد، ذخیره کردن تنها دو سطر آخر آن (سطر n-ام فعلی و سطر n-۱-ام قبلی) کافی است.
 
-### Calculation in $O(1)$ {data-toc-label="Calculation in O(1)"}
+### محاسبه در $O(1)$ {data-toc-label="محاسبه در O(1)"}
 
-Finally, in some situations it is beneficial to precompute all the factorials in order to produce any necessary binomial coefficient with only two divisions later. This can be advantageous when using [long arithmetic](../algebra/big-integer.md), when the memory does not allow precomputation of the whole Pascal's triangle.
-
-
-## Computing binomial coefficients modulo $m$ {data-toc-label="Computing binomial coefficients modulo m"}
-
-Quite often you come across the problem of computing binomial coefficients modulo some $m$.
-
-### Binomial coefficient for small $n$ {data-toc-label="Binomial coefficient for small n"}
-
-The previously discussed approach of Pascal's triangle can be used to calculate all values of $\binom{n}{k} \bmod m$ for reasonably small $n$, since it requires time complexity $\mathcal{O}(n^2)$. This approach can handle any modulo, since only addition operations are used.
+در نهایت، در برخی شرایط، پیش‌محاسبه تمام فاکتوریل‌ها برای به دست آوردن هر ضریب دوجمله‌ای مورد نیاز تنها با دو تقسیم، سودمند است. این روش هنگام استفاده از [محاسبات با اعداد بزرگ](../algebra/big-integer.md) می‌تواند مفید باشد، زمانی که حافظه اجازه پیش‌محاسبه کل مثلث پاسکال را نمی‌دهد.
 
 
-### Binomial coefficient modulo large prime
+## محاسبه ضرایب دوجمله‌ای به پیمانه $m$ {data-toc-label="محاسبه ضرایب دوجمله‌ای به پیمانه m"}
 
-The formula for the binomial coefficients is
+اغلب با مسئله محاسبه ضرایب دوجمله‌ای به پیمانه یک عدد $m$ مواجه می‌شوید.
+
+### ضریب دوجمله‌ای برای n کوچک {data-toc-label="ضریب دوجمله‌ای برای n کوچک"}
+
+رویکرد مثلث پاسکال که قبلاً مورد بحث قرار گرفت، می‌تواند برای محاسبه تمام مقادیر $\binom{n}{k} \bmod m$ برای nهای منطقاً کوچک استفاده شود، زیرا به پیچیدگی زمانی $\mathcal{O}(n^2)$ نیاز دارد. این رویکرد می‌تواند هر پیمانه‌ای را مدیریت کند، زیرا تنها از عملیات جمع استفاده می‌شود.
+
+
+### ضریب دوجمله‌ای به پیمانه عدد اول بزرگ
+
+فرمول ضرایب دوجمله‌ای به این صورت است:
 
 $$\binom n k = \frac {n!} {k!(n-k)!},$$
 
-so if we want to compute it modulo some prime $m > n$ we get
+بنابراین اگر بخواهیم آن را به پیمانه یک عدد اول $m > n$ محاسبه کنیم، خواهیم داشت:
 
 $$\binom n k \equiv n! \cdot (k!)^{-1} \cdot ((n-k)!)^{-1} \mod m.$$
 
-First we precompute all factorials modulo $m$ up to $\text{MAXN}!$ in $O(\text{MAXN})$ time.
+ابتدا تمام فاکتوریل‌ها به پیمانه $m$ تا $\text{MAXN}!$ را در زمان $O(\text{MAXN})$ پیش‌محاسبه می‌کنیم.
 
 ```cpp
 factorial[0] = 1;
@@ -152,7 +152,7 @@ for (int i = 1; i <= MAXN; i++) {
 }
 ```
 
-And afterwards we can compute the binomial coefficient in $O(\log m)$ time.
+و پس از آن می‌توانیم ضریب دوجمله‌ای را در زمان $O(\log m)$ محاسبه کنیم.
 
 ```cpp
 long long binomial_coefficient(int n, int k) {
@@ -160,7 +160,7 @@ long long binomial_coefficient(int n, int k) {
 }
 ```
 
-We even can compute the binomial coefficient in $O(1)$ time if we precompute the inverses of all factorials in $O(\text{MAXN} \log m)$ using the regular method for computing the inverse, or even in $O(\text{MAXN})$ time using the congruence $(x!)^{-1} \equiv ((x-1)!)^{-1} \cdot x^{-1}$ and the method for [computing all inverses](../algebra/module-inverse.md#mod-inv-all-num) in $O(n)$.
+حتی می‌توانیم ضریب دوجمله‌ای را در زمان $O(1)$ محاسبه کنیم اگر معکوس تمام فاکتوریل‌ها را در $O(\text{MAXN} \log m)$ با استفاده از روش معمول برای محاسبه معکوس، یا حتی در زمان $O(\text{MAXN})$ با استفاده از همنهشتی $(x!)^{-1} \equiv ((x-1)!)^{-1} \cdot x^{-1}$ و روش [محاسبه تمام معکوس‌ها](../algebra/module-inverse.md#mod-inv-all-num) در $O(n)$ پیش‌محاسبه کنیم.
 
 ```cpp
 long long binomial_coefficient(int n, int k) {
@@ -168,53 +168,53 @@ long long binomial_coefficient(int n, int k) {
 }
 ```
 
-### Binomial coefficient modulo prime power  { #mod-prime-pow}
+### ضریب دوجمله‌ای به پیمانه توانی از یک عدد اول { #mod-prime-pow}
 
-Here we want to compute the binomial coefficient modulo some prime power, i.e. $m = p^b$ for some prime $p$.
-If $p > \max(k, n-k)$, then we can use the same method as described in the previous section.
-But if $p \le \max(k, n-k)$, then at least one of $k!$ and $(n-k)!$ are not coprime with $m$, and therefore we cannot compute the inverses - they don't exist.
-Nevertheless we can compute the binomial coefficient.
+در اینجا می‌خواهیم ضریب دوجمله‌ای را به پیمانه توانی از یک عدد اول، یعنی $m = p^b$ برای یک عدد اول $p$ محاسبه کنیم.
+اگر $p > \max(k, n-k)$ باشد، می‌توانیم از همان روشی که در بخش قبل توضیح داده شد استفاده کنیم.
+اما اگر $p \le \max(k, n-k)$ باشد، حداقل یکی از $k!$ و $(n-k)!$ نسبت به $m$ اول نیستند و بنابراین نمی‌توانیم معکوس آن‌ها را محاسبه کنیم - چون وجود ندارند.
+با این وجود می‌توانیم ضریب دوجمله‌ای را محاسبه کنیم.
 
-The idea is the following:
-We compute for each $x!$ the biggest exponent $c$ such that $p^c$ divides $x!$, i.e. $p^c ~|~ x!$.
-Let $c(x)$ be that number.
-And let $g(x) := \frac{x!}{p^{c(x)}}$.
-Then we can write the binomial coefficient as:
+ایده به این صورت است:
+برای هر $x!$، بزرگترین توان $c$ را محاسبه می‌کنیم که $p^c$ عدد $x!$ را عاد کند، یعنی $p^c ~|~ x!$.
+فرض کنید $c(x)$ این عدد باشد.
+و $g(x) := \frac{x!}{p^{c(x)}}$.
+آنگاه می‌توانیم ضریب دوجمله‌ای را به این صورت بنویسیم:
 
 $$\binom n k = \frac {g(n) p^{c(n)}} {g(k) p^{c(k)} g(n-k) p^{c(n-k)}} = \frac {g(n)} {g(k) g(n-k)}p^{c(n) - c(k) - c(n-k)}$$
 
-The interesting thing is, that $g(x)$ is now free from the prime divisor $p$.
-Therefore $g(x)$ is coprime to m, and we can compute the modular inverses of $g(k)$ and $g(n-k)$.
+نکته جالب این است که $g(x)$ دیگر عامل اول $p$ را ندارد.
+بنابراین $g(x)$ نسبت به m اول است و می‌توانیم معکوس پیمانه‌ای $g(k)$ و $g(n-k)$ را محاسبه کنیم.
 
-After precomputing all values for $g$ and $c$, which can be done efficiently using dynamic programming in $\mathcal{O}(n)$, we can compute the binomial coefficient in $O(\log m)$ time.
-Or precompute all inverses and all powers of $p$, and then compute the binomial coefficient in $O(1)$.
+پس از پیش‌محاسبه تمام مقادیر برای $g$ و $c$ که می‌تواند به طور کارآمد با استفاده از برنامه‌نویسی پویا در $\mathcal{O}(n)$ انجام شود، می‌توانیم ضریب دوجمله‌ای را در زمان $O(\log m)$ محاسبه کنیم.
+یا تمام معکوس‌ها و تمام توان‌های $p$ را پیش‌محاسبه کرده و سپس ضریب دوجمله‌ای را در $O(1)$ به دست آوریم.
 
-Notice, if $c(n) - c(k) - c(n-k) \ge b$, than $p^b ~|~ p^{c(n) - c(k) - c(n-k)}$, and the binomial coefficient is $0$.
+توجه داشته باشید، اگر $c(n) - c(k) - c(n-k) \ge b$ باشد، آنگاه $p^b ~|~ p^{c(n) - c(k) - c(n-k)}$ و ضریب دوجمله‌ای برابر با $0$ است.
 
-### Binomial coefficient modulo an arbitrary number
+### ضریب دوجمله‌ای به پیمانه یک عدد دلخواه
 
-Now we compute the binomial coefficient modulo some arbitrary modulus $m$.
+اکنون ضریب دوجمله‌ای را به پیمانه یک عدد دلخواه $m$ محاسبه می‌کنیم.
 
-Let the prime factorization of $m$ be $m = p_1^{e_1} p_2^{e_2} \cdots p_h^{e_h}$.
-We can compute the binomial coefficient modulo $p_i^{e_i}$ for every $i$.
-This gives us $h$ different congruences.
-Since all moduli $p_i^{e_i}$ are coprime, we can apply the [Chinese Remainder Theorem](../algebra/chinese-remainder-theorem.md) to compute the binomial coefficient modulo the product of the moduli, which is the desired binomial coefficient modulo $m$.
+فرض کنید تجزیه $m$ به عوامل اول به صورت $m = p_1^{e_1} p_2^{e_2} \cdots p_h^{e_h}$ باشد.
+می‌توانیم ضریب دوجمله‌ای را به پیمانه $p_i^{e_i}$ برای هر $i$ محاسبه کنیم.
+این کار به ما $h$ همنهشتی متفاوت می‌دهد.
+از آنجایی که تمام پیمانه‌های $p_i^{e_i}$ نسبت به هم اول هستند، می‌توانیم [قضیه باقیمانده چینی](../algebra/chinese-remainder-theorem.md) را برای محاسبه ضریب دوجمله‌ای به پیمانه حاصل‌ضرب پیمانه‌ها به کار ببریم، که همان ضریب دوجمله‌ای مطلوب به پیمانه $m$ است.
 
-### Binomial coefficient for large $n$ and small modulo {data-toc-label="Binomial coefficient for large n and small modulo"}
+### ضریب دوجمله‌ای برای n بزرگ و پیمانه کوچک {data-toc-label="ضریب دوجمله‌ای برای n بزرگ و پیمانه کوچک"}
 
-When $n$ is too large, the $\mathcal{O}(n)$ algorithms discussed above become impractical. However, if the modulo $m$ is small there are still ways to calculate $\binom{n}{k} \bmod m$.
+وقتی $n$ خیلی بزرگ باشد، الگوریتم‌های با پیچیدگی $\mathcal{O}(n)$ که در بالا بحث شد، غیرعملی می‌شوند. با این حال، اگر پیمانه $m$ کوچک باشد، هنوز راه‌هایی برای محاسبه $\binom{n}{k} \bmod m$ وجود دارد.
 
-When the modulo $m$ is prime, there are 2 options:
+وقتی پیمانه $m$ اول است، ۲ گزینه وجود دارد:
 
-* [Lucas's theorem](https://en.wikipedia.org/wiki/Lucas's_theorem) can be applied which breaks the problem of computing $\binom{n}{k} \bmod m$ into $\log_m n$ problems of the form $\binom{x_i}{y_i} \bmod m$ where $x_i, y_i < m$.  If each reduced coefficient is calculated using precomputed factorials and inverse factorials, the complexity is $\mathcal{O}(m + \log_m n)$.
-* The method of computing [factorial modulo P](../algebra/factorial-modulo.md) can be used to get the required $g$ and $c$ values and use them as described in the section of [modulo prime power](#mod-prime-pow). This takes $\mathcal{O}(m \log_m n)$.
+*   می‌توان از [قضیه لوکاس](https://en.wikipedia.org/wiki/Lucas's_theorem) استفاده کرد که مسئله محاسبه $\binom{n}{k} \bmod m$ را به $\log_m n$ مسئله از نوع $\binom{x_i}{y_i} \bmod m$ که در آن $x_i, y_i < m$ است، می‌شکند. اگر هر ضریب کاهش‌یافته با استفاده از فاکتوریل‌ها و معکوس فاکتوریل‌های پیش‌محاسبه‌شده محاسبه شود، پیچیدگی $\mathcal{O}(m + \log_m n)$ خواهد بود.
+*   می‌توان از روش محاسبه [فاکتوریل به پیمانه P](../algebra/factorial-modulo.md) برای به دست آوردن مقادیر $g$ و $c$ مورد نیاز استفاده کرد و همانطور که در بخش [پیمانه توانی از یک عدد اول](#mod-prime-pow) توضیح داده شد، آن‌ها را به کار برد. این کار $\mathcal{O}(m \log_m n)$ زمان می‌برد.
 
-When $m$ is not prime but square-free, the prime factors of $m$ can be obtained and the coefficient modulo each prime factor can be calculated using either of the above methods, and the overall answer can be obtained by the Chinese Remainder Theorem.
+وقتی $m$ اول نیست اما خالی از مربع (square-free) است، می‌توان عوامل اول $m$ را به دست آورد و ضریب را به پیمانه هر عامل اول با استفاده از یکی از روش‌های بالا محاسبه کرد و پاسخ کلی را با قضیه باقیمانده چینی به دست آورد.
 
-When $m$ is not square-free, a [generalization of Lucas's theorem for prime powers](https://web.archive.org/web/20170202003812/http://www.dms.umontreal.ca/~andrew/PDF/BinCoeff.pdf) can be applied instead of Lucas's theorem.
+وقتی $m$ خالی از مربع نیست، می‌توان به جای قضیه لوکاس از [تعمیم قضیه لوکاس برای توان‌های اول](https://web.archive.org/web/20170202003812/http://www.dms.umontreal.ca/~andrew/PDF/BinCoeff.pdf) استفاده کرد.
 
 
-## Practice Problems
+## مسائل تمرینی
 * [Codechef - Number of ways](https://www.codechef.com/LTIME24/problems/NWAYS/)
 * [Codeforces - Curious Array](http://codeforces.com/problemset/problem/407/C)
 * [LightOj - Necklaces](http://www.lightoj.com/volume_showproblem.php?problem=1419)
@@ -233,7 +233,7 @@ When $m$ is not square-free, a [generalization of Lucas's theorem for prime powe
 * [CodeChef - Long Sandwich](https://www.codechef.com/MAY17/problems/SANDWICH/)
 * [Codeforces - Placing Jinas](https://codeforces.com/problemset/problem/1696/E)
 
-## References
+## منابع
 * [Blog fishi.devtail.io](https://fishi.devtail.io/weblog/2015/06/25/computing-large-binomial-coefficients-modulo-prime-non-prime/)
 * [Question on Mathematics StackExchange](https://math.stackexchange.com/questions/95491/n-choose-k-bmod-m-using-chinese-remainder-theorem)
 * [Question on CodeChef Discuss](https://discuss.codechef.com/questions/98129/your-approach-to-solve-sandwich)

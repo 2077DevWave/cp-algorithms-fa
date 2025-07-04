@@ -1,144 +1,144 @@
 ---
 tags:
-  - Translated
-e_maxx_link: bridge_searching_online
+  - AI Translated
+e_maxx_link: bridge-searching-online
 ---
 
-# Finding Bridges Online
+# یافتن پل‌ها به صورت آنلاین
 
-We are given an undirected graph.
-A bridge is an edge whose removal makes the graph disconnected (or, more precisely, increases the number of connected components).
-Our task is to find all the bridges in the given graph.
+یک گراف غیرجهت‌دار به ما داده شده است.
+پل یالی است که حذف آن باعث ناهمبند شدن گراف می‌شود (یا به عبارت دقیق‌تر، تعداد مؤلفه‌های همبندی را افزایش می‌دهد).
+وظیفه‌ی ما یافتن تمام پل‌ها در گراف داده شده است.
 
-Informally this task can be put as follows:
-we have to find all the "important" roads on the given road map, i.e. such roads that the removal of any of them will lead to some cities being unreachable from others.
+به‌طور غیررسمی، این مسئله را می‌توان به این صورت بیان کرد:
+باید تمام جاده‌های «مهم» را در یک نقشه‌ی راه پیدا کنیم، یعنی جاده‌هایی که حذف هر یک از آن‌ها منجر به این می‌شود که برخی شهرها از شهرهای دیگر غیرقابل دسترس شوند.
 
-There is already the article [Finding Bridges in $O(N+M)$](bridge-searching.md) which solves this task with a [Depth First Search](depth-first-search.md) traversal.
-This algorithm will be much more complicated, but it has one big advantage:
-the algorithm described in this article works online, which means that the input graph doesn't have to be known in advance.
-The edges are added once at a time, and after each addition the algorithm recounts all the bridges in the current graph.
-In other words the algorithm is designed to work efficiently on a dynamic, changing graph.
+پیش از این مقاله‌ای با عنوان [یافتن پل‌ها در $O(N+M)$](bridge-searching.md) وجود دارد که این مسئله را با یک پیمایش [جستجوی اول عمق](depth-first-search.md) حل می‌کند.
+این الگوریتم بسیار پیچیده‌تر خواهد بود، اما یک مزیت بزرگ دارد:
+الگوریتم توصیف‌شده در این مقاله به صورت آنلاین کار می‌کند، به این معنی که گراف ورودی لازم نیست از قبل مشخص باشد.
+یال‌ها یکی‌یکی اضافه می‌شوند و پس از هر افزودن، الگوریتم تمام پل‌ها را در گراف فعلی دوباره می‌شمارد.
+به عبارت دیگر، این الگوریتم برای کارایی بالا روی یک گراف پویا و در حال تغییر طراحی شده است.
 
-More rigorously the statement of the problem is as follows:
-Initially the graph is empty and consists of $n$ vertices.
-Then we receive pairs of vertices $(a, b)$, which denote an edge added to the graph.
-After each received edge, i.e. after adding each edge, output the current number of bridges in the graph.
+به‌طور دقیق‌تر، صورت مسئله به شرح زیر است:
+در ابتدا، گراف خالی است و از $n$ رأس تشکیل شده است.
+سپس زوج رئوس $(a, b)$ را دریافت می‌کنیم که نشان‌دهنده‌ی یک یال اضافه‌شده به گراف است.
+پس از دریافت هر یال، یعنی پس از افزودن هر یال، تعداد فعلی پل‌ها در گراف را خروجی دهید.
 
-It is also possible to maintain a list of all bridges as well as explicitly support the 2-edge-connected components.
+همچنین امکان نگهداری لیستی از تمام پل‌ها و پشتیبانی صریح از مؤلفه‌های ۲-یال-همبند نیز وجود دارد.
 
-The algorithm described below works in $O(n \log n + m)$ time, where $m$ is the number of edges.
-The algorithm is based on the data structure [Disjoint Set Union](../data_structures/disjoint_set_union.md).
-However the implementation in this article takes $O(n \log n + m \log n)$ time, because it uses the simplified version of the DSU without Union by Rank.
+الگوریتم شرح داده شده در ادامه در زمان $O(n \log n + m)$ کار می‌کند که $m$ تعداد یال‌ها است.
+این الگوریتم بر پایه‌ی ساختار داده‌ی [مجموعه‌های مجزا (DSU)](../data_structures/disjoint_set_union.md) است.
+با این حال، پیاده‌سازی در این مقاله زمان $O(n \log n + m \log n)$ را صرف می‌کند، زیرا از نسخه‌ی ساده‌شده‌ی DSU بدون Union by Rank استفاده می‌کند.
 
-## Algorithm
+## الگوریتم
 
-First let's define a $k$-edge-connected component:
-it is a connected component that remains connected whenever you remove fewer than $k$ edges.
+ابتدا بیایید یک مؤلفه‌ی $k$-یال-همبند را تعریف کنیم:
+این یک مؤلفه‌ی همبندی است که با حذف کمتر از $k$ یال همچنان همبند باقی می‌ماند.
 
-It is very easy to see, that the bridges partition the graph into 2-edge-connected components.
-If we compress each of those 2-edge-connected components into vertices and only leave the bridges as edges in the compressed graph, then we obtain an acyclic graph, i.e. a forest.
+به راحتی می‌توان دید که پل‌ها گراف را به مؤلفه‌های ۲-یال-همبند افراز می‌کنند.
+اگر هر یک از این مؤلفه‌های ۲-یال-همبند را به یک رأس فشرده کنیم و فقط پل‌ها را به عنوان یال در گراف فشرده‌شده باقی بگذاریم، یک گراف بدون دور، یعنی یک جنگل، به دست می‌آوریم.
 
-The algorithm described below maintains this forest explicitly as well as the 2-edge-connected components.
+الگوریتم شرح داده شده در ادامه، این جنگل و همچنین مؤلفه‌های ۲-یال-همبند را به صراحت نگهداری می‌کند.
 
-It is clear that initially, when the graph is empty, it contains $n$ 2-edge-connected components, which by themselves are not connect.
+واضح است که در ابتدا، وقتی گراف خالی است، شامل $n$ مؤلفه‌ی ۲-یال-همبند است که خودشان به هم متصل نیستند.
 
-When adding the next edge $(a, b)$ there can occur three situations:
+هنگام افزودن یال بعدی $(a, b)$، سه حالت ممکن است رخ دهد:
 
-*   Both vertices $a$ and $b$ are in the same 2-edge-connected component - then this edge is not a bridge, and does not change anything in the forest structure, so we can just skip this edge.
+*   هر دو رأس $a$ و $b$ در یک مؤلفه‌ی ۲-یال-همبند قرار دارند - در این صورت این یال پل نیست و چیزی را در ساختار جنگل تغییر نمی‌دهد، بنابراین می‌توانیم از این یال صرف‌نظر کنیم.
 
-    Thus, in this case the number of bridges does not change.
+    بنابراین، در این حالت تعداد پل‌ها تغییر نمی‌کند.
 
-*   The vertices $a$ and $b$ are in completely different connected components, i.e. each one is part of a different tree.
-    In this case, the edge $(a, b)$ becomes a new bridge, and these two trees are combined into one (and all the old bridges remain).
+*   رئوس $a$ و $b$ در مؤلفه‌های همبندی کاملاً متفاوتی قرار دارند، یعنی هر کدام بخشی از یک درخت متفاوت هستند.
+    در این حالت، یال $(a, b)$ به یک پل جدید تبدیل می‌شود و این دو درخت در یک درخت ادغام می‌شوند (و تمام پل‌های قدیمی باقی می‌مانند).
 
-    Thus, in this case the number of bridges increases by one.
+    بنابراین، در این حالت تعداد پل‌ها یک واحد افزایش می‌یابد.
 
-*   The vertices $a$ and $b$ are in one connected component, but in different 2-edge-connected components.
-    In this case, this edge forms a cycle along with some of the old bridges.
-    All these bridges end being bridges, and the resulting cycle must be compressed into a new 2-edge-connected component.
+*   رئوس $a$ و $b$ در یک مؤلفه‌ی همبندی، اما در مؤلفه‌های ۲-یال-همبند متفاوتی قرار دارند.
+    در این حالت، این یال به همراه برخی از پل‌های قدیمی یک دور تشکیل می‌دهد.
+    تمام این پل‌ها دیگر پل نخواهند بود و دور حاصل باید در یک مؤلفه‌ی ۲-یال-همبند جدید فشرده شود.
 
-    Thus, in this case the number of bridges decreases by two or more.
+    بنابراین، در این حالت تعداد پل‌ها دو یا بیشتر کاهش می‌یابد.
 
-Consequently the whole task is reduced to the effective implementation of all these operations over the forest of 2-edge-connected components.
+در نتیجه، کل وظیفه به پیاده‌سازی کارآمد تمام این عملیات بر روی جنگلِ مؤلفه‌های ۲-یال-همبند کاهش می‌یابد.
 
-## Data Structures for storing the forest
+## ساختارهای داده برای ذخیره‌سازی جنگل
 
-The only data structure that we need is [Disjoint Set Union](../data_structures/disjoint_set_union.md).
-In fact we will make two copies of this structure:
-one will be to maintain the connected components, the other to maintain the 2-edge-connected components.
-And in addition we store the structure of the trees in the forest of 2-edge-connected components via pointers:
-Each 2-edge-connected component will store the index `par[]` of its ancestor in the tree.
+تنها ساختار داده‌ای که نیاز داریم [مجموعه‌های مجزا (DSU)](../data_structures/disjoint_set_union.md) است.
+در واقع ما دو نسخه از این ساختار را خواهیم ساخت:
+یکی برای نگهداری مؤلفه‌های همبندی، و دیگری برای نگهداری مؤلفه‌های ۲-یال-همبند.
+و علاوه بر این، ساختار درختان در جنگلِ مؤلفه‌های ۲-یال-همبند را از طریق اشاره‌گرها ذخیره می‌کنیم:
+هر مؤلفه‌ی ۲-یال-همبند، اندیس `par[]` جد خود را در درخت ذخیره می‌کند.
 
-We will now consistently disassemble every operation that we need to learn to implement:
+اکنون به طور منسجم هر عملیاتی را که برای پیاده‌سازی باید یاد بگیریم، بررسی می‌کنیم:
 
-  * Check whether the two vertices lie in the same connected / 2-edge-connected component.
-    It is done with the usual DSU algorithm, we just find and compare the representatives of the DSUs.
+  * بررسی اینکه آیا دو رأس در یک مؤلفه‌ی همبندی / ۲-یال-همبند یکسان قرار دارند یا خیر.
+    این کار با الگوریتم معمول DSU انجام می‌شود، فقط کافی است نمایندگان DSUها را پیدا کرده و مقایسه کنیم.
   
-  * Joining two trees for some edge $(a, b)$.
-    Since it could turn out that neither the vertex $a$ nor the vertex $b$ are the roots of their trees, the only way to connect these two trees is to re-root one of them.
-    For example you can re-root the tree of vertex $a$, and then attach it to another tree by setting the ancestor of $a$ to $b$.
+  * اتصال دو درخت برای یک یال $(a, b)$.
+    از آنجایی که ممکن است نه رأس $a$ و نه رأس $b$ ریشه‌ی درختان خود نباشند، تنها راه برای اتصال این دو درخت، تغییر ریشه‌ی یکی از آنهاست.
+    به عنوان مثال، می‌توانید ریشه‌ی درخت رأس $a$ را تغییر دهید و سپس با تنظیم جد $a$ به $b$، آن را به درخت دیگر متصل کنید.
   
-    However the question about the effectiveness of the re-rooting operation arises:
-    in order to re-root the tree with the root $r$ to the vertex $v$, it is necessary to visit all vertices on the path between $v$ and $r$ and redirect the pointers `par[]` in the opposite direction, and also change the references to the ancestors in the DSU that is responsible for the connected components.
+    با این حال، سؤالی در مورد کارایی عملیات تغییر ریشه مطرح می‌شود:
+    برای تغییر ریشه‌ی درخت با ریشه‌ی $r$ به رأس $v$، لازم است تمام رئوس در مسیر بین $v$ و $r$ را پیمایش کرده و اشاره‌گرهای `par[]` را در جهت مخالف هدایت کنیم، و همچنین ارجاع به جدها را در DSU مسئول مؤلفه‌های همبندی تغییر دهیم.
   
-    Thus, the cost of re-rooting is $O(h)$, where $h$ is the height of the tree.
-    You can make an even worse estimate by saying that the cost is $O(\text{size})$ where $\text{size}$ is the number of vertices in the tree.
-    The final complexity will not differ.
+    بنابراین، هزینه‌ی تغییر ریشه $O(h)$ است، که $h$ ارتفاع درخت است.
+    می‌توان تخمین بدتری با گفتن اینکه هزینه $O(\text{size})$ است، ارائه داد که $\text{size}$ تعداد رئوس در درخت است.
+    پیچیدگی نهایی تفاوتی نخواهد داشت.
   
-    We now apply a standard technique: we re-root the tree that contains fewer vertices.
-    Then it is intuitively clear that the worst case is when two trees of approximately equal sizes are combined, but then the result is a tree of twice the size.
-    This does not allow this situation to happen many times.
+    اکنون یک تکنیک استاندارد را به کار می‌بریم: درختی را که رئوس کمتری دارد، تغییر ریشه می‌دهیم.
+    در این صورت، به طور شهودی واضح است که بدترین حالت زمانی است که دو درخت با اندازه‌های تقریباً برابر با هم ترکیب شوند، اما نتیجه یک درخت با دو برابر اندازه است.
+    این امر اجازه نمی‌دهد این وضعیت بارها اتفاق بیفتد.
   
-    In general the total cost can be written in the form of a recurrence:
+    به طور کلی، هزینه‌ی کل را می‌توان به صورت یک رابطه‌ی بازگشتی نوشت:
     
     \[ T(n) = \max_{k = 1 \ldots n-1} \left\{ T(k) + T(n - k) + O(\min(k, n - k))\right\} \]
     
-    $T(n)$ is the number of operations necessary to obtain a tree with $n$ vertices by means of re-rooting and unifying trees.
-    A tree of size $n$ can be created by combining two smaller trees of size $k$ and $n - k$.
-    This recurrence is has the solution $T(n) = O (n \log n)$.
+    $T(n)$ تعداد عملیات لازم برای به دست آوردن یک درخت با $n$ رأس به وسیله‌ی تغییر ریشه و ادغام درختان است.
+    یک درخت به اندازه‌ی $n$ می‌تواند با ترکیب دو درخت کوچکتر به اندازه‌های $k$ و $n - k$ ایجاد شود.
+    این رابطه‌ی بازگشتی دارای جواب $T(n) = O (n \log n)$ است.
   
-    Thus, the total time spent on all re-rooting operations will be $O(n \log n)$ if we always re-root the smaller of the two trees.
+    بنابراین، کل زمان صرف شده برای تمام عملیات تغییر ریشه $O(n \log n)$ خواهد بود اگر همیشه درخت کوچکتر از بین دو درخت را تغییر ریشه دهیم.
   
-    We will have to maintain the size of each connected component, but the data structure DSU makes this possible without difficulty.
+    باید اندازه‌ی هر مؤلفه‌ی همبندی را نگهداری کنیم، اما ساختار داده‌ی DSU این امکان را بدون مشکل فراهم می‌کند.
   
-  * Searching for the cycle formed by adding a new edge $(a, b)$.
-    Since $a$ and $b$ are already connected in the tree we need to find the [Lowest Common Ancestor](lca.md) of the vertices $a$ and $b$.
-    The cycle will consist of the paths from $b$ to the LCA, from the LCA to $a$ and the edge $a$ to $b$.
+  * جستجوی دوری که با افزودن یال جدید $(a, b)$ تشکیل می‌شود.
+    از آنجایی که $a$ و $b$ از قبل در درخت متصل هستند، باید [پایین‌ترین جد مشترک (LCA)](lca.md) رئوس $a$ و $b$ را پیدا کنیم.
+    دور شامل مسیرهایی از $b$ به LCA، از LCA به $a$ و یال $a$ به $b$ خواهد بود.
   
-    After finding the cycle we compress all vertices of the detected cycle into one vertex.
-    This means that we already have a complexity proportional to the cycle length, which means that we also can use any LCA algorithm proportional to the length, and don't have to use any fast one.
+    پس از یافتن دور، تمام رئوس دور شناسایی‌شده را در یک رأس فشرده می‌کنیم.
+    این بدان معناست که ما از قبل پیچیدگی متناسب با طول دور را داریم، که یعنی می‌توانیم از هر الگوریتم LCA متناسب با طول استفاده کنیم و نیازی به استفاده از الگوریتم سریع نداریم.
   
-    Since all information about the structure of the tree is available is the ancestor array `par[]`, the only reasonable LCA algorithm is the following:
-    mark the vertices $a$ and $b$ as visited, then we go to their ancestors `par[a]` and `par[b]` and mark them, then advance to their ancestors and so on, until we reach an already marked vertex.
-    This vertex is the LCA that we are looking for, and we can find the vertices on the cycle by traversing the path from $a$ and $b$ to the LCA again.
+    از آنجایی که تمام اطلاعات مربوط به ساختار درخت در آرایه‌ی جد `par[]` موجود است، تنها الگوریتم LCA معقول به شرح زیر است:
+    رئوس $a$ و $b$ را به عنوان بازدید شده علامت‌گذاری می‌کنیم، سپس به سراغ اجداد آنها `par[a]` و `par[b]` می‌رویم و آنها را علامت‌گذاری می‌کنیم، سپس به اجداد آنها پیش می‌رویم و به همین ترتیب ادامه می‌دهیم تا به رأسی برسیم که قبلاً علامت‌گذاری شده است.
+    این رأس همان LCA است که به دنبال آن هستیم، و می‌توانیم با پیمایش مجدد مسیر از $a$ و $b$ به LCA، رئوس روی دور را پیدا کنیم.
   
-    It is obvious that the complexity of this algorithm is proportional to the length of the desired cycle.
+    واضح است که پیچیدگی این الگوریتم متناسب با طول دور مورد نظر است.
   
-  * Compression of the cycle by adding a new edge $(a, b)$ in a tree.
+  * فشرده‌سازی دور با افزودن یک یال جدید $(a, b)$ در یک درخت.
   
-    We need to create a new 2-edge-connected component, which will consist of all vertices of the detected cycle (also the detected cycle itself could consist of some 2-edge-connected components, but this does not change anything).
-    In addition it is necessary to compress them in such a way that the structure of the tree is not disturbed, and all pointers `par[]` and two DSUs are still correct.
+    باید یک مؤلفه‌ی ۲-یال-همبند جدید ایجاد کنیم که شامل تمام رئوس دور شناسایی‌شده باشد (همچنین خود دور شناسایی‌شده می‌تواند شامل چند مؤلفه‌ی ۲-یال-همبند باشد، اما این چیزی را تغییر نمی‌دهد).
+    علاوه بر این، لازم است آنها را به گونه‌ای فشرده کنیم که ساختار درخت مختل نشود و تمام اشاره‌گرهای `par[]` و دو DSU همچنان صحیح باقی بمانند.
   
-    The easiest way to achieve this is to compress all the vertices of the cycle to their LCA.
-    In fact the LCA is the highest of the vertices, i.e. its ancestor pointer `par[]` remains unchanged.
-    For all the other vertices of the loop the ancestors do not need to be updated, since these vertices simply cease to exists.
-    But in the DSU of the 2-edge-connected components all these vertices will simply point to the LCA.
+    ساده‌ترین راه برای رسیدن به این هدف، فشرده‌سازی تمام رئوس دور در LCA آنهاست.
+    در واقع، LCA بالاترین رأس در میان رئوس است، یعنی اشاره‌گر جد `par[]` آن بدون تغییر باقی می‌ماند.
+    برای تمام رئوس دیگر حلقه، نیازی به به‌روزرسانی جدها نیست، زیرا این رئوس به سادگی از بین می‌روند.
+    اما در DSU مؤلفه‌های ۲-یال-همبند، تمام این رئوس به سادگی به LCA اشاره خواهند کرد.
   
-    We will implement the DSU of the 2-edge-connected components without the Union by rank optimization, therefore we will get the complexity $O(\log n)$ on average per query.
-    To achieve the complexity $O(1)$ on average per query, we need to combine the vertices of the cycle according to Union by rank, and then assign `par[]` accordingly.
+    ما DSU مؤلفه‌های ۲-یال-همبند را بدون بهینه‌سازی Union by rank پیاده‌سازی خواهیم کرد، بنابراین به پیچیدگی $O(\log n)$ به طور متوسط در هر پرس‌وجو خواهیم رسید.
+    برای رسیدن به پیچیدگی $O(1)$ به طور متوسط در هر پرس‌وجو، باید رئوس دور را مطابق با Union by rank ترکیب کنیم و سپس `par[]` را متناسب با آن تخصیص دهیم.
 
-## Implementation
+## پیاده‌سازی
 
-Here is the final implementation of the whole algorithm.
+در اینجا پیاده‌سازی نهایی کل الگوریتم آمده است.
 
-As mentioned before, for the sake of simplicity the DSU of the 2-edge-connected components is written without Union by rank, therefore the resulting complexity will be $O(\log n)$ on average.
+همانطور که قبلاً ذکر شد، برای سادگی، DSU مؤلفه‌های ۲-یال-همبند بدون Union by rank نوشته شده است، بنابراین پیچیدگی حاصل به طور متوسط $O(\log n)$ خواهد بود.
 
-Also in this implementation the bridges themselves are not stored, only their count `bridges`.
-However it will not be difficult to create a `set` of all bridges.
+همچنین در این پیاده‌سازی، خود پل‌ها ذخیره نمی‌شوند، بلکه تنها تعداد آنها `bridges` نگهداری می‌شود.
+با این حال، ایجاد یک `set` از تمام پل‌ها دشوار نخواهد بود.
 
-Initially you call the function `init()`, which initializes the two DSUs (creating a separate set for each vertex, and setting the size equal to one), and sets the ancestors `par`.
+در ابتدا، تابع `init()` را فراخوانی می‌کنید که دو DSU را مقداردهی اولیه می‌کند (یک مجموعه‌ی جداگانه برای هر رأس ایجاد کرده و اندازه را برابر با یک قرار می‌دهد) و اجداد `par` را تنظیم می‌کند.
 
-The main function is `add_edge(a, b)`, which processes and adds a new edge.
+تابع اصلی `add_edge(a, b)` است که یک یال جدید را پردازش و اضافه می‌کند.
 
 ```cpp
 vector<int> par, dsu_2ecc, dsu_cc, dsu_cc_size;
@@ -252,26 +252,26 @@ void add_edge(int a, int b) {
 }
 ```
 
-The DSU for the 2-edge-connected components is stored in the vector `dsu_2ecc`, and the function returning the representative is `find_2ecc(v)`.
-This function is used many times in the rest of the code, since after the compression of several vertices into one all these vertices cease to exist, and instead only the leader has the correct ancestor `par` in the forest of 2-edge-connected components.
+DSU برای مؤلفه‌های ۲-یال-همبند در وکتور `dsu_2ecc` ذخیره می‌شود و تابعی که نماینده را برمی‌گرداند `find_2ecc(v)` است.
+این تابع بارها در بقیه‌ی کد استفاده می‌شود، زیرا پس از فشرده‌سازی چندین رأس در یک رأس، تمام این رئوس از بین می‌روند و در عوض فقط رأس راهبر (leader)، جد صحیح `par` را در جنگل مؤلفه‌های ۲-یال-همبند دارد.
 
-The DSU for the connected components is stored in the vector `dsu_cc`, and there is also an additional vector `dsu_cc_size` to store the component sizes.
-The function `find_cc(v)` returns the leader of the connectivity component (which is actually the root of the tree).
+DSU برای مؤلفه‌های همبندی در وکتور `dsu_cc` ذخیره می‌شود و یک وکتور اضافی `dsu_cc_size` نیز برای ذخیره‌ی اندازه‌ی مؤلفه‌ها وجود دارد.
+تابع `find_cc(v)` راهبر مؤلفه‌ی همبندی (که در واقع ریشه‌ی درخت است) را برمی‌گرداند.
 
-The re-rooting of a tree `make_root(v)` works as described above:
-if traverses from the vertex $v$ via the ancestors to the root vertex, each time redirecting the ancestor `par` in the opposite direction.
-The link to the representative of the connected component `dsu_cc` is also updated, so that it points to the new root vertex.
-After re-rooting we have to assign the new root the correct size of the connected component.
-Also we have to be careful that we call `find_2ecc()` to get the representatives of the 2-edge-connected component, rather than some other vertex that have already been compressed.
+عملیات تغییر ریشه درخت `make_root(v)` همانطور که در بالا توضیح داده شد کار می‌کند:
+از رأس $v$ از طریق اجداد به سمت رأس ریشه پیمایش می‌کند و هر بار جد `par` را در جهت مخالف هدایت می‌کند.
+پیوند به نماینده‌ی مؤلفه‌ی همبندی `dsu_cc` نیز به‌روزرسانی می‌شود تا به رأس ریشه‌ی جدید اشاره کند.
+پس از تغییر ریشه، باید اندازه‌ی صحیح مؤلفه‌ی همبندی را به ریشه‌ی جدید اختصاص دهیم.
+همچنین باید مراقب باشیم که برای به دست آوردن نمایندگان مؤلفه‌ی ۲-یال-همبند، `find_2ecc()` را فراخوانی کنیم، نه رأسی دیگر که قبلاً فشرده شده است.
 
-The cycle finding and compression function `merge_path(a, b)` is also implemented as described above.
-It searches for the LCA of $a$ and $b$ be rising these nodes in parallel, until we meet a vertex for the second time.
-For efficiency purposes we choose a unique identifier for each LCA finding call, and mark the traversed vertices with it.
-This works in $O(1)$, while other approaches like using $set$ perform worse.
-The passed paths are stored in the vectors `path_a` and `path_b`, and we use them to walk through them a second time up to the LCA, thereby obtaining all vertices of the cycle.
-All the vertices of the cycle get compressed by attaching them to the LCA, hence the average complexity is $O(\log n)$ (since we don't use Union by rank).
-All the edges we pass have been bridges, so we subtract 1 for each edge in the cycle.
+تابع یافتن و فشرده‌سازی دور `merge_path(a, b)` نیز همانطور که در بالا توضیح داده شد، پیاده‌سازی شده است.
+این تابع با بالا رفتن موازی از گره‌های $a$ و $b$ به دنبال LCA آنها می‌گردد تا زمانی که برای دومین بار به یک رأس برخورد کنیم.
+برای اهداف کارایی، ما یک شناسه منحصر به فرد برای هر فراخوانی یافتن LCA انتخاب می‌کنیم و رئوس پیمایش شده را با آن علامت‌گذاری می‌کنیم.
+این کار در زمان $O(1)$ انجام می‌شود، در حالی که رویکردهای دیگر مانند استفاده از `set` عملکرد بدتری دارند.
+مسیرهای پیموده شده در وکتورهای `path_a` و `path_b` ذخیره می‌شوند و ما از آنها برای پیمایش مجدد تا LCA استفاده می‌کنیم و بدین ترتیب تمام رئوس دور را به دست می‌آوریم.
+تمام رئوس دور با اتصال به LCA فشرده می‌شوند، از این رو پیچیدگی متوسط $O(\log n)$ است (چون از Union by rank استفاده نمی‌کنیم).
+تمام یال‌هایی که از آنها عبور می‌کنیم، پل بوده‌اند، بنابراین برای هر یال در دور ۱ واحد کم می‌کنیم.
 
-Finally the query function `add_edge(a, b)` determines the connected components in which the vertices $a$ and $b$ lie.
-If they lie in different connectivity components, then a smaller tree is re-rooted and then attached to the larger tree.
-Otherwise if the vertices $a$ and $b$ lie in one tree, but in different 2-edge-connected components, then the function `merge_path(a, b)` is called, which will detect the cycle and compress it into one 2-edge-connected component. 
+در نهایت، تابع پرس‌وجو `add_edge(a, b)` مؤلفه‌های همبندی را که رئوس $a$ و $b$ در آنها قرار دارند، تعیین می‌کند.
+اگر در مؤلفه‌های همبندی متفاوتی قرار داشته باشند، ریشه‌ی درخت کوچکتر تغییر کرده و سپس به درخت بزرگتر متصل می‌شود.
+در غیر این صورت، اگر رئوس $a$ و $b$ در یک درخت، اما در مؤلفه‌های ۲-یال-همبند متفاوتی قرار داشته باشند، تابع `merge_path(a, b)` فراخوانی می‌شود که دور را تشخیص داده و آن را در یک مؤلفه‌ی ۲-یال-همبند فشرده می‌کند.

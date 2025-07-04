@@ -1,54 +1,54 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: rmq_linear
 ---
 
-# Solve RMQ (Range Minimum Query) by finding LCA (Lowest Common Ancestor)
+# حل RMQ (Range Minimum Query) با یافتن LCA (Lowest Common Ancestor)
 
-Given an array `A[0..N-1]`.
-For each query of the form `[L, R]` we want to find the minimum in the array `A` starting from position `L` and ending with position `R`.
-We will assume that the array `A` doesn't change in the process, i.e. this article describes a solution to the static RMQ problem
+آرایه‌ی `A[0..N-1]` داده شده است.
+به ازای هر پرس و جو (query) به فرم `[L, R]`، می‌خواهیم کمینه را در آرایه‌ی `A` از خانه‌ی `L` تا خانه‌ی `R` پیدا کنیم.
+فرض می‌کنیم که آرایه‌ی `A` در طول این فرآیند تغییر نمی‌کند، یعنی این مقاله یک راه حل برای مسئله‌ی RMQ ایستا (static) را شرح می‌دهد.
 
-Here is a description of an asymptotically optimal solution.
-It stands apart from other solutions for the RMQ problem, since it is very different from them:
-it reduces the RMQ problem to the LCA problem, and then uses the [Farach-Colton and Bender algorithm](lca_farachcoltonbender.md), which reduces the LCA problem back to a specialized RMQ problem and solves that.
+در اینجا شرح یک راه حل بهینه‌ی مجانبی ارائه می‌شود.
+این راه حل از دیگر راه حل‌های مسئله‌ی RMQ متمایز است، زیرا رویکردی بسیار متفاوت دارد:
+این روش مسئله‌ی RMQ را به مسئله‌ی LCA کاهش می‌دهد، و سپس از [الگوریتم Farach-Colton and Bender](lca_farachcoltonbender.md) استفاده می‌کند، که خود این الگوریتم مسئله‌ی LCA را دوباره به یک مسئله‌ی RMQ خاص کاهش داده و آن را حل می‌کند.
 
-## Algorithm
+## الگوریتم
 
-We construct a **Cartesian tree** from the array `A`.
-A Cartesian tree of an array `A` is a binary tree with the min-heap property (the value of parent node has to be smaller or equal than the value of its children) such that the in-order traversal of the tree visits the nodes in the same order as they are in the array `A`.
+ما یک **درخت دکارتی (Cartesian tree)** از آرایه‌ی `A` می‌سازیم.
+درخت دکارتی یک آرایه‌ی `A`، یک درخت دودویی با خاصیت min-heap است (مقدار گره والد باید کوچکتر یا مساوی مقدار گره‌های فرزندش باشد) به طوری که پیمایش میان‌ترتیب (in-order) درخت، گره‌ها را به همان ترتیبی که در آرایه‌ی `A` قرار دارند، ملاقات می‌کند.
 
-In other words, a Cartesian tree is a recursive data structure.
-The array `A` will be partitioned into 3 parts: the prefix of the array up to the minimum, the minimum, and the remaining suffix.
-The root of the tree will be a node corresponding to the minimum element of the array `A`, the left subtree will be the Cartesian tree of the prefix, and the right subtree will be a Cartesian tree of the suffix.
+به عبارت دیگر، درخت دکارتی یک ساختمان داده‌ی بازگشتی است.
+آرایه‌ی `A` به ۳ بخش تقسیم می‌شود: پیشوند آرایه تا عنصر کمینه، خود عنصر کمینه، و پسوند باقی‌مانده.
+ریشه‌ی درخت، گره‌ای متناظر با عنصر کمینه‌ی آرایه‌ی `A` خواهد بود، زیردرخت چپ، درخت دکارتی پیشوند خواهد بود، و زیردرخت راست، درخت دکارتی پسوند خواهد بود.
 
-In the following image you can see one array of length 10 and the corresponding Cartesian tree.
+در تصویر زیر می‌توانید یک آرایه به طول ۱۰ و درخت دکارتی متناظر با آن را ببینید.
 <div style="text-align: center;">
-  <img src="CartesianTree.png" alt="Image of Cartesian Tree">
+  <img src="CartesianTree.png" alt="تصویر یک درخت دکارتی">
 </div>
 
-The range minimum query `[l, r]` is equivalent to the lowest common ancestor query `[l', r']`, where `l'` is the node corresponding to the element `A[l]` and `r'` the node corresponding to the element `A[r]`.
-Indeed the node corresponding to the smallest element in the range has to be an ancestor of all nodes in the range, therefor also from `l'` and `r'`.
-This automatically follows from the min-heap property.
-And is also has to be the lowest ancestor, because otherwise `l'` and `r'` would be both in the left or in the right subtree, which generates a contradiction since in such a case the minimum wouldn't even be in the range.
+پرس و جوی کمینه در بازه `[l, r]` معادل با پرس و جوی پایین‌ترین جد مشترک `[l', r']` است، که در آن `l'` گره متناظر با عنصر `A[l]` و `r'` گره متناظر با عنصر `A[r]` است.
+در واقع، گره متناظر با کوچکترین عنصر در بازه باید جد تمام گره‌های آن بازه باشد، و در نتیجه جد `l'` و `r'` نیز هست.
+این موضوع به طور خودکار از خاصیت min-heap نتیجه می‌شود.
+و همچنین باید پایین‌ترین جد باشد، زیرا در غیر این صورت `l'` و `r'` هر دو در زیردرخت چپ یا هر دو در زیردرخت راست قرار می‌گرفتند، که این امر منجر به تناقض می‌شود، زیرا در چنین حالتی، عنصر کمینه اصلاً در بازه‌ی مورد نظر قرار نمی‌گرفت.
 
-In the following image you can see the LCA queries for the RMQ queries `[1, 3]` and `[5, 9]`.
-In the first query the LCA of the nodes `A[1]` and `A[3]` is the node corresponding to `A[2]` which has the value 2, and in the second query the LCA of `A[5]` and `A[9]` is the node corresponding to `A[8]` which has the value 3.
+در تصویر زیر می‌توانید پرس و جوهای LCA را برای پرس و جوهای RMQ `[1, 3]` و `[5, 9]` مشاهده کنید.
+در پرس و جوی اول، LCA گره‌های `A[1]` و `A[3]`، گره متناظر با `A[2]` است که مقدار ۲ را دارد، و در پرس و جوی دوم، LCA گره‌های `A[5]` و `A[9]`، گره متناظر با `A[8]` است که مقدار ۳ را دارد.
 <div style="text-align: center;">
-  <img src="CartesianTreeLCA.png" alt="LCA queries in the Cartesian Tree">
+  <img src="CartesianTreeLCA.png" alt="پرس و جوهای LCA در درخت دکارتی">
 </div>
 
-Such a tree can be built in $O(N)$ time and the Farach-Colton and Benders algorithm can preprocess the tree in $O(N)$ and find the LCA in $O(1)$.
+چنین درختی را می‌توان در زمان $O(N)$ ساخت و الگوریتم Farach-Colton and Benders می‌تواند درخت را در $O(N)$ پیش‌پردازش کند و LCA را در $O(1)$ بیابد.
 
-## Construction of a Cartesian tree
+## ساخت درخت دکارتی
 
-We will build the Cartesian tree by adding the elements one after another.
-In each step we maintain a valid Cartesian tree of all the processed elements.
-It is easy to see, that adding an element `s[i]` can only change the nodes in the most right path - starting at the root and repeatedly taking the right child - of the tree.
-The subtree of the node with the smallest, but greater or equal than `s[i]`, value becomes the left subtree of `s[i]`, and the tree with root `s[i]` will become the new right subtree of the node with the biggest, but smaller than `s[i]` value.
+ما درخت دکارتی را با اضافه کردن عناصر یکی پس از دیگری خواهیم ساخت.
+در هر مرحله، ما یک درخت دکارتی معتبر از تمام عناصر پردازش شده را حفظ می‌کنیم.
+به راحتی می‌توان دید که اضافه کردن یک عنصر `s[i]` فقط می‌تواند گره‌های موجود در راست‌ترین مسیر درخت را تغییر دهد - مسیری که از ریشه شروع شده و به طور مکرر فرزند راست انتخاب می‌شود.
+زیردرختِ گره‌ای با کوچکترین مقداری که بزرگتر یا مساوی `s[i]` است، به زیردرخت چپِ `s[i]` تبدیل می‌شود، و درختی که ریشه‌اش `s[i]` است، به عنوان زیردرخت راست جدیدِ گره‌ای با بزرگترین مقداری که کوچکتر از `s[i]` است، قرار می‌گیرد.
 
-This can be implemented by using a stack to store the indices of the most right nodes.
+این کار را می‌توان با استفاده از یک پشته (stack) برای ذخیره‌ی اندیس‌های گره‌های راست‌ترین مسیر پیاده‌سازی کرد.
 
 ```cpp
 vector<int> parent(n, -1);

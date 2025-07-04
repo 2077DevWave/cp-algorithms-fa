@@ -1,95 +1,91 @@
 ---
 tags:
-  - Translated
-e_maxx_link:
-  - rib_connectivity
-  - vertex_connectivity
+  - AI Translated
+e_maxx_link: edge_vertex_connectivity
 ---
 
-# Edge connectivity / Vertex connectivity
+# همبندی یالی / همبندی رأسی
 
-## Definition
+## تعریف
 
-Given an undirected graph $G$ with $n$ vertices and $m$ edges.
-Both the edge connectivity and the vertex connectivity are characteristics describing the graph.
+گراف غیرجهت‌دار $G$ با $n$ رأس و $m$ یال داده شده است.
+همبندی یالی و همبندی رأسی، هر دو، از مشخصه‌های توصیف‌کننده گراف هستند.
 
-### Edge connectivity
+### همبندی یالی
 
-The **edge connectivity** $\lambda$ of the graph $G$ is the minimum number of edges that need to be deleted, such that the graph $G$ gets disconnected.
+**همبندی یالی** $\lambda$ برای گراف $G$، کمترین تعداد یالی است که باید حذف شوند تا گراف $G$ ناهمبند شود.
 
-For example an already disconnected graph has an edge connectivity of $0$, a connected graph with at least one bridge has an edge connectivity of $1$, and a connected graph with no bridges has an edge connectivity of at least $2$.
+برای مثال، یک گراف ناهمبند، همبندی یالی برابر با $0$ دارد، یک گراف همبند با حداقل یک پل، همبندی یالی برابر با $1$ دارد، و یک گراف همبند بدون پل، همبندی یالی حداقل برابر با $2$ دارد.
 
-We say that a set $S$ of edges **separates** the vertices $s$ and $t$, if, after removing all edges in $S$ from the graph $G$, the vertices $s$ and $t$ end up in different connected components.
+می‌گوییم مجموعه یال‌های $S$ رئوس $s$ و $t$ را **جدا می‌کند**، اگر پس از حذف تمام یال‌های مجموعه $S$ از گراف $G$، رئوس $s$ و $t$ در مؤلفه‌های همبندی متفاوتی قرار بگیرند.
 
-It is clear, that the edge connectivity of a graph is equal to the minimum size of such a set separating two vertices $s$ and $t$, taken among all possible pairs $(s, t)$.
+واضح است که همبندی یالی یک گراف برابر است با کمترین اندازه چنین مجموعه‌ای که دو رأس $s$ و $t$ را از هم جدا می‌کند، که این کمینه بر روی تمام زوج‌های ممکن $(s, t)$ گرفته می‌شود.
 
-### Vertex connectivity
+### همبندی رأسی
 
-The **vertex connectivity** $\kappa$ of the graph $G$ is the minimum number of vertices that need to be deleted, such that the graph $G$ gets disconnected.
+**همبندی رأسی** $\kappa$ برای گراف $G$، کمترین تعداد رأسی است که باید حذف شوند تا گراف $G$ ناهمبند شود.
 
-For example an already disconnected graph has the vertex connectivity $0$, and a connected graph with an articulation point has the vertex connectivity $1$.
-We define that a complete graph has the vertex connectivity $n-1$.
-For all other graphs the vertex connectivity doesn't exceed $n-2$, because you can find a pair of vertices which are not connected by an edge, and remove all other $n-2$ vertices.
+برای مثال، یک گراف ناهمبند همبندی رأسی برابر با $0$ دارد، و یک گراف همبند با یک نقطه مفصل، همبندی رأسی برابر با $1$ دارد.
+برای یک گراف کامل، همبندی رأسی را $n-1$ تعریف می‌کنیم.
+برای سایر گراف‌ها، همبندی رأسی از $n-2$ تجاوز نمی‌کند، زیرا می‌توان زوجی از رئوس را پیدا کرد که با یال به هم متصل نیستند و $n-2$ رأس دیگر را حذف کرد.
 
-We say that a set $T$ of vertices **separates** the vertices $s$ and $t$, if, after removing all vertices in $T$ from the graph $G$, the vertices end up in different connected components.
+می‌گوییم مجموعه رئوس $T$ رئوس $s$ و $t$ را **جدا می‌کند**، اگر پس از حذف تمام رئوس مجموعه $T$ از گراف $G$، این دو رأس در مؤلفه‌های همبندی متفاوتی قرار بگیرند.
 
-It is clear, that the vertex connectivity of a graph is equal to the minimal size of such a set separating two vertices $s$ and $t$, taken among all possible pairs $(s, t)$.
+واضح است که همبندی رأسی یک گراف برابر است با کمترین اندازه چنین مجموعه‌ای که دو رأس $s$ و $t$ را از هم جدا می‌کند، که این کمینه بر روی تمام زوج‌های ممکن $(s, t)$ گرفته می‌شود.
 
-## Properties
+## ویژگی‌ها
 
-### The Whitney inequalities
+### نامساوی‌های ویتنی
 
-The **Whitney inequalities** (1932) gives a relation between the edge connectivity $\lambda$, the vertex connectivity $\kappa$, and the minimum degree of any vertex in the graph $\delta$:
+**نامساوی‌های ویتنی** (۱۹۳۲) رابطه‌ای بین همبندی یالی $\lambda$، همبندی رأسی $\kappa$، و کمینه درجه هر رأس در گراف $\delta$ برقرار می‌کنند:
 
 $$\kappa \le \lambda \le \delta$$
 
-Intuitively if we have a set of edges of size $\lambda$, which make the graph disconnected, we can choose one of each end point, and create a set of vertices, that also disconnect the graph.
-And this set has size $\le \lambda$.
+به‌طور شهودی، اگر مجموعه‌ای از یال‌ها به اندازه $\lambda$ داشته باشیم که گراف را ناهمبند می‌کند، می‌توان با حذف رئوس مرتبط با این یال‌ها نیز گراف را ناهمبند کرد. می‌توان نشان داد که برای این کار، مجموعه‌ای از رئوس به اندازه حداکثر $\lambda$ کافی است.
 
-And if we pick the vertex and the minimal degree $\delta$, and remove all edges connected to it, then we also end up with a disconnected graph.
-Therefore the second inequality $\lambda \le \delta$.
+و اگر رأسی با کمینه درجه $\delta$ را در نظر بگیریم و تمام یال‌های متصل به آن را حذف کنیم، گراف ناهمبند خواهد شد. بنابراین نامساوی دوم $\lambda \le \delta$ برقرار است.
 
-It is interesting to note, that the Whitney inequalities cannot be improved:
-i.e. for any triple of numbers satisfying this inequality there exists at least one corresponding graph.
-One such graph can be constructed in the following way:
-The graph will consists of $2(\delta + 1)$ vertices, the first $\delta + 1$ vertices form a clique (all pairs of vertices are connected via an edge), and the second $\delta + 1$ vertices form a second clique.
-In addition we connect the two cliques with $\lambda$ edges, such that it uses $\lambda$ different vertices in the first clique, and only $\kappa$ vertices in the second clique.
-The resulting graph will have the three characteristics.
+جالب است بدانید که نامساوی‌های ویتنی را نمی‌توان بهبود بخشید:
+یعنی برای هر سه عددی که در این نامساوی صدق کنند، حداقل یک گراف متناظر وجود دارد.
+یک چنین گرافی را می‌توان به صورت زیر ساخت:
+گراف از $2(\delta + 1)$ رأس تشکیل می‌شود، که $\delta + 1$ رأس اول یک clique (دسته) را تشکیل می‌دهند (تمام زوج رئوس با یک یال به هم متصل هستند) و $\delta + 1$ رأس دوم نیز دسته دوم را تشکیل می‌دهند.
+علاوه بر این، این دو دسته را با $\lambda$ یال به هم متصل می‌کنیم، به طوری که از $\lambda$ رأس متفاوت در دسته اول و تنها از $\kappa$ رأس در دسته دوم استفاده شود.
+گراف حاصل، این سه مشخصه را خواهد داشت.
 
-### The Ford-Fulkerson theorem
+### قضیه فورد-فالکرسون
 
-The **Ford-Fulkerson theorem** implies, that the biggest number of edge-disjoint paths connecting two vertices, is equal to the smallest number of edges separating these vertices.
+**قضیه فورد-فالکرسون** بیان می‌کند که بیشترین تعداد مسیرهای یال-مجزا که دو رأس را به هم متصل می‌کنند، برابر با کمترین تعداد یال‌هایی است که این دو رأس را از هم جدا می‌کنند.
 
-## Computing the values
+## محاسبه مقادیر
 
-### Edge connectivity using maximum flow
+### همبندی یالی با استفاده از شار بیشینه
 
-This method is based on the Ford-Fulkerson theorem.
+این روش بر اساس قضیه فورد-فالکرسون است.
 
-We iterate over all pairs of vertices $(s, t)$ and between each pair we find the largest number of disjoint paths between them.
-This value can be found using a maximum flow algorithm:
-we use $s$ as the source, $t$ as the sink, and assign each edge a capacity of $1$.
-Then the maximum flow is the number of disjoint paths.
+ما بر روی تمام زوج رئوس $(s, t)$ پیمایش کرده و برای هر زوج، بیشترین تعداد مسیرهای مجزا بین آن‌ها را پیدا می‌کنیم.
+این مقدار را می‌توان با استفاده از یک الگوریتم شار بیشینه پیدا کرد:
+ما $s$ را به عنوان منبع، $t$ را به عنوان چاهک در نظر گرفته و به هر یال ظرفیت $1$ اختصاص می‌دهیم.
+در این صورت، شار بیشینه برابر با تعداد مسیرهای مجزا خواهد بود.
 
-The complexity for the algorithm using [Edmonds-Karp](../graph/edmonds_karp.md) is $O(V^2 V E^2) = O(V^3 E^2)$. 
-But we should note, that this includes a hidden factor, since it is practically impossible to create a graph such that the maximum flow algorithm will be slow for all sources and sinks.
-Especially the algorithm will run pretty fast for random graphs.
+پیچیدگی این الگوریتم با استفاده از [ادموندز-کارپ](../graph/edmonds_karp.md) برابر با $O(V^2 V E^2) = O(V^3 E^2)$ است. 
+اما باید توجه داشت که این پیچیدگی شامل یک فاکتور پنهان است، زیرا ساخت گرافی که الگوریتم شار بیشینه برای تمام منابع و چاهک‌ها کند عمل کند، عملاً غیرممکن است.
+به خصوص، این الگوریتم برای گراف‌های تصادفی بسیار سریع اجرا می‌شود.
 
-### Special algorithm for edge connectivity 
+### الگوریتم ویژه برای همبندی یالی
 
-The task of finding the edge connectivity is equal to the task of finding the **global minimum cut**.
+مسئله یافتن همبندی یالی معادل با مسئله یافتن **برش کمینه سراسری** (global minimum cut) است.
 
-Special algorithms have been developed for this task.
-One of them is the Stoer-Wagner algorithm, which works in $O(V^3)$ or $O(V E)$ time.
+الگوریتم‌های ویژه‌ای برای این کار توسعه داده شده‌اند.
+یکی از آن‌ها الگوریتم استوئر-واگنر (Stoer-Wagner) است که در زمان $O(V^3)$ یا $O(V E)$ کار می‌کند.
 
-### Vertex connectivity
+### همبندی رأسی
 
-Again we iterate over all pairs of vertices $s$ and $t$, and for each pair we find the minimum number of vertices that separates $s$ and $t$.
+در اینجا نیز بر روی تمام زوج رئوس $s$ و $t$ پیمایش کرده و برای هر زوج، کمترین تعداد رئوسی را که $s$ و $t$ را از هم جدا می‌کنند، پیدا می‌کنیم.
 
-By doing this, we can apply the same maximum flow approach as described in the previous sections.
+با انجام این کار، می‌توانیم از همان رویکرد شار بیشینه که در بخش‌های قبل توضیح داده شد، استفاده کنیم.
 
-We split each vertex $x$ with $x \neq s$ and $x \neq t$ into two vertices $x_1$ and $x_2$.
-We connect these to vertices with a directed edge $(x_1, x_2)$ with the capacity $1$, and replace all edges $(u, v)$ by the two directed edges $(u_2, v_1)$ and $(v_2, u_1)$, both with the capacity of 1.
-The by the construction the value of the maximum flow will be equal to the minimum number of vertices that are needed to separate $s$ and $t$.
+هر رأس $x$ که $x \neq s$ و $x \neq t$ باشد را به دو رأس $x_1$ و $x_2$ تقسیم می‌کنیم.
+این دو رأس را با یک یال جهت‌دار $(x_1, x_2)$ با ظرفیت $1$ به هم متصل می‌کنیم و تمام یال‌های $(u, v)$ را با دو یال جهت‌دار $(u_2, v_1)$ و $(v_2, u_1)$ جایگزین می‌کنیم که هر دو ظرفیت $1$ دارند.
+طبق این ساختار، مقدار شار بیشینه برابر با کمترین تعداد رئوسی خواهد بود که برای جدا کردن $s$ و $t$ لازم است.
 
-This approach has the same complexity as the flow approach for finding the edge connectivity.
+این رویکرد همان پیچیدگی رویکرد مبتنی بر شار برای یافتن همبندی یالی را دارد.

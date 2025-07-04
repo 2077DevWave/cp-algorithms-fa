@@ -1,82 +1,82 @@
 ---
 tags:
-  - Translated
-e_maxx_link: strong_connected_components
+  - AI Translated
+e_maxx_link: strongly-connected-components
 ---
 
-# Strongly connected components and the condensation graph
+# مؤلفه‌های قویاً همبند و گراف فشردگی
 
-## Definitions
-Let $G=(V,E)$ be a directed graph with vertices $V$ and edges $E \subseteq V \times V$. We denote with $n=|V|$ the number of vertices and with $m=|E|$ the number of edges in $G$. It is easy to extend all definitions in this article to multigraphs, but we will not focus on that.
+## تعاریف
+فرض کنید $G=(V,E)$ یک گراف جهت‌دار با رئوس $V$ و یال‌های $E \subseteq V \times V$ باشد. تعداد رئوس را با $n=|V|$ و تعداد یال‌ها را با $m=|E|$ نمایش می‌دهیم. تعمیم تمام تعاریف این مقاله به چندگرافی‌ها (multigraphs) آسان است، اما ما روی آن تمرکز نخواهیم کرد.
 
-A subset of vertices $C \subseteq V$ is called a **strongly connected component** if the following conditions hold:
+یک زیرمجموعه از رئوس $C \subseteq V$ را یک **مؤلفه قویاً همبند** می‌نامیم اگر شرایط زیر برقرار باشد:
 
-- for all $u,v\in C$, if $u \neq v$ there exists a path from $u$ to $v$ and a path from $v$ to $u$, and
-- $C$ is maximal, in the sense that no vertex can be added without violating the above condition.
+- برای هر $u,v\in C$ که $u \neq v$، یک مسیر از $u$ به $v$ و یک مسیر از $v$ به $u$ وجود داشته باشد، و
+- $C$ بیشینه (maximal) باشد، به این معنا که هیچ رأسی را نمی‌توان به آن اضافه کرد بدون اینکه شرط بالا نقض شود.
 
-We denote with $\text{SCC}(G)$ the set of strongly connected components of $G$. These strongly connected components do not intersect with each other, and cover all vertices in the graph. Thus, the set $\text{SCC}(G)$ is a partition of $V$. 
+مجموعه مؤلفه‌های قویاً همبند گراف $G$ را با $\text{SCC}(G)$ نمایش می‌دهیم. این مؤلفه‌های قویاً همبند با یکدیگر اشتراک ندارند و تمام رئوس گراف را پوشش می‌دهند. بنابراین، مجموعه $\text{SCC}(G)$ یک افراز از $V$ است.
 
-Consider this graph $G_\text{example}$, in which the strongly connected components are highlighted:
+گراف $G_\text{example}$ زیر را در نظر بگیرید که در آن مؤلفه‌های قویاً همبند مشخص شده‌اند:
 
 <center><img src="strongly-connected-components-tikzpicture/graph.svg" alt="drawing" style="width:700px;"/></center>
 
-Here we have $\text{SCC}(G_\text{example})=\{\{0,7\},\{1,2,3,5,6\},\{4,9\},\{8\}\}.$ We can confirm that within each strongly connected component, all vertices are reachable from each other.
+در اینجا داریم: $\text{SCC}(G_\text{example})=\{\{0,7\},\{1,2,3,5,6\},\{4,9\},\{8\}\}.$ می‌توانیم تأیید کنیم که درون هر مؤلفه قویاً همبند، تمام رئوس از یکدیگر قابل دسترسی هستند.
 
-We define the **condensation graph** $G^{\text{SCC}}=(V^{\text{SCC}}, E^{\text{SCC}})$ as follows:
+**گراف فشردگی** $G^{\text{SCC}}=(V^{\text{SCC}}, E^{\text{SCC}})$ را به صورت زیر تعریف می‌کنیم:
 
-- the vertices of $G^{\text{SCC}}$ are the strongly connected components of $G$; i.e., $V^{\text{SCC}} = \text{SCC}(G)$, and
-- for all vertices $C_i,C_j$ of the condensation graph, there is an edge from $C_i$ to $C_j$ if and only if $C_i \neq C_j$ and there exist $a\in C_i$ and $b\in C_j$ such that there is an edge from $a$ to $b$ in $G$.
+- رئوس $G^{\text{SCC}}$ همان مؤلفه‌های قویاً همبند $G$ هستند؛ یعنی $V^{\text{SCC}} = \text{SCC}(G)$، و
+- برای هر دو رأس $C_i$ و $C_j$ از گراف فشردگی، یک یال از $C_i$ به $C_j$ وجود دارد اگر و تنها اگر $C_i \neq C_j$ و رئوسی مانند $a\in C_i$ و $b\in C_j$ وجود داشته باشند که یک یال از $a$ به $b$ در گراف $G$ باشد.
 
-The condensation graph of $G_\text{example}$ looks as follows:
+گراف فشردگی $G_\text{example}$ به شکل زیر است:
 
 <center><img src="strongly-connected-components-tikzpicture/cond_graph.svg" alt="drawing" style="width:600px;"/></center>
 
 
-The most important property of the condensation graph is that it is **acyclic**. Indeed, there are no 'self-loops' in the condensation graph by definition, and if there were a cycle going through two or more vertices (strongly connected components) in the condensation graph, then due to reachability, the union of these strongly connected components would have to be one strongly connected component itself: contradiction.
+مهم‌ترین ویژگی گراف فشردگی این است که **غیرمدور (acyclic)** است. در واقع، طبق تعریف، هیچ 'طوقه‌ای' (self-loop) در گراف فشردگی وجود ندارد، و اگر دوری وجود داشت که از دو یا چند رأس (مؤلفه‌های قویاً همبند) در گراف فشردگی عبور می‌کرد، آنگاه به دلیل خاصیت دسترسی‌پذیری، اجتماع این مؤلفه‌های قویاً همبند خود باید یک مؤلفه قویاً همبند واحد باشد: که این یک تناقض است.
 
-The algorithm described in the next section finds all strongly connected components in a given graph. After that, the condensation graph can be constructed.
+الگوریتم توصیف‌شده در بخش بعدی تمام مؤلفه‌های قویاً همبند را در یک گراف داده‌شده پیدا می‌کند. پس از آن، می‌توان گراف فشردگی را ساخت.
 
-## Description of the algorithm
-The described algorithm was independently suggested by Kosaraju and Sharir around 1980. It is based on two series of [depth first search](depth-first-search.md), with a runtime of $O(n + m)$.
+## شرح الگوریتم
+الگوریتم توصیف‌شده به طور مستقل توسط Kosaraju و Sharir در حدود سال 1980 پیشنهاد شد. این الگوریتم بر پایه دو سری [جستجوی عمق-اول](depth-first-search.md) است و زمان اجرای آن $O(n + m)$ می‌باشد.
 
-In the first step of the algorithm, we perform a sequence of depth first searches (`dfs`), visiting the entire graph. That is, as long as there are still unvisited vertices, we take one of them, and initiate a depth first search from that vertex. For each vertex, we keep track of the *exit time* $t_\text{out}[v]$. This is the 'timestamp' at which the execution of `dfs` on vertex $v$ finishes, i.e., the moment at which all vertices reachable from $v$ have been visited and the algorithm is back at $v$. The timestamp counter should *not* be reset between consecutive calls to `dfs`. The exit times play a key role in the algorithm, which will become clear when we discuss the following theorem.
+در گام اول الگوریتم، یک سری جستجوی عمق-اول (`dfs`) را اجرا می‌کنیم و کل گراف را پیمایش می‌کنیم. به این معنی که تا زمانی که رئوس ملاقات‌نشده‌ای وجود دارد، یکی از آن‌ها را برداشته و یک جستجوی عمق-اول را از آن رأس آغاز می‌کنیم. برای هر رأس، *زمان خروج* $t_\text{out}[v]$ را ثبت می‌کنیم. این 'برچسب زمانی' است که اجرای `dfs` روی رأس $v$ به پایان می‌رسد، یعنی لحظه‌ای که تمام رئوس قابل دسترسی از $v$ ملاقات شده‌اند و الگوریتم به رأس $v$ بازگشته است. شمارنده برچسب زمانی نباید بین فراخوانی‌های متوالی `dfs` بازنشانی (reset) شود. زمان‌های خروج نقش کلیدی در الگوریتم دارند که با بحث در مورد قضیه زیر، این موضوع روشن‌تر خواهد شد.
 
-First, we define the exit time $t_\text{out}[C]$ of a strongly connected component $C$ as the maximum of the values $t_\text{out}[v]$ for all $v \in C.$ Furthermore, in the proof of the theorem, we will mention the *entry time* $t_{\text{in}}[v]$ for each vertex $v\in G$. The number $t_{\text{in}}[v]$ represents the 'timestamp' at which the recursive function `dfs` is called on vertex $v$ in the first step of the algorithm. For a strongly connected component $C$, we define $t_{\text{in}}[C]$ to be the minimum of the values $t_{\text{in}}[v]$ for all $v \in C$.
+ابتدا، زمان خروج $t_\text{out}[C]$ برای یک مؤلفه قویاً همبند $C$ را به عنوان بیشینه مقادیر $t_\text{out}[v]$ برای تمام $v \in C$ تعریف می‌کنیم. علاوه بر این، در اثبات قضیه، به *زمان ورود* $t_{\text{in}}[v]$ برای هر رأس $v \in G$ اشاره خواهیم کرد. عدد $t_{\text{in}}[v]$ 'برچسب زمانی' را نشان می‌دهد که تابع بازگشتی `dfs` در گام اول الگوریتم روی رأس $v$ فراخوانی می‌شود. برای یک مؤلفه قویاً همبند $C$، مقدار $t_{\text{in}}[C]$ را به عنوان کمینه مقادیر $t_{\text{in}}[v]$ برای تمام $v \in C$ تعریف می‌کنیم.
 
-**Theorem**. Let $C$ and $C'$ be two different strongly connected components, and let there be an edge from $C$ to $C'$ in the condensation graph. Then, $t_\text{out}[C] > t_\text{out}[C']$.
+**قضیه**. فرض کنید $C$ و $C'$ دو مؤلفه قویاً همبند متفاوت باشند و یک یال از $C$ به $C'$ در گراف فشردگی وجود داشته باشد. آنگاه، $t_\text{out}[C] > t_\text{out}[C']$.
 
-**Proof.** There are two different cases, depending on which component will first be reached by depth first search:
+**اثبات.** دو حالت مختلف وجود دارد، بسته به اینکه کدام مؤلفه ابتدا توسط جستجوی عمق-اول ملاقات شود:
 
-- Case 1: the component $C$ was reached first (i.e., $t_{\text{in}}[C] < t_{\text{in}}[C']$). In this case, depth first search visits some vertex $v \in C$ at some moment at which all other vertices of the components $C$ and $C'$ are not visited yet. Since there is an edge from $C$ to $C'$ in the condensation graph, not only are all other vertices in $C$ reachable from $v$ in $G$, but all vertices in $C'$ are reachable as well. This means that this `dfs` execution, which is running from vertex $v$, will also visit all other vertices of the components $C$ and $C'$ in the future, so these vertices will be descendants of $v$ in the depth first search tree. This implies that for each vertex $u \in (C \cup C')\setminus \{v\},$ we have that $t_\text{out}[v] > t_\text{out}[u]$. Therefore, $t_\text{out}[C] > t_\text{out}[C']$, which completes this case of the proof.
+- حالت ۱: مؤلفه $C$ ابتدا ملاقات شده باشد (یعنی $t_{\text{in}}[C] < t_{\text{in}}[C']$). در این حالت، جستجوی عمق-اول رأس $v \in C$ را در لحظه‌ای ملاقات می‌کند که هیچ یک از رئوس دیگر مؤلفه‌های $C$ و $C'$ هنوز ملاقات نشده‌اند. از آنجایی که یک یال از $C$ به $C'$ در گراف فشردگی وجود دارد، نه تنها تمام رئوس دیگر در $C$ از $v$ در گراف $G$ قابل دسترسی هستند، بلکه تمام رئوس در $C'$ نیز قابل دسترسی هستند. این به این معنی است که اجرای `dfs` که از رأس $v$ شروع شده، تمام رئوس دیگر مؤلفه‌های $C$ و $C'$ را نیز در آینده ملاقات خواهد کرد، بنابراین این رئوس در درخت جستجوی عمق-اول، نوادگان $v$ خواهند بود. این امر نشان می‌دهد که برای هر رأس $u \in (C \cup C')\setminus \{v\}$، داریم $t_\text{out}[v] > t_\text{out}[u]$. بنابراین، $t_\text{out}[C] > t_\text{out}[C']$ که این حالت از اثبات را کامل می‌کند.
 
-- Case 2: the component $C'$ was reached first (i.e., $t_{\text{in}}[C] > t_{\text{in}}[C']$). In this case, depth first search visits some vertex $v \in C'$ at some moment at which all other vertices of the components $C$ and $C'$ are not visited yet. Since there is an edge from $C$ to $C'$ in the condensation graph, $C$ is not reachable from $C'$, by the acyclicity property. Hence, the `dfs` execution that is running from vertex $v$ will not reach any vertices of $C$, but it will visit all vertices of $C'$. The vertices of $C$ will be visited by some `dfs` execution later during this step of the algorithm, so indeed we have $t_\text{out}[C] > t_\text{out}[C']$. This completes the proof.
+- حالت ۲: مؤلفه $C'$ ابتدا ملاقات شده باشد (یعنی $t_{\text{in}}[C] > t_{\text{in}}[C']$). در این حالت، جستجوی عمق-اول رأس $v \in C'$ را در لحظه‌ای ملاقات می‌کند که هیچ یک از رئوس دیگر مؤلفه‌های $C$ و $C'$ هنوز ملاقات نشده‌اند. از آنجایی که یک یال از $C$ به $C'$ در گراف فشردگی وجود دارد، طبق خاصیت غیرمدور بودن، $C$ از $C'$ قابل دسترسی نیست. بنابراین، اجرای `dfs` که از رأس $v$ در حال اجراست، به هیچ یک از رئوس $C$ نخواهد رسید، اما تمام رئوس $C'$ را ملاقات خواهد کرد. رئوس $C$ بعداً در طی این مرحله از الگوریتم توسط یک اجرای دیگر `dfs` ملاقات خواهند شد، بنابراین در واقع داریم $t_\text{out}[C] > t_\text{out}[C']$. این اثبات را کامل می‌کند.
 
-The proved theorem is very important for finding strongly connected components. It means that any edge in the condensation graph goes from a component with a larger value of $t_\text{out}$ to a component with a smaller value.
+قضیه اثبات‌شده برای یافتن مؤلفه‌های قویاً همبند بسیار مهم است. این به این معنی است که هر یال در گراف فشردگی از یک مؤلفه با مقدار $t_\text{out}$ بزرگتر به یک مؤلفه با مقدار کوچکتر می‌رود.
 
-If we sort all vertices $v \in V$ in decreasing order of their exit time $t_\text{out}[v]$, then the first vertex $u$ will belong to the "root" strongly connected component, which has no incoming edges in the condensation graph. Now we want to run some type of search from this vertex $u$ so that it will visit all vertices in its strongly connected component, but not other vertices. By repeatedly doing so, we can gradually find all strongly connected components: we remove all vertices belonging to the first found component, then we find the next remaining vertex with the largest value of $t_\text{out}$, and run this search from it, and so on. In the end, we will have found all strongly connected components. In order to find a search method that behaves like we want, we consider the following theorem:
+اگر تمام رئوس $v \in V$ را به ترتیب نزولی زمان خروجشان $t_\text{out}[v]$ مرتب کنیم، آنگاه اولین رأس $u$ به مؤلفه قویاً همبند "ریشه" تعلق خواهد داشت که در گراف فشردگی هیچ یال ورودی ندارد. اکنون می‌خواهیم نوعی جستجو را از این رأس $u$ اجرا کنیم تا تمام رئوس مؤلفه قویاً همبند خودش را ملاقات کند، اما رئوس دیگر را نه. با تکرار این کار، می‌توانیم به تدریج تمام مؤلفه‌های قویاً همبند را پیدا کنیم: تمام رئوس متعلق به اولین مؤلفه پیدا شده را حذف می‌کنیم، سپس رأس باقی‌مانده بعدی با بیشترین مقدار $t_\text{out}$ را پیدا کرده و جستجو را از آن اجرا می‌کنیم و به همین ترتیب ادامه می‌دهیم. در نهایت، تمام مؤلفه‌های قویاً همبند را پیدا خواهیم کرد. برای یافتن یک روش جستجو که مطابق میل ما رفتار کند، قضیه زیر را در نظر می‌گیریم:
 
-**Theorem.** Let $G^T$ denote the *transpose graph* of $G$, obtained by reversing the edge directions in $G$. Then, $\text{SCC}(G)=\text{SCC}(G^T)$. Furthermore, the condensation graph of $G^T$ is the transpose of the condensation graph of $G$.
+**قضیه.** فرض کنید $G^T$ *گراف ترانهاده* $G$ باشد که با معکوس کردن جهت یال‌ها در $G$ به دست می‌آید. آنگاه $\text{SCC}(G)=\text{SCC}(G^T)$ است. علاوه بر این، گراف فشردگی $G^T$ ترانهاده گراف فشردگی $G$ است.
 
-The proof is omitted (but straightforward). As a consequence of this theorem, there will be no edges from the "root" component to the other components in the condensation graph of $G^T$. Thus, in order to visit the whole "root" strongly connected component, containing vertex $v$, we can just run a depth first search from vertex $v$ in the transpose graph $G^T$! This will visit precisely all vertices of this strongly connected component. As was mentioned before, we can then remove these vertices from the graph. Then, we find the next vertex with a maximal value of $t_\text{out}[v]$, and run the search in the transpose graph starting from that vertex to find the next strongly connected component. Repeating this, we find all strongly connected components.
+اثبات حذف شده است (اما سرراست است). به عنوان نتیجه‌ای از این قضیه، در گراف فشردگی $G^T$، هیچ یالی از مؤلفه "ریشه" به سایر مؤلفه‌ها وجود نخواهد داشت. بنابراین، برای پیمایش کل مؤلفه قویاً همبند "ریشه" که حاوی رأس $v$ است، می‌توانیم یک جستجوی عمق-اول را از رأس $v$ در گراف ترانهاده $G^T$ اجرا کنیم! این کار دقیقاً تمام رئوس این مؤلفه قویاً همبند را ملاقات خواهد کرد. همانطور که قبلاً ذکر شد، می‌توانیم سپس این رئوس را از گراف حذف کنیم. سپس، رأس بعدی با بیشترین مقدار $t_\text{out}[v]$ را پیدا کرده و جستجو را در گراف ترانهاده از آن رأس شروع می‌کنیم تا مؤلفه قویاً همبند بعدی را پیدا کنیم. با تکرار این فرآیند، تمام مؤلفه‌های قویاً همبند را پیدا می‌کنیم.
 
-Thus, in summary, we discussed the following algorithm to find strongly connected components:
+بنابراین، به طور خلاصه، الگوریتم زیر را برای یافتن مؤلفه‌های قویاً همبند مورد بحث قرار دادیم:
 
- - Step 1. Run a sequence of depth first searches on $G$, which will yield some list (e.g. `order`) of vertices, sorted on increasing exit time $t_\text{out}$.
+ - گام ۱. یک سری جستجوی عمق-اول را روی $G$ اجرا کنید که لیستی (مثلاً `order`) از رئوس را بر اساس زمان خروج $t_\text{out}$ صعودی مرتب می‌کند.
 
-- Step 2. Build the transpose graph $G^T$, and run a series of depth first searches on the vertices in reverse order (i.e., in decreasing order of exit times). Each depth first search will yield one strongly connected component.
+- گام ۲. گراف ترانهاده $G^T$ را بسازید و یک سری جستجوی عمق-اول را روی رئوس به ترتیب معکوس (یعنی به ترتیب نزولی زمان‌های خروج) اجرا کنید. هر جستجوی عمق-اول یک مؤلفه قویاً همبند را به دست خواهد داد.
 
-- Step 3 (optional). Build the condensation graph.
+- گام ۳ (اختیاری). گراف فشردگی را بسازید.
 
-The runtime complexity of the algorithm is $O(n + m)$, because depth first search is performed twice. Building the condensation graph is also $O(n+m).$
+پیچیدگی زمانی الگوریتم $O(n + m)$ است، زیرا جستجوی عمق-اول دو بار انجام می‌شود. ساختن گراف فشردگی نیز $O(n+m)$ است.
 
-Finally, it is appropriate to mention [topological sort](topological-sort.md) here. In step 1, we find the vertices in the order of increasing exit time. If $G$ is acyclic, this corresponds to a (reversed) topological sort of $G$. In step 2, the algorithm finds strongly connected components in decreasing order of their exit times. Thus, it finds components - vertices of the condensation graph - in an order corresponding to a topological sort of the condensation graph.
+در نهایت، شایسته است که در اینجا به [مرتب‌سازی توپولوژیک](topological-sort.md) اشاره کنیم. در گام ۱، رئوس را به ترتیب صعودی زمان خروج پیدا می‌کنیم. اگر $G$ غیرمدور باشد، این ترتیب معادل یک مرتب‌سازی توپولوژیک (معکوس) از $G$ است. در گام ۲، الگوریتم مؤلفه‌های قویاً همبند را به ترتیب نزولی زمان خروجشان پیدا می‌کند. بنابراین، مؤلفه‌ها - یعنی رئوس گراف فشردگی - را به ترتیبی پیدا می‌کند که با یک مرتب‌سازی توپولوژیک از گراف فشردگی مطابقت دارد.
 
-## Implementation
+## پیاده‌سازی
 ```{.cpp file=strongly_connected_components}
-vector<bool> visited; // keeps track of which vertices are already visited
+vector<bool> visited; // برای پیگیری اینکه کدام رئوس قبلاً ملاقات شده‌اند
 
-// runs depth first search starting at vertex v.
-// each visited vertex is appended to the output vector when dfs leaves it.
+// جستجوی عمق-اول را از رأس v شروع می‌کند.
+// هر رأس ملاقات‌شده هنگام خروج dfs از آن، به بردار خروجی اضافه می‌شود.
 void dfs(int v, vector<vector<int>> const& adj, vector<int> &output) {
     visited[v] = true;
     for (auto u : adj[v])
@@ -85,25 +85,25 @@ void dfs(int v, vector<vector<int>> const& adj, vector<int> &output) {
     output.push_back(v);
 }
 
-// input: adj -- adjacency list of G
-// output: components -- the strongy connected components in G
-// output: adj_cond -- adjacency list of G^SCC (by root vertices)
+// ورودی: adj -- لیست مجاورت G
+// خروجی: components -- مؤلفه‌های قویاً همبند در G
+// خروجی: adj_cond -- لیست مجاورت G^SCC (بر اساس رئوس ریشه)
 void strongly_connected_components(vector<vector<int>> const& adj,
                                   vector<vector<int>> &components,
                                   vector<vector<int>> &adj_cond) {
     int n = adj.size();
     components.clear(), adj_cond.clear();
 
-    vector<int> order; // will be a sorted list of G's vertices by exit time
+    vector<int> order; // لیستی مرتب‌شده از رئوس G بر اساس زمان خروج خواهد بود
 
     visited.assign(n, false);
 
-    // first series of depth first searches
+    // سری اول جستجوهای عمق-اول
     for (int i = 0; i < n; i++)
         if (!visited[i])
             dfs(i, adj, order);
 
-    // create adjacency list of G^T
+    // ایجاد لیست مجاورت G^T
     vector<vector<int>> adj_rev(n);
     for (int v = 0; v < n; v++)
         for (int u : adj[v])
@@ -112,9 +112,9 @@ void strongly_connected_components(vector<vector<int>> const& adj,
     visited.assign(n, false);
     reverse(order.begin(), order.end());
 
-    vector<int> roots(n, 0); // gives the root vertex of a vertex's SCC
+    vector<int> roots(n, 0); // رأس ریشه مؤلفه قویاً همبند یک رأس را می‌دهد
 
-    // second series of depth first searches
+    // سری دوم جستجوهای عمق-اول
     for (auto v : order)
         if (!visited[v]) {
             std::vector<int> component;
@@ -125,7 +125,7 @@ void strongly_connected_components(vector<vector<int>> const& adj,
                 roots[u] = root;
         }
 
-    // add edges to condensation graph
+    // اضافه کردن یال‌ها به گراف فشردگی
     adj_cond.assign(n, {});
     for (int v = 0; v < n; v++)
         for (auto u : adj[v])
@@ -134,20 +134,20 @@ void strongly_connected_components(vector<vector<int>> const& adj,
 }
 ```
 
-The function `dfs` implements depth first search. It takes as input an adjacency list and a starting vertex. It also takes a reference to the vector `output`: each visited vertex will be appended to `output` when `dfs` leaves that vertex.
+تابع `dfs` جستجوی عمق-اول را پیاده‌سازی می‌کند. این تابع به عنوان ورودی یک لیست مجاورت و یک رأس شروع را می‌گیرد. همچنین یک ارجاع به بردار `output` می‌گیرد: هر رأس ملاقات‌شده هنگام خروج `dfs` از آن، به `output` اضافه می‌شود.
 
-Note that we use the function `dfs` both in the first and second step of the algorithm. In the first step, we pass in the adjacency list of $G$, and during consecutive calls to `dfs`, we keep passing in the same 'output vector' `order`, so that eventually we obtain a list of vertices in increasing order of exit times. In the second step, we pass in the adjacency list of $G^T$, and in each call, we pass in an empty 'output vector' `component`, which will give us one strongly connected component at a time.
+توجه داشته باشید که ما از تابع `dfs` هم در گام اول و هم در گام دوم الگوریتم استفاده می‌کنیم. در گام اول، لیست مجاورت $G$ را به تابع پاس می‌دهیم و در طی فراخوانی‌های متوالی `dfs`، همان 'بردار خروجی' `order` را پاس می‌دهیم تا در نهایت لیستی از رئوس را به ترتیب صعودی زمان خروج به دست آوریم. در گام دوم، لیست مجاورت $G^T$ را پاس می‌دهیم و در هر فراخوانی، یک 'بردار خروجی' خالی `component` را پاس می‌دهیم که هر بار یک مؤلفه قویاً همبند را به ما می‌دهد.
 
-When building the adjacency list of the condensation graph, we select the *root* of each component as the first vertex in its list of vertices (this is an arbitrary choice). This root vertex represents its entire SCC. For each vertex `v`, the value `roots[v]` indicates the root vertex of the SCC which `v` belongs to.
+هنگام ساختن لیست مجاورت گراف فشردگی، *ریشه* هر مؤلفه را به عنوان اولین رأس در لیست رئوس آن انتخاب می‌کنیم (این یک انتخاب اختیاری است). این رأس ریشه، کل مؤلفه قویاً همبند خود را نمایندگی می‌کند. برای هر رأس `v`، مقدار `roots[v]` رأس ریشه مؤلفه‌ای را نشان می‌دهد که `v` به آن تعلق دارد.
 
-Our condensation graph is now given by the vertices `components` (one strongly connected component corresponds to one vertex in the condensation graph), and the adjacency list is given by `adj_cond`, using only the root vertices of the strongly connected components. Notice that we generate one edge from $C$ to $C'$ in $G^\text{SCC}$ for each edge from some $a\in C$ to some $b\in C'$ in $G$ (if $C\neq C'$). This implies that in our implementation, we can have multiple edges between two components in the condensation graph.
+گراف فشردگی ما اکنون با رئوس `components` (هر مؤلفه قویاً همبند معادل یک رأس در گراف فشردگی است) و لیست مجاورت `adj_cond` که فقط از رئوس ریشه مؤلفه‌های قویاً همبند استفاده می‌کند، داده می‌شود. توجه کنید که ما به ازای هر یال از $a\in C$ به $b\in C'$ در $G$ (اگر $C\neq C'$)، یک یال از $C$ به $C'$ در $G^\text{SCC}$ تولید می‌کنیم. این بدان معناست که در پیاده‌سازی ما، ممکن است چندین یال بین دو مؤلفه در گراف فشردگی وجود داشته باشد.
 
-## Literature
+## منابع
 
 * Thomas Cormen, Charles Leiserson, Ronald Rivest, Clifford Stein. Introduction to Algorithms [2005].
 * M. Sharir. A strong-connectivity algorithm and its applications in data-flow analysis [1979].
 
-## Practice Problems
+## مسائل تمرینی
 
 * [SPOJ - Good Travels](http://www.spoj.com/problems/GOODA/)
 * [SPOJ - Lego](http://www.spoj.com/problems/LEGO/)

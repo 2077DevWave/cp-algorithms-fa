@@ -1,30 +1,30 @@
 ---
 tags:
-  - Translated
-e_maxx_link: assignment_mincostflow
+  - AI Translated
+e_maxx_link: Assignment-problem-min-flow
 ---
 
-# Solving assignment problem using min-cost-flow
+# حل مسئله تخصیص با استفاده از جریان کمینه-هزینه
 
-The **assignment problem** has two equivalent statements:
+**مسئلهٔ تخصیص (assignment problem)** دو بیان معادل دارد:
 
-   - Given a square matrix $A[1..N, 1..N]$, you need to select $N$ elements in it so that exactly one element is selected in each row and column, and the sum of the values of these elements is the smallest.
-   - There are $N$ orders and $N$ machines. The cost of manufacturing on each machine is known for each order.  Only one order can be performed on each machine. It is required to assign all orders to the machines so that the total cost is minimized.
+- به شما یک ماتریس مربعی $A[1..N, 1..N]$ داده می‌شود، باید $N$ عنصر را در آن طوری انتخاب کنید که در هر سطر و ستون دقیقاً یک عنصر انتخاب شود و مجموع مقادیر این عناصر کمترین مقدار ممکن باشد.
+- $N$ سفارش و $N$ ماشین وجود دارد. هزینهٔ تولید هر سفارش بر روی هر ماشین مشخص است. هر ماشین تنها می‌تواند یک سفارش را انجام دهد. باید تمام سفارش‌ها را به ماشین‌ها طوری تخصیص داد که هزینه کل به حداقل برسد.
 
-Here we will consider the solution of the problem based on the algorithm for finding the [minimum cost flow (min-cost-flow)](min_cost_flow.md), solving the assignment problem in $\mathcal{O}(N^3)$.
+در اینجا، راه‌حل این مسئله را بر اساس الگوریتم یافتن [جریان کمینه-هزینه (min-cost-flow)](min_cost_flow.md) بررسی می‌کنیم که مسئله تخصیص را در زمان $\mathcal{O}(N^3)$ حل می‌کند.
 
-## Description
+## توضیحات
 
-Let's build a bipartite network: there is a source $S$, a drain $T$, in the first part there are $N$ vertices (corresponding to rows of the matrix, or orders), in the second there are also $N$ vertices (corresponding to the columns of the matrix, or machines). Between each vertex $i$ of the first set and each vertex $j$ of the second set, we draw an edge with bandwidth 1 and cost $A_{ij}$. From the source $S$ we draw edges to all vertices $i$ of the first set with bandwidth 1 and cost 0. We draw an edge with bandwidth 1 and cost 0 from each vertex of the second set $j$ to the drain $T$.
+یک شبکه دوبخشی می‌سازیم: یک رأس منبع $S$ و یک رأس چاهک $T$ وجود دارد. در بخش اول $N$ رأس (متناظر با سطرهای ماتریس یا سفارش‌ها) و در بخش دوم نیز $N$ رأس (متناظر با ستون‌های ماتریس یا ماشین‌ها) قرار دارد. بین هر رأس $i$ از مجموعه اول و هر رأس $j$ از مجموعه دوم، یک یال با ظرفیت ۱ و هزینه $A_{ij}$ رسم می‌کنیم. از منبع $S$ به تمام رأس‌های $i$ از مجموعه اول، یال‌هایی با ظرفیت ۱ و هزینه ۰ رسم می‌کنیم. از هر رأس $j$ از مجموعه دوم به چاهک $T$، یک یال با ظرفیت ۱ و هزینه ۰ رسم می‌کنیم.
 
-We find in the resulting network the maximum flow of the minimum cost. Obviously, the value of the flow will be $N$. Further, for each vertex $i$ of the first segment there is exactly one vertex $j$ of the second segment, such that the flow $F_{ij}$ = 1. Finally, this is a one-to-one correspondence between the vertices of the first segment and the vertices of the second part, which is the solution to the problem (since the found flow has a minimal cost, then the sum of the costs of the selected edges will be the lowest possible, which is the optimality criterion).
+در شبکهٔ حاصل، بیشینه جریان با کمینه هزینه را پیدا می‌کنیم. بدیهی است که مقدار جریان برابر $N$ خواهد بود. سپس، برای هر رأس $i$ از بخش اول، دقیقاً یک رأس $j$ از بخش دوم وجود خواهد داشت که جریان $F_{ij} = 1$ باشد. در نهایت، این یک تناظر یک‌به‌یک بین رأس‌های بخش اول و رأس‌های بخش دوم است که راه‌حل مسئله محسوب می‌شود (چون جریان پیدا شده دارای کمترین هزینه است، پس مجموع هزینه‌های یال‌های انتخاب‌شده نیز کمترین مقدار ممکن خواهد بود که معیار بهینگی است).
 
-The complexity of this solution of the assignment problem depends on the algorithm by which the search for the maximum flow of the minimum cost is performed. The complexity will be $\mathcal{O}(N^3)$ using [Dijkstra](dijkstra.md) or $\mathcal{O}(N^4)$ using [Bellman-Ford](bellman_ford.md). This is due to the fact that the flow is of size $O(N)$ and each iteration of Dijkstra algorithm can be performed in $O(N^2)$, while it is $O(N^3)$ for Bellman-Ford.
+پیچیدگی این راه‌حل برای مسئله تخصیص به الگوریتمی بستگی دارد که برای جستجوی بیشینه جریان با کمینه هزینه استفاده می‌شود. با استفاده از [Dijkstra](dijkstra.md)، پیچیدگی $\mathcal{O}(N^3)$ و با استفاده از [Bellman-Ford](bellman_ford.md)، پیچیدگی $\mathcal{O}(N^4)$ خواهد بود. این به این دلیل است که اندازه جریان از مرتبه $O(N)$ است و هر تکرار الگوریتم Dijkstra می‌تواند در زمان $O(N^2)$ انجام شود، در حالی که این زمان برای Bellman-Ford برابر $O(N^3)$ است.
 
-## Implementation
+## پیاده‌سازی
 
-The implementation given here is long, it can probably be significantly reduced.
-It uses the [SPFA algorithm](bellman_ford.md) for finding shortest paths.
+پیاده‌سازی ارائه‌شده در اینجا طولانی است و احتمالاً می‌توان آن را به طور قابل توجهی کوتاه‌تر کرد.
+این پیاده‌سازی از [الگوریتم SPFA](bellman_ford.md) برای یافتن کوتاه‌ترین مسیرها استفاده می‌کند.
 
 ```cpp
 const int INF = 1000 * 1000 * 1000;

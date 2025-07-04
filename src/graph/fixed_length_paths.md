@@ -1,93 +1,92 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: fixed_length_paths
 ---
 
-# Number of paths of fixed length / Shortest paths of fixed length
+# تعداد مسیرها با طول ثابت / کوتاه‌ترین مسیرها با طول ثابت
 
-The following article describes solutions to these two problems built on the same idea:
-reduce the problem to the construction of matrix and compute the solution with the usual matrix multiplication or with a modified multiplication.
+مقاله زیر راه‌حل‌هایی برای این دو مسئله ارائه می‌دهد که بر پایه‌ی یک ایده ساخته شده‌اند: کاهش مسئله به ساخت یک ماتریس و محاسبه‌ی پاسخ با استفاده از ضرب ماتریسی معمولی یا یک ضرب اصلاح‌شده.
 
-## Number of paths of a fixed length
+## تعداد مسیرها با طول ثابت
 
-We are given a directed, unweighted graph $G$ with $n$ vertices and we are given an integer $k$.
-The task is the following:
-for each pair of vertices $(i, j)$ we have to find the number of paths of length $k$ between these vertices.
-Paths don't have to be simple, i.e. vertices and edges can be visited any number of times in a single path.
+یک گراف جهت‌دار و بدون وزن $G$ با $n$ رأس و یک عدد صحیح $k$ به ما داده شده است.
+مسئله به این صورت است:
+برای هر جفت رأس $(i, j)$ باید تعداد مسیرها با طول دقیقاً $k$ بین این دو رأس را پیدا کنیم.
+مسیرها لزوماً ساده نیستند، یعنی می‌توان رأس‌ها و یال‌ها را در یک مسیر چندین بار پیمود.
 
-We assume that the graph is specified with an adjacency matrix, i.e. the matrix $G[][]$ of size $n \times n$, where each element $G[i][j]$ equal to $1$ if the vertex $i$ is connected with $j$ by an edge, and $0$ is they are not connected by an edge.
-The following algorithm works also in the case of multiple edges:
-if some pair of vertices $(i, j)$ is connected with $m$ edges, then we can record this in the adjacency matrix by setting $G[i][j] = m$.
-Also the algorithm works if the graph contains loops (a loop is an edge that connect a vertex with itself).
+فرض می‌کنیم که گراف با یک ماتریس مجاورت مشخص شده است، یعنی ماتریس $G[][]$ با ابعاد $n \times n$، که در آن هر درایه $G[i][j]$ برابر با ۱ است اگر رأس $i$ با یک یال به $j$ متصل باشد، و در غیر این صورت برابر با ۰ است.
+الگوریتم زیر در حالت وجود یال‌های چندگانه نیز کار می‌کند:
+اگر یک جفت رأس $(i, j)$ با $m$ یال به هم متصل باشند، می‌توانیم این موضوع را با قرار دادن $G[i][j] = m$ در ماتریس مجاورت ثبت کنیم.
+همچنین این الگوریتم در صورتی که گراف شامل طوقه باشد (طوقه یالی است که یک رأس را به خودش متصل می‌کند) نیز کار می‌کند.
 
-It is obvious that the constructed adjacency matrix is the answer to the problem for the case $k = 1$.
-It contains the number of paths of length $1$ between each pair of vertices.
+واضح است که ماتریس مجاورت ساخته‌شده، پاسخ مسئله برای حالت $k = 1$ است.
+این ماتریس تعداد مسیرهای با طول ۱ بین هر جفت رأس را در خود دارد.
 
-We will build the solution iteratively:
-Let's assume we know the answer for some $k$.
-Here we describe a method how we can construct the answer for $k + 1$.
-Denote by $C_k$ the matrix for the case $k$, and by $C_{k+1}$ the matrix we want to construct.
-With the following formula we can compute every entry of $C_{k+1}$:
+ما راه‌حل را به صورت تکراری می‌سازیم:
+فرض کنید پاسخ را برای یک $k$ مشخص می‌دانیم.
+در اینجا روشی را برای ساختن پاسخ برای $k + 1$ توصیف می‌کنیم.
+ماتریس مربوط به حالت $k$ را با $C_k$ و ماتریسی که می‌خواهیم بسازیم را با $C_{k+1}$ نشان می‌دهیم.
+با استفاده از فرمول زیر می‌توانیم هر درایه‌ی $C_{k+1}$ را محاسبه کنیم:
 
 $$C_{k+1}[i][j] = \sum_{p = 1}^{n} C_k[i][p] \cdot G[p][j]$$
 
-It is easy to see that the formula computes nothing other than the product of the matrices $C_k$ and $G$:
+به راحتی می‌توان دید که این فرمول چیزی جز حاصل‌ضرب ماتریس‌های $C_k$ و $G$ را محاسبه نمی‌کند:
 
 $$C_{k+1} = C_k \cdot G$$
 
-Thus the solution of the problem can be represented as follows:
+بنابراین، راه‌حل مسئله را می‌توان به صورت زیر نمایش داد:
 
-$$C_k = \underbrace{G \cdot G \cdots G}_{k \text{ times}} = G^k$$
+$$C_k = \underbrace{G \cdot G \cdots G}_{k \text{ بار}} = G^k$$
 
-It remains to note that the matrix products can be raised to a high power efficiently using [Binary exponentiation](../algebra/binary-exp.md).
-This gives a solution with $O(n^3 \log k)$ complexity.
+لازم به ذکر است که ضرب‌های ماتریسی را می‌توان با استفاده از [توان‌رسانی دودویی (Binary exponentiation)](../algebra/binary-exp.md) به طور کارآمد به توان‌های بالا رساند.
+این روش راه‌حلی با پیچیدگی $O(n^3 \log k)$ ارائه می‌دهد.
 
-## Shortest paths of a fixed length
+## کوتاه‌ترین مسیرها با طول ثابت
 
-We are given a directed weighted graph $G$ with $n$ vertices and an integer $k$.
-For each pair of vertices $(i, j)$ we have to find the length of the shortest path between $i$ and $j$ that consists of exactly $k$ edges.
+یک گراف جهت‌دار وزن‌دار $G$ با $n$ رأس و یک عدد صحیح $k$ به ما داده شده است.
+برای هر جفت رأس $(i, j)$ باید طول کوتاه‌ترین مسیری را پیدا کنیم که دقیقاً از $k$ یال تشکیل شده باشد.
 
-We assume that the graph is specified by an adjacency matrix, i.e. via the matrix $G[][]$ of size $n \times n$ where each element $G[i][j]$ contains the length of the edges from the vertex $i$ to the vertex $j$.
-If there is no edge between two vertices, then the corresponding element of the matrix will be assigned to infinity $\infty$.
+فرض می‌کنیم که گراف با یک ماتریس مجاورت مشخص شده است، یعنی از طریق ماتریس $G[][]$ با ابعاد $n \times n$ که در آن هر درایه $G[i][j]$ حاوی طول یال از رأس $i$ به رأس $j$ است.
+اگر یالی بین دو رأس وجود نداشته باشد، درایه متناظر در ماتریس برابر با بی‌نهایت ($\infty$) خواهد بود.
 
-It is obvious that in this form the adjacency matrix is the answer to the problem for $k = 1$.
-It contains the lengths of shortest paths between each pair of vertices, or $\infty$ if a path consisting of one edge doesn't exist.
+واضح است که ماتریس مجاورت در این شکل، پاسخ مسئله برای $k = 1$ است.
+این ماتریس طول کوتاه‌ترین مسیرهای بین هر جفت رأس را در خود دارد، یا اگر مسیری متشکل از یک یال وجود نداشته باشد، مقدار آن $\infty$ است.
 
-Again we can build the solution to the problem iteratively:
-Let's assume we know the answer for some $k$.
-We show how we can compute the answer for $k+1$.
-Let us denote $L_k$ the matrix for $k$ and $L_{k+1}$ the matrix we want to build.
-Then the following formula computes each entry of $L_{k+1}$:
+باز هم می‌توانیم راه‌حل مسئله را به صورت تکراری بسازیم:
+فرض کنید پاسخ را برای یک $k$ مشخص می‌دانیم.
+نشان می‌دهیم که چگونه می‌توانیم پاسخ را برای $k+1$ محاسبه کنیم.
+ماتریس برای $k$ را با $L_k$ و ماتریسی که می‌خواهیم بسازیم را با $L_{k+1}$ نشان می‌دهیم.
+سپس فرمول زیر هر درایه از $L_{k+1}$ را محاسبه می‌کند:
 
 $$L_{k+1}[i][j] = \min_{p = 1 \ldots n} \left(L_k[i][p] + G[p][j]\right)$$
 
-When looking closer at this formula, we can draw an analogy with the matrix multiplication:
-in fact the matrix $L_k$ is multiplied by the matrix $G$, the only difference is that instead in the multiplication operation we take the minimum instead of the sum, and the sum instead of the multiplication as the inner operation.
+با نگاهی دقیق‌تر به این فرمول، می‌توان شباهتی با ضرب ماتریسی پیدا کرد:
+در واقع، ماتریس $L_k$ در ماتریس $G$ ضرب می‌شود، با این تفاوت که به جای عمل جمع از کمینه (minimum) و به جای عمل ضرب از جمع به عنوان عملگر داخلی استفاده می‌شود.
 
 $$L_{k+1} = L_k \odot G,$$
 
-where the operation $\odot$ is defined as follows:
+که در آن عملگر $\odot$ به صورت زیر تعریف می‌شود:
 
 $$A \odot B = C~~\Longleftrightarrow~~C_{i j} = \min_{p = 1 \ldots n}\left(A_{i p} + B_{p j}\right)$$
 
-Thus the solution of the task can be represented using the modified multiplication:
+بنابراین، راه‌حل مسئله را می‌توان با استفاده از این ضرب اصلاح‌شده نمایش داد:
 
-$$L_k = \underbrace{G \odot \ldots \odot G}_{k~\text{times}} = G^{\odot k}$$
+$$L_k = \underbrace{G \odot \ldots \odot G}_{k~\text{بار}} = G^{\odot k}$$
 
-It remains to note that we also can compute this exponentiation efficiently with [Binary exponentiation](../algebra/binary-exp.md), because the modified multiplication is obviously associative.
-So also this solution has $O(n^3 \log k)$ complexity.
+لازم به ذکر است که می‌توانیم این توان‌رسانی را نیز با استفاده از [توان‌رسانی دودویی (Binary exponentiation)](../algebra/binary-exp.md) به طور کارآمد محاسبه کنیم، زیرا این ضرب اصلاح‌شده به وضوح شرکت‌پذیر است.
+بنابراین، این راه‌حل نیز دارای پیچیدگی $O(n^3 \log k)$ است.
 
-## Generalization of the problems for paths with length up to $k$ {data-toc-label="Generalization of the problems for paths with length up to k"}
+## تعمیم مسائل برای مسیرهایی با طول حداکثر $k$ {data-toc-label="تعمیم مسائل برای مسیرهایی با طول حداکثر k"}
 
-The above solutions solve the problems for a fixed $k$.
-However the solutions can be adapted for solving problems for which the paths are allowed to contain no more than $k$ edges.
+راه‌حل‌های بالا، مسائل را برای یک $k$ ثابت حل می‌کنند.
+با این حال، می‌توان این راه‌حل‌ها را برای حل مسائلی که در آن‌ها مسیرها مجاز به داشتن حداکثر $k$ یال هستند، تطبیق داد.
 
-This can be done by slightly modifying the input graph.
+این کار را می‌توان با تغییر جزئی در گراف ورودی انجام داد.
 
-We duplicate each vertex:
-for each vertex $v$ we create one more vertex $v'$ and add the edge $(v, v')$ and the loop $(v', v')$.
-The number of paths between $i$ and $j$ with at most $k$ edges is the same number as the number of paths between $i$ and $j'$ with exactly $k + 1$ edges, since there is a bijection that maps every path $[p_0 = i,~p_1,~\ldots,~p_{m-1},~p_m = j]$ of length $m \le k$ to the path $[p_0 = i,~p_1,~\ldots,~p_{m-1},~p_m = j, j', \ldots, j']$ of length $k + 1$.
+ما هر رأس را تکثیر می‌کنیم:
+برای هر رأس $v$، یک رأس دیگر $v'$ ایجاد کرده و یال $(v, v')$ و طوقه $(v', v')$ را اضافه می‌کنیم.
+تعداد مسیرها بین $i$ و $j$ با حداکثر $k$ یال، برابر است با تعداد مسیرها بین $i$ و $j'$ با دقیقاً $k + 1$ یال، زیرا یک تناظر یک‌به‌یک وجود دارد که هر مسیر $[p_0 = i,~p_1,~\ldots,~p_{m-1},~p_m = j]$ با طول $m \le k$ را به مسیر $[p_0 = i,~p_1,~\ldots,~p_{m-1},~p_m = j, j', \ldots, j']$ با طول $k + 1$ نگاشت می‌دهد.
 
-The same trick can be applied to compute the shortest paths with at most $k$ edges.
-We again duplicate each vertex and add the two mentioned edges with weight $0$.
+همین ترفند را می‌توان برای محاسبه کوتاه‌ترین مسیرها با حداکثر $k$ یال نیز به کار برد.
+ما دوباره هر رأس را تکثیر کرده و دو یال ذکر شده را با وزن ۰ اضافه می‌کنیم.

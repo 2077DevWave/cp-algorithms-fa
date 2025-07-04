@@ -1,77 +1,77 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: dinic
 ---
 
-# Maximum flow - Dinic's algorithm
+# بیشینه شار - الگوریتم دینیک
 
-Dinic's algorithm solves the maximum flow problem in $O(V^2E)$. The maximum flow problem is defined in this article [Maximum flow - Ford-Fulkerson and Edmonds-Karp](edmonds_karp.md). This algorithm was discovered by Yefim Dinitz in 1970.
+الگوریتم دینیک مسئله بیشینه شار را در زمان $O(V^2E)$ حل می‌کند. مسئله بیشینه شار در این مقاله تعریف شده است: [بیشینه شار - الگوریتم‌های فورد-فالکرسون و ادموندز-کارپ](edmonds_karp.md). این الگوریتم توسط یفیم دینیتز در سال ۱۹۷۰ کشف شد.
 
-## Definitions
+## تعاریف
 
-A **residual network** $G^R$ of network $G$ is a network which contains two edges for each edge $(v, u)\in G$:<br>
+یک **شبکه باقیمانده** $G^R$ از شبکه $G$ شبکه‌ای است که برای هر یال $(v, u)\in G$ شامل دو یال زیر است:<br>
 
-- $(v, u)$ with capacity $c_{vu}^R = c_{vu} - f_{vu}$
-- $(u, v)$ with capacity $c_{uv}^R = f_{vu}$
+-   $(v, u)$ با ظرفیت $c_{vu}^R = c_{vu} - f_{vu}$
+-   $(u, v)$ با ظرفیت $c_{uv}^R = f_{vu}$
 
-A **blocking flow** of some network is such a flow that every path from $s$ to $t$ contains at least one edge which is saturated by this flow. Note that a blocking flow is not necessarily maximal.
+یک **شار مسدودکننده** در یک شبکه، شاری است که در آن هر مسیر از $s$ به $t$ حداقل یک یال اشباع‌شده توسط این شار داشته باشد. توجه کنید که یک شار مسدودکننده لزوماً بیشینه نیست.
 
-A **layered network** of a network $G$ is a network built in the following way. Firstly, for each vertex $v$ we calculate $level[v]$ - the shortest path (unweighted) from $s$ to this vertex using only edges with positive capacity. Then we keep only those edges $(v, u)$ for which $level[v] + 1 = level[u]$. Obviously, this network is acyclic.
+یک **شبکه لایه‌ای** از شبکه $G$ به روش زیر ساخته می‌شود. ابتدا، برای هر رأس $v$ مقدار $level[v]$ را محاسبه می‌کنیم که برابر با طول کوتاه‌ترین مسیر (بدون وزن) از $s$ به این رأس، تنها با استفاده از یال‌هایی با ظرفیت مثبت است. سپس، فقط آن یال‌هایی $(v, u)$ را نگه می‌داریم که شرط $level[v] + 1 = level[u]$ را برآورده کنند. واضح است که این شبکه غیرمدور است.
 
-## Algorithm
+## الگوریتم
 
-The algorithm consists of several phases. On each phase we construct the layered network of the residual network of $G$. Then we find an arbitrary blocking flow in the layered network and add it to the current flow.
+الگوریتم از چندین فاز تشکیل شده است. در هر فاز، شبکه لایه‌ایِ شبکه باقیمانده از $G$ را می‌سازیم. سپس یک شار مسدودکننده دلخواه در شبکه لایه‌ای پیدا کرده و آن را به شار فعلی اضافه می‌کنیم.
 
-## Proof of correctness
+## اثبات درستی
 
-Let's show that if the algorithm terminates, it finds the maximum flow.
+نشان می‌دهیم که اگر الگوریتم به پایان برسد، بیشینه شار را پیدا می‌کند.
 
-If the algorithm terminated, it couldn't find a blocking flow in the layered network. It means that the layered network doesn't have any path from $s$ to $t$.  It means that the residual network doesn't have any path from $s$ to $t$. It means that the flow is maximum.
+اگر الگوریتم خاتمه یافته باشد، نتوانسته است یک شار مسدودکننده در شبکه لایه‌ای پیدا کند. این یعنی شبکه لایه‌ای هیچ مسیری از $s$ به $t$ ندارد. این یعنی شبکه باقیمانده هیچ مسیری از $s$ به $t$ ندارد. این یعنی شار، بیشینه است.
 
-## Number of phases
+## تعداد فازها
 
-The algorithm terminates in less than $V$ phases. To prove this, we must firstly prove two lemmas.
+الگوریتم در کمتر از $V$ فاز به پایان می‌رسد. برای اثبات این موضوع، ابتدا باید دو لم را اثبات کنیم.
 
-**Lemma 1.** The distances from $s$ to each vertex don't decrease after each iteration, i. e. $level_{i+1}[v] \ge level_i[v]$.
+**لم ۱.** فاصله از $s$ به هر رأس پس از هر تکرار کاهش نمی‌یابد، یعنی $level_{i+1}[v] \ge level_i[v]$.
 
-**Proof.** Fix a phase $i$ and a vertex $v$. Consider any shortest path $P$ from $s$ to $v$ in $G_{i+1}^R$. The length of $P$ equals $level_{i+1}[v]$. Note that $G_{i+1}^R$ can only contain edges from $G_i^R$ and back edges for edges from $G_i^R$. If $P$ has no back edges for $G_i^R$, then $level_{i+1}[v] \ge level_i[v]$ because $P$ is also a path in $G_i^R$. Now, suppose that $P$ has at least one back edge. Let the first such edge be $(u, w)$.Then $level_{i+1}[u] \ge level_i[u]$ (because of the first case). The edge $(u, w)$ doesn't belong to $G_i^R$, so the edge $(w, u)$ was affected by the blocking flow on the previous iteration. It means that $level_i[u] = level_i[w] + 1$. Also, $level_{i+1}[w] = level_{i+1}[u] + 1$. From these two equations and $level_{i+1}[u] \ge level_i[u]$ we obtain $level_{i+1}[w] \ge level_i[w] + 2$. Now we can use the same idea for the rest of the path.
+**اثبات.** فاز $i$ و رأس $v$ را ثابت در نظر بگیرید. هر مسیر کوتاهی مانند $P$ از $s$ به $v$ در $G_{i+1}^R$ را در نظر بگیرید. طول $P$ برابر با $level_{i+1}[v]$ است. توجه کنید که $G_{i+1}^R$ فقط می‌تواند شامل یال‌هایی از $G_i^R$ و یال‌های معکوس برای یال‌هایی از $G_i^R$ باشد. اگر $P$ هیچ یال معکوسی برای $G_i^R$ نداشته باشد، آنگاه $level_{i+1}[v] \ge level_i[v]$ زیرا $P$ یک مسیر در $G_i^R$ نیز هست. حال، فرض کنید $P$ حداقل یک یال معکوس دارد. فرض کنید اولین یال از این نوع $(u, w)$ باشد. آنگاه $level_{i+1}[u] \ge level_i[u]$ (به دلیل حالت اول). یال $(u, w)$ به $G_i^R$ تعلق ندارد، پس یال $(w, u)$ تحت تأثیر شار مسدودکننده در تکرار قبلی قرار گرفته است. این یعنی $level_i[u] = level_i[w] + 1$. همچنین، $level_{i+1}[w] = level_{i+1}[u] + 1$. از این دو معادله و اینکه $level_{i+1}[u] \ge level_i[u]$، به دست می‌آوریم $level_{i+1}[w] \ge level_i[w] + 2$. حال می‌توانیم از همین ایده برای باقیمانده مسیر استفاده کنیم.
 
-**Lemma 2.** $level_{i+1}[t] > level_i[t]$
+**لم ۲.** $level_{i+1}[t] > level_i[t]$
 
-**Proof.** From the previous lemma, $level_{i+1}[t] \ge level_i[t]$. Suppose that $level_{i+1}[t] = level_i[t]$. Note that $G_{i+1}^R$ can only contain edges from $G_i^R$ and back edges for edges from $G_i^R$. It means that there is a shortest path in $G_i^R$ which wasn't blocked by the blocking flow. It's a contradiction.
+**اثبات.** از لم قبلی می‌دانیم $level_{i+1}[t] \ge level_i[t]$. فرض کنید $level_{i+1}[t] = level_i[t]$. توجه کنید که $G_{i+1}^R$ فقط می‌تواند شامل یال‌هایی از $G_i^R$ و یال‌های معکوس برای یال‌هایی از $G_i^R$ باشد. این یعنی یک مسیر کوتاه در $G_i^R$ وجود دارد که توسط شار مسدودکننده، مسدود نشده است. این یک تناقض است.
 
-From these two lemmas we conclude that there are less than $V$ phases because $level[t]$ increases, but it can't be greater than $V - 1$.
+از این دو لم نتیجه می‌گیریم که کمتر از $V$ فاز وجود دارد، زیرا $level[t]$ افزایش می‌یابد، اما نمی‌تواند بزرگ‌تر از $V - 1$ باشد.
 
-## Finding blocking flow
+## پیدا کردن شار مسدودکننده
 
-In order to find the blocking flow on each iteration, we may simply try pushing flow with DFS from $s$ to $t$ in the layered network while it can be pushed. In order to do it more quickly, we must remove the edges which can't be used to push anymore. To do this we can keep a pointer in each vertex which points to the next edge which can be used.
+برای پیدا کردن شار مسدودکننده در هر تکرار، می‌توانیم به سادگی با استفاده از DFS از $s$ به $t$ در شبکه لایه‌ای، تا زمانی که امکان دارد، شار ارسال کنیم. برای انجام سریع‌تر این کار، باید یال‌هایی را که دیگر نمی‌توان برای ارسال شار استفاده کرد، حذف کنیم. برای این کار می‌توانیم در هر رأس یک اشاره‌گر نگه داریم که به یال بعدی قابل استفاده اشاره می‌کند.
 
-A single DFS run takes $O(k+V)$ time, where $k$ is the number of pointer advances on this run. Summed up over all runs, number of pointer advances can not exceed $E$. On the other hand, total number of runs won't exceed $E$, as every run saturates at least one edge. In this way, total running time of finding a blocking flow is $O(VE)$.
+یک اجرای DFS به تنهایی زمان $O(k+V)$ می‌برد، که در آن $k$ تعداد پیشروی‌های اشاره‌گر در آن اجرا است. در مجموع روی تمام اجراها، تعداد پیشروی‌های اشاره‌گر نمی‌تواند از $E$ تجاوز کند. از طرف دیگر، تعداد کل اجراها از $E$ تجاوز نخواهد کرد، زیرا هر اجرا حداقل یک یال را اشباع می‌کند. به این ترتیب، کل زمان اجرای پیدا کردن یک شار مسدودکننده $O(VE)$ است.
 
-## Complexity
+## پیچیدگی
 
-There are less than $V$ phases, so the total complexity is $O(V^2E)$.
+کمتر از $V$ فاز وجود دارد، بنابراین پیچیدگی کل $O(V^2E)$ است.
 
-## Unit networks
+## شبکه‌های واحد
 
-A **unit network** is a network in which for any vertex except $s$ and $t$ **either incoming or outgoing edge is unique and has unit capacity**. That's exactly the case with the network we build to solve the maximum matching problem with flows.
+یک **شبکه واحد** شبکه‌ای است که در آن برای هر رأس به جز $s$ و $t$ **یا یال ورودی یا یال خروجی یکتا بوده و ظرفیت واحد دارد**. این دقیقاً همان موردی است که در شبکه‌ای که برای حل مسئله تطابق بیشینه با استفاده از شار می‌سازیم، وجود دارد.
 
-On unit networks Dinic's algorithm works in $O(E\sqrt{V})$. Let's prove this.
+در شبکه‌های واحد، الگوریتم دینیک در زمان $O(E\sqrt{V})$ کار می‌کند. بیایید این را اثبات کنیم.
 
-Firstly, each phase now works in $O(E)$ because each edge will be considered at most once.
+اولاً، هر فاز اکنون در زمان $O(E)$ کار می‌کند زیرا هر یال حداکثر یک بار در نظر گرفته می‌شود.
 
-Secondly, suppose there have already been $\sqrt{V}$ phases. Then all the augmenting paths with the length $\le\sqrt{V}$ have been found. Let $f$ be the current flow, $f'$ be the maximum flow. Consider their difference $f' - f$. It is a flow in $G^R$ of value $|f'| - |f|$ and on each edge it is either $0$ or $1$. It can be decomposed into $|f'| - |f|$ paths from $s$ to $t$ and possibly cycles. As the network is unit, they can't have common vertices, so the total number of vertices is $\ge (|f'| - |f|)\sqrt{V}$, but it is also $\le V$, so in another $\sqrt{V}$ iterations we will definitely find the maximum flow.
+ثانیاً، فرض کنید که تاکنون $\sqrt{V}$ فاز اجرا شده است. در این صورت تمام مسیرهای افزایشی با طول $\le\sqrt{V}$ پیدا شده‌اند. فرض کنید $f$ شار فعلی و $f'$ بیشینه شار باشد. تفاضل آن‌ها $f' - f$ را در نظر بگیرید. این یک شار در $G^R$ با مقدار $|f'| - |f|$ است و روی هر یال یا $0$ است یا $1$. این شار را می‌توان به $|f'| - |f|$ مسیر از $s$ به $t$ و احتمالاً چند دور تجزیه کرد. از آنجایی که شبکه واحد است، این مسیرها نمی‌توانند رأس مشترک داشته باشند، بنابراین تعداد کل رأس‌ها $\ge (|f'| - |f|)\sqrt{V}$ است، اما این مقدار همچنین $\le V$ است. بنابراین، در $\sqrt{V}$ تکرار دیگر، قطعاً بیشینه شار را پیدا خواهیم کرد.
 
-### Unit capacities networks
+### شبکه‌های با ظرفیت واحد
 
-In a more generic settings when all edges have unit capacities, _but the number of incoming and outgoing edges is unbounded_, the paths can't have common edges rather than common vertices. In a similar way it allows to prove the bound of $\sqrt E$ on the number of iterations, hence the running time of Dinic algorithm on such networks is at most $O(E \sqrt E)$.
+در یک حالت کلی‌تر که تمام یال‌ها ظرفیت واحد دارند، *اما تعداد یال‌های ورودی و خروجی نامحدود است*، مسیرها نمی‌توانند یال مشترک داشته باشند (به جای رأس مشترک). به روشی مشابه، می‌توان کران $\sqrt E$ را برای تعداد تکرارها اثبات کرد، بنابراین زمان اجرای الگوریتم دینیک در چنین شبکه‌هایی حداکثر $O(E \sqrt E)$ است.
 
-Finally, it is also possible to prove that the number of phases on unit capacity networks doesn't exceed $O(V^{2/3})$, providing an alternative estimate of $O(EV^{2/3})$ on the networks with particularly large number of edges.
+در نهایت، همچنین می‌توان اثبات کرد که تعداد فازها در شبکه‌های با ظرفیت واحد از $O(V^{2/3})$ تجاوز نمی‌کند، که یک تخمین جایگزین $O(EV^{2/3})$ برای شبکه‌هایی با تعداد یال‌های بسیار زیاد ارائه می‌دهد.
 
-## Implementation
+## پیاده‌سازی
 
-```{.cpp file=dinic}
+```cpp
 struct FlowEdge {
     int v, u;
     long long cap, flow = 0;
@@ -155,6 +155,6 @@ struct Dinic {
 };
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
-* [SPOJ: FASTFLOW](https://www.spoj.com/problems/FASTFLOW/)
+*   [SPOJ: FASTFLOW](https://www.spoj.com/problems/FASTFLOW/)

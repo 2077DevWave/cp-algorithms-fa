@@ -1,52 +1,52 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: tree_painting
 ---
 
-# Paint the edges of the tree
+# رنگ‌آمیزی یال‌های درخت
 
-This is a fairly common task. Given a tree $G$ with $N$ vertices. There are two types of queries: the first one is to paint an edge, the second one is to query the number of colored edges between two vertices.
+این یک مسئله‌ی نسبتاً رایج است. درختی با $N$ رأس به نام $G$ داده شده است. دو نوع پرس‌وجو (query) وجود دارد: نوع اول رنگ کردن یک یال است و نوع دوم پرس‌وجو در مورد تعداد یال‌های رنگ‌شده بین دو رأس است.
 
-Here we will describe a fairly simple solution (using a [segment tree](../data_structures/segment_tree.md)) that will answer each query in $O(\log N)$ time.
-The preprocessing step will take $O(N)$ time.
+در اینجا یک راه‌حل نسبتاً ساده (با استفاده از [segment tree](../data_structures/segment_tree.md)) توصیف می‌کنیم که هر پرس‌وجو را در زمان $O(\log N)$ پاسخ می‌دهد.
+مرحله پیش‌پردازش $O(N)$ زمان خواهد برد.
 
-## Algorithm
+## الگوریتم
 
-First, we need to find the [LCA](lca.md) to reduce each query of the second kind $(i,j)$ into two queries $(l,i)$ and $(l,j)$, where $l$ is the LCA of $i$ and $j$.
-The answer of the query $(i,j)$ will be the sum of both subqueries.
-Both these queries have a special structure, the first vertex is an ancestor of the second one.
-For the rest of the article we will only talk about these special kind of queries.
+ابتدا، باید [LCA](lca.md) را پیدا کنیم تا هر پرس‌وجوی نوع دوم $(i,j)$ را به دو پرس‌وجوی $(l,i)$ و $(l,j)$ کاهش دهیم، که در آن $l$ همان LCA رئوس $i$ و $j$ است.
+پاسخ پرس‌وجوی $(i,j)$ برابر با مجموع این دو زیرپرس‌وجو خواهد بود.
+هر دوی این پرس‌وجوها ساختار خاصی دارند: رأس اول جدّ رأس دوم است.
+در ادامه‌ی این مقاله، فقط در مورد این نوع خاص از پرس‌وجوها صحبت خواهیم کرد.
 
-We will start by describing the **preprocessing** step.
-Run a depth-first search from the root of the tree and record the Euler tour of this depth-first search (each vertex is added to the list when the search visits it first and every time we return from one of its children).
-The same technique can be used in the LCA preprocessing.
+با توصیف مرحله **پیش‌پردازش** شروع می‌کنیم.
+یک `depth-first search` از ریشه درخت اجرا کرده و `Euler tour` این `depth-first search` را ثبت می‌کنیم (هر رأس هنگام اولین بازدید و هر بار که از یکی از فرزندانش برمی‌گردیم به لیست اضافه می‌شود).
+از همین تکنیک می‌توان در پیش‌پردازش LCA نیز استفاده کرد.
 
-This list will contain each edge (in the sense that if $i$ and $j$ are the ends of the edge, then there will be a place in the list where $i$ and $j$ are neighbors in the list), and it appear exactly two times: in the forward direction (from $i$ to $j$, where vertex $i$ is closer to the root than vertex $j$) and in the opposite direction (from $j$ to $i$).
+این لیست شامل هر یال خواهد بود (به این معنی که اگر $i$ و $j$ دو سر یک یال باشند، در جایی از لیست، $i$ و $j$ همسایه خواهند بود)، و هر یال دقیقاً دو بار ظاهر می‌شود: یک بار در جهت رو به جلو (از $i$ به $j$، جایی که رأس $i$ به ریشه نزدیک‌تر از رأس $j$ است) و یک بار در جهت مخالف (از $j$ به $i$).
 
-We will build two lists for these edges.
-The first one will store the color of all edges in the forward direction, and the second one the color of all edges in the opposite direction.
-We will use $1$ if the edge is colored, and $0$ otherwise.
-Over these two lists we will build each a segment tree (for sum with a single modification), let's call them $T1$ and $T2$.
+برای این یال‌ها دو لیست می‌سازیم.
+لیست اول رنگ تمام یال‌ها در جهت رو به جلو را ذخیره می‌کند و لیست دوم رنگ تمام یال‌ها در جهت مخالف را.
+اگر یال رنگ شده باشد از $1$ و در غیر این صورت از $0$ استفاده می‌کنیم.
+روی هر یک از این دو لیست یک `segment tree` (برای جمع با یک تغییر) می‌سازیم و آن‌ها را $T1$ و $T2$ می‌نامیم.
 
-Let us answer a query of the form $(i,j)$, where $i$ is the ancestor of $j$.
-We need to determine how many edges are painted on the path between $i$ and $j$.
-Let's find $i$ and $j$ in the Euler tour for the first time, let it be the positions $p$ and $q$ (this can be done in $O(1)$ if we calculate these positions in advance during preprocessing).
-Then the **answer** to the query is the sum $T1[p..q-1]$ minus the sum $T2[p..q-1]$.
+حال به پرس‌وجویی به شکل $(i,j)$ پاسخ می‌دهیم، که در آن $i$ جدّ $j$ است.
+باید مشخص کنیم که چند یال در مسیر بین $i$ و $j$ رنگ شده‌اند.
+مکان اولین ظهور $i$ و $j$ را در `Euler tour` پیدا می‌کنیم و آن‌ها را $p$ و $q$ می‌نامیم (اگر این موقعیت‌ها را از قبل در مرحله پیش‌پردازش محاسبه کنیم، این کار در $O(1)$ قابل انجام است).
+در این صورت، **پاسخ** به پرس‌وجو برابر است با مجموع $T1[p..q-1]$ منهای مجموع $T2[p..q-1]$.
 
-**Why?**
-Consider the segment $[p;q]$ in the Euler tour.
-It contains all edges of the path we need from $i$ to $j$ but also contains a set of edges that lie on other paths from $i$.
-However there is one big difference between the edges we need and the rest of the edges: the edges we need will be listed only once in the forward direction, and all the other edges appear twice: once in the forward and once in the opposite direction.
-Hence, the difference $T1[p..q-1] - T2[p..q-1]$ will give us the correct answer (minus one is necessary because otherwise, we will capture an extra edge going out from vertex $j$).
-The sum query in the segment tree is executed in $O(\log N)$.
+**چرا؟**
+بازه $[p,q]$ را در `Euler tour` در نظر بگیرید.
+این بازه شامل تمام یال‌های مسیر مورد نیاز ما از $i$ به $j$ است، اما مجموعه‌ای از یال‌ها را نیز در بر می‌گیرد که روی مسیرهای دیگری از $i$ قرار دارند.
+با این حال، یک تفاوت بزرگ بین یال‌های مورد نیاز ما و بقیه یال‌ها وجود دارد: یال‌های مورد نیاز ما فقط یک بار و در جهت رو به جلو لیست می‌شوند، در حالی که سایر یال‌ها دو بار ظاهر می‌شوند: یک بار در جهت رو به جلو و یک بار در جهت مخالف.
+بنابراین، تفاضل $T1[p..q-1] - T2[p..q-1]$ پاسخ صحیح را به ما می‌دهد (استفاده از بازه تا `q-1` ضروری است، زیرا در غیر این صورت، یال اضافی خروجی از رأس $j$ نیز به حساب می‌آید).
+پرس‌وجوی جمع در `segment tree` در $O(\log N)$ اجرا می‌شود.
 
-Answering the **first type of query** (painting an edge) is even easier - we just need to update $T1$ and $T2$, namely to perform a single update of the element that corresponds to our edge (finding the edge in the list, again, is possible in $O(1)$, if you perform this search during preprocessing).
-A single modification in the segment tree is performed in $O(\log N)$.
+پاسخ به **پرس‌وجوی نوع اول** (رنگ‌آمیزی یک یال) حتی ساده‌تر است - فقط باید $T1$ و $T2$ را به‌روزرسانی کنیم، یعنی یک به‌روزرسانی تکی روی عنصری که متناظر با یال ماست انجام دهیم (پیدا کردن یال در لیست، باز هم، اگر این جستجو را در حین پیش‌پردازش انجام دهید، در $O(1)$ امکان‌پذیر است).
+یک تغییر تکی در `segment tree` در $O(\log N)$ انجام می‌شود.
 
-## Implementation
+## پیاده‌سازی
 
-Here is the full implementation of the solution, including LCA computation:
+در اینجا پیاده‌سازی کامل راه‌حل، شامل محاسبه LCA، آمده است:
 
 ```cpp
 const int INF = 1000 * 1000 * 1000;
@@ -167,7 +167,7 @@ int query(int v1, int v2) {
 }
 
 int main() {
-    // reading the graph
+    // خواندن گراف
     int n;
     scanf("%d", &n);
     graph g(n), edge_ids(n);
@@ -188,19 +188,19 @@ int main() {
 
     for (;;) {
         if () {
-            // request for painting edge x;
-            // if start = true, then the edge is painted, otherwise the painting
-            // is removed
+            // درخواست برای رنگ‌آمیزی یال x؛
+            // اگر start برابر با true باشد، یال رنگ می‌شود، در غیر این صورت رنگ‌آمیزی
+            // حذف می‌شود
             edge_used[x] = start;
             sum_tree_update(tree1, 1, 0, (int)edges_list.size() - 1, first1[x],
                             start ? 1 : -1);
             sum_tree_update(tree2, 1, 0, (int)edges_list.size() - 1, first2[x],
                             start ? 1 : -1);
         } else {
-            // query the number of colored edges on the path between v1 and v2
+            // پرس‌وجو برای تعداد یال‌های رنگ‌شده در مسیر بین v1 و v2
             int l = lca(v1, v2);
             int result = query(l, v1) + query(l, v2);
-            // result - the answer to the request
+            // result - پاسخ درخواست
         }
     }
 }

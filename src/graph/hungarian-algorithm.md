@@ -1,196 +1,195 @@
 ---
 tags:
-  - Translated
-e_maxx_link: assignment_hungary
+  - AI Translated
+e_maxx_link: hungarian-algorithm
 ---
 
-# Hungarian algorithm for solving the assignment problem
+# الگوریتم مجارستانی برای حل مسئله تخصیص
 
-## Statement of the assignment problem
+## صورت مسئله تخصیص
 
-There are several standard formulations of the assignment problem (all of which are essentially equivalent). Here are some of them:
+چندین فرمول‌بندی استاندارد برای مسئله تخصیص وجود دارد (که همگی در اصل معادل هستند). در اینجا به چند مورد از آنها اشاره می‌کنیم:
 
-- There are $n$ jobs and $n$ workers. Each worker specifies the amount of money they expect for a particular job. Each worker can be assigned to only one job. The objective is to assign jobs to workers in a way that minimizes the total cost.
+-   $n$ شغل و $n$ کارگر وجود دارد. هر کارگر مبلغی را که برای انجام یک شغل خاص انتظار دارد، مشخص می‌کند. هر کارگر فقط به یک شغل می‌تواند تخصیص داده شود. هدف، تخصیص مشاغل به کارگران به گونه‌ای است که هزینه کل کمینه شود.
 
-- Given an $n \times n$ matrix $A$, the task is to select one number from each row such that exactly one number is chosen from each column, and the sum of the selected numbers is minimized.
+-   با توجه به یک ماتریس $n \times n$ به نام $A$، وظیفه این است که از هر سطر یک عدد انتخاب کنیم به طوری که دقیقاً یک عدد از هر ستون انتخاب شده باشد و مجموع اعداد انتخاب‌شده کمینه شود.
 
-- Given an $n \times n$ matrix $A$, the task is to find a permutation $p$ of length $n$ such that the value $\sum A[i]\left[p[i]\right]$ is minimized.
+-   با توجه به یک ماتریس $n \times n$ به نام $A$، وظیفه یافتن جایگشت $p$ به طول $n$ است به طوری که مقدار $\sum A[i]\left[p[i]\right]$ کمینه شود.
 
-- Consider a complete bipartite graph with $n$ vertices per part, where each edge is assigned a weight. The objective is to find a perfect matching with the minimum total weight.
+-   یک گراف کامل دوبخشی با $n$ رأس در هر بخش را در نظر بگیرید که به هر یال یک وزن اختصاص داده شده است. هدف، یافتن یک تطابق کامل با کمترین وزن کل است.
 
-It is important to note that all the above scenarios are "**square**" problems, meaning both dimensions are always equal to $n$. In practice, similar "**rectangular**" formulations are often encountered, where $n$ is not equal to $m$, and the task is to select $\min(n,m)$ elements. However, it can be observed that a "rectangular" problem can always be transformed into a "square" problem by adding rows or columns with zero or infinite values, respectively.
+توجه به این نکته مهم است که تمام سناریوهای فوق مسائل "**مربعی**" هستند، به این معنی که هر دو بعد همیشه برابر با $n$ هستند. در عمل، اغلب با فرمول‌بندی‌های مشابه "**مستطیلی**" مواجه می‌شویم که در آنها $n$ با $m$ برابر نیست و وظیفه انتخاب $\min(n,m)$ عنصر است. با این حال، می‌توان مشاهده کرد که یک مسئله "مستطیلی" را همیشه می‌توان با افزودن سطرها یا ستون‌هایی با مقادیر صفر یا بی‌نهایت، به یک مسئله "مربعی" تبدیل کرد.
 
-We also note that by analogy with the search for a **minimum** solution, one can also pose the problem of finding a **maximum** solution. However, these two problems are equivalent to each other: it is enough to multiply all the weights by $-1$.
+همچنین توجه داشته باشید که به قیاس با جستجوی یک راه حل **کمینه**، می‌توان مسئله یافتن یک راه حل **بیشینه** را نیز مطرح کرد. با این حال، این دو مسئله معادل یکدیگر هستند: کافی است تمام وزن‌ها را در $-1$ ضرب کنیم.
 
-## Hungarian algorithm
+## الگوریتم مجارستانی
 
-### Historical reference
+### مرجع تاریخی
 
-The algorithm was developed and published by Harold **Kuhn** in 1955. Kuhn himself gave it the name "Hungarian" because it was based on the earlier work by Hungarian mathematicians Dénes Kőnig and Jenő Egerváry.<br>
-In 1957, James **Munkres** showed that this algorithm runs in (strictly) polynomial time, independently from the cost.<br>
-Therefore, in literature, this algorithm is known not only as the "Hungarian", but also as the "Kuhn-Mankres algorithm" or "Mankres algorithm".<br>
-However, it was recently discovered in 2006 that the same algorithm was invented **a century before Kuhn** by the German mathematician Carl Gustav **Jacobi**. His work, _About the research of the order of a system of arbitrary ordinary differential equations_, which was published posthumously in 1890, contained, among other findings, a polynomial algorithm for solving the assignment problem. Unfortunately, since the publication was in Latin, it went unnoticed among mathematicians.
+این الگوریتم توسط هارولد **کوهن** (Harold **Kuhn**) در سال ۱۹۵۵ توسعه و منتشر شد. خود کوهن به دلیل اینکه این الگوریتم بر اساس کارهای قبلی ریاضیدانان مجارستانی، دینس کونیگ (Dénes Kőnig) و ینو اگرواری (Jenő Egerváry) بود، نام "مجارستانی" را برای آن انتخاب کرد.<br>
+در سال ۱۹۵۷، جیمز **مانکرس** (James **Munkres**) نشان داد که این الگوریتم در زمان چندجمله‌ای (اکیداً) اجرا می‌شود، صرف نظر از هزینه.<br>
+بنابراین، در ادبیات علمی، این الگوریتم نه تنها به عنوان "مجارستانی"، بلکه به عنوان "الگوریتم کوهن-مانکرس" یا "الگوریتم مانکرس" نیز شناخته می‌شود.<br>
+با این حال، اخیراً در سال ۲۰۰۶ کشف شد که همین الگوریتم **یک قرن قبل از کوهن** توسط ریاضیدان آلمانی، کارل گوستاو **یاکوبی** (Carl Gustav **Jacobi**) ابداع شده بود. اثر او، _درباره تحقیق در مورد مرتبه یک سیستم از معادلات دیفرانسیل معمولی دلخواه_، که پس از مرگش در سال ۱۸۹۰ منتشر شد، در میان یافته‌های دیگر، شامل یک الگوریتم چندجمله‌ای برای حل مسئله تخصیص بود. متأسفانه، از آنجا که این اثر به زبان لاتین منتشر شده بود، در میان ریاضیدانان مورد توجه قرار نگرفت.
 
-It is also worth noting that Kuhn's original algorithm had an asymptotic complexity of $\mathcal{O}(n^4)$, and only later Jack **Edmonds** and Richard **Karp** (and independently **Tomizawa**) showed how to improve it to an asymptotic complexity of $\mathcal{O}(n^3)$.
+همچنین شایان ذکر است که الگوریتم اصلی کوهن دارای پیچیدگی مجانبی $\mathcal{O}(n^4)$ بود و تنها بعدها جک **ادموندز** (Jack **Edmonds**) و ریچارد **کارپ** (Richard **Karp**) (و به طور مستقل **تومیزاوا** (Tomizawa)) نشان دادند که چگونه می‌توان آن را به پیچیدگی مجانبی $\mathcal{O}(n^3)$ بهبود بخشید.
 
-### The $\mathcal{O}(n^4)$ algorithm
+### الگوریتم $\mathcal{O}(n^4)$
 
-To avoid ambiguity, we note right away that we are mainly concerned with the assignment problem in a matrix formulation (i.e., given a matrix $A$, you need to select $n$ cells from it that are in different rows and columns). We index arrays starting with $1$, i.e., for example, a matrix $A$ has indices $A[1 \dots n][1 \dots n]$.
+برای جلوگیری از ابهام، از همین ابتدا اشاره می‌کنیم که ما عمدتاً با مسئله تخصیص در فرمول‌بندی ماتریسی سروکار داریم (یعنی با توجه به ماتریس $A$، باید $n$ خانه از آن را که در سطرها و ستون‌های مختلف قرار دارند، انتخاب کنید). ما آرایه‌ها را از اندیس ۱ شروع می‌کنیم، یعنی به عنوان مثال، ماتریس $A$ دارای اندیس‌های $A[1 \dots n][1 \dots n]$ است.
 
-We will also assume that all numbers in matrix A are **non-negative** (if this is not the case, you can always make the matrix non-negative by adding some constant to all numbers).
+ما همچنین فرض خواهیم کرد که تمام اعداد در ماتریس A **نامنفی** هستند (اگر اینطور نباشد، همیشه می‌توانید با افزودن یک مقدار ثابت به همه اعداد، ماتریس را نامنفی کنید).
 
-Let's call a **potential** two arbitrary arrays of numbers $u[1 \ldots n]$ and $v[1 \ldots n]$, such that the following condition is satisfied:
+دو آرایه دلخواه از اعداد $u[1 \ldots n]$ و $v[1 \ldots n]$ را یک **پتانسیل** می‌نامیم، به طوری که شرط زیر برآورده شود:
 
 $$u[i]+v[j]\leq A[i][j],\quad i=1\dots n,\ j=1\dots n$$
 
-(As you can see, $u[i]$ corresponds to the $i$-th row, and $v[j]$ corresponds to the $j$-th column of the matrix).
+(همانطور که می‌بینید، $u[i]$ به سطر $i$-ام و $v[j]$ به ستون $j$-ام ماتریس مربوط می‌شود).
 
-Let's call **the value $f$ of the potential** the sum of its elements:
+مجموع عناصر یک پتانسیل را **مقدار $f$ پتانسیل** می‌نامیم:
 
 $$f=\sum_{i=1}^{n} u[i] + \sum_{j=1}^{n} v[j].$$
 
-On one hand, it is easy to see that the cost of the desired solution $sol$ **is not less than** the value of any potential.
+از یک طرف، به راحتی می‌توان دید که هزینه راه حل مطلوب $sol$ **کمتر از** مقدار هر پتانسیلی نیست.
 
 !!! info ""
 
-    **Lemma.** $sol\geq f.$
+    **لم.** $sol\geq f.$
 
-??? info "Proof"
+??? info "اثبات"
 
-    The desired solution of the problem consists of $n$ cells of the matrix $A$, so $u[i]+v[j]\leq A[i][j]$ for each of them. Since all the elements in $sol$ are in different rows and columns, summing these inequalities over all the selected $A[i][j]$, you get $f$ on the left side of the inequality, and $sol$ on the right side.
+    راه حل مطلوب مسئله شامل $n$ خانه از ماتریس $A$ است، بنابراین برای هر یک از آنها $u[i]+v[j]\leq A[i][j]$ برقرار است. از آنجا که تمام عناصر در $sol$ در سطرها و ستون‌های مختلفی قرار دارند، با جمع کردن این نابرابری‌ها بر روی تمام $A[i][j]$ های انتخاب‌شده، در سمت چپ نابرابری به $f$ و در سمت راست به $sol$ می‌رسید.
 
-On the other hand, it turns out that there is always a solution and a potential that turns this inequality into **equality**. The Hungarian algorithm described below will be a constructive proof of this fact. For now, let's just pay attention to the fact that if any solution has a cost equal to any potential, then this solution is **optimal**.
+از سوی دیگر، معلوم می‌شود که همیشه یک راه حل و یک پتانسیل وجود دارد که این نابرابری را به **تساوی** تبدیل می‌کند. الگوریتم مجارستانی که در ادامه شرح داده می‌شود، یک اثبات سازنده برای این واقعیت خواهد بود. در حال حاضر، فقط به این نکته توجه می‌کنیم که اگر هر راه حلی هزینه‌ای برابر با هر پتانسیلی داشته باشد، آنگاه این راه حل **بهینه** است.
 
-Let's fix some potential. Let's call an edge $(i,j)$ **rigid** if $u[i]+v[j]=A[i][j].$
+یک پتانسیل را ثابت در نظر بگیرید. یال $(i,j)$ را **سفت** (rigid) می‌نامیم اگر $u[i]+v[j]=A[i][j].$
 
-Recall an alternative formulation of the assignment problem, using a bipartite graph. Denote with $H$ a bipartite graph composed only of rigid edges. The Hungarian algorithm will maintain, for the current potential, **the maximum-number-of-edges matching** $M$ of the graph $H$. As soon as $M$ contains $n$ edges, then the solution to the problem will be just $M$ (after all, it will be a solution whose cost coincides with the value of a potential).
+فرمول‌بندی جایگزین مسئله تخصیص با استفاده از گراف دوبخشی را به یاد بیاورید. یک گراف دوبخشی $H$ را که فقط از یال‌های سفت تشکیل شده است، در نظر بگیرید. الگوریتم مجارستانی برای پتانسیل فعلی، **تطابق با بیشترین تعداد یال** $M$ از گراف $H$ را حفظ می‌کند. به محض اینکه $M$ شامل $n$ یال شود، راه حل مسئله همان $M$ خواهد بود (چرا که این یک راه حل خواهد بود که هزینه‌اش با مقدار یک پتانسیل برابر است).
 
-Let's proceed directly to **the description of the algorithm**.
+بیایید مستقیماً به **شرح الگوریتم** بپردازیم.
 
-**Step 1.** At the beginning, the potential is assumed to be zero ($u[i]=v[i]=0$ for all $i$), and the matching $M$ is assumed to be empty.
+**گام ۱.** در ابتدا، پتانسیل صفر فرض می‌شود ($u[i]=v[i]=0$ برای همه $i$ ها) و تطابق $M$ خالی در نظر گرفته می‌شود.
 
-**Step 2.** Further, at each step of the algorithm, we try, without changing the potential, to increase the cardinality of the current matching $M$ by one (recall that the matching is searched in the graph of rigid edges $H$). To do this, the usual [Kuhn Algorithm for finding the maximum matching in bipartite graphs](kuhn_maximum_bipartite_matching.md) is used. Let us recall the algorithm here.
-All edges of the matching $M$ are oriented in the direction from the right part to the left one, and all other edges of the graph $H$ are oriented in the opposite direction.
+**گام ۲.** در ادامه، در هر مرحله از الگوریتم، سعی می‌کنیم بدون تغییر پتانسیل، اندازه تطابق فعلی $M$ را یک واحد افزایش دهیم (به یاد داشته باشید که تطابق در گراف یال‌های سفت $H$ جستجو می‌شود). برای این کار، از [الگوریتم کوهن برای یافتن تطابق بیشینه در گراف‌های دوبخشی](kuhn_maximum_bipartite_matching.md) استفاده می‌شود. الگوریتم را در اینجا یادآوری می‌کنیم.
+تمام یال‌های تطابق $M$ از بخش راست به بخش چپ جهت‌دهی می‌شوند و تمام یال‌های دیگر گراف $H$ در جهت مخالف جهت‌دهی می‌شوند.
 
-Recall (from the terminology of searching for matchings) that a vertex is called saturated if an edge of the current matching is adjacent to it. A vertex that is not adjacent to any edge of the current matching is called unsaturated. A path of odd length, in which the first edge does not belong to the matching, and for all subsequent edges there is an alternating belonging to the matching (belongs/does not belong) - is called an augmenting path.
-From all unsaturated vertices in the left part, a [depth-first](depth-first-search.md) or [breadth-first](breadth-first-search.md) traversal is started. If, as a result of the search, it was possible to reach an unsaturated vertex of the right part, we have found an augmenting path from the left part to the right one. If we include odd edges of the path and remove the even ones in the matching (i.e. include the first edge in the matching, exclude the second, include the third, etc.), then we will increase the matching cardinality by one.
+به یاد بیاورید (از اصطلاحات جستجوی تطابق) که یک رأس اشباع‌شده (saturated) نامیده می‌شود اگر یک یال از تطابق فعلی به آن متصل باشد. رأسی که به هیچ یال از تطابق فعلی متصل نباشد، اشباع‌نشده (unsaturated) نامیده می‌شود. مسیری با طول فرد که یال اول آن به تطابق تعلق ندارد و برای تمام یال‌های بعدی، تعلق به تطابق به صورت متناوب (تعلق دارد/ندارد) تغییر می‌کند، مسیر افزایشی (augmenting path) نامیده می‌شود.
+از تمام رئوس اشباع‌نشده در بخش چپ، پیمایش [عمق-اول](depth-first-search.md) یا [سطح-اول](breadth-first-search.md) شروع می‌شود. اگر در نتیجه جستجو، بتوان به یک رأس اشباع‌نشده از بخش راست رسید، یک مسیر افزایشی از بخش چپ به بخش راست پیدا کرده‌ایم. اگر یال‌های فرد مسیر را به تطابق اضافه کنیم و یال‌های زوج را از آن حذف کنیم (یعنی یال اول را در تطابق بگنجانیم، دومی را حذف کنیم، سومی را بگنجانیم و غیره)، اندازه تطابق را یک واحد افزایش خواهیم داد.
 
-If there was no augmenting path, then the current matching $M$ is maximal in the graph $H$.
+اگر مسیر افزایشی وجود نداشته باشد، تطابق فعلی $M$ در گراف $H$ بیشینه است.
 
-**Step 3.** If at the current step, it is not possible to increase the cardinality of the current matching, then a recalculation of the potential is performed in such a way that, at the next steps, there will be more opportunities to increase the matching.
+**گام ۳.** اگر در مرحله فعلی، امکان افزایش اندازه تطابق فعلی وجود نداشته باشد، پتانسیل به گونه‌ای باز محاسبه می‌شود که در مراحل بعدی، فرصت‌های بیشتری برای افزایش تطابق وجود داشته باشد.
 
-Denote by $Z_1$ the set of vertices of the left part that were visited during the last traversal of Kuhn's algorithm, and through $Z_2$ the set of visited vertices of the right part.
+مجموعه رئوس بخش چپ را که در آخرین پیمایش الگوریتم کوهن بازدید شده‌اند با $Z_1$ و مجموعه رئوس بازدید شده بخش راست را با $Z_2$ نشان می‌دهیم.
 
-Let's calculate the value $\Delta$:
+مقدار $\Delta$ را محاسبه می‌کنیم:
 
 $$\Delta = \min_{i\in Z_1,\ j\notin Z_2} A[i][j]-u[i]-v[j].$$
 
 !!! info ""
 
-     **Lemma.** $\Delta > 0.$
+     **لم.** $\Delta > 0.$
 
-??? info "Proof"
+??? info "اثبات"
 
-    Suppose $\Delta=0$. Then there exists a rigid edge $(i,j)$ with $i\in Z_1$ and $j\notin Z_2$. It follows that the edge $(i,j)$ must be oriented from the right part to the left one, i.e. $(i,j)$ must be included in the matching $M$. However, this is impossible, because we could not get to the saturated vertex $i$ except by going along the edge from j to i. So $\Delta > 0$.
+    فرض کنید $\Delta=0$. در این صورت، یک یال سفت $(i,j)$ با $i\in Z_1$ و $j\notin Z_2$ وجود دارد. از این رو، یال $(i,j)$ باید از بخش راست به بخش چپ جهت‌دهی شده باشد، یعنی $(i,j)$ باید در تطابق $M$ گنجانده شده باشد. با این حال، این غیرممکن است، زیرا نمی‌توانستیم به رأس اشباع‌شده $i$ برسیم مگر با پیمودن یال از j به i. بنابراین $\Delta > 0$ است.
 
-Now let's **recalculate the potential** in this way:
+اکنون پتانسیل را به این صورت **باز محاسبه می‌کنیم**:
 
-- for all vertices $i\in Z_1$, do $u[i] \gets u[i]+\Delta$,
-
-- for all vertices $j\in Z_2$, do $v[j] \gets v[j]-\Delta$.
-
-!!! info ""
-
-    **Lemma.** The resulting potential is still a correct potential.
-
-??? info "Proof"
-
-    We will show that, after recalculation, $u[i]+v[j]\leq A[i][j]$ for all $i,j$. For all the elements of $A$ with $i\in Z_1$ and $j\in Z_2$, the sum $u[i]+v[j]$ does not change, so the inequality remains true. For all the elements with $i\notin Z_1$ and $j\in Z_2$, the sum $u[i]+v[j]$ decreases by $\Delta$, so the inequality is still true. For the other elements whose $i\in Z_1$ and $j\notin Z_2$, the sum increases, but the inequality is still preserved, since the value $\Delta$ is, by definition, the maximum increase that does not change the inequality.
+-   برای تمام رئوس $i\in Z_1$، قرار می‌دهیم $u[i] \gets u[i]+\Delta$
+-   برای تمام رئوس $j\in Z_2$، قرار می‌دهیم $v[j] \gets v[j]-\Delta$
 
 !!! info ""
 
-    **Lemma.** The old matching $M$ of rigid edges is valid, i.e. all edges of the matching will remain rigid.
+    **لم.** پتانسیل حاصل همچنان یک پتانسیل معتبر است.
 
-??? info "Proof"
+??? info "اثبات"
 
-    For some rigid edge $(i,j)$ to stop being rigid as a result of a change in potential, it is necessary that equality $u[i] + v[j] = A[i][j]$ turns into inequality $u[i] + v[j] < A[i][j]$. However, this can happen only when $i \notin Z_1$ and $j \in Z_2$. But $i \notin Z_1$ implies that the edge $(i,j)$ could not be a matching edge.
+    نشان خواهیم داد که پس از باز محاسبه، برای تمام $i,j$ ها $u[i]+v[j]\leq A[i][j]$ برقرار است. برای تمام عناصر $A$ با $i\in Z_1$ و $j\in Z_2$، مجموع $u[i]+v[j]$ تغییر نمی‌کند، بنابراین نابرابری همچنان برقرار است. برای تمام عناصر با $i\notin Z_1$ و $j\in Z_2$، مجموع $u[i]+v[j]$ به اندازه $\Delta$ کاهش می‌یابد، بنابراین نابرابری همچنان برقرار است. برای سایر عناصری که $i\in Z_1$ و $j\notin Z_2$ هستند، مجموع افزایش می‌یابد، اما نابرابری همچنان حفظ می‌شود، زیرا مقدار $\Delta$ طبق تعریف، حداکثر افزایشی است که نابرابری را تغییر نمی‌دهد.
 
 !!! info ""
 
-    **Lemma.** After each recalculation of the potential, the number of vertices reachable by the traversal, i.e. $|Z_1|+|Z_2|$, strictly increases.
+    **لم.** تطابق قدیمی $M$ از یال‌های سفت معتبر است، یعنی تمام یال‌های تطابق، سفت باقی خواهند ماند.
 
-??? info "Proof"
+??? info "اثبات"
 
-    First, note that any vertex that was reachable before recalculation, is still reachable. Indeed, if some vertex is reachable, then there is some path from reachable vertices to it, starting from the unsaturated vertex of the left part; since for edges of the form $(i,j),\ i\in Z_1,\ j\in Z_2$ the sum $u[i]+v[j]$ does not change, this entire path will be preserved after changing the potential.
-    Secondly, we show that after a recalculation, at least one new vertex will be reachable. This follows from the definition of $\Delta$: the edge $(i,j)$ which $\Delta$ refers to will become rigid, so vertex $j$ will be reachable from vertex $i$.
+    برای اینکه یک یال سفت $(i,j)$ در نتیجه تغییر پتانسیل، دیگر سفت نباشد، لازم است که تساوی $u[i] + v[j] = A[i][j]$ به نابرابری $u[i] + v[j] < A[i][j]$ تبدیل شود. با این حال، این تنها زمانی می‌تواند اتفاق بیفتد که $i \notin Z_1$ و $j \in Z_2$ باشد. اما $i \notin Z_1$ دلالت بر این دارد که یال $(i,j)$ نمی‌تواند یک یال تطابق باشد.
 
-Due to the last lemma, **no more than $n$ potential recalculations can occur** before an augmenting path is found and the matching cardinality of $M$ is increased.
-Thus, sooner or later, a potential that corresponds to a perfect matching $M^*$ will be found, and $M^*$ will be the answer to the problem.
-If we talk about the complexity of the algorithm, then it is $\mathcal{O}(n^4)$: in total there should be at most $n$ increases in matching, before each of which there are no more than $n$ potential recalculations, each of which is performed in time $\mathcal{O}(n^2)$.
+!!! info ""
 
-We will not give the implementation for the $\mathcal{O}(n^4)$ algorithm here, since it will turn out to be no shorter than the implementation for the $\mathcal{O}(n^3)$ one, described below.
+    **لم.** پس از هر بار باز محاسبه پتانسیل، تعداد رئوس قابل دسترس توسط پیمایش، یعنی $|Z_1|+|Z_2|$، اکیداً افزایش می‌یابد.
 
-### The $\mathcal{O}(n^3)$ algorithm
+??? info "اثبات"
 
-Now let's learn how to implement the same algorithm in $\mathcal{O}(n^3)$ (for rectangular problems $n \times m$, $\mathcal{O}(n^2m)$).
+    ابتدا، توجه کنید که هر رأسی که قبل از باز محاسبه قابل دسترس بود، همچنان قابل دسترس است. در واقع، اگر رأسی قابل دسترس باشد، مسیری از رئوس قابل دسترس به آن وجود دارد که از رأس اشباع‌نشده بخش چپ شروع می‌شود؛ از آنجا که برای یال‌های به شکل $(i,j)$ با $i\in Z_1, j\in Z_2$ مجموع $u[i]+v[j]$ تغییر نمی‌کند، کل این مسیر پس از تغییر پتانسیل حفظ خواهد شد.
+    ثانیاً، نشان می‌دهیم که پس از باز محاسبه، حداقل یک رأس جدید قابل دسترس خواهد بود. این از تعریف $\Delta$ نتیجه می‌شود: یالی $(i,j)$ که $\Delta$ به آن اشاره دارد، سفت خواهد شد، بنابراین رأس $j$ از رأس $i$ قابل دسترس خواهد بود.
 
-The key idea is to **consider matrix rows one by one**, and not all at once. Thus, the algorithm described above will take the following form:
+با توجه به لم آخر، **نمی‌تواند بیش از $n$ باز محاسبه پتانسیل رخ دهد** قبل از اینکه یک مسیر افزایشی پیدا شود و اندازه تطابق $M$ افزایش یابد.
+بنابراین، دیر یا زود، پتانسیلی که با یک تطابق کامل $M^*$ مطابقت دارد، پیدا خواهد شد و $M^*$ پاسخ مسئله خواهد بود.
+اگر در مورد پیچیدگی الگوریتم صحبت کنیم، این پیچیدگی $\mathcal{O}(n^4)$ است: در کل باید حداکثر $n$ افزایش در تطابق وجود داشته باشد، که قبل از هر یک از آنها حداکثر $n$ باز محاسبه پتانسیل وجود دارد و هر کدام از آنها در زمان $\mathcal{O}(n^2)$ انجام می‌شود.
 
-1.  Consider the next row of the matrix $A$.
+ما در اینجا پیاده‌سازی الگوریتم $\mathcal{O}(n^4)$ را ارائه نمی‌دهیم، زیرا کوتاه‌تر از پیاده‌سازی الگوریتم $\mathcal{O}(n^3)$ که در ادامه شرح داده می‌شود، نخواهد بود.
 
-2.  While there is no increasing path starting in this row, recalculate the potential.
+### الگوریتم $\mathcal{O}(n^3)$
 
-3.  As soon as an augmenting path is found, propagate the matching along it (thus including the last edge in the matching), and restart from step 1 (to consider the next line).
+اکنون بیاموزیم که چگونه همین الگوریتم را با پیچیدگی $\mathcal{O}(n^3)$ پیاده‌سازی کنیم (برای مسائل مستطیلی $n \times m$، با پیچیدگی $\mathcal{O}(n^2m)$).
 
-To achieve the required complexity, it is necessary to implement steps 2-3, which are performed for each row of the matrix, in time $\mathcal{O}(n^2)$ (for rectangular problems in $\mathcal{O}(nm)$).
+ایده اصلی این است که **سطرهای ماتریس را یک به یک** و نه همه را با هم در نظر بگیریم. بنابراین، الگوریتم توصیف‌شده در بالا شکل زیر را به خود می‌گیرد:
 
-To do this, recall two facts proved above:
+1.  سطر بعدی ماتریس $A$ را در نظر بگیرید.
 
-- With a change in the potential, the vertices that were reachable by Kuhn's traversal will remain reachable.
+2.  تا زمانی که هیچ مسیر افزایشی از این سطر شروع نشود، پتانسیل را باز محاسبه کنید.
 
-- In total, only $\mathcal{O}(n)$ recalculations of the potential could occur before an augmenting path was found.
+3.  به محض یافتن یک مسیر افزایشی، تطابق را در طول آن گسترش دهید (و در نتیجه یال آخر را در تطابق بگنجانید) و از مرحله ۱ دوباره شروع کنید (تا سطر بعدی را در نظر بگیرید).
 
-From this follow these **key ideas** that allow us to achieve the required complexity:
+برای رسیدن به پیچیدگی مورد نیاز، لازم است مراحل ۲-۳ که برای هر سطر ماتریس انجام می‌شوند، در زمان $\mathcal{O}(n^2)$ پیاده‌سازی شوند (برای مسائل مستطیلی در زمان $\mathcal{O}(nm)$).
 
-- To check for the presence of an augmenting path, there is no need to start the Kuhn traversal again after each potential recalculation. Instead, you can make the Kuhn traversal in an **iterative form**: after each recalculation of the potential, look at the added rigid edges and, if their left ends were reachable, mark their right ends reachable as well and continue the traversal from them.
+برای این کار، دو واقعیت اثبات‌شده در بالا را به یاد بیاورید:
 
-- Developing this idea further, we can present the algorithm as follows: at each step of the loop, the potential is recalculated. Subsequently, a column that has become reachable is identified (which will always exist as new reachable vertices emerge after every potential recalculation). If the column is unsaturated, an augmenting chain is discovered. Conversely, if the column is saturated, the matching row also becomes reachable.
+-   با تغییر پتانسیل، رئوسی که توسط پیمایش کوهن قابل دسترس بودند، همچنان قابل دسترس باقی می‌مانند.
 
-- To quickly recalculate the potential (faster than the $\mathcal{O}(n^2)$ naive version), you need to maintain auxiliary minima for each of the columns:
+-   در مجموع، تنها $\mathcal{O}(n)$ باز محاسبه پتانسیل می‌تواند قبل از یافتن یک مسیر افزایشی رخ دهد.
+
+از این، **ایده‌های کلیدی** زیر حاصل می‌شود که به ما امکان می‌دهد به پیچیدگی مورد نیاز دست یابیم:
+
+-   برای بررسی وجود مسیر افزایشی، نیازی نیست که پس از هر بار باز محاسبه پتانسیل، پیمایش کوهن را دوباره شروع کنیم. در عوض، می‌توانید پیمایش کوهن را به صورت **تکراری** انجام دهید: پس از هر باز محاسبه پتانسیل، به یال‌های سفت اضافه‌شده نگاه کنید و اگر انتهای چپ آنها قابل دسترس بود، انتهای راست آنها را نیز به عنوان قابل دسترس علامت‌گذاری کرده و پیمایش را از آنها ادامه دهید.
+
+-   با توسعه بیشتر این ایده، می‌توانیم الگوریتم را به شرح زیر ارائه دهیم: در هر مرحله از حلقه، پتانسیل باز محاسبه می‌شود. سپس، ستونی که قابل دسترس شده است شناسایی می‌شود (که همیشه وجود خواهد داشت زیرا رئوس قابل دسترس جدید پس از هر باز محاسبه پتانسیل پدیدار می‌شوند). اگر ستون اشباع‌نشده باشد، یک زنجیره افزایشی کشف می‌شود. برعکس، اگر ستون اشباع‌شده باشد، سطر متناظر در تطابق نیز قابل دسترس می‌شود.
+
+-   برای باز محاسبه سریع پتانسیل (سریع‌تر از نسخه ساده‌لوحانه $\mathcal{O}(n^2)$)، باید کمینه‌های کمکی را برای هر یک از ستون‌ها حفظ کنید:
 
     <br><div style="text-align:center">$minv[j]=\min_{i\in Z_1} A[i][j]-u[i]-v[j].$</div><br>
 
-    It's easy to see that the desired value $\Delta$ is expressed in terms of them as follows:
+    به راحتی می‌توان دید که مقدار مطلوب $\Delta$ بر حسب آنها به صورت زیر بیان می‌شود:
 
     <br><div style="text-align:center">$\Delta=\min_{j\notin Z_2} minv[j].$</div><br>
 
-    Thus, finding $\Delta$ can now be done in $\mathcal{O}(n)$.
+    بنابراین، یافتن $\Delta$ اکنون می‌تواند در زمان $\mathcal{O}(n)$ انجام شود.
 
-    It is necessary to update the array $minv$ when new visited rows appear. This can be done in $\mathcal{O}(n)$ for the added row (which adds up over all rows to $\mathcal{O}(n^2)$). It is also necessary to update the array $minv$ when recalculating the potential, which is also done in time $\mathcal{O}(n)$ ($minv$ changes only for columns that have not yet been reached: namely, it decreases by $\Delta$).
+    لازم است آرایه $minv$ را هنگام ظهور سطرهای بازدید شده جدید، به‌روزرسانی کنیم. این کار را می‌توان در زمان $\mathcal{O}(n)$ برای سطر اضافه‌شده انجام داد (که در مجموع برای تمام سطرها به $\mathcal{O}(n^2)$ می‌رسد). همچنین لازم است آرایه $minv$ را هنگام باز محاسبه پتانسیل به‌روزرسانی کنیم که این کار نیز در زمان $\mathcal{O}(n)$ انجام می‌شود ($minv$ فقط برای ستون‌هایی که هنوز به آنها نرسیده‌ایم تغییر می‌کند: یعنی به اندازه $\Delta$ کاهش می‌یابد).
 
-Thus, the algorithm takes the following form: in the outer loop, we consider matrix rows one by one. Each row is processed in time $\mathcal{O}(n^2)$, since only $\mathcal{O}(n)$ potential recalculations could occur (each in time $\mathcal{O}(n)$), and the array $minv$ is maintained in time $\mathcal{O}(n^2)$; Kuhn's algorithm will work in time $\mathcal{O}(n^2)$ (since it is presented in the form of $\mathcal{O}(n)$ iterations, each of which visits a new column).
+بنابراین، الگوریتم شکل زیر را به خود می‌گیرد: در حلقه بیرونی، سطرهای ماتریس را یک به یک در نظر می‌گیریم. هر سطر در زمان $\mathcal{O}(n^2)$ پردازش می‌شود، زیرا تنها $\mathcal{O}(n)$ باز محاسبه پتانسیل می‌تواند رخ دهد (هر کدام در زمان $\mathcal{O}(n)$)، و آرایه $minv$ در زمان $\mathcal{O}(n^2)$ نگهداری می‌شود؛ الگوریتم کوهن در زمان $\mathcal{O}(n^2)$ کار خواهد کرد (زیرا به صورت $\mathcal{O}(n)$ تکرار ارائه می‌شود که هر کدام از آنها یک ستون جدید را بازدید می‌کند).
 
-The resulting complexity is $\mathcal{O}(n^3)$ or, if the problem is rectangular, $\mathcal{O}(n^2m)$.
+پیچیدگی حاصل $\mathcal{O}(n^3)$ یا اگر مسئله مستطیلی باشد، $\mathcal{O}(n^2m)$ است.
 
-## Implementation of the Hungarian algorithm
+## پیاده‌سازی الگوریتم مجارستانی
 
-The implementation below was developed by **Andrey Lopatin** several years ago. It is distinguished by amazing conciseness: the entire algorithm consists of **30 lines of code**.
+پیاده‌سازی زیر توسط **آندری لوپاتین** (Andrey Lopatin) چندین سال پیش توسعه یافته است. این پیاده‌سازی با ایجاز شگفت‌انگیزش متمایز می‌شود: کل الگوریتم از **۳۰ خط کد** تشکیل شده است.
 
-The implementation finds a solution for the rectangular matrix $A[1\dots n][1\dots m]$, where $n\leq m$. The matrix is ​1-based for convenience and code brevity: this implementation introduces a dummy zero row and zero column, which allows us to write many cycles in a general form, without additional checks.
+این پیاده‌سازی برای ماتریس مستطیلی $A[1\dots n][1\dots m]$ که در آن $n\leq m$ است، راه حلی پیدا می‌کند. ماتریس برای راحتی و کوتاهی کد، ۱-پایه (1-based) است: این پیاده‌سازی یک سطر و ستون صفر مجازی (dummy) معرفی می‌کند که به ما امکان می‌دهد بسیاری از حلقه‌ها را به شکل کلی و بدون بررسی‌های اضافی بنویسیم.
 
-Arrays $u[0 \ldots n]$ and $v[0 \ldots m]$ store potential. Initially, they are set to zero, which is consistent with a matrix of zero rows (Note that it is unimportant for this implementation whether or not the matrix $A$ contains negative numbers).
+آرایه‌های $u[0 \ldots n]$ و $v[0 \ldots m]$ پتانسیل را ذخیره می‌کنند. در ابتدا، آنها صفر تنظیم می‌شوند که با ماتریسی از سطرهای صفر سازگار است (توجه داشته باشید که برای این پیاده‌سازی مهم نیست که ماتریس $A$ حاوی اعداد منفی باشد یا نه).
 
-The array $p[0 \ldots m]$ contains a matching: for each column $j = 1 \ldots m$, it stores the number $p[j]$ of the selected row (or $0$ if nothing has been selected yet). For the convenience of implementation, $p[0]$ is assumed to be equal to the number of the current row.
+آرایه $p[0 \ldots m]$ حاوی یک تطابق است: برای هر ستون $j = 1 \ldots m$، شماره $p[j]$ سطر انتخاب‌شده را ذخیره می‌کند (یا $0$ اگر هنوز چیزی انتخاب نشده باشد). برای راحتی پیاده‌سازی، فرض می‌شود $p[0]$ برابر با شماره سطر فعلی است.
 
-The array $minv[1 \ldots m]$ contains, for each column $j$, the auxiliary minima necessary for a quick recalculation of the potential, as described above.
+آرایه $minv[1 \ldots m]$ برای هر ستون $j$، کمینه‌های کمکی لازم برای باز محاسبه سریع پتانسیل را، همانطور که در بالا توضیح داده شد، در خود دارد.
 
-The array $way[1 \ldots m]$ contains information about where these minimums are reached so that we can later reconstruct the augmenting path. Note that, to reconstruct the path, it is sufficient to store only column values, since the row numbers can be taken from the matching (i.e., from the array $p$). Thus, $way[j]$, for each column $j$, contains the number of the previous column in the path (or $0$ if there is none).
+آرایه $way[1 \ldots m]$ حاوی اطلاعاتی در مورد جایی است که این کمینه‌ها به دست می‌آیند تا بتوانیم بعداً مسیر افزایشی را بازسازی کنیم. توجه داشته باشید که برای بازسازی مسیر، کافی است فقط مقادیر ستون را ذخیره کنیم، زیرا شماره سطرها را می‌توان از تطابق (یعنی از آرایه $p$) گرفت. بنابراین، $way[j]$ برای هر ستون $j$، شماره ستون قبلی در مسیر را در خود دارد (یا $0$ اگر وجود نداشته باشد).
 
-The algorithm itself is an outer **loop through the rows of the matrix**, inside which the $i$-th row of the matrix is ​​considered. The first _do-while_ loop runs until a free column $j0$ is found. Each iteration of the loop marks visited a new column with the number $j0$ (calculated at the last iteration; and initially equal to zero - i.e. we start from a dummy column), as well as a new row $i0$ - adjacent to it in the matching (i.e. $p[j0]$; and initially when $j0=0$ the $i$-th row is taken). Due to the appearance of a new visited row $i0$, you need to recalculate the array $minv$ and $\Delta$ accordingly. If $\Delta$ is updated, then the column $j1$ becomes the minimum that has been reached (note that with such an implementation $\Delta$ could turn out to be equal to zero, which means that the potential cannot be changed at the current step: there is already a new reachable column). After that, the potential and the $minv$ array are recalculated. At the end of the "do-while" loop, we found an augmenting path ending in a column $j0$ that can be "unrolled" using the ancestor array $way$.
+خود الگوریتم یک **حلقه بیرونی روی سطرهای ماتریس** است که در داخل آن سطر $i$-ام ماتریس در نظر گرفته می‌شود. اولین حلقه _do-while_ تا زمانی اجرا می‌شود که یک ستون آزاد $j0$ پیدا شود. هر تکرار حلقه، یک ستون جدید با شماره $j0$ (که در تکرار قبلی محاسبه شده؛ و در ابتدا برابر با صفر است - یعنی از یک ستون مجازی شروع می‌کنیم) و همچنین یک سطر جدید $i0$ - مجاور آن در تطابق (یعنی $p[j0]$؛ و در ابتدا وقتی $j0=0$ است، سطر $i$-ام گرفته می‌شود) را به عنوان بازدید شده علامت‌گذاری می‌کند. به دلیل ظهور یک سطر بازدید شده جدید $i0$، باید آرایه $minv$ و $\Delta$ را متناسب با آن باز محاسبه کنید. اگر $\Delta$ به‌روز شود، ستون $j1$ به کمینه‌ای تبدیل می‌شود که به آن دست یافته‌ایم (توجه داشته باشید که با چنین پیاده‌سازی، $\Delta$ می‌تواند برابر با صفر شود، که به این معنی است که پتانسیل در مرحله فعلی قابل تغییر نیست: از قبل یک ستون قابل دسترس جدید وجود دارد). پس از آن، پتانسیل و آرایه $minv$ باز محاسبه می‌شوند. در پایان حلقه "do-while"، یک مسیر افزایشی پیدا کرده‌ایم که به ستون $j0$ ختم می‌شود و می‌توان آن را با استفاده از آرایه والد $way$ "باز کرد".
 
-The constant <tt>INF</tt> is "infinity", i.e. some number, obviously greater than all possible numbers in the input matrix $A$.
+ثابت <tt>INF</tt> "بی‌نهایت" است، یعنی عددی که به وضوح از تمام اعداد ممکن در ماتریس ورودی $A$ بزرگتر است.
 
-```{.cpp file=hungarian}
+```cpp {.cpp file=hungarian}
 vector<int> u (n+1), v (m+1), p (m+1), way (m+1);
 for (int i=1; i<=n; ++i) {
     p[0] = i;
@@ -223,7 +222,7 @@ for (int i=1; i<=n; ++i) {
 }
 ```
 
-To restore the answer in a more familiar form, i.e. finding for each row $i = 1 \ldots n$ the number $ans[i]$ of the column selected in it, can be done as follows:
+برای بازیابی پاسخ به شکلی آشناتر، یعنی یافتن شماره ستون $ans[i]$ انتخاب‌شده در هر سطر $i = 1 \ldots n$، می‌توان به صورت زیر عمل کرد:
 
 ```cpp
 vector<int> ans (n+1);
@@ -231,83 +230,83 @@ for (int j=1; j<=m; ++j)
     ans[p[j]] = j;
 ```
 
-The cost of the matching can simply be taken as the potential of the zero column (taken with the opposite sign). Indeed, as you can see from the code, $-v[0]$ contains the sum of all the values of $\Delta$​​, i.e. total change in potential. Although several values ​​​​of $u[i]$ and $v[j]$ could change at once, the total change in the potential is exactly equal to $\Delta$, since until there is an augmenting path, the number of reachable rows is exactly one more than the number of the reachable columns (only the current row $i$ does not have a "pair" in the form of a visited column):
+هزینه تطابق را می‌توان به سادگی برابر با پتانسیل ستون صفر (با علامت مخالف) در نظر گرفت. در واقع، همانطور که از کد مشخص است، $-v[0]$ حاوی مجموع تمام مقادیر $\Delta$، یعنی تغییر کل پتانسیل است. اگرچه چندین مقدار از $u[i]$ و $v[j]$ می‌توانند به یکباره تغییر کنند، تغییر کل در پتانسیل دقیقاً برابر با $\Delta$ است، زیرا تا زمانی که مسیر افزایشی وجود نداشته باشد، تعداد سطرهای قابل دسترس دقیقاً یکی بیشتر از تعداد ستون‌های قابل دسترس است (فقط سطر فعلی $i$ "جفتی" به شکل یک ستون بازدید شده ندارد):
 
 ```cpp
 int cost = -v[0];
 ```
 
-## Connection to the Successive Shortest Path Algorithm
+## ارتباط با الگوریتم مسیرهای کوتاه متوالی
 
-The Hungarian algorithm can be seen as the [Successive Shortest Path Algorithm](min_cost_flow.md), adapted for the assignment problem. Without going into the details, let's provide an intuition regarding the connection between them.
+الگوریتم مجارستانی را می‌توان به عنوان [الگوریتم مسیرهای کوتاه متوالی](min_cost_flow.md) که برای مسئله تخصیص تطبیق داده شده است، در نظر گرفت. بدون پرداختن به جزئیات، بیایید یک شهود در مورد ارتباط بین آنها ارائه دهیم.
 
-The Successive Path algorithm uses a modified version of Johnson's algorithm as reweighting technique. This one is divided into four steps:
+الگوریتم مسیرهای متوالی از نسخه اصلاح‌شده‌ای از الگوریتم جانسون به عنوان تکنیک بازوزن‌دهی (reweighting) استفاده می‌کند. این الگوریتم به چهار مرحله تقسیم می‌شود:
 
-- Use the [Bellman-Ford](bellman_ford.md) algorithm, starting from the sink $s$ and, for each node, find the minimum weight $h(v)$ of a path from $s$ to $v$.
+-   از الگوریتم [بلمن-فورد](bellman_ford.md) استفاده کنید، از چاهک $s$ شروع کرده و برای هر گره، کمترین وزن $h(v)$ یک مسیر از $s$ به $v$ را پیدا کنید.
 
-For every step of the main algorithm:
+برای هر مرحله از الگوریتم اصلی:
 
-- Reweight the edges of the original graph in this way: $w(u,v) \gets w(u,v)+h(u)-h(v)$.
-- Use [Dijkstra](dijkstra.md)'s algorithm to find the shortest-paths subgraph of the original network.
-- Update potentials for the next iteration.
+-   یال‌های گراف اصلی را به این صورت بازوزن‌دهی کنید: $w(u,v) \gets w(u,v)+h(u)-h(v)$.
+-   از الگوریتم [دایکسترا](dijkstra.md) برای یافتن زیرگراف کوتاه‌ترین مسیرهای شبکه اصلی استفاده کنید.
+-   پتانسیل‌ها را برای تکرار بعدی به‌روز کنید.
 
-Given this description, we can observe that there is a strong analogy between $h(v)$ and potentials: it can be checked that they are equal up to a constant offset. In addition, it can be shown that, after reweighting, the set of all zero-weight edges represents the shortest-path subgraph where the main algorithm tries to increase the flow. This also happens in the Hungarian algorithm: we create a subgraph made of rigid edges (the ones for which the quantity $A[i][j]-u[i]-v[j]$ is zero), and we try to increase the size of the matching.
+با توجه به این توصیف، می‌توانیم مشاهده کنیم که یک تشابه قوی بین $h(v)$ و پتانسیل‌ها وجود دارد: می‌توان بررسی کرد که آنها تا یک مقدار ثابت با هم برابر هستند. علاوه بر این، می‌توان نشان داد که پس از بازوزن‌دهی، مجموعه تمام یال‌های با وزن صفر، زیرگراف کوتاه‌ترین مسیر را نشان می‌دهد که الگوریتم اصلی سعی می‌کند جریان را در آن افزایش دهد. این اتفاق در الگوریتم مجارستانی نیز رخ می‌دهد: ما یک زیرگراف از یال‌های سفت (rigid) می‌سازیم (آنهایی که مقدار $A[i][j]-u[i]-v[j]$ برایشان صفر است)، و سعی می‌کنیم اندازه تطابق را افزایش دهیم.
 
-In step 4, all the $h(v)$ are updated: every time we modify the flow network, we should guarantee that the distances from the source are correct (otherwise, in the next iteration, Dijkstra's algorithm might fail). This sounds like the update performed on the potentials, but in this case, they are not equally incremented.
+در مرحله ۴، تمام $h(v)$ ها به‌روز می‌شوند: هر بار که شبکه جریان را اصلاح می‌کنیم، باید تضمین کنیم که فاصله‌ها از مبدأ صحیح هستند (در غیر این صورت، در تکرار بعدی، الگوریتم دایکسترا ممکن است با شکست مواجه شود). این شبیه به به‌روزرسانی انجام‌شده روی پتانسیل‌ها است، اما در این حالت، آنها به طور مساوی افزایش نمی‌یابند.
 
-To deepen the understanding of potentials, refer to this [article](https://codeforces.com/blog/entry/105658).
+برای درک عمیق‌تر پتانسیل‌ها، به این [مقاله](https://codeforces.com/blog/entry/105658) مراجعه کنید.
 
-## Task examples
+## نمونه‌های وظیفه
 
-Here are a few examples related to the assignment problem, from very trivial to less obvious tasks:
+در اینجا چند نمونه مربوط به مسئله تخصیص، از مسائل بسیار پیش پا افتاده تا مسائل کمتر بدیهی، آورده شده است:
 
-- Given a bipartite graph, it is required to find in it **the maximum matching with the minimum weight** (i.e., first of all, the size of the matching is maximized, and secondly, its cost is minimized).<br>
-  To solve it, we simply build an assignment problem, putting the number "infinity" in place of the missing edges. After that, we solve the problem with the Hungarian algorithm, and remove edges of infinite weight from the answer (they could enter the answer if the problem does not have a solution in the form of a perfect matching).
+-   با توجه به یک گراف دوبخشی، لازم است در آن **تطابق بیشینه با کمترین وزن** پیدا شود (یعنی اولاً اندازه تطابق بیشینه شود و ثانیاً هزینه آن کمینه شود).<br>
+    برای حل آن، به سادگی یک مسئله تخصیص می‌سازیم و به جای یال‌های گمشده عدد "بی‌نهایت" قرار می‌دهیم. پس از آن، مسئله را با الگوریتم مجارستانی حل می‌کنیم و یال‌های با وزن بی‌نهایت را از پاسخ حذف می‌کنیم (آنها می‌توانند وارد پاسخ شوند اگر مسئله راه حلی به شکل تطابق کامل نداشته باشد).
 
-- Given a bipartite graph, it is required to find in it **the maximum matching with the maximum weight**.<br>
-  The solution is again obvious, all weights must be multiplied by minus one.
+-   با توجه به یک گراف دوبخشی، لازم است در آن **تطابق بیشینه با بیشترین وزن** پیدا شود.<br>
+    راه حل باز هم واضح است، تمام وزن‌ها باید در منفی یک ضرب شوند.
 
-- The task of **detecting moving objects in images**: two images were taken, as a result of which two sets of coordinates were obtained. It is required to correlate the objects in the first and second images, i.e. determine for each point of the second image, which point of the first image it corresponded to. In this case, it is required to minimize the sum of distances between the compared points (i.e., we are looking for a solution in which the objects have taken the shortest path in total).<br>
-  To solve, we simply build and solve an assignment problem, where the weights of the edges are the Euclidean distances between points.
+-   وظیفه **شناسایی اجسام متحرک در تصاویر**: دو تصویر گرفته شده است که در نتیجه دو مجموعه مختصات به دست آمده است. لازم است اشیاء در تصویر اول و دوم را با هم مرتبط کنیم، یعنی برای هر نقطه از تصویر دوم تعیین کنیم که به کدام نقطه از تصویر اول مربوط می‌شود. در این حالت، لازم است مجموع فواصل بین نقاط مقایسه‌شده کمینه شود (یعنی به دنبال راه حلی هستیم که در آن اشیاء در مجموع کوتاه‌ترین مسیر را طی کرده باشند).<br>
+    برای حل، به سادگی یک مسئله تخصیص می‌سازیم و حل می‌کنیم که در آن وزن یال‌ها، فواصل اقلیدسی بین نقاط است.
 
-- The task of **detecting moving objects by locators**: there are two locators that can't determine the position of an object in space, but only its direction. Both locators (located at different points) received information in the form of $n$ such directions. It is required to determine the position of objects, i.e. determine the expected positions of objects and their corresponding pairs of directions in such a way that the sum of distances from objects to direction rays is minimized.<br>
-  Solution: again, we simply build and solve the assignment problem, where the vertices of the left part are the $n$ directions from the first locator, the vertices of the right part are the $n$ directions from the second locator, and the weights of the edges are the distances between the corresponding rays.
+-   وظیفه **شناسایی اجسام متحرک توسط مکان‌یاب‌ها**: دو مکان‌یاب وجود دارد که نمی‌توانند موقعیت یک شی را در فضا تعیین کنند، بلکه فقط جهت آن را مشخص می‌کنند. هر دو مکان‌یاب (که در نقاط مختلفی قرار دارند) اطلاعاتی را به شکل $n$ جهت دریافت کرده‌اند. لازم است موقعیت اشیاء را تعیین کنیم، یعنی موقعیت‌های مورد انتظار اشیاء و جفت جهت‌های متناظر آنها را به گونه‌ای تعیین کنیم که مجموع فواصل از اشیاء تا پرتوهای جهت، کمینه شود.<br>
+    راه حل: باز هم، به سادگی مسئله تخصیص را می‌سازیم و حل می‌کنیم، که در آن رئوس بخش چپ، $n$ جهت از مکان‌یاب اول، رئوس بخش راست، $n$ جهت از مکان‌یاب دوم، و وزن یال‌ها، فواصل بین پرتوهای متناظر هستند.
 
-- Covering a **directed acyclic graph with paths**: given a directed acyclic graph, it is required to find the smallest number of paths (if equal, with the smallest total weight) so that each vertex of the graph lies in exactly one path.<br>
-  The solution is to build the corresponding bipartite graph from the given graph and find the maximum matching of the minimum weight in it. See separate article for more details.
+-   پوشاندن یک **گراف جهت‌دار غیرمدور با مسیرها**: با توجه به یک گراف جهت‌دار غیرمدور، لازم است کمترین تعداد مسیر (در صورت برابری، با کمترین وزن کل) پیدا شود به طوری که هر رأس گراف دقیقاً در یک مسیر قرار گیرد.<br>
+    راه حل این است که گراف دوبخشی متناظر را از گراف داده‌شده بسازیم و تطابق بیشینه با کمترین وزن را در آن پیدا کنیم. برای جزئیات بیشتر به مقاله جداگانه‌ای مراجعه کنید.
 
-- **Tree coloring book**. Given a tree in which each vertex, except for leaves, has exactly $k-1$ children. It is required to choose for each vertex one of the $k$ colors available so that no two adjacent vertices have the same color. In addition, for each vertex and each color, the cost of painting this vertex with this color is known, and it is required to minimize the total cost.<br>
-  To solve this problem, we use dynamic programming. Namely, let's learn how to calculate the value $d[v][c]$, where $v$ is the vertex number, $c$ is the color number, and the value $d[v][c]$ itself is the minimum cost needed to color all the vertices in the subtree rooted at $v$, and the vertex $v$ itself with color $c$. To calculate such a value $d[v][c]$, it is necessary to distribute the remaining $k-1$ colors among the children of the vertex $v$, and for this, it is necessary to build and solve the assignment problem (in which the vertices of the left part are colors, the vertices of the right part are children, and the weights of the edges are the corresponding values of $d$).<br>
-  Thus, each value $d[v][c]$ is calculated using the solution of the assignment problem, which ultimately gives the asymptotic $\mathcal{O}(nk^4)$.
+-   **کتاب رنگ‌آمیزی درخت**. درختی داده شده است که در آن هر رأس، به جز برگ‌ها، دقیقاً $k-1$ فرزند دارد. لازم است برای هر رأس یکی از $k$ رنگ موجود را انتخاب کنیم به طوری که هیچ دو رأس مجاور رنگ یکسانی نداشته باشند. علاوه بر این، برای هر رأس و هر رنگ، هزینه رنگ‌آمیزی این رأس با آن رنگ مشخص است و لازم است هزینه کل کمینه شود.<br>
+    برای حل این مسئله، از برنامه‌نویسی پویا استفاده می‌کنیم. یعنی، بیایید یاد بگیریم که چگونه مقدار $d[v][c]$ را محاسبه کنیم، که در آن $v$ شماره رأس، $c$ شماره رنگ، و خود مقدار $d[v][c]$ حداقل هزینه لازم برای رنگ‌آمیزی تمام رئوس در زیردرخت با ریشه $v$ و خود رأس $v$ با رنگ $c$ است. برای محاسبه چنین مقداری $d[v][c]$، لازم است $k-1$ رنگ باقی‌مانده را بین فرزندان رأس $v$ توزیع کنیم و برای این کار، لازم است مسئله تخصیص را بسازیم و حل کنیم (که در آن رئوس بخش چپ رنگ‌ها، رئوس بخش راست فرزندان، و وزن یال‌ها مقادیر متناظر $d$ هستند).<br>
+    بنابراین، هر مقدار $d[v][c]$ با استفاده از حل مسئله تخصیص محاسبه می‌شود که در نهایت پیچیدگی مجانبی $\mathcal{O}(nk^4)$ را به دست می‌دهد.
 
-- If, in the assignment problem, the weights are not on the edges, but on the vertices, and only **on the vertices of the same part**, then it's not necessary to use the Hungarian algorithm: just sort the vertices by weight and run the usual [Kuhn algorithm](kuhn_maximum_bipartite_matching.md) (for more details, see a [separate article](http://e-maxx.ru/algo/vertex_weighted_matching)).
+-   اگر در مسئله تخصیص، وزن‌ها روی یال‌ها نباشند، بلکه روی رئوس باشند، و فقط **روی رئوس یک بخش**، در این صورت نیازی به استفاده از الگوریتم مجارستانی نیست: فقط رئوس را بر اساس وزن مرتب کرده و [الگوریتم کوهن](kuhn_maximum_bipartite_matching.md) معمول را اجرا کنید (برای جزئیات بیشتر، به یک [مقاله جداگانه](http://e-maxx.ru/algo/vertex_weighted_matching) مراجعه کنید).
 
-- Consider the following **special case**. Let each vertex of the left part be assigned some number $\alpha[i]$, and each vertex of the right part $\beta[j]$. Let the weight of any edge $(i,j)$ be equal to $\alpha[i]\cdot \beta[j]$ (the numbers $\alpha[i]$ and $\beta[j]$ are known). Solve the assignment problem.<br>
-  To solve it without the Hungarian algorithm, we first consider the case when both parts have two vertices. In this case, as you can easily see, it is better to connect the vertices in the reverse order: connect the vertex with the smaller $\alpha[i]$ to the vertex with the larger $\beta[j]$. This rule can be easily generalized to an arbitrary number of vertices: you need to sort the vertices of the first part in increasing order of $\alpha[i]$ values, the second part in decreasing order of $\beta[j]$ values, and connect the vertices in pairs in that order. Thus, we obtain a solution with complexity of $\mathcal{O}(n\log n)$.
+-   **حالت خاص** زیر را در نظر بگیرید. فرض کنید به هر رأس بخش چپ عددی $\alpha[i]$ و به هر رأس بخش راست عددی $\beta[j]$ اختصاص داده شده است. فرض کنید وزن هر یال $(i,j)$ برابر با $\alpha[i]\cdot \beta[j]$ باشد (اعداد $\alpha[i]$ و $\beta[j]$ مشخص هستند). مسئله تخصیص را حل کنید.<br>
+    برای حل آن بدون الگوریتم مجارستانی، ابتدا حالتی را در نظر می‌گیریم که هر دو بخش دو رأس داشته باشند. در این حالت، همانطور که به راحتی می‌بینید، بهتر است رئوس را به ترتیب معکوس به هم وصل کنید: رأس با $\alpha[i]$ کوچکتر را به رأس با $\beta[j]$ بزرگتر وصل کنید. این قانون را می‌توان به راحتی به تعداد دلخواهی از رئوس تعمیم داد: باید رئوس بخش اول را به ترتیب صعودی مقادیر $\alpha[i]$ و رئوس بخش دوم را به ترتیب نزولی مقادیر $\beta[j]$ مرتب کرده و رئوس را به صورت جفتی به همان ترتیب به هم وصل کنید. بنابراین، راه حلی با پیچیدگی $\mathcal{O}(n\log n)$ به دست می‌آوریم.
 
-- **The Problem of Potentials**. Given a matrix $A[1 \ldots n][1 \ldots m]$, it is required to find two arrays $u[1 \ldots n]$ and $v[1 \ldots m]$ such that, for any $i$ and $j$, $u[i] + v[j] \leq a[i][j]$ and the sum of elements of arrays $u$ and $v$ is maximum.<br>
-  Knowing the Hungarian algorithm, the solution to this problem will not be difficult: the Hungarian algorithm just finds such a potential $u, v$ that satisfies the condition of the problem. On the other hand, without knowledge of the Hungarian algorithm, it seems almost impossible to solve such a problem.
+-   **مسئله پتانسیل‌ها**. با توجه به ماتریس $A[1 \ldots n][1 \ldots m]$، لازم است دو آرایه $u[1 \ldots n]$ و $v[1 \ldots m]$ پیدا شود به طوری که برای هر $i$ و $j$، $u[i] + v[j] \leq a[i][j]$ و مجموع عناصر آرایه‌های $u$ و $v$ بیشینه باشد.<br>
+    با دانستن الگوریتم مجارستانی، حل این مسئله دشوار نخواهد بود: الگوریتم مجارستانی دقیقاً چنین پتانسیل $u, v$ را پیدا می‌کند که شرط مسئله را برآورده سازد. از سوی دیگر، بدون دانش الگوریتم مجارستانی، حل چنین مسئله‌ای تقریباً غیرممکن به نظر می‌رسد.
 
-    !!! info "Remark"
+    !!! info "نکته"
 
-        This task is also called the **dual problem** of the assignment problem: minimizing the total cost of the assignment is equivalent to maximizing the sum of the potentials.
+        این وظیفه به عنوان **مسئله دوگان** مسئله تخصیص نیز نامیده می‌شود: کمینه کردن هزینه کل تخصیص معادل بیشینه کردن مجموع پتانسیل‌ها است.
 
-## Literature
+## ادبیات
 
-- [Ravindra Ahuja, Thomas Magnanti, James Orlin. Network Flows [1993]](https://books.google.it/books/about/Network_Flows.html?id=rFuLngEACAAJ&redir_esc=y)
+-   [Ravindra Ahuja, Thomas Magnanti, James Orlin. Network Flows (جریان‌های شبکه) [۱۹۹۳]](https://books.google.it/books/about/Network_Flows.html?id=rFuLngEACAAJ&redir_esc=y)
 
-- [Harold Kuhn. The Hungarian Method for the Assignment Problem [1955]](https://link.springer.com/chapter/10.1007/978-3-540-68279-0_2)
+-   [Harold Kuhn. The Hungarian Method for the Assignment Problem (روش مجارستانی برای مسئله تخصیص) [۱۹۵۵]](https://link.springer.com/chapter/10.1007/978-3-540-68279-0_2)
 
-- [James Munkres. Algorithms for Assignment and Transportation Problems [1957]](https://www.jstor.org/stable/2098689)
+-   [James Munkres. Algorithms for Assignment and Transportation Problems (الگوریتم‌هایی برای مسائل تخصیص و حمل و نقل) [۱۹۵۷]](https://www.jstor.org/stable/2098689)
 
-## Practice Problems
+## مسائل تمرینی
 
-- [UVA - Crime Wave - The Sequel](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1687)
+-   [UVA - Crime Wave - The Sequel (موج جنایت - دنباله)](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1687)
 
-- [UVA - Warehouse](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1829)
+-   [UVA - Warehouse (انبار)](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1829)
 
-- [SGU - Beloved Sons](http://acm.sgu.ru/problem.php?contest=0&problem=210)
+-   [SGU - Beloved Sons (پسران عزیز)](http://acm.sgu.ru/problem.php?contest=0&problem=210)
 
-- [UVA - The Great Wall Game](http://livearchive.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1277)
+-   [UVA - The Great Wall Game (بازی دیوار بزرگ)](http://livearchive.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1277)
 
-- [UVA - Jogging Trails](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1237)
+-   [UVA - Jogging Trails (مسیرهای دویدن)](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1237)

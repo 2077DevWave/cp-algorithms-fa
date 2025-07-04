@@ -1,21 +1,22 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: 01_bfs
 ---
 
 # 0-1 BFS
 
-It is well-known, that you can find the shortest paths between a single source and all other vertices in $O(|E|)$ using [Breadth First Search](breadth-first-search.md) in an **unweighted graph**, i.e. the distance is the minimal number of edges that you need to traverse from the source to another vertex.
-We can interpret such a graph also as a weighted graph, where every edge has the weight $1$.
-If not all edges in graph have the same weight, then we need a more general algorithm, like [Dijkstra](dijkstra.md) which runs in $O(|V|^2 + |E|)$ or $O(|E| \log |V|)$ time.
+همان‌طور که می‌دانید، می‌توان کوتاه‌ترین مسیرها بین یک رأس منبع و تمام رئوس دیگر را در یک **گراف بدون وزن** با استفاده از [جستجوی اول سطح (BFS)](breadth-first-search.md) در زمان $O(|E|)$ پیدا کرد. به عبارت دیگر، فاصله برابر است با حداقل تعداد یال‌هایی که برای رفتن از منبع به یک رأس دیگر باید طی کرد.
+می‌توان چنین گرافی را به عنوان یک گراف وزن‌دار نیز در نظر گرفت که در آن وزن هر یال برابر با $1$ است.
+اگر تمام یال‌های گراف وزن یکسانی نداشته باشند، به الگوریتم کلی‌تری مانند [دایجسترا](dijkstra.md) نیاز داریم که در زمان $O(|V|^2 + |E|)$ یا $O(|E| \log |V|)$ اجرا می‌شود.
 
-However if the weights are more constrained, we can often do better.
-In this article we demonstrate how we can use BFS to solve the SSSP (single-source shortest path) problem in $O(|E|)$, if the weight of each edge is either $0$ or $1$.
+اما اگر وزن‌ها محدودیت‌های بیشتری داشته باشند، اغلب می‌توانیم عملکرد بهتری داشته باشیم.
+در این مقاله نشان می‌دهیم که چگونه می‌توان با استفاده از BFS، مسئله کوتاه‌ترین مسیر از یک منبع واحد (SSSP) را در زمان $O(|E|)$ حل کرد، به شرطی که وزن هر یال یا $0$ یا $1$ باشد.
 
-## Algorithm
+## الگوریتم
 
-We can develop the algorithm by closely studying Dijkstra's algorithm and thinking about the consequences that our special graph implies.
-The general form of Dijkstra's algorithm is (here a `set` is used for the priority queue):
+می‌توانیم با مطالعه دقیق الگوریتم دایجسترا و فکر کردن به پیامدهایی که گراف خاص ما به همراه دارد، این الگوریتم را توسعه دهیم.
+شکل کلی الگوریتم دایجسترا به صورت زیر است (در اینجا از یک `set` به عنوان صف اولویت استفاده شده است):
 
 ```cpp
 d.assign(n, INF);
@@ -39,19 +40,19 @@ while (!q.empty()) {
 }
 ```
 
-We can notice that the difference between the distances between the source `s` and two other vertices in the queue differs by at most one.
-Especially, we know that $d[v] \le d[u] \le d[v] + 1$ for each $u \in Q$.
-The reason for this is, that we only add vertices with equal distance or with distance plus one to the queue during each iteration.
-Assuming there exists a $u$ in the queue with $d[u] - d[v] > 1$, then $u$ must have been insert in the queue via a different vertex $t$ with $d[t] \ge d[u] - 1 > d[v]$.
-However this is impossible, since Dijkstra's algorithm iterates over the vertices in increasing order.
+می‌توانیم متوجه شویم که فاصله‌های رئوس موجود در صف از مبدأ `s`، حداکثر یک واحد با هم اختلاف دارند.
+به‌طور خاص، می‌دانیم که برای هر $u \in Q$، رابطه $d[v] \le d[u] \le d[v] + 1$ برقرار است.
+دلیل این امر این است که ما در هر تکرار، تنها رئوسی با فاصله برابر یا فاصله به‌علاوه یک را به صف اضافه می‌کنیم.
+با فرض وجود رأسی مانند `u` در صف که $d[u] - d[v] > 1$ باشد، آنگاه `u` باید از طریق رأس دیگری مانند `t` با $d[t] \ge d[u] - 1 > d[v]$ به صف اضافه شده باشد.
+اما این غیرممکن است، زیرا الگوریتم دایجسترا رئوس را به ترتیب صعودی فاصله پردازش می‌کند.
 
-This means, that the order of the queue looks like this:
+این بدان معناست که ترتیب صف به این شکل خواهد بود:
 
 $$Q = \underbrace{v}_{d[v]}, \dots, \underbrace{u}_{d[v]}, \underbrace{m}_{d[v]+1} \dots \underbrace{n}_{d[v]+1}$$
 
-This structure is so simple, that we don't need an actual priority queue, i.e. using a balanced binary tree would be an overkill.
-We can simply use a normal queue, and append new vertices at the beginning if the corresponding edge has weight $0$, i.e. if $d[u] = d[v]$, or at the end if the edge has weight $1$, i.e. if $d[u] = d[v] + 1$.
-This way the queue still remains sorted at all time.
+این ساختار آنقدر ساده است که نیازی به یک صف اولویت واقعی نداریم؛ یعنی استفاده از یک درخت دودویی متوازن زیاده‌روی است.
+می‌توانیم به سادگی از یک صف معمولی (دک) استفاده کنیم و رئوس جدید را اگر یال متناظر وزن $0$ داشته باشد (یعنی $d[u] = d[v]$) به ابتدای صف، و اگر وزن $1$ داشته باشد (یعنی $d[u] = d[v] + 1$) به انتهای صف اضافه کنیم.
+به این ترتیب، صف همیشه مرتب باقی می‌ماند.
 
 ```cpp
 vector<int> d(n, INF);
@@ -75,14 +76,14 @@ while (!q.empty()) {
 }
 ```
 
-## Dial's algorithm
+## الگوریتم دایل
 
-We can extend this even further if we allow the weights of the edges to be even bigger.
-If every edge in the graph has a weight $\le k$, then the distances of vertices in the queue will differ by at most $k$ from the distance of $v$ to the source.
-So we can keep $k + 1$ buckets for the vertices in the queue, and whenever the bucket corresponding to the smallest distance gets empty, we make a cyclic shift to get the bucket with the next higher distance.
-This extension is called **Dial's algorithm**.
+می‌توانیم این ایده را حتی فراتر ببریم و اجازه دهیم وزن یال‌ها مقادیر بزرگتری داشته باشند.
+اگر وزن هر یال در گراف حداکثر $k$ باشد، آنگاه اختلاف فاصله رئوس موجود در صف با فاصله رأس `v` از منبع، حداکثر $k$ خواهد بود.
+بنابراین می‌توانیم $k + 1$ باکت برای رئوس موجود در صف نگه داریم و هرگاه باکتی که مربوط به کمترین فاصله است خالی شد، یک شیفت چرخشی انجام می‌دهیم تا به باکت با فاصله بالاتر بعدی برویم.
+این تعمیم، **الگوریتم دایل** (Dial's algorithm) نامیده می‌شود.
 
-## Practice problems
+## مسائل تمرینی
 
 - [CodeChef - Chef and Reversing](https://www.codechef.com/problems/REVERSE)
 - [Labyrinth](https://codeforces.com/contest/1063/problem/B)

@@ -1,84 +1,81 @@
 ---
-title: Finding the Eulerian path in O(M)
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: euler_path
 ---
-# Finding the Eulerian path in $O(M)$
 
-A Eulerian path is a path in a graph that passes through all of its edges exactly once.
-A Eulerian cycle is a Eulerian path that is a cycle.
+# پیدا کردن مسیر اویلری در $O(M)$
 
-The problem is to find the Eulerian path in an **undirected multigraph with loops**.
+مسیر اویلری مسیری در یک گراف است که از تمام یال‌های آن دقیقاً یک بار عبور می‌کند.
+دور اویلری یک مسیر اویلری است که به شکل یک دور باشد.
 
-## Algorithm
+مسئله، پیدا کردن مسیر اویلری در یک **گراف چندگانه بدون جهت و دارای طوقه** است.
 
-First we can check if there is an Eulerian path.
-We can use the following theorem. An Eulerian cycle exists if and only if the degrees of all vertices are even.
-And an Eulerian path exists if and only if the number of vertices with odd degrees is two (or zero, in the case of the existence of a Eulerian cycle).
-In addition, of course, the graph must be sufficiently connected (i.e., if you remove all isolated vertices from it, you should get a connected graph).
+## الگوریتم
 
-To find the Eulerian path / Eulerian cycle we can use the following strategy:
-We find all simple cycles and combine them into one - this will be the Eulerian cycle.
-If the graph is such that the Eulerian path is not a cycle, then add the missing edge, find the Eulerian cycle, then remove the extra edge.
+ابتدا می‌توانیم بررسی کنیم که آیا مسیر اویلری وجود دارد یا خیر.
+می‌توانیم از قضیه زیر استفاده کنیم. یک دور اویلری وجود دارد اگر و تنها اگر درجه همه رأس‌ها زوج باشد.
+و یک مسیر اویلری وجود دارد اگر و تنها اگر تعداد رأس‌های با درجه فرد دو باشد (یا صفر، در صورت وجود دور اویلری).
+علاوه بر این، البته، گراف باید به اندازه کافی همبند باشد (یعنی، اگر تمام رأس‌های ایزوله را از آن حذف کنید، باید یک گراف همبند به دست آید).
 
-Looking for all cycles and combining them can be done with a simple recursive procedure:
+برای پیدا کردن مسیر اویلری / دور اویلری می‌توانیم از استراتژی زیر استفاده کنیم:
+تمام دورهای ساده را پیدا کرده و آن‌ها را در یک دور واحد ترکیب می‌کنیم - این دور، همان دور اویلری خواهد بود.
+اگر گراف به گونه‌ای باشد که مسیر اویلری آن دور نباشد، یال گمشده را اضافه می‌کنیم، دور اویلری را پیدا می‌کنیم، و سپس یال اضافی را حذف می‌کنیم.
 
-```nohighlight
-procedure FindEulerPath(V)
-  1. iterate through all the edges outgoing from vertex V;
-       remove this edge from the graph,
-       and call FindEulerPath from the second end of this edge;
-  2. add vertex V to the answer.
-```
-
-The complexity of this algorithm is obviously linear with respect to the number of edges.
-
-But we can write the same algorithm in the non-recursive version:
+جستجوی تمام دورها و ترکیب آنها را می‌توان با یک رویه بازگشتی ساده انجام داد:
 
 ```nohighlight
-stack St;
-put start vertex in St;
-until St is empty
-  let V be the value at the top of St;
-  if degree(V) = 0, then
-    add V to the answer;
-    remove V from the top of St;
-  otherwise
-    find any edge coming out of V;
-    remove it from the graph;
-    put the second end of this edge in St;
+رویه FindEulerPath(V)
+  ۱. روی تمام یال‌های خروجی از رأس V پیمایش کن؛
+       این یال را از گراف حذف کن،
+       و FindEulerPath را از سر دیگر این یال فراخوانی کن؛
+  ۲. رأس V را به جواب اضافه کن.
 ```
 
-It is easy to check the equivalence of these two forms of the algorithm. However, the second form is obviously faster, and the code will be much more efficient.
+پیچیدگی این الگوریتم به وضوح نسبت به تعداد یال‌ها خطی است.
 
-## The Domino problem
+اما می‌توانیم همین الگوریتم را به صورت غیربازگشتی بنویسیم:
 
-We give here a classical Eulerian cycle problem - the Domino problem.
+```nohighlight
+پشته St؛
+رأس شروع را در St قرار بده؛
+تا زمانی که St خالی نشده
+  فرض کن V مقدار بالای St باشد؛
+  اگر درجه(V) = ۰ باشد، آنگاه
+    V را به جواب اضافه کن؛
+    V را از بالای St حذف کن؛
+  در غیر این صورت
+    یک یال دلخواه خروجی از V را پیدا کن؛
+    آن را از گراف حذف کن؛
+    سر دیگر این یال را در St قرار بده؛
+```
 
-There are $N$ dominoes, as it is known, on both ends of the Domino one number is written(usually from 1 to 6, but in our case it is not important). You want to put all the dominoes in a row so that the numbers on any two adjacent dominoes, written on their common side, coincide. Dominoes are allowed to turn.
+بررسی معادل بودن این دو شکل الگوریتم آسان است. با این حال، شکل دوم به وضوح سریع‌تر است و کد بسیار کارآمدتر خواهد بود.
 
-Reformulate the problem. Let the numbers written on the bottoms be the vertices of the graph, and the dominoes be the edges of this graph (each Domino with numbers $(a,b)$ are the edges $(a,b)$ and $(b, a)$). Then our problem is reduced to the problem of finding the Eulerian path in this graph.
+## مسئله دومینو
 
-## Implementation
+در اینجا یک مسئله کلاسیک دور اویلری را ارائه می‌دهیم - مسئله دومینو.
 
-The program below searches for and outputs a Eulerian loop or path in a graph, or outputs $-1$ if it does not exist.
+N دومینو وجود دارد، همانطور که می‌دانید، روی هر دو سر دومینو یک عدد نوشته شده است (معمولاً از ۱ تا ۶، اما در مورد ما این مهم نیست). شما می‌خواهید تمام دومینوها را در یک ردیف قرار دهید به طوری که اعداد روی هر دو دومینوی مجاور، که در سمت مشترک آنها نوشته شده‌اند، یکسان باشند. چرخاندن دومینوها مجاز است.
 
-First, the program checks the degree of vertices: if there are no vertices with an odd degree, then the graph has an Euler cycle, if there are $2$ vertices with an odd degree, then in the graph there is only an Euler path (but no Euler cycle), if there are more than $2$ such vertices, then in the graph there is no Euler cycle or Euler path.
-To find the Euler path (not a cycle), let's do this: if $V1$ and $V2$ are two vertices of odd degree, then just add an edge $(V1, V2)$, in the resulting graph we find the Euler cycle (it will obviously exist), and then remove the "fictitious" edge $(V1, V2)$ from the answer.
-We will look for the Euler cycle exactly as described above (non-recursive version), and at the same time at the end of this algorithm we will check whether the graph was connected or not (if the graph was not connected, then at the end of the algorithm some edges will remain in the graph, and in this case we need to print $-1$).
-Finally, the program takes into account that there can be isolated vertices in the graph.
+مسئله را بازنویسی می‌کنیم. فرض کنید اعداد نوشته شده روی دومینوها، رأس‌های گراف باشند و خود دومینوها یال‌های این گراف باشند (هر دومینو با اعداد (a,b) یال‌های (a,b) و (b,a) را تشکیل می‌دهد). در این صورت مسئله ما به مسئله پیدا کردن مسیر اویلری در این گراف کاهش می‌یابد.
 
-Notice that we use an adjacency matrix in this problem.
-Also this implementation handles finding the next with brute-force, which requires to iterate over the complete row in the matrix over and over.
-A better way would be to store the graph as an adjacency list, and remove edges in $O(1)$ and mark the reversed edges in separate list.
-This way we can achieve an $O(N)$ algorithm.
+## پیاده‌سازی
+
+برنامه زیر یک دور یا مسیر اویلری را در یک گراف جستجو و چاپ می‌کند، یا اگر وجود نداشته باشد، -1 را خروجی می‌دهد.
+
+ابتدا، برنامه درجه رأس‌ها را بررسی می‌کند: اگر هیچ رأسی با درجه فرد وجود نداشته باشد، گراف یک دور اویلری دارد، اگر ۲ رأس با درجه فرد وجود داشته باشد، در گراف فقط یک مسیر اویلری وجود دارد (اما دور اویلری ندارد)، اگر بیش از ۲ چنین رأسی وجود داشته باشد، در گراف نه دور اویلری و نه مسیر اویلری وجود دارد.
+برای پیدا کردن مسیر اویلری (نه دور)، به این صورت عمل می‌کنیم: اگر V1 و V2 دو رأس با درجه فرد هستند، کافی است یک یال (V1, V2) اضافه کنیم، در گراف حاصل دور اویلری را پیدا می‌کنیم (که به وضوح وجود خواهد داشت)، و سپس یال «ساختگی» (V1, V2) را از جواب حذف می‌کنیم.
+ما دقیقاً همانطور که در بالا توضیح داده شد (نسخه غیربازگشتی) به دنبال دور اویلری خواهیم گشت و همزمان در پایان این الگوریتم بررسی خواهیم کرد که آیا گراف همبند بوده است یا خیر (اگر گراف همبند نباشد، در پایان الگوریتم برخی یال‌ها در گراف باقی می‌مانند و در این حالت باید -1 چاپ کنیم).
+در نهایت، برنامه در نظر می‌گیرد که ممکن است رأس‌های ایزوله در گراف وجود داشته باشند.
+
+توجه داشته باشید که در این مسئله از ماتریس مجاورت استفاده می‌کنیم. همچنین این پیاده‌سازی با استفاده از روش brute-force یال بعدی را پیدا می‌کند، که نیازمند پیمایش مکرر کل سطر در ماتریس است. یک راه بهتر این است که گراف را به صورت لیست مجاورت ذخیره کنیم و یال‌ها را در زمان $O(1)$ حذف کرده و یال‌های معکوس را در لیستی جداگانه علامت‌گذاری کنیم. به این ترتیب می‌توانیم به یک الگوریتم با پیچیدگی $O(N)$ دست یابیم.
 
 ```cpp
 int main() {
     int n;
     vector<vector<int>> g(n, vector<int>(n));
-    // reading the graph in the adjacency matrix
+    // خواندن گراف در قالب ماتریس مجاورت
 
     vector<int> deg(n);
     for (int i = 0; i < n; ++i) {
@@ -159,7 +156,7 @@ int main() {
     }
 }
 ```
-### Practice problems:
+### مسائل تمرینی:
 
 - [CSES : Mail Delivery](https://cses.fi/problemset/task/1691)
 - [CSES : Teleporters Path](https://cses.fi/problemset/task/1693)

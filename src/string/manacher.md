@@ -1,7 +1,7 @@
 ---
 title: Manacher's Algorithm - Finding all sub-palindromes in O(N)
 tags:
-  - Translated
+  
 e_maxx_link: palindromes_count
 ---
 # Manacher's Algorithm - Finding all sub-palindromes in $O(N)$

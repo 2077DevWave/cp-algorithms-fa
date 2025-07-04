@@ -1,79 +1,80 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: stars_and_bars
 ---
 
-# Stars and bars
+# ستاره و خط
 
-Stars and bars is a mathematical technique for solving certain combinatorial problems.
-It occurs whenever you want to count the number of ways to group identical objects.
+ستاره و خط یک تکنیک ریاضی برای حل مسائل ترکیبیاتی خاصی است.
+این تکنیک زمانی به کار می‌آید که بخواهیم تعداد راه‌های دسته‌بندی اشیاء یکسان را بشماریم.
 
-## Theorem
+## قضیه
 
-The number of ways to put $n$ identical objects into $k$ labeled boxes is
+تعداد راه‌های قرار دادن $n$ شیء یکسان در $k$ جعبه‌ی متمایز برابر است با:
 
-$$\binom{n + k - 1}{n}.$$
+$$\binom{n + k - 1}{n}$$
 
-The proof involves turning the objects into stars and separating the boxes using bars (therefore the name).
-E.g. we can represent with $\bigstar | \bigstar \bigstar |~| \bigstar \bigstar$ the following situation:
-in the first box is one object, in the second box are two objects, the third one is empty and in the last box are two objects.
-This is one way of dividing 5 objects into 4 boxes.
+اثبات این قضیه شامل تبدیل اشیاء به ستاره و جدا کردن جعبه‌ها با استفاده از خط است (و به همین دلیل این نام را دارد).
+برای مثال، می‌توانیم وضعیت زیر را با $\bigstar | \bigstar \bigstar |~| \bigstar \bigstar$ نمایش دهیم:
+در جعبه‌ی اول یک شیء، در جعبه‌ی دوم دو شیء، جعبه‌ی سوم خالی و در جعبه‌ی آخر دو شیء قرار دارد.
+این یک راه برای تقسیم ۵ شیء در ۴ جعبه است.
 
-It should be pretty obvious, that every partition can be represented using $n$ stars and $k - 1$ bars and every stars and bars permutation using $n$ stars and $k - 1$ bars represents one partition.
-Therefore the number of ways to divide $n$ identical objects into $k$ labeled boxes is the same number as there are permutations of $n$ stars and $k - 1$ bars.
-The [Binomial Coefficient](binomial-coefficients.md) gives us the desired formula.
+باید کاملاً واضح باشد که هر افراز را می‌توان با $n$ ستاره و $k-1$ خط نمایش داد و هر جایگشت از $n$ ستاره و $k-1$ خط نیز یک افراز را نشان می‌دهد.
+بنابراین، تعداد راه‌های تقسیم $n$ شیء یکسان در $k$ جعبه‌ی متمایز، برابر با تعداد جایگشت‌های $n$ ستاره و $k-1$ خط است.
+[ضریب دوجمله‌ای](binomial-coefficients.md) فرمول مورد نظر را به ما می‌دهد.
 
-## Number of non-negative integer sums
+## تعداد مجموع‌های اعداد صحیح نامنفی
 
-This problem is a direct application of the theorem.
+این مسئله یک کاربرد مستقیم از قضیه است.
 
-You want to count the number of solution of the equation 
-
-$$x_1 + x_2 + \dots + x_k = n$$
-
-with $x_i \ge 0$.
-
-Again we can represent a solution using stars and bars.
-E.g. the solution $1 + 3 + 0 = 4$ for $n = 4$, $k = 3$ can be represented using $\bigstar | \bigstar \bigstar \bigstar |$.
-
-It is easy to see, that this is exactly the stars and bars theorem.
-Therefore the solution is $\binom{n + k - 1}{n}$.
-
-## Number of positive integer sums
-
-A second theorem provides a nice interpretation for positive integers. Consider solutions to 
+می‌خواهیم تعداد جواب‌های معادله‌ی زیر را بشماریم:
 
 $$x_1 + x_2 + \dots + x_k = n$$
 
-with $x_i \ge 1$.
+با شرط $x_i \ge 0$.
 
-We can consider $n$ stars, but this time we can put at most _one bar_ between stars, since two bars between stars would represent $x_i=0$, i.e. an empty box. 
-There are $n-1$ gaps between stars to place $k-1$ bars, so the solution is $\binom{n-1}{k-1}$. 
+دوباره می‌توانیم یک جواب را با استفاده از ستاره و خط نمایش دهیم.
+برای مثال، جواب $1 + 3 + 0 = 4$ برای $n=4$ و $k=3$ را می‌توان با $\bigstar | \bigstar \bigstar \bigstar |$ نمایش داد.
 
-## Number of lower-bound integer sums
+به راحتی می‌توان دید که این دقیقاً همان قضیه‌ی ستاره و خط است.
+بنابراین، جواب برابر است با $\binom{n + k - 1}{n}$.
 
-This can easily be extended to integer sums with different lower bounds.
-I.e. we want to count the number of solutions for  the equation
+## تعداد مجموع‌های اعداد صحیح مثبت
+
+قضیه‌ی دوم، تفسیر جالبی برای اعداد صحیح مثبت ارائه می‌دهد. جواب‌های معادله‌ی زیر را در نظر بگیرید:
 
 $$x_1 + x_2 + \dots + x_k = n$$
 
-with $x_i \ge a_i$.
+با شرط $x_i \ge 1$.
 
-After substituting $x_i' := x_i - a_i$ we receive the modified equation
+می‌توانیم $n$ ستاره را در نظر بگیریم، اما این بار می‌توانیم حداکثر *یک خط* بین ستاره‌ها قرار دهیم، زیرا دو خط بین ستاره‌ها به معنای $x_i=0$ است، یعنی یک جعبه‌ی خالی.
+$n-1$ فاصله بین ستاره‌ها برای قرار دادن $k-1$ خط وجود دارد، بنابراین جواب برابر است با $\binom{n-1}{k-1}$.
 
-$$(x_1' + a_i) + (x_2' + a_i) + \dots + (x_k' + a_k) = n$$
+## تعداد مجموع‌های اعداد صحیح با کران پایین
+
+این روش را به سادگی می‌توان به مجموع اعداد صحیح با کران‌های پایین متفاوت تعمیم داد.
+یعنی می‌خواهیم تعداد جواب‌های معادله‌ی زیر را بشماریم:
+
+$$x_1 + x_2 + \dots + x_k = n$$
+
+با شرط $x_i \ge a_i$.
+
+پس از جایگذاری $x_i' := x_i - a_i$ معادله‌ی اصلاح‌شده‌ی زیر را به دست می‌آوریم:
+
+$$(x_1' + a_1) + (x_2' + a_2) + \dots + (x_k' + a_k) = n$$
 
 $$\Leftrightarrow ~ ~ x_1' + x_2' + \dots + x_k' = n - a_1 - a_2 - \dots - a_k$$
 
-with $x_i' \ge 0$.
-So we have reduced the problem to the simpler case with $x_i' \ge 0$ and again can apply the stars and bars theorem.
+با شرط $x_i' \ge 0$.
+بنابراین، مسئله را به حالت ساده‌تر با شرط $x_i' \ge 0$ کاهش دادیم و دوباره می‌توانیم از قضیه‌ی ستاره و خط استفاده کنیم.
 
-## Number of upper-bound integer sums
+## تعداد مجموع‌های اعداد صحیح با کران بالا
 
-With some help of the [Inclusion-Exclusion Principle](./inclusion-exclusion.md), you can also restrict the integers with upper bounds.
-See the [Number of upper-bound integer sums](./inclusion-exclusion.md#number-of-upper-bound-integer-sums) section in the corresponding article.
+با کمی کمک از [اصل شمول و طرد](./inclusion-exclusion.md)، می‌توانید اعداد صحیح را با کران‌های بالا نیز محدود کنید.
+بخش [تعداد مجموع‌های صحیح با کران بالا](./inclusion-exclusion.md#number-of-upper-bound-integer-sums) را در مقاله‌ی مربوطه ببینید.
 
-## Practice Problems
+## مسائل تمرینی
 
 * [Codeforces - Array](https://codeforces.com/contest/57/problem/C)
 * [Codeforces - Kyoya and Coloured Balls](https://codeforces.com/problemset/problem/553/A)

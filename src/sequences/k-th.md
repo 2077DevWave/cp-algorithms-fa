@@ -1,16 +1,16 @@
 ---
-title: K-th order statistic in O(N)
 tags:
-  - Translated
-e_maxx_link: kth_order_statistics
+  - AI Translated
+e_maxx_link: k-th
 ---
-# $K$th order statistic in $O(N)$
 
-Given an array $A$ of size $N$ and a number $K$. The problem is to find $K$-th largest number in the array, i.e., $K$-th order statistic.
+# $K$-امین آمارۀ ترتیبی در زمان $O(N)$
 
-The basic idea - to use the idea of quick sort algorithm. Actually, the algorithm is simple, it is more difficult to prove that it runs in an average of $O(N)$, in contrast to the quick sort.
+یک آرایۀ $A$ به اندازۀ $N$ و یک عدد $K$ داده شده است. مسئله پیدا کردن $K$-امین عدد بزرگ آرایه است، یعنی $K$-امین آمارۀ ترتیبی.
 
-## Implementation (not recursive)
+ایده اصلی، استفاده از ایدۀ الگوریتم quick sort است. در واقع، الگوریتم ساده است؛ اثبات اینکه به طور متوسط در زمان $O(N)$ اجرا می‌شود، در مقایسه با quick sort، دشوارتر است.
+
+## پیاده‌سازی (غیر بازگشتی)
 
 ```cpp
 template <class T>
@@ -21,13 +21,13 @@ T order_statistics (std::vector<T> a, unsigned n, unsigned k)
     {
         if (r <= l+1)
         {
-            // the current part size is either 1 or 2, so it is easy to find the answer
+            // اندازۀ قسمت فعلی ۱ یا ۲ است، پس پیدا کردن جواب آسان است
             if (r == l+1 && a[r] < a[l])
                 swap (a[l], a[r]);
             return a[k];
         }
 
-        // ordering a[l], a[l+1], a[r]
+        // مرتب‌سازی a[l]، a[l+1]، a[r]
         unsigned mid = (l + r) >> 1;
         swap (a[mid], a[l+1]);
         if (a[l] > a[r])
@@ -37,8 +37,8 @@ T order_statistics (std::vector<T> a, unsigned n, unsigned k)
         if (a[l] > a[l+1])
             swap (a[l], a[l+1]);
 
-        // performing division
-        // barrier is a[l + 1], i.e. median among a[l], a[l + 1], a[r]
+        // انجام تقسیم
+        // عنصر محوری a[l + 1] است، یعنی میانه در بین a[l]، a[l + 1]، a[r]
         unsigned
             i = l+1,
             j = r;
@@ -53,11 +53,11 @@ T order_statistics (std::vector<T> a, unsigned n, unsigned k)
             swap (a[i], a[j]);
         }
 
-        // inserting the barrier
+        // قرار دادن عنصر محوری
         a[l+1] = a[j];
         a[j] = cur;
         
-        // we continue to work in that part, which must contain the required element
+        // کار را در قسمتی ادامه می‌دهیم که حتماً شامل عنصر مورد نظر است
         if (j >= k)
             r = j-1;
         if (j <= k)
@@ -66,11 +66,11 @@ T order_statistics (std::vector<T> a, unsigned n, unsigned k)
 }
 ```
 
-## Notes
-* The randomized algorithm above is named [quickselect](https://en.wikipedia.org/wiki/Quickselect). You should do random shuffle on $A$ before calling it or use a random element as a barrier for it to run properly. There are also deterministic algorithms that solve the specified problem in linear time, such as [median of medians](https://en.wikipedia.org/wiki/Median_of_medians).
-* [std::nth_element](https://en.cppreference.com/w/cpp/algorithm/nth_element) solves this in C++ but gcc's implementation runs in worst case $O(n \log n )$ time.
-* Finding $K$ smallest elements can be reduced to finding $K$-th element with a linear overhead, as they're exactly the elements that are smaller than $K$-th.
+## نکات
+* الگوریتم تصادفی بالا [quickselect](https://en.wikipedia.org/wiki/Quickselect) نام دارد. برای اجرای صحیح، باید قبل از فراخوانی آن، آرایۀ $A$ را به صورت تصادفی بر بزنید یا از یک عنصر تصادفی به عنوان عنصر محوری استفاده کنید. الگوریتم‌های قطعی نیز وجود دارند که مسئله را در زمان خطی حل می‌کنند، مانند [median of medians](https://en.wikipedia.org/wiki/Median_of_medians).
+* تابع [std::nth_element](https://en.cppreference.com/w/cpp/algorithm/nth_element) این مسئله را در C++ حل می‌کند، اما پیاده‌سازی آن در gcc در بدترین حالت در زمان $O(n \log n)$ اجرا می‌شود.
+* پیدا کردن $K$ کوچک‌ترین عنصر را می‌توان با یک سربار خطی به مسئله پیدا کردن عنصر $K$-ام کاهش داد، زیرا این عناصر دقیقاً همان‌هایی هستند که از عنصر $K$-ام کوچک‌ترند.
 
-## Practice Problems
+## مسائل تمرینی
 - [Leetcode: Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)
 - [CODECHEF: Median](https://www.codechef.com/problems/CD1IT1)

@@ -1,44 +1,38 @@
 ---
 tags:
-  - Translated
-e_maxx_link: bfs
+  - AI Translated
+e_maxx_link: breadth-first-search
 ---
 
-# Breadth-first search
+# جستجوی اول سطح
 
-Breadth first search is one of the basic and essential searching algorithms on graphs.
+جستجوی اول سطح (BFS) یکی از الگوریتم‌های پایه‌ای و ضروری برای جستجو در گراف‌ها است.
 
-As a result of how the algorithm works, the path found by breadth first search to any node is the shortest path to that node, i.e the path that contains the smallest number of edges in unweighted graphs.
+به دلیل نحوه‌ی عملکرد این الگوریتم، مسیری که جستجوی اول سطح به هر رأس پیدا می‌کند، کوتاه‌ترین مسیر به آن رأس است؛ یعنی مسیری که در گراف‌های بدون وزن، کمترین تعداد یال را داشته باشد.
 
-The algorithm works in $O(n + m)$ time, where $n$ is number of vertices and $m$ is the number of edges.
+این الگوریتم در زمان $O(n + m)$ اجرا می‌شود که در آن $n$ تعداد رئوس و $m$ تعداد یال‌ها است.
 
-## Description of the algorithm
+## توصیف الگوریتم
 
-The algorithm takes as input an unweighted graph and the id of the source vertex $s$. The input graph can be directed or undirected,
-it does not matter to the algorithm.
+این الگوریتم یک گراف بدون وزن و شناسه‌ی رأس مبدأ $s$ را به عنوان ورودی می‌گیرد. گراف ورودی می‌تواند جهت‌دار یا بدون جهت باشد، این موضوع برای الگوریتم تفاوتی ندارد.
 
-The algorithm can be understood as a fire spreading on the graph: at the zeroth step only the source $s$ is on fire. At each step, the fire burning at each vertex spreads to all of its neighbors. In one iteration of the algorithm, the "ring of
-fire" is expanded in width by one unit (hence the name of the algorithm).
+می‌توان این الگوریتم را مانند آتشی در حال گسترش در گراف درک کرد: در گام صفرم، فقط رأس مبدأ $s$ آتش گرفته است. در هر گام، آتشی که در هر رأس شعله‌ور است، به تمام همسایگانش سرایت می‌کند. در یک تکرار الگوریتم، «حلقه‌ی آتش» به اندازه‌ی یک واحد در عرض گسترش می‌یابد (و نام الگوریتم نیز از همین‌جا گرفته شده است).
 
-More precisely, the algorithm can be stated as follows: Create a queue $q$ which will contain the vertices to be processed and a
-Boolean array $used[]$ which indicates for each vertex, if it has been lit (or visited) or not.
+دقیق‌تر بگوییم، الگوریتم را می‌توان به این صورت بیان کرد: یک صف $q$ ایجاد کنید که رئوس مورد پردازش را در خود نگه دارد و یک آرایه بولین $used[]$ که برای هر رأس مشخص می‌کند آیا آتش گرفته (یا بازدید شده) است یا نه.
 
-Initially, push the source $s$ to the queue and set $used[s] = true$, and for all other vertices $v$ set $used[v] = false$.
-Then, loop until the queue is empty and in each iteration, pop a vertex from the front of the queue. Iterate through all the edges going out
-of this vertex and if some of these edges go to vertices that are not already lit, set them on fire and place them in the queue.
+در ابتدا، رأس مبدأ $s$ را به صف اضافه کنید و $used[s] = true$ قرار دهید و برای سایر رئوس $v$ مقدار $used[v] = false$ را تنظیم کنید. سپس، تا زمانی که صف خالی شود، در یک حلقه تکرار کنید و در هر تکرار، یک رأس را از ابتدای صف بردارید. تمام یال‌های خروجی از این رأس را پیمایش کنید و اگر برخی از این یال‌ها به رئوسی می‌روند که هنوز آتش نگرفته‌اند، آن‌ها را آتش بزنید و در صف قرار دهید.
 
-As a result, when the queue is empty, the "ring of fire" contains all vertices reachable from the source $s$, with each vertex reached in the shortest possible way.
-You can also calculate the lengths of the shortest paths (which just requires maintaining an array of path lengths $d[]$) as well as save information to restore all of these shortest paths (for this, it is necessary to maintain an array of "parents" $p[]$, which stores for each vertex the vertex from which we reached it).
+در نتیجه، وقتی صف خالی می‌شود، «حلقه‌ی آتش» شامل تمام رئوس قابل دسترس از مبدأ $s$ است و هر رأس به کوتاه‌ترین شکل ممکن پیدا شده است. همچنین می‌توانید طول کوتاه‌ترین مسیرها را محاسبه کنید (که فقط نیاز به نگهداری آرایه‌ای از طول مسیرها $d[]$ دارد) و همچنین اطلاعات لازم برای بازیابی تمام این کوتاه‌ترین مسیرها را ذخیره کنید (برای این کار، لازم است آرایه‌ای از «والدها» $p[]$ نگهداری شود که برای هر رأس، رأسی را که از طریق آن به این رأس رسیده‌ایم، ذخیره می‌کند).
 
-## Implementation
+## پیاده‌سازی
 
-We write code for the described algorithm in C++ and Java.
+کد الگوریتم توصیف‌شده را به زبان‌های C++ و Java می‌نویسیم.
 
 === "C++"
     ```cpp
-    vector<vector<int>> adj;  // adjacency list representation
-    int n; // number of nodes
-    int s; // source vertex
+    vector<vector<int>> adj;  // نمایش به صورت لیست مجاورت
+    int n; // تعداد رئوس
+    int s; // رأس مبدأ
 
     queue<int> q;
     vector<bool> used(n);
@@ -62,10 +56,10 @@ We write code for the described algorithm in C++ and Java.
     ```
 === "Java"
     ```java
-    ArrayList<ArrayList<Integer>> adj = new ArrayList<>(); // adjacency list representation
+    ArrayList<ArrayList<Integer>> adj = new ArrayList<>(); // نمایش به صورت لیست مجاورت
         
-    int n; // number of nodes
-    int s; // source vertex
+    int n; // تعداد رئوس
+    int s; // رأس مبدأ
 
 
     LinkedList<Integer> q = new LinkedList<Integer>();
@@ -89,7 +83,7 @@ We write code for the described algorithm in C++ and Java.
     }
     ```
     
-If we have to restore and display the shortest path from the source to some vertex $u$, it can be done in the following manner:
+اگر بخواهیم کوتاه‌ترین مسیر از مبدأ به رأس $u$ را بازیابی و نمایش دهیم، می‌توان این کار را به روش زیر انجام داد:
     
 === "C++"
     ```cpp
@@ -119,45 +113,45 @@ If we have to restore and display the shortest path from the source to some vert
     }
     ```
     
-## Applications of BFS
+## کاربردهای BFS
 
-* Find the shortest path from a source to other vertices in an unweighted graph.
+*   پیدا کردن کوتاه‌ترین مسیر از یک مبدأ به سایر رئوس در یک گراف بدون وزن.
 
-* Find all connected components in an undirected graph in $O(n + m)$ time:
-To do this, we just run BFS starting from each vertex, except for vertices which have already been visited from previous runs.
-Thus, we perform normal BFS from each of the vertices, but do not reset the array $used[]$ each and every time we get a new connected component, and the total running time will still be $O(n + m)$ (performing multiple BFS on the graph without zeroing the array $used []$ is called a series of breadth first searches).
+*   پیدا کردن تمام مؤلفه‌های همبندی در یک گراف بدون جهت در زمان $O(n + m)$:
+برای این کار، کافی است BFS را از هر رأس شروع کنیم، به جز رئوسی که قبلاً در اجراهای قبلی بازدید شده‌اند.
+بنابراین، ما BFS معمولی را از هر رأس اجرا می‌کنیم، اما آرایه $used[]$ را هر بار که یک مؤلفه همبندی جدید پیدا می‌کنیم، بازنشانی نمی‌کنیم و زمان اجرای کل همچنان $O(n + m)$ خواهد بود (اجرای چندین BFS بر روی گراف بدون صفر کردن آرایه $used []$ را یک سری جستجوی اول سطح می‌نامند).
 
-* Finding a solution to a problem or a game with the least number of moves, if each state of the game can be represented by a vertex of the graph, and the transitions from one state to the other are the edges of the graph.
+*   پیدا کردن راه‌حل یک مسئله یا بازی با کمترین تعداد حرکت، اگر هر حالت از بازی بتواند با یک رأس از گراف نمایش داده شود و انتقال از یک حالت به حالت دیگر یال‌های گراف باشند.
 
-* Finding the shortest path in a graph with weights 0 or 1:
-This requires just a little modification to normal breadth-first search: Instead of maintaining array $used[]$, we will now check if the distance to vertex is shorter than current found distance, then if the current edge is of zero weight, we add it to the front of the queue else we add it to the back of the queue.This modification is explained in more detail in the article [0-1 BFS](01_bfs.md).
+*   پیدا کردن کوتاه‌ترین مسیر در گرافی با وزن‌های ۰ یا ۱:
+این کار تنها به یک تغییر کوچک در جستجوی اول سطح معمولی نیاز دارد: به جای نگهداری آرایه $used[]$، اکنون بررسی می‌کنیم که آیا فاصله تا رأس کوتاه‌تر از فاصله فعلی پیدا شده است یا خیر. سپس اگر یال فعلی وزن صفر داشته باشد، آن را به ابتدای صف اضافه می‌کنیم، در غیر این صورت آن را به انتهای صف اضافه می‌کنیم. این تغییر با جزئیات بیشتر در مقاله [BFS 0-1](01_bfs.md) توضیح داده شده است.
 
-* Finding the shortest cycle in a directed unweighted graph:
-Start a breadth-first search from each vertex.
-As soon as we try to go from the current vertex back to the source vertex, we have found the shortest cycle containing the source vertex.
-At this point we can stop the BFS, and start a new BFS from the next vertex.
-From all such cycles (at most one from each BFS) choose the shortest.
+*   پیدا کردن کوتاه‌ترین دور در یک گراف جهت‌دار بدون وزن:
+یک جستجوی اول سطح را از هر رأس شروع کنید.
+به محض اینکه سعی کنیم از رأس فعلی به رأس مبدأ بازگردیم، کوتاه‌ترین دور شامل رأس مبدأ را پیدا کرده‌ایم.
+در این نقطه می‌توانیم BFS را متوقف کرده و یک BFS جدید از رأس بعدی شروع کنیم.
+از بین تمام این دورها (حداکثر یک دور از هر BFS)، کوتاه‌ترین را انتخاب کنید.
 
-* Find all the edges that lie on any shortest path between a given pair of vertices $(a, b)$.
-To do this, run two breadth first searches:
-one from $a$ and one from $b$.
-Let $d_a []$ be the array containing shortest distances obtained from the first BFS (from $a$) and $d_b []$ be the array containing shortest distances obtained from the second BFS from $b$.
-Now for every edge $(u, v)$ it is easy to check whether that edge lies on any shortest path between $a$ and $b$:
-the criterion is the condition $d_a [u] + 1 + d_b [v] = d_a [b]$.
+*   پیدا کردن تمام یال‌هایی که روی هر کوتاه‌ترین مسیر بین یک زوج رأس داده شده $(a, b)$ قرار دارند.
+برای این کار، دو جستجوی اول سطح اجرا کنید:
+یکی از $a$ و دیگری از $b$.
+فرض کنید $d_a []$ آرایه حاوی کوتاه‌ترین فاصله‌های به دست آمده از BFS اول (از $a$) و $d_b []$ آرایه حاوی کوتاه‌ترین فاصله‌های به دست آمده از BFS دوم از $b$ باشد.
+حال برای هر یال $(u, v)$ به راحتی می‌توان بررسی کرد که آیا آن یال روی هر کوتاه‌ترین مسیر بین $a$ و $b$ قرار دارد یا خیر:
+معیار، شرط $d_a [u] + 1 + d_b [v] = d_a [b]$ است.
 
-* Find all the vertices on any shortest path between a given pair of vertices $(a, b)$.
-To accomplish that, run two breadth first searches:
-one from $a$ and one from $b$.
-Let $d_a []$ be the array containing shortest distances obtained from the first BFS (from $a$) and $d_b []$ be the array containing shortest distances obtained from the second BFS (from $b$).
-Now for each vertex it is easy to check whether it lies on any shortest path between $a$ and $b$:
-the criterion is the condition $d_a [v] + d_b [v] = d_a [b]$.
+*   پیدا کردن تمام رئوسی که روی هر کوتاه‌ترین مسیر بین یک زوج رأس داده شده $(a, b)$ قرار دارند.
+برای انجام این کار، دو جستجوی اول سطح اجرا کنید:
+یکی از $a$ و دیگری از $b$.
+فرض کنید $d_a []$ آرایه حاوی کوتاه‌ترین فاصله‌های به دست آمده از BFS اول (از $a$) و $d_b []$ آرایه حاوی کوتاه‌ترین فاصله‌های به دست آمده از BFS دوم (از $b$) باشد.
+حال برای هر رأس به راحتی می‌توان بررسی کرد که آیا روی هر کوتاه‌ترین مسیر بین $a$ و $b$ قرار دارد یا خیر:
+معیار، شرط $d_a [v] + d_b [v] = d_a [b]$ است.
 
-* Find the shortest walk of even length from a source vertex $s$ to a target vertex $t$ in an unweighted graph:
-For this, we must construct an auxiliary graph, whose vertices are the state $(v, c)$, where $v$ - the current node, $c = 0$ or $c = 1$ - the current parity.
-Any edge $(u, v)$ of the original graph in this new column will turn into two edges $((u, 0), (v, 1))$ and $((u, 1), (v, 0))$.
-After that we run a BFS to find the shortest walk from the starting vertex $(s, 0)$ to the end vertex $(t, 0)$.<br>**Note**: This item uses the term "_walk_" rather than a "_path_" for a reason, as the vertices may potentially repeat in the found walk in order to make its length even. The problem of finding the shortest _path_ of even length is NP-Complete in directed graphs, and [solvable in linear time](https://onlinelibrary.wiley.com/doi/abs/10.1002/net.3230140403) in undirected graphs, but with a much more involved approach.
+*   پیدا کردن کوتاه‌ترین گشت با طول زوج از یک رأس مبدأ $s$ به یک رأس مقصد $t$ در یک گراف بدون وزن:
+برای این کار، باید یک گراف کمکی بسازیم که رئوس آن نمایانگر حالت $(v, c)$ هستند؛ در این حالت، $v$ گره فعلی و $c$ (با مقدار ۰ یا ۱) زوجیت طول گشت تا آن گره است.
+هر یال $(u, v)$ از گراف اصلی در این گراف جدید به دو یال $((u, 0), (v, 1))$ و $((u, 1), (v, 0))$ تبدیل می‌شود.
+پس از آن، یک BFS اجرا می‌کنیم تا کوتاه‌ترین گشت از رأس شروع $(s, 0)$ به رأس پایانی $(t, 0)$ را پیدا کنیم.<br>**نکته**: این مورد به دلیلی از اصطلاح «گشت» (walk) به جای «مسیر» (path) استفاده می‌کند، زیرا رئوس ممکن است در گشت پیدا شده تکرار شوند تا طول آن زوج شود. مسئله پیدا کردن کوتاه‌ترین _مسیر_ با طول زوج در گراف‌های جهت‌دار NP-Complete است و در گراف‌های بدون جهت [در زمان خطی قابل حل است](https://onlinelibrary.wiley.com/doi/abs/10.1002/net.3230140403)، اما با رویکردی بسیار پیچیده‌تر.
 
-## Practice Problems
+## مسائل تمرینی
 
 * [SPOJ: AKBAR](http://spoj.com/problems/AKBAR)
 * [SPOJ: NAKANJ](http://www.spoj.com/problems/NAKANJ/)

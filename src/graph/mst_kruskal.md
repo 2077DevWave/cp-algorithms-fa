@@ -1,45 +1,49 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: mst_kruskal
 ---
 
-# Minimum spanning tree - Kruskal's algorithm
+# درخت پوشای کمینه - الگوریتم کراسکال
 
-Given a weighted undirected graph.
-We want to find a subtree of this graph which connects all vertices (i.e. it is a spanning tree) and has the least weight (i.e. the sum of weights of all the edges is minimum) of all possible spanning trees.
-This spanning tree is called a minimum spanning tree.
+یک گراف وزن‌دار و بدون جهت داده شده است.
+می‌خواهیم یک زیردرخت از این گراف را پیدا کنیم که همه‌ی رأس‌ها را به هم متصل کند (یعنی یک درخت پوشا باشد) و کمترین وزن ممکن را داشته باشد (یعنی مجموع وزن‌های تمام یال‌های آن در بین تمام درخت‌های پوشای ممکن، کمینه باشد).
+این درخت پوشا، «درخت پوشای کمینه» (minimum spanning tree) نامیده می‌شود.
 
-In the left image you can see a weighted undirected graph, and in the right image you can see the corresponding minimum spanning tree.
+در تصویر سمت چپ می‌توانید یک گراف وزن‌دار و بدون جهت را ببینید و در تصویر سمت راست، درخت پوشای کمینه متناظر با آن نمایش داده شده است.
 
-![Random graph](MST_before.png) ![MST of this graph](MST_after.png)
 
-This article will discuss few important facts associated with minimum spanning trees, and then will give the simplest implementation of Kruskal's algorithm for finding minimum spanning tree.
+![گراف تصادفی](MST_before.png)
+ 
+![درخت پوشای کمینه این گراف](MST_after.png)
 
-## Properties of the minimum spanning tree
 
-* A minimum spanning tree of a graph is unique, if the weight of all the edges are distinct. Otherwise, there may be multiple minimum spanning trees.
-  (Specific algorithms typically output one of the possible minimum spanning trees).
-* Minimum spanning tree is also the tree with minimum product of weights of edges.
-  (It can be easily proved by replacing the weights of all edges with their logarithms)
-* In a minimum spanning tree of a graph, the maximum weight of an edge is the minimum possible from all possible spanning trees of that graph.
-  (This follows from the validity of Kruskal's algorithm).
-* The maximum spanning tree (spanning tree with the sum of weights of edges being maximum) of a graph can be obtained similarly to that of the minimum spanning tree, by changing the signs of the weights of all the edges to their opposite and then applying any of the minimum spanning tree algorithm.
+این مقاله چند حقیقت مهم مرتبط با درختان پوشای کمینه را بررسی می‌کند و سپس ساده‌ترین پیاده‌سازی الگوریتم کراسکال برای یافتن درخت پوشای کمینه را ارائه می‌دهد.
 
-## Kruskal's algorithm
+## ویژگی‌های درخت پوشای کمینه
 
-This algorithm was described by Joseph Bernard Kruskal, Jr. in 1956.
+*   یک درخت پوشای کمینه از یک گراف، در صورتی که وزن تمام یال‌ها متمایز باشد، یکتا است. در غیر این صورت، ممکن است چندین درخت پوشای کمینه وجود داشته باشد.
+    (الگوریتم‌های خاص معمولاً یکی از درختان پوشای کمینه ممکن را خروجی می‌دهند).
+*   درخت پوشای کمینه، درختی با کمترین حاصل‌ضرب وزن یال‌ها نیز هست.
+    (این موضوع را می‌توان به راحتی با جایگزین کردن وزن تمام یال‌ها با لگاریتم آن‌ها اثبات کرد).
+*   در یک درخت پوشای کمینه از یک گراف، بیشترین وزن یک یال، کمترین مقدار ممکن از بین تمام درختان پوشای آن گراف است.
+    (این نتیجه از درستی الگوریتم کراسکال به دست می‌آید).
+*   درخت پوشای بیشینه (درخت پوشایی که مجموع وزن یال‌های آن بیشینه باشد) از یک گراف را می‌توان مشابه درخت پوشای کمینه به دست آورد؛ کافی است علامت وزن تمام یال‌ها را معکوس کرده و سپس هر یک از الگوریتم‌های درخت پوشای کمینه را اعمال کنیم.
 
-Kruskal's algorithm initially places all the nodes of the original graph isolated from each other, to form a forest of single node trees, and then gradually merges these trees, combining at each iteration any two of all the trees with some edge of the original graph. Before the execution of the algorithm, all edges are sorted by weight (in non-decreasing order). Then begins the process of unification: pick all edges from the first to the last (in sorted order), and if the ends of the currently picked edge belong to different subtrees, these subtrees are combined, and the edge is added to the answer. After iterating through all the edges, all the vertices will belong to the same sub-tree, and we will get the answer.
+## الگوریتم کراسکال
 
-## The simplest implementation
+این الگوریتم توسط جوزف برنارد کراسکال جونیور در سال ۱۹۵۶ توصیف شد.
 
-The following code directly implements the algorithm described above, and is having $O(M \log M + N^2)$ time complexity.
-Sorting edges requires $O(M \log N)$ (which is the same as $O(M \log M)$) operations.
-Information regarding the subtree to which a vertex belongs is maintained with the help of an array `tree_id[]` - for each vertex `v`, `tree_id[v]` stores the number of the tree , to which `v` belongs.
-For each edge, whether it belongs to the ends of different trees, can be determined in $O(1)$.
-Finally, the union of the two trees is carried out in $O(N)$ by a simple pass through `tree_id[]` array.
-Given that the total number of merge operations is $N-1$, we obtain the asymptotic behavior of $O(M \log N + N^2)$.
+الگوریتم کراسکال در ابتدا تمام رأس‌های گراف اصلی را به صورت جدا از هم قرار می‌دهد تا جنگلی از درختان تک‌رأسی تشکیل دهد. سپس به تدریج این درختان را با هم ادغام می‌کند و در هر مرحله، دو درخت دلخواه را با استفاده از یکی از یال‌های گراف اصلی ترکیب می‌کند. قبل از اجرای الگوریتم، تمام یال‌ها بر اساس وزن (به ترتیب غیرنزولی) مرتب می‌شوند. سپس فرآیند ادغام آغاز می‌شود: تمام یال‌ها را از اولین تا آخرین (به ترتیب مرتب‌شده) انتخاب می‌کنیم و اگر دو سر یال انتخاب‌شده به زیردرخت‌های متفاوتی تعلق داشته باشند، این زیردرخت‌ها با هم ترکیب شده و یال به جواب اضافه می‌شود. پس از پیمایش تمام یال‌ها، همه رأس‌ها به یک زیردرخت واحد تعلق خواهند داشت و ما به جواب می‌رسیم.
+
+## ساده‌ترین پیاده‌سازی
+
+کد زیر مستقیماً الگوریتم توصیف‌شده در بالا را پیاده‌سازی می‌کند و دارای پیچیدگی زمانی $O(M \log M + N^2)$ است.
+مرتب‌سازی یال‌ها به $O(M \log N)$ (که همان $O(M \log M)$ است) عملیات نیاز دارد.
+اطلاعات مربوط به زیردرختی که یک رأس به آن تعلق دارد، با کمک آرایه‌ی `tree_id[]` نگهداری می‌شود - برای هر رأس `v`، `tree_id[v]` شماره‌ی درختی را که `v` به آن تعلق دارد، ذخیره می‌کند.
+برای هر یال، اینکه آیا دو سر آن به درختان متفاوتی تعلق دارند یا نه، در زمان $O(1)$ قابل تشخیص است.
+در نهایت، ادغام دو درخت با یک پیمایش ساده روی آرایه‌ی `tree_id[]` در $O(N)$ انجام می‌شود.
+با توجه به اینکه تعداد کل عملیات ادغام $N-1$ است، به پیچیدگی زمانی $O(M \log N + N^2)$ می‌رسیم.
 
 ```cpp
 struct Edge {
@@ -74,44 +78,44 @@ for (Edge e : edges) {
 }
 ```
 
-## Proof of correctness
+## اثبات درستی
 
-Why does Kruskal's algorithm give us the correct result?
+چرا الگوریتم کراسکال نتیجه‌ی درستی به ما می‌دهد؟
 
-If the original graph was connected, then also the resulting graph will be connected.
-Because otherwise there would be two components that could be connected with at least one edge. Though this is impossible, because Kruskal would have chosen one of these edges, since the ids of the components are different.
-Also the resulting graph doesn't contain any cycles, since we forbid this explicitly in the algorithm.
-Therefore the algorithm generates a spanning tree.
+اگر گراف اولیه همبند باشد، گراف حاصل نیز همبند خواهد بود.
+زیرا در غیر این صورت، دو مؤلفه وجود خواهند داشت که می‌توانستند با حداقل یک یال به هم متصل شوند. اما این غیرممکن است، زیرا کراسکال یکی از این یال‌ها را انتخاب می‌کرد، چون شناسه‌ی مؤلفه‌های آن‌ها متفاوت است.
+همچنین گراف حاصل هیچ دوری ندارد، زیرا ما صریحاً این موضوع را در الگوریتم منع کرده‌ایم.
+بنابراین، الگوریتم یک درخت پوشا تولید می‌کند.
 
-So why does this algorithm give us a minimum spanning tree?
+پس چرا این الگوریتم یک درخت پوشای کمینه به ما می‌دهد؟
 
-We can show the proposal "if $F$ is a set of edges chosen by the algorithm at any stage in the algorithm, then there exists a MST that contains all edges of $F$" using induction.
+می‌توانیم گزاره «اگر $F$ مجموعه‌ای از یال‌های انتخاب‌شده توسط الگوریتم در هر مرحله باشد، آنگاه یک درخت پوشای کمینه (MST) وجود دارد که شامل تمام یال‌های $F$ است» را با استقرا ثابت کنیم.
 
-The proposal is obviously true at the beginning, the empty set is a subset of any MST.
+این گزاره در ابتدا بدیهتاً درست است؛ مجموعه‌ی تهی زیرمجموعه‌ای از هر MST است.
 
-Now let's assume $F$ is some edge set at any stage of the algorithm, $T$ is a MST containing $F$ and $e$ is the new edge we want to add using Kruskal.
+حال فرض کنیم $F$ مجموعه‌ی یال‌ها در یک مرحله از الگوریتم باشد، $T$ یک MST شامل $F$ باشد و $e$ یال جدیدی باشد که می‌خواهیم با استفاده از کراسکال اضافه کنیم.
 
-If $e$ generates a cycle, then we don't add it, and so the proposal is still true after this step.
+اگر $e$ یک دور ایجاد کند، آن را اضافه نمی‌کنیم، بنابراین گزاره پس از این مرحله همچنان درست است.
 
-In case that $T$ already contains $e$, the proposal is also true after this step.
+در صورتی که $T$ از قبل شامل $e$ باشد، گزاره پس از این مرحله نیز درست است.
 
-In case $T$ doesn't contain the edge $e$, then $T + e$ will contain a cycle $C$.
-This cycle will contain at least one edge $f$, that is not in $F$.
-The set of edges $T - f + e$ will also be a spanning tree. 
-Notice that the weight of $f$ cannot be smaller than the weight of $e$, because otherwise Kruskal would have chosen $f$ earlier.
-It also cannot have a bigger weight, since that would make the total weight of $T - f + e$ smaller than the total weight of $T$, which is impossible since $T$ is already a MST.
-This means that the weight of $e$ has to be the same as the weight of $f$.
-Therefore $T - f + e$ is also a MST, and it contains all edges from $F + e$.
-So also here the proposal is still fulfilled after the step.
+در صورتی که $T$ شامل یال $e$ نباشد، آنگاه $T + e$ شامل یک دور $C$ خواهد بود.
+این دور حداقل شامل یک یال $f$ خواهد بود که در $F$ نیست.
+مجموعه یال‌های $T - f + e$ نیز یک درخت پوشا خواهد بود.
+توجه داشته باشید که وزن $f$ نمی‌تواند کمتر از وزن $e$ باشد، زیرا در غیر این صورت کراسکال زودتر $f$ را انتخاب می‌کرد.
+همچنین وزن آن نمی‌تواند بیشتر باشد، زیرا این امر باعث می‌شود وزن کل $T - f + e$ کمتر از وزن کل $T$ شود، که غیرممکن است چون $T$ از قبل یک MST است.
+این بدان معناست که وزن $e$ باید با وزن $f$ برابر باشد.
+بنابراین $T - f + e$ نیز یک MST است و شامل تمام یال‌های $F + e$ می‌باشد.
+پس در اینجا نیز گزاره پس از این مرحله همچنان برقرار است.
 
-This proves the proposal.
-Which means that after iterating over all edges the resulting edge set will be connected, and will be contained in a MST, which means that it has to be a MST already.
+این اثبات، درستی گزاره را نشان می‌دهد.
+این یعنی پس از پیمایش تمام یال‌ها، مجموعه‌ی یال حاصل همبند خواهد بود و در یک MST وجود خواهد داشت، که به این معناست که خود آن مجموعه باید یک MST باشد.
 
-## Improved implementation
+## پیاده‌سازی بهبودیافته
 
-We can use the [**Disjoint Set Union** (DSU)](../data_structures/disjoint_set_union.md) data structure to write a faster implementation of the Kruskal's algorithm with the time complexity of about $O(M \log N)$. [This article](mst_kruskal_with_dsu.md) details such an approach.
+می‌توانیم از ساختمان داده [**Disjoint Set Union** (DSU)](../data_structures/disjoint_set_union.md) برای نوشتن پیاده‌سازی سریع‌تری از الگوریتم کراسکال با پیچیدگی زمانی حدود $O(M \log N)$ استفاده کنیم. [این مقاله](mst_kruskal_with_dsu.md) چنین رویکردی را با جزئیات شرح می‌دهد.
 
-## Practice Problems
+## مسائل تمرینی
 
 * [SPOJ - Koicost](http://www.spoj.com/problems/KOICOST/)
 * [SPOJ - MaryBMW](http://www.spoj.com/problems/MARYBMW/)

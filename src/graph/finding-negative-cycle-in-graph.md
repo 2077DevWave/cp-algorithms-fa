@@ -1,30 +1,28 @@
 ---
 tags:
-  - Translated
-e_maxx_link: negative_cycle
+  - AI Translated
+e_maxx_link: finding-negative-cycle-in-graph
 ---
 
-# Finding a negative cycle in the graph
+# پیدا کردن دور منفی در گراف
 
-You are given a directed weighted graph $G$ with $N$ vertices and $M$ edges. Find any cycle of negative weight in it, if such a cycle exists.
+یک گراف جهت‌دار و وزن‌دار $G$ با $N$ رأس و $M$ یال به شما داده شده است. اگر در این گراف دوری با وزن منفی وجود دارد، یک نمونه از آن را پیدا کنید.
 
-In another formulation of the problem you have to find all pairs of vertices which have a path of arbitrarily small weight between them.
+در صورت‌بندی دیگری از این مسئله، شما باید تمام زوج رأس‌هایی را پیدا کنید که بین آن‌ها مسیری با وزن دلخواه کوچک وجود دارد.
 
-It is convenient to use different algorithms to solve these two variations of the problem, so we'll discuss both of them here.
+برای حل این دو نوع از مسئله، استفاده از الگوریتم‌های مختلفی مناسب است، بنابراین هر دو را در اینجا بررسی خواهیم کرد.
 
-## Using Bellman-Ford algorithm
+## استفاده از الگوریتم Bellman-Ford
 
-Bellman-Ford algorithm allows you to check whether there exists a cycle of negative weight in the graph, and if it does, find one of these cycles.
+الگوریتم Bellman-Ford به شما امکان می‌دهد بررسی کنید که آیا دوری با وزن منفی در گراف وجود دارد یا نه، و در صورت وجود، یکی از این دورها را پیدا کنید.
 
-The details of the algorithm are described in the article on the [Bellman-Ford](bellman_ford.md) algorithm.
-Here we'll describe only its application to this problem.
+جزئیات این الگوریتم در مقاله [الگوریتم Bellman-Ford](bellman_ford.md) توضیح داده شده است. در اینجا فقط به کاربرد آن در این مسئله می‌پردازیم.
 
-The standard implementation of Bellman-Ford looks for a negative cycle reachable from some starting vertex $v$ ; however, the algorithm can be modified to just looking for any negative cycle in the graph. 
-For this we need to put all the distance  $d[i]$  to zero and not infinity — as if we are looking for the shortest path from all vertices simultaneously; the validity of the detection of a negative cycle is not affected.
+پیاده‌سازی استاندارد Bellman-Ford به دنبال یک دور منفی قابل دسترس از یک رأس شروع $v$ می‌گردد؛ با این حال، می‌توان الگوریتم را طوری تغییر داد که به دنبال هر دور منفی در گراف باشد. برای این کار، باید تمام فاصله‌ها، یعنی $d[i]$، را به جای بی‌نهایت، برابر با صفر قرار دهیم — گویی که به طور همزمان به دنبال کوتاه‌ترین مسیر از تمام رأس‌ها هستیم؛ این کار بر صحت تشخیص دور منفی تأثیری نمی‌گذارد.
 
-Do $N$ iterations of Bellman-Ford algorithm. If there were no changes on the last iteration, there is no cycle of negative weight in the graph. Otherwise take a vertex the distance to which has changed, and go from it via its ancestors until a cycle is found. This cycle will be the desired cycle of negative weight.
+الگوریتم Bellman-Ford را به تعداد $N$ تکرار اجرا کنید. اگر در تکرار آخر هیچ تغییری رخ نداد، هیچ دور با وزن منفی در گراف وجود ندارد. در غیر این صورت، رأسی را که فاصله‌اش تغییر کرده است بردارید و از طریق والدین آن به عقب برگردید تا یک دور پیدا شود. این دور، همان دور با وزن منفی مورد نظر خواهد بود.
 
-### Implementation
+### پیاده‌سازی
 
 ```cpp
 struct Edge {
@@ -52,7 +50,7 @@ void solve() {
     }
  
     if (x == -1) {
-        cout << "No negative cycle found.";
+        cout << "هیچ دور منفی پیدا نشد.";
     } else {
         for (int i = 0; i < n; ++i)
             x = p[x];
@@ -65,7 +63,7 @@ void solve() {
         }
         reverse(cycle.begin(), cycle.end());
  
-        cout << "Negative cycle: ";
+        cout << "دور منفی: ";
         for (int v : cycle)
             cout << v << ' ';
         cout << endl;
@@ -73,23 +71,15 @@ void solve() {
 }
 ```
 
-## Using Floyd-Warshall algorithm
+## استفاده از الگوریتم Floyd-Warshall
 
-The Floyd-Warshall algorithm allows to solve the second variation of the problem - finding all pairs of vertices $(i, j)$ which don't have a shortest path between them (i.e. a path of arbitrarily small weight exists).
+الگوریتم Floyd-Warshall امکان حل نوع دوم مسئله را فراهم می‌کند - یعنی پیدا کردن تمام زوج رأس‌های $(i, j)$ که کوتاه‌ترین مسیر بین آن‌ها وجود ندارد (یعنی مسیری با وزن دلخواه کوچک وجود دارد).
 
-Again, the details can be found in the [Floyd-Warshall](all-pair-shortest-path-floyd-warshall.md) article, and here we describe only its application.
+باز هم، جزئیات را می‌توان در مقاله [الگوریتم Floyd-Warshall](all-pair-shortest-path-floyd-warshall.md) یافت و ما در اینجا فقط کاربرد آن را شرح می‌دهیم.
 
-Run Floyd-Warshall algorithm on the graph.
-Initially $d[v][v] = 0$ for each $v$.
-But after running the algorithm $d[v][v]$ will be smaller than $0$ if there exists a negative length path from $v$ to $v$.
-We can use this to also find all pairs of vertices that don't have a shortest path between them.
-We iterate over all pairs of vertices $(i, j)$ and for each pair we check whether they have a shortest path between them.
-To do this try all possibilities for an intermediate vertex $t$.
-$(i, j)$ doesn't have a shortest path, if one of the intermediate vertices $t$ has $d[t][t] < 0$ (i.e. $t$ is part of a cycle of negative weight), $t$ can be reached from $i$ and $j$ can be reached from $t$.
-Then the path from $i$ to $j$ can have arbitrarily small weight.
-We will denote this with `-INF`.
+الگوریتم Floyd-Warshall را روی گراف اجرا کنید. در ابتدا برای هر رأس $v$، مقدار $d[v][v] = 0$ است. اما پس از اجرای الگوریتم، اگر یک مسیر با طول منفی از $v$ به خودش وجود داشته باشد، مقدار $d[v][v]$ کمتر از $0$ خواهد شد. ما می‌توانیم از این ویژگی برای پیدا کردن تمام زوج رأس‌هایی که کوتاه‌ترین مسیر بینشان وجود ندارد نیز استفاده کنیم. روی تمام زوج رأس‌های $(i, j)$ تکرار می‌کنیم و برای هر زوج بررسی می‌کنیم که آیا کوتاه‌ترین مسیر بین آن‌ها وجود دارد یا خیر. برای این کار، تمام رأس‌های میانی ممکن $t$ را امتحان می‌کنیم. زوج $(i, j)$ کوتاه‌ترین مسیر ندارد، اگر یکی از رأس‌های میانی $t$ دارای $d[t][t] < 0$ باشد (یعنی $t$ بخشی از یک دور با وزن منفی است)، $t$ از $i$ قابل دسترس باشد و $j$ از $t$ قابل دسترس باشد. در این صورت، مسیر از $i$ به $j$ می‌تواند وزن دلخواه کوچکی داشته باشد. ما این حالت را با `-INF` نشان خواهیم داد.
 
-### Implementation
+### پیاده‌سازی
 
 ```cpp
 for (int i = 0; i < n; ++i) {
@@ -102,7 +92,7 @@ for (int i = 0; i < n; ++i) {
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
 - [UVA: Wormholes](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=499)
 - [SPOJ: Alice in Amsterdam, I mean Wonderland](http://www.spoj.com/problems/UCV2013B/)

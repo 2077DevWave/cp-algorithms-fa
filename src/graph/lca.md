@@ -1,63 +1,62 @@
 ---
-title: Lowest Common Ancestor - O(sqrt(N)) and O(log N) with O(N) preprocessing
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: lca
 ---
-# Lowest Common Ancestor - $O(\sqrt{N})$ and $O(\log N)$ with $O(N)$ preprocessing
 
-Given a tree $G$. Given queries of the form $(v_1, v_2)$, for each query you need to find the lowest common ancestor (or least common ancestor), i.e. a vertex $v$ that lies on the path from the root to $v_1$ and the path from the root to $v_2$, and the vertex should be the lowest. In other words, the desired vertex $v$ is the most bottom ancestor of $v_1$ and $v_2$. It is obvious that their lowest common ancestor lies on a shortest path from $v_1$ and $v_2$. Also, if $v_1$ is the ancestor of $v_2$, $v_1$ is their lowest common ancestor.
+# پایین‌ترین جد مشترک - $O(\sqrt{N})$ و $O(\log N)$ با پیش‌پردازش $O(N)$
 
-### The Idea of the Algorithm
+درخت $G$ داده شده است. با توجه به پرسش‌هایی به شکل $(v_1, v_2)$، برای هر پرسش باید پایین‌ترین جد مشترک (least common ancestor یا LCA) را پیدا کنید، یعنی رأسی مانند $v$ که هم روی مسیر از ریشه به $v_1$ و هم روی مسیر از ریشه به $v_2$ قرار دارد و در پایین‌ترین سطح ممکن است. به عبارت دیگر، رأس $v$ مورد نظر، عمیق‌ترین (پایین‌ترین) جد مشترک دو رأس $v_1$ و $v_2$ است. واضح است که پایین‌ترین جد مشترک آن‌ها روی کوتاه‌ترین مسیر بین $v_1$ و $v_2$ قرار دارد. همچنین، اگر $v_1$ جد $v_2$ باشد، آنگاه $v_1$ پایین‌ترین جد مشترک آن‌ها است.
 
-Before answering the queries, we need to **preprocess** the tree.
-We make a [DFS](depth-first-search.md) traversal starting at the root and we build a list $\text{euler}$ which stores the order of the vertices that we visit (a vertex is added to the list when we first visit it, and after the return of the DFS traversals to its children).
-This is also called an Euler tour of the tree.
-It is clear that the size of this list will be $O(N)$.
-We also need to build an array $\text{first}[0..N-1]$ which stores for each vertex $i$ its first occurrence in $\text{euler}$.
-That is, the first position in $\text{euler}$ such that $\text{euler}[\text{first}[i]] = i$.
-Also by using the DFS we can find the height of each node (distance from root to it) and store it in the array $\text{height}[0..N-1]$.
+### ایده الگوریتم
 
-So how can we answer queries using the Euler tour and the additional two arrays?
-Suppose the query is a pair of $v_1$ and $v_2$.
-Consider the vertices that we visit in the Euler tour between the first visit of $v_1$ and the first visit of $v_2$.
-It is easy to see, that the $\text{LCA}(v_1, v_2)$ is the vertex with the lowest height on this path.
-We already noticed, that the LCA has to be part of the shortest path between $v_1$ and $v_2$.
-Clearly it also has to be the vertex with the smallest height.
-And in the Euler tour we essentially use the shortest path, except that we additionally visit all subtrees that we find on the path.
-But all vertices in these subtrees are lower in the tree than the LCA and therefore have a larger height.
-So the $\text{LCA}(v_1, v_2)$ can be uniquely determined by finding the vertex with the smallest height in the Euler tour between $\text{first}(v_1)$ and $\text{first}(v_2)$.
+قبل از پاسخ به پرسش‌ها، باید درخت را **پیش‌پردازش** کنیم.
+یک پیمایش [DFS](depth-first-search.md) را از ریشه شروع می‌کنیم و یک لیست به نام $\text{euler}$ می‌سازیم که ترتیب رأس‌هایی را که بازدید می‌کنیم ذخیره می‌کند (یک رأس هنگام اولین بازدید و پس از بازگشت پیمایش DFS از فرزندانش به لیست اضافه می‌شود).
+این پیمایش به تور اویلری درخت نیز معروف است.
+واضح است که اندازه این لیست $O(N)$ خواهد بود.
+همچنین باید آرایه‌ی $\text{first}[0..N-1]$ را بسازیم که برای هر رأس $i$، اولین وقوع آن را در لیست $\text{euler}$ ذخیره کند. یعنی، اولین موقعیت در $\text{euler}$ که شرط $\text{euler}[\text{first}[i]] = i$ برقرار باشد.
+همچنین با استفاده از DFS می‌توانیم ارتفاع هر گره (فاصله از ریشه) را پیدا کرده و آن را در آرایه‌ی $\text{height}[0..N-1]$ ذخیره کنیم.
 
-Let's illustrate this idea.
-Consider the following graph and the Euler tour with the corresponding heights:
+حال چگونه می‌توانیم با استفاده از تور اویلری و دو آرایه کمکی به پرسش‌ها پاسخ دهیم؟
+فرض کنید پرسش یک زوج $(v_1, v_2)$ باشد.
+رأس‌هایی را که در تور اویلری بین اولین بازدید از $v_1$ و اولین بازدید از $v_2$ مشاهده می‌کنیم در نظر بگیرید.
+به راحتی می‌توان دید که $\text{LCA}(v_1, v_2)$ رأسی با کمترین ارتفاع در این بخش از مسیر است.
+قبلاً اشاره کردیم که LCA باید بخشی از کوتاه‌ترین مسیر بین $v_1$ و $v_2$ باشد.
+واضح است که باید رأسی با کمترین ارتفاع نیز باشد.
+در تور اویلری، ما اساساً کوتاه‌ترین مسیر را طی می‌کنیم، با این تفاوت که تمام زیردرخت‌هایی را که در مسیر با آن‌ها مواجه می‌شویم نیز بازدید می‌کنیم.
+اما تمام رأس‌های موجود در این زیردرخت‌ها در سطحی پایین‌تر از LCA قرار دارند و در نتیجه ارتفاع بیشتری دارند.
+بنابراین، $\text{LCA}(v_1, v_2)$ را می‌توان به طور یکتا با پیدا کردن رأسی با کمترین ارتفاع در تور اویلری بین $\text{first}(v_1)$ و $\text{first}(v_2)$ تعیین کرد.
+
+بیایید این ایده را با یک مثال توضیح دهیم.
+گراف زیر و تور اویلری آن را به همراه ارتفاع‌های متناظر در نظر بگیرید:
 <div style="text-align: center;">
   <img src="LCA_Euler.png" alt="LCA_Euler_Tour">
 </div>
 
 $$\begin{array}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-\text{Vertices:}   & 1 & 2 & 5 & 2 & 6 & 2 & 1 & 3 & 1 & 4 & 7 & 4 & 1 \\ \hline
-\text{Heights:} & 1 & 2 & 3 & 2 & 3 & 2 & 1 & 2 & 1 & 2 & 3 & 2 & 1 \\ \hline
+\text{رأس‌ها:}   & 1 & 2 & 5 & 2 & 6 & 2 & 1 & 3 & 1 & 4 & 7 & 4 & 1 \\ \hline
+\text{ارتفاع‌ها:} & 1 & 2 & 3 & 2 & 3 & 2 & 1 & 2 & 1 & 2 & 3 & 2 & 1 \\ \hline
 \end{array}$$
 
-The tour starting at vertex $6$ and ending at $4$ we visit the vertices $[6, 2, 1, 3, 1, 4]$.
-Among those vertices the vertex $1$ has the lowest height, therefore $\text{LCA(6, 4) = 1}$.
+در پیمایش بین اولین بازدید از رأس ۶ و اولین بازدید از رأس ۴، ما از رأس‌های $[6, 2, 1, 3, 1, 4]$ عبور می‌کنیم.
+در میان این رأس‌ها، رأس ۱ کمترین ارتفاع را دارد، بنابراین $\text{LCA(6, 4) = 1}$ است.
 
-To recap:
-to answer a query we just need **to find the vertex with smallest height** in the array $\text{euler}$ in the range from $\text{first}[v_1]$ to $\text{first}[v_2]$.
-Thus, **the LCA problem is reduced to the RMQ problem** (finding the minimum in an range problem).
+به طور خلاصه:
+برای پاسخ به یک پرسش، فقط باید **رأس با کمترین ارتفاع را در آرایه $\text{euler}$ در بازه $\text{first}[v_1]$ تا $\text{first}[v_2]$ پیدا کنیم**.
+بنابراین، **مسئله LCA به مسئله RMQ** (یافتن کمینه در یک بازه) تبدیل می‌شود.
 
-Using [Sqrt-Decomposition](../data_structures/sqrt_decomposition.md), it is possible to obtain a solution answering each query in $O(\sqrt{N})$ with preprocessing in $O(N)$ time.
+با استفاده از [تجزیه ریشه دوم (Sqrt-Decomposition)](../data_structures/sqrt_decomposition.md)، می‌توان به راه حلی دست یافت که هر پرسش را در زمان $O(\sqrt{N})$ با پیش‌پردازش $O(N)$ پاسخ می‌دهد.
 
-Using a [Segment Tree](../data_structures/segment_tree.md) you can answer each query in $O(\log N)$ with preprocessing in $O(N)$ time.
+با استفاده از [درخت بازه‌ها (Segment Tree)](../data_structures/segment_tree.md) می‌توانید هر پرسش را در زمان $O(\log N)$ با پیش‌پردازش $O(N)$ پاسخ دهید.
 
-Since there will almost never be any update to the stored values, a [Sparse Table](../data_structures/sparse-table.md) might be a better choice, allowing $O(1)$ query answering with $O(N\log N)$ build time.
+از آنجا که تقریباً هیچ‌گاه مقادیر ذخیره‌شده به‌روزرسانی نمی‌شوند، استفاده از [جدول پراکنده (Sparse Table)](../data_structures/sparse-table.md) می‌تواند انتخاب بهتری باشد که پاسخ‌دهی به پرسش‌ها را در زمان $O(1)$ با زمان ساخت $O(N\log N)$ ممکن می‌سازد.
 
-### Implementation
+### پیاده‌سازی
 
-In the following implementation of the LCA algorithm a Segment Tree is used.
+در پیاده‌سازی زیر برای الگوریتم LCA از درخت بازه‌ها استفاده شده است.
 
-```{.cpp file=lca}
+```cpp {.cpp file=lca}
 struct LCA {
     vector<int> height, euler, first, segtree;
     vector<bool> visited;
@@ -124,7 +123,7 @@ struct LCA {
 
 ```
 
-## Practice Problems
+## مسائل تمرینی
  - [SPOJ: LCA](http://www.spoj.com/problems/LCA/)
  - [SPOJ: DISQUERY](http://www.spoj.com/problems/DISQUERY/)
  - [TIMUS: 1471. Distance in the Tree](http://acm.timus.ru/problem.aspx?space=1&num=1471)

@@ -1,86 +1,84 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: min_cost_flow
 ---
 
-# Minimum-cost flow - Successive shortest path algorithm
+# جریان با کمترین هزینه - الگوریتم مسیرهای کوتاه‌تر متوالی
 
-Given a network $G$ consisting of $n$ vertices and $m$ edges.
-For each edge (generally speaking, oriented edges, but see below), the capacity (a non-negative integer) and the cost per unit of flow along this edge (some integer) are given.
-Also the source $s$ and the sink $t$ are marked.
+شبکه $G$ با $n$ رأس و $m$ یال داده شده است.
+برای هر یال (به‌طور کلی یال‌های جهت‌دار، اما در ادامه توضیح داده می‌شود)، ظرفیت (یک عدد صحیح نامنفی) و هزینه به ازای هر واحد جریان در طول آن یال (یک عدد صحیح) مشخص شده است.
+همچنین، منبع $s$ و چاهک $t$ نیز مشخص شده‌اند.
 
-For a given value $K$, we have to find a flow of this quantity, and among all flows of this quantity we have to choose the flow with the lowest cost.
-This task is called **minimum-cost flow problem**.
+برای یک مقدار داده شده $K$، باید جریانی با این مقدار پیدا کنیم و از بین تمام جریان‌های با این مقدار، جریانی را انتخاب کنیم که کمترین هزینه را داشته باشد.
+این مسئله، **مسئله جریان با کمترین هزینه** (minimum-cost flow) نامیده می‌شود.
 
-Sometimes the task is given a little differently:
-you want to find the maximum flow, and among all maximal flows we want to find the one with the least cost.
-This is called the **minimum-cost maximum-flow problem**.
+گاهی اوقات، مسئله کمی متفاوت تعریف می‌شود:
+می‌خواهیم بیشترین جریان را پیدا کنیم و از بین تمام جریان‌های بیشینه، آنی را بیابیم که کمترین هزینه را دارد.
+این مسئله، **مسئله جریان بیشینه با کمترین هزینه** (minimum-cost maximum-flow) نامیده می‌شود.
 
-Both these problems can be solved effectively with the algorithm of successive shortest paths.
+هر دوی این مسائل را می‌توان به طور مؤثر با الگوریتم مسیرهای کوتاه‌تر متوالی حل کرد.
 
-## Algorithm
+## الگوریتم
 
-This algorithm is very similar to the [Edmonds-Karp](edmonds_karp.md) for computing the maximum flow.
+این الگوریتم شباهت زیادی به الگوریتم [Edmonds-Karp](edmonds_karp.md) برای محاسبه بیشترین جریان دارد.
 
-### Simplest case
+### ساده‌ترین حالت
 
-First we only consider the simplest case, where the graph is oriented, and there is at most one edge between any pair of vertices (e.g. if $(i, j)$ is an edge in the graph, then $(j, i)$ cannot be part in it as well).
+ابتدا ساده‌ترین حالت را در نظر می‌گیریم که در آن گراف جهت‌دار است و بین هر جفت رأس حداکثر یک یال وجود دارد (مثلاً اگر $(i, j)$ یک یال در گراف باشد، آنگاه $(j, i)$ نمی‌تواند بخشی از آن باشد).
 
-Let $U_{i j}$ be the capacity of an edge $(i, j)$ if this edge exists.
-And let $C_{i j}$ be the cost per unit of flow along this edge $(i, j)$.
-And finally let $F_{i, j}$ be the flow along the edge $(i, j)$.
-Initially all flow values are zero.
+فرض کنید $U_{i j}$ ظرفیت یال $(i, j)$ باشد (اگر این یال وجود داشته باشد).
+و $C_{i j}$ هزینه به ازای هر واحد جریان در طول این یال $(i, j)$ باشد.
+و در نهایت $F_{i, j}$ جریان در طول یال $(i, j)$ باشد.
+در ابتدا، تمام مقادیر جریان صفر هستند.
 
-We **modify** the network as follows:
-for each edge $(i, j)$ we add the **reverse edge** $(j, i)$ to the network with the capacity $U_{j i} = 0$ and the cost $C_{j i} = -C_{i j}$.
-Since, according to our restrictions, the edge $(j, i)$ was not in the network before, we still have a network that is not a multigraph (graph with multiple edges).
-In addition we will always keep the condition $F_{j i} = -F_{i j}$ true during the steps of the algorithm.
+ما شبکه را به صورت زیر **تغییر** می‌دهیم:
+به ازای هر یال $(i, j)$، **یال معکوس** $(j, i)$ را با ظرفیت $U_{j i} = 0$ و هزینه $C_{j i} = -C_{i j}$ به شبکه اضافه می‌کنیم.
+از آنجایی که طبق محدودیت‌های ما، یال $(j, i)$ قبلاً در شبکه وجود نداشت، همچنان شبکه‌ای داریم که یک چندگراف (گرافی با یال‌های چندگانه) نیست.
+علاوه بر این، در طول مراحل الگوریتم، همیشه شرط $F_{j i} = -F_{i j}$ را برقرار نگه می‌داریم.
 
-We define the **residual network** for some fixed flow $F$ as follow (just like in the Ford-Fulkerson algorithm):
-the residual network contains only unsaturated edges (i.e. edges in which $F_{i j} < U_{i j}$), and the residual capacity of each such edge is $R_{i j} = U_{i j} - F_{i j}$.
+ما **شبکه باقیمانده** را برای یک جریان ثابت $F$ به صورت زیر تعریف می‌کنیم (درست مانند الگوریتم Ford-Fulkerson):
+شبکه باقیمانده فقط شامل یال‌های اشباع‌نشده است (یعنی یال‌هایی که در آنها $F_{i j} < U_{i j}$ است) و ظرفیت باقیمانده هر چنین یالی برابر است با $R_{i j} = U_{i j} - F_{i j}$.
 
-Now we can talk about the **algorithms** to compute the minimum-cost flow.
-At each iteration of the algorithm we find the shortest path in the residual graph from $s$ to $t$.
-In contrast to Edmonds-Karp, we look for the shortest path in terms of the cost of the path instead of the number of edges.
-If there doesn't exists a path anymore, then the algorithm terminates, and the stream $F$ is the desired one.
-If a path was found, we increase the flow along it as much as possible (i.e. we find the minimal residual capacity $R$ of the path, and increase the flow by it, and reduce the back edges by the same amount).
-If at some point the flow reaches the value $K$, then we stop the algorithm (note that in the last iteration of the algorithm it is necessary to increase the flow by only such an amount so that the final flow value doesn't surpass $K$).
+اکنون می‌توانیم در مورد **الگوریتم** محاسبه جریان با کمترین هزینه صحبت کنیم.
+در هر تکرار الگوریتم، کوتاه‌ترین مسیر را در گراف باقیمانده از $s$ به $t$ پیدا می‌کنیم.
+برخلاف الگوریتم Edmonds-Karp، ما به دنبال کوتاه‌ترین مسیر از نظر هزینه مسیر هستیم، نه تعداد یال‌ها.
+اگر دیگر مسیری وجود نداشته باشد، الگوریتم خاتمه می‌یابد و جریان $F$ همان جریان مورد نظر است.
+اگر مسیری پیدا شد، جریان را در طول آن تا حد امکان افزایش می‌دهیم (یعنی حداقل ظرفیت باقیمانده $R$ در مسیر را پیدا کرده، جریان را به آن مقدار افزایش داده و در یال‌های معکوس متناظر نیز تغییرات لازم را اعمال می‌کنیم).
+اگر در نقطه‌ای، جریان به مقدار $K$ رسید، الگوریتم را متوقف می‌کنیم (توجه داشته باشید که در آخرین تکرار الگوریتم، لازم است جریان را فقط به اندازه‌ای افزایش دهیم که مقدار جریان نهایی از $K$ بیشتر نشود).
 
-It is not difficult to see, that if we set $K$ to infinity, then the algorithm will find the minimum-cost maximum-flow.
-So both variations of the problem can be solved by the same algorithm.
+مشاهده این نکته دشوار نیست که اگر $K$ را برابر با بی‌نهایت قرار دهیم، الگوریتم، جریان بیشینه با کمترین هزینه را پیدا خواهد کرد.
+بنابراین هر دو نوع مسئله را می‌توان با همین الگوریتم حل کرد.
 
-### Undirected graphs / multigraphs
+### گراف‌های غیرجهت‌دار / چندگراف‌ها
 
-The case of an undirected graph or a multigraph doesn't differ conceptually from the algorithm above.
-The algorithm will also work on these graphs.
-However it becomes a little more difficult to implement it.
+حالت گراف غیرجهت‌دار یا چندگراف از نظر مفهومی با الگوریتم بالا تفاوتی ندارد.
+این الگوریتم روی این گراف‌ها نیز کار می‌کند. با این حال، پیاده‌سازی آن کمی دشوارتر می‌شود.
 
-An **undirected edge** $(i, j)$ is actually the same as two oriented edges $(i, j)$ and $(j, i)$ with the same capacity and values.
-Since the above-described minimum-cost flow algorithm generates a back edge for each directed edge, so it splits the undirected edge into $4$ directed edges, and we actually get a **multigraph**.
+یک **یال غیرجهت‌دار** $(i, j)$ در واقع معادل دو یال جهت‌دار $(i, j)$ و $(j, i)$ با ظرفیت و هزینه یکسان است.
+از آنجایی که الگوریتم جریان با کمترین هزینه که در بالا توصیف شد برای هر یال جهت‌دار یک یال معکوس ایجاد می‌کند، یک یال غیرجهت‌دار به ۴ یال جهت‌دار تقسیم می‌شود و در نتیجه یک **چندگراف** به دست می‌آید.
 
-How do we deal with **multiple edges**?
-First the flow for each of the multiple edges must be kept separately.
-Secondly, when searching for the shortest path, it is necessary to take into account that it is important which of the multiple edges is used in the path.
-Thus instead of the usual ancestor array we additionally must store the edge number from which we came from along with the ancestor.
-Thirdly, as the flow increases along a certain edge, it is necessary to reduce the flow along the back edge.
-Since we have multiple edges, we have to store the edge number for the reversed edge for each edge.
+چگونه با **یال‌های چندگانه** برخورد کنیم؟
+اولاً، جریان برای هر یک از یال‌های چندگانه باید به طور جداگانه نگهداری شود.
+ثانیاً، هنگام جستجوی کوتاه‌ترین مسیر، باید در نظر داشت که مهم است کدام یک از یال‌های چندگانه در مسیر استفاده می‌شود.
+بنابراین، علاوه بر آرایه معمول والد (ancestor)، باید شماره یالی را که از طریق آن به رأس فعلی رسیده‌ایم نیز همراه با والد ذخیره کنیم.
+ثالثاً، با افزایش جریان در طول یک یال مشخص، لازم است جریان در طول یال معکوس آن کاهش یابد. از آنجایی که یال‌های چندگانه داریم، باید برای هر یال، شماره یال معکوس آن را نیز ذخیره کنیم.
 
-There are no other obstructions with undirected graphs or multigraphs.
+هیچ مانع دیگری در مورد گراف‌های غیرجهت‌دار یا چندگراف‌ها وجود ندارد.
 
-### Complexity
+### پیچیدگی
 
-The algorithm here is generally exponential in the size of the input. To be more specific, in the worst case it may push only as much as $1$ unit of flow on each iteration, taking $O(F)$ iterations to find a minimum-cost flow of size $F$, making a total runtime to be $O(F \cdot T)$, where $T$ is the time required to find the shortest path from source to sink.
+این الگوریتم به طور کلی نسبت به اندازه ورودی نمایی است. به طور دقیق‌تر، در بدترین حالت ممکن است در هر تکرار تنها به اندازه $1$ واحد جریان ارسال کند، که برای پیدا کردن جریان با کمترین هزینه به اندازه $F$، به $O(F)$ تکرار نیاز دارد. این امر زمان اجرای کلی را به $O(F \cdot T)$ می‌رساند، که در آن $T$ زمان لازم برای یافتن کوتاه‌ترین مسیر از منبع به چاهک است.
 
-If [Bellman-Ford](bellman_ford.md) algorithm is used for this, it makes the running time $O(F mn)$. It is also possible to modify [Dijkstra's algorithm](dijkstra.md), so that it needs $O(nm)$ pre-processing as an initial step and then works in $O(m \log n)$ per iteration, making the overall running time to be $O(mn + F m \log n)$. [Here](http://web.archive.org/web/20211009144446/https://min-25.hatenablog.com/entry/2018/03/19/235802) is a generator of a graph, on which such algorithm would require $O(2^{n/2} n^2 \log n)$ time.
+اگر از الگوریتم [Bellman-Ford](bellman_ford.md) برای این کار استفاده شود، زمان اجرا $O(F mn)$ خواهد بود. همچنین می‌توان الگوریتم [Dijkstra](dijkstra.md) را طوری تغییر داد که به عنوان یک گام اولیه به $O(nm)$ پیش‌پردازش نیاز داشته باشد و سپس در هر تکرار در زمان $O(m \log n)$ کار کند، که زمان اجرای کلی را به $O(mn + F m \log n)$ می‌رساند. [اینجا](http://web.archive.org/web/20211009144446/https://min-25.hatenablog.com/entry/2018/03/19/235802) یک مولد گراف وجود دارد که چنین الگوریتمی روی آن به زمان $O(2^{n/2} n^2 \log n)$ نیاز خواهد داشت.
 
-The modified Dijkstra's algorithm uses so-called potentials from [Johnson's algorithm](https://en.wikipedia.org/wiki/Johnson%27s_algorithm). It is possible to combine the ideas of this algorithm and Dinic's algorithm to reduce the number of iterations from $F$ to $\min(F, nC)$, where $C$ is the maximum cost found among edges. You may read further about potentials and their combination with Dinic algorithm [here](https://codeforces.com/blog/entry/105658).
+الگوریتم Dijkstraی تغییریافته از چیزی به نام پتانسیل‌ها از [الگوریتم Johnson](https://en.wikipedia.org/wiki/Johnson%27s_algorithm) استفاده می‌کند. می‌توان ایده‌های این الگوریتم و الگوریتم Dinic را ترکیب کرد تا تعداد تکرارها را از $F$ به $\min(F, nC)$ کاهش داد، که در آن $C$ بیشترین هزینه یافت‌شده در میان یال‌ها است. می‌توانید در مورد پتانسیل‌ها و ترکیب آن‌ها با الگوریتم Dinic [اینجا](https://codeforces.com/blog/entry/105658) بیشتر بخوانید.
 
-## Implementation
+## پیاده‌سازی
 
-Here is an implementation using the [SPFA algorithm](bellman_ford.md) for the simplest case.
+در اینجا یک پیاده‌سازی با استفاده از [الگوریتم SPFA](bellman_ford.md) برای ساده‌ترین حالت آورده شده است.
 
-```{.cpp file=min_cost_flow_successive_shortest_path}
+```cpp
 struct Edge
 {
     int from, to, capacity, cost;
@@ -161,7 +159,7 @@ int min_cost_flow(int N, vector<Edge> edges, int K, int s, int t) {
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
 * [CSES - Task Assignment](https://cses.fi/problemset/task/2129)
 * [CSES - Grid Puzzle II](https://cses.fi/problemset/task/2131)

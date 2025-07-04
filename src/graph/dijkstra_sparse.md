@@ -1,51 +1,50 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: dijkstra_sparse
 ---
 
-# Dijkstra on sparse graphs
+# الگوریتم دایکسترا روی گراف‌های خلوت
 
-For the statement of the problem, the algorithm with implementation and proof can be found on the article [Dijkstra's algorithm](dijkstra.md).
+برای صورت مسئله، خود الگوریتم به همراه پیاده‌سازی و اثبات آن را می‌توانید در مقاله [الگوریتم دایکسترا](dijkstra.md) پیدا کنید.
 
-## Algorithm
+## الگوریتم
 
-We recall in the derivation of the complexity of Dijkstra's algorithm we used two factors:
-the time of finding the unmarked vertex with the smallest distance $d[v]$, and the time of the relaxation, i.e. the time of changing the values $d[\text{to}]$.
+یادآوری می‌کنیم که در استخراج پیچیدگی زمانی الگوریتم دایکسترا از دو عامل استفاده کردیم:
+زمان پیدا کردن رأس علامت‌نخورده با کمترین فاصله $d[v]$، و زمان عملیات relax کردن، یعنی زمان تغییر مقادیر $d[\text{to}]$.
 
-In the simplest implementation these operations require $O(n)$ and $O(1)$ time.
-Therefore, since we perform the first operation $O(n)$ times, and the second one $O(m)$ times, we obtained the complexity $O(n^2 + m)$.
+در ساده‌ترین پیاده‌سازی، این عملیات به ترتیب به زمان $O(n)$ و $O(1)$ نیاز دارند.
+بنابراین، از آنجایی که عملیات اول را $O(n)$ بار و عملیات دوم را $O(m)$ بار انجام می‌دهیم، به پیچیدگی زمانی $O(n^2 + m)$ رسیدیم.
 
-It is clear, that this complexity is optimal for a dense graph, i.e. when $m \approx n^2$.
-However in sparse graphs, when $m$ is much smaller than the maximal number of edges $n^2$, the complexity gets less optimal because of the first term.
-Thus it is necessary to improve the execution time of the first operation (and of course without greatly affecting the second operation by much).
+واضح است که این پیچیدگی برای یک گراف متراکم (dense)، یعنی زمانی که $m \approx n^2$ است، بهینه است.
+اما در گراف‌های خلوت (sparse)، یعنی زمانی که $m$ بسیار کوچکتر از حداکثر تعداد یال‌ها ($n^2$) است، این پیچیدگی به خاطر بخش اول، دیگر بهینه نیست.
+بنابراین، لازم است زمان اجرای عملیات اول را بهبود ببخشیم (و البته بدون اینکه تأثیر زیادی روی عملیات دوم بگذاریم).
 
-To accomplish that we can use a variation of multiple auxiliary data structures.
-The most efficient is the **Fibonacci heap**, which allows the first operation to run in $O(\log n)$, and the second operation in $O(1)$.
-Therefore we will get the complexity $O(n \log n + m)$ for Dijkstra's algorithm, which is also the theoretical minimum for the shortest path search problem.
-Therefore this algorithm works optimal, and Fibonacci heaps are the optimal data structure.
-There doesn't exist any data structure, that can perform both operations in $O(1)$, because this would also allow to sort a list of random numbers in linear time, which is impossible.
-Interestingly there exists an algorithm by Thorup that finds the shortest path in $O(m)$ time, however only works for integer weights, and uses a completely different idea.
-So this doesn't lead to any contradictions.
-Fibonacci heaps provide the optimal complexity for this task.
-However they are quite complex to implement, and also have a quite large hidden constant.
+برای این کار، می‌توانیم از انواع مختلفی از ساختمان داده‌های کمکی استفاده کنیم.
+کارآمدترین آن‌ها **Fibonacci heap** است که به عملیات اول اجازه می‌دهد در زمان $O(\log n)$ و به عملیات دوم در زمان $O(1)$ اجرا شود.
+در نتیجه برای الگوریتم دایکسترا به پیچیدگی $O(n \log n + m)$ می‌رسیم که حداقل پیچیدگی نظری برای مسئله جستجوی کوتاه‌ترین مسیر نیز هست.
+بنابراین این الگوریتم بهینه عمل می‌کند و Fibonacci heapها ساختمان داده بهینه‌ای هستند.
+هیچ ساختمان داده‌ای وجود ندارد که بتواند هر دو عملیات را در زمان $O(1)$ انجام دهد، زیرا این کار امکان مرتب‌سازی یک لیست از اعداد تصادفی در زمان خطی را فراهم می‌کرد که غیرممکن است.
+جالب اینجاست که الگوریتمی از Thorup وجود دارد که کوتاه‌ترین مسیر را در زمان $O(m)$ پیدا می‌کند، اما فقط برای وزن‌های صحیح کار می‌کند و از ایده‌ای کاملاً متفاوت استفاده می‌کند.
+بنابراین این موضوع هیچ تناقضی ایجاد نمی‌کند.
+Fibonacci heapها پیچیدگی بهینه‌ای برای این کار فراهم می‌کنند.
+با این حال، پیاده‌سازی آن‌ها بسیار پیچیده است و همچنین ضریب ثابت پنهان بزرگی دارند.
 
-As a compromise you can use data structures, that perform both types of operations (extracting a minimum and updating an item) in $O(\log n)$.
-Then the complexity of Dijkstra's algorithm is $O(n \log n + m \log n) = O(m \log n)$.
+به عنوان یک راه حل میانه، می‌توانید از ساختمان داده‌هایی استفاده کنید که هر دو نوع عملیات (استخراج کمینه و به‌روزرسانی یک آیتم) را در زمان $O(\log n)$ انجام می‌دهند.
+در این صورت پیچیدگی الگوریتم دایکسترا $O(n \log n + m \log n) = O(m \log n)$ خواهد بود.
 
-C++ provides two such data structures: `set` and `priority_queue`.
-The first is based on red-black trees, and the second one on heaps.
-Therefore `priority_queue` has a smaller hidden constant, but also has a drawback:
-it doesn't support the operation of removing an element.
-Because of this we need to do a "workaround", that actually leads to a slightly worse factor $\log m$ instead of $\log n$ (although in terms of complexity they are identical).
+زبان C++ دو نوع از این ساختمان داده‌ها را فراهم می‌کند: `set` و `priority_queue`.
+اولی بر اساس درخت‌های قرمز-سیاه (red-black trees) و دومی بر اساس هیپ (heap) است.
+بنابراین `priority_queue` ضریب ثابت پنهان کوچکتری دارد، اما یک عیب هم دارد: از عملیات حذف یک عنصر پشتیبانی نمی‌کند.
+به همین دلیل باید از یک «راه‌حل جایگزین» استفاده کنیم که در واقع منجر به یک ضریب کمی بدتر $\log m$ به جای $\log n$ می‌شود (اگرچه از نظر پیچیدگی یکسان هستند).
 
-## Implementation
+## پیاده‌سازی
 
 ### set
 
-Let us start with the container `set`.
-Since we need to store vertices ordered by their values $d[]$, it is convenient to store actual pairs: the distance and the index of the vertex.
-As a result in a `set` pairs are automatically sorted by their distances.
+با کانتینر `set` شروع می‌کنیم.
+از آنجایی که باید رئوس را بر اساس مقادیرشان در آرایه $d[]$ مرتب نگه داریم، مناسب است که زوج‌های واقعی را ذخیره کنیم: فاصله و اندیس رأس.
+در نتیجه، در یک `set`، زوج‌ها به طور خودکار بر اساس فاصله‌شان مرتب می‌شوند.
 
 ```{.cpp file=dijkstra_sparse_set}
 const int INF = 1000000000;
@@ -78,26 +77,26 @@ void dijkstra(int s, vector<int> & d, vector<int> & p) {
 }
 ```
 
-We don't need the array $u[]$ from the normal Dijkstra's algorithm implementation any more.
-We will use the `set` to store that information, and also find the vertex with the shortest distance with it.
-It kinda acts like a queue.
-The main loops executes until there are no more vertices in the set/queue.
-A vertex with the smallest distance gets extracted, and for each successful relaxation we first remove the old pair, and then after the relaxation add the new pair into the queue.
+دیگر به آرایه $u[]$ از پیاده‌سازی عادی الگوریتم دایکسترا نیازی نداریم.
+ما از `set` برای ذخیره آن اطلاعات و همچنین پیدا کردن رأس با کوتاه‌ترین فاصله استفاده خواهیم کرد.
+این ساختار تا حدی شبیه به یک صف عمل می‌کند.
+حلقه اصلی تا زمانی اجرا می‌شود که هیچ رأس دیگری در set/صف باقی نمانده باشد.
+رأسی با کمترین فاصله استخراج می‌شود و برای هر عملیات relax موفق، ابتدا زوج قدیمی را حذف کرده و سپس پس از relax، زوج جدید را به صف اضافه می‌کنیم.
 
 ### priority_queue
 
-The main difference to the implementation with `set` is that in many languages, including C++, we cannot remove elements from the `priority_queue` (although heaps can support that operation in theory).
-Therefore we have to use a workaround:
-We simply don't delete the old pair from the queue.
-As a result a vertex can appear multiple times with different distance in the queue at the same time.
-Among these pairs we are only interested in the pairs where the first element is equal to the corresponding value in $d[]$, all the other pairs are old.
-Therefore we need to make a small modification:
-at the beginning of each iteration, after extracting the next pair, we check if it is an important pair or if it is already an old and handled pair.
-This check is important, otherwise the complexity can increase up to $O(n m)$.
+تفاوت اصلی با پیاده‌سازی با `set` این است که در بسیاری از زبان‌ها، از جمله C++، نمی‌توانیم عناصری را از `priority_queue` حذف کنیم (اگرچه هیپ‌ها در تئوری می‌توانند از این عملیات پشتیبانی کنند).
+بنابراین، باید از یک راه‌حل جایگزین استفاده کنیم:
+ما به سادگی زوج قدیمی را از صف حذف نمی‌کنیم.
+در نتیجه، یک رأس می‌تواند چندین بار با فاصله‌های مختلف به طور همزمان در صف ظاهر شود.
+از میان این زوج‌ها، ما فقط به زوج‌هایی علاقه‌مندیم که عنصر اول آن‌ها برابر با مقدار متناظر در $d[]$ باشد؛ تمام زوج‌های دیگر قدیمی هستند.
+بنابراین، باید یک تغییر کوچک ایجاد کنیم:
+در ابتدای هر تکرار، پس از استخراج زوج بعدی، بررسی می‌کنیم که آیا این یک زوج مهم است یا یک زوج قدیمی و پردازش‌شده.
+این بررسی مهم است، در غیر این صورت پیچیدگی زمانی می‌تواند تا $O(n m)$ افزایش یابد.
 
-By default a `priority_queue` sorts elements in descending order.
-To make it sort the elements in ascending order, we can either store the negated distances in it, or pass it a different sorting function.
-We will do the second option.
+به طور پیش‌فرض، یک `priority_queue` عناصر را به ترتیب نزولی مرتب می‌کند.
+برای اینکه عناصر را به ترتیب صعودی مرتب کند، می‌توانیم یا فاصله‌های منفی شده را در آن ذخیره کنیم، یا یک تابع مرتب‌سازی متفاوت به آن پاس دهیم.
+ما گزینه دوم را انجام خواهیم داد.
 
 ```{.cpp file=dijkstra_sparse_pq}
 const int INF = 1000000000;
@@ -133,20 +132,20 @@ void dijkstra(int s, vector<int> & d, vector<int> & p) {
 }
 ```
 
-In practice the `priority_queue` version is a little bit faster than the version with `set`.
+در عمل، نسخه با `priority_queue` کمی سریع‌تر از نسخه با `set` است.
 
-Interestingly, a [2007 technical report](https://www3.cs.stonybrook.edu/~rezaul/papers/TR-07-54.pdf) concluded the variant of the algorithm not using decrease-key operations ran faster than the decrease-key variant, with a greater performance gap for sparse graphs.
+جالب اینجاست که یک [گزارش فنی در سال ۲۰۰۷](https://www3.cs.stonybrook.edu/~rezaul/papers/TR-07-54.pdf) به این نتیجه رسید که نسخه‌ای از الگوریتم که از عملیات decrease-key استفاده نمی‌کند، سریع‌تر از نسخه با decrease-key اجرا می‌شود و این اختلاف عملکرد برای گراف‌های خلوت بیشتر است.
 
-### Getting rid of pairs
+### خلاص شدن از زوج‌ها
 
-You can improve the performance a little bit more if you don't store pairs in the containers, but only the vertex indices.
-In this case we must overload the comparison operator:
-it must compare two vertices using the distances stored in $d[]$.
+می‌توانید با ذخیره نکردن زوج‌ها در کانتینرها و تنها ذخیره کردن اندیس رئوس، عملکرد را کمی بیشتر بهبود ببخشید.
+در این حالت، باید عملگر مقایسه را overload کنیم:
+این عملگر باید دو رأس را با استفاده از فاصله‌های ذخیره شده در $d[]$ مقایسه کند.
 
-As a result of the relaxation, the distance of some vertices will change.
-However the data structure will not resort itself automatically.
-In fact changing distances of vertices in the queue, might destroy the data structure.
-As before, we need to remove the vertex before we relax it, and then insert it again afterwards.
+در نتیجه عملیات relax، فاصله برخی از رئوس تغییر خواهد کرد.
+اما ساختمان داده به طور خودکار خود را دوباره مرتب نمی‌کند.
+در واقع، تغییر فاصله رئوس در صف ممکن است ساختار داده را از بین ببرد.
+مانند قبل، باید رأس را قبل از relax کردن حذف کرده و سپس دوباره آن را درج کنیم.
 
-Since we only can remove from `set`, this optimization is only applicable for the `set` method, and doesn't work with `priority_queue` implementation.
-In practice this significantly increases the performance, especially when larger data types are used to store distances, like `long long` or `double`.
+از آنجایی که فقط می‌توانیم از `set` حذف کنیم، این بهینه‌سازی فقط برای روش با `set` قابل اجرا است و با پیاده‌سازی `priority_queue` کار نمی‌کند.
+در عمل این کار عملکرد را به طور قابل توجهی افزایش می‌دهد، به خصوص زمانی که از انواع داده بزرگتر مانند `long long` یا `double` برای ذخیره فاصله‌ها استفاده می‌شود.

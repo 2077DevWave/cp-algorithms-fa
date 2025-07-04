@@ -1,60 +1,59 @@
 ---
 tags:
-  - Translated
-e_maxx_link: lca_linear_offline
+  - AI Translated
+e_maxx_link: lca_tarjan
 ---
 
-# Lowest Common Ancestor - Tarjan's off-line algorithm
+# پایین‌ترین جد مشترک - الگوریتم آفلاین تارجان
 
-We have a tree $G$ with $n$ nodes and we have $m$ queries of the form $(u, v)$.
-For each query $(u, v)$ we want to find the lowest common ancestor of the vertices $u$ and $v$, i.e. the node that is an ancestor of both $u$ and $v$ and has the greatest depth in the tree.
-The node $v$ is also an ancestor of $v$, so the LCA can also be one of the two nodes.
+درختی به نام $G$ با $n$ رأس و $m$ پرس‌وجو (query) به شکل $(u, v)$ داریم.
+برای هر پرس‌وجوی $(u, v)$، می‌خواهیم پایین‌ترین جد مشترک (LCA) دو رأس $u$ و $v$ را پیدا کنیم؛ یعنی رأسی که هم جد $u$ و هم جد $v$ باشد و بیشترین عمق را در درخت داشته باشد.
+هر رأس جد خودش نیز محسوب می‌شود، بنابراین LCA می‌تواند یکی از خود دو رأس باشد.
 
-In this article we will solve the problem off-line, i.e. we assume that all queries are known in advance, and we therefore answer the queries in any order we like.
-The following algorithm allows to answer all $m$ queries in $O(n + m)$ total time, i.e. for sufficiently large $m$ in $O(1)$ for each query.
+در این مقاله، مسئله را به صورت آفلاین حل می‌کنیم؛ یعنی فرض می‌کنیم تمام پرس‌وجوها از قبل مشخص هستند و بنابراین می‌توانیم به آن‌ها با هر ترتیبی که بخواهیم پاسخ دهیم.
+الگوریتم زیر به ما اجازه می‌دهد تا به تمام $m$ پرس‌وجو در زمان کلی $O(n + m)$ پاسخ دهیم، یعنی برای مقادیر به اندازه‌ی کافی بزرگ $m$، زمان پاسخ به هر پرس‌وجو $O(1)$ خواهد بود.
 
-## Algorithm
+## الگوریتم
 
-The algorithm is named after Robert Tarjan, who discovered it in 1979 and also made many other contributions to the [Disjoint Set Union](../data_structures/disjoint_set_union.md) data structure, which will be heavily used in this algorithm.
+این الگوریتم به نام رابرت تارجان نام‌گذاری شده است که آن را در سال ۱۹۷۹ کشف کرد و همچنین کمک‌های شایان دیگری به ساختار داده‌ی [اجتماع مجموعه‌های مجزا (Disjoint Set Union)](../data_structures/disjoint_set_union.md) کرده است که در این الگوریتم به طور گسترده استفاده می‌شود.
 
-The algorithm answers all queries with one [DFS](depth-first-search.md) traversal of the tree.
-Namely a query $(u, v)$ is answered at node $u$, if node $v$ has already been visited previously, or vice versa.
+این الگوریتم با یک پیمایش [DFS](depth-first-search.md) روی درخت به تمام پرس‌وجوها پاسخ می‌دهد.
+به طور مشخص، یک پرس‌وجوی $(u, v)$ در رأس $u$ پاسخ داده می‌شود، اگر رأس $v$ قبلاً پیمایش شده باشد، یا برعکس.
 
-So let's assume we are currently at node $v$, we have already made recursive DFS calls, and also already visited the second node $u$ from the query $(u, v)$.
-Let's learn how to find the LCA of these two nodes.
+پس فرض کنیم در حال حاضر در رأس $v$ هستیم، فراخوانی‌های بازگشتی DFS را انجام داده‌ایم و همچنین رأس دیگر پرس‌وجوی $(u, v)$ یعنی $u$ را نیز پیمایش کرده‌ایم.
+بیایید ببینیم چگونه LCA این دو رأس را پیدا کنیم.
 
-Note that $\text{LCA}(u, v)$ is either the node $v$ or one of its ancestors.
-So we need to find the lowest node among the ancestors of $v$ (including $v$), for which the node $u$ is a descendant. 
-Also note that for a fixed $v$ the visited nodes of the tree split into a set of disjoint sets. 
-Each ancestor $p$ of node $v$ has his own set containing this node and all subtrees with roots in those of its children who are not part of the path from $v$ to the root of the tree.
-The set which contains the node $u$ determines the $\text{LCA}(u, v)$:
-the LCA is the representative of the set, namely the node on lies on the path between $v$ and the root of the tree.
+توجه داشته باشید که $\text{LCA}(u, v)$ یا خود رأس $v$ است یا یکی از اجداد آن.
+بنابراین باید پایین‌ترین رأس در میان اجداد $v$ (شامل خود $v$) را پیدا کنیم که رأس $u$ از نوادگان آن باشد.
+همچنین توجه کنید که برای یک $v$ ثابت، رأس‌های پیمایش‌شده‌ی درخت به مجموعه‌ای از مجموعه‌های مجزا تقسیم می‌شوند.
+هر جد $p$ از رأس $v$، مجموعه‌ی مخصوص به خود را دارد. این مجموعه شامل خود رأس $p$ و تمام زیردرخت‌هایی است که ریشه‌شان فرزندان $p$ بوده و در مسیر بین $v$ و ریشه‌ی اصلی درخت قرار ندارند.
+مجموعه‌ای که رأس $u$ در آن قرار دارد، $\text{LCA}(u, v)$ را مشخص می‌کند: LCA همان نماینده‌ی آن مجموعه است، یعنی رأسی که روی مسیر بین $v$ و ریشه‌ی درخت قرار دارد.
 
-We only need to learn to efficiently maintain all these sets.
-For this purpose we apply the data structure DSU.
-To be able to apply Union by rank, we store the real representative (the value on the path between $v$ and the root of the tree) of each set in the array `ancestor`.
+کافی است یاد بگیریم چگونه تمام این مجموعه‌ها را به صورت بهینه نگهداری کنیم.
+برای این منظور، از ساختار داده‌ی DSU استفاده می‌کنیم.
+برای اینکه بتوانیم از Union by rank استفاده کنیم، نماینده‌ی واقعی هر مجموعه (یعنی رأسی که در مسیر بین $v$ و ریشه درخت قرار دارد) را در آرایه‌ی `ancestor` ذخیره می‌کنیم.
 
-Let's discuss the implementation of the DFS.
-Let's assume we are currently visiting the node $v$.
-We place the node in a new set in the DSU, `ancestor[v] = v`.
-As usual we process all children of $v$.
-For this we must first recursively call DFS from that node, and then add this node with all its subtree to the set of $v$.
-This can be done with the function `union_sets` and the following assignment `ancestor[find_set(v)] = v` (this is necessary, because `union_sets` might change the representative of the set).
+بیایید پیاده‌سازی DFS را بررسی کنیم.
+فرض کنید در حال پیمایش رأس $v$ هستیم.
+این رأس را در یک مجموعه‌ی جدید در DSU قرار می‌دهیم، `ancestor[v] = v`.
+طبق معمول، تمام فرزندان $v$ را پردازش می‌کنیم.
+برای این کار، ابتدا به صورت بازگشتی DFS را از آن فرزند فراخوانی می‌کنیم و سپس آن فرزند را به همراه تمام زیردرختش به مجموعه‌ی $v$ اضافه می‌کنیم.
+این کار را می‌توان با تابع `union_sets` و انتساب زیر انجام داد: `ancestor[find_set(v)] = v` (این کار ضروری است، زیرا `union_sets` ممکن است نماینده‌ی مجموعه را تغییر دهد).
 
-Finally after processing all children we can answer all queries of the form $(u, v)$ for which $u$ has been already visited.
-The answer to the query, i.e. the LCA of $u$ and $v$, will be the node `ancestor[find_set(u)]`.
-It is easy to see that a query will only be answered once.
+در نهایت، پس از پردازش تمام فرزندان، می‌توانیم به تمام پرس‌وجوهای به شکل $(u, v)$ که در آن‌ها $u$ قبلاً پیمایش شده است، پاسخ دهیم.
+پاسخ پرس‌وجو، یعنی LCA دو رأس $u$ و $v$، برابر با رأس `ancestor[find_set(u)]` خواهد بود.
+به راحتی می‌توان دید که هر پرس‌وجو تنها یک بار پاسخ داده می‌شود.
 
-Let's us determine the time complexity of this algorithm. 
-Firstly we have $O(n)$ because of the DFS.
-Secondly  we have the function calls of `union_sets` which happen $n$ times, resulting also in $O(n)$.
-And thirdly we have the calls of `find_set` for every query, which gives $O(m)$.
-So in total the time complexity is $O(n + m)$, which means that for sufficiently large $m$ this corresponds to $O(1)$ for answering one query.
+بیایید پیچیدگی زمانی این الگوریتم را مشخص کنیم.
+اولاً، به دلیل وجود DFS، پیچیدگی زمانی $O(n)$ داریم.
+دوماً، فراخوانی‌های تابع `union_sets` را داریم که $n$ بار اتفاق می‌افتند و در نتیجه $O(n)$ زمان می‌برند.
+و سوماً، فراخوانی‌های تابع `find_set` برای هر پرس‌وجو را داریم که پیچیدگی $O(m)$ را نتیجه می‌دهد.
+بنابراین، در مجموع پیچیدگی زمانی برابر با $O(n + m)$ است، که به این معناست که برای مقادیر به اندازه‌ی کافی بزرگ $m$، این پیچیدگی معادل $O(1)$ برای پاسخ به هر پرس‌وجو است.
 
-## Implementation
+## پیاده‌سازی
 
-Here is an implementation of this algorithm.
-The implementation of DSU has been not included, as it can be used without any modifications.
+در ادامه پیاده‌سازی این الگوریتم آمده است.
+پیاده‌سازی DSU در اینجا آورده نشده است، زیرا می‌توان از آن بدون هیچ تغییری استفاده کرد.
 
 ```cpp
 vector<vector<int>> adj;
@@ -75,13 +74,13 @@ void dfs(int v)
     }
     for (int other_node : queries[v]) {
         if (visited[other_node])
-            cout << "LCA of " << v << " and " << other_node
-                 << " is " << ancestor[find_set(other_node)] << ".\n";
+            cout << "LCA رئوس " << v << " و " << other_node
+                 << " برابر است با " << ancestor[find_set(other_node)] << ".\n";
     }
 }
 
 void compute_LCAs() {
-    // initialize n, adj and DSU
+    // مقداردهی اولیه n، adj و DSU
     // for (each query (u, v)) {
     //    queries[u].push_back(v);
     //    queries[v].push_back(u);

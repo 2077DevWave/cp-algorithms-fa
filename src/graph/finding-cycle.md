@@ -1,23 +1,22 @@
 ---
-title: Checking a graph for acyclicity and finding a cycle in O(M)
 tags:
-  - Translated
-e_maxx_link: finding_cycle
+  - AI Translated
+e_maxx_link: finding-cycle
 ---
-# Checking a graph for acyclicity and finding a cycle in $O(M)$
 
-Consider a directed or undirected graph without loops and multiple edges. We have to check whether it is acyclic, and if it is not, then find any cycle.
+# بررسی غیرمدور بودن یک گراف و پیدا کردن یک دور در $O(M)$
 
-We can solve this problem by using [Depth First Search](depth-first-search.md) in $O(M)$ where $M$ is number of edges.
+یک گراف جهت‌دار یا بدون جهت را بدون طوقه و یال چندگانه در نظر بگیرید. می‌خواهیم بررسی کنیم که آیا این گراف غیرمدور است یا خیر، و اگر نبود، یک دور در آن پیدا کنیم.
 
-## Algorithm
+می‌توانیم این مسئله را با استفاده از [جستجوی اول عمق (DFS)](depth-first-search.md) در زمان $O(M)$ حل کنیم، که در آن $M$ تعداد یال‌ها است.
 
-We will run a series of DFS in the graph. Initially all vertices are colored white (0). From each unvisited (white) vertex, start the DFS, mark it gray (1) while entering and mark it black (2) on exit. If DFS moves to a gray vertex, then we have found a cycle (if the graph is undirected, the edge to parent is not considered).
-The cycle itself can be reconstructed using parent array.
+## الگوریتم
 
-## Implementation
+یک سری DFS در گراف اجرا می‌کنیم. در ابتدا تمام رئوس سفید (0) رنگ می‌شوند. از هر رأس ملاقات‌نشده (سفید)، DFS را شروع می‌کنیم، هنگام ورود به آن، آن را خاکستری (1) و هنگام خروج، آن را سیاه (2) علامت می‌زنیم. اگر DFS به یک رأس خاکستری حرکت کند، آنگاه یک دور پیدا کرده‌ایم (اگر گراف بدون جهت باشد، یال منتهی به رأس والد در نظر گرفته نمی‌شود). خودِ دور را می‌توان با استفاده از آرایه `parent` بازسازی کرد.
 
-Here is an implementation for directed graph.
+## پیاده‌سازی
+
+این یک پیاده‌سازی برای گراف جهت‌دار است.
 
 ```cpp
 int n;
@@ -71,12 +70,12 @@ void find_cycle() {
 }
 ```
 
-Here is an implementation for undirected graph.
-Note that in the undirected version, if a vertex `v` gets colored black, it will never be visited again by the DFS.
-This is because we already explored all connected edges of `v` when we first visited it.
-The connected component containing `v` (after removing the edge between `v` and its parent) must be a tree, if the DFS has completed processing `v` without finding a cycle.
-So we don't even need to distinguish between gray and black states.
-Thus we can turn the char vector `color` into a boolean vector `visited`.
+این یک پیاده‌سازی برای گراف بدون جهت است.
+توجه داشته باشید که در نسخه بدون جهت، اگر رأسی مانند `v` سیاه رنگ شود، دیگر هرگز توسط DFS ملاقات نخواهد شد.
+دلیل این امر این است که ما قبلاً هنگام اولین ملاقات با `v`، تمام یال‌های متصل به آن را پیمایش کرده‌ایم.
+مؤلفه همبندی شامل `v` (پس از حذف یال بین `v` و والدش) باید یک درخت باشد، اگر DFS پردازش `v` را بدون یافتن دور به پایان رسانده باشد.
+بنابراین، حتی نیازی به تمایز بین حالت‌های خاکستری و سیاه نداریم.
+در نتیجه می‌توانیم وکتور `char` به نام `color` را به یک وکتور `boolean` به نام `visited` تبدیل کنیم.
 
 ```cpp
 int n;
@@ -85,10 +84,10 @@ vector<bool> visited;
 vector<int> parent;
 int cycle_start, cycle_end;
 
-bool dfs(int v, int par) { // passing vertex and its parent vertex
+bool dfs(int v, int par) { // ارسال رأس و رأس والد آن
     visited[v] = true;
     for (int u : adj[v]) {
-        if(u == par) continue; // skipping edge to parent vertex
+        if(u == par) continue; // صرف‌نظر کردن از یال منتهی به رأس والد
         if (visited[u]) {
             cycle_end = v;
             cycle_start = u;
@@ -127,7 +126,7 @@ void find_cycle() {
     }
 }
 ```
-### Practice problems:
+### مسائل تمرینی:
 
 - [AtCoder : Reachability in Functional Graph](https://atcoder.jp/contests/abc357/tasks/abc357_e)
 - [CSES : Round Trip](https://cses.fi/problemset/task/1669)

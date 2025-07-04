@@ -1,7 +1,6 @@
 ---
 tags:
-  - Translated
-  - Translated-fa
+    - AI Translated
 e_maxx_link: stacks_for_minima
 ---
 

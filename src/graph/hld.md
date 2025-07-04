@@ -1,118 +1,108 @@
 ---
 tags:
-  - Translated
-e_maxx_link: heavy_light
+  - AI Translated
+e_maxx_link: hld
 ---
 
-# Heavy-light decomposition
+# تجزیه سنگین-سبک (Heavy-light decomposition)
 
-**Heavy-light decomposition** is a fairly general technique that allows us to effectively solve many problems that come down to **queries on a tree** .
+**تجزیه سنگین-سبک (Heavy-light decomposition)** یک تکنیک نسبتاً کلی است که به ما اجازه می‌دهد بسیاری از مسائلی را که به **پرس‌وجو روی یک درخت** خلاصه می‌شوند، به طور مؤثر حل کنیم.
 
+## شرح
 
-## Description
+درختی با $n$ رأس و یک ریشه دلخواه به نام $G$ را در نظر بگیرید.
 
-Let there be a tree $G$ of $n$ vertices, with an arbitrary root.
+ماهیت این تجزیه درخت، **شکستن درخت به چندین مسیر** است به طوری که بتوانیم از هر رأس $v$ با پیمایش حداکثر $\log n$ مسیر به رأس ریشه برسیم. علاوه بر این، هیچ‌کدام از این مسیرها نباید با دیگری اشتراک داشته باشند.
 
-The essence of this tree decomposition is to **split the tree into several paths** so that we can reach the root vertex from any $v$ by traversing at most $\log n$ paths. In addition, none of these paths should intersect with another.
+واضح است که اگر چنین تجزیه‌ای برای هر درختی پیدا کنیم، به ما این امکان را می‌دهد که برخی پرس‌وجوهای تکی از نوع *«محاسبه چیزی روی مسیر از $a$ به $b$»* را به چندین پرس‌وجو از نوع *«محاسبه چیزی روی بازه $[l, r]$ از مسیر $k$-ام»* کاهش دهیم.
 
-It is clear that if we find such a decomposition for any tree, it will allow us to reduce certain single queries of the form *“calculate something on the path from $a$ to $b$”* to several queries of the type *”calculate something on the segment $[l, r]$ of the $k^{th}$ path”*.
+### الگوریتم ساخت
 
+برای هر رأس $v$ اندازه زیردرخت آن، یعنی $s(v)$، را محاسبه می‌کنیم که همان تعداد رأس‌های زیردرخت رأس $v$ به انضمام خود آن است.
 
-### Construction algorithm
-
-We calculate for each vertex $v$ the size of its subtree  $s(v)$, i.e. the number of vertices in the subtree of the vertex $v$ including itself.
-
-Next, consider all the edges leading to the children of a vertex $v$. We call an edge  **heavy** if it leads to a vertex $c$ such that:
+سپس، تمام یال‌هایی را که از یک رأس $v$ به فرزندانش می‌روند در نظر می‌گیریم. یک یال را **سنگین (heavy)** می‌نامیم اگر به رأسی مانند $c$ برود به طوری که:
 
 $$
-s(c) \ge \frac{s(v)}{2} \iff \text{edge }(v, c)\text{ is heavy}
+s(c) \ge \frac{s(v)}{2} \iff \text{یال }(v, c)\text{ سنگین است}
 $$
 
-All other edges are labeled **light**.
+تمام یال‌های دیگر **سبک (light)** نامیده می‌شوند.
 
-It is obvious that at most one heavy edge can emanate from one vertex downward, because otherwise the vertex $v$ would have at least two children of size $\ge \frac{s(v)}{2}$, and therefore the size of subtree of $v$ would be too big, $s(v) \ge 1 + 2 \frac{s(v)}{2} > s(v)$, which leads to a contradiction.
+بدیهی است که از هر رأس حداکثر یک یال سنگین می‌تواند به سمت پایین خارج شود، زیرا در غیر این صورت رأس $v$ حداقل دو فرزند با اندازه $\ge \frac{s(v)}{2}$ می‌داشت و در نتیجه اندازه زیردرخت $v$ بسیار بزرگ می‌شد، $s(v) \ge 1 + 2 \frac{s(v)}{2} > s(v)$، که به تناقض منجر می‌شود.
 
-Now we will decompose the tree into disjoint paths. Consider all the vertices from which no heavy edges come down. We will go up from each such vertex until we reach the root of the tree or go through a light edge. As a result, we will get several paths which are made up of zero or more heavy edges plus one light edge. The path which has an end at the root is an exception to this and will not have a light edge. Let these be called **heavy paths** - these are the desired paths of heavy-light decomposition.
+اکنون درخت را به مسیرهای مجزا تجزیه می‌کنیم. تمام رأس‌هایی را که هیچ یال سنگینی از آن‌ها به پایین خارج نمی‌شود در نظر بگیرید. از هر کدام از این رأس‌ها به سمت بالا حرکت می‌کنیم تا به ریشه درخت برسیم یا از یک یال سبک عبور کنیم. در نتیجه، چندین مسیر به دست می‌آوریم که از صفر یا چند یال سنگین به علاوه یک یال سبک تشکیل شده‌اند. مسیری که به ریشه ختم می‌شود از این قاعده مستثناست و یال سبک نخواهد داشت. این مسیرها را **مسیرهای سنگین (heavy paths)** می‌نامیم - این‌ها همان مسیرهای مطلوب تجزیه سنگین-سبک هستند.
 
+### اثبات درستی
 
-### Proof of correctness
+ابتدا، توجه می‌کنیم که مسیرهای سنگین به دست آمده توسط این الگوریتم، **مجزا** خواهند بود. در واقع، اگر دو مسیر از این نوع یک یال مشترک داشته باشند، به این معنی است که دو یال سنگین از یک رأس خارج شده‌اند، که غیرممکن است.
 
-First, we note that the heavy paths obtained by the algorithm will be **disjoint** . In fact, if two such paths have a common edge, it would imply that there are two heavy edges coming out of one vertex, which is impossible.
-
-Secondly, we will show that going down from the root of the tree to an arbitrary vertex, we will **change no more than $\log n$ heavy paths along the way** . Moving down a light edge reduces the size of the current subtree to half or lower:
+دوم اینکه، نشان می‌دهیم که با حرکت از ریشه درخت به سمت پایین به یک رأس دلخواه، در طول مسیر **بیش از $\log n$ بار مسیر سنگین را عوض نخواهیم کرد**. حرکت به سمت پایین از طریق یک یال سبک، اندازه زیردرخت فعلی را به نصف یا کمتر کاهش می‌دهد:
 
 $$
-s(c) < \frac{s(v)}{2} \iff \text{edge }(v, c)\text{ is light}
+s(c) < \frac{s(v)}{2} \iff \text{یال }(v, c)\text{ سبک است}
 $$
 
+بنابراین، ما می‌توانیم حداکثر از $\log n$ یال سبک عبور کنیم تا اندازه زیردرخت به یک کاهش یابد.
 
-Thus, we can go through at most $\log n$ light edges before subtree size reduces to one.
+از آنجایی که ما فقط می‌توانیم از طریق یک یال سبک از یک مسیر سنگین به مسیر دیگر برویم (هر مسیر سنگین، به جز مسیری که از ریشه شروع می‌شود، یک یال سبک دارد)، ما نمی‌توانیم در طول مسیر از ریشه به هر رأس، بیش از $\log n$ بار مسیر سنگین را عوض کنیم، همان‌طور که می‌خواستیم.
 
-Since we can move from one heavy path to another only through a light edge (each heavy path, except the one starting at the root, has one light edge), we cannot change heavy paths more than $\log n$ times along the path from the root to any vertex, as required.
-
-
-The following image illustrates the decomposition of a sample tree. The heavy edges are thicker than the light edges. The heavy paths are marked by dotted boundaries.
+تصویر زیر تجزیه یک درخت نمونه را نشان می‌دهد. یال‌های سنگین ضخیم‌تر از یال‌های سبک هستند. مسیرهای سنگین با مرزهای نقطه‌چین مشخص شده‌اند.
 
 <div style="text-align: center;">
-  <img src="hld.png" alt="Image of HLD">
+  <img src="hld.png" alt="تصویر تجزیه سنگین-سبک">
 </div>
 
+## مسائل نمونه
 
-## Sample problems
+هنگام حل مسائل، گاهی اوقات راحت‌تر است که تجزیه سنگین-سبک را به عنوان مجموعه‌ای از مسیرهای **مجزا از نظر رأس** (به جای مجزا از نظر یال) در نظر بگیریم. برای این کار، کافی است که آخرین یال هر مسیر سنگین را، اگر سبک باشد، از آن حذف کنیم. در این صورت هیچ یک از ویژگی‌ها نقض نمی‌شود، اما اکنون هر رأس دقیقاً به یک مسیر سنگین تعلق دارد.
 
-When solving problems, it is sometimes more convenient to consider the heavy-light decomposition as a set of **vertex disjoint** paths (rather than edge disjoint paths). To do this, it suffices to exclude the last edge from each heavy path if it is a light edge, then no properties are violated, but now each vertex belongs to exactly one heavy path.
+در ادامه به برخی از مسائل نمونه که با کمک تجزیه سنگین-سبک قابل حل هستند، نگاهی می‌اندازیم.
 
-Below we will look at some typical tasks that can be solved with the help of heavy-light decomposition.
+به طور جداگانه، شایسته است به مسئله **جمع اعداد روی یک مسیر** توجه شود، زیرا این یک نمونه از مسائلی است که با تکنیک‌های ساده‌تری نیز قابل حل است.
 
-Separately, it is worth paying attention to the problem of the **sum of numbers on the path**, since this is an example of a problem that can be solved by simpler techniques.
+### مقدار بیشینه در مسیر بین دو رأس
 
+یک درخت داده شده است که به هر رأس آن مقداری تخصیص داده شده است. پرس‌وجوهایی از نوع $(a, b)$ وجود دارد که در آن $a$ و $b$ دو رأس در درخت هستند، و لازم است که مقدار بیشینه روی مسیر بین رأس‌های $a$ و $b$ پیدا شود.
 
-### Maximum value on the path between two vertices
+ما از قبل یک تجزیه سنگین-سبک از درخت می‌سازیم. روی هر مسیر سنگین یک [درخت بازه (segment tree)](../data_structures/segment_tree.md) می‌سازیم که به ما امکان می‌دهد رأسی با بیشترین مقدار تخصیص یافته را در یک بازه مشخص از یک مسیر سنگین مشخص در زمان $\mathcal{O}(\log n)$ پیدا کنیم. اگرچه تعداد مسیرهای سنگین در تجزیه سنگین-سبک می‌تواند به $n - 1$ برسد، اما اندازه کل همه مسیرها به $\mathcal{O}(n)$ محدود است، بنابراین اندازه کل درخت‌های بازه نیز خطی خواهد بود.
 
-Given a tree, each vertex is assigned a value. There are queries of the form $(a, b)$, where $a$ and $b$ are two vertices in the tree, and it is required to find the maximum value on the path between the vertices $a$ and $b$.
+برای پاسخ به یک پرس‌وجوی $(a, b)$، [پایین‌ترین جد مشترک (LCA)](https://en.wikipedia.org/wiki/Lowest_common_ancestor) $a$ و $b$ را به عنوان $l$ با هر روش دلخواهی پیدا می‌کنیم. اکنون مسئله به دو پرس‌وجوی $(a, l)$ و $(b, l)$ کاهش یافته است. برای هر یک از آنها می‌توانیم این کار را انجام دهیم: مسیر سنگینی را که رأس پایین‌تر در آن قرار دارد پیدا کنیم، یک پرس‌وجو روی این مسیر انجام دهیم، به بالای این مسیر برویم، دوباره مشخص کنیم که در کدام مسیر سنگین هستیم و یک پرس‌وجو روی آن انجام دهیم، و به همین ترتیب ادامه دهیم تا به مسیری برسیم که شامل $l$ است.
 
-We construct in advance a heavy-light decomposition of the tree. Over each heavy path we will construct a [segment tree](../data_structures/segment_tree.md), which will allow us to search for a vertex with the maximum assigned value in the specified segment of the specified heavy path in $\mathcal{O}(\log n)$.  Although the number of heavy paths in heavy-light decomposition can reach $n - 1$, the total size of all paths is bounded by $\mathcal{O}(n)$, therefore the total size of the segment trees will also be linear.
+باید مراقب حالتی بود که، برای مثال، $a$ و $l$ در یک مسیر سنگین قرار دارند - در این صورت پرس‌وجوی بیشینه روی این مسیر نباید روی هر پیشوندی انجام شود، بلکه باید روی بخش داخلی بین $a$ و $l$ انجام شود.
 
-In order to answer a query $(a, b)$, we find the [lowest common ancestor](https://en.wikipedia.org/wiki/Lowest_common_ancestor) of $a$ and $b$ as $l$, by any preferred method. Now the task has been reduced to two queries $(a, l)$ and $(b, l)$, for each of which we can do the following: find the heavy path that the lower vertex lies in, make a query on this path, move to the top of this path, again determine which heavy path we are on and make a query on it, and so on, until we get to the path containing $l$.
+پاسخ به هر یک از زیرپرس‌وجوهای $(a, l)$ و $(b, l)$ نیازمند عبور از $\mathcal{O}(\log n)$ مسیر سنگین است و برای هر مسیر، یک پرس‌وجوی بیشینه روی بخشی از آن انجام می‌شود که خود به $\mathcal{O}(\log n)$ عملیات در درخت بازه نیاز دارد. از این رو، یک پرس‌وجوی $(a, b)$ زمان $\mathcal{O}(\log^2 n)$ می‌برد.
 
-One should be careful with the case when, for example, $a$ and $l$ are on the same heavy path - then the maximum query on this path should be done not on any prefix, but on the internal section between $a$ and $l$.
+اگر به طور اضافی بیشینه تمام پیشوندها را برای هر مسیر سنگین محاسبه و ذخیره کنید، به یک راه‌حل با پیچیدگی $\mathcal{O}(\log n)$ می‌رسید، زیرا تمام پرس‌وجوهای بیشینه روی پیشوندها هستند، به جز حداکثر یک بار زمانی که به جد مشترک $l$ می‌رسیم.
 
-Responding to the subqueries $(a, l)$ and $(b, l)$ each requires going through $\mathcal{O}(\log n)$ heavy paths and for each path a maximum query is made on some section of the path, which again requires $\mathcal{O}(\log n)$ operations in the segment tree.
-Hence, one query $(a, b)$ takes $\mathcal{O}(\log^2 n)$ time.
+### جمع اعداد در مسیر بین دو رأس
 
-If you additionally calculate and store maximums of all prefixes for each heavy path, then you get a $\mathcal{O}(\log n)$ solution because all maximum queries are on prefixes except at most once when we reach the ancestor $l$.
+یک درخت داده شده است که به هر رأس آن مقداری تخصیص داده شده است. پرس‌وجوهایی از نوع $(a, b)$ وجود دارد که در آن $a$ و $b$ دو رأس در درخت هستند، و لازم است که جمع مقادیر روی مسیر بین رأس‌های $a$ و $b$ پیدا شود. نوع دیگری از این مسئله نیز ممکن است که در آن علاوه بر این، عملیات به‌روزرسانی وجود داشته باشد که عدد تخصیص داده شده به یک یا چند رأس را تغییر می‌دهد.
 
+این مسئله را می‌توان مشابه مسئله قبلی (بیشینه) با کمک تجزیه سنگین-سبک و با ساختن درخت‌های بازه روی مسیرهای سنگین حل کرد. اگر به‌روزرسانی وجود نداشته باشد، می‌توان به جای آن از مجموع‌های پیشوندی استفاده کرد. با این حال، این مسئله با تکنیک‌های ساده‌تری نیز قابل حل است.
 
-###  Sum of the numbers on the path between two vertices
+اگر به‌روزرسانی وجود نداشته باشد، می‌توان جمع روی مسیر بین دو رأس را همزمان با جستجوی LCA دو رأس با استفاده از [پرش دودویی (binary lifting)](lca_binary_lifting.md) پیدا کرد — برای این کار، لازم است در کنار اجداد $2^k$-ام هر رأس، جمع مقادیر روی مسیرها تا آن اجداد را نیز در مرحله پیش‌پردازش ذخیره کنیم.
 
-Given a tree, each vertex is assigned a value. There are queries of the form $(a, b)$, where $a$ and $b$ are two vertices in the tree, and it is required to find the sum of the values on the path between the vertices $a$ and $b$. A variant of this task is possible where additionally there are update operations that change the number assigned to one or more vertices.
+یک رویکرد اساساً متفاوت برای این مسئله وجود دارد - در نظر گرفتن [گشت اویلر (Euler tour)](https://en.wikipedia.org/wiki/Euler_tour_technique) درخت، و ساختن یک درخت بازه روی آن. این الگوریتم در [مقاله‌ای درباره یک مسئله مشابه](tree_painting.md) بررسی شده است. باز هم، اگر به‌روزرسانی وجود نداشته باشد، ذخیره کردن مجموع‌های پیشوندی کافی است و نیازی به درخت بازه نیست.
 
-This task can be solved similar to the previous problem of maximums with the help of heavy-light decomposition by building segment trees on heavy paths. Prefix sums can be used instead if there are no updates. However, this problem can be solved by simpler techniques too.
+هر دوی این روش‌ها راه‌حل‌های نسبتاً ساده‌ای با پیچیدگی $\mathcal{O}(\log n)$ برای هر پرس‌وجو ارائه می‌دهند.
 
-If there are no updates, then it is possible to find out the sum on the path between two vertices in parallel with the LCA search of two vertices by [binary lifting](lca_binary_lifting.md) — for this, along with the $2^k$-th ancestors of each vertex it is also necessary to store the sum on the paths up to those ancestors during the preprocessing.
+### رنگ‌آمیزی مجدد یال‌های مسیر بین دو رأس
 
-There is a fundamentally different approach to this problem - to consider the [Euler tour](https://en.wikipedia.org/wiki/Euler_tour_technique) of the tree, and build a segment tree on it. This algorithm is considered in an [article about a similar problem](tree_painting.md). Again, if there are no updates, storing prefix sums is enough and a segment tree is not required.
+یک درخت داده شده است که هر یال آن در ابتدا سفید رنگ شده است. به‌روزرسانی‌هایی از نوع $(a, b, c)$ وجود دارد، که در آن $a$ و $b$ دو رأس و $c$ یک رنگ است، که دستور می‌دهد تمام یال‌های روی مسیر از $a$ به $b$ باید با رنگ $c$ دوباره رنگ‌آمیزی شوند. پس از تمام رنگ‌آمیزی‌ها، لازم است گزارش شود که از هر رنگ چند یال به دست آمده است.
 
-Both of these methods provide relatively simple solutions taking $\mathcal{O}(\log n)$ for one query.
+مشابه مسائل بالا، راه‌حل این است که به سادگی تجزیه سنگین-سبک را اعمال کرده و روی هر مسیر سنگین یک [درخت بازه](../data_structures/segment_tree.md) بسازیم.
 
-### Repainting the edges of the path between two vertices
+هر رنگ‌آمیزی مجدد روی مسیر $(a, b)$ به دو به‌روزرسانی $(a, l)$ و $(b, l)$ تبدیل می‌شود، که در آن $l$ پایین‌ترین جد مشترک رأس‌های $a$ و $b$ است. $\mathcal{O}(\log n)$ به ازای هر مسیر برای $\mathcal{O}(\log n)$ مسیر، به پیچیدگی $\mathcal{O}(\log^2 n)$ برای هر به‌روزرسانی منجر می‌شود.
 
-Given a tree, each edge is initially painted white. There are updates of the form $(a, b, c)$, where $a$ and $b$ are two vertices and $c$ is a color, which instructs that all the edges on the path from $a$ to $b$ must be repainted with color $c$. After all repaintings, it is required to report how many edges of each color were obtained.
+## پیاده‌سازی
 
-Similar to the above problems, the solution is to simply apply heavy-light decomposition and make a [segment tree](../data_structures/segment_tree.md) over each heavy path.
+بخش‌های خاصی از رویکرد مورد بحث در بالا را می‌توان برای آسان‌تر کردن پیاده‌سازی بدون از دست دادن کارایی، تغییر داد.
 
-Each repainting on the path $(a, b)$ will turn into two updates $(a, l)$ and $(b, l)$, where $l$ is the lowest common ancestor of the vertices $a$ and $b$.   
-$\mathcal{O}(\log n)$ per path for $\mathcal{O}(\log n)$ paths leads to a complexity of $\mathcal{O}(\log^2 n)$ per update.
+*   تعریف **یال سنگین** را می‌توان به **یالی که به فرزندی با بزرگترین زیردرخت منتهی می‌شود** تغییر داد، و در صورت برابر بودن اندازه‌ها، انتخاب به صورت دلخواه است. این کار ممکن است منجر به تبدیل برخی یال‌های سبک به سنگین شود، که به این معنی است که برخی مسیرهای سنگین با هم ترکیب شده و یک مسیر واحد را تشکیل می‌دهند، اما تمام مسیرهای سنگین همچنان مجزا باقی می‌مانند. همچنین هنوز تضمین می‌شود که حرکت به سمت پایین از طریق یک یال سبک، اندازه زیردرخت را به نصف یا کمتر کاهش می‌دهد.
+*   به جای ساختن یک درخت بازه برای هر مسیر سنگین، می‌توان از یک درخت بازه واحد استفاده کرد که در آن بخش‌های مجزا به هر مسیر سنگین اختصاص داده شده است.
+*   ذکر شد که پاسخ به پرس‌وجوها نیاز به محاسبه LCA دارد. در حالی که LCA را می‌توان به طور جداگانه محاسبه کرد، امکان ادغام محاسبه LCA در فرآیند پاسخ به پرس‌وجوها نیز وجود دارد.
 
-## Implementation
-
-Certain parts of the above discussed approach can be modified to make implementation easier without losing efficiency.
-
-* The definition of **heavy edge** can be changed to **the edge leading to the child with largest subtree**, with ties broken arbitrarily. This may result is some light edges being converted to heavy, which means some heavy paths will combine to form a single path, but all heavy paths will remain disjoint. It is also still guaranteed that going down a light edge reduces subtree size to half or less.
-* Instead of a building segment tree over every heavy path, a single segment tree can be used with disjoint segments allocated to each heavy path.
-* It has been mentioned that answering queries requires calculation of the LCA. While LCA can be calculated separately, it is also possible to integrate LCA calculation in the process of answering queries.
-
-To perform heavy-light decomposition:
+برای انجام تجزیه سنگین-سبک:
 
 ```cpp
 vector<int> parent, depth, heavy, head, pos;
@@ -157,13 +147,13 @@ void init(vector<vector<int>> const& adj) {
 }
 ```
 
-The adjacency list of the tree must be passed to the `init` function, and decomposition is performed assuming vertex `0` as root.
+لیست مجاورت درخت باید به تابع `init` داده شود و تجزیه با فرض اینکه رأس `0` ریشه است، انجام می‌شود.
 
-The `dfs` function is used to calculate `heavy[v]`, the child at the other end of the heavy edge from `v`, for every vertex `v`. Additionally `dfs` also stores the parent and depth of each vertex, which will be useful later during queries.
+تابع `dfs` برای محاسبه `heavy[v]`، یعنی فرزندی که در انتهای دیگر یال سنگینِ خارج شده از `v` قرار دارد، برای هر رأس `v` استفاده می‌شود. علاوه بر این، `dfs` والدین و عمق هر رأس را نیز ذخیره می‌کند که بعداً در هنگام پرس‌وجوها مفید خواهد بود.
 
-The `decompose` function assigns for each vertex `v` the values `head[v]` and `pos[v]`, which are respectively the head of the heavy path `v` belongs to and the position of `v` on the single segment tree that covers all vertices.
+تابع `decompose` برای هر رأس `v` مقادیر `head[v]` و `pos[v]` را تخصیص می‌دهد که به ترتیب سرِ مسیر سنگینی که `v` به آن تعلق دارد و موقعیت `v` در درخت بازه واحدی است که تمام رأس‌ها را پوشش می‌دهد.
 
-To answer queries on paths, for example the maximum query discussed, we can do something like this:
+برای پاسخ به پرس‌وجوها روی مسیرها، برای مثال پرس‌وجوی بیشینه که بحث شد، می‌توانیم کاری شبیه به این انجام دهیم:
 
 ```cpp
 int query(int a, int b) {
@@ -182,11 +172,11 @@ int query(int a, int b) {
 }
 ```
 
-## Practice problems
+## مسائل تمرینی
 
-- [SPOJ - QTREE - Query on a tree](https://www.spoj.com/problems/QTREE/)
-- [CSES - Path Queries II](https://cses.fi/problemset/task/2134)
-- [Codeforces - Subway Lines](https://codeforces.com/gym/101908/problem/L)
-- [Codeforces - Tree Queries](https://codeforces.com/contest/1254/problem/D)
-- [Codeforces - Tree or not Tree](https://codeforces.com/contest/117/problem/E)
-- [Codeforces - The Tree](https://codeforces.com/contest/1017/problem/G)
+- [SPOJ - QTREE - پرس‌وجو روی یک درخت](https://www.spoj.com/problems/QTREE/)
+- [CSES - پرس‌وجوهای مسیر II](https://cses.fi/problemset/task/2134)
+- [Codeforces - خطوط مترو](https://codeforces.com/gym/101908/problem/L)
+- [Codeforces - پرس‌وجوهای درخت](https://codeforces.com/contest/1254/problem/D)
+- [Codeforces - درخت یا غیر درخت](https://codeforces.com/contest/117/problem/E)
+- [Codeforces - درخت](https://codeforces.com/contest/1017/problem/G)

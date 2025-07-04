@@ -1,42 +1,42 @@
 ---
 tags:
-  - Translated
-e_maxx_link: burnside_polya
+  - AI Translated
+e_maxx_link: burnside
 ---
 
-# Burnside's lemma / Pólya enumeration theorem
+# لم برنساید / قضیه شمارش پولیا
 
-## Burnside's lemma
+## لم برنساید
 
-**Burnside's lemma** was formulated and proven by **Burnside** in 1897, but historically it was already discovered in 1887 by **Frobenius**, and even earlier in 1845 by **Cauchy**.
-Therefore it is also sometimes named the **Cauchy-Frobenius lemma**.
+**لم برنساید** در سال ۱۸۹۷ توسط **برنساید** فرمول‌بندی و اثبات شد، اما از نظر تاریخی، پیش از او در سال ۱۸۸۷ توسط **فروبنیوس** و حتی قبل‌تر در سال ۱۸۴۵ توسط **کوشی** کشف شده بود.
+به همین دلیل، گاهی اوقات **لم کوشی-فروبنیوس** نیز نامیده می‌شود.
 
-Burnside's lemma allows us to count the number of equivalence classes in sets, based on internal symmetry.
+لم برنساید به ما امکان می‌دهد تا تعداد کلاس‌های هم‌ارزی را در مجموعه‌ها، بر اساس تقارن داخلی بشماریم.
 
-### Objects and representations
+### اشیاء و نمایش‌ها
 
-We have to clearly distinguish between the number of objects and the number of representations.
+ما باید به وضوح بین تعداد اشیاء و تعداد نمایش‌ها تمایز قائل شویم.
 
-Different representations can correspond to the same objects, but of course any representation corresponds to exactly one object.
-Consequently the set of all representations is divided into equivalence classes.
-Our task is to compute the number of objects, or equivalently, the number of equivalence classes.
-The following example will make the difference between object and representation clearer.
+نمایش‌های مختلف می‌توانند متناظر با اشیاء یکسانی باشند، اما البته هر نمایش دقیقاً به یک شیء متناظر است.
+در نتیجه، مجموعه‌ی تمام نمایش‌ها به کلاس‌های هم‌ارزی تقسیم می‌شود.
+وظیفه ما محاسبه تعداد اشیاء یا به طور معادل، تعداد کلاس‌های هم‌ارزی است.
+مثال زیر تفاوت بین شیء و نمایش را واضح‌تر می‌کند.
 
-### Example: coloring of binary trees
+### مثال: رنگ‌آمیزی درختان دودویی
 
-Suppose we have the following problem.
-We have to count the number of ways to color a rooted binary tree with $n$ vertices with two colors, where at each vertex we do not distinguish between the left and the right children.
+فرض کنید مسئله زیر را داریم.
+باید تعداد راه‌های رنگ‌آمیزی یک درخت دودویی ریشه‌دار با $n$ رأس و با دو رنگ را بشماریم، به طوری که در هر رأس بین فرزندان چپ و راست تمایزی قائل نمی‌شویم.
 
-Here the set of objects is the set of different colorings of the tree.
+در اینجا، مجموعه‌ی اشیاء، مجموعه‌ی رنگ‌آمیزی‌های مختلف درخت است.
 
-We now define the set of representations.
-A representation of a coloring is a function $f(v)$, which assigns each vertex a color (here we use the colors $0$ and $1$).
-The set of representations is the set containing all possible functions of this kind, and its size is obviously equal to $2^n$.
+اکنون مجموعه‌ی نمایش‌ها را تعریف می‌کنیم.
+یک نمایش از یک رنگ‌آمیزی، تابعی است مانند $f(v)$ که به هر رأس یک رنگ اختصاص می‌دهد (در اینجا از رنگ‌های $0$ و $1$ استفاده می‌کنیم).
+مجموعه‌ی نمایش‌ها، مجموعه‌ای است شامل تمام توابع ممکن از این نوع، و اندازه آن به وضوح برابر با $2^n$ است.
 
-At the same time we introduce a partition of this set into equivalence classes.
+همزمان، این مجموعه را به کلاس‌های هم‌ارزی افراز می‌کنیم.
 
-For example, suppose $n = 3$, and the tree consists of the root $1$ and its two children $2$ and $3$.
-Then the following functions $f_1$ and $f_2$ are considered equivalent.
+به عنوان مثال، فرض کنید $n = 3$ و درخت از ریشه $1$ و دو فرزند آن $2$ و $3$ تشکیل شده است.
+در این صورت، توابع $f_1$ و $f_2$ زیر هم‌ارز در نظر گرفته می‌شوند.
 
 $$\begin{array}{ll}
 f_1(1) = 0 & f_2(1) = 0\\
@@ -44,116 +44,116 @@ f_1(2) = 1 & f_2(2) = 0\\
 f_1(3) = 0 & f_2(3) = 1
 \end{array}$$
 
-### Invariant permutations
+### جایگشت‌های ناوردا
 
-Why do these two function $f_1$ and $f_2$ belong to the same equivalence class?
-Intuitively this is understandable - we can rearrange the children of vertex $1$, the vertices $2$ and $3$, and after such a transformation of the function $f_1$ it will coincide with $f_2$.
+چرا این دو تابع $f_1$ و $f_2$ به یک کلاس هم‌ارزی تعلق دارند؟
+به طور شهودی این قابل درک است - ما می‌توانیم فرزندان رأس $1$ یعنی رئوس $2$ و $3$ را جابجا کنیم و پس از چنین تبدیلی روی تابع $f_1$، آن با $f_2$ منطبق خواهد شد.
 
-But formally this means that there exists an **invariant permutation** $\pi$ (i.e. a permutation which does not change the object itself, but only its representation), such that:
+اما به طور رسمی این بدان معناست که یک **جایگشت ناوردا** مانند $\pi$ وجود دارد (یعنی جایگشتی که خود شیء را تغییر نمی‌دهد، بلکه فقط نمایش آن را تغییر می‌دهد)، به طوری که:
 
 $$f_2 \pi \equiv f_1$$
 
-So starting from the definition of objects, we can find all the invariant permutations, i.e. all permutations which do not change the object when applying the permutation to the representation.
-Then we can check whether two functions $f_1$ and $f_2$ are equivalent (i.e. if they correspond to the same object) by checking the condition $f_2 \pi \equiv f_1$ for each invariant permutation (or equivalently $f_1 \pi \equiv f_2$).
-If at least one permutation is found for which the condition is satisfied, then $f_1$ and $f_2$ are equivalent, otherwise they are not equivalent.
+بنابراین، با شروع از تعریف اشیاء، می‌توانیم تمام جایگشت‌های ناوردا را پیدا کنیم، یعنی تمام جایگشت‌هایی که با اعمال آن‌ها بر روی نمایش، شیء تغییر نمی‌کند.
+سپس می‌توانیم بررسی کنیم که آیا دو تابع $f_1$ و $f_2$ هم‌ارز هستند (یعنی آیا به یک شیء یکسان متناظرند) با بررسی شرط $f_2 \pi \equiv f_1$ برای هر جایگشت ناوردا (یا به طور معادل $f_1 \pi \equiv f_2$).
+اگر حداقل یک جایگشت پیدا شود که شرط برای آن برقرار باشد، آنگاه $f_1$ و $f_2$ هم‌ارز هستند، در غیر این صورت هم‌ارز نیستند.
 
-Finding all such invariant permutations with respect to the object definition is a key step for the application of both Burnside's lemma and the Pólya enumeration theorem.
-It is clear that these invariant permutations depend on the specific problem, and their finding is a purely heuristic process based on intuitive considerations.
-However in most cases it is sufficient to manually find several "basic" permutations, with which all other permutations can be generated (and this part of the work can be shifted to a computer).
+یافتن تمام این جایگشت‌های ناوردا با توجه به تعریف شیء، یک گام کلیدی برای به کارگیری هر دو، لم برنساید و قضیه شمارش پولیا است.
+واضح است که این جایگشت‌های ناوردا به مسئله خاص بستگی دارند و یافتن آن‌ها یک فرآیند کاملاً اکتشافی و مبتنی بر ملاحظات شهودی است.
+با این حال، در بیشتر موارد کافی است که به صورت دستی چندین جایگشت "پایه" را پیدا کنیم که با آن‌ها بتوان تمام جایگشت‌های دیگر را تولید کرد (و این بخش از کار را می‌توان به کامپیوتر واگذار کرد).
 
-It is not difficult to understand that invariant permutations form a **group**, since the product (composition) of invariant permutations is again an invariant permutation.
-We denote the **group of invariant permutations** by $G$.
+درک اینکه جایگشت‌های ناوردا یک **گروه** را تشکیل می‌دهند دشوار نیست، زیرا حاصل‌ضرب (ترکیب) جایگشت‌های ناوردا دوباره یک جایگشت ناوردا است.
+ما **گروه جایگشت‌های ناوردا** را با $G$ نشان می‌دهیم.
 
-### The statement of the lemma
+### بیان لم
 
-For the formulation of the lemma we need one more definition from algebra.
-A **fixed point** $f$ for a permutation $\pi$ is an element that is invariant under this permutation: $f \equiv f \pi$.
-For example in our example the fixed points are those functions $f$, which correspond to colorings that do not change when the permutation $\pi$ is applied to them (i.e. they do not change in the formal sense of the equality of functions).
-We denote by $I(\pi)$ the **number of fixed points** for the permutation $\pi$.
+برای فرمول‌بندی لم، به یک تعریف دیگر از جبر نیاز داریم.
+یک **نقطه ثابت** $f$ برای یک جایگشت $\pi$، عنصری است که تحت این جایگشت ناوردا است: $f \equiv f \pi$.
+برای مثال در مثال ما، نقاط ثابت آن توابع $f$ هستند که متناظر با رنگ‌آمیزی‌هایی هستند که با اعمال جایگشت $\pi$ بر آن‌ها تغییر نمی‌کنند (یعنی از نظر رسمی تساوی توابع، تغییری نمی‌کنند).
+ما $I(\pi)$ را به عنوان **تعداد نقاط ثابت** برای جایگشت $\pi$ نشان می‌دهیم.
 
-Then **Burnside's lemma** goes as follows:
-the number of equivalence classes is equal to the sum of the numbers of fixed points with respect to all permutations from the group $G$, divided by the size of this group:
+سپس **لم برنساید** به شرح زیر است:
+تعداد کلاس‌های هم‌ارزی برابر است با مجموع تعداد نقاط ثابت نسبت به تمام جایگشت‌های گروه $G$، تقسیم بر اندازه این گروه:
 
-$$|\text{Classes}| = \frac{1}{|G|} \sum_{\pi \in G} I(\pi)$$
+$$|\text{کلاس‌ها}| = \frac{1}{|G|} \sum_{\pi \in G} I(\pi)$$
 
-Although Burnside's lemma itself is not so convenient to use in practice (it is unclear how to quickly look for the value $I(\pi)$, it most clearly reveals the mathematical essence on which the idea of calculating equivalence classes is based.
+اگرچه استفاده از لم برنساید به خودی خود در عمل چندان راحت نیست (مشخص نیست که چگونه به سرعت مقدار $I(\pi)$ را پیدا کنیم)، اما به وضوح جوهره ریاضی را که ایده محاسبه کلاس‌های هم‌ارزی بر آن بنا شده است، آشکار می‌کند.
 
-### Proof of Burnside's lemma
+### اثبات لم برنساید
 
-The proof of Burnside's lemma described here is not important for the practical applications, so it can be skipped on the first reading.
+اثبات لم برنساید که در اینجا شرح داده شده است، برای کاربردهای عملی مهم نیست، بنابراین می‌توان در اولین مطالعه از آن صرف نظر کرد.
 
-The proof here is the simplest known, and does not use group theory.
-The proof was published by Kenneth P. Bogart in 1991.
+اثبات ارائه شده در اینجا ساده‌ترین اثبات شناخته‌شده است و از نظریه گروه‌ها استفاده نمی‌کند.
+این اثبات توسط Kenneth P. Bogart در سال ۱۹۹۱ منتشر شد.
 
-We need to prove the following statement:
+ما باید گزاره زیر را اثبات کنیم:
 
-$$|\text{Classes}| \cdot |G| = \sum_{\pi \in G} I(\pi)$$
+$$|\text{کلاس‌ها}| \cdot |G| = \sum_{\pi \in G} I(\pi)$$
 
-The value on the right side is nothing more than the number of "invariant pairs" $(f, \pi)$, i.e. pairs such that $f \pi \equiv f$.
-It is obvious that we can change the order of summation.
-We let the sum iterate over all elements $f$ and sum over the values $J(f)$ - the number of permutations for which $f$ is a fixed point.
+مقدار سمت راست چیزی جز تعداد «جفت‌های ناوردا» $(f, \pi)$ نیست، یعنی جفت‌هایی که $f \pi \equiv f$ باشد.
+واضح است که می‌توانیم ترتیب جمع را تغییر دهیم.
+ما اجازه می‌دهیم که جمع روی تمام عناصر $f$ پیمایش کند و مقادیر $J(f)$ را جمع بزنیم - یعنی تعداد جایگشت‌هایی که $f$ برای آن‌ها یک نقطه ثابت است.
 
-$$|\text{Classes}| \cdot |G| = \sum_{f} J(f)$$
+$$|\text{کلاس‌ها}| \cdot |G| = \sum_{f} J(f)$$
 
-To prove this formula we will compose a table with columns labeled with all functions $f_i$ and rows labeled with all permutations $\pi_j$.
-And we fill the cells with $f_i \pi_j$.
-If we look at the columns in this table as sets, then some of them will coincide, and this means that the corresponding functions $f$ for these columns are also equivalent.
-Thus the numbers of different (as sets) columns is equal to the number of classes.
-Incidentally, from the standpoint of group theory, the column labeled with $f_i$ is the orbit of this element.
-For equivalent elements the orbits coincides, and the number of orbits gives exactly the number of classes.
+برای اثبات این فرمول، جدولی با ستون‌هایی که با تمام توابع $f_i$ و سطرهایی که با تمام جایگشت‌های $\pi_j$ برچسب‌گذاری شده‌اند، می‌سازیم.
+و خانه‌های جدول را با $f_i \pi_j$ پر می‌کنیم.
+اگر به ستون‌های این جدول به عنوان مجموعه نگاه کنیم، برخی از آن‌ها با هم یکسان خواهند بود، و این به این معنی است که توابع $f$ متناظر با این ستون‌ها نیز هم‌ارز هستند.
+بنابراین، تعداد ستون‌های متفاوت (به عنوان مجموعه) برابر با تعداد کلاس‌ها است.
+ضمناً، از دیدگاه نظریه گروه‌ها، ستونی که با $f_i$ برچسب‌گذاری شده، مدار این عنصر است.
+برای عناصر هم‌ارز، مدارها با هم منطبق هستند و تعداد مدارها دقیقاً تعداد کلاس‌ها را به ما می‌دهد.
 
-Thus the columns of the table decompose into equivalence classes.
-Let us fix a class, and look at the columns in it.
-First, note that these columns can only contain elements $f_i$ of the equivalence class (otherwise some permutation $\pi_j$ moved one of the functions into a different equivalence class, which is impossible since we only look at invariant permutations).
-Secondly each element $f_i$ will occur the same number of times in each column (this also follows from the fact that the columns correspond to equivalent elements).
-From this we can conclude, that all the columns within the same equivalence class coincide with each other as multisets.
+بنابراین، ستون‌های جدول به کلاس‌های هم‌ارزی تجزیه می‌شوند.
+یک کلاس را ثابت در نظر می‌گیریم و به ستون‌های آن نگاه می‌کنیم.
+اولاً، توجه داشته باشید که این ستون‌ها فقط می‌توانند شامل عناصر $f_i$ از همان کلاس هم‌ارزی باشند (در غیر این صورت، جایگشت $\pi_j$ یکی از توابع را به کلاس هم‌ارزی دیگری منتقل کرده است، که غیرممکن است زیرا ما فقط به جایگشت‌های ناوردا نگاه می‌کنیم).
+ثانیاً، هر عنصر $f_i$ در هر ستون به تعداد یکسانی تکرار خواهد شد (این نیز از این واقعیت ناشی می‌شود که ستون‌ها به عناصر هم‌ارز متناظر هستند).
+از این می‌توان نتیجه گرفت که تمام ستون‌ها در یک کلاس هم‌ارزی به عنوان چندمجموعه با یکدیگر یکسان هستند.
 
-Now fix an arbitrary element $f$.
-On the one hand, it occurs in its column exactly $J(f)$ times (by definition).
-On the other hand, all columns within the same equivalence class are the same as multisets.
-Therefore within each column of a given equivalence class any element $g$ occurs exactly $J(g)$ times.
+اکنون یک عنصر دلخواه $f$ را ثابت می‌کنیم.
+از یک طرف، این عنصر در ستون خود دقیقاً $J(f)$ بار ظاهر می‌شود (طبق تعریف).
+از طرف دیگر، تمام ستون‌ها در یک کلاس هم‌ارزی به عنوان چندمجموعه یکسان هستند.
+بنابراین، در هر ستون از یک کلاس هم‌ارزی معین، هر عنصر $g$ دقیقاً $J(g)$ بار ظاهر می‌شود.
 
-Thus if we arbitrarily take one column from each equivalence class, and sum the number of elements in them, we obtain on one hand $|\text{Classes}| \cdot |G|$ (simply by multiplying the number of columns by the number of rows), and on the other hand the sum of the quantities $J(f)$ for all $f$ (this follows from all the previous arguments):
+بنابراین، اگر از هر کلاس هم‌ارزی به طور دلخواه یک ستون را انتخاب کنیم و تعداد عناصر آن‌ها را جمع بزنیم، از یک طرف $|\text{کلاس‌ها}| \cdot |G|$ را به دست می‌آوریم (صرفاً با ضرب تعداد ستون‌ها در تعداد سطرها)، و از طرف دیگر، مجموع مقادیر $J(f)$ را برای تمام $f$ به دست می‌آوریم (این از تمام استدلال‌های قبلی نتیجه می‌شود):
 
-$$|\text{Classes}| \cdot |G| = \sum_{f} J(f)$$
+$$|\text{کلاس‌ها}| \cdot |G| = \sum_{f} J(f)$$
 
-## Pólya enumeration theorem
+## قضیه شمارش پولیا
 
-The Pólya enumeration theorem is a generalization of Burnside's lemma, and it also provides a more convenient tool for finding the number of equivalence classes.
-It should be noted that this theorem was already discovered before Pólya by Redfield in 1927, but his publication went unnoticed by mathematicians.
-Pólya independently came to the same results in 1937, and his publication was more successful.
+قضیه شمارش پولیا تعمیمی از لم برنساید است و همچنین ابزار راحت‌تری برای یافتن تعداد کلاس‌های هم‌ارزی فراهم می‌کند.
+لازم به ذکر است که این قضیه پیش از پولیا توسط Redfield در سال ۱۹۲۷ کشف شده بود، اما مقاله او مورد توجه ریاضی‌دانان قرار نگرفت.
+پولیا به طور مستقل در سال ۱۹۳۷ به نتایج مشابهی رسید و مقاله او موفقیت بیشتری کسب کرد.
 
-Here we discuss only a special case of the Pólya enumeration theorem, which will turn out very useful in practice.
-The general formula of the theorem will not be discussed.
+در اینجا ما فقط یک حالت خاص از قضیه شمارش پولیا را مورد بحث قرار می‌دهیم که در عمل بسیار مفید خواهد بود.
+فرمول کلی قضیه مورد بحث قرار نخواهد گرفت.
 
-We denote by $C(\pi)$ the number of cycles in the permutation $\pi$.
-Then the following formula (a **special case of the Pólya enumeration theorem**) holds:
+ما $C(\pi)$ را به عنوان تعداد چرخه‌ها در جایگشت $\pi$ نشان می‌دهیم.
+سپس فرمول زیر (**یک حالت خاص از قضیه شمارش پولیا**) برقرار است:
 
-$$|\text{Classes}| = \frac{1}{|G|} \sum_{\pi \in G} k^{C(\pi)}$$
+$$|\text{کلاس‌ها}| = \frac{1}{|G|} \sum_{\pi \in G} k^{C(\pi)}$$
 
-$k$ is the number of values that each representation element can take, in the case of the coloring of a binary tree this would be $k = 2$.
+$k$ تعداد مقادیری است که هر عنصر نمایش می‌تواند بگیرد؛ در مورد رنگ‌آمیزی یک درخت دودویی، این مقدار $k = 2$ خواهد بود.
 
-### Evidence
+### استدلال
 
-This formula is a direct consequence of Burnside's lemma.
-To get it, we just need to find an explicit expression for $I(\pi)$, which appears in the lemma.
-Recall, that $I(\pi)$ is the number of fixed points in the permutation $\pi$.
+این فرمول نتیجه مستقیم لم برنساید است.
+برای به دست آوردن آن، فقط باید یک عبارت صریح برای $I(\pi)$ که در لم ظاهر می‌شود، پیدا کنیم.
+به یاد بیاورید که $I(\pi)$ تعداد نقاط ثابت در جایگشت $\pi$ است.
 
-Thus we consider a permutation $\pi$ and some element $f$.
-During the application of $\pi$, the elements in $f$ move via the cycles in the permutation.
-Since the result should obtain $f \equiv f \pi$, the elements touched by one cycle must all be equal.
-At the same time different cycles are independent.
-Thus for each permutation cycle $\pi$ we can choose one value (among $k$ possible) and thus we get the number of fixed points:
+بنابراین، یک جایگشت $\pi$ و یک عنصر $f$ را در نظر می‌گیریم.
+در حین اعمال $\pi$، عناصر در $f$ از طریق چرخه‌های جایگشت حرکت می‌کنند.
+از آنجا که نتیجه باید $f \equiv f \pi$ باشد، عناصری که در یک چرخه قرار دارند باید همگی برابر باشند.
+همزمان، چرخه‌های مختلف مستقل از یکدیگر هستند.
+بنابراین، برای هر چرخه از جایگشت $\pi$ می‌توانیم یک مقدار (از بین $k$ مقدار ممکن) انتخاب کنیم و به این ترتیب تعداد نقاط ثابت را به دست می‌آوریم:
 
 $$I(\pi) = k^{C(\pi)}$$
 
-## Application: Coloring necklaces
+## کاربرد: رنگ‌آمیزی گردنبندها
 
-The problem "Necklace" is one of the classical combinatorial problems.
-The task is to count the number of different necklaces from $n$ beads, each of which can be painted in one of the $k$ colors.
-When comparing two necklaces, they can be rotated, but not reversed (i.e. a cyclic shift is permitted).
+مسئله "گردنبند" یکی از مسائل ترکیبیاتی کلاسیک است.
+وظیفه، شمردن تعداد گردنبندهای مختلف با $n$ مهره است که هر کدام را می‌توان به یکی از $k$ رنگ، رنگ‌آمیزی کرد.
+هنگام مقایسه دو گردنبند، می‌توان آن‌ها را چرخاند، اما نمی‌توان برعکس کرد (یعنی شیفت چرخه‌ای مجاز است).
 
-In this problem we can immediately find the group of invariant permutations:
+در این مسئله، ما می‌توانیم بلافاصله گروه جایگشت‌های ناوردا را پیدا کنیم:
 
 $$\begin{align}
 \pi_0 &= 1 2 3 \dots n\\
@@ -162,59 +162,59 @@ $$\begin{align}
 &\dots\\
 \pi_{n-1} &= n 1 2 3\dots\end{align}$$
 
-Let us find an explicit formula for calculating $C(\pi_i)$.
-First we note, that the permutation $\pi_i$ has at the $j$-th position the value $i + j$ (taken modulo $n$).
-If we check the cycle structure for $\pi_i$.
-We see that $1$ goes to $1 + i$, $1 + i$ goes to $1 + 2i$, which goes to $1 + 3i$, etc., until we come to a number of the form $1 + k n$.
-Similar statements can be made for the remaining elements.
-Hence we see that all cycles have the same length, namely $\frac{\text{lcm}(i, n)}{i} = \frac{n}{\gcd(i, n)}$.
-Thus the number of cycles in $\pi_i$ will be equal to $\gcd(i, n)$.
+بیایید یک فرمول صریح برای محاسبه $C(\pi_i)$ پیدا کنیم.
+ابتدا توجه می‌کنیم که جایگشت $\pi_i$ در موقعیت $j$-ام مقدار $i + j$ (به پیمانه $n$) را دارد.
+اگر ساختار چرخه‌ای را برای $\pi_i$ بررسی کنیم.
+می‌بینیم که $1$ به $1 + i$ می‌رود، $1 + i$ به $1 + 2i$ می‌رود، که به $1 + 3i$ می‌رود و غیره، تا زمانی که به عددی به شکل $1 + k n$ برسیم.
+بیانات مشابهی را می‌توان برای عناصر باقی‌مانده نیز بیان کرد.
+از این رو می‌بینیم که تمام چرخه‌ها طول یکسانی دارند، یعنی $\frac{\text{ک.م.م}(i, n)}{i} = \frac{n}{\text{ب.م.م}(i, n)}$.
+بنابراین، تعداد چرخه‌ها در $\pi_i$ برابر با $\text{ب.م.م}(i, n)$ خواهد بود.
 
-Substituting these values into the Pólya enumeration theorem, we obtain the solution:
+با جایگزینی این مقادیر در قضیه شمارش پولیا، به جواب می‌رسیم:
 
-$$\frac{1}{n} \sum_{i=1}^n k^{\gcd(i, n)}$$
+$$\frac{1}{n} \sum_{i=1}^n k^{\text{ب.م.م}(i, n)}$$
 
-You can leave this formula in this form, or you can simplify it even more.
-Let transfer the sum so that it iterates over all divisors of $n$.
-In the original sum there will be many equivalent terms: if $i$ is not a divisor of $n$, then such a divisor can be found after computing $\gcd(i, n)$.
-Therefore for each divisor $d ~|~ n$ its term $k^{\gcd(d, n)} = k^d$ will appear in the sum multiple times, i.e. the answer to the problem can be rewritten as
+می‌توانید این فرمول را به همین شکل رها کنید، یا می‌توانید آن را حتی ساده‌تر کنید.
+جمع را به گونه‌ای تغییر می‌دهیم که روی تمام مقسوم‌علیه‌های $n$ پیمایش کند.
+در جمع اصلی، جملات معادل زیادی وجود خواهد داشت: اگر $i$ مقسوم‌علیه $n$ نباشد، پس از محاسبه $\text{ب.م.م}(i, n)$ چنین مقسوم‌علیهی یافت می‌شود.
+بنابراین، برای هر مقسوم‌علیه $d ~|~ n$ جمله $k^{\text{ب.م.م}(d, n)} = k^d$ چندین بار در جمع ظاهر می‌شود، یعنی پاسخ مسئله را می‌توان به صورت زیر بازنویسی کرد:
 
-$$\frac{1}{n} \sum_{d ~|~ n} C_d k^d,$$
+$$\frac{1}{n} \sum_{d ~|~ n} C_d k^d،$$
 
-where $C_d$ is the number of such numbers $i$ with $\gcd(i, n) = d$.
-We can find an explicit expression for this value.
-Any such number $i$ has the form $i = d j$ with $\gcd(j, n / d) = 1$ (otherwise $\gcd(i, n) > d$).
-So we can count the number of $j$ with this behavior.
-[Euler's phi function](../algebra/phi-function.md) gives us the result $C_d = \phi(n / d)$, and therefore we get the answer:
+که در آن $C_d$ تعداد آن دسته از اعداد $i$ است که $\text{ب.م.م}(i, n) = d$ است.
+می‌توانیم یک عبارت صریح برای این مقدار پیدا کنیم.
+هر عدد $i$ از این نوع به شکل $i = d j$ با شرط $\text{ب.م.م}(j, n / d) = 1$ است (در غیر این صورت $\text{ب.م.م}(i, n) > d$).
+بنابراین می‌توانیم تعداد $j$ هایی با این ویژگی را بشماریم.
+[تابع فی اویلر](../algebra/phi-function.md) نتیجه $C_d = \phi(n / d)$ را به ما می‌دهد، و بنابراین به پاسخ زیر می‌رسیم:
 
 $$\frac{1}{n} \sum_{d ~|~ n} \phi\left(\frac{n}{d}\right) k^d$$
 
-## Application: Coloring a torus
+## کاربرد: رنگ‌آمیزی یک چنبره
 
-Quite often we cannot obtain an explicit formula for the number of equivalence classes.
-In many problems the number of permutations in a group can be too large for manual calculations and it is not possible to compute analytically the number of cycles in them.
+اغلب نمی‌توانیم یک فرمول صریح برای تعداد کلاس‌های هم‌ارزی به دست آوریم.
+در بسیاری از مسائل، تعداد جایگشت‌ها در یک گروه ممکن است برای محاسبات دستی بیش از حد بزرگ باشد و محاسبه تحلیلی تعداد چرخه‌ها در آن‌ها امکان‌پذیر نباشد.
 
-In that case we should manually find several "basic" permutations, so that they can generate the entire group $G$.
-Next we can write a program that will generate all permutations of the group $G$, count the number of cycles in them, and compute the answer with the formula.
+در این حالت، باید به صورت دستی چندین جایگشت "پایه" را پیدا کنیم تا بتوانند کل گروه $G$ را تولید کنند.
+سپس می‌توانیم برنامه‌ای بنویسیم که تمام جایگشت‌های گروه $G$ را تولید کرده، تعداد چرخه‌ها در آن‌ها را بشمارد و با استفاده از فرمول، پاسخ را محاسبه کند.
 
-Consider the example of the problem for coloring a torus.
-There is a checkered sheet of paper $n \times m$ ($n < m$), some of the cells are black.
-Then a cylinder is obtained from this sheet by gluing together the two sides with lengths $m$.
-Then a torus is obtained from the cylinder by gluing together the two circles (top and bottom) without twisting.
-The task is to compute the number of different colored tori, assuming that we cannot see the glued lines, and the torus can be turned and turned.
+مثال مسئله رنگ‌آمیزی یک چنبره را در نظر بگیرید.
+یک کاغذ شطرنجی $n \times m$ ($n < m$) وجود دارد که برخی از خانه‌های آن سیاه هستند.
+سپس با چسباندن دو طرف با طول $m$ به یکدیگر، یک استوانه از این ورق به دست می‌آید.
+سپس با چسباندن دو دایره (بالا و پایین) به یکدیگر بدون پیچاندن، یک چنبره از استوانه به دست می‌آید.
+وظیفه، محاسبه تعداد چنبره‌های رنگی مختلف است، با فرض اینکه خطوط چسبانده شده را نمی‌بینیم و چنبره را می‌توان چرخاند و برگرداند.
 
-We again start with a piece of $n \times m$ paper.
-It is easy to see that the following types of transformations preserve the equivalence class:
-a cyclic shift of the rows, a cyclic shift of the columns, and a rotation of the sheet by 180 degrees.
-It is also easy to see, that these transformations can generate the entire group of invariant transformations.
-If we somehow number the cells of the paper, then we can write three permutations $p_1$, $p_2$, $p_3$ corresponding to these types of transformation.
+ما دوباره با یک تکه کاغذ $n \times m$ شروع می‌کنیم.
+به راحتی می‌توان دید که انواع تبدیلات زیر کلاس هم‌ارزی را حفظ می‌کنند:
+یک شیفت چرخه‌ای سطرها، یک شیفت چرخه‌ای ستون‌ها، و چرخش ۱۸۰ درجه‌ای صفحه.
+همچنین به راحتی می‌توان دید که این تبدیلات می‌توانند کل گروه تبدیلات ناوردا را تولید کنند.
+اگر به نوعی خانه‌های کاغذ را شماره‌گذاری کنیم، آنگاه می‌توانیم سه جایگشت $p_1$، $p_2$ و $p_3$ متناظر با این نوع تبدیلات را بنویسیم.
 
-Next it only remains to generate all permutations obtained as a product.
-It is obvious that all such permutations have the form $p_1^{i_1} p_2^{i_2} p_3^{i_3}$ where $i_1 = 0 \dots m-1$, $i_2 = 0 \dots n-1$, $i_3 = 0 \dots 1$.
+در ادامه فقط کافی است تمام جایگشت‌هایی را که به عنوان حاصل‌ضرب به دست می‌آیند، تولید کنیم.
+واضح است که تمام این جایگشت‌ها به شکل $p_1^{i_1} p_2^{i_2} p_3^{i_3}$ هستند که در آن $i_1 = 0 \dots m-1$، $i_2 = 0 \dots n-1$ و $i_3 = 0 \dots 1$.
 
-Thus we can write the implementations to this problem.
+بنابراین می‌توانیم پیاده‌سازی این مسئله را بنویسیم.
 
-```{.cpp file=burnside_tori}
+```cpp {.cpp file=burnside_tori}
 using Permutation = vector<int>;
 
 void operator*=(Permutation& p, Permutation const& q) {
@@ -266,7 +266,8 @@ int solve(int n, int m) {
     return sum / s.size();
 }
 ```
-## Practice Problems
+
+## مسائل تمرینی
 * [CSES - Counting Necklaces](https://cses.fi/problemset/task/2209)
 * [CSES - Counting Grids](https://cses.fi/problemset/task/2210)
 * [Codeforces - Buildings](https://codeforces.com/gym/101873/problem/B)

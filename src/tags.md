@@ -1,5 +1,10 @@
-# Tags
+---
+tags:
+  - AI Translated
+---
 
-This file contains a global index of all tags used on the pages.
+# برچسب‌ها
+
+این فایل شامل یک نمایه‌ی کلی از تمام برچسب‌های استفاده‌شده در صفحات است.
 
 <!-- material/tags -->

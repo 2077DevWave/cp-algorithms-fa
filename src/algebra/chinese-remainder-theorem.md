@@ -1,16 +1,16 @@
 ---
 tags:
-  - Translated
+  - AI Trasnlated
 e_maxx_link: chinese_theorem
 ---
 
-# Chinese Remainder Theorem
+# قضیه باقیمانده چینی
 
-The Chinese Remainder Theorem (which will be referred to as CRT in the rest of this article) was discovered by Chinese mathematician Sun Zi.
+قضیه باقیمانده چینی (که در ادامه این مقاله به آن CRT گفته می‌شود) توسط ریاضیدان چینی، سون تزو کشف شد.
 
-## Formulation
+## صورت‌بندی
 
-Let $m = m_1 \cdot m_2 \cdots m_k$, where $m_i$ are pairwise coprime. In addition to $m_i$, we are also given a system of congruences
+فرض کنید $m = m_1 \cdot m_2 \cdots m_k$، که در آن $m_i$ها دو به دو نسبت به هم اول هستند. علاوه بر $m_i$ها، یک دستگاه هم‌نهشتی نیز به ما داده شده است:
 
 $$\left\{\begin{array}{rcl}
     a & \equiv & a_1 \pmod{m_1} \\
@@ -19,9 +19,9 @@ $$\left\{\begin{array}{rcl}
     a & \equiv & a_k \pmod{m_k}
 \end{array}\right.$$
 
-where $a_i$ are some given constants. The original form of CRT then states that the given system of congruences always has *one and exactly one* solution modulo $m$.
+که در آن $a_i$ها ثوابت داده‌شده‌ای هستند. شکل اصلی قضیه CRT بیان می‌کند که دستگاه هم‌نهشتی داده شده همیشه *یک و تنها یک* جواب به پیمانه $m$ دارد.
 
-E.g. the system of congruences
+برای مثال، دستگاه هم‌نهشتی زیر:
 
 $$\left\{\begin{array}{rcl}
     a & \equiv & 2 \pmod{3} \\
@@ -29,17 +29,17 @@ $$\left\{\begin{array}{rcl}
     a & \equiv & 2 \pmod{7}
 \end{array}\right.$$
 
-has the solution $23$ modulo $105$, because $23 \bmod{3} = 2$, $23 \bmod{5} = 3$, and $23 \bmod{7} = 2$.
-We can write down every solution as $23 + 105\cdot k$ for $k \in \mathbb{Z}$.
+جواب $23$ به پیمانه $105$ را دارد، زیرا $23 \bmod{3} = 2$، $23 \bmod{5} = 3$ و $23 \bmod{7} = 2$ است.
+می‌توانیم هر جوابی را به صورت $23 + 105\cdot k$ برای $k \in \mathbb{Z}$ بنویسیم.
 
 
-### Corollary
+### نتیجه
 
-A consequence of the CRT is that the equation
+یکی از نتایج CRT این است که معادله
 
 $$x \equiv a \pmod{m}$$
 
-is equivalent to the system of equations
+معادل دستگاه معادلات زیر است:
 
 $$\left\{\begin{array}{rcl}
     x & \equiv & a_1 \pmod{m_1} \\
@@ -47,11 +47,11 @@ $$\left\{\begin{array}{rcl}
     x & \equiv & a_k \pmod{m_k}
 \end{array}\right.$$
 
-(As above, assume that $m = m_1 m_2 \cdots m_k$ and $m_i$ are pairwise coprime).
+(مانند بالا، فرض کنید $m = m_1 m_2 \cdots m_k$ و $m_i$ها دو به دو نسبت به هم اول هستند).
 
-## Solution for Two Moduli
+## راه‌حل برای دو پیمانه
 
-Consider a system of two equations for coprime $m_1, m_2$:
+یک دستگاه دو معادله‌ای را برای $m_1$ و $m_2$ که نسبت به هم اول هستند در نظر بگیرید:
 
 $$
 \left\{\begin{align}
@@ -60,18 +60,18 @@ $$
 \end{align}\right.
 $$
 
-We want to find a solution for $a \pmod{m_1 m_2}$. Using the [Extended Euclidean Algorithm](extended-euclid-algorithm.md) we can find Bézout coefficients $n_1, n_2$ such that
+می‌خواهیم جوابی برای $a \pmod{m_1 m_2}$ پیدا کنیم. با استفاده از [الگوریتم اقلیدسی تعمیم‌یافته](extended-euclid-algorithm.md) می‌توانیم ضرایب بزو $n_1$ و $n_2$ را طوری پیدا کنیم که:
 
 $$n_1 m_1 + n_2 m_2 = 1.$$
 
-In fact $n_1$ and $n_2$ are just the [modular inverses](module-inverse.md) of $m_1$ and $m_2$ modulo $m_2$ and $m_1$.
-We have $n_1 m_1 \equiv 1 \pmod{m_2}$ so $n_1 \equiv m_1^{-1} \pmod{m_2}$, and vice versa $n_2 \equiv m_2^{-1} \pmod{m_1}$. 
+در واقع $n_1$ و $n_2$ همان [وارون‌های ضربی پیمانه‌ای](module-inverse.md) $m_1$ و $m_2$ به پیمانه‌های $m_2$ و $m_1$ هستند.
+داریم $n_1 m_1 \equiv 1 \pmod{m_2}$ پس $n_1 \equiv m_1^{-1} \pmod{m_2}$، و برعکس $n_2 \equiv m_2^{-1} \pmod{m_1}$.
 
-With those two coefficients we can define a solution:
+با این دو ضریب می‌توانیم یک جواب را تعریف کنیم:
 
 $$a = a_1 n_2 m_2 + a_2 n_1 m_1 \bmod{m_1 m_2}$$
 
-It's easy to verify that this is indeed a solution by computing $a \bmod{m_1}$ and $a \bmod{m_2}$.
+به راحتی می‌توان با محاسبه $a \bmod{m_1}$ و $a \bmod{m_2}$ تأیید کرد که این واقعاً یک جواب است.
 
 $$
 \begin{array}{rcll}
@@ -82,32 +82,32 @@ a & \equiv & a_1 n_2 m_2 + a_2 n_1 m_1 & \pmod{m_1}\\
 \end{array}
 $$
 
-Notice, that the Chinese Remainder Theorem also guarantees, that only 1 solution exists modulo $m_1 m_2$.
-This is also easy to prove.
+توجه داشته باشید که قضیه باقیمانده چینی همچنین تضمین می‌کند که تنها ۱ جواب به پیمانه $m_1 m_2$ وجود دارد.
+اثبات این موضوع نیز آسان است.
 
-Lets assume that you have two different solutions $x$ and $y$.
-Because $x \equiv a_i \pmod{m_i}$ and $y \equiv a_i \pmod{m_i}$, it follows that $x − y \equiv 0 \pmod{m_i}$ and therefore $x − y \equiv 0 \pmod{m_1 m_2}$ or equivalently $x \equiv y \pmod{m_1 m_2}$.
-So $x$ and $y$ are actually the same solution.
+فرض کنیم شما دو جواب متفاوت $x$ و $y$ دارید.
+چون $x \equiv a_i \pmod{m_i}$ و $y \equiv a_i \pmod{m_i}$، نتیجه می‌شود که $x − y \equiv 0 \pmod{m_i}$ و بنابراین $x − y \equiv 0 \pmod{m_1 m_2}$ یا معادل آن $x \equiv y \pmod{m_1 m_2}$.
+پس $x$ و $y$ در واقع یک جواب هستند.
 
-## Solution for General Case
+## راه‌حل برای حالت کلی
 
-### Inductive Solution
+### راه‌حل استقرایی
 
-As $m_1 m_2$ is coprime to $m_3$, we can inductively repeatedly apply the solution for two moduli for any number of moduli.
-First you compute $b_2 := a \pmod{m_1 m_2}$ using the first two congruences,
-then you can compute $b_3 := a \pmod{m_1 m_2 m_3}$ using the congruences $a \equiv b_2 \pmod{m_1 m_2}$ and $a \equiv a_3 \pmod {m_3}$, etc.
+از آنجایی که $m_1 m_2$ نسبت به $m_3$ اول است، می‌توانیم به طور استقرایی و مکرر، راه‌حل دو پیمانه‌ای را برای هر تعداد پیمانه اعمال کنیم.
+ابتدا $b_2 := a \pmod{m_1 m_2}$ را با استفاده از دو هم‌نهشتی اول محاسبه می‌کنید،
+سپس می‌توانید $b_3 := a \pmod{m_1 m_2 m_3}$ را با استفاده از هم‌نهشتی‌های $a \equiv b_2 \pmod{m_1 m_2}$ و $a \equiv a_3 \pmod {m_3}$ محاسبه کنید و الی آخر.
 
-### Direct Construction
+### ساختار مستقیم
 
-A direct construction similar to Lagrange interpolation is possible.
+یک ساختار مستقیم مشابه درونیابی لاگرانژ امکان‌پذیر است.
 
-Let $M_i := \prod_{i \neq j} m_j$, the product of all moduli but $m_i$, and $N_i$ the modular inverses $N_i := M_i^{-1} \bmod{m_i}$.
-Then a solution to the system of congruences is:
+فرض کنید $M_i := \prod_{i \neq j} m_j$ حاصلضرب تمام پیمانه‌ها به جز $m_i$ باشد، و $N_i$ وارون ضربی پیمانه‌ای $N_i := M_i^{-1} \bmod{m_i}$ باشد.
+آنگاه یک جواب برای دستگاه هم‌نهشتی به صورت زیر است:
 
 $$a \equiv \sum_{i=1}^k a_i M_i N_i \pmod{m_1 m_2 \cdots m_k}$$
 
-We can check this is indeed a solution, by computing $a \bmod{m_i}$ for all $i$.
-Because $M_j$ is a multiple of $m_i$ for $i \neq j$ we have
+می‌توانیم با محاسبه $a \bmod{m_i}$ برای تمام $i$ها، بررسی کنیم که این واقعاً یک جواب است.
+چون $M_j$ برای $i \neq j$ مضربی از $m_i$ است، داریم:
 
 $$\begin{array}{rcll}
 a & \equiv & \sum_{j=1}^k a_j M_j N_j & \pmod{m_i} \\
@@ -116,7 +116,7 @@ a & \equiv & \sum_{j=1}^k a_j M_j N_j & \pmod{m_i} \\
   & \equiv & a_i                      & \pmod{m_i}
 \end{array}$$
 
-### Implementation
+### پیاده‌سازی
 
 ```{.cpp file=chinese_remainder_theorem}
 struct Congruence {
@@ -140,27 +140,27 @@ long long chinese_remainder_theorem(vector<Congruence> const& congruences) {
 }
 ```
 
-## Solution for not coprime moduli
+## راه‌حل برای پیمانه‌هایی که نسبت به هم اول نیستند
 
-As mentioned, the algorithm above only works for coprime moduli $m_1, m_2, \dots m_k$.
+همانطور که ذکر شد، الگوریتم بالا فقط برای پیمانه‌های $m_1, m_2, \dots m_k$ که دو به دو اول هستند کار می‌کند.
 
-In the not coprime case, a system of congruences has exactly one solution modulo $\text{lcm}(m_1, m_2, \dots, m_k)$, or has no solution at all.
+در حالتی که پیمانه‌ها نسبت به هم اول نیستند، یک دستگاه هم‌نهشتی یا دقیقاً یک جواب به پیمانه $\text{lcm}(m_1, m_2, \dots, m_k)$ دارد، یا اصلاً جوابی ندارد.
 
-E.g. in the following system, the first congruence implies that the solution is odd, and the second congruence implies that the solution is even.
-It's not possible that a number is both odd and even, therefore there is clearly no solution.
+برای مثال، در دستگاه زیر، هم‌نهشتی اول ایجاب می‌کند که جواب فرد باشد، و هم‌نهشتی دوم ایجاب می‌کند که جواب زوج باشد.
+امکان ندارد که یک عدد هم فرد و هم زوج باشد، بنابراین واضح است که هیچ جوابی وجود ندارد.
 
 $$\left\{\begin{align}
     a & \equiv 1 \pmod{4} \\
     a & \equiv 2 \pmod{6}
 \end{align}\right.$$
 
-It is pretty simple to determine is a system has a solution.
-And if it has one, we can use the original algorithm to solve a slightly modified system of congruences.
+تشخیص اینکه آیا یک دستگاه جواب دارد یا نه بسیار ساده است.
+و اگر جواب داشته باشد، می‌توانیم از الگوریتم اصلی برای حل یک دستگاه هم‌نهشتی کمی اصلاح‌شده استفاده کنیم.
 
-A single congruence $a \equiv a_i \pmod{m_i}$ is equivalent to the system of congruences $a \equiv a_i \pmod{p_j^{n_j}}$ where $p_1^{n_1} p_2^{n_2}\cdots p_k^{n_k}$ is the prime factorization of $m_i$.
+یک هم‌نهشتی منفرد $a \equiv a_i \pmod{m_i}$ معادل دستگاه هم‌نهشتی‌های $a \equiv a_i \pmod{p_j^{n_j}}$ است که در آن $p_1^{n_1} p_2^{n_2}\cdots p_k^{n_k}$ تجزیه به عوامل اول $m_i$ است.
 
-With this fact, we can modify the system of congruences into a system, that only has prime powers as moduli.
-E.g. the above system of congruences is equivalent to:
+با این واقعیت، می‌توانیم دستگاه هم‌نهشتی را به دستگاهی تبدیل کنیم که فقط توان‌های اول را به عنوان پیمانه داشته باشد.
+برای مثال، دستگاه هم‌نهشتی بالا معادل است با:
 
 $$\left\{\begin{array}{ll}
     a \equiv 1          & \pmod{4} \\
@@ -168,26 +168,26 @@ $$\left\{\begin{array}{ll}
     a \equiv 2          & \pmod{3}
 \end{array}\right.$$
 
-Because originally some moduli had common factors, we will get some congruences moduli based on the same prime, however possibly with different prime powers.
+از آنجایی که در ابتدا برخی پیمانه‌ها عوامل مشترک داشتند، ما هم‌نهشتی‌هایی با پیمانه‌هایی بر اساس همان عدد اول، اما احتمالاً با توان‌های اول متفاوت، به دست خواهیم آورد.
 
-You can observe, that the congruence with the highest prime power modulus will be the strongest congruence of all congruences based on the same prime number.
-Either it will give a contradiction with some other congruence, or it will imply already all other congruences.
+می‌توانید مشاهده کنید که هم‌نهشتی با پیمانه‌ی دارای بالاترین توان اول، قوی‌ترین هم‌نهشتی در میان تمام هم‌نهشتی‌های مبتنی بر همان عدد اول خواهد بود.
+این هم‌نهشتی یا با هم‌نهشتی دیگری در تناقض خواهد بود، یا بقیه هم‌نهشتی‌ها را از قبل نتیجه می‌دهد.
 
-In our case, the first congruence $a \equiv 1 \pmod{4}$ implies $a \equiv 1 \pmod{2}$, and therefore contradicts the second congruence $a \equiv 0 \pmod{2}$.
-Therefore this system of congruences has no solution.
+در مورد ما، هم‌نهشتی اول $a \equiv 1 \pmod{4}$ نتیجه می‌دهد که $a \equiv 1 \pmod{2}$، و بنابراین با هم‌نهشتی دوم $a \equiv 0 \pmod{2}$ در تناقض است.
+بنابراین این دستگاه هم‌نهشتی جوابی ندارد.
 
-If there are no contradictions, then the system of equation has a solution.
-We can ignore all congruences except the ones with the highest prime power moduli.
-These moduli are now coprime, and therefore we can solve this one with the algorithm discussed in the sections above.
+اگر تناقضی وجود نداشته باشد، آنگاه دستگاه معادلات جواب دارد.
+می‌توانیم تمام هم‌نهشتی‌ها را به جز آنهایی که دارای بالاترین توان اول هستند، نادیده بگیریم.
+این پیمانه‌ها اکنون نسبت به هم اول هستند و بنابراین می‌توانیم این دستگاه را با الگوریتمی که در بخش‌های بالا بحث شد حل کنیم.
 
-E.g. the following system has a solution modulo $\text{lcm}(10, 12) = 60$.
+برای مثال، دستگاه زیر یک جواب به پیمانه $\text{lcm}(10, 12) = 60$ دارد.
 
 $$\left\{\begin{align}
     a & \equiv 3 \pmod{10} \\
     a & \equiv 5 \pmod{12}
 \end{align}\right.$$
 
-The system of congruence is equivalent to the system of congruences:
+این دستگاه هم‌نهشتی معادل دستگاه هم‌نهشتی‌های زیر است:
 
 $$\left\{\begin{align}
     a & \equiv 3 \equiv 1 \pmod{2} \\
@@ -196,8 +196,8 @@ $$\left\{\begin{align}
     a & \equiv 5 \equiv 2 \pmod{3}
 \end{align}\right.$$
 
-The only congruence with same prime modulo are $a \equiv 1 \pmod{4}$ and $a \equiv 1 \pmod{2}$.
-The first one already implies the second one, so we can ignore the second one, and solve the following system with coprime moduli instead:
+تنها هم‌نهشتی‌ها با پیمانه اول یکسان، $a \equiv 1 \pmod{4}$ و $a \equiv 1 \pmod{2}$ هستند.
+اولی دومی را نتیجه می‌دهد، بنابراین می‌توانیم دومی را نادیده بگیریم و به جای آن دستگاه زیر را با پیمانه‌های نسبت به هم اول حل کنیم:
 
 $$\left\{\begin{align}
     a & \equiv 3 \equiv 3 \pmod{5} \\
@@ -205,25 +205,25 @@ $$\left\{\begin{align}
     a & \equiv 5 \equiv 2 \pmod{3}
 \end{align}\right.$$
 
-It has the solution $53 \pmod{60}$, and indeed $53 \bmod{10} = 3$ and $53 \bmod{12} = 5$.
+این دستگاه جواب $53 \pmod{60}$ را دارد، و در واقع $53 \bmod{10} = 3$ و $53 \bmod{12} = 5$ است.
 
-## Garner's Algorithm
+## الگوریتم Garner
 
-Another consequence of the CRT is that we can represent big numbers using an array of small integers.
+یکی دیگر از نتایج CRT این است که می‌توانیم اعداد بزرگ را با استفاده از آرایه‌ای از اعداد صحیح کوچک نمایش دهیم.
 
-Instead of doing a lot of computations with very large numbers numbers, which might be expensive (think of doing divisions with 1000-digit numbers), you can pick a couple of coprime moduli and represent the large number as a system of congruences, and perform all operations on the system of equations.
-Any number $a$ less than $m_1 m_2 \cdots m_k$ can be represented as an array $a_1, \ldots, a_k$, where $a \equiv a_i \pmod{m_i}$.
+به جای انجام محاسبات زیاد با اعداد بسیار بزرگ که ممکن است گران باشد (به تقسیم اعداد ۱۰۰۰ رقمی فکر کنید)، می‌توانید چند پیمانه دو به دو اول انتخاب کرده و عدد بزرگ را به عنوان یک دستگاه هم‌نهشتی نمایش دهید و تمام عملیات را روی این دستگاه معادلات انجام دهید.
+هر عدد $a$ کمتر از $m_1 m_2 \cdots m_k$ را می‌توان به صورت آرایه‌ای از $a_1, \ldots, a_k$ نمایش داد، که در آن $a \equiv a_i \pmod{m_i}$ است.
 
-By using the above algorithm, you can again reconstruct the large number whenever you need it.
+با استفاده از الگوریتم بالا، می‌توانید هر زمان که نیاز داشتید، عدد بزرگ را دوباره بازسازی کنید.
 
-Alternatively you can represent the number in the **mixed radix** representation:
+به طور جایگزین، می‌توانید عدد را در نمایش **مبنای مختلط** نشان دهید:
 
-$$a = x_1 + x_2 m_1 + x_3 m_1 m_2 + \ldots + x_k m_1 \cdots m_{k-1} \text{ with }x_i \in [0, m_i)$$
+$$a = x_1 + x_2 m_1 + x_3 m_1 m_2 + \ldots + x_k m_1 \cdots m_{k-1} \text{ با }x_i \in [0, m_i)$$
 
-Garner's algorithm, which is discussed in the dedicated article [Garner's algorithm](garners-algorithm.md), computes the coefficients $x_i$.
-And with those coefficients you can restore the full number.
+الگوریتم Garner، که در مقاله اختصاصی [الگوریتم Garner](garners-algorithm.md) مورد بحث قرار گرفته است، ضرایب $x_i$ را محاسبه می‌کند.
+و با آن ضرایب می‌توانید عدد کامل را بازیابی کنید.
 
-## Practice Problems:
+## مسائل تمرینی:
 
 * [Google Code Jam - Golf Gophers](https://github.com/google/coding-competitions-archive/blob/main/codejam/2019/round_1a/golf_gophers/statement.pdf)
 * [Hackerrank - Number of sequences](https://www.hackerrank.com/contests/w22/challenges/number-of-sequences)

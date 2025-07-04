@@ -1,3 +1,8 @@
+---
+tags:
+  - AI Translated
+---
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
@@ -6,7 +11,7 @@
       var URL = "https://us-central1-cp-algorithms.cloudfunctions.net/convert-markdown-mkdocs";
       var data = {"markdown": markdown};
       var refresh_script = `<scr` + `ipt>MathJax.typeset();</scr` + `ipt>`;
-      $("#previewBtn").html("Loading...");
+      $("#previewBtn").html("در حال بارگذاری...");
       $.ajax({
         url: URL,
         contentType: "application/json",
@@ -14,9 +19,9 @@
         data: JSON.stringify(data),
         success: function(data) {
           $("#previewArea").html(data + "\n" + refresh_script);
-          $("#previewBtn").html("Preview (Ctrl + Enter)");
+          $("#previewBtn").html("پیش‌نمایش (Ctrl + Enter)");
         },
-        error: function() {$("#previewArea").html("Internal error!")}
+        error: function() {$("#previewArea").html("خطای داخلی!")}
       });
     });
 
@@ -27,13 +32,13 @@
     })
   });
 </script>
-# Article Preview
+# پیش‌نمایش مقاله
 
-<a href="contrib.html">Information for contributors</a>
+<a href="contrib.html">اطلاعات برای مشارکت‌کنندگان</a>
 <center>
 <form>
   <textarea style="width:100%;height:300px;" id="markdownInput">
-# Example article
+# مقاله نمونه
 
 $$a^2 + b^2 = c^2$$
 
@@ -47,7 +52,7 @@ int gcd (int a, int b) {
 ```</textarea>
   <br/>
   <br/>
-  <button type='button' class="md-button md-button--primary" id="previewBtn">Preview (Ctrl + Enter)</button>
+  <button type='button' class="md-button md-button--primary" id="previewBtn">پیش‌نمایش (Ctrl + Enter)</button>
 </form>
 </center>
 <hr/>

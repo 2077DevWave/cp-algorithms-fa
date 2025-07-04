@@ -1,57 +1,59 @@
 ---
 tags:
-  - Translated
-e_maxx_link: counting_connected_graphs
+  - AI Translated
+e_maxx_link: counting_labeled_graphs
 ---
 
-# Counting labeled graphs
+# شمارش گراف‌های برچسب‌دار
 
-## Labeled graphs
+## گراف‌های برچسب‌دار
 
-Let the number of vertices in a graph be $n$.
-We have to compute the number $G_n$ of labeled graphs with $n$ vertices (labeled means that the vertices are marked with the numbers from $1$ to $n$).
-The edges of the graphs are considered undirected, and loops and multiple edges are forbidden.
+فرض کنید تعداد رئوس در یک گراف $n$ باشد.
+باید تعداد $G_n$ گراف‌های برچسب‌دار با $n$ رأس را محاسبه کنیم (برچسب‌دار به این معنی است که رئوس با اعداد ۱ تا $n$ مشخص شده‌اند).
+یال‌های گراف‌ها غیرجهت‌دار در نظر گرفته می‌شوند و حلقه‌ها و یال‌های چندگانه مجاز نیستند.
 
-We consider the set of all possible edges of the graph.
-For each edge $(i, j)$ we can assume that $i < j$ (because the graph is undirected, and there are no loops).
-Therefore the set of all edges has the cardinality $\binom{n}{2}$, i.e. $\frac{n(n-1)}{2}$.
+مجموعه تمام یال‌های ممکن گراف را در نظر می‌گیریم.
+برای هر یال $(i, j)$ می‌توانیم فرض کنیم که $i < j$ است (چون گراف غیرجهت‌دار است و حلقه وجود ندارد).
+بنابراین، مجموعه تمام یال‌ها دارای کاردینالیتی $\binom{n}{2}$ یا به عبارتی $\frac{n(n-1)}{2}$ است.
 
-Since any labeled graph is uniquely determined by its edges, the number of labeled graphs with $n$ vertices is equal to:
+از آنجایی که هر گراف برچسب‌دار به طور یکتا توسط یال‌هایش مشخص می‌شود، تعداد گراف‌های برچسب‌دار با $n$ رأس برابر است با:
 
 $$G_n = 2^{\frac{n(n-1)}{2}}$$
 
-## Connected labeled graphs
+## گراف‌های همبند برچسب‌دار
 
-Here, we additionally impose the restriction that the graph has to be connected.
+در اینجا، این محدودیت را نیز اضافه می‌کنیم که گراف باید همبند باشد.
 
-Let's denote the required number of connected graphs with $n$ vertices as $C_n$.
+تعداد گراف‌های همبند با $n$ رأس را با $C_n$ نشان می‌دهیم.
 
-We will first discuss how many **disconnected** graphs exists.
-Then the number of connected graphs will be $G_n$ minus the number of disconnected graphs.
-Even more, we will count the number of **disconnected, rooted graphs**.A rooted graph is a graph, where we emphasize one vertex by labeling it as root.
-Obviously we have $n$ possibilities to root a graph with $n$ labeled vertices, therefore we will need to divide the number of disconnected rooted graphs by $n$ at the end to get the number of disconnected graphs.
+ابتدا بررسی می‌کنیم که چه تعداد گراف **ناهمبند** وجود دارد.
+سپس تعداد گراف‌های همبند برابر با $G_n$ منهای تعداد گراف‌های ناهمبند خواهد بود.
+حتی فراتر از آن، تعداد گراف‌های **ناهمبند و ریشه‌دار** را می‌شماریم.
+گراف ریشه‌دار، گرافی است که در آن با مشخص کردن یک رأس به عنوان ریشه، آن را متمایز می‌کنیم.
+واضح است که برای ریشه‌دار کردن یک گراف با $n$ رأس برچسب‌دار، $n$ حالت ممکن وجود دارد، بنابراین در انتها باید تعداد گراف‌های ناهمبند ریشه‌دار را بر $n$ تقسیم کنیم تا تعداد گراف‌های ناهمبند را به دست آوریم.
 
-The root vertex will appear in a connected component of size $1, \dots n-1$.
-There are $k \binom{n}{k} C_k G_{n-k}$ graphs such that the root vertex is in a connected component with $k$ vertices (there are $\binom{n}{k}$ ways to choose $k$ vertices for the component, these are connected in one of $C_k$ ways, the root vertex can be any of the $k$ vertices, and the remainder $n-k$ vertices can be connected/disconnected in any way, which gives a factor of $G_{n-k}$).
-Therefore the number of disconnected graphs with $n$ vertices is:
+رأس ریشه در یک مؤلفه همبندی با اندازه $1, \dots, n-1$ ظاهر خواهد شد.
+تعداد گراف‌هایی که در آن‌ها رأس ریشه در یک مؤلفه همبندی با $k$ رأس قرار دارد برابر است با $k \binom{n}{k} C_k G_{n-k}$ (به $\binom{n}{k}$ طریق می‌توان $k$ رأس را برای مؤلفه انتخاب کرد، این رئوس به یکی از $C_k$ روش همبند می‌شوند، رأس ریشه می‌تواند هر کدام از $k$ رأس باشد، و $n-k$ رأس باقیمانده می‌توانند به هر شکلی به هم متصل شوند که ضریب $G_{n-k}$ را نتیجه می‌دهد).
+بنابراین، تعداد گراف‌های ناهمبند با $n$ رأس برابر است با:
 
 $$\frac{1}{n} \sum_{k=1}^{n-1} k \binom{n}{k} C_k G_{n-k}$$
 
-And finally the number of connected graphs is:
+و در نهایت، تعداد گراف‌های همبند برابر است با:
 
 $$C_n = G_n - \frac{1}{n} \sum_{k=1}^{n-1} k \binom{n}{k} C_k G_{n-k}$$
 
-## Labeled graphs with $k$ connected components {data-toc-label="Labeled graphs with k connected components"}
+## گراف‌های برچسب‌دار با $k$ مؤلفه همبندی {data-toc-label="گراف‌های برچسب‌دار با k مؤلفه همبندی"}
 
-Based on the formula from the previous section, we will learn how to count the number of labeled graphs with $n$ vertices and $k$ connected components.
+بر اساس فرمول بخش قبل، یاد می‌گیریم چگونه تعداد گراف‌های برچسب‌دار با $n$ رأس و $k$ مؤلفه همبندی را بشماریم.
 
-This number can be computed using dynamic programming.
-We will compute $D[i][j]$ - the number of labeled graphs with $i$ vertices and $j$ components - for each $i \le n$ and $j \le k$.
+این تعداد را می‌توان با استفاده از برنامه‌نویسی پویا محاسبه کرد.
+ما $D[i][j]$ - تعداد گراف‌های برچسب‌دار با $i$ رأس و $j$ مؤلفه - را برای هر $i \le n$ و $j \le k$ محاسبه خواهیم کرد.
 
-Let's discuss how to compute the next element $D[n][k]$ if we already know the previous values.
-We use a common approach, we take the last vertex (index $n$).
-This vertex belongs to some component.
-If the size of this component be $s$, then there are $\binom{n-1}{s-1}$ ways to choose such a set of vertices, and $C_s$ ways to connect them.After removing this component from the graph we have $n-s$ remaining vertices with $k-1$ connected components.
-Therefore we obtain the following recurrence relation:
+بیایید بررسی کنیم که اگر مقادیر قبلی را بدانیم، چگونه عنصر بعدی $D[n][k]$ را محاسبه کنیم.
+از یک رویکرد رایج استفاده می‌کنیم، آخرین رأس (با اندیس $n$) را در نظر می‌گیریم.
+این رأس به یک مؤلفه تعلق دارد.
+اگر اندازه این مؤلفه $s$ باشد، آنگاه $\binom{n-1}{s-1}$ روش برای انتخاب چنین مجموعه‌ای از رئوس و $C_s$ روش برای همبند کردن آنها وجود دارد.
+پس از حذف این مؤلفه از گراف، $n-s$ رأس باقیمانده با $k-1$ مؤلفه همبندی خواهیم داشت.
+بنابراین، به رابطه بازگشتی زیر می‌رسیم:
 
 $$D[n][k] = \sum_{s=1}^{n} \binom{n-1}{s-1} C_s D[n-s][k-1]$$

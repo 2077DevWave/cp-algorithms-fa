@@ -1,18 +1,18 @@
 ---
 tags:
-  - Translated
-e_maxx_link: bishops_arrangement
+  - AI Translated
+e_maxx_link: bishops-on-chessboard
 ---
 
-# Placing Bishops on a Chessboard
+# قرار دادن فیل روی صفحه شطرنج
 
-Find the number of ways to place $K$ bishops on an $N \times N$ chessboard so that no two bishops attack each other.
+تعداد راه‌های قرار دادن $K$ فیل روی یک صفحه شطرنج $N \times N$ را طوری بیابید که هیچ دو فیلی به یکدیگر حمله نکنند.
 
-## Algorithm
+## الگوریتم
 
-This problem can be solved using dynamic programming.
+این مسئله را می‌توان با استفاده از برنامه‌نویسی پویا حل کرد.
 
-Let's enumerate the diagonals of the chessboard as follows: black diagonals have odd indices, white diagonals have even indices, and the diagonals are numbered in non-decreasing order of the number of squares in them. Here is an example for a $5 \times 5$ chessboard.
+بیایید قطرهای صفحه شطرنج را به صورت زیر شماره‌گذاری کنیم: قطرهای سیاه اندیس‌های فرد و قطرهای سفید اندیس‌های زوج دارند و قطرها بر اساس تعداد خانه‌هایشان به ترتیب غیرنزولی شماره‌گذاری می‌شوند. در زیر مثالی برای یک صفحه شطرنج $5 \times 5$ آورده شده است.
 
 $$\begin{matrix}
 \bf{1} & 2 & \bf{5} & 6 & \bf{9} \\\
@@ -22,15 +22,15 @@ $$\begin{matrix}
 \bf{9} & 8 & \bf{7} & 4 & \bf{3} \\\
 \end{matrix}$$
 
-Let `D[i][j]` denote the number of ways to place `j` bishops on diagonals with indices up to `i` which have the same color as diagonal `i`.
-Then `i = 1...2N-1` and `j = 0...K`.
+`D[i][j]` را تعداد راه‌های قرار دادن `j` فیل روی قطرهایی با اندیس تا `i` که هم‌رنگ قطر `i` هستند، در نظر بگیرید.
+در این صورت `i = 1...2N-1` و `j = 0...K` است.
 
-We can calculate `D[i][j]` using only values of `D[i-2]` (we subtract 2 because we only consider diagonals of the same color as $i$).
-There are two ways to get `D[i][j]`.
-Either we place all `j` bishops on previous diagonals: then there are `D[i-2][j]` ways to achieve this.
-Or we place one bishop on diagonal `i` and `j-1` bishops on previous diagonals.
-The number of ways to do this equals the number of squares in diagonal `i` minus `j-1`, because each of `j-1` bishops placed on previous diagonals will block one square on the current diagonal.
-The number of squares in diagonal `i` can be calculated as follows:
+ما می‌توانیم `D[i][j]` را تنها با استفاده از مقادیر `D[i-2]` محاسبه کنیم (۲ را کم می‌کنیم زیرا فقط قطرهای هم‌رنگ با قطر $i$ را در نظر می‌گیریم).
+دو راه برای به دست آوردن `D[i][j]` وجود دارد.
+یا همه `j` فیل را روی قطرهای قبلی قرار می‌دهیم: در این صورت `D[i-2][j]` راه برای این کار وجود دارد.
+یا یک فیل را روی قطر `i` و `j-1` فیل را روی قطرهای قبلی قرار می‌دهیم.
+تعداد راه‌های انجام این کار برابر است با تعداد خانه‌های قطر `i` منهای `j-1`، زیرا هر یک از `j-1` فیل قرار گرفته روی قطرهای قبلی، یک خانه از قطر فعلی را مسدود می‌کند.
+تعداد خانه‌ها در قطر `i` را می‌توان به صورت زیر محاسبه کرد:
 
 ```cpp
 int squares (int i) {
@@ -41,15 +41,15 @@ int squares (int i) {
 }
 ```
 
-The base case is simple: `D[i][0] = 1`, `D[1][1] = 1`.
+حالت پایه ساده است: `D[i][0] = 1` و `D[1][1] = 1`.
 
-Once we have calculated all values of `D[i][j]`, the answer can be obtained as follows:
-consider all possible numbers of bishops placed on black diagonals `i=0...K`, with corresponding numbers of bishops on white diagonals `K-i`.
-The bishops placed on black and white diagonals never attack each other, so the placements can be done independently.
-The index of the last black diagonal is `2N-1`, the last white one is `2N-2`.
-For each `i` we add `D[2N-1][i] * D[2N-2][K-i]` to the answer.
+پس از محاسبه تمام مقادیر `D[i][j]`، پاسخ را می‌توان به صورت زیر به دست آورد:
+تمام تعداد ممکن فیل‌هایی که روی قطرهای سیاه قرار می‌گیرند (`i=0...K`) را با تعداد متناظر فیل‌ها روی قطرهای سفید (`K-i`) در نظر بگیرید.
+فیل‌های قرار گرفته روی قطرهای سیاه و سفید هرگز به یکدیگر حمله نمی‌کنند، بنابراین چیدمان‌ها را می‌توان به طور مستقل انجام داد.
+اندیس آخرین قطر سیاه `2N-1` و آخرین قطر سفید `2N-2` است.
+برای هر `i`، حاصل `D[2N-1][i] * D[2N-2][K-i]` را به پاسخ اضافه می‌کنیم.
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
 int bishop_placements(int N, int K)

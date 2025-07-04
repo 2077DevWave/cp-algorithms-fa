@@ -1,38 +1,36 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: binary_pow
 ---
 
-# Binary Exponentiation
+# توان‌رسانی دودویی
 
-Binary exponentiation (also known as exponentiation by squaring) is a trick which allows to calculate $a^n$ using only $O(\log n)$ multiplications (instead of $O(n)$ multiplications required by the naive approach).
+توان‌رسانی دودویی (که به عنوان توان‌رسانی با مربع‌سازی نیز شناخته می‌شود) ترفندی است که اجازه می‌دهد $a^n$ را تنها با استفاده از $O(\log n)$ ضرب (به جای $O(n)$ ضرب مورد نیاز در رویکرد ساده) محاسبه کنیم.
 
-It also has important applications in many tasks unrelated to arithmetic, since it
-can be used with any operations that have the property of **associativity**:
+این روش همچنین کاربردهای مهمی در بسیاری از مسائل غیرمرتبط با حساب دارد، زیرا می‌توان آن را با هر عملیاتی که خاصیت **شرکت‌پذیری** دارد، استفاده کرد:
 
 $$(X \cdot Y) \cdot Z = X \cdot (Y \cdot Z)$$
 
-Most obviously this applies to modular multiplication, to multiplication of matrices and
-to other problems which we will discuss below.
+واضح‌ترین کاربردهای آن در ضرب پیمانه‌ای، ضرب ماتریس‌ها و مسائل دیگری است که در ادامه به آنها خواهیم پرداخت.
 
-## Algorithm
+## الگوریتم
 
-Raising $a$ to the power of $n$ is expressed naively as multiplication by $a$ done $n - 1$ times:
-$a^{n} = a \cdot a \cdot \ldots \cdot a$. However, this approach is not practical for large $a$ or $n$.
+به توان $n$ رساندن $a$ به صورت ساده به عنوان ضرب $a$ در خودش به تعداد $n-1$ بار بیان می‌شود:
+$a^{n} = a \cdot a \cdot \ldots \cdot a$. با این حال، این رویکرد برای $a$ یا $n$ بزرگ عملی نیست.
 
-$a^{b+c} = a^b \cdot a^c$ and $a^{2b} = a^b \cdot a^b = (a^b)^2$.
+$a^{b+c} = a^b \cdot a^c$ و $a^{2b} = a^b \cdot a^b = (a^b)^2$.
 
-The idea of binary exponentiation is, that we split the work using the binary representation of the exponent.
+ایده‌ی توان‌رسانی دودویی این است که ما کار را با استفاده از نمایش دودویی توان، تقسیم می‌کنیم.
 
-Let's write $n$ in base 2, for example:
+بیایید $n$ را در مبنای ۲ بنویسیم، برای مثال:
 
 $$3^{13} = 3^{1101_2} = 3^8 \cdot 3^4 \cdot 3^1$$
 
-Since the number $n$ has exactly $\lfloor \log_2 n \rfloor + 1$ digits in base 2, we only need to perform $O(\log n)$ multiplications, if we know the powers $a^1, a^2, a^4, a^8, \dots, a^{2^{\lfloor \log n \rfloor}}$.
+از آنجایی که عدد $n$ در مبنای ۲ دقیقاً $\lfloor \log_2 n \rfloor + 1$ رقم دارد، اگر توان‌های $a^1, a^2, a^4, a^8, \dots, a^{2^{\lfloor \log n \rfloor}}$ را بدانیم، تنها به $O(\log n)$ ضرب نیاز داریم.
 
-So we only need to know a fast way to compute those.
-Luckily this is very easy, since an element in the sequence is just the square of the previous element.
+بنابراین فقط به یک راه سریع برای محاسبه آن‌ها نیاز داریم.
+خوشبختانه این کار بسیار آسان است، زیرا هر عنصر در دنباله، مربع عنصر قبلی است.
 
 $$\begin{align}
 3^1 &= 3 \\
@@ -41,22 +39,22 @@ $$\begin{align}
 3^8 &= \left(3^4\right)^2 = 81^2 = 6561
 \end{align}$$
 
-So to get the final answer for $3^{13}$, we only need to multiply three of them (skipping $3^2$ because the corresponding bit in $n$ is not set):
+بنابراین برای به دست آوردن پاسخ نهایی برای $3^{13}$، فقط باید سه تا از آنها را ضرب کنیم (از $3^2$ صرف‌نظر می‌کنیم چون بیت متناظر آن در $n$ یک نیست):
 $3^{13} = 6561 \cdot 81 \cdot 3 = 1594323$
 
-The final complexity of this algorithm is $O(\log n)$: we have to compute $\log n$ powers of $a$, and then have to do at most $\log n$ multiplications to get the final answer from them.
+پیچیدگی نهایی این الگوریتم $O(\log n)$ است: ما باید $\log n$ توان از $a$ را محاسبه کنیم و سپس حداکثر $\log n$ ضرب برای به دست آوردن پاسخ نهایی از آن‌ها انجام دهیم.
 
-The following recursive approach expresses the same idea:
+رویکرد بازگشتی زیر همین ایده را بیان می‌کند:
 
 $$a^n = \begin{cases}
-1 &\text{if } n == 0 \\
-\left(a^{\frac{n}{2}}\right)^2 &\text{if } n > 0 \text{ and } n \text{ even}\\
-\left(a^{\frac{n - 1}{2}}\right)^2 \cdot a &\text{if } n > 0 \text{ and } n \text{ odd}\\
+1 &\text{اگر } n == 0 \\
+\left(a^{\frac{n}{2}}\right)^2 &\text{اگر } n > 0 \text{ و } n \text{ زوج باشد}\\
+\left(a^{\frac{n - 1}{2}}\right)^2 \cdot a &\text{اگر } n > 0 \text{ و } n \text{ فرد باشد}\\
 \end{cases}$$
 
-## Implementation
+## پیاده‌سازی
 
-First the recursive approach, which is a direct translation of the recursive formula:
+ابتدا رویکرد بازگشتی، که ترجمه مستقیمی از فرمول بازگشتی است:
 
 ```cpp
 long long binpow(long long a, long long b) {
@@ -70,9 +68,9 @@ long long binpow(long long a, long long b) {
 }
 ```
 
-The second approach accomplishes the same task without recursion.
-It computes all the powers in a loop, and multiplies the ones with the corresponding set bit in $n$.
-Although the complexity of both approaches is identical, this approach will be faster in practice since we don't have the overhead of the recursive calls.
+رویکرد دوم همین کار را بدون بازگشت انجام می‌دهد.
+این رویکرد تمام توان‌ها را در یک حلقه محاسبه می‌کند و آن‌هایی را که بیت متناظرشان در $n$ یک است، در هم ضرب می‌کند.
+اگرچه پیچیدگی هر دو رویکرد یکسان است، این رویکرد در عمل سریع‌تر خواهد بود زیرا سربار فراخوانی‌های بازگشتی را نداریم.
 
 ```cpp
 long long binpow(long long a, long long b) {
@@ -87,16 +85,16 @@ long long binpow(long long a, long long b) {
 }
 ```
 
-## Applications
+## کاربردها
 
-### Effective computation of large exponents modulo a number
+### محاسبه موثر توان‌های بزرگ به پیمانه یک عدد
 
-**Problem:**
-Compute $x^n \bmod m$.
-This is a very common operation. For instance it is used in computing the [modular multiplicative inverse](module-inverse.md).
+**مسئله:**
+محاسبه $x^n \bmod m$.
+این یک عملیات بسیار رایج است. به عنوان مثال در محاسبه [وارون ضربی پیمانه‌ای](module-inverse.md) استفاده می‌شود.
 
-**Solution:**
-Since we know that the modulo operator doesn't interfere with multiplications ($a \cdot b \equiv (a \bmod m) \cdot (b \bmod m) \pmod m$), we can directly use the same code, and just replace every multiplication with a modular multiplication:
+**راه حل:**
+از آنجا که می‌دانیم عملگر پیمانه با ضرب‌ها تداخلی ندارد ($a \cdot b \equiv (a \bmod m) \cdot (b \bmod m) \pmod m$)، می‌توانیم مستقیماً از همان کد استفاده کنیم و فقط هر ضرب را با یک ضرب پیمانه‌ای جایگزین کنیم:
 
 ```cpp
 long long binpow(long long a, long long b, long long m) {
@@ -112,28 +110,28 @@ long long binpow(long long a, long long b, long long m) {
 }
 ```
 
-**Note:**
-It's possible to speed this algorithm for large $b >> m$.
-If $m$ is a prime number $x^n \equiv x^{n \bmod (m-1)} \pmod{m}$ for prime $m$, and $x^n \equiv x^{n \bmod{\phi(m)}} \pmod{m}$ for composite $m$.
-This follows directly from Fermat's little theorem and Euler's theorem, see the article about [Modular Inverses](module-inverse.md#fermat-euler) for more details.
+**نکته:**
+می‌توان این الگوریتم را برای $b$ های بزرگ ($b >> m$) سریع‌تر کرد.
+اگر $m$ یک عدد اول باشد، $x^n \equiv x^{n \bmod (m-1)} \pmod{m}$ و اگر $m$ مرکب باشد $x^n \equiv x^{n \bmod{\phi(m)}} \pmod{m}$ برقرار است.
+این موضوع مستقیماً از قضیه کوچک فرما و قضیه اویلر نتیجه می‌شود، برای جزئیات بیشتر به مقاله [وارون‌های پیمانه‌ای](module-inverse.md#fermat-euler) مراجعه کنید.
 
-### Effective computation of Fibonacci numbers
+### محاسبه موثر اعداد فیبوناچی
 
-**Problem:** Compute $n$-th Fibonacci number $F_n$.
+**مسئله:** محاسبه $n$-امین عدد فیبوناچی $F_n$.
 
-**Solution:** For more details, see the [Fibonacci Number article](fibonacci-numbers.md).
-We will only go through an overview of the algorithm.
-To compute the next Fibonacci number, only the two previous ones are needed, as $F_n = F_{n-1} + F_{n-2}$.
-We can build a $2 \times 2$ matrix that describes this transformation:
-the transition from $F_i$ and $F_{i+1}$ to $F_{i+1}$ and $F_{i+2}$.
-For example, applying this transformation to the pair $F_0$ and $F_1$ would change it into $F_1$ and $F_2$.
-Therefore, we can raise this transformation matrix to the $n$-th power to find $F_n$ in time complexity $O(\log n)$.
+**راه حل:** برای جزئیات بیشتر، به مقاله [اعداد فیبوناچی](fibonacci-numbers.md) مراجعه کنید.
+ما فقط یک نمای کلی از الگوریتم را مرور خواهیم کرد.
+برای محاسبه عدد فیبوناچی بعدی، تنها دو عدد قبلی مورد نیاز است، زیرا $F_n = F_{n-1} + F_{n-2}$.
+می‌توانیم یک ماتریس $2 \times 2$ بسازیم که این تبدیل را توصیف کند:
+انتقال از $F_i$ و $F_{i+1}$ به $F_{i+1}$ و $F_{i+2}$.
+به عنوان مثال، اعمال این تبدیل بر روی زوج $F_0$ و $F_1$ آن را به $F_1$ و $F_2$ تبدیل می‌کند.
+بنابراین، می‌توانیم این ماتریس تبدیل را به توان $n$ برسانیم تا $F_n$ را در پیچیدگی زمانی $O(\log n)$ پیدا کنیم.
 
-### Applying a permutation $k$ times { data-toc-label='Applying a permutation <script type="math/tex">k</script> times' }
+### اعمال یک جایگشت به تعداد $k$ بار { data-toc-label='اعمال یک جایگشت به تعداد <script type="math/tex">k</script> بار' }
 
-**Problem:** You are given a sequence of length $n$. Apply to it a given permutation $k$ times.
+**مسئله:** به شما یک دنباله به طول $n$ داده شده است. یک جایگشت معین را $k$ بار روی آن اعمال کنید.
 
-**Solution:** Simply raise the permutation to $k$-th power using binary exponentiation, and then apply it to the sequence. This will give you a time complexity of $O(n \log k)$.
+**راه حل:** به سادگی جایگشت را با استفاده از توان‌رسانی دودویی به توان $k$ برسانید و سپس آن را روی دنباله اعمال کنید. این کار به شما پیچیدگی زمانی $O(n \log k)$ می‌دهد.
 
 ```cpp
 vector<int> applyPermutation(vector<int> sequence, vector<int> permutation) {
@@ -156,19 +154,19 @@ vector<int> permute(vector<int> sequence, vector<int> permutation, long long k) 
 }
 ```
 
-**Note:** This task can be solved more efficiently in linear time by building the permutation graph and considering each cycle independently. You could then compute $k$ modulo the size of the cycle and find the final position for each number which is part of this cycle.
+**نکته:** این مسئله را می‌توان با ساختن گراف جایگشت و در نظر گرفتن هر دور به طور مستقل، به طور کارآمدتر و در زمان خطی حل کرد. سپس می‌توانید $k$ را به پیمانه اندازه دور محاسبه کرده و موقعیت نهایی را برای هر عددی که بخشی از این دور است پیدا کنید.
 
-### Fast application of a set of geometric operations to a set of points
+### اعمال سریع مجموعه‌ای از عملیات هندسی بر روی مجموعه‌ای از نقاط
 
-**Problem:** Given $n$ points $p_i$, apply $m$ transformations to each of these points. Each transformation can be a shift, a scaling or a rotation around a given axis by a given angle. There is also a "loop" operation which applies a given list of transformations $k$ times ("loop" operations can be nested). You should apply all transformations faster than $O(n \cdot length)$, where $length$ is the total number of transformations to be applied (after unrolling "loop" operations).
+**مسئله:** با داشتن $n$ نقطه $p_i$، $m$ تبدیل را بر روی هر یک از این نقاط اعمال کنید. هر تبدیل می‌تواند یک انتقال، یک مقیاس‌دهی یا یک دوران حول یک محور معین با یک زاویه معین باشد. همچنین یک عملیات "حلقه" وجود دارد که یک لیست معین از تبدیل‌ها را $k$ بار اعمال می‌کند (عملیات "حلقه" می‌توانند تودرتو باشند). شما باید تمام تبدیل‌ها را سریع‌تر از $O(n \cdot length)$ اعمال کنید، که در آن $length$ تعداد کل تبدیل‌هایی است که باید اعمال شوند (پس از باز کردن عملیات "حلقه").
 
-**Solution:** Let's look at how the different types of transformations change the coordinates:
+**راه حل:** بیایید ببینیم انواع مختلف تبدیل‌ها چگونه مختصات را تغییر می‌دهند:
 
-* Shift operation: adds a different constant to each of the coordinates.
-* Scaling operation: multiplies each of the coordinates by a different constant.
-* Rotation operation: the transformation is more complicated (we won't go in details here), but each of the new coordinates still can be represented as a linear combination of the old ones.
+*   عملیات انتقال: یک ثابت متفاوت به هر یک از مختصات اضافه می‌کند.
+*   عملیات مقیاس‌دهی: هر یک از مختصات را در یک ثابت متفاوت ضرب می‌کند.
+*   عملیات دوران: تبدیل پیچیده‌تر است (در اینجا به جزئیات نمی‌پردازیم)، اما هر یک از مختصات جدید همچنان می‌تواند به عنوان یک ترکیب خطی از مختصات قدیمی نمایش داده شود.
 
-As you can see, each of the transformations can be represented as a linear operation on the coordinates. Thus, a transformation can be written as a $4 \times 4$ matrix of the form:
+همانطور که می‌بینید، هر یک از تبدیل‌ها را می‌توان به عنوان یک عملیات خطی بر روی مختصات نشان داد. بنابراین، یک تبدیل را می‌توان به صورت یک ماتریس $4 \times 4$ به شکل زیر نوشت:
 
 $$\begin{pmatrix}
 a_{11} & a_ {12} & a_ {13} & a_ {14} \\
@@ -177,7 +175,7 @@ a_{31} & a_ {32} & a_ {33} & a_ {34} \\
 a_{41} & a_ {42} & a_ {43} & a_ {44}
 \end{pmatrix}$$
 
-that, when multiplied by a vector with the old coordinates and an unit gives a new vector with the new coordinates and an unit:
+که وقتی در یک بردار با مختصات قدیمی و یک واحد ضرب شود، یک بردار جدید با مختصات جدید و یک واحد می‌دهد:
 
 $$\begin{pmatrix} x & y & z & 1 \end{pmatrix} \cdot
 \begin{pmatrix}
@@ -188,11 +186,11 @@ a_{41} & a_ {42} & a_ {43} & a_ {44}
 \end{pmatrix}
  = \begin{pmatrix} x' & y' & z' & 1 \end{pmatrix}$$
 
-(Why introduce a fictitious fourth coordinate, you ask? That is the beauty of [homogeneous coordinates](https://en.wikipedia.org/wiki/Homogeneous_coordinates), which find great application in computer graphics. Without this, it would not be possible to implement affine operations like the shift operation as a single matrix multiplication, as it requires us to _add_ a constant to the coordinates. The affine transformation becomes a linear transformation in the higher dimension!)
+(شاید بپرسید چرا یک مختصات چهارم ساختگی معرفی کردیم؟ این زیبایی [مختصات همگن](https://en.wikipedia.org/wiki/Homogeneous_coordinates) است که کاربرد زیادی در گرافیک کامپیوتری دارد. بدون آن، پیاده‌سازی عملیات افاین مانند عملیات انتقال به عنوان یک ضرب ماتریسی واحد ممکن نبود، زیرا به ما نیاز دارد که یک ثابت به مختصات *اضافه* کنیم. تبدیل افاین در بعد بالاتر به یک تبدیل خطی تبدیل می‌شود!)
 
-Here are some examples of how transformations are represented in matrix form:
+در اینجا چند مثال از نحوه نمایش تبدیل‌ها در قالب ماتریس آورده شده است:
 
-* Shift operation: shift $x$ coordinate by $5$, $y$ coordinate by $7$ and $z$ coordinate by $9$.
+*   عملیات انتقال: انتقال مختصات $x$ به اندازه $5$، مختصات $y$ به اندازه $7$ و مختصات $z$ به اندازه $9$.
 
 $$\begin{pmatrix}
 1 & 0 & 0 & 0 \\
@@ -201,7 +199,7 @@ $$\begin{pmatrix}
 5 & 7 & 9 & 1
 \end{pmatrix}$$
 
-* Scaling operation: scale the $x$ coordinate by $10$ and the other two by $5$.
+*   عملیات مقیاس‌دهی: مقیاس‌دهی مختصات $x$ به اندازه $10$ و دو مختصات دیگر به اندازه $5$.
 
 $$\begin{pmatrix}
 10 & 0 & 0 & 0 \\
@@ -210,7 +208,7 @@ $$\begin{pmatrix}
 0 & 0 & 0 & 1
 \end{pmatrix}$$
 
-* Rotation operation: rotate $\theta$ degrees around the $x$ axis following the right-hand rule (counter-clockwise direction).
+*   عملیات دوران: دوران به اندازه $\theta$ درجه حول محور $x$ طبق قانون دست راست (جهت پادساعتگرد).
 
 $$\begin{pmatrix}
 1 & 0 & 0 & 0 \\
@@ -219,35 +217,34 @@ $$\begin{pmatrix}
 0 & 0 & 0 & 1
 \end{pmatrix}$$
 
-Now, once every transformation is described as a matrix, the sequence of transformations can be described as a product of these matrices, and a "loop" of $k$ repetitions can be described as the matrix raised to the power of $k$ (which can be calculated using binary exponentiation in $O(\log{k})$). This way, the matrix which represents all transformations can be calculated first in $O(m \log{k})$, and then it can be applied to each of the $n$ points in $O(n)$ for a total complexity of $O(n + m \log{k})$.
+حال، وقتی هر تبدیل به صورت یک ماتریس توصیف شد، دنباله‌ای از تبدیل‌ها را می‌توان به عنوان حاصلضرب این ماتریس‌ها توصیف کرد، و یک "حلقه" با $k$ تکرار را می‌توان به عنوان ماتریس به توان $k$ توصیف کرد (که می‌توان با استفاده از توان‌رسانی دودویی در $O(\log{k})$ محاسبه کرد). به این ترتیب، ماتریسی که تمام تبدیل‌ها را نشان می‌دهد، ابتدا در $O(m \log{k})$ محاسبه می‌شود و سپس در $O(n)$ به هر یک از $n$ نقطه اعمال می‌شود، که پیچیدگی کل آن $O(n + m \log{k})$ است.
 
+### تعداد مسیرهای به طول $k$ در یک گراف { data-toc-label='تعداد مسیرهای به طول <script type="math/tex">k</script> در یک گراف' }
 
-### Number of paths of length $k$ in a graph { data-toc-label='Number of paths of length <script type="math/tex">k</script> in a graph' }
+**مسئله:** با داشتن یک گراف جهت‌دار بدون وزن با $n$ رأس، تعداد مسیرهای به طول $k$ از هر رأس $u$ به هر رأس دیگر $v$ را بیابید.
 
-**Problem:** Given a directed unweighted graph of $n$ vertices, find the number of paths of length $k$ from any vertex $u$ to any other vertex $v$.
+**راه حل:** این مسئله با جزئیات بیشتر در [یک مقاله جداگانه](../graph/fixed_length_paths.md) بررسی شده است. الگوریتم شامل به توان $k$ رساندن ماتریس مجاورت $M$ گراف است (ماتریسی که در آن $m_{ij} = 1$ اگر یالی از $i$ به $j$ وجود داشته باشد، و در غیر این صورت $0$ است). اکنون $m_{ij}$ تعداد مسیرهای به طول $k$ از $i$ به $j$ خواهد بود. پیچیدگی زمانی این راه حل $O(n^3 \log k)$ است.
 
-**Solution:** This problem is considered in more detail in [a separate article](../graph/fixed_length_paths.md). The algorithm consists of raising the adjacency matrix $M$ of the graph (a matrix where $m_{ij} = 1$ if there is an edge from $i$ to $j$, or $0$ otherwise) to the $k$-th power. Now $m_{ij}$ will be the number of paths of length $k$ from $i$ to $j$. The time complexity of this solution is $O(n^3 \log k)$.
+**نکته:** در همان مقاله، نوع دیگری از این مسئله در نظر گرفته شده است: زمانی که یال‌ها وزن‌دار هستند و لازم است مسیر با کمترین وزن که دقیقاً شامل $k$ یال است، پیدا شود. همانطور که در آن مقاله نشان داده شده است، این مسئله نیز با توان‌رسانی ماتریس مجاورت حل می‌شود. ماتریس شامل وزن یال از $i$ به $j$ یا $\infty$ اگر چنین یالی وجود نداشته باشد، خواهد بود.
+به جای عملیات معمول ضرب دو ماتریس، باید از یک عملیات اصلاح شده استفاده شود:
+به جای ضرب، هر دو مقدار با هم جمع می‌شوند و به جای جمع‌بندی، کمینه گرفته می‌شود.
+یعنی: $result_{ij} = \min\limits_{1\ \leq\ k\ \leq\ n}(a_{ik} + b_{kj})$.
 
-**Note:** In that same article, another variation of this problem is considered: when the edges are weighted and it is required to find the minimum weight path containing exactly $k$ edges. As shown in that article, this problem is also solved by exponentiation of the adjacency matrix. The matrix would have the weight of the edge from $i$ to $j$, or $\infty$ if there is no such edge.
-Instead of the usual operation of multiplying two matrices, a modified one should be used:
-instead of multiplication, both values are added, and instead of a summation, a minimum is taken.
-That is: $result_{ij} = \min\limits_{1\ \leq\ k\ \leq\ n}(a_{ik} + b_{kj})$.
+### نوعی از توان‌رسانی دودویی: ضرب دو عدد به پیمانه $m$ { data-toc-label='نوعی از توان‌رسانی دودویی: ضرب دو عدد به پیمانه <script type="math/tex">m</script>' }
 
-### Variation of binary exponentiation: multiplying two numbers modulo $m$ { data-toc-label='Variation of binary exponentiation: multiplying two numbers modulo <script type="math/tex">m</script>' }
+**مسئله:** دو عدد $a$ و $b$ را به پیمانه $m$ ضرب کنید. $a$ و $b$ در انواع داده داخلی جا می‌شوند، اما حاصلضرب آنها برای جا شدن در یک عدد صحیح ۶۴ بیتی بسیار بزرگ است. ایده این است که $a \cdot b \pmod m$ را بدون استفاده از حساب اعداد بزرگ (bignum) محاسبه کنیم.
 
-**Problem:** Multiply two numbers $a$ and $b$ modulo $m$. $a$ and $b$ fit in the built-in data types, but their product is too big to fit in a 64-bit integer. The idea is to compute $a \cdot b \pmod m$ without using bignum arithmetics.
-
-**Solution:** We simply apply the binary construction algorithm described above, only performing additions instead of multiplications. In other words, we have "expanded" the multiplication of two numbers to $O (\log m)$ operations of addition and multiplication by two (which, in essence, is an addition).
+**راه حل:** ما به سادگی الگوریتم ساخت دودویی را که در بالا توضیح داده شد، اعمال می‌کنیم، فقط به جای ضرب، جمع انجام می‌دهیم. به عبارت دیگر، ما ضرب دو عدد را به $O (\log m)$ عملیات جمع و ضرب در دو (که در اصل، یک جمع است) "بسط" داده‌ایم.
 
 $$a \cdot b = \begin{cases}
-0 &\text{if }a = 0 \\
-2 \cdot \frac{a}{2} \cdot b &\text{if }a > 0 \text{ and }a \text{ even} \\
-2 \cdot \frac{a-1}{2} \cdot b + b &\text{if }a > 0 \text{ and }a \text{ odd}
+0 &\text{اگر }a = 0 \\
+2 \cdot \frac{a}{2} \cdot b &\text{اگر }a > 0 \text{ و }a \text{ زوج باشد} \\
+2 \cdot \frac{a-1}{2} \cdot b + b &\text{اگر }a > 0 \text{ و }a \text{ فرد باشد}
 \end{cases}$$
 
-**Note:** You can solve this task in a different way by using floating-point operations. First compute the expression $\frac{a \cdot b}{m}$ using floating-point numbers and cast it to an unsigned integer $q$. Subtract $q \cdot m$ from $a \cdot b$ using unsigned integer arithmetics and take it modulo $m$ to find the answer. This solution looks rather unreliable, but it is very fast, and very easy to implement. See [here](https://cs.stackexchange.com/questions/77016/modular-multiplication) for more information.
+**نکته:** می‌توانید این مسئله را به روش دیگری با استفاده از عملیات ممیز شناور حل کنید. ابتدا عبارت $\frac{a \cdot b}{m}$ را با استفاده از اعداد ممیز شناور محاسبه کرده و آن را به یک عدد صحیح بدون علامت $q$ تبدیل کنید. $q \cdot m$ را با استفاده از حساب اعداد صحیح بدون علامت از $a \cdot b$ کم کرده و آن را به پیمانه $m$ بگیرید تا پاسخ را پیدا کنید. این راه حل نسبتاً غیرقابل اعتماد به نظر می‌رسد، اما بسیار سریع و پیاده‌سازی آن بسیار آسان است. برای اطلاعات بیشتر به [اینجا](https://cs.stackexchange.com/questions/77016/modular-multiplication) مراجعه کنید.
 
-## Practice Problems
+## مسائل تمرینی
 
 * [UVa 1230 - MODEX](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=3671)
 * [UVa 374 - Big Mod](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=310)
@@ -263,5 +260,3 @@ $$a \cdot b = \begin{cases}
 * [LA - 3722 Jewel-eating Monsters](https://vjudge.net/problem/UVALive-3722)
 * [SPOJ - Just add it](http://www.spoj.com/problems/ZSUM/)
 * [Codeforces - Stairs and Lines](https://codeforces.com/contest/498/problem/E)
-
-

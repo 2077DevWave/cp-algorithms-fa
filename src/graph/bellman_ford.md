@@ -1,36 +1,36 @@
 ---
 tags:
-  - Translated
-e_maxx_link: ford_bellman
+  - AI Translated
+e_maxx_link: bellman_ford
 ---
 
-# Bellman-Ford Algorithm
+# الگوریتم بلمن-فورد
 
-**Single source shortest path with negative weight edges**
+**کوتاه‌ترین مسیر از یک مبدأ با یال‌های دارای وزن منفی**
 
-Suppose that we are given a weighted directed graph $G$ with $n$ vertices and $m$ edges, and some specified vertex $v$. You want to find the length of shortest paths from vertex $v$ to every other vertex.
+فرض کنید یک گراف جهت‌دار وزن‌دار $G$ با $n$ رأس و $m$ یال به همراه یک رأس مشخص $v$ به ما داده شده است. می‌خواهیم طول کوتاه‌ترین مسیرها از رأس $v$ به هر رأس دیگر را پیدا کنیم.
 
-Unlike the Dijkstra algorithm, this algorithm can also be applied to graphs containing negative weight edges . However, if the graph contains a negative cycle, then, clearly, the shortest path to some vertices may not exist (due to the fact that the weight of the shortest path must be equal to minus infinity); however, this algorithm can be modified to signal the presence of a cycle of negative weight, or even deduce this cycle.
+برخلاف الگوریتم دایکسترا، این الگوریتم را می‌توان برای گراف‌هایی که یال با وزن منفی دارند نیز به کار برد. اما اگر گراف شامل یک دور منفی باشد، واضح است که کوتاه‌ترین مسیر به برخی از رئوس ممکن است وجود نداشته باشد (زیرا وزن کوتاه‌ترین مسیر باید برابر با منفی بی‌نهایت باشد)؛ با این حال، این الگوریتم می‌تواند طوری تغییر یابد که وجود یک دور با وزن منفی را اعلام کند یا حتی این دور را پیدا کند.
 
-The algorithm bears the name of two American scientists: Richard Bellman and Lester Ford. Ford actually invented this algorithm in 1956 during the study of another mathematical problem, which eventually reduced to a subproblem of finding the shortest paths in the graph, and Ford gave an outline of the algorithm to solve this problem. Bellman in 1958 published an article devoted specifically to the problem of finding the shortest path, and in this article he clearly formulated the algorithm in the form in which it is known to us now.
+این الگوریتم نام خود را از دو دانشمند آمریکایی، ریچارد بلمن و لستر فورد، گرفته است. فورد در واقع این الگوریتم را در سال ۱۹۵۶ هنگام مطالعه یک مسئله ریاضی دیگر ابداع کرد که در نهایت به زیرمسئله‌ای برای یافتن کوتاه‌ترین مسیرها در گراف کاهش می‌یافت و فورد طرح کلی الگوریتم را برای حل این مسئله ارائه داد. بلمن در سال ۱۹۵۸ مقاله‌ای را به‌طور خاص به مسئله یافتن کوتاه‌ترین مسیر اختصاص داد و در آن مقاله، الگوریتم را به شکلی که امروزه می‌شناسیم، به‌وضوح فرمول‌بندی کرد.
 
-## Description of the algorithm
+## شرح الگوریتم
 
-Let us assume that the graph contains no negative weight cycle. The case of presence of a negative weight cycle will be discussed below in a separate section.
+فرض می‌کنیم که گراف هیچ دور با وزن منفی ندارد. حالت وجود دور با وزن منفی در بخش جداگانه‌ای در ادامه مورد بحث قرار خواهد گرفت.
 
-We will create an array of distances $d[0 \ldots n-1]$, which after execution of the algorithm will contain the answer to the problem. In the beginning we fill it as follows: $d[v] = 0$, and all other elements $d[ ]$ equal to infinity $\infty$.
+یک آرایه از فاصله‌ها به نام $d[0 \ldots n-1]$ ایجاد می‌کنیم که پس از اجرای الگوریتم، پاسخ مسئله را در خود جای خواهد داد. در ابتدا آن را به این صورت پر می‌کنیم: $d[v] = 0$ و سایر عناصر $d[ ]$ برابر با بی‌نهایت $\infty$ هستند.
 
-The algorithm consists of several phases. Each phase scans through all edges of the graph, and the algorithm tries to produce **relaxation** along each edge $(a,b)$ having weight $c$. Relaxation along the edges is an attempt to improve the value $d[b]$ using value $d[a] + c$. In fact, it means that we are trying to improve the answer for this vertex using edge $(a,b)$ and current answer for vertex $a$.
+الگوریتم از چندین فاز تشکیل شده است. هر فاز تمام یال‌های گراف را پیمایش می‌کند و الگوریتم سعی می‌کند عملیات **آرام‌سازی (relaxation)** را در امتداد هر یال $(a,b)$ با وزن $c$ انجام دهد. آرام‌سازی در امتداد یال‌ها تلاشی برای بهبود مقدار $d[b]$ با استفاده از مقدار $d[a] + c$ است. در واقع، این به آن معناست که ما سعی می‌کنیم پاسخ برای این رأس را با استفاده از یال $(a,b)$ و پاسخ فعلی برای رأس $a$ بهبود ببخشیم.
 
-It is claimed that $n-1$ phases of the algorithm are sufficient to correctly calculate the lengths of all shortest paths in the graph (again, we believe that the cycles of negative weight do not exist). For unreachable vertices the distance $d[ ]$ will remain equal to infinity $\infty$.
+ادعا می‌شود که $n-1$ فاز از الگوریتم برای محاسبه صحیح طول تمام کوتاه‌ترین مسیرها در گراف کافی است (باز هم، فرض بر این است که دورهایی با وزن منفی وجود ندارند). برای رئوس غیرقابل دسترس، فاصله $d[ ]$ برابر با بی‌نهایت $\infty$ باقی خواهد ماند.
 
-## Implementation
+## پیاده‌سازی
 
-Unlike many other graph algorithms, for Bellman-Ford algorithm, it is more convenient to represent the graph using a single list of all edges (instead of $n$ lists of edges - edges from each vertex). We start the implementation with a structure $\rm edge$ for representing the edges. The input to the algorithm are numbers $n$, $m$, list $e$ of edges and the starting vertex $v$. All the vertices are numbered $0$ to $n - 1$.
+برخلاف بسیاری از الگوریتم‌های دیگر گراف، برای الگوریتم بلمن-فورد راحت‌تر است که گراف را با استفاده از یک لیست واحد از تمام یال‌ها نمایش دهیم (به جای $n$ لیست از یال‌ها - یال‌های خروجی از هر رأس). پیاده‌سازی را با یک ساختار (`struct`) به نام $\rm Edge$ برای نمایش یال‌ها شروع می‌کنیم. ورودی‌های الگوریتم اعداد $n$ و $m$ ، لیستی از یال‌ها به نام `edges` و رأس شروع $v$ هستند. تمام رئوس از $0$ تا $n-1$ شماره‌گذاری شده‌اند.
 
-### The simplest implementation
+### ساده‌ترین پیاده‌سازی
 
-The constant $\rm INF$ denotes the number "infinity" — it should be selected in such a way that it is greater than all possible path lengths.
+ثابت $\rm INF$ نشان‌دهنده عدد «بی‌نهایت» است — باید به گونه‌ای انتخاب شود که از تمام طول‌های مسیر ممکن بزرگ‌تر باشد.
 
 ```cpp
 struct Edge {
@@ -49,17 +49,17 @@ void solve()
         for (Edge e : edges)
             if (d[e.a] < INF)
                 d[e.b] = min(d[e.b], d[e.a] + e.cost);
-    // display d, for example, on the screen
+    // نمایش d، برای مثال، روی صفحه
 }
 ```
 
-The check `if (d[e.a] < INF)` is needed only if the graph contains negative weight edges: no such verification would result in relaxation from the vertices to which paths have not yet found, and incorrect distance, of the type $\infty - 1$, $\infty - 2$ etc. would appear.
+بررسی `if (d[e.a] < INF)` فقط در صورتی لازم است که گراف دارای یال با وزن منفی باشد: عدم وجود چنین بررسی‌ای منجر به آرام‌سازی از رئوسی می‌شود که هنوز مسیری به آنها پیدا نشده است و فاصله‌های نادرستی از نوع $\infty - 1$، $\infty - 2$ و غیره ظاهر می‌شوند.
 
-### A better implementation
+### یک پیاده‌سازی بهتر
 
-This algorithm can be somewhat speeded up: often we already get the answer in a few phases and no useful work is done in remaining phases, just a waste visiting all edges. So, let's keep the flag, to tell whether something changed in the current phase or not, and if any phase, nothing changed, the algorithm can be stopped. (This optimization does not improve the asymptotic behavior, i.e., some graphs will still need all $n-1$ phases, but significantly accelerates the behavior of the algorithm "on an average", i.e., on random graphs.)
+این الگوریتم را می‌توان تا حدودی سرعت بخشید: اغلب، ما در چند فاز اول به پاسخ می‌رسیم و در فازهای باقیمانده هیچ کار مفیدی انجام نمی‌شود و فقط با پیمایش تمام یال‌ها زمان تلف می‌شود. بنابراین، یک پرچم (flag) نگه می‌داریم تا مشخص کند آیا در فاز فعلی چیزی تغییر کرده است یا نه، و اگر در فازی هیچ تغییری رخ نداد، الگوریتم می‌تواند متوقف شود. (این بهینه‌سازی رفتار مجانبی را بهبود نمی‌بخشد، یعنی برخی گراف‌ها همچنان به تمام $n-1$ فاز نیاز خواهند داشت، اما به طور قابل توجهی رفتار الگوریتم را «به طور متوسط»، یعنی روی گراف‌های تصادفی، تسریع می‌کند.)
 
-With this optimization, it is generally unnecessary to restrict manually the number of phases of the algorithm to $n-1$ — the algorithm will stop after the desired number of phases.
+با این بهینه‌سازی، دیگر نیازی به محدود کردن دستی تعداد فازهای الگوریتم به $n-1$ نیست — الگوریتم پس از تعداد فازهای مورد نیاز متوقف خواهد شد.
 
 ```cpp
 void solve()
@@ -79,19 +79,19 @@ void solve()
         if (!any)
             break;
     }
-    // display d, for example, on the screen
+    // نمایش d، برای مثال، روی صفحه
 }
 ```
 
-### Retrieving Path
+### بازیابی مسیر
 
-Let us now consider how to modify the algorithm so that it not only finds the length of shortest paths, but also allows to reconstruct the shortest paths.
+حال بیایید ببینیم چگونه الگوریتم را تغییر دهیم تا نه تنها طول کوتاه‌ترین مسیرها را پیدا کند، بلکه امکان بازسازی خود مسیرها را نیز فراهم کند.
 
-For that, let's create another array $p[0 \ldots n-1]$, where for each vertex we store its "predecessor", i.e. the penultimate vertex in the shortest path leading to it. In fact, the shortest path to any vertex $a$ is a shortest path to some vertex $p[a]$, to which we added $a$ at the end of the path.
+برای این کار، یک آرایه دیگر به نام $p[0 \ldots n-1]$ ایجاد می‌کنیم که در آن برای هر رأس، «والد» (predecessor) آن را ذخیره می‌کنیم، یعنی رأسی که قبل از آن در کوتاه‌ترین مسیر قرار دارد. در واقع، کوتاه‌ترین مسیر به هر رأس $a$، یک کوتاه‌ترین مسیر به یک رأس $p[a]$ است که رأس $a$ در انتهای آن اضافه شده است.
 
-Note that the algorithm works on the same logic: it assumes that the shortest distance to one vertex is already calculated, and, tries to improve the shortest distance to other vertices from that vertex. Therefore, at the time of improvement we just need to remember $p[ ]$, i.e,  the vertex from which this improvement has occurred.
+توجه داشته باشید که الگوریتم با همان منطق کار می‌کند: فرض می‌کند که کوتاه‌ترین فاصله تا یک رأس قبلاً محاسبه شده و سعی می‌کند کوتاه‌ترین فاصله تا رئوس دیگر را از آن رأس بهبود بخشد. بنابراین، در زمان بهبود، فقط باید $p[ ]$ را به خاطر بسپاریم، یعنی رأسی که این بهبود از آنجا رخ داده است.
 
-Following is an implementation of the Bellman-Ford with the retrieval of shortest path to a given node $t$:
+در ادامه پیاده‌سازی الگوریتم بلمن-فورد به همراه بازیابی کوتاه‌ترین مسیر به یک گره مشخص $t$ آمده است:
 
 ```cpp
 void solve()
@@ -128,32 +128,32 @@ void solve()
 }
 ```
 
-Here starting from the vertex $t$, we go through the predecessors till we reach starting vertex with no predecessor, and store all the vertices in the path in the list $\rm path$. This list is a shortest path from $v$ to $t$, but in reverse order, so we call $\rm reverse()$ function over $\rm path$ and then output the path.
+در اینجا از رأس $t$ شروع می‌کنیم، و با دنبال کردن والدها به عقب برمی‌گردیم تا به رأس شروع که والدی ندارد برسیم و تمام رئوس مسیر را در لیست $\rm path$ ذخیره می‌کنیم. این لیست، کوتاه‌ترین مسیر از $v$ به $t$ است، اما به ترتیب معکوس. بنابراین، تابع $\rm reverse()$ را روی $\rm path$ فراخوانی کرده و سپس مسیر را چاپ می‌کنیم.
 
-## The proof of the algorithm
+## اثبات الگوریتم
 
-First, note that for all unreachable vertices $u$ the algorithm will work correctly, the label $d[u]$ will remain equal to infinity (because the algorithm Bellman-Ford will find some way to all reachable vertices from the start vertex $v$, and relaxation for all other  remaining vertices will never happen).
+ابتدا توجه کنید که برای تمام رئوس غیرقابل دسترس $u$، الگوریتم به درستی کار خواهد کرد و برچسب $d[u]$ برابر با بی‌نهایت باقی خواهد ماند (زیرا الگوریتم بلمن-فورد راهی به تمام رئوس قابل دسترس از رأس شروع $v$ پیدا می‌کند و آرام‌سازی برای سایر رئوس باقیمانده هرگز اتفاق نخواهد افتاد).
 
-Let us now prove the following assertion: After the execution of $i_{th}$ phase, the Bellman-Ford algorithm correctly finds all shortest paths whose number of edges does not exceed $i$.
+اکنون گزاره زیر را اثبات می‌کنیم: پس از اجرای فاز $i$-ام، الگوریتم بلمن-فورد به درستی تمام کوتاه‌ترین مسیرهایی را پیدا می‌کند که تعداد یال‌هایشان از $i$ تجاوز نمی‌کند.
 
-In other words, for any vertex $a$ let us denote the $k$ number of edges in the shortest path to it (if there are several such paths, you can take any). According to this statement, the algorithm guarantees that after $k_{th}$ phase the shortest path for vertex $a$ will be found.
+به عبارت دیگر، برای هر رأس $a$، فرض کنید $k$ تعداد یال‌های کوتاه‌ترین مسیر به آن باشد (اگر چندین مسیر چنین باشند، می‌توانید هر کدام را در نظر بگیرید). طبق این گزاره، الگوریتم تضمین می‌کند که پس از فاز $k$-ام، کوتاه‌ترین مسیر برای رأس $a$ پیدا خواهد شد.
 
-**Proof**:
-Consider an arbitrary vertex $a$ to which there is a path from the starting vertex $v$, and consider a shortest path to it $(p_0=v, p_1, \ldots, p_k=a)$. Before the first phase, the shortest path to the vertex $p_0 = v$ was found correctly. During the first phase, the edge $(p_0,p_1)$ has been checked by the algorithm, and therefore, the distance to the vertex $p_1$ was correctly calculated after the first phase. Repeating this statement $k$ times, we see that after $k_{th}$ phase the distance to the vertex $p_k = a$ gets calculated correctly, which we wanted to prove.
+**اثبات**:
+یک رأس دلخواه $a$ را در نظر بگیرید که مسیری از رأس شروع $v$ به آن وجود دارد و یک کوتاه‌ترین مسیر به آن را به صورت $(p_0=v, p_1, \ldots, p_k=a)$ در نظر بگیرید. قبل از فاز اول، کوتاه‌ترین مسیر به رأس $p_0 = v$ به درستی پیدا شده است. در طول فاز اول، یال $(p_0, p_1)$ توسط الگوریتم بررسی شده و بنابراین، فاصله تا رأس $p_1$ پس از فاز اول به درستی محاسبه شده است. با تکرار این استدلال برای $k$ بار، می‌بینیم که پس از فاز $k$-ام، فاصله تا رأس $p_k = a$ به درستی محاسبه می‌شود، که همان چیزی بود که می‌خواستیم ثابت کنیم.
 
-The last thing to notice is that any shortest path cannot have more than $n - 1$ edges. Therefore, the algorithm sufficiently goes up to the $(n-1)_{th}$ phase. After that, it is guaranteed that no relaxation will improve the distance to some vertex.
+آخرین نکته‌ای که باید توجه داشت این است که هیچ کوتاه‌ترین مسیری نمی‌تواند بیش از $n-1$ یال داشته باشد. بنابراین، الگوریتم تا فاز $(n-1)$-ام ادامه می‌یابد که کافی است. پس از آن، تضمین می‌شود که هیچ آرام‌سازی دیگری فاصله تا هیچ رأسی را بهبود نخواهد داد.
 
-## The case of a negative cycle
+## حالت وجود دور منفی
 
-Everywhere above we considered that there is no negative cycle in the graph (precisely, we are interested in a negative cycle that is reachable from the starting vertex $v$, and, for an unreachable cycles nothing in the above algorithm changes). In the presence of a negative cycle(s), there are further complications associated with the fact that distances to all vertices in this cycle, as well as the distances to the vertices reachable from this cycle is not defined — they should be equal to minus infinity $(- \infty)$.
+در تمام بخش‌های بالا فرض کردیم که هیچ دور منفی در گراف وجود ندارد (دقیق‌تر بگوییم، ما به دور منفی‌ای علاقه‌مندیم که از رأس شروع $v$ قابل دسترس باشد، و برای دورهای غیرقابل دسترس، هیچ چیزی در الگوریتم بالا تغییر نمی‌کند). در صورت وجود دور(های) منفی، پیچیدگی‌های بیشتری به وجود می‌آید که ناشی از این واقعیت است که فاصله‌ها تا تمام رئوس موجود در این دور و همچنین فاصله‌ها تا رئوس قابل دسترس از این دور، تعریف نشده‌اند — آنها باید برابر با منفی بی‌نهایت $(- \infty)$ باشند.
 
-It is easy to see that the Bellman-Ford algorithm can endlessly do the relaxation among all vertices of this cycle and the vertices reachable from it. Therefore, if you do not limit the number of phases to $n - 1$, the algorithm will run indefinitely, constantly improving the distance from these vertices.
+به راحتی می‌توان دید که الگوریتم بلمن-فورد می‌تواند به طور بی‌پایان عملیات آرام‌سازی را بین تمام رئوس این دور و رئوس قابل دسترس از آن انجام دهد. بنابراین، اگر تعداد فازها را به $n-1$ محدود نکنید، الگوریتم به طور نامحدود اجرا شده و دائماً فاصله این رئوس را بهبود می‌بخشد.
 
-Hence we obtain the **criterion for presence of a cycle of negative weights reachable for source vertex $v$**: after $(n-1)_{th}$ phase, if we run algorithm for one more phase, and it performs at least one more relaxation, then the graph contains a negative weight cycle that is reachable from $v$; otherwise, such a cycle does not exist.
+از این رو، **معیار وجود یک دور با وزن منفی قابل دسترس از رأس مبدأ $v$** را به دست می‌آوریم: پس از فاز $(n-1)$-ام، اگر الگوریتم را برای یک فاز دیگر اجرا کنیم و حداقل یک آرام‌سازی دیگر انجام دهد، آنگاه گراف حاوی یک دور با وزن منفی است که از $v$ قابل دسترس است؛ در غیر این صورت، چنین دوری وجود ندارد.
 
-Moreover, if such a cycle is found, the Bellman-Ford algorithm can be modified so that it retrieves this cycle as a sequence of vertices contained in it. For this, it is sufficient to remember the last vertex $x$ for which there was a relaxation in $n_{th}$ phase. This vertex will either lie on a negative weight cycle, or is reachable from it. To get the vertices that are guaranteed to lie on a negative cycle, starting from the vertex $x$, pass through to the predecessors $n$ times. In this way, we will get to the vertex $y$, which is guaranteed to lie on a negative cycle. We have to go from this vertex, through the predecessors, until we get back to the same vertex $y$ (and it will happen, because relaxation in a negative weight cycle occur in a circular manner).
+علاوه بر این، اگر چنین دوری پیدا شود، الگوریتم بلمن-فورد را می‌توان طوری تغییر داد که این دور را به صورت دنباله‌ای از رئوس موجود در آن بازیابی کند. برای این کار، کافی است آخرین رأس $x$ را که در فاز $n$-ام برای آن آرام‌سازی رخ داده است، به خاطر بسپاریم. این رأس یا روی یک دور با وزن منفی قرار دارد یا از آن قابل دسترس است. برای به دست آوردن رئوسی که تضمین شده روی یک دور منفی قرار دارند، از رأس $x$ شروع کرده و $n$ بار به والدها برمی‌گردیم. به این ترتیب، به رأس $y$ می‌رسیم که تضمین شده روی یک دور منفی قرار دارد. سپس باید از این رأس، با دنبال کردن والدها، به عقب برگردیم تا دوباره به همان رأس $y$ برسیم (و این اتفاق خواهد افتاد، زیرا آرام‌سازی در یک دور با وزن منفی به صورت دوری رخ می‌دهد).
 
-### Implementation:
+### پیاده‌سازی:
 
 ```cpp
 void solve()
@@ -195,29 +195,26 @@ void solve()
 }
 ```
 
-Due to the presence of a negative cycle, for $n$ iterations of the algorithm, the distances may go far in the negative range (to negative numbers of the order of $-n m W$, where $W$ is the maximum absolute value of any weight in the graph). Hence in the code, we adopted additional measures against the integer overflow as follows:
+به دلیل وجود دور منفی، در $n$ تکرار الگوریتم، فاصله‌ها ممکن است به مقادیر بسیار منفی برسند (به اعداد منفی از مرتبه $-n m W$ که $W$ حداکثر قدر مطلق وزن هر یال در گراف است). از این رو در کد، اقدامات احتیاطی بیشتری را برای جلوگیری از سرریز عدد صحیح (integer overflow) به صورت زیر در نظر گرفته‌ایم:
 
 ```cpp
 d[e.b] = max(-INF, d[e.a] + e.cost);
 ```
 
-The above implementation looks for a negative cycle reachable from some starting vertex $v$; however, the algorithm can be modified to just looking for any negative cycle in the graph. For this we need to put all the distance $d[i]$ to zero and not infinity — as if we are looking for the shortest path from all vertices simultaneously; the validity of the detection of a negative cycle is not affected.
+پیاده‌سازی بالا به دنبال یک دور منفی قابل دسترس از یک رأس شروع $v$ می‌گردد؛ با این حال، می‌توان الگوریتم را طوری تغییر داد که به دنبال هر دور منفی در گراف بگردد. برای این کار، باید تمام فاصله‌های $d[i]$ را برابر با صفر قرار دهیم و نه بی‌نهایت — گویی که به دنبال کوتاه‌ترین مسیر از تمام رئوس به طور همزمان هستیم؛ صحت تشخیص دور منفی تحت تأثیر این تغییر قرار نمی‌گیرد.
 
-For more on this topic — see separate article, [Finding a negative cycle in the graph](finding-negative-cycle-in-graph.md).
+برای اطلاعات بیشتر در این زمینه — مقاله جداگانه [پیدا کردن دور منفی در گراف](finding-negative-cycle-in-graph.md) را ببینید.
 
-## Shortest Path Faster Algorithm (SPFA)
+## الگوریتم سریع‌تر کوتاه‌ترین مسیر (SPFA)
 
-SPFA is a improvement of the Bellman-Ford algorithm which takes advantage of the fact that not all attempts at relaxation will work.
-The main idea is to create a queue containing only the vertices that were relaxed but that still could further relax their neighbors.
-And whenever you can relax some neighbor, you should put him in the queue. This algorithm can also be used to detect negative cycles as the Bellman-Ford.
+SPFA یک بهبود بر الگوریتم بلمن-فورد است که از این واقعیت بهره می‌برد که تمام تلاش‌ها برای آرام‌سازی موفقیت‌آمیز نخواهند بود.
+ایده اصلی این است که یک صف (queue) ایجاد کنیم که فقط شامل رئوسی باشد که آرام‌سازی شده‌اند اما هنوز می‌توانند همسایگان خود را بیشتر آرام‌سازی کنند. و هر زمان که بتوانید همسایه‌ای را آرام‌سازی کنید، باید آن را در صف قرار دهید. این الگوریتم نیز مانند بلمن-فورد می‌تواند برای تشخیص دورهای منفی استفاده شود.
 
-The worst case of this algorithm is equal to the $O(n m)$ of the Bellman-Ford, but in practice it works much faster and some [people claim that it works even in $O(m)$ on average](https://en.wikipedia.org/wiki/Shortest_Path_Faster_Algorithm#Average-case_performance). However be careful, because this algorithm is deterministic and it is easy to create counterexamples that make the algorithm run in $O(n m)$.
+بدترین حالت این الگوریتم برابر با $O(n m)$ الگوریتم بلمن-فورد است، اما در عمل بسیار سریع‌تر کار می‌کند و برخی [ادعا می‌کنند که به طور متوسط در زمان $O(m)$ کار می‌کند](https://en.wikipedia.org/wiki/Shortest_Path_Faster_Algorithm#Average-case_performance). با این حال مراقب باشید، زیرا این الگوریتم قطعی (deterministic) است و به راحتی می‌توان مثال‌های نقضی ساخت که الگوریتم را در زمان $O(n m)$ اجرا کنند.
 
-There are some care to be taken in the implementation, such as the fact that the algorithm continues forever if there is a negative cycle.
-To avoid this, it is possible to create a counter that stores how many times a vertex has been relaxed and stop the algorithm as soon as some vertex got relaxed for the $n$-th time.
-Note, also there is no reason to put a vertex in the queue if it is already in.
+نکات دقیقی در پیاده‌سازی وجود دارد که باید به آنها توجه کرد، مانند این واقعیت که اگر دور منفی وجود داشته باشد، الگوریتم برای همیشه ادامه می‌یابد. برای جلوگیری از این مشکل، می‌توان یک شمارنده ایجاد کرد که تعداد دفعات آرام‌سازی یک رأس را ذخیره کند و به محض اینکه رأسی برای بار $n$-ام آرام‌سازی شد، الگوریتم را متوقف کند. همچنین توجه داشته باشید که دلیلی برای قرار دادن یک رأس در صف وجود ندارد اگر آن رأس از قبل در صف باشد.
 
-```{.cpp file=spfa}
+```cpp {.cpp file=spfa}
 const int INF = 1000000000;
 vector<vector<pair<int, int>>> adj;
 
@@ -247,7 +244,7 @@ bool spfa(int s, vector<int>& d) {
                     inqueue[to] = true;
                     cnt[to]++;
                     if (cnt[to] > n)
-                        return false;  // negative cycle
+                        return false;  // دور منفی
                 }
             }
         }
@@ -257,17 +254,17 @@ bool spfa(int s, vector<int>& d) {
 ```
 
 
-## Related problems in online judges
+## مسائل مرتبط در داوری‌های آنلاین
 
-A list of tasks that can be solved using the Bellman-Ford algorithm:
+لیستی از مسائلی که با استفاده از الگوریتم بلمن-فورد قابل حل هستند:
 
-* [E-OLYMP #1453 "Ford-Bellman" [difficulty: low]](https://www.e-olymp.com/en/problems/1453)
-* [UVA #423 "MPI Maelstrom" [difficulty: low]](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=364)
-* [UVA #534 "Frogger" [difficulty: medium]](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=7&page=show_problem&problem=475)
-* [UVA #10099 "The Tourist Guide" [difficulty: medium]](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=12&page=show_problem&problem=1040)
-* [UVA #515 "King" [difficulty: medium]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=456)
+* [E-OLYMP #1453 "Ford-Bellman" [سطح: آسان]](https://www.e-olymp.com/en/problems/1453)
+* [UVA #423 "MPI Maelstrom" [سطح: آسان]](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=364)
+* [UVA #534 "Frogger" [سطح: متوسط]](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=7&page=show_problem&problem=475)
+* [UVA #10099 "The Tourist Guide" [سطح: متوسط]](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=12&page=show_problem&problem=1040)
+* [UVA #515 "King" [سطح: متوسط]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=456)
 * [UVA 12519 - The Farnsworth Parabox](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=3964)
 
-See also the problem list in the article [Finding the negative cycle in a graph](finding-negative-cycle-in-graph.md).
+همچنین لیست مسائل در مقاله [پیدا کردن دور منفی در گراف](finding-negative-cycle-in-graph.md) را ببینید.
 * [CSES - High Score](https://cses.fi/problemset/task/1673)
 * [CSES - Cycle Finding](https://cses.fi/problemset/task/1197)

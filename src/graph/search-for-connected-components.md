@@ -1,22 +1,22 @@
 ---
 tags:
-  - Translated
-e_maxx_link: connected_components
+  - AI Translated
+e_maxx_link: search-for-connected-components
 ---
 
-# Search for connected components in a graph
+# جستجو برای مؤلفه‌های همبند در یک گراف
 
-Given an undirected graph $G$ with $n$ nodes and $m$ edges. We are required to find in it all the connected components, i.e, several groups of vertices such that within a group each vertex can be reached from another and no path exists between different groups.
+یک گراف غیرجهت‌دار $G$ با $n$ رأس و $m$ یال داده شده است. ما باید تمام مؤلفه‌های همبند آن را پیدا کنیم، یعنی چندین گروه از رأس‌ها که در هر گروه، هر رأس از رأس دیگر قابل دسترسی است و هیچ مسیری بین گروه‌های مختلف وجود ندارد.
 
-## An algorithm for solving the problem
+## الگوریتمی برای حل مسئله
 
-* To solve the problem, we can use Depth First Search or Breadth First Search.
+*   برای حل این مسئله، می‌توانیم از Depth First Search یا Breadth First Search استفاده کنیم.
 
-* In fact, we will be doing a series of rounds of DFS: The first round will start from first node and all the nodes in the first connected component will be traversed (found). Then we find the first unvisited node of the remaining nodes, and run Depth First Search on it, thus finding a second connected component. And so on, until all the nodes are visited.
+*   در واقع، ما یک سری پیمایش DFS انجام خواهیم داد: پیمایش اول از رأس اول شروع می‌شود و تمام رأس‌های اولین مؤلفه همبند پیمایش (پیدا) می‌شوند. سپس اولین رأس ملاقات‌نشده از بین رأس‌های باقی‌مانده را پیدا کرده و Depth First Search را روی آن اجرا می‌کنیم و به این ترتیب دومین مؤلفه همبند را پیدا می‌کنیم. و به همین ترتیب ادامه می‌دهیم تا تمام رأس‌ها ملاقات شوند.
 
-* The total asymptotic running time of this algorithm is $O(n + m)$ : In fact, this algorithm will not run on the same vertex twice, which means that each edge will be seen exactly two times (at one end and at the other end).
+*   پیچیدگی زمانی مجانبی کل این الگوریتم $O(n + m)$ است: در واقع، این الگوریتم روی هیچ رأسی دو بار اجرا نخواهد شد، که به این معنی است که هر یال دقیقاً دو بار دیده می‌شود (یک بار از یک سر و بار دیگر از سر دیگر).
 
-## Implementation
+## پیاده‌سازی
 
 ``` cpp
 int n;
@@ -48,20 +48,20 @@ void find_comps() {
 }
 ```
 
-* The most important function that is used is `find_comps()` which finds and displays connected components of the graph.
+*   مهم‌ترین تابعی که استفاده می‌شود `find_comps()` است که مؤلفه‌های همبند گراف را پیدا کرده و نمایش می‌دهد.
 
-* The graph is stored in adjacency list representation, i.e `adj[v]` contains a list of vertices that have edges from the vertex `v`.
+*   گراف به صورت لیست مجاورت ذخیره می‌شود، یعنی `adj[v]` شامل لیستی از رأس‌هایی است که از رأس `v` به آن‌ها یال وجود دارد.
 
-* Vector `comp` contains a list of nodes in the current connected component.
+*   وکتور `comp` شامل لیستی از رأس‌های مؤلفه همبند فعلی است.
 
-## Iterative implementation of the code 
+## پیاده‌سازی غیربازگشتی کد
 
-Deeply recursive functions are in general bad.
-Every single recursive call will require a little bit of memory in the stack, and per default programs only have a limited amount of stack space.
-So when you do a recursive DFS over a connected graph with millions of nodes, you might run into stack overflows.
+توابع با عمق بازگشتی زیاد به طور کلی خوب نیستند.
+هر فراخوانی بازگشتی به مقداری حافظه در `stack` نیاز دارد و برنامه‌ها به طور پیش‌فرض فقط مقدار محدودی فضای `stack` دارند.
+بنابراین وقتی یک DFS بازگشتی را روی یک گراف همبند با میلیون‌ها رأس اجرا می‌کنید، ممکن است با خطای `stack overflow` مواجه شوید.
 
-It is always possible to translate a recursive program into an iterative program, by manually maintaining a stack data structure.
-Since this data structure is allocated on the heap, no stack overflow will occur.
+همیشه می‌توان یک برنامه بازگشتی را با نگهداری دستی یک ساختمان داده `stack`، به یک برنامه غیربازگشتی تبدیل کرد.
+از آنجایی که این ساختمان داده روی `heap` تخصیص داده می‌شود، خطای `stack overflow` رخ نخواهد داد.
 
 ```cpp
 int n;
@@ -101,7 +101,7 @@ void find_comps() {
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
  - [SPOJ: CT23E](http://www.spoj.com/problems/CT23E/)
  - [CODECHEF: GERALD07](https://www.codechef.com/MARCH14/problems/GERALD07)
  - [CSES : Building Roads](https://cses.fi/problemset/task/1666)

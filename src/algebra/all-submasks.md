@@ -1,75 +1,75 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: all_submasks
 ---
 
-# Submask Enumeration
+# پیمایش زیرماسک‌ها
 
-## Enumerating all submasks of a given mask
+## پیمایش تمام زیرماسک‌های یک ماسک معین
 
-Given a bitmask $m$, you want to efficiently iterate through all of its submasks, that is, masks $s$ in which only bits that were included in mask $m$ are set.
+با داشتن یک بیت‌ماسک $m$، می‌خواهیم به طور کارآمد تمام زیرماسک‌های آن را پیمایش کنیم؛ یعنی ماسک‌های $s$ که در آن‌ها فقط بیت‌هایی که در ماسک $m$ روشن بوده‌اند، می‌توانند روشن باشند.
 
-پیاده‌سازی این الگوریتم را در نظر بگیرید که بر اساس ترفندهایی با عملیات بیت انجام شده است:
+پیاده‌سازی این الگوریتم را در نظر بگیرید که بر اساس ترفندهایی با عملیات بیتی انجام شده است:
 ```cpp
 int s = m;
 while (s > 0) {
- ... you can use s ...
+ ... می‌توانید از s استفاده کنید ...
  s = (s-1) & m;
 }
 ```
 
-or, using a more compact `for` statement:
+یا با استفاده از یک دستور `for` فشرده‌تر:
 
 ```cpp
 for (int s=m; s; s=(s-1)&m)
- ... you can use s ...
+ ... می‌توانید از s استفاده کنید ...
 ```
 
-In both variants of the code, the submask equal to zero will not be processed. We can either process it outside the loop, or use a less elegant design, for example:
+در هر دو نسخه از کد، زیرماسک برابر با صفر پردازش نخواهد شد. می‌توانیم آن را خارج از حلقه پردازش کنیم، یا از یک طراحی نه‌چندان زیبا استفاده کنیم، برای مثال:
 
 ```cpp
 for (int s=m; ; s=(s-1)&m) {
- ... you can use s ...
+ ... می‌توانید از s استفاده کنید ...
  if (s==0)  break;
 }
 ```
 
-Let us examine why the above code visits all submasks of $m$, without repetition, and in descending order.
+بیایید بررسی کنیم چرا کد بالا تمام زیرماسک‌های $m$ را بدون تکرار و به ترتیب نزولی پیمایش می‌کند.
 
-Suppose we have a current bitmask $s$, and we want to move on to the next bitmask. By subtracting from the mask $s$ one unit, we will remove the rightmost set bit and all bits to the right of it will become 1. Then we remove all the "extra" one bits that are not included in the mask $m$ and therefore can't be a part of a submask. We do this removal by using the bitwise operation `(s-1) & m`. As a result, we "cut" mask $s-1$ to determine the highest value that it can take, that is, the next submask after $s$ in descending order.
+فرض کنید بیت‌ماسک فعلی $s$ را داریم و می‌خواهیم به بیت‌ماسک بعدی برویم. با کم کردن یک واحد از ماسک $s$، راست‌ترین بیت روشن آن را حذف کرده و تمام بیت‌های سمت راست آن را به ۱ تبدیل می‌کنیم. سپس تمام بیت‌های ۱ «اضافی» را که در ماسک $m$ وجود ندارند و بنابراین نمی‌توانند بخشی از یک زیرماسک باشند، حذف می‌کنیم. این حذف را با استفاده از عملیات بیتی `(s-1) & m` انجام می‌دهیم. در نتیجه، ما ماسک $s-1$ را «برش» می‌دهیم تا بالاترین مقداری را که می‌تواند داشته باشد تعیین کنیم، که همان زیرماسک بعدی پس از $s$ به ترتیب نزولی است.
 
-Thus, this algorithm generates all submasks of this mask in descending order, performing only two operations per iteration.
+بنابراین، این الگوریتم تمام زیرماسک‌های این ماسک را به ترتیب نزولی تولید می‌کند و در هر تکرار تنها دو عملیات انجام می‌دهد.
 
-A special case is when $s = 0$. After executing $s-1$ we get a mask where all bits are set (bit representation of -1), and after `(s-1) & m` we will have that $s$ will be equal to $m$. Therefore, with the mask $s = 0$ be careful — if the loop does not end at zero, the algorithm may enter an infinite loop.
+یک حالت خاص زمانی است که $s = 0$ باشد. پس از اجرای $s-1$، ماسکی به دست می‌آید که تمام بیت‌های آن روشن هستند (نمایش بیتی عدد ۱-)، و پس از `(s-1) & m` مقدار $s$ برابر با $m$ خواهد شد. بنابراین، در مورد ماسک $s=0$ باید مراقب بود — اگر حلقه در صفر به پایان نرسد، الگوریتم ممکن است وارد یک حلقه بی‌نهایت شود.
 
-## Iterating through all masks with their submasks. Complexity $O(3^n)$
+## پیمایش تمام ماسک‌ها به همراه زیرماسک‌هایشان. پیچیدگی $O(3^n)$
 
-In many problems, especially those that use bitmask dynamic programming, you want to iterate through all bitmasks and for each mask, iterate through all of its submasks:
+در بسیاری از مسائل، به ویژه آن‌هایی که از برنامه‌نویسی پویا با بیت‌ماسک استفاده می‌کنند، نیاز است که تمام بیت‌ماسک‌ها را پیمایش کرده و برای هر ماسک، تمام زیرماسک‌های آن را نیز پیمایش کنید:
 
 ```cpp
 for (int m=0; m<(1<<n); ++m)
 	for (int s=m; s; s=(s-1)&m)
- ... s and m ...
+ ... s و m ...
 ```
 
-Let's prove that the inner loop will execute a total of $O(3^n)$ iterations.
+بیایید ثابت کنیم که حلقه داخلی در مجموع $O(3^n)$ تکرار خواهد داشت.
 
-**First proof**: Consider the $i$-th bit. There are exactly three options for it:
+**اثبات اول**: بیت $i$-ام را در نظر بگیرید. دقیقاً سه گزینه برای آن وجود دارد:
 
-1. it is not included in the mask $m$ (and therefore not included in submask $s$),
-2. it is included in $m$, but not included in $s$, or
-3. it is included in both $m$ and $s$.
+۱. در ماسک $m$ وجود ندارد (و بنابراین در زیرماسک $s$ نیز وجود ندارد)،
+۲. در $m$ وجود دارد، اما در $s$ وجود ندارد، یا
+۳. هم در $m$ و هم در $s$ وجود دارد.
 
-As there are a total of $n$ bits, there will be $3^n$ different combinations.
+از آنجایی که در مجموع $n$ بیت وجود دارد، $3^n$ ترکیب مختلف خواهیم داشت.
 
-**Second proof**: Note that if mask $m$ has $k$ enabled bits, then it will have $2^k$ submasks. As we have a total of $\binom{n}{k}$ masks with $k$ enabled bits (see [binomial coefficients](../combinatorics/binomial-coefficients.md)), then the total number of combinations for all masks will be:
+**اثبات دوم**: توجه کنید که اگر ماسک $m$ دارای $k$ بیت روشن باشد، آنگاه $2^k$ زیرماسک خواهد داشت. از آنجایی که در مجموع $\binom{n}{k}$ ماسک با $k$ بیت روشن داریم (رجوع کنید به [ضرایب دوجمله‌ای](../combinatorics/binomial-coefficients.md))، تعداد کل ترکیبات برای تمام ماسک‌ها برابر خواهد بود با:
 
 $$\sum_{k=0}^n \binom{n}{k} \cdot 2^k$$
 
-To calculate this number, note that the sum above is equal to the expansion of $(1+2)^n$ using the binomial theorem. Therefore, we have $3^n$ combinations, as we wanted to prove.
+برای محاسبه این عدد، توجه کنید که مجموع بالا با بسط $(1+2)^n$ با استفاده از قضیه دوجمله‌ای برابر است. بنابراین، همانطور که می‌خواستیم ثابت کنیم، $3^n$ ترکیب داریم.
 
-## Practice Problems
+## مسائل تمرینی
 
 * [Atcoder - Close Group](https://atcoder.jp/contests/abc187/tasks/abc187_f)
 * [Codeforces - Nuclear Fusion](http://codeforces.com/problemset/problem/71/E)

@@ -1,199 +1,201 @@
 ---
 tags:
-  - Translated
-e_maxx_link: inclusion_exclusion_principle
+  - AI Translated
+e_maxx_link: inclusion-exclusion
 ---
 
-# The Inclusion-Exclusion Principle
+# اصل شمول و طرد
 
-The inclusion-exclusion principle is an important combinatorial way to compute the size of a set or the probability of complex events. It relates the sizes of individual sets with their union.
+اصل شمول و طرد (Inclusion-Exclusion Principle) یک روش ترکیبیاتی مهم برای محاسبه اندازه یک مجموعه یا احتمال رویدادهای پیچیده است. این اصل، اندازه مجموعه‌های مجزا را به اندازه اجتماعشان مرتبط می‌سازد.
 
-## Statement
+## بیان اصل
 
-### The verbal formula
+### فرمول کلامی
 
-The inclusion-exclusion principle can be expressed as follows:
+اصل شمول و طرد را می‌توان به صورت زیر بیان کرد:
 
-To compute the size of a union of multiple sets, it is necessary to sum the sizes of these sets **separately**, and then subtract the sizes of all **pairwise** intersections of the sets, then add back the size of the intersections of **triples** of the sets, subtract the size of **quadruples** of the sets, and so on, up to the intersection of **all** sets.
+برای محاسبه اندازه اجتماع چند مجموعه، لازم است اندازه این مجموعه‌ها را **به‌طور جداگانه** جمع کرده، سپس اندازه تمام اشتراک‌های **دو به دو** از مجموعه‌ها را کم کنیم، سپس اندازه اشتراک‌های **سه‌تایی** از مجموعه‌ها را اضافه کنیم، اندازه اشتراک‌های **چهارتایی** را کم کنیم و به همین ترتیب تا اشتراک **تمام** مجموعه‌ها ادامه دهیم.
 
-### The formulation in terms of sets
+### فرمول‌بندی بر حسب مجموعه‌ها
 
-The above definition can be expressed mathematically as follows:
+تعریف بالا را می‌توان به صورت ریاضی به شکل زیر بیان کرد:
 
 $$\left| \bigcup_{i=1}^n A_i \right| = \sum_{i=1}^n|A_i| - \sum_{1\leq i<j\leq n} |A_i \cap A_j| + \sum _{1\leq i<j<k\leq n}|A_i \cap A_j \cap A_k| - \cdots + (-1)^{n-1} | A_1 \cap \cdots \cap A_n |$$
 
-And in a more compact way:
+و به شکلی فشرده‌تر:
 
 $$\left|\bigcup_{i=1}^n A_i \right| = \sum_{\emptyset \neq J\subseteq \{1,2,\ldots ,n\}} (-1)^{|J|-1}{\Biggl |}\bigcap_{j\in J}A_{j}{\Biggr |}$$
 
-### The formulation using Venn diagrams
+### فرمول‌بندی با استفاده از نمودارهای ون
 
-Let the diagram show three sets $A$, $B$ and $C$:
+فرض کنید نمودار، سه مجموعه $A$، $B$ و $C$ را نشان می‌دهد:
 
-![Venn diagram](venn-inclusion-exclusion.png "Venn diagram")
 
-Then the area of their union $A \cup B \cup C$ is equal to the sum of the areas $A$, $B$ and $C$ less double-covered areas $A \cap B$, $A \cap C$, $B \cap C$, but with the addition of the area covered by three sets $A \cap B \cap C$:
+![نمودار ون](venn-inclusion-exclusion.png "نمودار ون")
+
+
+آنگاه مساحت اجتماع آنها $A \cup B \cup C$ برابر است با مجموع مساحت‌های $A$، $B$ و $C$ منهای مساحت‌هایی که دو بار پوشش داده شده‌اند یعنی $A \cap B$، $A \cap C$، $B \cap C$ و به علاوه مساحتی که سه بار پوشش داده شده است یعنی $A \cap B \cap C$:
 
 $$S(A \cup B \cup C) = S(A) + S(B) + S(C) - S(A \cap B) - S(A \cap C) - S(B \cap C) + S(A \cap B \cap C)$$
 
-It can also be generalized for an association of $n$ sets.
+این فرمول را می‌توان برای اجتماع $n$ مجموعه نیز تعمیم داد.
 
-### The formulation in terms of probability theory
+### فرمول‌بندی بر حسب نظریه احتمال
 
-If $A_i$ $(i = 1,2...n)$ are events and ${\cal P}(A_i)$ the probability of an event from $A_i$ to occur, then the probability of their union (i.e. the probability that at least one of the events occur) is equal to:
+اگر $A_i$ $(i = 1,2...n)$ پیشامدها باشند و ${\cal P}(A_i)$ احتمال وقوع پیشامد $A_i$ باشد، آنگاه احتمال اجتماع آنها (یعنی احتمال وقوع حداقل یکی از پیشامدها) برابر است با:
 
 $$\begin{eqnarray}
 {\cal P} \left( \bigcup_{i=1}^n A_i \right) &=& \sum_{i=1}^n{\cal P}(A_i)\ - \sum_{1\leq i<j\leq n} {\cal P}(A_i \cap A_j)\  + \\
 &+& \sum _{1\leq i<j<k\leq n}{\cal P}(A_i \cap A_j \cap A_k) - \cdots + (-1)^{n-1} {\cal P}( A_1 \cap \cdots \cap A_n )
 \end{eqnarray}$$
 
-And in a more compact way:
+و به شکلی فشرده‌تر:
 
 $${\cal P} \left(\bigcup_{i=1}^n A_i \right) = \sum_{\emptyset \neq J\subseteq \{1,2,\ldots ,n\}} (-1)^{|J|-1}\ {\cal P}{\Biggl (}\bigcap_{j\in J}A_{j}{\Biggr )}$$
 
-## Proof
+## اثبات
 
-For the proof it is convenient to use the mathematical formulation in terms of set theory:
+برای اثبات، راحت‌تر است که از فرمول‌بندی ریاضی بر حسب نظریه مجموعه‌ها استفاده کنیم:
 
 $$\left|\bigcup_{i=1}^n A_i \right| = \sum_{\emptyset \neq J\subseteq \{1,2,\ldots ,n\}} (-1)^{|J|-1}{\Biggl |}\bigcap_{j\in J}A_{j}{\Biggr |}$$
 
-We want to prove that any element contained in at least one of the sets $A_i$ will occur in the formula only once (note that elements which are not present in any of the sets $A_i$ will never be considered on the right part of the formula).
+می‌خواهیم اثبات کنیم که هر عنصری که حداقل در یکی از مجموعه‌های $A_i$ وجود داشته باشد، در فرمول فقط یک بار شمرده می‌شود (توجه داشته باشید که عناصری که در هیچ‌یک از مجموعه‌های $A_i$ وجود ندارند، هرگز در سمت راست فرمول در نظر گرفته نمی‌شوند).
 
-Consider an element $x$ occurring in $k \geq 1$ sets $A_i$. We will show it is counted only once in the formula. Note that:
+عنصر $x$ را در نظر بگیرید که در $k \geq 1$ مجموعه از $A_i$ها وجود دارد. نشان خواهیم داد که این عنصر فقط یک بار در فرمول شمرده می‌شود. توجه داشته باشید که:
 
-* in terms which $|J| = 1$, the item $x$ will be counted **$+\ k$** times;
-* in terms which $|J| = 2$, the item $x$ will be counted **$-\ \binom{k}{2}$** times - because it will be counted in those terms that include two of the $k$ sets containing $x$;
-* in terms which $|J| = 3$, the item $x$ will be counted **$+\ \binom{k}{3}$** times;
-* $\cdots$
-* in terms which $|J| = k$, the item $x$ will be counted **$(-1)^{k-1}\cdot \binom{k}{k}$** times;
-* in terms which $|J| \gt k$, the item $x$ will be counted **zero** times;
+*   در جملاتی که $|J| = 1$ است، عنصر $x$ به تعداد **$+k$** بار شمرده می‌شود؛
+*   در جملاتی که $|J| = 2$ است، عنصر $x$ به تعداد **$-\binom{k}{2}$** بار شمرده می‌شود - زیرا در جملاتی شمارش می‌شود که شامل دو مجموعه از $k$ مجموعه‌ای هستند که $x$ را در خود دارند؛
+*   در جملاتی که $|J| = 3$ است، عنصر $x$ به تعداد **$+\binom{k}{3}$** بار شمرده می‌شود؛
+*   $\cdots$
+*   در جملاتی که $|J| = k$ است، عنصر $x$ به تعداد **$(-1)^{k-1}\cdot \binom{k}{k}$** بار شمرده می‌شود؛
+*   در جملاتی که $|J| > k$ است، عنصر $x$ به تعداد **صفر** بار شمرده می‌شود؛
 
-This leads us to the following sum of [binomial coefficients](binomial-coefficients.md):
+این ما را به مجموع زیر از [ضرایب دوجمله‌ای](binomial-coefficients.md) می‌رساند:
 
 $$ T = \binom{k}{1} - \binom{k}{2} + \binom{k}{3} - \cdots + (-1)^{i-1}\cdot \binom{k}{i} + \cdots + (-1)^{k-1}\cdot \binom{k}{k}$$
 
-This expression is very similar to the binomial expansion of $(1 - x)^k$:
+این عبارت بسیار شبیه به بسط دوجمله‌ای $(1 - x)^k$ است:
 
 $$ (1 - x)^k = \binom{k}{0} - \binom{k}{1} \cdot x + \binom{k}{2} \cdot x^2 - \binom{k}{3} \cdot x^3 + \cdots + (-1)^k\cdot \binom{k}{k} \cdot x^k $$
 
-When $x = 1$, $(1 - x)^k$ looks a lot like $T$. However, the expression has an additional $\binom{k}{0} = 1$, and it is multiplied by $-1$. That leads us to $(1 - 1)^k = 1 - T$. Therefore $T = 1 - (1 - 1)^k = 1$, what was required to prove. The element is counted only once.
+وقتی $x = 1$ باشد، $(1 - x)^k$ شباهت زیادی به $T$ دارد. با این حال، عبارت بسط یک جمله اضافی $\binom{k}{0} = 1$ دارد و کل عبارت در $-1$ ضرب شده است. این ما را به $(1 - 1)^k = 1 - T$ می‌رساند. بنابراین $T = 1 - (1 - 1)^k = 1$ است که همان چیزی بود که باید اثبات می‌شد. این عنصر فقط یک بار شمرده می‌شود.
 
-## Generalization for calculating number of elements in exactly $r$ sets {data-toc-label="Generalization for calculating number of elements in exactly r sets"}
+## تعمیم برای محاسبه تعداد عناصری که دقیقاً در r مجموعه قرار دارند {data-toc-label="Generalization for calculating number of elements in exactly r sets"}
 
-Inclusion-exclusion principle can be rewritten to calculate number of elements which are present in zero sets:
+اصل شمول و طرد را می‌توان برای محاسبه تعداد عناصری که در هیچ مجموعه‌ای وجود ندارند، بازنویسی کرد:
 
 $$\left|\bigcap_{i=1}^n \overline{A_i}\right|=\sum_{m=0}^n (-1)^m \sum_{|X|=m} \left|\bigcap_{i\in X} A_{i}\right|$$
 
-Consider its generalization to calculate number of elements which are present in exactly $r$ sets:
+تعمیم آن را برای محاسبه تعداد عناصری که دقیقاً در $r$ مجموعه وجود دارند، در نظر بگیرید:
 
 $$\left|\bigcup_{|B|=r}\left[\bigcap_{i \in B} A_i \cap \bigcap_{j \not\in B} \overline{A_j}\right]\right|=\sum_{m=r}^n (-1)^{m-r}\dbinom{m}{r} \sum_{|X|=m} \left|\bigcap_{i \in X} A_{i}\right|$$
 
-To prove this formula, consider some particular $B$. Due to basic inclusion-exclusion principle we can say about it that:
+برای اثبات این فرمول، یک $B$ خاص را در نظر بگیرید. با استفاده از اصل پایه شمول و طرد می‌توان در مورد آن گفت:
 
 $$\left|\bigcap_{i \in B} A_i \cap \bigcap_{j \not \in B} \overline{A_j}\right|=\sum_{m=r}^{n} (-1)^{m-r} \sum_{\substack{|X|=m \newline B \subset X}}\left|\bigcap_{i\in X} A_{i}\right|$$
 
-The sets on the left side do not intersect for different $B$, thus we can sum them up directly. Also one should note that any set $X$ will always have coefficient $(-1)^{m-r}$ if it occurs and it will occur for exactly $\dbinom{m}{r}$ sets $B$. 
+مجموعه‌های سمت چپ برای $B$های مختلف اشتراک ندارند، بنابراین می‌توانیم آنها را مستقیماً با هم جمع کنیم. همچنین باید توجه داشت که هر مجموعه $X$ در صورت وقوع، همیشه ضریب $(-1)^{m-r}$ را خواهد داشت و دقیقاً برای $\dbinom{m}{r}$ مجموعه $B$ رخ می‌دهد.
 
-## Usage when solving problems
+## کاربرد در حل مسائل
 
-The inclusion-exclusion principle is hard to understand without studying its applications.
+درک اصل شمول و طرد بدون مطالعه کاربردهای آن دشوار است.
 
-First, we will look at three simplest tasks "at paper", illustrating applications of the principle, and then consider more practical problems which are difficult to solve without inclusion-exclusion principle.
+ابتدا، سه مسئله ساده "روی کاغذ" را بررسی می‌کنیم که کاربردهای این اصل را نشان می‌دهند و سپس مسائل عملی‌تری را در نظر می‌گیریم که حل آنها بدون اصل شمول و طرد دشوار است.
 
-Tasks asking to "find the **number** of ways" are worth of note, as they sometimes lead to polynomial solutions, not necessarily exponential.
+مسائلی که می‌خواهند «**تعداد** راه‌ها» را پیدا کنید، قابل توجه هستند، زیرا گاهی اوقات به راه‌حل‌های چندجمله‌ای منجر می‌شوند، نه لزوماً نمایی.
 
-### A simple task on permutations
+### یک مسئله ساده در مورد جایگشت‌ها
 
-Task: count how many permutations of numbers from $0$ to $9$ exist such that the first element is greater than $1$ and the last one is less than $8$.
+مسئله: تعداد جایگشت‌های اعداد ۰ تا ۹ را بشمارید که در آنها عنصر اول بزرگتر از ۱ و عنصر آخر کوچکتر از ۸ باشد.
 
-Let's count the number of "bad" permutations, that is, permutations in which the first element is $\leq 1$ and/or the last is $\geq 8$.
+بیایید تعداد جایگشت‌های «بد» را بشماریم، یعنی جایگشت‌هایی که در آنها عنصر اول $\leq 1$ و/یا عنصر آخر $\geq 8$ است.
 
-We will denote by $X$ the set of permutations in which the first element is $\leq 1$ and $Y$ the set of permutations in which the last element is $\geq 8$. Then the number of "bad" permutations, as on the inclusion-exclusion formula, will be:
+مجموعه جایگشت‌هایی که عنصر اول آنها $\leq 1$ است را با $X$ و مجموعه جایگشت‌هایی که عنصر آخر آنها $\geq 8$ است را با $Y$ نشان می‌دهیم. آنگاه تعداد جایگشت‌های «بد»، طبق فرمول شمول و طرد، برابر خواهد بود با:
 
 $$ |X \cup Y| = |X| + |Y| - |X \cap Y| $$
 
-After a simple combinatorial calculation, we will get to:
+پس از یک محاسبه ترکیبیاتی ساده، به این نتیجه می‌رسیم:
 
 $$ 2 \cdot 9! + 2 \cdot 9! - 2 \cdot 2 \cdot 8! $$
 
-The only thing left is to subtract this number from the total of $10!$ to get the number of "good" permutations.
+تنها کاری که باقی مانده این است که این عدد را از تعداد کل یعنی $!10$ کم کنیم تا تعداد جایگشت‌های «خوب» به دست آید.
 
-### A simple task on (0, 1, 2) sequences
+### یک مسئله ساده در مورد دنباله‌های (۰, ۱, ۲)
 
-Task: count how many sequences of length $n$ exist consisting only of numbers $0,1,2$ such that each number occurs **at least once**.
+مسئله: تعداد دنباله‌هایی به طول $n$ که فقط از اعداد ۰، ۱ و ۲ تشکیل شده‌اند و هر عدد **حداقل یک بار** در آنها ظاهر می‌شود را بشمارید.
 
-Again let us turn to the inverse problem, i.e. we calculate the number of sequences which do **not** contain **at least one** of the numbers.
+باز هم به مسئله معکوس روی می‌آوریم، یعنی تعداد دنباله‌هایی را محاسبه می‌کنیم که **حداقل یکی** از اعداد را **ندارند**.
 
-Let's denote by $A_i (i = 0,1,2)$ the set of sequences in which the digit $i$ does **not** occur.
-The formula of inclusion-exclusion on the number of "bad" sequences will be:
+مجموعه دنباله‌هایی که در آنها رقم $i$ ظاهر **نمی‌شود** را با $A_i (i = 0,1,2)$ نشان می‌دهیم.
+فرمول شمول و طرد برای تعداد دنباله‌های «بد» به این صورت خواهد بود:
 
 $$ |A_0 \cup A_1 \cup A_2| = |A_0| + |A_1| + |A_2| - |A_0 \cap A_1| - |A_0 \cap A_2| - |A_1 \cap A_2| + |A_0 \cap A_1 \cap A_2| $$
 
-* The size of each $A_i$ is $2^n$, as each sequence can only contain two of the digits.
-* The size of each pairwise intersection $A_i \cap A_j$  is equal to $1$, as there will be only one digit to build the sequence.
-* The size of the intersection of all three sets is equal to $0$, as there will be no digits to build the sequence.
+*   اندازه هر $A_i$ برابر $2^n$ است، زیرا هر دنباله فقط می‌تواند شامل دو رقم از سه رقم باشد.
+*   اندازه هر اشتراک دوتایی $A_i \cap A_j$ برابر با $1$ است، زیرا فقط یک رقم برای ساخت دنباله وجود خواهد داشت.
+*   اندازه اشتراک هر سه مجموعه برابر با $0$ است، زیرا هیچ رقمی برای ساخت دنباله وجود نخواهد داشت.
 
-As we solved the inverse problem, we subtract it from the total of $3^n$ sequences:
+از آنجایی که ما مسئله معکوس را حل کردیم، نتیجه را از تعداد کل دنباله‌ها یعنی $3^n$ کم می‌کنیم:
 
 $$3^n - (3 \cdot 2^n - 3 \cdot 1 + 0)$$
 
 <div id="the-number-of-integer-solutions-to-the-equation"></div>
-### Number of upper-bound integer sums {: #number-of-upper-bound-integer-sums }
+### تعداد جواب‌های صحیح معادلات با کران بالا {: #number-of-upper-bound-integer-sums }
 
-Consider the following equation:
+معادله زیر را در نظر بگیرید:
 
 $$x_1 + x_2 + x_3 + x_4 + x_5 + x_6 = 20$$
 
-where $0 \le x_i \le 8 ~ (i = 1,2,\ldots 6)$.
+که در آن $0 \le x_i \le 8 ~ (i = 1,2,\ldots 6)$ است.
 
-Task: count the number of solutions to the equation.
+مسئله: تعداد جواب‌های این معادله را بشمارید.
 
-Forget the restriction on $x_i$ for a moment and just count the number of nonnegative solutions to this equation. This is easily done using [Stars and Bars](stars_and_bars.md):
-we want to break a sequence of $20$ units into $6$ groups, which is the same as arranging $5$ _bars_ and $20$ _stars_:
+برای لحظه‌ای محدودیت روی $x_i$ را فراموش کنید و فقط تعداد جواب‌های نامنفی این معادله را بشمارید. این کار به راحتی با استفاده از [روش ستاره و خط](stars_and_bars.md) انجام می‌شود:
+می‌خواهیم دنباله‌ای از $20$ واحد را به $6$ گروه تقسیم کنیم، که معادل چیدن $5$ _خط_ و $20$ _ستاره_ است:
 
 $$N_0 = \binom{25}{5}$$
 
-We will now calculate the number of "bad" solutions with the inclusion-exclusion principle. The "bad" solutions will be those in which one or more $x_i$ are greater than or equal to $9$.
+اکنون تعداد جواب‌های «بد» را با اصل شمول و طرد محاسبه می‌کنیم. جواب‌های «بد» آنهایی هستند که در آنها یک یا چند $x_i$ بزرگتر یا مساوی $9$ باشند.
 
-Denote by $A_k ~ (k = 1,2\ldots 6)$ the set of solutions where $x_k \ge 9$, and all other $x_i \ge 0 ~ (i \ne k)$ (they may be $\ge 9$ or not). To calculate the size of $A_k$, note that we have essentially the same combinatorial problem that was solved in the two paragraphs above, but now $9$ of the units are excluded from the slots and definitely belong to the first group. Thus:
+مجموعه جواب‌هایی که در آن $x_k \ge 9$ و بقیه $x_i \ge 0 ~ (i \ne k)$ هستند را با $A_k ~ (k = 1,2\ldots 6)$ نشان می‌دهیم (آنها ممکن است $\ge 9$ باشند یا نباشند). برای محاسبه اندازه $A_k$، توجه داشته باشید که اساساً با همان مسئله ترکیبیاتی روبرو هستیم که در دو پاراگراف بالا حل شد، اما اکنون $9$ واحد از کل واحدها کنار گذاشته شده و قطعاً به گروه اول تعلق دارند. بنابراین:
 
 $$ | A_k | = \binom{16}{5} $$
 
-Similarly, the size of the intersection between two sets $A_k$ and $A_p$ (for $k \ne p$) is equal to:
+به طور مشابه، اندازه اشتراک بین دو مجموعه $A_k$ و $A_p$ (برای $k \ne p$) برابر است با:
 
 $$ \left| A_k \cap A_p \right| = \binom{7}{5}$$
 
-The size of each intersection of three sets is zero, since $20$ units will not be enough for three or more variables greater than or equal to $9$.
+اندازه هر اشتراک سه‌تایی از مجموعه‌ها صفر است، زیرا $20$ واحد برای اینکه سه یا چند متغیر بزرگتر یا مساوی $9$ باشند، کافی نخواهد بود.
 
-Combining all this into the formula of inclusions-exceptions and given that we solved the inverse problem, we finally get the answer:
+با ترکیب همه اینها در فرمول شمول و طرد و با توجه به اینکه مسئله معکوس را حل کردیم، در نهایت به جواب می‌رسیم:
 
 $$\binom{25}{5} - \left(\binom{6}{1} \cdot \binom{16}{5} - \binom{6}{2} \cdot \binom{7}{5}\right) $$
 
-This easily generalizes to $d$ numbers that sum up to $s$ with the restriction $0 \le x_i \le b$:
+این روش به راحتی برای $d$ عدد که مجموعشان $s$ است با محدودیت $0 \le x_i \le b$ تعمیم می‌یابد:
 
 $$\sum_{i=0}^d (-1)^i \binom{d}{i} \binom{s+d-1-(b+1)i}{d-1}$$
 
-As above, we treat binomial coefficients with negative upper index as zero. 
+همانند بالا، ضرایب دوجمله‌ای با اندیس بالای منفی را صفر در نظر می‌گیریم.
 
-Note this problem could also be solved with dynamic programming or generating functions. The inclusion-exclusion answer is computed in $O(d)$ time (assuming math operations like binomial coefficient are constant time), while a simple DP approach would take $O(ds)$ time. 
+توجه داشته باشید که این مسئله را می‌توان با برنامه‌نویسی پویا یا توابع مولد نیز حل کرد. پاسخ با استفاده از اصل شمول و طرد در زمان $O(d)$ محاسبه می‌شود (با فرض اینکه عملیات ریاضی مانند ضریب دوجمله‌ای در زمان ثابت انجام شوند)، در حالی که یک رویکرد ساده برنامه‌نویسی پویا (DP) زمان $O(ds)$ را می‌گیرد.
 
-### The number of relative primes in a given interval
+### تعداد اعداد متباین در یک بازه معین
 
-Task: given two numbers $n$ and $r$, count the number of integers in the interval $[1;r]$ that are relatively prime to n (their greatest common divisor is $1$).
+مسئله: با داشتن دو عدد $n$ و $r$، تعداد اعداد صحیح در بازه $[1;r]$ را که نسبت به n اول هستند (بزرگترین مقسوم‌علیه مشترکشان $1$ است)، بشمارید.
 
-Let's solve the inverse problem - compute the number of not mutually primes with $n$.
+بیایید مسئله معکوس را حل کنیم - تعداد اعدادی که نسبت به $n$ اول نیستند را محاسبه کنیم.
 
-We will denote the prime factors of $n$ as $p_i (i = 1\cdots k)$.
+عوامل اول $n$ را با $p_i (i = 1\cdots k)$ نشان می‌دهیم.
 
-How many numbers in the interval $[1;r]$ are divisible by $p_i$? The answer to this question is:
+چند عدد در بازه $[1;r]$ بر $p_i$ بخش‌پذیر هستند؟ پاسخ این سوال این است:
 
 $$ \left\lfloor \frac{ r }{ p_i } \right\rfloor $$
 
-However, if we simply sum these numbers, some numbers will be summarized several times (those that share multiple $p_i$ as their factors). Therefore, it is necessary to use the inclusion-exclusion principle.
+با این حال، اگر ما به سادگی این اعداد را جمع کنیم، برخی از اعداد چندین بار جمع زده می‌شوند (آنهایی که چندین $p_i$ را به عنوان عامل مشترک دارند). بنابراین، لازم است از اصل شمول و طرد استفاده کنیم.
 
-We will iterate over all $2^k$ subsets of $p_i$s, calculate their product and add or subtract the number of multiples of their product.
+ما روی تمام $2^k$ زیرمجموعه از $p_i$ها پیمایش می‌کنیم، حاصل‌ضرب آنها را محاسبه کرده و تعداد مضارب حاصل‌ضربشان را اضافه یا کم می‌کنیم.
 
-Here is a C++ implementation:
+در اینجا یک پیاده‌سازی با C++ آمده است:
 
 ```cpp
 int solve (int n, int r) {
@@ -228,140 +230,136 @@ int solve (int n, int r) {
 }
 ```
 
-Asymptotics of the solution is $O (\sqrt{n})$.
+پیچیدگی زمانی این راه‌حل $O (\sqrt{n})$ است.
 
-### The number of integers in a given interval which are multiple of at least one of the given numbers
+### تعداد اعداد صحیح در یک بازه معین که مضرب حداقل یکی از اعداد داده شده هستند
 
-Given $n$ numbers $a_i$ and number $r$. You want to count the number of integers in the interval $[1; r]$ that are multiple of at least one of the $a_i$.
+$n$ عدد $a_i$ و یک عدد $r$ داده شده است. شما می‌خواهید تعداد اعداد صحیح در بازه $[1; r]$ را که مضرب حداقل یکی از $a_i$ها هستند، بشمارید.
 
-The solution algorithm is almost identical to the one for previous task — construct the formula of inclusion-exclusion on the numbers $a_i$, i.e. each term in this formula is the number of numbers divisible by a given subset of numbers $a_i$ (in other words, divisible by their [least common multiple](../algebra/euclid-algorithm.md)).
+الگوریتم راه‌حل تقریباً مشابه با مسئله قبلی است — فرمول شمول و طرد را بر روی اعداد $a_i$ بسازید، یعنی هر جمله در این فرمول تعداد اعدادی است که بر یک زیرمجموعه معین از اعداد $a_i$ بخش‌پذیر هستند (به عبارت دیگر، بر [کوچکترین مضرب مشترک](../algebra/euclid-algorithm.md) آنها بخش‌پذیرند).
 
-So we will now iterate over all $2^n$ subsets of integers $a_i$ with $O(n \log r)$ operations to find their least common multiple, adding or subtracting the number of multiples of it in the interval. Asymptotics is $O (2^n\cdot n\cdot \log r)$.
+بنابراین ما روی تمام $2^n$ زیرمجموعه از اعداد صحیح $a_i$ با $O(n \log r)$ عملیات برای یافتن کوچکترین مضرب مشترک آنها پیمایش می‌کنیم و تعداد مضارب آن را در بازه اضافه یا کم می‌کنیم. پیچیدگی زمانی $O (2^n\cdot n\cdot \log r)$ است.
 
-### The number of strings that satisfy a given pattern
+### تعداد رشته‌هایی که با یک الگوی معین مطابقت دارند
 
-Consider $n$ patterns of strings of the same length, consisting only of letters ($a...z$) or question marks. You're also given a number $k$. A string matches a pattern if it has the same length as the pattern, and at each position, either the corresponding characters are equal or the character in the pattern is a question mark. The task is to count the number of strings that match exactly $k$ of the patterns (first problem) and at least $k$ of the patterns (second problem).
+$n$ الگوی رشته‌ای با طول یکسان در نظر بگیرید که فقط از حروف ($a...z$) یا علامت سؤال تشکیل شده‌اند. یک عدد $k$ نیز به شما داده می‌شود. یک رشته با یک الگو مطابقت دارد اگر طول آن با الگو یکسان باشد و در هر موقعیت، یا کاراکترهای متناظر برابر باشند یا کاراکتر در الگو یک علامت سؤال باشد. مسئله این است که تعداد رشته‌هایی را بشمارید که دقیقاً با $k$ الگو (مسئله اول) و حداقل با $k$ الگو (مسئله دوم) مطابقت دارند.
 
-Notice first that we can easily count the number of strings that satisfy at once all of the specified patterns. To do this, simply "cross" patterns: iterate though the positions ("slots") and look at a position over all patterns. If all patterns have a question mark in this position, the character can be any letter from $a$ to $z$. Otherwise, the character of this position is uniquely defined by the patterns that do not contain a question mark.
+ابتدا توجه کنید که می‌توانیم به راحتی تعداد رشته‌هایی را بشماریم که همزمان با همه الگوهای مشخص شده مطابقت دارند. برای این کار، کافی است الگوها را "ترکیب" کنیم: در طول موقعیت‌ها ("خانه‌ها") پیمایش کرده و یک موقعیت را در تمام الگوها بررسی کنید. اگر همه الگوها در این موقعیت علامت سؤال داشته باشند، کاراکتر می‌تواند هر حرفی از 'a' تا 'z' باشد. در غیر این صورت، کاراکتر این موقعیت به طور یکتا توسط الگوهایی که علامت سؤال ندارند، تعیین می‌شود.
 
-Learn now to solve the first version of the problem: when the string must satisfy exactly $k$ of the patterns.
+حالا یاد بگیریم که نسخه اول مسئله را حل کنیم: زمانی که رشته باید دقیقاً با $k$ الگو مطابقت داشته باشد.
 
-To solve it, iterate and fix a specific subset $X$ from the set of patterns consisting of $k$ patterns. Then we have to count the number of strings that satisfy this set of patterns, and only matches it, that is, they don't match any other pattern. We will use the inclusion-exclusion principle in a slightly different manner: we sum on all supersets $Y$ (subsets from the original set of strings that contain $X$), and either add to the current answer or subtract it from the number of strings:
+برای حل آن، یک زیرمجموعه خاص $X$ از مجموعه الگوها که شامل $k$ الگو است را پیمایش و ثابت می‌کنیم. سپس باید تعداد رشته‌هایی را بشماریم که با این مجموعه الگوها مطابقت دارند و فقط با همین مجموعه مطابقت دارند، یعنی با هیچ الگوی دیگری مطابقت ندارند. ما از اصل شمول و طرد به روشی کمی متفاوت استفاده خواهیم کرد: ما روی همه بالامجموعه‌های $Y$ (زیرمجموعه‌هایی از مجموعه اصلی رشته‌ها که شامل $X$ هستند) جمع می‌زنیم و یا به پاسخ فعلی اضافه می‌کنیم یا از تعداد رشته‌ها کم می‌کنیم:
 
 $$ ans(X) = \sum_{Y \supseteq X} (-1)^{|Y|-k} \cdot f(Y) $$
 
-Where $f(Y)$ is the number of strings that match $Y$ (at least $Y$).
+که در آن $f(Y)$ تعداد رشته‌هایی است که با $Y$ (حداقل با $Y$) مطابقت دارند.
 
-(If you have a hard time figuring out this, you can try drawing Venn Diagrams.)
+(اگر در فهمیدن این موضوع مشکل دارید، می‌توانید نمودارهای ون را رسم کنید.)
 
-If we sum up on all $ans(X)$, we will get the final answer:
+اگر روی تمام $ans(X)$ها جمع بزنیم، به پاسخ نهایی می‌رسیم:
 
 $$ ans = \sum_{X ~ : ~ |X| = k} ans(X) $$
 
-However, asymptotics of this solution is $O(3^k \cdot k)$. To improve it, notice that different $ans(X)$ computations very often share $Y$ sets.
+با این حال، پیچیدگی زمانی این راه‌حل $O(3^k \cdot k)$ است. برای بهبود آن، توجه کنید که محاسبات مختلف $ans(X)$ اغلب از مجموعه‌های $Y$ مشترکی استفاده می‌کنند.
 
-We will reverse the formula of inclusion-exclusion and sum in terms of $Y$ sets. Now it becomes clear that the same set $Y$ would be taken into account in the computation of $ans(X)$ of $\binom{|Y|}{k}$ sets with the same sign $(-1)^{|Y| - k}$.
+ما فرمول شمول و طرد را معکوس کرده و بر حسب مجموعه‌های $Y$ جمع می‌زنیم. اکنون مشخص می‌شود که همان مجموعه $Y$ در محاسبه $ans(X)$ برای $\binom{|Y|}{k}$ مجموعه با علامت یکسان $(-1)^{|Y| - k}$ در نظر گرفته می‌شود.
 
 $$ ans = \sum_{Y ~ : ~ |Y| \ge k} (-1)^{|Y|-k} \cdot \binom{|Y|}{k} \cdot f(Y) $$
 
-Now our solution has asymptotics $O(2^k \cdot k)$.
+حالا راه‌حل ما دارای پیچیدگی زمانی $O(2^k \cdot k)$ است.
 
-We will now solve the second version of the problem: find the number of strings that match **at least** $k$ of the patterns.
+اکنون نسخه دوم مسئله را حل می‌کنیم: تعداد رشته‌هایی را پیدا کنید که با **حداقل** $k$ الگو مطابقت دارند.
 
-Of course, we can just use the solution to the first version of the problem and add the answers for sets with size greater than $k$. However, you may notice that in this problem, a set |Y| is considered in the formula for all sets with size $\ge k$ which are contained in $Y$. That said, we can write the part of the expression that is being multiplied by $f(Y)$ as:
-
+البته، می‌توانیم از راه‌حل نسخه اول مسئله استفاده کرده و پاسخ‌ها را برای مجموعه‌هایی با اندازه بزرگتر از $k$ جمع کنیم. با این حال، ممکن است متوجه شوید که در این مسئله، یک مجموعه |Y| در فرمول برای تمام مجموعه‌هایی با اندازه $\ge k$ که در $Y$ قرار دارند، در نظر گرفته می‌شود. به این ترتیب، می‌توانیم بخشی از عبارت را که در $f(Y)$ ضرب می‌شود، به صورت زیر بنویسیم:
 
 $$ (-1)^{|Y|-k} \cdot \binom{|Y|}{k} + (-1)^{|Y|-k-1} \cdot \binom{|Y|}{k+1} + (-1)^{|Y|-k-2} \cdot \binom{|Y|}{k+2} + \cdots + (-1)^{|Y|-|Y|} \cdot \binom{|Y|}{|Y|} $$
 
-Looking at Graham's (Graham, Knuth, Patashnik. "Concrete mathematics" [1998] ), we see a well-known formula for [binomial coefficients](binomial-coefficients.md):
+با نگاهی به کتاب "ریاضیات گسسته" گراهام (Graham, Knuth, Patashnik. "Concrete mathematics" [1998])، یک فرمول شناخته شده برای [ضرایب دوجمله‌ای](binomial-coefficients.md) را می‌بینیم:
 
 $$ \sum_{k=0}^m (-1)^k \cdot \binom{n}{k} = (-1)^m \cdot \binom{n-1}{m} $$
 
-Applying it here, we find that the entire sum of binomial coefficients is minimized:
+با اعمال آن در اینجا، متوجه می‌شویم که کل مجموع ضرایب دوجمله‌ای ساده می‌شود:
 
 $$ (-1)^{|Y|-k} \cdot \binom{|Y|-1}{|Y|-k} $$
 
-Thus, for this task, we also obtained a solution with the asymptotics $O(2^k \cdot k)$:
+بنابراین، برای این مسئله نیز، ما یک راه‌حل با پیچیدگی زمانی $O(2^k \cdot k)$ به دست آوردیم:
 
 $$ ans = \sum_{Y ~ : ~ |Y| \ge k} (-1)^{|Y|-k} \cdot \binom{|Y|-1}{|Y|-k} \cdot f(Y) $$
 
-### The number of ways of going from a cell to another
+### تعداد راه‌های رفتن از یک سلول به سلول دیگر
 
-There is a field $n \times m$, and $k$ of its cells are impassable walls. A robot is initially at the cell $(1,1)$ (bottom left). The robot can only move right or up, and eventually it needs to get into the cell $(n,m)$, avoiding all obstacles. You need to count the number of ways he can do it.
+یک زمین $n \times m$ وجود دارد و $k$ سلول آن دیوارهای غیرقابل عبور هستند. یک ربات در ابتدا در سلول $(1,1)$ (پایین سمت چپ) قرار دارد. ربات فقط می‌تواند به سمت راست یا بالا حرکت کند و در نهایت باید به سلول $(n,m)$ برسد و از همه موانع اجتناب کند. شما باید تعداد راه‌هایی را که او می‌تواند این کار را انجام دهد، بشمارید.
 
-Assume that the sizes $n$ and $m$ are very large (say, $10^9$), and the number $k$ is small (around $100$).
+فرض کنید که اندازه‌های $n$ و $m$ بسیار بزرگ هستند (مثلاً $10^9$) و تعداد $k$ کوچک است (حدود $100$).
 
-For now, sort the obstacles by their coordinate $x$, and in case of equality — coordinate $y$.
+ابتدا، موانع را بر اساس مختصات $x$ آنها و در صورت تساوی، بر اساس مختصات $y$ مرتب کنید.
 
-Also just learn how to solve a problem without obstacles: i.e. learn how to count the number of ways to get from one cell to another. In one axis, we need to go through $x$ cells, and on the other, $y$ cells. From simple combinatorics, we get a formula using [binomial coefficients](binomial-coefficients.md):
+همچنین یاد بگیرید چگونه یک مسئله بدون مانع را حل کنید: یعنی یاد بگیرید چگونه تعداد راه‌های رسیدن از یک سلول به سلول دیگر را بشمارید. در یک محور، باید از $x$ سلول عبور کنیم و در محور دیگر، از $y$ سلول. از ترکیبیات ساده، فرمولی با استفاده از [ضرایب دوجمله‌ای](binomial-coefficients.md) به دست می‌آوریم:
 
 $$\binom{x+y}{x}$$
 
-Now to count the number of ways to get from one cell to another, avoiding all obstacles, you can use inclusion-exclusion to solve the inverse problem: count the number of ways to walk through the board stepping at a subset of obstacles (and subtract it from the total number of ways).
+حالا برای شمارش تعداد راه‌های رسیدن از یک سلول به سلول دیگر با اجتناب از همه موانع، می‌توانید از اصل شمول و طرد برای حل مسئله معکوس استفاده کنید: تعداد راه‌های عبور از روی یک زیرمجموعه از موانع را بشمارید (و آن را از تعداد کل راه‌ها کم کنید).
 
-When iterating over a subset of the obstacles that we'll step, to count the number of ways to do this simply multiply the number of all paths from starting cell to the first of the selected obstacles, a first obstacle to the second, and so on, and then add or subtract this number from the answer, in accordance with the standard formula of inclusion-exclusion.
+هنگام پیمایش یک زیرمجموعه از موانع که از روی آنها عبور خواهیم کرد، برای شمارش تعداد راه‌های انجام این کار، کافی است تعداد تمام مسیرها از سلول شروع به اولین مانع انتخاب شده، از اولین مانع به دومین مانع و به همین ترتیب را در هم ضرب کنید و سپس این عدد را مطابق با فرمول استاندارد شمول و طرد از پاسخ اضافه یا کم کنید.
 
-However, this will again be non-polynomial in complexity $O(2^k \cdot k)$.
+با این حال، این راه‌حل دوباره با پیچیدگی غیرچندجمله‌ای $O(2^k \cdot k)$ خواهد بود.
 
-Here goes a polynomial solution:
+در اینجا یک راه‌حل چندجمله‌ای ارائه می‌شود:
 
-We will use dynamic programming. For convenience, push (1,1) to the beginning and (n,m) at the end of the obstacles array. Let's compute the numbers $d[i]$ — the number of ways to get from the starting point ($0-th$) to $i-th$, without stepping on any other obstacle (except for $i$, of course). We will compute this number for all the obstacle cells, and also for the ending one.
+ما از برنامه‌نویسی پویا استفاده خواهیم کرد. برای راحتی، $(1,1)$ را به ابتدای آرایه موانع و $(n,m)$ را به انتهای آن اضافه می‌کنیم. بیایید اعداد $d[i]$ را محاسبه کنیم — تعداد راه‌های رسیدن از نقطه شروع (مانع صفرم) به مانع $i$-ام، بدون عبور از هیچ مانع دیگری (به جز خود مانع $i$-ام، البته). ما این عدد را برای تمام سلول‌های مانع و همچنین برای سلول پایانی محاسبه خواهیم کرد.
 
-Let's forget for a second the obstacles and just count the number of paths from cell $0$ to $i$. We need to consider some "bad" paths, the ones that pass through the obstacles, and subtract them from the total number of ways of going from $0$ to $i$.
+برای محاسبه $d[i]$ (تعداد مسیرهای معتبر به $i$)، تعداد کل مسیرها از 0 به $i$ را در نظر گرفته و مسیرهای «بد» را از آن کم می‌کنیم. یک مسیر بد، مسیری است که از حداقل یک مانع دیگر $j$ (که $x_j \le x_i$ و $y_j \le y_i$) عبور کند. برای هر مانع $j$ که قبل از $i$ قرار دارد، تعداد مسیرهایی که از ۰ به $i$ می‌روند و *اولین* مانعی که با آن برخورد می‌کنند $j$ است، برابر است با $d[j]$ (تعداد مسیرهای معتبر از ۰ تا $j$) ضربدر تعداد کل مسیرها از $j$ تا $i$. با جمع کردن این مقادیر برای تمام $j$ های ممکن و کم کردن آن از تعداد کل مسیرهای ۰ تا $i$، مقدار $d[i]$ به دست می‌آید.
 
-When considering an obstacle $t$ between $0$ and $i$ ($0 < t < i$), on which we can step, we see that the number of paths from $0$ to $i$ that pass through $t$ which have $t$ as the **first obstacle between start and $i$**. We can compute that as: $d[t]$ multiplied by the number of arbitrary paths from $t$ to $i$. We can count the number of "bad" ways summing this for all $t$ between $0$ and $i$.
+ما می‌توانیم $d[i]$ را در $O(k)$ برای $O(k)$ مانع محاسبه کنیم، بنابراین این راه‌حل دارای پیچیدگی $O(k^2)$ است.
 
-We can compute $d[i]$ in $O(k)$ for $O(k)$ obstacles, so this solution has complexity $O(k^2)$.
+### تعداد چهارتایی‌های متباین
 
-### The number of coprime quadruples
+$n$ عدد به شما داده شده است: $a_1, a_2, \ldots, a_n$. از شما خواسته شده تعداد راه‌های انتخاب چهار عدد را بشمارید به طوری که بزرگترین مقسوم‌علیه مشترک آنها برابر با یک باشد.
 
-You're given $n$ numbers: $a_1, a_2, \ldots, a_n$. You are required to count the number of ways to choose four numbers so that their combined greatest common divisor is equal to one.
+ما مسئله معکوس را حل می‌کنیم — تعداد چهارتایی‌های «بد» را محاسبه می‌کنیم، یعنی چهارتایی‌هایی که در آنها همه اعداد بر عددی $d > 1$ بخش‌پذیر هستند.
 
-We will solve the inverse problem — compute the number of "bad" quadruples, i.e. quadruples in which all numbers are divisible by a number $d > 1$.
-
-We will use the inclusion-exclusion principle while summing over all possible groups of four numbers divisible by a divisor $d$.
+ما از اصل شمول و طرد استفاده می‌کنیم و بر روی تمام گروه‌های چهارتایی ممکن از اعداد که بر مقسوم‌علیه $d$ بخش‌پذیرند، جمع می‌زنیم.
 
 $$ans = \sum_{d \ge 2} (-1)^{deg(d)-1} \cdot f(d)$$
 
-where $deg(d)$ is the number of primes in the factorization of the number $d$ and $f(d)$ the number of quadruples divisible by $d$.
+که در آن $deg(d)$ تعداد عوامل اول در تجزیه عدد $d$ و $f(d)$ تعداد چهارتایی‌های بخش‌پذیر بر $d$ است.
 
-To calculate the function $f(d)$, you just have to count the number of multiples of $d$ (as mentioned on a previous task) and use [binomial coefficients](binomial-coefficients.md) to count the number of ways to choose four of them.
+برای محاسبه تابع $f(d)$، کافی است تعداد مضارب $d$ را بشمارید (همانطور که در یک مسئله قبلی ذکر شد) و از [ضرایب دوجمله‌ای](binomial-coefficients.md) برای شمارش تعداد راه‌های انتخاب چهار عدد از آنها استفاده کنید.
 
-Thus, using the formula of inclusions-exclusions we sum the number of groups of four divisible by a prime number, then subtract the number of quadruples which are divisible by the product of two primes, add quadruples divisible by three primes, etc.
+بنابراین، با استفاده از فرمول شمول و طرد، ما تعداد گروه‌های چهارتایی بخش‌پذیر بر یک عدد اول را جمع می‌کنیم، سپس تعداد چهارتایی‌هایی را که بر حاصل‌ضرب دو عدد اول بخش‌پذیرند کم می‌کنیم، چهارتایی‌های بخش‌پذیر بر سه عدد اول را اضافه می‌کنیم و الی آخر.
 
+### تعداد سه‌تایی‌های هارمونیک
 
-### The number of harmonic triplets
+یک عدد $n \le 10^6$ به شما داده شده است. از شما خواسته شده تعداد سه‌تایی‌های $2 \le a < b < c \le n$ را بشمارید که یکی از شرایط زیر را برآورده کنند:
 
-You are given a number $n \le 10^6$. You are required to count the number of triples $2 \le a < b < c \le n$ that satisfy one of the following conditions:
+*   یا ${\rm gcd}(a,b) = {\rm gcd}(a,c) = {\rm gcd}(b,c) = 1$
+*   یا ${\rm gcd}(a,b) > 1, {\rm gcd}(a,c) > 1, {\rm gcd}(b,c) > 1$
 
-* or ${\rm gcd}(a,b) = {\rm gcd}(a,c) = {\rm gcd}(b,c) = 1$,
-* or ${\rm gcd}(a,b) > 1, {\rm gcd}(a,c) > 1, {\rm gcd}(b,c) > 1$.
+ابتدا، مستقیماً به سراغ مسئله معکوس می‌رویم — یعنی تعداد سه‌تایی‌های ناهماهنگ را می‌شماریم.
 
-First, go straight to the inverse problem — i.e. count the number of non-harmonic triples.
+دوم، توجه داشته باشید که هر سه‌تایی ناهماهنگ از یک زوج متباین و یک عدد سوم تشکیل شده که با حداقل یکی از اعضای آن زوج، متباین نیست.
 
-Second, note that any non-harmonic triplet is made of a pair of coprimes and a third number that is not coprime with at least one from the pair.
+بنابراین، تعداد سه‌تایی‌های ناهماهنگ که شامل $i$ هستند، برابر است با تعداد اعداد صحیح از ۲ تا $n$ که نسبت به $i$ اول هستند ضربدر تعداد اعداد صحیحی که نسبت به $i$ اول نیستند.
 
-Thus, the number of non-harmonic triples that contain $i$ is equal the number of integers from $2$ to $n$ that are coprimes with $i$ multiplied by the number of integers that are not coprime with $i$.
+یا $gcd(a,b) = 1 \wedge gcd(a,c) > 1 \wedge gcd(b,c) > 1$
 
-Either $gcd(a,b) = 1 \wedge gcd(a,c) > 1 \wedge gcd(b,c) > 1$
+یا $gcd(a,b) = 1 \wedge gcd(a,c) = 1 \wedge gcd(b,c) > 1$
 
-or $gcd(a,b) = 1 \wedge gcd(a,c) = 1 \wedge gcd(b,c) > 1$
+در هر دو حالت، سه‌تایی دو بار شمرده می‌شود. حالت اول وقتی $i = a$ و وقتی $i = b$ شمرده می‌شود. حالت دوم وقتی $i = b$ و وقتی $i = c$ شمرده می‌شود. بنابراین، برای محاسبه تعداد سه‌تایی‌های ناهماهنگ، این محاسبه را برای تمام $i$ از ۲ تا $n$ جمع کرده و بر ۲ تقسیم می‌کنیم.
 
-In both of these cases, it will be counted twice. The first case will be counted when $i = a$ and when $i = b$. The second case will be counted when $i = b$ and when $i = c$. Therefore, to compute the number of non-harmonic triples, we sum this calculation through all $i$ from $2$ to $n$ and divide it by $2$.
+حالا تنها چیزی که برای حل باقی مانده، یادگیری شمارش تعداد اعداد متباین با $i$ در بازه $[2;n]$ است. اگرچه این مسئله قبلاً ذکر شده است، راه‌حل بالا در اینجا مناسب نیست — نیاز به تجزیه هر یک از اعداد صحیح از ۲ تا $n$ و سپس پیمایش تمام زیرمجموعه‌های این اعداد اول دارد.
 
-Now all we have left to solve is to learn to count the number of coprimes to $i$ in the interval $[2;n]$. Although this problem has already been mentioned, the above solution is not suitable here — it would require the factorization of each of the integers from $2$ to $n$, and then iterating through all subsets of these primes.
+یک راه‌حل سریع‌تر با چنین تغییری در غربال اراتستن امکان‌پذیر است:
 
-A faster solution is possible with such modification of the sieve of Eratosthenes:
+1.  ابتدا، تمام اعدادی را در بازه $[2;n]$ پیدا می‌کنیم که تجزیه ساده آنها شامل یک عامل اول به صورت تکراری نباشد. همچنین باید بدانیم که این اعداد شامل چند عامل اول هستند.
+    *   برای این کار، یک آرایه $deg[i]$ برای ذخیره تعداد عوامل اول در تجزیه $i$ و یک آرایه $good[i]$ برای علامت‌گذاری اینکه آیا $i$ هر عامل را حداکثر یک بار شامل می‌شود ($good[i] = 1$) یا نه ($good[i] = 0$) نگهداری می‌کنیم. هنگام پیمایش از ۲ تا $n$، اگر به عددی برسیم که $deg$ آن برابر با ۰ باشد، آنگاه آن عدد اول است و $deg$ آن ۱ است.
+    *   در طول غربال اراتستن، ما $i$ را از ۲ تا $n$ پیمایش می‌کنیم. هنگام پردازش یک عدد اول، از تمام مضارب آن عبور کرده و $deg[]$ آنها را افزایش می‌دهیم. اگر یکی از این مضارب، مضرب مربع $i$ باشد، آنگاه می‌توانیم $good$ را false قرار دهیم.
 
-1. First, we find all numbers in the interval $[2;n]$ such that its simple factorization does not include a prime factor twice. We will also need to know, for these numbers, how many factors it includes.
-    * To do this we will maintain an array $deg[i]$ to store the number of primes in the factorization of $i$, and an array $good[i]$, to mark either if $i$ contains each factor at most once ($good[i] = 1$) or not ($good[i] = 0$). When iterating from $2$ to $n$, if we reach a number that has $deg$ equal to $0$, then it is a prime and its $deg$ is $1$.
-    * During the sieve of Eratosthenes, we will iterate $i$ from $2$ to $n$. When processing a prime number we go through all of its multiples and increase their $deg[]$. If one of these multiples is multiple of the square of $i$, then we can put $good$ as false.
+2.  دوم، باید پاسخ را برای تمام $i$ از ۲ تا $n$ محاسبه کنیم، یعنی آرایه $cnt[]$ — تعداد اعداد صحیحی که نسبت به $i$ اول نیستند.
+    *   برای این کار، به یاد بیاورید که فرمول شمول و طرد چگونه کار می‌کند — در واقع در اینجا ما همان مفهوم را با منطق معکوس پیاده‌سازی می‌کنیم: ما روی یک مؤلفه (حاصل‌ضرب عوامل اول از تجزیه) پیمایش می‌کنیم و جمله آن را در فرمول شمول و طرد هر یک از مضاربش اضافه یا کم می‌کنیم.
+    *   بنابراین، فرض کنید ما در حال پردازش عددی $i$ هستیم که $good[i] = true$ است، یعنی در فرمول شمول و طرد نقش دارد. روی تمام اعدادی که مضرب $i$ هستند پیمایش کنید و $\lfloor N/i \rfloor$ را به $cnt[]$ آنها اضافه یا از آن کم کنید (علامت به $deg[i]$ بستگی دارد: اگر $deg[i]$ فرد باشد، باید اضافه کنیم، در غیر این صورت کم کنیم).
 
-2. Second, we need to calculate the answer for all $i$ from $2$ to $n$, i.e., the array $cnt[]$ — the number of integers not coprime with $i$.
-    * To do this, remember how the formula of inclusion-exclusion works — actually here we implement the same concept, but with inverted logic: we iterate over a component (a product of primes from the factorization) and add or subtract its term on the formula of inclusion-exclusion of each of its multiples.
-    * So, let's say we are processing a number $i$ such that $good[i] = true$, i.e., it is involved in the formula of inclusion-exclusion. Iterate through all numbers that are multiples of $i$, and either add or subtract $\lfloor N/i \rfloor$ from their $cnt[]$ (the signal depends on $deg[i]$: if $deg[i]$ is odd, then we must add, otherwise subtract).
-
-Here's a C++ implementation:
+در اینجا یک پیاده‌سازی با C++ آمده است:
 
 ```cpp
 int n;
@@ -393,23 +391,23 @@ long long solve() {
 }
 ```
 
-The asymptotics of our solution is $O(n \log n)$, as for almost every number up to $n$ we make $n/i$ iterations on the nested loop.
+پیچیدگی زمانی راه‌حل ما $O(n \log n)$ است، زیرا تقریباً برای هر عدد تا $n$ ما $n/i$ تکرار در حلقه تودرتو انجام می‌دهیم.
 
-### The number of permutations without fixed points (derangements)
+### تعداد جایگشت‌های بدون نقطه ثابت (پریش‌ها)
 
-Prove that the number of permutations of length $n$ without fixed points (i.e. no number $i$ is in position $i$ - also called a derangement) is equal to the following number:
+اثبات کنید که تعداد جایگشت‌های طول $n$ بدون نقطه ثابت (یعنی هیچ عدد $i$ در موقعیت $i$ قرار ندارد - که به آن پریش (derangement) نیز گفته می‌شود) برابر است با عدد زیر:
 
 $$n! - \binom{n}{1} \cdot (n-1)! + \binom{n}{2} \cdot (n-2)! - \binom{n}{3} \cdot (n-3)! + \cdots \pm \binom{n}{n} \cdot (n-n)! $$
 
-and approximately equal to:
+و تقریباً برابر است با:
 
 $$ \frac{ n! }{ e } $$
 
-(if you round this expression to the nearest whole number — you get exactly the number of permutations without fixed points)
+(اگر این عبارت را به نزدیک‌ترین عدد صحیح گرد کنید — دقیقاً تعداد جایگشت‌های بدون نقطه ثابت را به دست می‌آورید)
 
-Denote by $A_k$ the set of permutations of length $n$ with a fixed point at position $k$ ($1 \le k \le n$) (i.e. element $k$ is at position $k$).
+مجموعه جایگشت‌های طول $n$ با یک نقطه ثابت در موقعیت $k$ ($1 \le k \le n$) (یعنی عنصر $k$ در موقعیت $k$ قرار دارد) را با $A_k$ نشان می‌دهیم.
 
-We now use the formula of inclusion-exclusion to count the number of permutations with at least one fixed point. For this we need to learn to count sizes of an intersection of sets $A_i$, as follows:
+اکنون از فرمول شمول و طرد برای شمارش تعداد جایگشت‌های با حداقل یک نقطه ثابت استفاده می‌کنیم. برای این کار باید یاد بگیریم اندازه‌های اشتراک مجموعه‌های $A_i$ را به صورت زیر بشماریم:
 
 $$\begin{eqnarray}
 \left| A_p \right| &=& (n-1)!\ , \\
@@ -418,44 +416,44 @@ $$\begin{eqnarray}
 \cdots ,
 \end{eqnarray}$$
 
-because if we know that the number of fixed points is equal $x$, then we know the position of $x$ elements of the permutation, and all other $(n-x)$ elements can be placed anywhere.
+زیرا اگر بدانیم تعداد نقاط ثابت برابر با $x$ است، آنگاه موقعیت $x$ عنصر از جایگشت را می‌دانیم و تمام $(n-x)$ عنصر دیگر می‌توانند در هر جایی قرار گیرند.
 
-Substituting this into the formula of inclusion-exclusion, and given that the number of ways to choose a subset of size $x$ from the set of $n$ elements is equal to $\binom{n}{x}$, we obtain a formula for the number of permutations with at least one fixed point:
+با جایگزینی این در فرمول شمول و طرد، و با توجه به اینکه تعداد راه‌های انتخاب یک زیرمجموعه به اندازه $x$ از مجموعه $n$ عنصری برابر با $\binom{n}{x}$ است، فرمولی برای تعداد جایگشت‌های با حداقل یک نقطه ثابت به دست می‌آوریم:
 
 $$\binom{n}{1} \cdot (n-1)! - \binom{n}{2} \cdot (n-2)! + \binom{n}{3} \cdot (n-3)! - \cdots \pm \binom{n}{n} \cdot (n-n)! $$
 
-Then the number of permutations without fixed points is equal to:
+سپس تعداد جایگشت‌های بدون نقطه ثابت برابر است با:
 
 $$n! - \binom{n}{1} \cdot (n-1)! + \binom{n}{2} \cdot (n-2)! - \binom{n}{3} \cdot (n-3)! + \cdots \pm \binom{n}{n} \cdot (n-n)! $$
 
-Simplifying this expression, we obtain **exact and approximate expressions for the number of permutations without fixed points**:
+با ساده‌سازی این عبارت، **عبارات دقیق و تقریبی برای تعداد جایگشت‌های بدون نقطه ثابت** را به دست می‌آوریم:
 
 $$ n! \left( 1 - \frac{1}{1!} + \frac{1}{2!} - \frac{1}{3!} + \cdots \pm \frac{1}{n!} \right ) \approx \frac{n!}{e} $$
 
-(because the sum in brackets are the first $n+1$ terms of the expansion in Taylor series $e^{-1}$)
+(زیرا مجموع داخل پرانتز، $n+1$ جمله اول بسط سری تیلور $e^{-1}$ است)
 
-It is worth noting that a similar problem can be solved this way: when you need the fixed points were not among the $m$ first elements of permutations (and not among all, as we just solved). The formula obtained is as the given above accurate formula, but it will go up to the sum of $k$, instead of $n$.
+شایان ذکر است که مسئله مشابهی را می‌توان به این روش حل کرد: زمانی که نیاز است نقاط ثابت در میان $m$ عنصر اول جایگشت‌ها نباشند (و نه در میان همه، همانطور که ما حل کردیم). فرمول به دست آمده مانند فرمول دقیق بالا خواهد بود، اما تا مجموع $k$ ادامه خواهد یافت، به جای $n$.
 
-## Practice Problems
+## مسائل تمرینی
 
-A list of tasks that can be solved using the principle of inclusions-exclusions:
+لیستی از مسائلی که می‌توان با استفاده از اصل شمول و طرد حل کرد:
 
-* [UVA #10325 "The Lottery" [difficulty: low]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1266)
-* [UVA #11806 "Cheerleaders" [difficulty: low]](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2906)
-* [TopCoder SRM 477 "CarelessSecretary" [difficulty: low]](http://www.topcoder.com/stat?c=problem_statement&pm=10875)
-* [TopCoder TCHS 16 "Divisibility" [difficulty: low]](http://community.topcoder.com/stat?c=problem_statement&pm=6658&rd=10068)
-* [SPOJ #6285 NGM2 , "Another Game With Numbers" [difficulty: low]](http://www.spoj.com/problems/NGM2/)
-* [TopCoder SRM 382 "CharmingTicketsEasy" [difficulty: medium]](http://community.topcoder.com/stat?c=problem_statement&pm=8470)
-* [TopCoder SRM 390 "SetOfPatterns" [difficulty: medium]](http://www.topcoder.com/stat?c=problem_statement&pm=8307)
-* [TopCoder SRM 176 "Deranged" [difficulty: medium]](http://community.topcoder.com/stat?c=problem_statement&pm=2013)
-* [TopCoder SRM 457 "TheHexagonsDivOne" [difficulty: medium]](http://community.topcoder.com/stat?c=problem_statement&pm=10702&rd=14144&rm=303184&cr=22697599)
-* [SPOJ #4191 MSKYCODE "Sky Code" [difficulty: medium]](http://www.spoj.com/problems/MSKYCODE/)
-* [SPOJ #4168 SQFREE "Square-free integers" [difficulty: medium]](http://www.spoj.com/problems/SQFREE/)
-* [CodeChef "Count Relations" [difficulty: medium]](http://www.codechef.com/JAN11/problems/COUNTREL/)
-* [SPOJ - Almost Prime Numbers Again](http://www.spoj.com/problems/KPRIMESB/)
-* [SPOJ - Find number of Pair of Friends](http://www.spoj.com/problems/IITKWPCH/)
-* [SPOJ - Balanced Cow Subsets](http://www.spoj.com/problems/SUBSET/)
-* [SPOJ - EASY MATH [difficulty: medium]](http://www.spoj.com/problems/EASYMATH/)
-* [SPOJ - MOMOS - FEASTOFPIGS [difficulty: easy]](https://www.spoj.com/problems/MOMOS/)
-* [Atcoder - Grid 2 [difficulty: easy]](https://atcoder.jp/contests/dp/tasks/dp_y/)
-* [Codeforces - Count GCD](https://codeforces.com/contest/1750/problem/D)
+*   [UVA #10325 "The Lottery" [سختی: کم]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1266)
+*   [UVA #11806 "Cheerleaders" [سختی: کم]](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2906)
+*   [TopCoder SRM 477 "CarelessSecretary" [سختی: کم]](http://www.topcoder.com/stat?c=problem_statement&pm=10875)
+*   [TopCoder TCHS 16 "Divisibility" [سختی: کم]](http://community.topcoder.com/stat?c=problem_statement&pm=6658&rd=10068)
+*   [SPOJ #6285 NGM2 , "Another Game With Numbers" [سختی: کم]](http://www.spoj.com/problems/NGM2/)
+*   [TopCoder SRM 382 "CharmingTicketsEasy" [سختی: متوسط]](http://community.topcoder.com/stat?c=problem_statement&pm=8470)
+*   [TopCoder SRM 390 "SetOfPatterns" [سختی: متوسط]](http://www.topcoder.com/stat?c=problem_statement&pm=8307)
+*   [TopCoder SRM 176 "Deranged" [سختی: متوسط]](http://community.topcoder.com/stat?c=problem_statement&pm=2013)
+*   [TopCoder SRM 457 "TheHexagonsDivOne" [سختی: متوسط]](http://community.topcoder.com/stat?c=problem_statement&pm=10702&rd=14144&rm=303184&cr=22697599)
+*   [SPOJ #4191 MSKYCODE "Sky Code" [سختی: متوسط]](http://www.spoj.com/problems/MSKYCODE/)
+*   [SPOJ #4168 SQFREE "Square-free integers" [سختی: متوسط]](http://www.spoj.com/problems/SQFREE/)
+*   [CodeChef "Count Relations" [سختی: متوسط]](http://www.codechef.com/JAN11/problems/COUNTREL/)
+*   [SPOJ - Almost Prime Numbers Again](http://www.spoj.com/problems/KPRIMESB/)
+*   [SPOJ - Find number of Pair of Friends](http://www.spoj.com/problems/IITKWPCH/)
+*   [SPOJ - Balanced Cow Subsets](http://www.spoj.com/problems/SUBSET/)
+*   [SPOJ - EASY MATH [سختی: متوسط]](http://www.spoj.com/problems/EASYMATH/)
+*   [SPOJ - MOMOS - FEASTOFPIGS [سختی: آسان]](https://www.spoj.com/problems/MOMOS/)
+*   [Atcoder - Grid 2 [سختی: آسان]](https://atcoder.jp/contests/dp/tasks/dp_y/)
+*   [Codeforces - Count GCD](https://codeforces.com/contest/1750/problem/D)

@@ -1,61 +1,52 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: strong-orientation
 ---
 
-# Strong Orientation
+# جهت‌دهی قوی
 
-A **strong orientation** of an undirected graph is an assignment of a direction to each edge that makes it a [strongly connected graph](strongly-connected-components.md).
-That is, after the *orientation* we should be able to visit any vertex from any vertex by following the directed edges.
+**جهت‌دهی قوی** یک گراف بدون جهت، تخصیص یک جهت به هر یال است به طوری که گراف را به یک [گراف قویاً همبند](strongly-connected-components.md) تبدیل کند.
+یعنی، پس از *جهت‌دهی*، باید بتوانیم با دنبال کردن یال‌های جهت‌دار، از هر رأسی به هر رأس دیگری برویم.
 
-## Solution
+## راه‌حل
 
-Of course, this cannot be done to *every* graph.
-Consider a [bridge](bridge-searching.md) in a graph.
-We have to assign a direction to it and by doing so we make this bridge "crossable" in only one direction. That means we can't go from one of the bridge's ends to the other, so we can't make the graph strongly connected.
+البته، این کار را نمی‌توان برای *هر* گرافی انجام داد.
+یک [پل](bridge-searching.md) را در یک گراف در نظر بگیرید.
+باید به آن یک جهت اختصاص دهیم و با این کار، این پل را فقط در یک جهت «قابل عبور» می‌کنیم. این بدان معناست که نمی‌توانیم از یک سر پل به سر دیگر آن برویم، بنابراین نمی‌توانیم گراف را قویاً همبند کنیم.
 
-Now consider a [DFS](depth-first-search.md) through a bridgeless connected graph.
-Clearly, we will visit each vertex.
-And since there are no bridges, we can remove any DFS tree edge and still be able to go
-from below the edge to above the edge by using a path that contains at least one back edge.
-From this follows that from any vertex we can go to the root of the DFS tree.
-Also, from the root of the DFS tree we can visit any vertex we choose.
-We found a strong orientation!
+حال یک [DFS](depth-first-search.md) را در یک گراف همبند و بدون پل در نظر بگیرید.
+واضح است که ما از هر رأسی بازدید خواهیم کرد.
+و از آنجا که هیچ پلی وجود ندارد، می‌توانیم هر یال درخت DFS را حذف کنیم و همچنان قادر خواهیم بود با استفاده از مسیری که شامل حداقل یک یال بازگشتی است، از پایین یال به بالای آن برویم.
+از این نتیجه می‌شود که از هر رأسی می‌توانیم به ریشه درخت DFS برویم.
+همچنین، از ریشه درخت DFS می‌توانیم به هر رأسی که بخواهیم برویم.
+ما یک جهت‌دهی قوی پیدا کردیم!
 
-In other words, to strongly orient a bridgeless connected graph,
-run a DFS on it and let the DFS tree edges point away from the DFS root and
-all other edges from the descendant to the ancestor in the DFS tree.
+به عبارت دیگر، برای جهت‌دهی قوی یک گراف همبند و بدون پل، یک DFS روی آن اجرا کنید و یال‌های درخت DFS را به سمت دور شدن از ریشه DFS و تمام یال‌های دیگر را از گره نواده به گره نیا در درخت DFS جهت‌دهی کنید.
 
-The result that bridgeless connected graphs are exactly the graphs that have strong orientations is called **Robbins' theorem**.
+این نتیجه که گراف‌های همبند و بدون پل دقیقاً همان گراف‌هایی هستند که جهت‌دهی قوی دارند، **قضیه رابینز** (Robbins' theorem) نامیده می‌شود.
 
-## Problem extension
+## تعمیم مسئله
 
-Let's consider the problem of finding a graph orientation so that the number of SCCs is minimal.
+بیایید مسئله یافتن یک جهت‌دهی برای گراف را به گونه‌ای در نظر بگیریم که تعداد SCCها کمینه شود.
 
-Of course, each graph component can be considered separately.
-Now, since only bridgeless graphs are strongly orientable, let's remove all bridges temporarily.
-We end up with some number of bridgeless components
-(exactly *how many components there were at the beginning* + *how many bridges there were*)
- and we know that we can strongly orient each of them.
+البته، هر مؤلفه همبندی گراف را می‌توان به طور جداگانه در نظر گرفت.
+حال، از آنجا که فقط گراف‌های بدون پل به طور قوی قابل جهت‌دهی هستند، بیایید تمام پل‌ها را به طور موقت حذف کنیم.
+در نهایت به تعدادی مؤلفه بدون پل می‌رسیم (دقیقاً برابر با *تعداد مؤلفه‌های اولیه* + *تعداد پل‌ها*) و می‌دانیم که می‌توانیم هر یک از آنها را به طور قوی جهت‌دهی کنیم.
 
-We were only allowed to orient edges, not remove them, but it turns out we can orient the bridges arbitrarily.
-Of course, the easiest way to orient them is to run the algorithm described above without modifications on each original connected component.
+ما فقط مجاز به جهت‌دهی یال‌ها بودیم، نه حذف آنها، اما مشخص می‌شود که می‌توانیم پل‌ها را به طور دلخواه جهت‌دهی کنیم.
+البته، ساده‌ترین راه برای جهت‌دهی آنها این است که الگوریتم توصیف شده در بالا را بدون تغییر بر روی هر مؤلفه همبند اصلی اجرا کنیم.
 
-### Implementation
+### پیاده‌سازی
 
-Here, the input is *n* — the number of vertices, *m* — the number of edges, then *m* lines describing the edges.
+در اینجا، ورودی شامل *n* — تعداد رأس‌ها، *m* — تعداد یال‌ها، و سپس *m* خط است که یال‌ها را توصیف می‌کنند.
 
-The output is the minimal number of SCCs on the first line and on the second line
-a string of *m* characters,
-either `>` — telling us that the corresponding edge from the input
-is oriented from the left to the right vertex (as in the input),
-or `<` — the opposite.
+خروجی در خط اول شامل کمترین تعداد SCCها است و در خط دوم، رشته‌ای به طول *m* از کاراکترها قرار دارد. هر کاراکتر یا `>` است — به این معنی که یال متناظر از ورودی، از رأس سمت چپ به رأس سمت راست (طبق ورودی) جهت‌دهی شده است، یا `<` — که جهت مخالف را نشان می‌دهد.
 
-This is a bridge search algorithm modified to also orient the edges,
-you can as well orient the edges as a first step and count the SCCs on the oriented graph as a second.
+این یک الگوریتم جستجوی پل است که برای جهت‌دهی یال‌ها نیز اصلاح شده است. شما همچنین می‌توانید به عنوان گام اول یال‌ها را جهت‌دهی کرده و در گام دوم، تعداد SCCها را در گراف جهت‌دار بشمارید.
 
 ```cpp
-vector<vector<pair<int, int>>> adj; // adjacency list - vertex and edge pairs
+vector<vector<pair<int, int>>> adj; // لیست مجاورت - زوج‌های رأس و یال
 vector<pair<int, int>> edges;
 
 vector<int> tin, low;
@@ -70,11 +61,11 @@ void find_bridges(int v) {
 		edge_used[p.second] = true;
 		orient[p.second] = v == edges[p.second].first ? '>' : '<';
 		int nv = p.first;
-		if (tin[nv] == -1) { // if nv is not visited yet
+		if (tin[nv] == -1) { // اگر nv هنوز بازدید نشده باشد
 			find_bridges(nv);
 			low[v] = min(low[v], low[nv]);
 			if (low[nv] > tin[v]) {
-				// a bridge between v and nv
+				// یک پل بین v و nv
 				bridge_cnt++;
 			}
 		} else {
@@ -111,6 +102,6 @@ int main() {
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
 * [26th Polish OI - Osiedla](https://szkopul.edu.pl/problemset/problem/nldsb4EW1YuZykBlf4lcZL1Y/site/)

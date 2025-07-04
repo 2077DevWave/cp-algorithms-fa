@@ -1,26 +1,26 @@
 ---
 tags:
-  - Translated
-e_maxx_link: lca_linear
+  - AI Translated
+e_maxx_link: lca_farachcoltonbender
 ---
 
-# Lowest Common Ancestor - Farach-Colton and Bender Algorithm
+# پایین‌ترین جد مشترک - الگوریتم فاراک-کالتون و بِندِر
 
-Let $G$ be a tree.
-For every query of the form $(u, v)$ we want to find the lowest common ancestor of the nodes $u$ and $v$, i.e. we want to find a node $w$ that lies on the path from $u$ to the root node, that lies on the path from $v$ to the root node, and if there are multiple nodes we pick the one that is farthest away from the root node.
-In other words the desired node $w$ is the lowest ancestor of $u$ and $v$.
-In particular if $u$ is an ancestor of $v$, then $u$ is their lowest common ancestor.
+فرض کنید $G$ یک درخت باشد.
+برای هر پرس‌وجو به شکل $(u, v)$، ما می‌خواهیم پایین‌ترین جد مشترک گره‌های $u$ و $v$ را پیدا کنیم، یعنی می‌خواهیم گره $w$ را بیابیم که هم در مسیر از $u$ به ریشه و هم در مسیر از $v$ به ریشه قرار داشته باشد، و اگر چندین گره با این ویژگی وجود داشت، آنی را انتخاب می‌کنیم که از گره ریشه دورتر است.
+به عبارت دیگر، گره $w$ مورد نظر، پایین‌ترین جد $u$ و $v$ است.
+به طور خاص، اگر $u$ جد $v$ باشد، آنگاه $u$ پایین‌ترین جد مشترک آن‌ها است.
 
-The algorithm which will be described in this article was developed by Farach-Colton and Bender.
-It is asymptotically optimal.
+الگوریتمی که در این مقاله شرح داده می‌شود توسط فاراک-کالتون و بِندِر توسعه داده شده است.
+این الگوریتم از نظر مجانبی بهینه است.
 
-## Algorithm
+## الگوریتم
 
-We use the classical reduction of the LCA problem to the RMQ problem.
-We traverse all nodes of the tree with [DFS](depth-first-search.md) and keep an array with all visited nodes and the heights of these nodes. 
-The LCA of two nodes $u$ and $v$ is the node between the occurrences of $u$ and $v$ in the tour, that has the smallest height.
+ما از روش کلاسیک کاهش مسئله LCA به مسئله RMQ استفاده می‌کنیم.
+ما تمام گره‌های درخت را با [DFS](depth-first-search.md) پیمایش می‌کنیم و آرایه‌ای از تمام گره‌های بازدید شده و ارتفاع این گره‌ها را نگهداری می‌کنیم.
+پایین‌ترین جد مشترک دو گره $u$ و $v$، گرهی است که بین رخدادهای $u$ و $v$ در پیمایش قرار دارد و کمترین ارتفاع را دارد.
 
-In the following picture you can see a possible Euler-Tour of a graph and in the list below you can see the visited nodes and their heights.
+در تصویر زیر می‌توانید یک پیمایش اویلر ممکن برای یک گراف را ببینید و در لیست زیر آن، گره‌های بازدید شده و ارتفاع آن‌ها را مشاهده کنید.
 
 <div style="text-align: center;">
   <img src="LCA_Euler.png" alt="LCA_Euler_Tour">
@@ -28,66 +28,65 @@ In the following picture you can see a possible Euler-Tour of a graph and in the
 
 $$\begin{array}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-\text{Nodes:}   & 1 & 2 & 5 & 2 & 6 & 2 & 1 & 3 & 1 & 4 & 7 & 4 & 1 \\ \hline
-\text{Heights:} & 1 & 2 & 3 & 2 & 3 & 2 & 1 & 2 & 1 & 2 & 3 & 2 & 1 \\ \hline
+\text{گره‌ها:}   & 1 & 2 & 5 & 2 & 6 & 2 & 1 & 3 & 1 & 4 & 7 & 4 & 1 \\ \hline
+\text{ارتفاع‌ها:} & 1 & 2 & 3 & 2 & 3 & 2 & 1 & 2 & 1 & 2 & 3 & 2 & 1 \\ \hline
 \end{array}$$
 
-You can read more about this reduction in the article [Lowest Common Ancestor](lca.md).
-In that article the minimum of a range was either found by sqrt-decomposition in $O(\sqrt{N})$ or in $O(\log N)$ using a Segment tree.
-In this article we look at how we can solve the given range minimum queries in $O(1)$ time, while still only taking $O(N)$ time for preprocessing.
+شما می‌توانید درباره این کاهش در مقاله [پایین‌ترین جد مشترک](lca.md) بیشتر بخوانید.
+در آن مقاله، کمینه یک بازه یا با روش تجزیه جذر مربعی در $O(\sqrt{N})$ یا با استفاده از یک Segment tree در $O(\log N)$ پیدا می‌شد.
+در این مقاله، ما بررسی می‌کنیم که چگونه می‌توانیم پرس‌وجوهای کمینه بازه (range minimum queries) داده شده را در زمان $O(1)$ حل کنیم، در حالی که برای پیش‌پردازش همچنان فقط زمان $O(N)$ صرف می‌شود.
 
-Note that the reduced RMQ problem is very specific:
-any two adjacent elements in the array differ exactly by one (since the elements of the array are nothing more than the heights of the nodes visited in order of traversal, and we either go to a descendant, in which case the next element is one bigger, or go back to the ancestor, in which case the next element is one lower).
-The Farach-Colton and Bender algorithm describes a solution for exactly this specialized RMQ problem.
+توجه داشته باشید که مسئله RMQ کاهش‌یافته بسیار خاص است:
+هر دو عنصر مجاور در آرایه دقیقاً یک واحد با هم اختلاف دارند (زیرا عناصر آرایه چیزی جز ارتفاع گره‌های بازدید شده به ترتیب پیمایش نیستند، و ما یا به یک فرزند می‌رویم که در این صورت عنصر بعدی یک واحد بزرگتر است، یا به جد برمی‌گردیم که در این صورت عنصر بعدی یک واحد کوچکتر است).
+الگوریتم فاراک-کالتون و بِندِر راه حلی دقیقاً برای همین مسئله خاص RMQ ارائه می‌دهد.
 
-Let's denote with $A$ the array on which we want to perform the range minimum queries.
-And $N$ will be the size of $A$.
+فرض کنید $A$ آرایه‌ای باشد که می‌خواهیم پرس‌وجوهای کمینه بازه را روی آن انجام دهیم. و $N$ اندازه $A$ خواهد بود.
 
-There is an easy data structure that we can use for solving the RMQ problem with $O(N \log N)$ preprocessing and $O(1)$ for each query: the [Sparse Table](../data_structures/sparse-table.md).
-We create a table $T$ where each element $T[i][j]$ is equal to the minimum of $A$ in the interval $[i, i + 2^j - 1]$.
-Obviously $0 \leq j \leq \lceil \log N \rceil$, and therefore the size of the Sparse Table will be $O(N \log N)$.
-You can build the table easily in $O(N \log N)$ by noting that $T[i][j] = \min(T[i][j-1], T[i+2^{j-1}][j-1])$.
+یک ساختمان داده ساده وجود دارد که می‌توانیم برای حل مسئله RMQ با پیش‌پردازش $O(N \log N)$ و $O(1)$ برای هر پرس‌وجو از آن استفاده کنیم: [جدول پراکنده (Sparse Table)](../data_structures/sparse-table.md).
+ما یک جدول $T$ می‌سازیم که در آن هر عنصر $T[i][j]$ برابر با کمینه آرایه $A$ در بازه $[i, i + 2^j - 1]$ است.
+بدیهی است که $0 \leq j \leq \lceil \log N \rceil$، و بنابراین اندازه Sparse Table برابر با $O(N \log N)$ خواهد بود.
+شما می‌توانید این جدول را به راحتی در $O(N \log N)$ با توجه به این نکته بسازید که $T[i][j] = \min(T[i][j-1], T[i+2^{j-1}][j-1])$ است.
 
-How can we answer a query RMQ in $O(1)$ using this data structure?
-Let the received query be $[l, r]$, then the answer is $\min(T[l][\text{sz}], T[r-2^{\text{sz}}+1][\text{sz}])$, where $\text{sz}$ is the biggest exponent such that $2^{\text{sz}}$ is not bigger than the range length $r-l+1$. 
-Indeed we can take the range $[l, r]$ and cover it two segments of length $2^{\text{sz}}$ - one starting in $l$ and the other ending in $r$.
-These segments overlap, but this doesn't interfere with our computation.
-To really achieve the time complexity of $O(1)$ per query, we need to know the values of $\text{sz}$ for all possible lengths from $1$ to $N$.
-But this can be easily precomputed.
+چگونه می‌توانیم با استفاده از این ساختمان داده به یک پرس‌وجوی RMQ در $O(1)$ پاسخ دهیم؟
+فرض کنید پرس‌وجوی دریافتی $[l, r]$ باشد، آنگاه پاسخ برابر است با $\min(T[l][\text{sz}], T[r-2^{\text{sz}}+1][\text{sz}])$، که در آن $\text{sz}$ بزرگترین توانی است به طوری که $2^{\text{sz}}$ از طول بازه $r-l+1$ بزرگتر نباشد.
+در واقع، می‌توانیم بازه $[l, r]$ را با دو قطعه به طول $2^{\text{sz}}$ پوشش دهیم - یکی که از $l$ شروع می‌شود و دیگری که به $r$ ختم می‌شود.
+این قطعات با هم همپوشانی دارند، اما این موضوع در محاسبات ما تداخلی ایجاد نمی‌کند.
+برای رسیدن واقعی به پیچیدگی زمانی $O(1)$ برای هر پرس‌وجو، باید مقادیر $\text{sz}$ را برای تمام طول‌های ممکن از $1$ تا $N$ بدانیم.
+اما این مقادیر را می‌توان به راحتی پیش‌محاسبه کرد.
 
-Now we want to improve the complexity of the preprocessing down to $O(N)$.
+حالا می‌خواهیم پیچیدگی پیش‌پردازش را به $O(N)$ کاهش دهیم.
 
-We divide the array $A$ into blocks of size $K = 0.5 \log N$ with $\log$ being the logarithm to base 2.
-For each block we calculate the minimum element and store them in an array $B$.
-$B$ has the size $\frac{N}{K}$.
-We construct a sparse table from the array $B$.
-The size and the time complexity of it will be:
+ما آرایه $A$ را به بلوک‌هایی با اندازه $K = 0.5 \log N$ تقسیم می‌کنیم که در آن $\log$ لگاریتم در پایه 2 است.
+برای هر بلوک، عنصر کمینه را محاسبه کرده و آن‌ها را در آرایه‌ای به نام $B$ ذخیره می‌کنیم.
+$B$ اندازه‌ای برابر $\frac{N}{K}$ دارد.
+ما یک sparse table از آرایه $B$ می‌سازیم.
+اندازه و پیچیدگی زمانی آن برابر خواهد بود با:
 
 $$\frac{N}{K}\log\left(\frac{N}{K}\right) = \frac{2N}{\log(N)} \log\left(\frac{2N}{\log(N)}\right) =$$
 
 $$= \frac{2N}{\log(N)} \left(1 + \log\left(\frac{N}{\log(N)}\right)\right) \leq \frac{2N}{\log(N)} + 2N = O(N)$$
 
-Now we only have to learn how to quickly answer range minimum queries within each block.
-In fact if the received range minimum query is $[l, r]$ and $l$ and $r$ are in different blocks then the answer is the minimum of the following three values:
-the minimum of the suffix of block of $l$ starting at $l$, the minimum of the prefix of block of $r$ ending at $r$, and the minimum of the blocks between those.
-The minimum of the blocks in between can be answered in $O(1)$ using the Sparse Table.
-So this leaves us only the range minimum queries inside blocks.
+حالا فقط باید یاد بگیریم چگونه به سرعت به پرس‌وجوهای کمینه بازه در داخل هر بلوک پاسخ دهیم.
+در واقع اگر پرس‌وجوی کمینه بازه دریافتی $[l, r]$ باشد و $l$ و $r$ در بلوک‌های متفاوتی باشند، آنگاه پاسخ، کمینه سه مقدار زیر است:
+کمینه پسوند بلوکِ $l$ که از $l$ شروع می‌شود، کمینه پیشوند بلوکِ $r$ که به $r$ ختم می‌شود، و کمینه بلوک‌های بین این دو.
+کمینه بلوک‌های میانی را می‌توان با استفاده از Sparse Table در $O(1)$ پاسخ داد.
+بنابراین تنها پرس‌وجوهای کمینه بازه درون بلوک‌ها باقی می‌مانند.
 
-Here we will exploit the property of the array.
-Remember that the values in the array - which are just height values in the tree - will always differ by one.
-If we remove the first element of a block, and subtract it from every other item in the block, every block can be identified by a sequence of length $K - 1$ consisting of the number $+1$ and $-1$.
-Because these blocks are so small, there are only a few different sequences that can occur.
-The number of possible sequences is:
+اینجا از ویژگی خاص آرایه استفاده خواهیم کرد.
+به یاد داشته باشید که مقادیر در آرایه - که همان مقادیر ارتفاع در درخت هستند - همیشه یک واحد با هم اختلاف دارند.
+اگر عنصر اول یک بلوک را حذف کنیم و آن را از هر آیتم دیگر در بلوک کم کنیم، هر بلوک را می‌توان با یک دنباله به طول $K - 1$ متشکل از اعداد $+1$ و $-1$ شناسایی کرد.
+چون این بلوک‌ها بسیار کوچک هستند، تنها تعداد کمی دنباله متفاوت می‌تواند رخ دهد.
+تعداد دنباله‌های ممکن برابر است با:
 
 $$2^{K-1} = 2^{0.5 \log(N) - 1} = 0.5 \left(2^{\log(N)}\right)^{0.5} = 0.5 \sqrt{N}$$
 
-Thus the number of different blocks is $O(\sqrt{N})$, and therefore we can precompute the results of range minimum queries inside all different blocks in $O(\sqrt{N} K^2) = O(\sqrt{N} \log^2(N)) = O(N)$ time.
-For the implementation we can characterize a block by a bitmask of length $K-1$ (which will fit in a standard int) and store the index of the minimum in an array $\text{block}[\text{mask}][l][r]$ of size $O(\sqrt{N} \log^2(N))$.
+بنابراین تعداد بلوک‌های مختلف $O(\sqrt{N})$ است، و در نتیجه می‌توانیم نتایج پرس‌وجوهای کمینه بازه را در داخل تمام بلوک‌های مختلف در زمان $O(\sqrt{N} K^2) = O(\sqrt{N} \log^2(N)) = O(N)$ پیش‌محاسبه کنیم.
+برای پیاده‌سازی، می‌توانیم یک بلوک را با یک بیت‌ماسک به طول $K-1$ مشخص کنیم (که در یک int استاندارد جا می‌شود) و اندیس کمینه را در یک آرایه $\text{block}[\text{mask}][l][r]$ با اندازه $O(\sqrt{N} \log^2(N))$ ذخیره کنیم.
 
-So we learned how to precompute range minimum queries within each block, as well as range minimum queries over a range of blocks, all in $O(N)$.
-With these precomputations we can answer each query in $O(1)$, by using at most four precomputed values: the minimum of the block containing `l`, the minimum of the block containing `r`, and the two minima of the overlapping segments of the blocks between them.
+بنابراین ما یاد گرفتیم چگونه پرس‌وجوهای کمینه بازه را در داخل هر بلوک و همچنین پرس‌وجوهای کمینه بازه روی بازه‌ای از بلوک‌ها را، همگی در $O(N)$ پیش‌محاسبه کنیم.
+با این پیش‌محاسبات می‌توانیم هر پرس‌وجو را در $O(1)$ پاسخ دهیم، با استفاده از حداکثر چهار مقدار پیش‌محاسبه شده: کمینه بلوک حاوی `l`، کمینه بلوک حاوی `r`، و دو کمینه از بخش‌های همپوشان بلوک‌های بین آن‌ها.
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
 int n;
@@ -120,13 +119,13 @@ int min_by_h(int i, int j) {
 }
 
 void precompute_lca(int root) {
-    // get euler tour & indices of first occurrences
+    // دریافت پیمایش اویلر و اندیس اولین رخدادها
     first_visit.assign(n, -1);
     height.assign(n, 0);
     euler_tour.reserve(2 * n);
     dfs(root, -1, 0);
 
-    // precompute all log values
+    // پیش‌محاسبه تمام مقادیر لگاریتم
     int m = euler_tour.size();
     log_2.reserve(m + 1);
     log_2.push_back(-1);
@@ -136,7 +135,7 @@ void precompute_lca(int root) {
     block_size = max(1, log_2[m] / 2);
     block_cnt = (m + block_size - 1) / block_size;
 
-    // precompute minimum of each block and build sparse table
+    // پیش‌محاسبه کمینه هر بلوک و ساختن sparse table
     st.assign(block_cnt, vector<int>(log_2[block_cnt] + 1));
     for (int i = 0, j = 0, b = 0; i < m; i++, j++) {
         if (j == block_size)
@@ -154,7 +153,7 @@ void precompute_lca(int root) {
         }
     }
 
-    // precompute mask for each block
+    // پیش‌محاسبه ماسک برای هر بلوک
     block_mask.assign(block_cnt, 0);
     for (int i = 0, j = 0, b = 0; i < m; i++, j++) {
         if (j == block_size)
@@ -163,7 +162,7 @@ void precompute_lca(int root) {
             block_mask[b] += 1 << (j - 1);
     }
 
-    // precompute RMQ for each unique block
+    // پیش‌محاسبه RMQ برای هر بلوک منحصربه‌فرد
     int possibilities = 1 << (block_size - 1);
     blocks.resize(possibilities);
     for (int b = 0; b < block_cnt; b++) {

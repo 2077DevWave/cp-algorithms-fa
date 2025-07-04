@@ -1,94 +1,93 @@
 ---
 tags:
-  - Translated
-e_maxx_link: dfs
+  - AI Translated
+e_maxx_link: depth-first-search
 ---
 
-# Depth First Search
+# جستجوی اول عمق
 
-Depth First Search is one of the main graph algorithms.
+جستجوی اول عمق یکی از الگوریتم‌های اصلی گراف است.
 
-Depth First Search finds the lexicographical first path in the graph from a source vertex $u$ to each vertex.
-Depth First Search will also find the shortest paths in a tree (because there only exists one simple path), but on general graphs this is not the case.
+جستجوی اول عمق اولین مسیر از نظر ترتیب الفبایی (lexicographical) را در گراف از یک رأس مبدأ $u$ به هر رأس دیگر پیدا می‌کند.
+جستجوی اول عمق کوتاه‌ترین مسیرها را در یک درخت نیز پیدا می‌کند (چون تنها یک مسیر ساده وجود دارد)، اما در گراف‌های کلی اینطور نیست.
 
-The algorithm works in $O(m + n)$ time where $n$ is the number of vertices and $m$ is the number of edges.
+این الگوریتم در زمان $O(m + n)$ اجرا می‌شود که در آن $n$ تعداد رأس‌ها و $m$ تعداد یال‌ها است.
 
-## Description of the algorithm
+## شرح الگوریتم
 
-The idea behind DFS is to go as deep into the graph as possible, and backtrack once you are at a vertex without any unvisited adjacent vertices.
+ایده اصلی DFS این است که تا حد امکان به عمق گراف برویم و هنگامی که به رأسی رسیدیم که هیچ رأس مجاور ملاقات‌نشده‌ای ندارد، بازگشت به عقب (backtrack) انجام دهیم.
 
-It is very easy to describe / implement the algorithm recursively:
-We start the search at one vertex.
-After visiting a vertex, we further perform a DFS for each adjacent vertex that we haven't visited before.
-This way we visit all vertices that are reachable from the starting vertex.
+توصیف / پیاده‌سازی این الگوریتم به صورت بازگشتی بسیار آسان است:
+ما جستجو را از یک رأس شروع می‌کنیم.
+پس از ملاقات یک رأس، برای هر رأس مجاور آن که قبلاً ملاقات نکرده‌ایم، یک DFS دیگر اجرا می‌کنیم.
+به این ترتیب تمام رأس‌هایی که از رأس شروع قابل‌دسترسی هستند را ملاقات می‌کنیم.
 
-For more details check out the implementation.
+برای جزئیات بیشتر، پیاده‌سازی را بررسی کنید.
 
-## Applications of Depth First Search
+## کاربردهای جستجوی اول عمق
 
-  * Find any path in the graph from source vertex $u$ to all vertices.
+  * پیدا کردن یک مسیر دلخواه در گراف از رأس مبدأ $u$ به تمام رأس‌ها.
   
-  * Find lexicographical first path in the graph from source $u$ to all vertices.
+  * پیدا کردن اولین مسیر از نظر ترتیب الفبایی در گراف از مبدأ $u$ به تمام رأس‌ها.
   
-  * Check if a vertex in a tree is an ancestor of some other vertex:
+  * بررسی اینکه آیا یک رأس در یک درخت، جد (ancestor) یک رأس دیگر است یا خیر:
   
-    At the beginning and end of each search call we remember the entry and exit "time" of each vertex.
-    Now you can find the answer for any pair of vertices $(i, j)$ in $O(1)$:
-    vertex $i$ is an ancestor of vertex $j$ if and only if $\text{entry}[i] < \text{entry}[j]$ and $\text{exit}[i] > \text{exit}[j]$.
+    در ابتدا و انتهای هر فراخوانی جستجو، «زمان» ورود و خروج هر رأس را به خاطر می‌سپاریم.
+    اکنون می‌توانید پاسخ را برای هر جفت رأس $(i, j)$ در زمان $O(1)$ پیدا کنید:
+    رأس $i$ جد رأس $j$ است اگر و تنها اگر $\text{entry}[i] < \text{entry}[j]$ و $\text{exit}[i] > \text{exit}[j]$ باشد.
   
-  * Find the lowest common ancestor (LCA) of two vertices.
+  * پیدا کردن پایین‌ترین جد مشترک (LCA) دو رأس.
   
-  * Topological sorting:
+  * مرتب‌سازی توپولوژیکی:
   
-    Run a series of depth first searches so as to visit each vertex exactly once in $O(n + m)$ time.
-    The required topological ordering will be the vertices sorted in descending order of exit time.
+    یک سری جستجوی اول عمق را اجرا کنید تا هر رأس دقیقاً یک بار در زمان $O(n + m)$ ملاقات شود.
+    ترتیب توپولوژیکی مورد نیاز، رأس‌هایی خواهد بود که بر اساس زمان خروج به صورت نزولی مرتب شده‌اند.
   
   
-  * Check whether a given graph is acyclic and find cycles in a graph. (As mentioned above by counting back edges in every connected components).
+  * بررسی اینکه آیا یک گراف داده‌شده بدون دور است و پیدا کردن دورها در یک گراف. (همانطور که در بالا ذکر شد، با شمردن یال‌های برگشتی (back edges) در هر مؤلفه همبند).
   
-  * Find strongly connected components in a directed graph:
+  * پیدا کردن مؤلفه‌های قویاً همبند در یک گراف جهت‌دار:
   
-    First do a topological sorting of the graph.
-    Then transpose the graph and run another series of depth first searches in the order defined by the topological sort. For each DFS call the component created by it is a strongly connected component.
+    ابتدا یک مرتب‌سازی توپولوژیکی روی گراف انجام دهید.
+    سپس گراف را ترانهاده (transpose) کرده و یک سری دیگر جستجوی اول عمق را به ترتیبی که توسط مرتب‌سازی توپولوژیکی مشخص شده است، اجرا کنید. برای هر فراخوانی DFS، مؤلفه‌ای که توسط آن ایجاد می‌شود یک مؤلفه قویاً همبند است.
   
-  * Find bridges in an undirected graph:
+  * پیدا کردن پل‌ها در یک گراف بدون‌جهت:
   
-    First convert the given graph into a directed graph by running a series of depth first searches and making each edge directed as we go through it, in the direction we went. Second, find the strongly connected components in this directed graph. Bridges are the edges whose ends belong to different strongly connected components.
+    ابتدا با اجرای یک سری جستجوی اول عمق، گراف داده‌شده را به یک گراف جهت‌دار تبدیل کنید و هر یال را در حین پیمایش، در جهتی که طی کرده‌ایم، جهت‌دار کنید. دوم، مؤلفه‌های قویاً همبند را در این گراف جهت‌دار پیدا کنید. پل‌ها یال‌هایی هستند که دو سر آن‌ها به مؤلفه‌های قویاً همبند متفاوتی تعلق دارند.
 
-## Classification of edges of a graph
+## دسته‌بندی یال‌های یک گراف
 
-We can classify the edges of a graph, $G$, using the entry and exit time of the end nodes $u$ and $v$ of the edges $(u,v)$.
-These classifications are often used for problems like [finding bridges](bridge-searching.md) and [finding articulation points](cutpoints.md).
+ما می‌توانیم یال‌های یک گراف، $G$، را با استفاده از زمان ورود و خروج گره‌های انتهایی $u$ و $v$ یال‌های $(u,v)$ دسته‌بندی کنیم.
+این دسته‌بندی‌ها اغلب برای مسائلی مانند [پیدا کردن پل‌ها](bridge-searching.md) و [پیدا کردن نقاط برش](cutpoints.md) استفاده می‌شوند.
 
-We perform a DFS and classify the encountered edges using the following rules:
+ما یک DFS اجرا می‌کنیم و یال‌های مشاهده‌شده را با استفاده از قوانین زیر دسته‌بندی می‌کنیم:
 
-If $v$ is not visited:
+اگر $v$ ملاقات نشده باشد:
 
-* Tree Edge - If $v$ is visited after $u$ then edge $(u,v)$ is called a tree edge. In other words, if $v$ is visited for the first time and $u$ is currently being visited then $(u,v)$ is called tree edge.
-These edges form a DFS tree and hence the name tree edges.
+* یال درختی (Tree Edge) - اگر $v$ بعد از $u$ ملاقات شود، آنگاه یال $(u,v)$ یک یال درختی نامیده می‌شود. به عبارت دیگر، اگر $v$ برای اولین بار ملاقات شود و $u$ در حال حاضر در حال ملاقات باشد، آنگاه $(u,v)$ یال درختی نامیده می‌شود. این یال‌ها یک درخت DFS را تشکیل می‌دهند و از این رو یال‌های درختی نام گرفته‌اند.
 
-If $v$ is visited before $u$:
+اگر $v$ قبل از $u$ ملاقات شده باشد:
 
-* Back edges - If $v$ is an ancestor of $u$, then the edge $(u,v)$ is a back edge. $v$ is an ancestor exactly if we already entered $v$, but not exited it yet. Back edges complete a cycle as there is a path from ancestor $v$ to descendant $u$ (in the recursion of DFS) and an edge from descendant $u$ to ancestor $v$ (back edge), thus a cycle is formed. Cycles can be detected using back edges.
+* یال‌های برگشتی (Back edges) - اگر $v$ جد $u$ باشد، آنگاه یال $(u,v)$ یک یال برگشتی است. $v$ دقیقاً زمانی جد است که ما قبلاً وارد $v$ شده‌ایم، اما هنوز از آن خارج نشده‌ایم. یال‌های برگشتی یک دور را کامل می‌کنند، زیرا یک مسیر از جد $v$ به نسل $u$ (در بازگشت DFS) و یک یال از نسل $u$ به جد $v$ (یال برگشتی) وجود دارد، بنابراین یک دور تشکیل می‌شود. دورها را می‌توان با استفاده از یال‌های برگشتی تشخیص داد.
 
-* Forward Edges - If $v$ is a descendant of $u$, then edge $(u, v)$ is a forward edge. In other words, if we already visited and exited $v$ and $\text{entry}[u] < \text{entry}[v]$ then the edge $(u,v)$ forms a forward edge.
-* Cross Edges: if $v$ is neither an ancestor or descendant of $u$, then edge $(u, v)$ is a cross edge. In other words, if we already visited and exited $v$ and $\text{entry}[u] > \text{entry}[v]$ then $(u,v)$ is a cross edge.
+* یال‌های پیشرو (Forward Edges) - اگر $v$ نسل (descendant) $u$ باشد، آنگاه یال $(u, v)$ یک یال پیشرو است. به عبارت دیگر، اگر ما قبلاً $v$ را ملاقات کرده و از آن خارج شده باشیم و $\text{entry}[u] < \text{entry}[v]$ باشد، آنگاه یال $(u,v)$ یک یال پیشرو تشکیل می‌دهد.
+* یال‌های متقاطع (Cross Edges): اگر $v$ نه جد و نه نسل $u$ باشد، آنگاه یال $(u, v)$ یک یال متقاطع است. به عبارت دیگر، اگر ما قبلاً $v$ را ملاقات کرده و از آن خارج شده باشیم و $\text{entry}[u] > \text{entry}[v]$ باشد، آنگاه $(u,v)$ یک یال متقاطع است.
 
-**Theorem**. Let $G$ be an undirected graph. Then, performing a DFS upon $G$ will classify every encountered edge as either a tree edge or back edge, i.e., forward and cross edges only exist in directed graphs.
+**قضیه**. فرض کنید $G$ یک گراف بدون‌جهت باشد. در این صورت، اجرای DFS روی $G$ هر یال مشاهده‌شده را به عنوان یال درختی یا یال برگشتی دسته‌بندی می‌کند، یعنی یال‌های پیشرو و متقاطع فقط در گراف‌های جهت‌دار وجود دارند.
 
-Suppose $(u,v)$ is an arbitrary edge of $G$ and without loss of generality, $u$ is visited before $v$, i.e., $\text{entry}[u] < \text{entry}[v]$. Because the DFS only processes edges once, there are only two ways in which we can process the edge $(u,v)$ and thus classify it: 
+فرض کنید $(u,v)$ یک یال دلخواه از $G$ باشد و بدون از دست دادن کلیت، $u$ قبل از $v$ ملاقات شود، یعنی $\text{entry}[u] < \text{entry}[v]$. از آنجایی که DFS هر یال را فقط یک بار پردازش می‌کند، تنها دو راه برای پردازش یال $(u,v)$ و در نتیجه دسته‌بندی آن وجود دارد:
 
-* The first time we explore the edge $(u,v)$ is in the direction from $u$ to $v$. Because $\text{entry}[u] < \text{entry}[v]$, the recursive nature of the DFS means that node $v$ will be fully explored and thus exited before we can "move back up the call stack" to exit node $u$. Thus, node $v$ must be unvisited when the DFS first explores the edge $(u,v)$ from $u$ to $v$ because otherwise the search would have explored $(u,v)$ from $v$ to $u$ before exiting node $v$, as nodes $u$ and $v$ are neighbors. Therefore, edge $(u,v)$ is a tree edge.
+* اولین باری که یال $(u,v)$ را پیمایش می‌کنیم در جهت $u$ به $v$ است. از آنجایی که $\text{entry}[u] < \text{entry}[v]$، ماهیت بازگشتی DFS به این معنی است که گره $v$ به طور کامل پیمایش و در نتیجه از آن خارج خواهد شد، قبل از اینکه بتوانیم «در پشته فراخوانی به بالا برگردیم» تا از گره $u$ خارج شویم. بنابراین، گره $v$ باید در اولین باری که DFS یال $(u,v)$ را از $u$ به $v$ پیمایش می‌کند، ملاقات‌نشده باشد، زیرا در غیر این صورت، جستجو یال $(u,v)$ را از $v$ به $u$ قبل از خروج از گره $v$ پیمایش می‌کرد، چون گره‌های $u$ و $v$ همسایه هستند. بنابراین، یال $(u,v)$ یک یال درختی است.
 
-* The first time we explore the edge $(u,v)$ is in the direction from $v$ to $u$. Because we discovered node $u$ before discovering node $v$, and we only process edges once, the only way that we could explore the edge $(u,v)$ in the direction from $v$ to $u$ is if there's another path from $u$ to $v$ that does not involve the edge $(u,v)$, thus making $u$ an ancestor of $v$. The edge $(u,v)$ thus completes a cycle as it is going from the descendant, $v$, to the ancestor, $u$, which we have not exited yet. Therefore, edge $(u,v)$ is a back edge.
+* اولین باری که یال $(u,v)$ را پیمایش می‌کنیم در جهت $v$ به $u$ است. از آنجا که گره $u$ را قبل از گره $v$ کشف کرده‌ایم و یال‌ها را فقط یک بار پردازش می‌کنیم، تنها راهی که می‌توانیم یال $(u,v)$ را در جهت $v$ به $u$ پیمایش کنیم این است که مسیر دیگری از $u$ به $v$ وجود داشته باشد که شامل یال $(u,v)$ نباشد، و در نتیجه $u$ را به جد $v$ تبدیل کند. بنابراین، یال $(u,v)$ یک دور را کامل می‌کند، زیرا از نسل، $v$، به جد، $u$ می‌رود که هنوز از آن خارج نشده‌ایم. بنابراین، یال $(u,v)$ یک یال برگشتی است.
 
-Since there are only two ways to process the edge $(u,v)$, with the two cases and their resulting classifications outlined above, performing a DFS upon $G$ will therefore classify every encountered edge as either a tree edge or back edge, i.e., forward and cross edges only exist in directed graphs. This completes the proof.
+از آنجایی که تنها دو راه برای پردازش یال $(u,v)$ وجود دارد، با دو حالت و دسته‌بندی‌های حاصل از آنها که در بالا ذکر شد، اجرای DFS روی $G$ هر یال مشاهده‌شده را به عنوان یال درختی یا یال برگشتی دسته‌بندی می‌کند، یعنی یال‌های پیشرو و متقاطع فقط در گراف‌های جهت‌دار وجود دارند. این اثبات را کامل می‌کند.
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
-vector<vector<int>> adj; // graph represented as an adjacency list
-int n; // number of vertices
+vector<vector<int>> adj; // گراف به صورت لیست مجاورت
+int n; // تعداد رأس‌ها
 
 vector<bool> visited;
 
@@ -100,15 +99,15 @@ void dfs(int v) {
     }
 }
 ```
-This is the most simple implementation of Depth First Search.
-As described in the applications it might be useful to also compute the entry and exit times and vertex color.
-We will color all vertices with the color 0, if we haven't visited them, with the color 1 if we visited them, and with the color 2, if we already exited the vertex.
+این ساده‌ترین پیاده‌سازی جستجوی اول عمق است.
+همانطور که در بخش کاربردها توضیح داده شد، ممکن است محاسبه زمان ورود و خروج و رنگ رأس نیز مفید باشد.
+ما تمام رأس‌ها را با رنگ ۰ رنگ‌آمیزی می‌کنیم اگر آنها را ملاقات نکرده باشیم، با رنگ ۱ اگر آنها را ملاقات کرده باشیم، و با رنگ ۲ اگر قبلاً از رأس خارج شده باشیم.
 
-Here is a generic implementation that additionally computes those:
+در اینجا یک پیاده‌سازی عمومی‌تر آورده شده است که این موارد را نیز محاسبه می‌کند:
 
 ```cpp
-vector<vector<int>> adj; // graph represented as an adjacency list
-int n; // number of vertices
+vector<vector<int>> adj; // گراف به صورت لیست مجاورت
+int n; // تعداد رأس‌ها
 
 vector<int> color;
 
@@ -126,7 +125,7 @@ void dfs(int v) {
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
 * [SPOJ: ABCPATH](http://www.spoj.com/problems/ABCPATH/)
 * [SPOJ: EAGLE1](http://www.spoj.com/problems/EAGLE1/)

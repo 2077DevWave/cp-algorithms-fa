@@ -1,154 +1,153 @@
 ---
 tags:
-  - Translated
+  - AI Translated
 e_maxx_link: edmonds_karp
 ---
 
-# Maximum flow - Ford-Fulkerson and Edmonds-Karp
+# جریان بیشینه - فورد-فالکرسون و ادموندز-کارپ
 
-The Edmonds-Karp algorithm is an implementation of the Ford-Fulkerson method for computing a maximal flow in a flow network.
+الگوریتم ادموندز-کارپ یک پیاده‌سازی از روش فورد-فالکرسون برای محاسبه‌ی جریان بیشینه در یک شبکه‌ی جریان است.
 
-## Flow network
+## شبکه‌ی جریان
 
-First let's define what a **flow network**, a **flow**, and a **maximum flow** is.
+ابتدا بیایید تعریف کنیم که **شبکه‌ی جریان** (flow network)، **جریان** (flow) و **جریان بیشینه** (maximum flow) چه هستند.
 
-A **network** is a directed graph $G$ with vertices $V$ and edges $E$ combined with a function $c$, which assigns each edge $e \in E$ a non-negative integer value, the **capacity** of $e$.
-Such a network is called a **flow network**, if we additionally label two vertices, one as **source** and one as **sink**.
+یک **شبکه** (network) یک گراف جهت‌دار $G$ با رأس‌های $V$ و یال‌های $E$ است که همراه با یک تابع $c$ تعریف می‌شود. این تابع به هر یال $e \in E$ یک مقدار صحیح غیرمنفی به نام **ظرفیت** (capacity) آن یال نسبت می‌دهد.
+چنین شبکه‌ای را یک **شبکه‌ی جریان** (flow network) می‌نامیم، اگر علاوه بر این، دو رأس را برچسب‌گذاری کنیم: یکی به عنوان **چشمه** (source) و دیگری به عنوان **چاهک** (sink).
 
-A **flow** in a flow network is function $f$, that again assigns each edge $e$ a non-negative integer value, namely the flow.
-The function has to fulfill the following two conditions:
+یک **جریان** (flow) در یک شبکه‌ی جریان، تابعی به نام $f$ است که به هر یال $e$ یک مقدار صحیح غیرمنفی، یعنی همان جریان، نسبت می‌دهد.
+این تابع باید دو شرط زیر را برآورده کند:
 
-The flow of an edge cannot exceed the capacity.
+جریان یک یال نمی‌تواند از ظرفیت آن تجاوز کند.
 
 $$f(e) \le c(e)$$
 
-And the sum of the incoming flow of a vertex $u$ has to be equal to the sum of the outgoing flow of $u$ except in the source and sink vertices.
+و مجموع جریان ورودی به یک رأس $u$ باید با مجموع جریان خروجی از آن رأس برابر باشد، مگر در رأس‌های چشمه و چاهک.
 
 $$\sum_{(v, u) \in E} f((v, u)) = \sum_{(u, v) \in E} f((u, v))$$
 
-The source vertex $s$ only has an outgoing flow, and the sink vertex $t$ has only incoming flow.
+رأس چشمه $s$ فقط جریان خروجی دارد و رأس چاهک $t$ فقط جریان ورودی دارد.
 
-It is easy to see that the following equation holds:
+به راحتی می‌توان دید که معادله‌ی زیر برقرار است:
 
 $$\sum_{(s, u) \in E} f((s, u)) = \sum_{(u, t) \in E} f((u, t))$$
 
-A good analogy for a flow network is the following visualization:
-We represent edges as water pipes, the capacity of an edge is the maximal amount of water that can flow through the pipe per second, and the flow of an edge is the amount of water that currently flows through the pipe per second.
-This motivates the first flow condition. There cannot flow more water through a pipe than its capacity.
-The vertices act as junctions, where water comes out of some pipes, and then, these vertices distribute the water in some way to other pipes.
-This also motivates the second flow condition.
-All the incoming water has to be distributed to the other pipes in each junction.
-It cannot magically disappear or appear.
-The source $s$ is origin of all the water, and the water can only drain in the sink $t$.
+یک تشبیه خوب برای شبکه‌ی جریان، تصویرسازی زیر است:
+ما یال‌ها را به عنوان لوله‌های آب در نظر می‌گیریم، ظرفیت یک یال حداکثر مقدار آبی است که می‌تواند در هر ثانیه از لوله عبور کند و جریان یک یال مقدار آبی است که در حال حاضر در هر ثانیه از لوله عبور می‌کند.
+این تشبیه، شرط اول جریان را توجیه می‌کند. آب بیشتری از ظرفیت یک لوله نمی‌تواند از آن عبور کند.
+رأس‌ها مانند اتصالات عمل می‌کنند که آب از برخی لوله‌ها به آن‌ها وارد شده و سپس این رأس‌ها آب را به نوعی بین لوله‌های دیگر توزیع می‌کنند.
+این موضوع نیز شرط دوم جریان را توجیه می‌کند.
+تمام آب ورودی به یک اتصال باید بین لوله‌های دیگر توزیع شود. آب نمی‌تواند به طور جادویی ناپدید یا ظاهر شود.
+چشمه $s$ منشأ تمام آب است و آب فقط می‌تواند در چاهک $t$ تخلیه شود.
 
-The following image shows a flow network.
-The first value of each edge represents the flow, which is initially 0, and the second value represents the capacity.
+تصویر زیر یک شبکه‌ی جریان را نشان می‌دهد.
+مقدار اول روی هر یال نشان‌دهنده‌ی جریان است که در ابتدا 0 است و مقدار دوم نشان‌دهنده‌ی ظرفیت است.
 <div style="text-align: center;">
   <img src="Flow1.png" alt="Flow network">
 </div>
 
-The value of the flow of a network is the sum of all the flows that get produced in the source $s$, or equivalently to the sum of all the flows that are consumed by the sink $t$.
-A **maximal flow** is a flow with the maximal possible value.
-Finding this maximal flow of a flow network is the problem that we want to solve.
+مقدار جریان یک شبکه برابر است با مجموع تمام جریان‌هایی که در چشمه $s$ تولید می‌شوند، یا معادل آن، مجموع تمام جریان‌هایی که توسط چاهک $t$ مصرف می‌شوند.
+یک **جریان بیشینه** (maximal flow) جریانی با بیشترین مقدار ممکن است.
+یافتن این جریان بیشینه در یک شبکه‌ی جریان، مسئله‌ای است که می‌خواهیم حل کنیم.
 
-In the visualization with water pipes, the problem can be formulated in the following way:
-how much water can we push through the pipes from the source to the sink?
+در تصویرسازی با لوله‌های آب، مسئله را می‌توان به این صورت فرموله کرد:
+چه مقدار آب می‌توانیم از چشمه به چاهک از طریق لوله‌ها منتقل کنیم؟
 
-The following image shows the maximal flow in the flow network.
+تصویر زیر جریان بیشینه را در این شبکه‌ی جریان نشان می‌دهد.
 <div style="text-align: center;">
   <img src="Flow9.png" alt="Maximal flow">
 </div>
 
-## Ford-Fulkerson method
+## روش فورد-فالکرسون
 
-Let's define one more thing.
-A **residual capacity** of a directed edge is the capacity minus the flow.
-It should be noted that if there is a flow along some directed edge $(u, v)$, then the reversed edge has capacity 0 and we can define the flow of it as $f((v, u)) = -f((u, v))$.
-This also defines the residual capacity for all the reversed edges.
-We can create a **residual network** from all these edges, which is just a network with the same vertices and edges, but we use the residual capacities as capacities.
+بیایید یک چیز دیگر را تعریف کنیم.
+**ظرفیت باقی‌مانده** (residual capacity) یک یال جهت‌دار برابر است با ظرفیت منهای جریان.
+باید توجه داشت که اگر جریانی در امتداد یک یال جهت‌دار $(u, v)$ وجود داشته باشد، آنگاه یال معکوس آن ظرفیت 0 دارد و می‌توانیم جریان آن را به صورت $f((v, u)) = -f((u, v))$ تعریف کنیم.
+این کار ظرفیت باقی‌مانده را برای تمام یال‌های معکوس نیز تعریف می‌کند.
+ما می‌توانیم از تمام این یال‌ها یک **شبکه‌ی باقی‌مانده** (residual network) بسازیم، که شبکه‌ای با همان رأس‌ها و یال‌ها است، اما از ظرفیت‌های باقی‌مانده به عنوان ظرفیت استفاده می‌کنیم.
 
-The Ford-Fulkerson method works as follows.
-First, we set the flow of each edge to zero.
-Then we look for an **augmenting path** from $s$ to $t$.
-An augmenting path is a simple path in the residual graph where residual capacity is positive for all the edges along that path.
-If such a path is found, then we can increase the flow along these edges.
-We keep on searching for augmenting paths and increasing the flow.
-Once an augmenting path doesn't exist anymore, the flow is maximal.
+روش فورد-فالکرسون به این صورت عمل می‌کند.
+ابتدا، جریان هر یال را صفر قرار می‌دهیم.
+سپس به دنبال یک **مسیر افزایشی** (augmenting path) از $s$ به $t$ می‌گردیم.
+یک مسیر افزایشی، یک مسیر ساده در گراف باقی‌مانده است که ظرفیت باقی‌مانده برای تمام یال‌های موجود در آن مسیر مثبت است.
+اگر چنین مسیری پیدا شود، می‌توانیم جریان را در امتداد این یال‌ها افزایش دهیم.
+ما به جستجوی مسیرهای افزایشی و افزایش جریان ادامه می‌دهیم.
+هنگامی که دیگر مسیر افزایشی وجود نداشته باشد، جریان بیشینه است.
 
-Let us specify in more detail, what increasing the flow along an augmenting path means.
-Let $C$ be the smallest residual capacity of the edges in the path.
-Then we increase the flow in the following way:
-we update $f((u, v)) ~\text{+=}~ C$ and $f((v, u)) ~\text{-=}~ C$ for every edge $(u, v)$ in the path.
+بیایید با جزئیات بیشتری مشخص کنیم که افزایش جریان در امتداد یک مسیر افزایشی به چه معناست.
+فرض کنید $C$ کوچکترین ظرفیت باقی‌مانده در بین یال‌های مسیر باشد.
+سپس جریان را به صورت زیر افزایش می‌دهیم:
+برای هر یال $(u, v)$ در مسیر، مقادیر $f((u, v)) ~\text{+=}~ C$ و $f((v, u)) ~\text{-=}~ C$ را به‌روزرسانی می‌کنیم.
 
-Here is an example to demonstrate the method.
-We use the same flow network as above.
-Initially we start with a flow of 0.
+در اینجا مثالی برای نمایش این روش آورده شده است.
+از همان شبکه‌ی جریان بالا استفاده می‌کنیم.
+در ابتدا با جریان 0 شروع می‌کنیم.
 <div style="text-align: center;">
   <img src="Flow1.png" alt="Flow network">
 </div>
 
-We can find the path $s - A - B - t$ with the residual capacities 7, 5, and 8.
-Their minimum is 5, therefore we can increase the flow along this path by 5.
-This gives a flow of 5 for the network.
+می‌توانیم مسیر $s - A - B - t$ را با ظرفیت‌های باقی‌مانده‌ی 7، 5 و 8 پیدا کنیم.
+کمینه‌ی آن‌ها 5 است، بنابراین می‌توانیم جریان را در امتداد این مسیر به اندازه‌ی 5 افزایش دهیم.
+این کار جریانی به مقدار 5 برای شبکه ایجاد می‌کند.
 <div style="text-align: center;">
   <img src="Flow2.png" alt="First path">
   <img src="Flow3.png" alt="Network after first path">
 </div>
 
-Again we look for an augmenting path, this time we find $s - D - A - C - t$ with the residual capacities 4, 3, 3, and 5.
-Therefore we can increase the flow by 3 and we get a flow of 8 for the network.
+دوباره به دنبال یک مسیر افزایشی می‌گردیم، این بار مسیر $s - D - A - C - t$ را با ظرفیت‌های باقی‌مانده‌ی 4، 3، 3 و 5 پیدا می‌کنیم.
+بنابراین می‌توانیم جریان را به اندازه‌ی 3 افزایش دهیم و به جریان 8 برای شبکه می‌رسیم.
 <div style="text-align: center;">
   <img src="Flow4.png" alt="Second path">
   <img src="Flow5.png" alt="Network after second path">
 </div>
 
-This time we find the path $s - D - C - B - t$ with the residual capacities 1, 2, 3, and 3, and hence, we increase the flow by 1.
+این بار مسیر $s - D - C - B - t$ را با ظرفیت‌های باقی‌مانده‌ی 1، 2، 3 و 3 پیدا می‌کنیم و در نتیجه، جریان را به اندازه‌ی 1 افزایش می‌دهیم.
 <div style="text-align: center;">
   <img src="Flow6.png" alt="Third path">
   <img src="Flow7.png" alt="Network after third path">
 </div>
 
-This time we find the augmenting path $s - A - D - C - t$ with the residual capacities 2, 3, 1, and 2.
-We can increase the flow by 1.
-But this path is very interesting.
-It includes the reversed edge $(A, D)$.
-In the original flow network, we are not allowed to send any flow from $A$ to $D$.
-But because we already have a flow of 3 from $D$ to $A$, this is possible.
-The intuition of it is the following:
-Instead of sending a flow of 3 from $D$ to $A$, we only send 2 and compensate this by sending an additional flow of 1 from $s$ to $A$, which allows us to send an additional flow of 1 along the path $D - C - t$.
+این بار مسیر افزایشی $s - A - D - C - t$ را با ظرفیت‌های باقی‌مانده‌ی 2، 3، 1 و 2 پیدا می‌کنیم.
+می‌توانیم جریان را به اندازه‌ی 1 افزایش دهیم.
+اما این مسیر بسیار جالب است.
+این مسیر شامل یال معکوس $(A, D)$ است.
+در شبکه‌ی جریان اصلی، ما مجاز به ارسال هیچ جریانی از $A$ به $D$ نیستیم.
+اما چون از قبل جریانی به مقدار 3 از $D$ به $A$ داریم، این کار ممکن است.
+شهود پشت این قضیه به این صورت است:
+به جای ارسال جریان 3 از $D$ به $A$، ما فقط 2 واحد ارسال می‌کنیم و این کاهش را با ارسال یک جریان اضافی به مقدار 1 از $s$ به $A$ جبران می‌کنیم، که به ما اجازه می‌دهد یک جریان اضافی به مقدار 1 را در امتداد مسیر $D - C - t$ ارسال کنیم.
 <div style="text-align: center;">
   <img src="Flow8.png" alt="Fourth path">
   <img src="Flow9.png" alt="Network after fourth path">
 </div>
 
-Now, it is impossible to find an augmenting path between $s$ and $t$, therefore this flow of $10$ is the maximal possible.
-We have found the maximal flow.
+اکنون، پیدا کردن یک مسیر افزایشی بین $s$ و $t$ غیرممکن است، بنابراین این جریان به مقدار $10$ بیشینه‌ی ممکن است.
+ما جریان بیشینه را پیدا کرده‌ایم.
 
-It should be noted, that the Ford-Fulkerson method doesn't specify a method of finding the augmenting path.
-Possible approaches are using [DFS](depth-first-search.md) or [BFS](breadth-first-search.md) which both work in $O(E)$.
-If all the capacities of the network are integers, then for each augmenting path the flow of the network increases by at least 1 (for more details see [Integral flow theorem](#integral-theorem)).
-Therefore, the complexity of Ford-Fulkerson is $O(E F)$, where $F$ is the maximal flow of the network.
-In the case of rational capacities, the algorithm will also terminate, but the complexity is not bounded.
-In the case of irrational capacities, the algorithm might never terminate, and might not even converge to the maximal flow.
+باید توجه داشت که روش فورد-فالکرسون روشی برای پیدا کردن مسیر افزایشی مشخص نمی‌کند.
+رویکردهای ممکن استفاده از [DFS](depth-first-search.md) یا [BFS](breadth-first-search.md) هستند که هر دو در زمان $O(E)$ کار می‌کنند.
+اگر تمام ظرفیت‌های شبکه اعداد صحیح باشند، آنگاه به ازای هر مسیر افزایشی، جریان شبکه حداقل 1 واحد افزایش می‌یابد (برای جزئیات بیشتر به [قضیه جریان صحیح](#integral-theorem) مراجعه کنید).
+بنابراین، پیچیدگی فورد-فالکرسون $O(E F)$ است که در آن $F$ جریان بیشینه‌ی شبکه است.
+در مورد ظرفیت‌های گویا، الگوریتم نیز به پایان می‌رسد، اما پیچیدگی آن کران‌دار نیست.
+در مورد ظرفیت‌های گنگ، الگوریتم ممکن است هرگز به پایان نرسد و حتی ممکن است به جریان بیشینه همگرا نشود.
 
-## Edmonds-Karp algorithm
+## الگوریتم ادموندز-کارپ
 
-Edmonds-Karp algorithm is just an implementation of the Ford-Fulkerson method that uses [BFS](breadth-first-search.md) for finding augmenting paths.
-The algorithm was first published by Yefim Dinitz in 1970, and later independently published by Jack Edmonds and Richard Karp in 1972.
+الگوریتم ادموندز-کارپ صرفاً یک پیاده‌سازی از روش فورد-فالکرسون است که از [BFS](breadth-first-search.md) برای پیدا کردن مسیرهای افزایشی استفاده می‌کند.
+این الگوریتم برای اولین بار توسط یفیم دینیتز در سال 1970 منتشر شد و بعداً به طور مستقل توسط جک ادموندز و ریچارد کارپ در سال 1972 منتشر گردید.
 
-The complexity can be given independently of the maximal flow.
-The algorithm runs in $O(V E^2)$ time, even for irrational capacities.
-The intuition is, that every time we find an augmenting path one of the edges becomes saturated, and the distance from the edge to $s$ will be longer if it appears later again in an augmenting path.
-The length of the simple paths is bounded by $V$.
+پیچیدگی این الگوریتم را می‌توان مستقل از جریان بیشینه بیان کرد.
+الگوریتم در زمان $O(V E^2)$ اجرا می‌شود، حتی برای ظرفیت‌های گنگ.
+شهود این است که هر بار که یک مسیر افزایشی پیدا می‌کنیم، یکی از یال‌ها اشباع می‌شود و فاصله از آن یال تا $s$ در صورتی که بعداً دوباره در یک مسیر افزایشی ظاهر شود، طولانی‌تر خواهد بود.
+طول مسیرهای ساده توسط $V$ کران‌دار است.
 
-### Implementation
+### پیاده‌سازی
 
-The matrix `capacity` stores the capacity for every pair of vertices.
-`adj` is the adjacency list of the **undirected graph**, since we have also to use the reversed of directed edges when we are looking for augmenting paths.
+ماتریس `capacity` ظرفیت را برای هر جفت از رأس‌ها ذخیره می‌کند.
+`adj` لیست مجاورت **گراف غیرجهت‌دار** است، زیرا هنگام جستجوی مسیرهای افزایشی باید از یال‌های معکوس یال‌های جهت‌دار نیز استفاده کنیم.
 
-The function `maxflow` will return the value of the maximal flow.
-During the algorithm, the matrix `capacity` will actually store the residual capacity of the network.
-The value of the flow in each edge will actually not be stored, but it is easy to extend the implementation - by using an additional matrix - to also store the flow and return it.
+تابع `maxflow` مقدار جریان بیشینه را برمی‌گرداند.
+در طول اجرای الگوریتم، ماتریس `capacity` در واقع ظرفیت باقی‌مانده‌ی شبکه را ذخیره می‌کند.
+مقدار جریان در هر یال ذخیره نخواهد شد، اما به راحتی می‌توان پیاده‌سازی را - با استفاده از یک ماتریس اضافی - گسترش داد تا جریان را نیز ذخیره و برگرداند.
 
 ```{.cpp file=edmondskarp}
 int n;
@@ -200,34 +199,34 @@ int maxflow(int s, int t) {
 }
 ```
 
-## Integral flow theorem ## { #integral-theorem}
+## قضیه جریان صحیح ## { #integral-theorem}
 
-The theorem says, that if every capacity in the network is an integer, then the size of the maximum flow is an integer, and there is a maximum flow such that the flow in each edge is an integer as well. In particular, Ford-Fulkerson method finds such a flow.
+این قضیه بیان می‌کند که اگر تمام ظرفیت‌ها در شبکه عدد صحیح باشند، آنگاه اندازه‌ی جریان بیشینه یک عدد صحیح است و یک جریان بیشینه وجود دارد که در آن جریان هر یال نیز یک عدد صحیح است. به طور خاص، روش فورد-فالکرسون چنین جریانی را پیدا می‌کند.
 
-## Max-flow min-cut theorem
+## قضیه جریان-بیشینه برش-کمینه
 
-A **$s$-$t$-cut** is a partition of the vertices of a flow network into two sets, such that a set includes the source $s$ and the other one includes the sink $t$.
-The capacity of a $s$-$t$-cut is defined as the sum of capacities of the edges from the source side to the sink side.
+یک **برش $s$-$t$** افرازی از رأس‌های یک شبکه‌ی جریان به دو مجموعه است، به طوری که یک مجموعه شامل چشمه $s$ و دیگری شامل چاهک $t$ باشد.
+ظرفیت یک برش $s$-$t$ به صورت مجموع ظرفیت‌های یال‌هایی تعریف می‌شود که از سمت چشمه به سمت چاهک می‌روند.
 
-Obviously, we cannot send more flow from $s$ to $t$ than the capacity of any $s$-$t$-cut.
-Therefore, the maximum flow is bounded by the minimum cut capacity.
+بدیهی است که ما نمی‌توانیم جریانی بیشتر از ظرفیت هر برش $s$-$t$ از $s$ به $t$ ارسال کنیم.
+بنابراین، جریان بیشینه توسط ظرفیت برش کمینه کران‌دار است.
 
-The max-flow min-cut theorem goes even further.
-It says that the capacity of the maximum flow has to be equal to the capacity of the minimum cut.
+قضیه جریان-بیشینه برش-کمینه حتی از این هم فراتر می‌رود.
+این قضیه بیان می‌کند که ظرفیت جریان بیشینه باید برابر با ظرفیت برش کمینه باشد.
 
-In the following image, you can see the minimum cut of the flow network we used earlier.
-It shows that the capacity of the cut $\{s, A, D\}$ and $\{B, C, t\}$ is $5 + 3 + 2 = 10$, which is equal to the maximum flow that we found.
-Other cuts will have a bigger capacity, like the capacity between $\{s, A\}$ and $\{B, C, D, t\}$ is $4 + 3 + 5 = 12$.
+در تصویر زیر، می‌توانید برش کمینه را برای شبکه‌ی جریانی که قبلاً استفاده کردیم، مشاهده کنید.
+این تصویر نشان می‌دهد که ظرفیت برش بین دو مجموعه $\{s, A, D\}$ و $\{B, C, t\}$ برابر با $5 + 3 + 2 = 10$ است که با جریان بیشینه‌ای که پیدا کردیم برابر است.
+برش‌های دیگر ظرفیت بیشتری خواهند داشت، مثلاً ظرفیت بین مجموعه‌های $\{s, A\}$ و $\{B, C, D, t\}$ برابر $4 + 3 + 5 = 12$ است.
 <div style="text-align: center;">
   <img src="Cut.png" alt="Minimum cut">
 </div>
 
-A minimum cut can be found after performing a maximum flow computation using the Ford-Fulkerson method.
-One possible minimum cut is the following:
-the set of all the vertices that can be reached from $s$ in the residual graph (using edges with positive residual capacity), and the set of all the other vertices.
-This partition can be easily found using [DFS](depth-first-search.md) starting at $s$.
+یک برش کمینه را می‌توان پس از محاسبه‌ی جریان بیشینه با استفاده از روش فورد-فالکرسون پیدا کرد.
+یک برش کمینه ممکن به شرح زیر است:
+مجموعه‌ی تمام رأس‌هایی که از $s$ در گراف باقی‌مانده قابل دسترسی هستند (با استفاده از یال‌هایی با ظرفیت باقی‌مانده مثبت)، و مجموعه‌ی تمام رأس‌های دیگر.
+این افراز را می‌توان به راحتی با استفاده از [DFS](depth-first-search.md) که از $s$ شروع می‌شود، پیدا کرد.
 
-## Practice Problems
+## مسائل تمرینی
 - [Codeforces - Array and Operations](https://codeforces.com/contest/498/problem/c)
 - [Codeforces - Red-Blue Graph](https://codeforces.com/contest/1288/problem/f)
 - [CSES - Download Speed](https://cses.fi/problemset/task/1694)

@@ -1,75 +1,75 @@
 ---
 tags:
-  - Translated
-e_maxx_link: floyd_warshall_algorithm
+  - AI Translated
+e_maxx_link: all-pair-shortest-path-floyd-warshall
 ---
 
-# Floyd-Warshall Algorithm
+# الگوریتم فلوید-وارشال
 
-Given a directed or an undirected weighted graph $G$ with $n$ vertices.
-The task is to find the length of the shortest path $d_{ij}$ between each pair of vertices $i$ and $j$.
+یک گراف وزن‌دار جهت‌دار یا بدون جهت $G$ با $n$ رأس داده شده است.
+هدف، پیدا کردن طول کوتاه‌ترین مسیر $d_{ij}$ بین هر جفت رأس $i$ و $j$ است.
 
-The graph may have negative weight edges, but no negative weight cycles.
+گراف می‌تواند یال‌هایی با وزن منفی داشته باشد، اما دور با وزن منفی نداشته باشد.
 
-If there is such a negative cycle, you can just traverse this cycle over and over, in each iteration making the cost of the path smaller.
-So you can make certain paths arbitrarily small, or in other words that shortest path is undefined.
-That automatically means that an undirected graph cannot have any negative weight edges, as such an edge forms already a negative cycle as you can move back and forth along that edge as long as you like.
+اگر چنین دور منفی‌ای وجود داشته باشد، می‌توان این دور را بارها و بارها پیمود و در هر تکرار، هزینه مسیر را کمتر کرد.
+بنابراین می‌توان مسیرهای خاصی را به طور دلخواه کوچک کرد، یا به عبارت دیگر کوتاه‌ترین مسیر تعریف نشده است.
+این به طور خودکار به این معنی است که یک گراف بدون جهت نمی‌تواند هیچ یال با وزن منفی داشته باشد، زیرا چنین یالی خود یک دور منفی تشکیل می‌دهد چون می‌توانید به هر تعدادی که بخواهید در امتداد آن یال به عقب و جلو حرکت کنید.
 
-This algorithm can also be used to detect the presence of negative cycles.
-The graph has a negative cycle if at the end of the algorithm, the distance from a vertex $v$ to itself is negative.
+این الگوریتم همچنین می‌تواند برای تشخیص وجود دورهای منفی استفاده شود.
+گراف دارای یک دور منفی است اگر در پایان الگوریتم، فاصله از یک رأس $v$ به خودش منفی باشد.
 
-This algorithm has been simultaneously published in articles by Robert Floyd and Stephen Warshall in 1962.
-However, in 1959, Bernard Roy published essentially the same algorithm, but its publication went unnoticed.
+این الگوریتم به طور همزمان در مقالاتی توسط Robert Floyd و Stephen Warshall در سال ۱۹۶۲ منتشر شد.
+با این حال، در سال ۱۹۵۹، Bernard Roy اساساً همان الگوریتم را منتشر کرد، اما انتشار آن مورد توجه قرار نگرفت.
 
-## Description of the algorithm
+## شرح الگوریتم
 
-The key idea of the algorithm is to partition the process of finding the shortest path between any two vertices to several incremental phases.
+ایده اصلی الگوریتم این است که فرآیند پیدا کردن کوتاه‌ترین مسیر بین هر دو رأس را به چندین مرحله افزایشی تقسیم کنیم.
 
-Let us number the vertices starting from 1 to $n$.
-The matrix of distances is $d[ ][ ]$.
+بیایید رأس‌ها را از ۱ تا $n$ شماره‌گذاری کنیم.
+ماتریس فاصله‌ها $d[ ][ ]$ است.
 
-Before $k$-th phase ($k = 1 \dots n$), $d[i][j]$ for any vertices $i$ and $j$ stores the length of the shortest path between the vertex $i$ and vertex $j$, which contains only the vertices $\{1, 2, ..., k-1\}$ as internal vertices in the path.
+قبل از مرحله $k$-ام ($k = 1 \dots n$)، مقدار $d[i][j]$ برای هر جفت رأس $i$ و $j$، طول کوتاه‌ترین مسیر بین رأس $i$ و رأس $j$ را ذخیره می‌کند، به طوری که این مسیر فقط شامل رأس‌های $\{1, 2, ..., k-1\}$ به عنوان رأس‌های میانی باشد.
 
-In other words, before $k$-th phase the value of $d[i][j]$ is equal to the length of the shortest path from vertex $i$ to the vertex $j$, if this path is allowed to enter only the vertex with numbers smaller than $k$ (the beginning and end of the path are not restricted by this property).
+به عبارت دیگر، قبل از مرحله $k$-ام، مقدار $d[i][j]$ برابر با طول کوتاه‌ترین مسیر از رأس $i$ به رأس $j$ است، اگر این مسیر مجاز باشد فقط از رأس‌هایی با شماره‌های کوچکتر از $k$ عبور کند (ابتدا و انتهای مسیر با این ویژگی محدود نمی‌شوند).
 
-It is easy to make sure that this property holds for the first phase. For $k = 0$, we can fill matrix with $d[i][j] = w_{i j}$ if there exists an edge between $i$ and $j$ with weight $w_{i j}$ and $d[i][j] = \infty$ if there doesn't exist an edge.
-In practice $\infty$ will be some high value.
-As we shall see later, this is a requirement for the algorithm.
+اطمینان از برقراری این ویژگی برای مرحله اول آسان است. برای $k = 0$، می‌توانیم ماتریس را با $d[i][j] = w_{i j}$ پر کنیم اگر یالی بین $i$ و $j$ با وزن $w_{i j}$ وجود داشته باشد و اگر یالی وجود نداشته باشد، $d[i][j] = \infty$ قرار می‌دهیم.
+در عمل، $\infty$ یک مقدار بزرگ خواهد بود.
+همانطور که بعداً خواهیم دید، این یک پیش‌نیاز برای الگوریتم است.
 
-Suppose now that we are in the $k$-th phase, and we want to compute the matrix $d[ ][ ]$ so that it meets the requirements for the $(k + 1)$-th phase.
-We have to fix the distances for some vertices pairs $(i, j)$.
-There are two fundamentally different cases:
+حال فرض کنید در مرحله $k$-ام هستیم و می‌خواهیم ماتریس $d[ ][ ]$ را محاسبه کنیم تا شرایط لازم برای مرحله $(k + 1)$-ام را برآورده کند.
+باید فاصله‌ها را برای برخی جفت رأس‌های $(i, j)$ اصلاح کنیم.
+دو حالت اساساً متفاوت وجود دارد:
 
-*   The shortest way from the vertex $i$ to the vertex $j$ with internal vertices from the set $\{1, 2, \dots, k\}$ coincides with the shortest path with internal vertices from the set $\{1, 2, \dots, k-1\}$.
+*   کوتاه‌ترین مسیر از رأس $i$ به رأس $j$ با رأس‌های میانی از مجموعه $\{1, 2, \dots, k\}$ با کوتاه‌ترین مسیر با رأس‌های میانی از مجموعه $\{1, 2, \dots, k-1\}$ یکسان است.
 
-    In this case, $d[i][j]$ will not change during the transition.
+    در این حالت، $d[i][j]$ در طول این گذار تغییر نخواهد کرد.
 
-*   The shortest path with internal vertices from $\{1, 2, \dots, k\}$ is shorter.
+*   کوتاه‌ترین مسیر با رأس‌های میانی از مجموعه $\{1, 2, \dots, k\}$ کوتاه‌تر است.
 
-    This means that the new, shorter path passes through the vertex $k$.
-    This means that we can split the shortest path between $i$ and $j$ into two paths:
-    the path between $i$ and $k$, and the path between $k$ and $j$.
-    It is clear that both this paths only use internal vertices of $\{1, 2, \dots, k-1\}$ and are the shortest such paths in that respect.
-    Therefore we already have computed the lengths of those paths before, and we can compute the length of the shortest path between $i$ and $j$ as $d[i][k] + d[k][j]$.
+    این بدان معناست که مسیر جدید و کوتاه‌تر از رأس $k$ عبور می‌کند.
+    این یعنی می‌توانیم کوتاه‌ترین مسیر بین $i$ و $j$ را به دو مسیر تقسیم کنیم:
+    مسیر بین $i$ و $k$ و مسیر بین $k$ و $j$.
+    واضح است که هر دوی این مسیرها فقط از رأس‌های میانی مجموعه $\{1, 2, \dots, k-1\}$ استفاده می‌کنند و از این نظر کوتاه‌ترین مسیرها هستند.
+    بنابراین، ما قبلاً طول این مسیرها را محاسبه کرده‌ایم و می‌توانیم طول کوتاه‌ترین مسیر بین $i$ و $j$ را به صورت $d[i][k] + d[k][j]$ محاسبه کنیم.
 
-Combining these two cases we find that we can recalculate the length of all pairs $(i, j)$ in the $k$-th phase in the following way:
+با ترکیب این دو حالت، متوجه می‌شویم که می‌توانیم طول همه جفت‌های $(i, j)$ را در مرحله $k$-ام به روش زیر دوباره محاسبه کنیم:
 
 $$d_{\text{new}}[i][j] = min(d[i][j], d[i][k] + d[k][j])$$
 
-Thus, all the work that is required in the $k$-th phase is to iterate over all pairs of vertices and recalculate the length of the shortest path between them.
-As a result, after the $n$-th phase, the value $d[i][j]$ in the distance matrix is the length of the shortest path between $i$ and $j$, or is $\infty$ if the path between the vertices $i$ and $j$ does not exist.
+بنابراین، تمام کاری که در مرحله $k$-ام لازم است، پیمایش تمام جفت رأس‌ها و محاسبه مجدد طول کوتاه‌ترین مسیر بین آنها است.
+در نتیجه، پس از مرحله $n$-ام، مقدار $d[i][j]$ در ماتریس فاصله، طول کوتاه‌ترین مسیر بین $i$ و $j$ است، یا اگر مسیری بین رأس‌های $i$ و $j$ وجود نداشته باشد، برابر با $\infty$ خواهد بود.
 
-A last remark - we don't need to create a separate distance matrix $d_{\text{new}}[ ][ ]$ for temporarily storing the shortest paths of the $k$-th phase, i.e. all changes can be made directly in the matrix $d[ ][ ]$ at any phase.
-In fact at any $k$-th phase we are at most improving the distance of any path in the distance matrix, hence we cannot worsen the length of the shortest path for any pair of the vertices that are to be processed in the $(k+1)$-th phase or later.
+نکته آخر - نیازی به ایجاد یک ماتریس فاصله جداگانه $d_{\text{new}}[ ][ ]$ برای ذخیره‌سازی موقت کوتاه‌ترین مسیرهای مرحله $k$-ام نیست، یعنی تمام تغییرات را می‌توان مستقیماً در ماتریس $d[ ][ ]$ در هر مرحله انجام داد.
+در واقع، در هر مرحله $k$-ام ما حداکثر در حال بهبود فاصله هر مسیر در ماتریس فاصله هستیم، بنابراین نمی‌توانیم طول کوتاه‌ترین مسیر را برای هر جفت رأسی که قرار است در مرحله $(k+1)$-ام یا بعد از آن پردازش شوند، بدتر کنیم.
 
-The time complexity of this algorithm is obviously $O(n^3)$.
+پیچیدگی زمانی این الگوریتم به وضوح $O(n^3)$ است.
 
-## Implementation
+## پیاده‌سازی
 
-Let $d[][]$ is a 2D array of size $n \times n$, which is filled according to the $0$-th phase as explained earlier.
-Also we will set $d[i][i] = 0$ for any $i$ at the $0$-th phase.
+فرض کنید $d[][]$ یک آرایه دوبعدی به اندازه $n \times n$ است که مطابق با مرحله صفرم همانطور که قبلاً توضیح داده شد، پر شده است.
+همچنین برای هر $i$ در مرحله صفرم، $d[i][i] = 0$ قرار می‌دهیم.
 
-Then the algorithm is implemented as follows:
+سپس الگوریتم به صورت زیر پیاده‌سازی می‌شود:
 
 ```cpp
 for (int k = 0; k < n; ++k) {
@@ -81,12 +81,12 @@ for (int k = 0; k < n; ++k) {
 }
 ```
 
-It is assumed that if there is no edge between any two vertices $i$ and $j$, then the matrix at $d[i][j]$ contains a large number (large enough so that it is greater than the length of any path in this graph).
-Then this edge will always be unprofitable to take, and the algorithm will work correctly.
+فرض بر این است که اگر بین هر دو رأس $i$ و $j$ یالی وجود نداشته باشد، ماتریس در خانه $d[i][j]$ حاوی یک عدد بزرگ است (به اندازه‌ای بزرگ که از طول هر مسیری در این گراف بیشتر باشد).
+در این صورت، انتخاب این یال همیشه زیان‌آور خواهد بود و الگوریتم به درستی کار خواهد کرد.
 
-However if there are negative weight edges in the graph, special measures have to be taken.
-Otherwise the resulting values in matrix may be of the form $\infty - 1$,  $\infty - 2$, etc., which, of course, still indicates that between the respective vertices doesn't exist a path.
-Therefore, if the graph has negative weight edges, it is better to write the Floyd-Warshall algorithm in the following way, so that it does not perform transitions using paths that don't exist.
+اما اگر یال‌هایی با وزن منفی در گراف وجود داشته باشد، باید اقدامات ویژه‌ای انجام شود.
+در غیر این صورت، مقادیر حاصل در ماتریس ممکن است به شکل $\infty - 1$، $\infty - 2$ و غیره باشند که البته هنوز نشان‌دهنده عدم وجود مسیر بین رأس‌های مربوطه است.
+بنابراین، اگر گراف یال‌های با وزن منفی دارد، بهتر است الگوریتم فلوید-وارشال را به روش زیر بنویسیم تا از گذارهایی با استفاده از مسیرهای غیرموجود جلوگیری کند.
 
 ```cpp
 for (int k = 0; k < n; ++k) {
@@ -99,47 +99,47 @@ for (int k = 0; k < n; ++k) {
 }
 ```
 
-## Retrieving the sequence of vertices in the shortest path
+## بازیابی دنباله رأس‌ها در کوتاه‌ترین مسیر
 
-It is easy to maintain additional information with which it will be possible to retrieve the shortest path between any two given vertices in the form of a sequence of vertices.
+به راحتی می‌توان اطلاعات اضافی را نگهداری کرد که با آن بتوان کوتاه‌ترین مسیر بین هر دو رأس داده شده را به صورت دنباله‌ای از رأس‌ها بازیابی کرد.
 
-For this, in addition to the distance matrix $d[ ][ ]$, a matrix of ancestors $p[ ][ ]$ must be maintained, which will contain the number of the phase where the shortest distance between two vertices was last modified.
-It is clear that the number of the phase is nothing more than a vertex in the middle of the desired shortest path.
-Now we just need to find the shortest path between vertices $i$ and $p[i][j]$, and between $p[i][j]$ and $j$.
-This leads to a simple recursive reconstruction algorithm of the shortest path.
+برای این کار، علاوه بر ماتریس فاصله $d[ ][ ]$، باید یک ماتریس پیشینیان $p[ ][ ]$ نیز نگهداری شود که شماره مرحله‌ای را که در آن کوتاه‌ترین فاصله بین دو رأس برای آخرین بار اصلاح شده است، در خود ذخیره می‌کند.
+واضح است که شماره مرحله، چیزی جز یک رأس در وسط کوتاه‌ترین مسیر مورد نظر نیست.
+اکنون فقط باید کوتاه‌ترین مسیر بین رأس‌های $i$ و $p[i][j]$ و بین $p[i][j]$ و $j$ را پیدا کنیم.
+این منجر به یک الگوریتم بازسازی بازگشتی ساده برای کوتاه‌ترین مسیر می‌شود.
 
-## The case of real weights
+## حالت وزن‌های حقیقی
 
-If the weights of the edges are not integer but real, it is necessary to take the errors, which occur when working with float types, into account.
+اگر وزن یال‌ها صحیح نباشد و حقیقی باشد، لازم است خطاهایی را که هنگام کار با انواع داده ممیز شناور (float) رخ می‌دهد، در نظر گرفت.
 
-The Floyd-Warshall algorithm has the unpleasant effect, that the errors accumulate very quickly.
-In fact if there is an error in the first phase of $\delta$, this error may propagate to the second iteration as $2 \delta$, to the third iteration as $4 \delta$, and so on.
+الگوریتم فلوید-وارشال این اثر ناخوشایند را دارد که خطاها به سرعت انباشته می‌شوند.
+در واقع، اگر در مرحله اول خطایی به اندازه $\delta$ وجود داشته باشد، این خطا ممکن است در تکرار دوم به $2 \delta$، در تکرار سوم به $4 \delta$ و به همین ترتیب گسترش یابد.
 
-To avoid this the algorithm can be modified to take the error (EPS = $\delta$) into account by using following comparison:
+برای جلوگیری از این مشکل، می‌توان الگوریتم را طوری تغییر داد که خطا (EPS = $\delta$) را با استفاده از مقایسه زیر در نظر بگیرد:
 
 ```cpp
 if (d[i][k] + d[k][j] < d[i][j] - EPS)
     d[i][j] = d[i][k] + d[k][j]; 
 ```
 
-## The case of negative cycles
+## حالت دورهای منفی
 
-Formally the Floyd-Warshall algorithm does not apply to graphs containing negative weight cycle(s).
-But for all pairs of vertices $i$ and $j$ for which there doesn't exist a path starting at $i$, visiting a negative cycle, and end at $j$,  the algorithm will still work correctly.
+به طور رسمی، الگوریتم فلوید-وارشال برای گراف‌های حاوی دور(های) با وزن منفی قابل استفاده نیست.
+اما برای تمام جفت رأس‌های $i$ و $j$ که مسیری از $i$ شروع شده، از یک دور منفی عبور کرده و به $j$ ختم شود وجود *نداشته باشد*، الگوریتم همچنان به درستی کار خواهد کرد.
 
-For the pair of vertices for which the answer does not exist (due to the presence of a negative cycle in the path between them), the Floyd algorithm will store any number (perhaps highly negative, but not necessarily) in the distance matrix.
-However it is possible to improve the Floyd-Warshall algorithm, so that it carefully treats such pairs of vertices, and outputs them, for example as $-\text{INF}$.
+برای جفت رأس‌هایی که به دلیل وجود دور منفی در مسیر بین آنها پاسخی وجود ندارد، الگوریتم فلوید هر عددی را (شاید بسیار منفی، اما نه لزوماً) در ماتریس فاصله ذخیره می‌کند.
+با این حال، می‌توان الگوریتم فلوید-وارشال را بهبود بخشید تا با دقت بیشتری با چنین جفت رأس‌هایی برخورد کند و آنها را، به عنوان مثال، با $-\text{INF}$ مشخص کند.
 
-This can be done in the following way:
-let us run the usual Floyd-Warshall algorithm for a given graph.
-Then a shortest path between vertices $i$ and $j$ does not exist, if and only if, there is a vertex $t$ that is reachable from $i$ and also from $j$, for which $d[t][t] < 0$.
+این کار را می‌توان به روش زیر انجام داد:
+الگوریتم فلوید-وارشال معمول را برای گراف داده شده اجرا می‌کنیم.
+آنگاه کوتاه‌ترین مسیر بین رأس‌های $i$ و $j$ وجود ندارد، اگر و تنها اگر، رأسی مانند $t$ وجود داشته باشد که هم از $i$ قابل دسترس باشد و هم $i$ از آن قابل دسترس باشد، و برای آن $d[t][t] < 0$ باشد.
 
-In addition, when using the Floyd-Warshall algorithm for graphs with negative cycles, we should keep in mind that situations may arise in which distances can get exponentially fast into the negative.
-Therefore integer overflow must be handled by limiting the minimal distance by some value (e.g. $-\text{INF}$).
+علاوه بر این، هنگام استفاده از الگوریتم فلوید-وارشال برای گراف‌های با دور منفی، باید به خاطر داشت که ممکن است شرایطی پیش بیاید که در آن فاصله‌ها به سرعت به صورت نمایی به سمت مقادیر منفی میل کنند.
+بنابراین، باید با محدود کردن حداقل فاصله به یک مقدار مشخص (مانند $-\text{INF}$)، از سرریز عدد صحیح (integer overflow) جلوگیری کرد.
 
-To learn more about finding negative cycles in a graph, see the separate article [Finding a negative cycle in the graph](finding-negative-cycle-in-graph.md).
+برای کسب اطلاعات بیشتر در مورد یافتن دورهای منفی در یک گراف، به مقاله جداگانه [پیدا کردن یک دور منفی در گراف](finding-negative-cycle-in-graph.md) مراجعه کنید.
 
-## Practice Problems
+## مسائل تمرینی
  - [UVA: Page Hopping](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=762)
  - [SPOJ: Possible Friends](http://www.spoj.com/problems/SOCIALNE/)
  - [CODEFORCES: Greg and Graph](http://codeforces.com/problemset/problem/295/B)
