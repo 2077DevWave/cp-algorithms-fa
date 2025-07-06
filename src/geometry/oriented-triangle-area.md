@@ -1,25 +1,24 @@
 ---
 tags:
-  
-e_maxx_link: oriented_area
+  - AI Translated
+e_maxx_link: oriented-triangle-area
 ---
 
-# Oriented area of a triangle
+# مساحت جهت‌دار مثلث
 
-Given three points $p_1$, $p_2$ and $p_3$, calculate an oriented (signed) area of a triangle formed by them. The sign of the area is determined in the following way: imagine you are standing in the plane at point $p_1$ and are facing $p_2$. You go to $p_2$ and if $p_3$ is to your right (then we say the three vectors turn "clockwise"), the sign of the area is negative, otherwise it is positive. If the three points are collinear, the area is zero.
+با داشتن سه نقطه $p_1$، $p_2$ و $p_3$، مساحت جهت‌دار (علامت‌دار) مثلثی که توسط آن‌ها تشکیل می‌شود را محاسبه کنید. علامت مساحت به این صورت تعیین می‌شود: تصور کنید در صفحه در نقطه $p_1$ ایستاده‌اید و رو به $p_2$ هستید. به سمت $p_2$ حرکت می‌کنید و اگر $p_3$ در سمت راست شما باشد (در این صورت می‌گوییم این سه بردار «ساعتگرد» می‌چرخند)، علامت مساحت منفی است، در غیر این صورت مثبت است. اگر سه نقطه هم‌خط باشند، مساحت صفر است.
 
-Using this signed area, we can both get the regular unsigned area (as the absolute value of the signed area) and determine if the points lie clockwise or counterclockwise in their specified order (which is useful, for example, in convex hull algorithms).
+با استفاده از این مساحت علامت‌دار، می‌توانیم هم مساحت معمولی بدون علامت (به عنوان قدر مطلق مساحت علامت‌دار) را به دست آوریم و هم تعیین کنیم که نقاط به ترتیب مشخص‌شده ساعتگرد یا پادساعتگرد قرار دارند (که برای مثال، در الگوریتم‌های پوش محدب (convex hull) مفید است).
 
-
-## Calculation
-We can use the fact that a determinant of a $2\times 2$ matrix is equal to the signed area of a parallelogram spanned by column (or row) vectors of the matrix.
-This is analog to the definition of the cross product in 2D (see [Basic Geometry](basic-geometry.md)).
-By dividing this area by two we get the area of a triangle that we are interested in.
-We will use $\vec{p_1p_2}$ and $\vec{p_2p_3}$ as the column vectors and calculate a $2\times 2$ determinant:
+## محاسبه
+می‌توانیم از این واقعیت استفاده کنیم که دترمینان یک ماتریس $2\times 2$ برابر با مساحت علامت‌دار متوازی‌الاضلاعی است که توسط بردارهای ستونی (یا سطری) ماتریس ساخته می‌شود.
+این مشابه تعریف ضرب خارجی در فضای دوبعدی است (ببینید [هندسه‌ی پایه](basic-geometry.md)).
+با تقسیم این مساحت بر دو، مساحت مثلث مورد نظر خود را به دست می‌آوریم.
+ما از بردارهای $\vec{p_1p_2}$ و $\vec{p_2p_3}$ به عنوان بردارهای ستونی استفاده کرده و دترمینان $2\times 2$ را محاسبه می‌کنیم:
 
 $$2S=\left|\begin{matrix}x_2-x_1 & x_3-x_2\\y_2-y_1 & y_3-y_2\end{matrix}\right|=(x_2-x_1)(y_3-y_2)-(x_3-x_2)(y_2-y_1)$$
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
 int signed_area_parallelogram(point2d p1, point2d p2, point2d p3) {
@@ -39,5 +38,5 @@ bool counter_clockwise(point2d p1, point2d p2, point2d p3) {
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 * [Codechef - Chef and Polygons](https://www.codechef.com/problems/CHEFPOLY)

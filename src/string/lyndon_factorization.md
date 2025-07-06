@@ -1,56 +1,51 @@
 ---
 tags:
-  
-e_maxx_link: duval_algorithm
+  - AI Translated
+e_maxx_link: lyndon_factorization
 ---
 
-# Lyndon factorization
+# تجزیه لیندون
 
-## Lyndon factorization
+## تجزیه لیندون
 
-First let us define the notion of the Lyndon factorization.
+ابتدا مفهوم تجزیه لیندون را تعریف می‌کنیم.
 
-A string is called **simple** (or a Lyndon word), if it is strictly **smaller than** any of its own nontrivial **suffixes**.
-Examples of simple strings are: $a$, $b$, $ab$, $aab$, $abb$, $ababb$, $abcd$.
-It can be shown that a string is simple, if and only if it is strictly **smaller than** all its nontrivial **cyclic shifts**.
+یک رشته **ساده** (یا کلمه لیندون) نامیده می‌شود، اگر اکیداً **کوچکتر از** تمام **پسوندهای سره** خود باشد.
+مثال‌هایی از رشته‌های ساده عبارتند از: $a$, $b$, $ab$, $aab$, $abb$, $ababb$, $abcd$.
+می‌توان نشان داد که یک رشته ساده است، اگر و تنها اگر اکیداً **کوچکتر از** تمام **شیفت‌های دورانی** غیربدیهی خود باشد.
 
-Next, let there be a given string $s$.
-The **Lyndon factorization** of the string $s$ is a factorization $s = w_1 w_2 \dots w_k$, where all strings $w_i$ are simple, and they are in non-increasing order $w_1 \ge w_2 \ge \dots \ge w_k$.
+حال، رشته $s$ را در نظر بگیرید.
+**تجزیه لیندون** برای رشته $s$، یک تجزیه به صورت $s = w_1 w_2 \dots w_k$ است، که در آن تمام رشته‌های $w_i$ ساده هستند و در ترتیب غیرصعودی $w_1 \ge w_2 \ge \dots \ge w_k$ قرار دارند.
 
-It can be shown, that for any string such a factorization exists and that it is unique.
+می‌توان نشان داد که برای هر رشته‌ای چنین تجزیه‌ای وجود دارد و یکتاست.
 
-## Duval algorithm
+## الگوریتم دووال
 
-The Duval algorithm constructs the Lyndon factorization in $O(n)$ time using $O(1)$ additional memory.
+الگوریتم دووال تجزیه لیندون را در زمان $O(n)$ و با استفاده از حافظه اضافی $O(1)$ می‌سازد.
 
-First let us introduce another notion:
-a string $t$ is called **pre-simple**, if it has the form $t = w w \dots w \overline{w}$, where $w$ is a simple string and $\overline{w}$ is a prefix of $w$ (possibly empty).
-A simple string is also pre-simple.
+ابتدا مفهوم دیگری را معرفی می‌کنیم:
+یک رشته $t$ **پیش-ساده** نامیده می‌شود، اگر به شکل $t = w w \dots w \overline{w}$ باشد، که در آن $w$ یک رشته ساده و $\overline{w}$ یک پیشوند از $w$ است (که می‌تواند تهی باشد).
+یک رشته ساده نیز پیش-ساده محسوب می‌شود.
 
-The Duval algorithm is greedy.
-At any point during its execution, the string $s$ will actually be divided into three strings $s = s_1 s_2 s_3$, where the Lyndon factorization for $s_1$ is already found and finalized, the string $s_2$ is pre-simple (and we know the length of the simple string in it), and $s_3$ is completely untouched.
-In each iteration the Duval algorithm takes the first character of the string $s_3$ and tries to append it to the string $s_2$.
-It $s_2$ is no longer pre-simple, then the Lyndon factorization for some part of $s_2$ becomes known, and this part goes to $s_1$.
+الگوریتم دووال یک الگوریتم حریصانه است.
+در هر لحظه از اجرای الگوریتم، رشته $s$ عملاً به سه بخش $s = s_1 s_2 s_3$ تقسیم می‌شود. در این تقسیم‌بندی، تجزیه لیندون برای $s_1$ قبلاً پیدا و نهایی شده است، رشته $s_2$ یک رشته پیش-ساده است (و ما طول رشته ساده‌ی درون آن را می‌دانیم)، و $s_3$ بخش کاملاً دست‌نخورده رشته است.
+در هر تکرار، الگوریتم دووال اولین کاراکتر رشته $s_3$ را برداشته و سعی می‌کند آن را به انتهای رشته $s_2$ اضافه کند.
+اگر با این کار $s_2$ دیگر پیش-ساده نباشد، آنگاه تجزیه لیندون برای بخشی از $s_2$ مشخص می‌شود و این بخش به $s_1$ منتقل می‌گردد.
 
-Let's describe the algorithm in more detail.
-The pointer $i$ will always point to the beginning of the string $s_2$.
-The outer loop will be executed as long as $i < n$.
-Inside the loop we use two additional pointers, $j$ which points to the beginning of $s_3$, and $k$ which points to the current character that we are currently comparing to.
-We want to add the character $s[j]$ to the string $s_2$, which requires a comparison with the character $s[k]$.
-There can be three different cases:
+بیایید الگوریتم را با جزئیات بیشتری شرح دهیم.
+اشاره‌گر $i$ همیشه به ابتدای رشته $s_2$ اشاره می‌کند.
+حلقه بیرونی تا زمانی که $i < n$ باشد اجرا می‌شود.
+درون این حلقه از دو اشاره‌گر کمکی دیگر استفاده می‌کنیم: $j$ که به ابتدای $s_3$ اشاره می‌کند، و $k$ که به کاراکتری اشاره می‌کند که در حال مقایسه با آن هستیم.
+می‌خواهیم کاراکتر $s[j]$ را به رشته $s_2$ اضافه کنیم که این کار نیازمند مقایسه آن با کاراکتر $s[k]$ است.
+سه حالت مختلف ممکن است رخ دهد:
 
-- $s[j] = s[k]$: if this is the case, then adding the symbol $s[j]$ to $s_2$ doesn't violate its pre-simplicity.
-  So we simply increment the pointers $j$ and $k$.
-- $s[j] > s[k]$: here, the string $s_2 + s[j]$ becomes simple.
-  We can increment $j$ and reset $k$ back to the beginning of $s_2$, so that the next character can be compared with the beginning of the simple word.
-- $s[j] < s[k]$: the string $s_2 + s[j]$ is no longer pre-simple.
-  Therefore we will split the pre-simple string $s_2$ into its simple strings and the remainder, possibly empty.
-  The simple string will have the length $j - k$.
-  In the next iteration we start again with the remaining $s_2$.
+- $s[j] = s[k]$: در این حالت، افزودن کاراکتر $s[j]$ به $s_2$ خاصیت پیش-سادگی آن را نقض نمی‌کند. بنابراین، به سادگی اشاره‌گرهای $j$ و $k$ را یک واحد افزایش می‌دهیم.
+- $s[j] > s[k]$: در این حالت، رشته $s_2 + s[j]$ ساده می‌شود. می‌توانیم $j$ را افزایش دهیم و $k$ را به ابتدای $s_2$ بازنشانی کنیم تا کاراکتر بعدی با ابتدای کلمه ساده جدید مقایسه شود.
+- $s[j] < s[k]$: در این حالت، رشته $s_2 + s[j]$ دیگر پیش-ساده نیست. بنابراین، بخش پیش-ساده $s_2$ را به تکرارهایی از یک کلمه ساده تجزیه می‌کنیم. طول این کلمه ساده $j - k$ است. این کلمات ساده به تجزیه نهایی اضافه می‌شوند و حلقه اصلی کار خود را با بخش باقی‌مانده از رشته $s$ ادامه می‌دهد.
 
-### Implementation
+### پیاده‌سازی
 
-Here we present the implementation of the Duval algorithm, which will return the desired Lyndon factorization of a given string $s$.
+در اینجا پیاده‌سازی الگوریتم دووال را ارائه می‌دهیم که تجزیه لیندون مورد نظر را برای رشته ورودی $s$ برمی‌گرداند.
 
 ```{.cpp file=duval_algorithm}
 vector<string> duval(string const& s) {
@@ -75,30 +70,30 @@ vector<string> duval(string const& s) {
 }
 ```
 
-### Complexity
+### پیچیدگی
 
-Let us estimate the running time of this algorithm.
+بیایید زمان اجرای این الگوریتم را تخمین بزنیم.
 
-The **outer while loop** does not exceed $n$ iterations, since at the end of each iteration $i$ increases.
-Also the second inner while loop runs in $O(n)$, since is only outputs the final factorization.
+**حلقه while بیرونی** بیش از $n$ بار تکرار نمی‌شود، زیرا در پایان هر تکرار، مقدار $i$ افزایش می‌یابد.
+همچنین، حلقه while درونی دوم در مجموع در زمان $O(n)$ اجرا می‌شود، زیرا تنها تجزیه نهایی را به خروجی اضافه می‌کند.
 
-So we are only interested in the **first inner while loop**.
-How many iterations does it perform in the worst case?
-It's easy to see that the simple words that we identify in each iteration of the outer loop are longer than the remainder that we additionally compared.
-Therefore also the sum of the remainders will be smaller than $n$, which means that we only perform at most $O(n)$ iterations of the first inner while loop.
-In fact the total number of character comparisons will not exceed $4n - 3$.
+بنابراین، تنها **حلقه while درونی اول** برای ما مهم است.
+این حلقه در بدترین حالت چند بار تکرار می‌شود؟
+به راحتی می‌توان دید که کلمات ساده‌ای که در هر تکرار حلقه بیرونی شناسایی می‌کنیم، از بخش باقی‌مانده‌ای که به صورت اضافی مقایسه شده، طولانی‌تر هستند.
+بنابراین، مجموع طول این بخش‌های باقی‌مانده نیز کمتر از $n$ خواهد بود، که به این معنی است که ما در مجموع حداکثر $O(n)$ تکرار از حلقه while درونی اول انجام می‌دهیم.
+در واقع، تعداد کل مقایسه‌های کاراکتری از $4n - 3$ تجاوز نخواهد کرد.
 
-## Finding the smallest cyclic shift
+## یافتن کوچکترین شیفت دورانی
 
-Let there be a string $s$.
-We construct the Lyndon factorization for the string $s + s$ (in $O(n)$ time).
-We will look for a simple string in the factorization, which starts at a position less than $n$ (i.e. it starts in the first instance of $s$), and ends in a position greater than or equal to $n$ (i.e. in the second instance) of $s$).
-It is stated, that the position of the start of this simple string will be the beginning of the desired smallest cyclic shift.
-This can be easily verified using the definition of the Lyndon decomposition.
+رشته $s$ را در نظر بگیرید.
+تجزیه لیندون را برای رشته $s + s$ (در زمان $O(n)$) می‌سازیم.
+ما به دنبال یک رشته ساده در این تجزیه خواهیم بود که از یک موقعیت کمتر از $n$ شروع شود (یعنی در نمونه اول $s$ آغاز شود) و در موقعیتی بزرگتر یا مساوی $n$ پایان یابد (یعنی در نمونه دوم $s$ تمام شود).
+ثابت شده است که موقعیت شروع این رشته ساده، ابتدای کوچکترین شیفت دورانی مورد نظر خواهد بود.
+این موضوع را می‌توان به راحتی با استفاده از تعریف تجزیه لیندون تأیید کرد.
 
-The beginning of the simple block can be found easily - just remember the pointer $i$ at the beginning of each iteration of the outer loop, which indicated the beginning of the current pre-simple string.
+ابتدای بلوک ساده را می‌توان به راحتی پیدا کرد؛ کافی است در ابتدای هر تکرار حلقه بیرونی، مقدار اشاره‌گر $i$ را که ابتدای رشته پیش-ساده فعلی را نشان می‌دهد، به خاطر بسپاریم.
 
-So we get the following implementation:
+بنابراین به پیاده‌سازی زیر می‌رسیم:
 
 ```{.cpp file=smallest_cyclic_string}
 string min_cyclic_string(string s) {
@@ -122,6 +117,6 @@ string min_cyclic_string(string s) {
 }
 ```
 
-## Problems
+## مسائل
 
 - [UVA #719 - Glass Beads](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=660)

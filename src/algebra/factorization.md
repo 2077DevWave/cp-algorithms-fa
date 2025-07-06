@@ -1,27 +1,28 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: factorization
 ---
 
-# Integer factorization
+# تجزیهٔ اعداد صحیح
 
-In this article we list several algorithms for the factorization of integers, each of which can be either fast or varying levels of slow depending on their input.
+در این مقاله چندین الگوریتم برای تجزیهٔ اعداد صحیح را لیست می‌کنیم که هر کدام بسته به ورودی‌شان می‌توانند سریع یا با درجات متفاوتی از کندی عمل کنند.
 
-Notice, if the number that you want to factorize is actually a prime number, most of the algorithms will run very slowly. This is especially true for Fermat's, Pollard's p-1 and Pollard's rho factorization algorithms.
-Therefore, it makes the most sense to perform a probabilistic (or a fast deterministic) [primality test](primality_tests.md) before trying to factorize the number.
+توجه کنید، اگر عددی که می‌خواهید تجزیه کنید در واقع یک عدد اول باشد، اکثر الگوریتم‌ها بسیار کند اجرا می‌شوند. این موضوع به ویژه برای الگوریتم‌های تجزیهٔ فرما، p-1 پولارد و rho پولارد صادق است.
+بنابراین، منطقی‌ترین کار این است که قبل از تلاش برای تجزیهٔ عدد، یک [آزمون اول بودن](primality_tests.md) احتمالی (یا یک آزمون قطعی سریع) روی آن انجام دهید.
 
-## Trial division
+## تقسیم آزمایشی
 
-This is the most basic algorithm to find a prime factorization.
+این ابتدایی‌ترین الگوریتم برای یافتن تجزیه به عوامل اول است.
 
-We divide by each possible divisor $d$.
-It can be observed that it is impossible for all prime factors of a composite number $n$ to be bigger than $\sqrt{n}$.
-Therefore, we only need to test the divisors $2 \le d \le \sqrt{n}$, which gives us the prime factorization in $O(\sqrt{n})$.
-(This is [pseudo-polynomial time](https://en.wikipedia.org/wiki/Pseudo-polynomial_time), i.e. polynomial in the value of the input but exponential in the number of bits of the input.)
+ما عدد را بر هر مقسوم‌علیه ممکن $d$ تقسیم می‌کنیم.
+می‌توان مشاهده کرد که غیرممکن است تمام عوامل اول یک عدد مرکب $n$ بزرگتر از $\sqrt{n}$ باشند.
+بنابراین، تنها کافی است مقسوم‌علیه‌های $2 \le d \le \sqrt{n}$ را آزمایش کنیم، که این کار تجزیه به عوامل اول را در زمان $O(\sqrt{n})$ به ما می‌دهد.
+(این [زمان شبه‌چندجمله‌ای](https://en.wikipedia.org/wiki/Pseudo-polynomial_time) است، یعنی بر حسب مقدار ورودی چندجمله‌ای است اما بر حسب تعداد بیت‌های ورودی نمایی است.)
 
-The smallest divisor must be a prime number.
-We remove the factored number, and continue the process.
-If we cannot find any divisor in the range $[2; \sqrt{n}]$, then the number itself has to be prime.
+کوچکترین مقسوم‌علیه باید یک عدد اول باشد.
+ما عامل پیدا شده را از عدد حذف کرده و فرآیند را ادامه می‌دهیم.
+اگر نتوانیم هیچ مقسوم‌علیهی در بازهٔ $[2; \sqrt{n}]$ پیدا کنیم، آنگاه خود عدد باید اول باشد.
 
 ```{.cpp file=factorization_trial_division1}
 vector<long long> trial_division1(long long n) {
@@ -38,12 +39,12 @@ vector<long long> trial_division1(long long n) {
 }
 ```
 
-### Wheel factorization
+### تجزیه چرخ
 
-This is an optimization of the trial division.
-Once we know that the number is not divisible by 2, we don't need to check other even numbers.
-This leaves us with only $50\%$ of the numbers to check.
-After factoring out 2, and getting an odd number, we can simply start with 3 and only count other odd numbers.
+این یک بهینه‌سازی برای روش تقسیم آزمایشی است.
+وقتی می‌دانیم که عدد بر 2 بخش‌پذیر نیست، دیگر نیازی به بررسی سایر اعداد زوج نداریم.
+این کار باعث می‌شود تنها $50\%$ از اعداد برای بررسی باقی بمانند.
+پس از حذف عامل 2 و رسیدن به یک عدد فرد، می‌توانیم به سادگی با 3 شروع کرده و فقط اعداد فرد دیگر را بررسی کنیم.
 
 ```{.cpp file=factorization_trial_division2}
 vector<long long> trial_division2(long long n) {
@@ -64,16 +65,16 @@ vector<long long> trial_division2(long long n) {
 }
 ```
 
-This method can be extended further.
-If the number is not divisible by 3, we can also ignore all other multiples of 3 in the future computations.
-So we only need to check the numbers $5, 7, 11, 13, 17, 19, 23, \dots$.
-We can observe a pattern of these remaining numbers.
-We need to check all numbers with $d \bmod 6 = 1$ and $d \bmod 6 = 5$.
-So this leaves us with only $33.3\%$ percent of the numbers to check.
-We can implement this by factoring out the primes 2 and 3 first, after which we start with 5 and only count remainders $1$ and $5$ modulo $6$.
+این روش را می‌توان بیشتر گسترش داد.
+اگر عدد بر 3 بخش‌پذیر نباشد، می‌توانیم تمام مضرب‌های دیگر 3 را نیز در محاسبات آینده نادیده بگیریم.
+بنابراین تنها کافی است اعداد $5, 7, 11, 13, 17, 19, 23, \dots$ را بررسی کنیم.
+می‌توانیم یک الگو در این اعداد باقی‌مانده مشاهده کنیم.
+باید تمام اعدادی را بررسی کنیم که $d \bmod 6 = 1$ و $d \bmod 6 = 5$ باشند.
+بنابراین این کار باعث می‌شود تنها $33.3\%$ درصد از اعداد برای بررسی باقی بمانند.
+می‌توانیم این را با حذف عوامل اول 2 و 3 در ابتدا پیاده‌سازی کنیم و پس از آن با 5 شروع کرده و فقط باقیمانده‌های $1$ و $5$ به پیمانهٔ $6$ را بشماریم.
 
-Here is an implementation for the prime number 2, 3 and 5.
-It is convenient to store the skipping strides in an array.
+در اینجا یک پیاده‌سازی برای اعداد اول 2، 3 و 5 آمده است.
+راحت‌تر است که گام‌های پرش را در یک آرایه ذخیره کنیم.
 
 ```{.cpp file=factorization_trial_division3}
 vector<long long> trial_division3(long long n) {
@@ -100,12 +101,12 @@ vector<long long> trial_division3(long long n) {
 }
 ```
 
-If we continue exending this method to include even more primes, better percentages can be reached, but the skip lists will become larger. 
+اگر به گسترش این روش برای در بر گرفتن اعداد اول بیشتر ادامه دهیم، می‌توان به درصدهای بهتری دست یافت، اما لیست‌های پرش بزرگتر خواهند شد.
 
-### Precomputed primes
+### اعداد اول از پیش محاسبه‌شده
 
-Extending the wheel factorization method indefinitely, we will only be left with prime numbers to check. 
-A good way of checking this is to precompute all prime numbers with the [Sieve of Eratosthenes](sieve-of-eratosthenes.md) until $\sqrt{n}$, and test them individually.
+با گسترش نامحدود روش تجزیه چرخ، در نهایت تنها اعداد اول برای بررسی باقی می‌مانند.
+یک راه خوب برای این کار، پیش‌محاسبهٔ تمام اعداد اول تا $\sqrt{n}$ با استفاده از [غربال اراتوستن](sieve-of-eratosthenes.md) و سپس آزمودن تک‌تک آن‌ها است.
 
 ```{.cpp file=factorization_trial_division4}
 vector<long long> primes;
@@ -126,14 +127,14 @@ vector<long long> trial_division4(long long n) {
 }
 ```
 
-## Fermat's factorization method
+## روش تجزیه فرما
 
-We can write an odd composite number $n = p \cdot q$ as the difference of two squares $n = a^2 - b^2$:
+می‌توانیم یک عدد مرکب فرد $n = p \cdot q$ را به صورت تفاضل دو مربع $n = a^2 - b^2$ بنویسیم:
 
 $$n = \left(\frac{p + q}{2}\right)^2 - \left(\frac{p - q}{2}\right)^2$$
 
-Fermat's factorization method tries to exploit this fact by guessing the first square $a^2$, and checking if the remaining part, $b^2 = a^2 - n$, is also a square number.
-If it is, then we have found the factors $a - b$ and $a + b$ of $n$.
+روش تجزیه فرما سعی می‌کند از این واقعیت با حدس زدن مربع اول، $a^2$، و بررسی اینکه آیا بخش باقی‌مانده، $b^2 = a^2 - n$، نیز یک عدد مربع کامل است، بهره‌برداری کند.
+اگر چنین باشد، آنگاه عوامل $a - b$ و $a + b$ از $n$ را پیدا کرده‌ایم.
 
 ```cpp
 int fermat(int n) {
@@ -149,50 +150,49 @@ int fermat(int n) {
 }
 ```
 
-This factorization method can be very fast if the difference between the two factors $p$ and $q$ is small.
-The algorithm runs in $O(|p - q|)$ time.
-In practice though, this method is rarely used. Once factors become further apart, it is extremely slow. 
+این روش تجزیه می‌تواند بسیار سریع باشد اگر اختلاف بین دو عامل $p$ و $q$ کم باشد.
+الگوریتم در زمان $O(|p - q|)$ اجرا می‌شود.
+با این حال در عمل، این روش به ندرت استفاده می‌شود. هنگامی که عوامل از هم دورتر می‌شوند، این روش بسیار کند عمل می‌کند.
 
-However, there are still a large number of optimization options regarding this approach.
-By looking at the squares $a^2$ modulo a fixed small number, it can be observed that certain values $a$ don't have to be viewed, since they cannot produce a square number $a^2 - n$.
+با این وجود، هنوز تعداد زیادی گزینه بهینه‌سازی برای این رویکرد وجود دارد.
+با نگاه کردن به مربع‌های $a^2$ به پیمانه یک عدد کوچک ثابت، می‌توان مشاهده کرد که نیازی به بررسی برخی مقادیر $a$ نیست، زیرا آنها نمی‌توانند یک عدد مربع کامل $a^2 - n$ تولید کنند.
 
 
-## Pollard's $p - 1$ method { data-toc-label="Pollard's <script type='math/tex'>p - 1</script> method" }
+## روش $p - 1$ پولارد { data-toc-label="روش <script type='math/tex'>p - 1</script> پولارد" }
 
-It is very likely that a number $n$ has at least one prime factor $p$ such that $p - 1$ is $\mathrm{B}$**-powersmooth** for small $\mathrm{B}$. An integer $m$ is said to be $\mathrm{B}$-powersmooth if every prime power dividing $m$ is at most $\mathrm{B}$. Formally, let $\mathrm{B} \geqslant 1$ and let $m$ be any positive integer. Suppose the prime factorization of $m$ is $m = \prod {q_i}^{e_i}$, where each $q_i$ is a prime and $e_i \geqslant 1$. Then $m$ is $\mathrm{B}$-powersmooth if, for all $i$, ${q_i}^{e_i} \leqslant \mathrm{B}$. 
-E.g. the prime factorization of $4817191$ is $1303 \cdot 3697$.
-And the values, $1303 - 1$ and $3697 - 1$, are $31$-powersmooth and $16$-powersmooth respectively, because $1303 - 1 = 2 \cdot 3 \cdot 7 \cdot 31$ and $3697 - 1 = 2^4 \cdot 3 \cdot 7 \cdot 11$.
-In 1974 John Pollard invented a method to extract factors $p$, s.t. $p-1$ is $\mathrm{B}$-powersmooth, from a composite number.
+بسیار محتمل است که یک عدد $n$ حداقل یک عامل اول $p$ داشته باشد به طوری که $p - 1$ برای یک $\mathrm{B}$ کوچک، $\mathrm{B}$-**powersmooth** باشد. یک عدد صحیح $m$ را $\mathrm{B}$-powersmooth می‌گویند اگر هر توان اولی که $m$ را عاد می‌کند، حداکثر برابر با $\mathrm{B}$ باشد. به طور رسمی، فرض کنید $\mathrm{B} \geqslant 1$ و $m$ هر عدد صحیح مثبتی باشد. فرض کنید تجزیه به عوامل اول $m$ به صورت $m = \prod {q_i}^{e_i}$ باشد که در آن هر $q_i$ یک عدد اول و $e_i \geqslant 1$ است. آنگاه $m$ را $\mathrm{B}$-powersmooth می‌گوییم اگر برای تمام $i$ ها داشته باشیم ${q_i}^{e_i} \leqslant \mathrm{B}$.
+برای مثال، تجزیه به عوامل اول عدد $4817191$ برابر با $1303 \cdot 3697$ است. و مقادیر $1303 - 1$ و $3697 - 1$ به ترتیب $31$-powersmooth و $16$-powersmooth هستند، زیرا $1303 - 1 = 2 \cdot 3 \cdot 7 \cdot 31$ و $3697 - 1 = 2^4 \cdot 3 \cdot 7 \cdot 11$.
+در سال 1974 جان پولارد روشی را برای استخراج عوامل $p$ از یک عدد مرکب ابداع کرد، به طوری که $p-1$ یک عدد $\mathrm{B}$-powersmooth باشد.
 
-The idea comes from [Fermat's little theorem](phi-function.md#application).
-Let a factorization of $n$ be $n = p \cdot q$.
-It says that if $a$ is coprime to $p$, the following statement holds:
+ایدهٔ این روش از [قضیه کوچک فرما](phi-function.md#application) می‌آید.
+فرض کنید تجزیهٔ $n$ به صورت $n = p \cdot q$ باشد.
+قضیه می‌گوید اگر $a$ نسبت به $p$ اول باشد، گزارهٔ زیر برقرار است:
 
 $$a^{p - 1} \equiv 1 \pmod{p}$$
 
-This also means that
+این همچنین به این معناست که
 
 $${\left(a^{(p - 1)}\right)}^k \equiv a^{k \cdot (p - 1)} \equiv 1 \pmod{p}.$$
 
-So for any $M$ with $p - 1 ~|~ M$ we know that $a^M \equiv 1$.
-This means that $a^M - 1 = p \cdot r$, and because of that also $p ~|~ \gcd(a^M - 1, n)$.
+بنابراین برای هر $M$ که $p - 1 | M$، می‌دانیم که $a^M \equiv 1 \pmod{p}$ است.
+این یعنی $a^M - 1 = p \cdot r$ و به همین دلیل $p | \gcd(a^M - 1, n)$ نیز برقرار است.
 
-Therefore, if $p - 1$ for a factor $p$ of $n$ divides $M$, we can extract a factor using [Euclid's algorithm](euclid-algorithm.md).
+بنابراین، اگر برای عاملی مانند $p$ از $n$، داشته باشیم که $p-1$ عدد $M$ را عاد کند، می‌توانیم با استفاده از [الگوریتم اقلیدس](euclid-algorithm.md) یک عامل را استخراج کنیم.
 
-It is clear, that the smallest $M$ that is a multiple of every $\mathrm{B}$-powersmooth number is $\text{lcm}(1,~2~,3~,4~,~\dots,~B)$.
-Or alternatively:
+واضح است که کوچکترین $M$ که مضربی از هر عدد $\mathrm{B}$-powersmooth باشد، برابر است با $\text{lcm}(1,~2~,3~,4~,~\dots,~B)$.
+یا به طور جایگزین:
 
 $$M = \prod_{\text{prime } q \le B} q^{\lfloor \log_q B \rfloor}$$
 
-Notice, if $p-1$ divides $M$ for all prime factors $p$ of $n$, then $\gcd(a^M - 1, n)$ will just be $n$.
-In this case we don't receive a factor.
-Therefore, we will try to perform the $\gcd$ multiple times, while we compute $M$.
+توجه کنید، اگر $p-1$ برای تمام عوامل اول $p$ از $n$ عدد $M$ را عاد کند، آنگاه $\gcd(a^M - 1, n)$ برابر با خود $n$ خواهد بود.
+در این حالت ما عاملی را به دست نمی‌آوریم.
+بنابراین، سعی می‌کنیم در حین محاسبهٔ $M$، عمل $\gcd$ را چندین بار انجام دهیم.
 
-Some composite numbers don't have factors $p$ s.t. $p-1$ is $\mathrm{B}$-powersmooth for small $\mathrm{B}$.
-For example, for the composite number $100~000~000~000~000~493 = 763~013 \cdot 131~059~365~961$, values $p-1$ are $190~753$-powersmooth and $1~092~161~383$-powersmooth correspondingly.
-We will have to choose $B \geq 190~753$ to factorize the number.
+برخی از اعداد مرکب عاملی مانند $p$ ندارند که $p-1$ برای $\mathrm{B}$ کوچک، $\mathrm{B}$-powersmooth باشد.
+برای مثال، برای عدد مرکب $100~000~000~000~000~493 = 763~013 \cdot 131~059~365~961$، مقادیر $p-1$ به ترتیب $190~753$-powersmooth و $1~092~161~383$-powersmooth هستند.
+برای تجزیهٔ این عدد مجبور خواهیم بود $B \geq 190~753$ را انتخاب کنیم.
 
-In the following implementation we start with $\mathrm{B} = 10$ and increase $\mathrm{B}$ after each each iteration.
+در پیاده‌سازی زیر ما با $\mathrm{B} = 10$ شروع می‌کنیم و پس از هر تکرار $\mathrm{B}$ را افزایش می‌دهیم.
 
 ```{.cpp file=factorization_p_minus_1}
 long long pollards_p_minus_1(long long n) {
@@ -224,57 +224,56 @@ long long pollards_p_minus_1(long long n) {
 
 ```
 
-Observe that this is a probabilistic algorithm.
-A consequence of this is that there is a possibility of the algorithm being unable to find a factor at all. 
+توجه داشته باشید که این یک الگوریتم احتمالی است.
+نتیجهٔ این امر این است که این احتمال وجود دارد که الگوریتم اصلاً نتواند عاملی پیدا کند.
 
-The complexity is $O(B \log B \log^2 n)$ per iteration.
+پیچیدگی زمانی $O(B \log B \log^2 n)$ در هر تکرار است.
 
-## Pollard's rho algorithm
+## الگوریتم rho پولارد
 
-Pollard's Rho Algorithm is yet another factorization algorithm from John Pollard.
+الگوریتم Rho پولارد یکی دیگر از الگوریتم‌های تجزیه از جان پولارد است.
 
-Let the prime factorization of a number be $n = p q$.
-The algorithm looks at a pseudo-random sequence $\{x_i\} = \{x_0,~f(x_0),~f(f(x_0)),~\dots\}$ where $f$ is a polynomial function, usually $f(x) = (x^2 + c) \bmod n$ is chosen with $c = 1$.
+فرض کنید تجزیهٔ به عوامل اول یک عدد به صورت $n = p q$ باشد.
+این الگوریتم یک دنبالهٔ شبه‌تصادفی $\{x_i\} = \{x_0,~f(x_0),~f(f(x_0)),~\dots\}$ را بررسی می‌کند که در آن $f$ یک تابع چندجمله‌ای است، و معمولاً $f(x) = (x^2 + c) \bmod n$ با $c = 1$ انتخاب می‌شود.
 
-In this instance, we are not interested in the sequence $\{x_i\}$. 
-We are more interested in the sequence $\{x_i \bmod p\}$.
-Since $f$ is a polynomial function, and all the values are in the range $[0;~p)$, this sequence will eventually converge into a loop.
-The **birthday paradox** actually suggests that the expected number of elements is $O(\sqrt{p})$ until the repetition starts.
-If $p$ is smaller than $\sqrt{n}$, the repetition will likely start in $O(\sqrt[4]{n})$.
+در این مورد، ما به دنبالهٔ $\{x_i\}$ علاقه‌ای نداریم.
+ما بیشتر به دنبالهٔ $\{x_i \bmod p\}$ علاقه‌مندیم.
+از آنجایی که $f$ یک تابع چندجمله‌ای است و تمام مقادیر در بازهٔ $[0;~p)$ قرار دارند، این دنباله در نهایت به یک حلقه همگرا می‌شود.
+در واقع، **پارادوکس روز تولد** نشان می‌دهد که تعداد عناصر مورد انتظار تا شروع تکرار، $O(\sqrt{p})$ است.
+اگر $p$ کوچکتر از $\sqrt{n}$ باشد، تکرار به احتمال زیاد در $O(\sqrt[4]{n})$ شروع خواهد شد.
 
-Here is a visualization of such a sequence $\{x_i \bmod p\}$ with $n = 2206637$, $p = 317$, $x_0 = 2$ and $f(x) = x^2 + 1$.
-From the form of the sequence you can see very clearly why the algorithm is called Pollard's $\rho$ algorithm.
+در اینجا یک تصویرسازی از چنین دنباله‌ای $\{x_i \bmod p\}$ با $n = 2206637$ و $p = 317$ و $x_0 = 2$ و $f(x) = x^2 + 1$ آمده است.
+از شکل دنباله می‌توانید به وضوح ببینید که چرا این الگوریتم، الگوریتم $\rho$ پولارد نامیده می‌شود.
 
 <div style="text-align: center;">
   <img src="pollard_rho.png" alt="Pollard's rho visualization">
 </div>
 
-Yet, there is still an open question.
-How can we exploit the properties of the sequence $\{x_i \bmod p\}$ to our advantage without even knowing the number $p$ itself?
+با این حال، هنوز یک سؤال باز وجود دارد.
+چگونه می‌توانیم از ویژگی‌های دنبالهٔ $\{x_i \bmod p\}$ به نفع خودمان استفاده کنیم، بدون اینکه حتی خود عدد $p$ را بدانیم؟
 
-It's actually quite easy.
-There is a cycle in the sequence $\{x_i \bmod p\}_{i \le j}$ if and only if there are two indices $s, t \le j$ such that $x_s \equiv x_t \bmod p$.
-This equation can be rewritten as $x_s - x_t \equiv 0 \bmod p$ which is the same as $p ~|~ \gcd(x_s - x_t, n)$.
+در واقع بسیار آسان است.
+در دنبالهٔ $\{x_i \bmod p\}_{i \le j}$ یک حلقه وجود دارد اگر و تنها اگر دو اندیس $s, t \le j$ وجود داشته باشند به طوری که $x_s \equiv x_t \bmod p$ باشد.
+این معادله را می‌توان به صورت $x_s - x_t \equiv 0 \bmod p$ بازنویسی کرد، که به این معناست که $p$ یک مقسوم‌علیه $x_s-x_t$ است. از آنجایی که $p$ مقسوم‌علیه $n$ نیز هست، نتیجه می‌شود که $p | \gcd(x_s - x_t, n)$.
 
-Therefore, if we find two indices $s$ and $t$ with $g = \gcd(x_s - x_t, n) > 1$, we have found a cycle and also a factor $g$ of $n$.
-It is possible that $g = n$.
-In this case we haven't found a proper factor, so we must repeat the algorithm with a different parameter (different starting value $x_0$, different constant $c$ in the polynomial function $f$).
+بنابراین، اگر دو اندیس $s$ و $t$ با $g = \gcd(x_s - x_t, n) > 1$ پیدا کنیم، یک حلقه و همچنین یک عامل $g$ از $n$ را پیدا کرده‌ایم.
+این امکان وجود دارد که $g = n$ باشد.
+در این حالت ما یک عامل سره پیدا نکرده‌ایم، بنابراین باید الگوریتم را با یک پارامتر متفاوت (مقدار شروع متفاوت $x_0$، ثابت متفاوت $c$ در تابع چندجمله‌ای $f$) تکرار کنیم.
 
-To find the cycle, we can use any common cycle detection algorithm.
+برای پیدا کردن حلقه، می‌توانیم از هر الگوریتم رایج تشخیص حلقه استفاده کنیم.
 
-### Floyd's cycle-finding algorithm
+### الگوریتم تشخیص حلقه فلوید
 
-This algorithm finds a cycle by using two pointers moving over the sequence at differing speeds.
-During each iteration, the first pointer will advance one element over, while the second pointer advances to every other element. 
-Using this idea it is easy to observe that if there is a cycle, at some point the second pointer will come around to meet the first one during the loops. 
-If the cycle length is $\lambda$ and the $\mu$ is the first index at which the cycle starts, then the algorithm will run in $O(\lambda + \mu)$ time.
+این الگوریتم با استفاده از دو اشاره‌گر که با سرعت‌های متفاوت روی دنباله حرکت می‌کنند، یک حلقه را پیدا می‌کند.
+در طول هر تکرار، اشاره‌گر اول یک عنصر به جلو می‌رود، در حالی که اشاره‌گر دوم دو عنصر به جلو می‌رود.
+با استفاده از این ایده به راحتی می‌توان مشاهده کرد که اگر حلقه‌ای وجود داشته باشد، در نقطه‌ای اشاره‌گر دوم در طی حلقه‌ها به اشاره‌گر اول می‌رسد.
+اگر طول حلقه $\lambda$ و $\mu$ اولین اندیسی باشد که حلقه در آن شروع می‌شود، آنگاه الگوریتم در زمان $O(\lambda + \mu)$ اجرا می‌شود.
 
-This algorithm is also known as the [Tortoise and Hare algorithm](../others/tortoise_and_hare.md), based on the tale in which a tortoise (the slow pointer) and a hare (the faster pointer) have a race.
+این الگوریتم به [الگوریتم لاک‌پشت و خرگوش](../others/tortoise_and_hare.md) نیز معروف است، که بر اساس داستانی است که در آن یک لاک‌پشت (اشاره‌گر کند) و یک خرگوش (اشاره‌گر سریع‌تر) مسابقه می‌دهند.
 
-It is actually possible to determine the parameter $\lambda$ and $\mu$ using this algorithm (also in $O(\lambda + \mu)$ time and $O(1)$ space).
-When a cycle is detected, the algorithm will return 'True'. 
-If the sequence doesn't have a cycle, then the function will loop endlessly.
-However, using Pollard's Rho Algorithm, this can be prevented. 
+در واقع با استفاده از این الگوریتم می‌توان پارامترهای $\lambda$ و $\mu$ را نیز تعیین کرد (همچنین در زمان $O(\lambda + \mu)$ و فضای $O(1)$).
+هنگامی که یک حلقه شناسایی شود، الگوریتم 'True' را برمی‌گرداند.
+اگر دنباله حلقه نداشته باشد، تابع به طور بی‌پایان حلقه می‌زند. با این حال، با استفاده از الگوریتم Rho پولارد، می‌توان از این امر جلوگیری کرد.
 
 ```text
 function floyd(f, x0):
@@ -286,10 +285,10 @@ function floyd(f, x0):
     return true
 ```
 
-### Implementation
+### پیاده‌سازی
 
-First, here is an implementation using the **Floyd's cycle-finding algorithm**.
-The algorithm generally runs in $O(\sqrt[4]{n} \log(n))$ time.
+ابتدا، در اینجا یک پیاده‌سازی با استفاده از **الگوریتم تشخیص حلقه فلوید** آورده شده است.
+این الگوریتم به طور کلی در زمان $O(\sqrt[4]{n} \log(n))$ اجرا می‌شود.
 
 ```{.cpp file=pollard_rho}
 long long mult(long long a, long long b, long long mod) {
@@ -314,7 +313,7 @@ long long rho(long long n, long long x0=2, long long c=1) {
 }
 ```
 
-The following table shows the values of $x$ and $y$ during the algorithm for $n = 2206637$, $x_0 = 2$ and $c = 1$.
+جدول زیر مقادیر $x$ و $y$ را در طول اجرای الگوریتم برای $n = 2206637$ و $x_0 = 2$ و $c = 1$ نشان می‌دهد.
 
 $$
 \newcommand\T{\Rule{0pt}{1em}{.3em}}
@@ -333,8 +332,8 @@ i & x_i \bmod n & x_{2i} \bmod n & x_i \bmod 317 & x_{2i} \bmod 317 & \gcd(x_i -
 \hline
 \end{array}$$
 
-The implementation uses a function `mult`, that multiplies two integers $\le 10^{18}$ without overflow by using a GCC's type `__int128` for 128-bit integer.
-If GCC is not available, you can using a similar idea as [binary exponentiation](binary-exp.md).
+این پیاده‌سازی از یک تابع `mult` استفاده می‌کند که دو عدد صحیح $\le 10^{18}$ را بدون سرریز شدن ضرب می‌کند. این کار با استفاده از نوع داده `__int128` کامپایلر GCC برای اعداد صحیح ۱۲۸ بیتی انجام می‌شود.
+اگر GCC در دسترس نباشد، می‌توانید از ایده‌ای مشابه با [توان‌رسانی دودویی](binary-exp.md) استفاده کنید.
 
 ```{.cpp file=pollard_rho_mult2}
 long long mult(long long a, long long b, long long mod) {
@@ -349,18 +348,16 @@ long long mult(long long a, long long b, long long mod) {
 }
 ```
 
-Alternatively you can also implement the [Montgomery multiplication](montgomery_multiplication.md).
+به عنوان جایگزین، می‌توانید [ضرب مونتگومری](montgomery_multiplication.md) را نیز پیاده‌سازی کنید.
 
-As stated previously, if $n$ is composite and the algorithm returns $n$ as factor, you have to repeat the procedure with different parameters $x_0$ and $c$.
-E.g. the choice $x_0 = c = 1$ will not factor $25 = 5 \cdot 5$.
-The algorithm will return $25$.
-However, the choice $x_0 = 1$, $c = 2$ will factor it.
+همانطور که قبلاً گفته شد، اگر $n$ مرکب باشد و الگوریتم $n$ را به عنوان عامل برگرداند، باید رویه را با پارامترهای متفاوت $x_0$ و $c$ تکرار کنید.
+برای مثال، انتخاب $x_0 = c = 1$ عدد $25 = 5 \cdot 5$ را تجزیه نخواهد کرد. الگوریتم عدد $25$ را برمی‌گرداند. با این حال، انتخاب $x_0 = 1$ و $c = 2$ آن را تجزیه خواهد کرد.
 
-### Brent's algorithm
+### الگوریتم برنت
 
-Brent implements a similar method to Floyd, using two pointers.
-The difference being that instead of advancing the pointers by one and two places respectively, they are advanced by powers of two. 
-As soon as $2^i$ is greater than $\lambda$ and $\mu$, we will find the cycle.
+برنت روشی مشابه فلوید با استفاده از دو اشاره‌گر پیاده‌سازی می‌کند.
+تفاوت در این است که به جای پیش بردن اشاره‌گرها به ترتیب به اندازه یک و دو مکان، آنها به اندازه توان‌های دو به جلو برده می‌شوند.
+به محض اینکه $2^i$ از $\lambda$ و $\mu$ بزرگتر شود، حلقه را پیدا خواهیم کرد.
 
 ```text
 function floyd(f, x0):
@@ -377,12 +374,12 @@ function floyd(f, x0):
     return true
 ```
 
-Brent's algorithm also runs in linear time, but is generally faster than Floyd's, since it uses less evaluations of the function $f$.
+الگوریتم برنت نیز در زمان خطی اجرا می‌شود، اما به طور کلی سریع‌تر از فلوید است، زیرا از تعداد کمتری ارزیابی تابع $f$ استفاده می‌کند.
 
-### Implementation
+### پیاده‌سازی
 
-The straightforward implementation of Brent's algorithm can be sped up by omitting the terms $x_l - x_k$ if $k < \frac{3 \cdot l}{2}$.
-In addition, instead of performing the $\gcd$ computation at every step, we multiply the terms and only actually check $\gcd$ every few steps and backtrack if overshot.
+پیاده‌سازی مستقیم الگوریتم برنت را می‌توان با حذف جملات $x_l - x_k$ در صورتی که $k < \frac{3 \cdot l}{2}$ باشد، سرعت بخشید.
+علاوه بر این، به جای انجام محاسبهٔ $\gcd$ در هر مرحله، ما جملات را در هم ضرب می‌کنیم و تنها هر چند مرحله یکبار $\gcd$ را بررسی می‌کنیم و در صورت عبور از عامل، به عقب برمی‌گردیم.
 
 ```{.cpp file=pollard_rho_brent}
 long long brent(long long n, long long x0=2, long long c=1) {
@@ -419,9 +416,9 @@ long long brent(long long n, long long x0=2, long long c=1) {
 }
 ```
 
-The combination of a trial division for small prime numbers together with Brent's version of Pollard's rho algorithm makes a very powerful factorization algorithm.
+ترکیب تقسیم آزمایشی برای اعداد اول کوچک به همراه نسخهٔ برنت از الگوریتم rho پولارد، یک الگوریتم تجزیهٔ بسیار قدرتمند را می‌سازد.
 
-## Practice Problems
+## مسائل تمرینی
 
 - [SPOJ - FACT0](https://www.spoj.com/problems/FACT0/)
 - [SPOJ - FACT1](https://www.spoj.com/problems/FACT1/)

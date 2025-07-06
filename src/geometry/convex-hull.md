@@ -1,50 +1,31 @@
 ---
 tags:
-  
-e_maxx_link: convex_hull_graham
+  - AI Translated
+e_maxx_link: convex-hull
 ---
 
-# Convex Hull construction
+# ساخت پوش محدب
 
-In this article we will discuss the problem of constructing a convex hull from a set of points.
+در این مقاله به مسئله‌ی ساختن پوش محدب از مجموعه‌ای از نقاط می‌پردازیم.
 
-Consider $N$ points given on a plane, and the objective is to generate a convex hull, i.e. the smallest
-convex polygon that contains all the given points.
+با داشتن $N$ نقطه در یک صفحه، هدف ساختن یک پوش محدب است، یعنی کوچکترین چندضلعی محدبی که شامل تمام نقاط داده شده باشد.
 
-We will see the **Graham's scan** algorithm published in 1972 by Graham, and
-also the **Monotone chain** algorithm published in 1979 by Andrew. Both
-are $\mathcal{O}(N \log N)$, and are asymptotically optimal (as it is proven that there
-is no algorithm asymptotically better), with the exception of a few problems where
-parallel or online processing is involved.
+ما الگوریتم **اسکن گراهام (Graham's scan)** که در سال ۱۹۷۲ توسط گراهام منتشر شد و همچنین الگوریتم **زنجیره‌ی یکنوا (Monotone chain)** که در سال ۱۹۷۹ توسط اندرو منتشر شد را بررسی خواهیم کرد. هر دو الگوریتم از مرتبه‌ی زمانی $\mathcal{O}(N \log N)$ هستند و از نظر مجانبی بهینه محسوب می‌شوند (چرا که ثابت شده است الگوریتمی با مرتبه‌ی زمانی بهتر وجود ندارد)، به استثنای چند مسئله‌ی خاص که شامل پردازش موازی یا برخط (آنلاین) می‌شوند.
 
-## Graham's scan Algorithm
-The algorithm first finds the bottom-most point $P_0$. If there are multiple points
-with the same Y coordinate, the one with the smaller X coordinate is considered. This
-step takes $\mathcal{O}(N)$ time.
+## الگوریتم اسکن گراهام (Graham's scan)
+این الگوریتم ابتدا پایین‌ترین نقطه، $P_0$، را پیدا می‌کند. اگر چندین نقطه با مختصات Y یکسان وجود داشته باشند، نقطه‌ای با مختصات X کوچکتر در نظر گرفته می‌شود. این مرحله $\mathcal{O}(N)$ زمان می‌برد.
 
-Next, all the other points are sorted by polar angle in clockwise order.
-If the polar angle between two or more points is the same, the tie should be broken by distance from $P_0$, in increasing order.
+سپس، تمام نقاط دیگر بر اساس زاویه‌ی قطبی و به ترتیب ساعتگرد مرتب‌سازی می‌شوند. اگر زاویه‌ی قطبی بین دو یا چند نقطه یکسان باشد، گره‌گشایی باید بر اساس فاصله از $P_0$ و به ترتیب صعودی انجام شود.
 
-Then we iterate through each point one by one, and make sure that the current
-point and the two before it make a clockwise turn, otherwise the previous
-point is discarded, since it would make a non-convex shape. Checking for clockwise or anticlockwise
-nature can be done by checking the [orientation](oriented-triangle-area.md).
+سپس ما هر نقطه را یک به یک پیمایش می‌کنیم و اطمینان حاصل می‌کنیم که نقطه‌ی فعلی و دو نقطه‌ی قبل از آن یک چرخش ساعتگرد ایجاد کنند، در غیر این صورت نقطه‌ی قبلی حذف می‌شود، زیرا شکلی غیرمحدب ایجاد می‌کند. بررسی ساعتگرد یا پادساعتگرد بودن چرخش می‌تواند با بررسی [جهت](oriented-triangle-area.md) انجام شود.
 
-We use a stack to store the points, and once we reach the original point $P_0$,
-the algorithm is done and we return the stack containing all the points of the
-convex hull in clockwise order.
+ما از یک پشته (stack) برای ذخیره‌ی نقاط استفاده می‌کنیم، و هنگامی که به نقطه‌ی اصلی $P_0$ می‌رسیم، الگوریتم به پایان رسیده و ما پشته را که حاوی تمام نقاط پوش محدب به ترتیب ساعتگرد است، برمی‌گردانیم.
 
-If you need to include the collinear points while doing a Graham scan, you need
-another step after sorting. You need to get the points that have the biggest
-polar distance from $P_0$ (these should be at the end of the sorted vector) and are collinear.
-The points in this line should be reversed so that we can output all the
-collinear points, otherwise the algorithm would get the nearest point in this
-line and bail. This step shouldn't be included in the non-collinear version
-of the algorithm, otherwise you wouldn't get the smallest convex hull.
+اگر نیاز دارید که نقاط هم‌خط را هنگام اجرای اسکن گراهام در نظر بگیرید، به یک مرحله‌ی دیگر پس از مرتب‌سازی نیاز دارید. باید نقاطی را که بیشترین فاصله‌ی قطبی را از $P_0$ دارند (این نقاط باید در انتهای بردار مرتب‌شده قرار گیرند) و هم‌خط هستند، پیدا کنید. نقاط موجود در این خط باید معکوس شوند تا بتوانیم تمام نقاط هم‌خط را خروجی دهیم، در غیر این صورت الگوریتم نزدیک‌ترین نقطه در این خط را گرفته و خارج می‌شود. این مرحله نباید در نسخه‌ی غیرهم‌خط الگوریتم گنجانده شود، وگرنه کوچکترین پوش محدب را دریافت نخواهید کرد.
 
-### Implementation
+### پیاده‌سازی
 
-```{.cpp file=graham_scan}
+```cpp {.cpp file=graham_scan}
 struct pt {
     double x, y;
     bool operator == (pt const& t) const {
@@ -54,8 +35,8 @@ struct pt {
 
 int orientation(pt a, pt b, pt c) {
     double v = a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y);
-    if (v < 0) return -1; // clockwise
-    if (v > 0) return +1; // counter-clockwise
+    if (v < 0) return -1; // ساعتگرد
+    if (v > 0) return +1; // پادساعتگرد
     return 0;
 }
 
@@ -96,52 +77,34 @@ void convex_hull(vector<pt>& a, bool include_collinear = false) {
 }
 ```
 
-## Monotone chain Algorithm
-The algorithm first finds the leftmost and rightmost points A and B. In the event multiple such points exist,
-the lowest among the left (lowest Y-coordinate) is taken as A, and the highest among the right (highest Y-coordinate)
-is taken as B. Clearly, A and B must both belong to the convex hull as they are the farthest away and they cannot be contained
-by any line formed by a pair among the given points.
+## الگوریتم زنجیره‌ی یکنوا (Monotone chain)
+این الگوریتم ابتدا چپ‌ترین و راست‌ترین نقاط، یعنی A و B را پیدا می‌کند. اگر چندین نقطه با این مشخصات وجود داشته باشند، پایین‌ترین نقطه در میان نقاط چپ (با کمترین مختصات Y) به عنوان A و بالاترین نقطه در میان نقاط راست (با بیشترین مختصات Y) به عنوان B در نظر گرفته می‌شود. واضح است که هر دو نقطه A و B باید به پوش محدب تعلق داشته باشند، زیرا آن‌ها دورترین نقاط هستند و نمی‌توانند توسط هیچ خطی که از یک جفت نقطه دیگر تشکیل شده باشد، محصور شوند.
 
-Now, draw a line through AB. This divides all the other points into two sets, S1 and S2, where S1 contains all the points
-above the line connecting A and B, and S2 contains all the points below the line joining A and B. The points that lie on
-the line joining A and B may belong to either set. The points A and B belong to both sets. Now the algorithm
-constructs the upper set S1 and the lower set S2 and then combines them to obtain the answer. 
+حال، خطی از A به B رسم می‌کنیم. این خط تمام نقاط دیگر را به دو مجموعه‌ی S1 و S2 تقسیم می‌کند، که در آن S1 شامل تمام نقاط بالای خط واصل A و B است و S2 شامل تمام نقاط پایین خط واصل A و B است. نقاطی که روی خط واصل A و B قرار دارند می‌توانند به هر یک از این دو مجموعه تعلق داشته باشند. نقاط A و B به هر دو مجموعه تعلق دارند. اکنون الگوریتم مجموعه‌ی بالایی S1 و مجموعه‌ی پایینی S2 را می‌سازد و سپس آن‌ها را برای به دست آوردن پاسخ نهایی ترکیب می‌کند.
 
-To get the upper set, we sort all points by the x-coordinate. For each point we check if either - the current point is the last point,
-(which we defined as B), or if the orientation between the line between A and the current point and the line between the current point and B is clockwise. In those cases the 
-current point belongs to the upper set S1. Checking for clockwise or anticlockwise nature can be done by checking the [orientation](oriented-triangle-area.md).
+برای به دست آوردن مجموعه‌ی بالایی، ما تمام نقاط را بر اساس مختصات x مرتب می‌کنیم. برای هر نقطه بررسی می‌کنیم که آیا - نقطه‌ی فعلی، آخرین نقطه (که آن را B تعریف کردیم) است، یا اینکه جهت‌گیری سه‌نقطه‌ی A، نقطه‌ی فعلی و B پادساعتگرد است. در این موارد، نقطه‌ی فعلی به مجموعه‌ی بالایی S1 تعلق دارد. بررسی ساعتگرد یا پادساعتگرد بودن جهت می‌تواند با بررسی [جهت](oriented-triangle-area.md) انجام شود.
 
-If the given point belongs to the upper set, we check the angle made by the line connecting the second last point and the last point in the upper convex hull,
-with the line connecting the last point in the upper convex hull and the current point. If the angle is not clockwise, we remove the most recent point added
-to the upper convex hull as the current point will be able to contain the previous point once it is added to the convex
-hull.
+اگر نقطه‌ی داده شده به مجموعه‌ی بالایی تعلق داشته باشد، ما زاویه‌ی ایجاد شده توسط خطی که نقطه‌ی یکی به آخر و نقطه‌ی آخر در پوش محدب بالایی را به هم وصل می‌کند، با خطی که نقطه‌ی آخر در پوش محدب بالایی و نقطه‌ی فعلی را به هم وصل می‌کند، بررسی می‌کنیم. اگر زاویه ساعتگرد نباشد (یعنی پادساعتگرد یا هم‌خط باشد)، ما آخرین نقطه‌ی اضافه شده به پوش محدب بالایی را حذف می‌کنیم، زیرا نقطه‌ی فعلی پس از اضافه شدن به پوش محدب، قادر خواهد بود نقطه‌ی قبلی را در بر بگیرد.
 
-The same logic applies for the lower set S2. If either - the current point is B, or the orientation of the lines, formed by A and the 
-current point and the current point and B, is counterclockwise - then it belongs to S2.
+منطق مشابهی برای مجموعه‌ی پایینی S2 نیز به کار می‌رود. اگر - نقطه‌ی فعلی B باشد، یا جهت‌گیری سه‌نقطه‌ی A، نقطه‌ی فعلی و B ساعتگرد باشد - آنگاه این نقطه به S2 تعلق دارد.
 
-If the given point belongs to the lower set, we act similarly as for a point on the upper set except we check for a counterclockwise
-orientation instead of a clockwise orientation. Thus, if the angle made by the line connecting the second last point and the last point in the lower convex hull,
-with the line connecting the last point in the lower convex hull and the current point is not counterclockwise, we remove the most recent point added to the lower convex hull as the current point will be able to contain
-the previous point once added to the hull.
+اگر نقطه‌ی داده شده به مجموعه‌ی پایینی تعلق داشته باشد، ما مشابه حالتی که برای نقطه‌ای در مجموعه‌ی بالایی عمل کردیم، رفتار می‌کنیم، با این تفاوت که به جای جهت ساعتگرد، جهت پادساعتگرد را بررسی می‌کنیم. بنابراین، اگر زاویه‌ی ایجاد شده توسط خطی که نقطه‌ی یکی به آخر و نقطه‌ی آخر در پوش محدب پایینی را به هم وصل می‌کند، با خطی که نقطه‌ی آخر در پوش محدب پایینی و نقطه‌ی فعلی را به هم وصل می‌کند، پادساعتگرد نباشد (یعنی ساعتگرد یا هم‌خط باشد)، ما آخرین نقطه‌ی اضافه شده به پوش محدب پایینی را حذف می‌کنیم، زیرا نقطه‌ی فعلی پس از اضافه شدن به پوش، قادر خواهد بود نقطه‌ی قبلی را در بر بگیرد.
 
-The final convex hull is obtained from the union of the upper and lower convex hull, forming a clockwise hull, and the implementation is as follows.
+پوش محدب نهایی از اجتماع پوش محدب بالایی و پایینی به دست می‌آید و یک پوش ساعتگرد را تشکیل می‌دهد. پیاده‌سازی آن به شرح زیر است.
 
-If you need collinear points, you just need to check for them in the clockwise/counterclockwise routines.
-However, this allows for a degenerate case where all the input points are collinear in a single line, and the algorithm would output repeated points.
-To solve this, we check whether the upper hull contains all the points, and if it does, we just return the points in reverse, as that
-is what Graham's implementation would return in this case.
+اگر به نقاط هم‌خط نیاز دارید، کافی است در روال‌های بررسی ساعتگرد/پادساعتگرد آن‌ها را نیز در نظر بگیرید. با این حال، این کار اجازه‌ی یک حالت خاص را می‌دهد که در آن تمام نقاط ورودی روی یک خط مستقیم قرار دارند و الگوریتم نقاط تکراری را خروجی می‌دهد. برای حل این مشکل، ما بررسی می‌کنیم که آیا پوش بالایی شامل تمام نقاط است یا خیر، و اگر چنین بود، فقط نقاط را به ترتیب معکوس برمی‌گردانیم، زیرا این همان چیزی است که پیاده‌سازی گراهام در این حالت برمی‌گرداند.
 
-### Implementation
+### پیاده‌سازی
 
-```{.cpp file=monotone_chain}
+```cpp {.cpp file=monotone_chain}
 struct pt {
     double x, y;
 };
 
 int orientation(pt a, pt b, pt c) {
     double v = a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y);
-    if (v < 0) return -1; // clockwise
-    if (v > 0) return +1; // counter-clockwise
+    if (v < 0) return -1; // ساعتگرد
+    if (v > 0) return +1; // پادساعتگرد
     return 0;
 }
 
@@ -190,10 +153,10 @@ void convex_hull(vector<pt>& a, bool include_collinear = false) {
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
-* [Kattis - Convex Hull](https://open.kattis.com/problems/convexhull)
-* [Kattis - Keep the Parade Safe](https://open.kattis.com/problems/parade)
-* [Latin American Regionals 2006 - Onion Layers](https://matcomgrader.com/problem/9413/onion-layers/)
-* [Timus 1185: Wall](http://acm.timus.ru/problem.aspx?space=1&num=1185)
-* [Usaco 2014 January Contest, Gold - Cow Curling](http://usaco.org/index.php?page=viewproblem2&cpid=382)
+*   [Kattis - Convex Hull](https://open.kattis.com/problems/convexhull)
+*   [Kattis - Keep the Parade Safe](https://open.kattis.com/problems/parade)
+*   [Latin American Regionals 2006 - Onion Layers](https://matcomgrader.com/problem/9413/onion-layers/)
+*   [Timus 1185: Wall](http://acm.timus.ru/problem.aspx?space=1&num=1185)
+*   [Usaco 2014 January Contest, Gold - Cow Curling](http://usaco.org/index.php?page=viewproblem2&cpid=382)

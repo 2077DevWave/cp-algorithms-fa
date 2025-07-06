@@ -1,76 +1,76 @@
 ---
 tags:
-  
-e_maxx_link: discrete_log
+  - AI Translated
+e_maxx_link: discrete-log
 ---
 
-# Discrete Logarithm
+# لگاریتم گسسته
 
-The discrete logarithm is an integer $x$ satisfying the equation
+لگاریتم گسسته، عدد صحیح $x$ است که در معادله زیر صدق می‌کند:
 
 $$a^x \equiv b \pmod m$$
 
-for given integers $a$, $b$ and $m$.
+به ازای اعداد صحیح داده شده $a$، $b$ و $m$.
 
-The discrete logarithm does not always exist, for instance there is no solution to $2^x \equiv 3 \pmod 7$. There is no simple condition to determine if the discrete logarithm exists.
+لگاریتم گسسته همیشه وجود ندارد، برای مثال هیچ جوابی برای $2^x \equiv 3 \pmod 7$ وجود ندارد. شرط ساده‌ای برای تعیین اینکه آیا لگاریتم گسسته وجود دارد یا نه، موجود نیست.
 
-In this article, we describe the **Baby-step giant-step** algorithm, an algorithm to compute the discrete logarithm proposed by Shanks in 1971, which has the time complexity $O(\sqrt{m})$. This is a **meet-in-the-middle** algorithm because it uses the technique of separating tasks in half.
+در این مقاله، الگوریتم **گام کودک گام غول (Baby-step giant-step)** را شرح می‌دهیم که الگوریتمی برای محاسبه لگاریتم گسسته است که در سال ۱۹۷۱ توسط Shanks پیشنهاد شد و دارای پیچیدگی زمانی $O(\sqrt{m})$ است. این یک الگوریتم **ملاقات در میانه (meet-in-the-middle)** است زیرا از تکنیک تقسیم وظایف به دو نیم استفاده می‌کند.
 
-## Algorithm
+## الگوریتم
 
-Consider the equation:
+معادله زیر را در نظر بگیرید:
 
 $$a^x \equiv b \pmod m,$$
 
-where $a$ and $m$ are relatively prime.
+که در آن $a$ و $m$ نسبت به هم اول هستند.
 
-Let $x = np - q$, where $n$ is some pre-selected constant (we will describe how to select $n$ later). $p$ is known as **giant step**, since increasing it by one increases $x$ by $n$. Similarly, $q$ is known as **baby step**.
+فرض کنید $x = np - q$، که در آن $n$ یک ثابت از پیش انتخاب شده است (در ادامه نحوه انتخاب $n$ را توضیح خواهیم داد). $p$ به عنوان **گام غول (giant step)** شناخته می‌شود، زیرا افزایش آن به اندازه یک، $x$ را به اندازه $n$ افزایش می‌دهد. به طور مشابه، $q$ به عنوان **گام کودک (baby step)** شناخته می‌شود.
 
-Obviously, any number $x$ in the interval $[0; m)$ can be represented in this form, where $p \in [1; \lceil \frac{m}{n} \rceil ]$ and $q \in [0; n]$.
+بدیهی است که هر عدد $x$ در بازه $[0; m)$ می‌تواند به این شکل نمایش داده شود، که در آن $p \in [1; \lceil \frac{m}{n} \rceil ]$ و $q \in [0; n]$ است.
 
-Then, the equation becomes:
+سپس، معادله به شکل زیر در می‌آید:
 
 $$a^{np - q} \equiv b \pmod m.$$
 
-Using the fact that $a$ and $m$ are relatively prime, we obtain:
+با استفاده از این واقعیت که $a$ و $m$ نسبت به هم اول هستند، به دست می‌آوریم:
 
 $$a^{np} \equiv ba^q \pmod m$$
 
-This new equation can be rewritten in a simplified form:
+این معادله جدید می‌تواند به شکل ساده‌شده زیر بازنویسی شود:
 
 $$f_1(p) = f_2(q).$$
 
-This problem can be solved using the meet-in-the-middle method as follows:
+این مسئله را می‌توان با استفاده از روش ملاقات در میانه به صورت زیر حل کرد:
 
-* Calculate $f_1$ for all possible arguments $p$. Sort the array of value-argument pairs.
-* For all possible arguments $q$, calculate $f_2$ and look for the corresponding $p$ in the sorted array using binary search.
+*   $f_1$ را برای تمام آرگومان‌های ممکن $p$ محاسبه کنید. آرایه‌ای از زوج‌های مقدار-آرگومان را مرتب کنید.
+*   برای تمام آرگومان‌های ممکن $q$، مقدار $f_2$ را محاسبه کرده و با استفاده از جستجوی دودویی، به دنبال $p$ متناظر در آرایه مرتب‌شده بگردید.
 
-## Complexity
+## پیچیدگی
 
-We can calculate $f_1(p)$ in $O(\log m)$ using the [binary exponentiation algorithm](binary-exp.md). Similarly for $f_2(q)$.
+می‌توانیم $f_1(p)$ را در $O(\log m)$ با استفاده از [الگوریتم توان‌یابی سریع](binary-exp.md) محاسبه کنیم. به طور مشابه برای $f_2(q)$.
 
-In the first step of the algorithm, we need to calculate $f_1$ for every possible argument $p$ and then sort the values. Thus, this step has complexity:
+در مرحله اول الگوریتم، باید $f_1$ را برای هر آرگومان ممکن $p$ محاسبه کرده و سپس مقادیر را مرتب کنیم. بنابراین، این مرحله دارای پیچیدگی زیر است:
 
 $$O\left(\left\lceil \frac{m}{n} \right\rceil \left(\log m + \log \left\lceil \frac{m}{n} \right\rceil \right)\right) = O\left( \left\lceil \frac {m}{n} \right\rceil \log m\right)$$
 
-In the second step of the algorithm, we need to calculate $f_2(q)$ for every possible argument $q$ and then do a binary search on the array of values of $f_1$, thus this step has complexity:
+در مرحله دوم الگوریتم، باید $f_2(q)$ را برای هر آرگومان ممکن $q$ محاسبه کرده و سپس یک جستجوی دودویی روی آرایه مقادیر $f_1$ انجام دهیم، بنابراین این مرحله دارای پیچیدگی زیر است:
 
 $$O\left(n \left(\log m + \log \frac{m}{n} \right) \right) = O\left(n \log m\right).$$
 
-Now, when we add these two complexities, we get $\log m$ multiplied by the sum of $n$ and $m/n$, which is minimal when $n = m/n$, which means, to achieve optimal performance, $n$ should be chosen such that:
+حال، وقتی این دو پیچیدگی را با هم جمع می‌کنیم، به $\log m$ ضرب در مجموع $n$ و $m/n$ می‌رسیم، که زمانی کمینه می‌شود که $n = m/n$ باشد، یعنی برای دستیابی به عملکرد بهینه، $n$ باید به گونه‌ای انتخاب شود که:
 
 $$n = \sqrt{m}.$$
 
-Then, the complexity of the algorithm becomes:
+در این صورت، پیچیدگی الگوریتم به صورت زیر خواهد بود:
 
 $$O(\sqrt {m} \log m).$$
 
-## Implementation
+## پیاده‌سازی
 
-### The simplest implementation
+### ساده‌ترین پیاده‌سازی
 
-In the following code, the function `powmod` calculates $a^b \pmod m$ and the function `solve` produces a proper solution to the problem.
-It returns $-1$ if there is no solution and returns one of the possible solutions otherwise.
+در کد زیر، تابع `powmod` مقدار $a^b \pmod m$ را محاسبه می‌کند و تابع `solve` یک جواب مناسب برای مسئله پیدا می‌کند.
+اگر جوابی وجود نداشته باشد، ۱- برمی‌گرداند و در غیر این صورت یکی از جواب‌های ممکن را برمی‌گرداند.
 
 ```cpp
 int powmod(int a, int b, int m) {
@@ -102,37 +102,37 @@ int solve(int a, int b, int m) {
 }
 ```
 
-In this code, we used `map` from the C++ standard library to store the values of $f_1$.
-Internally, `map` uses a red-black tree to store values.
-Thus this code is a little bit slower than if we had used an array and binary searched, but is much easier to write.
+در این کد، ما از `map` کتابخانه استاندارد C++ برای ذخیره مقادیر $f_1$ استفاده کرده‌ایم.
+در داخل، `map` از یک درخت قرمز-سیاه برای ذخیره مقادیر استفاده می‌کند.
+بنابراین این کد کمی کندتر از حالتی است که از یک آرایه و جستجوی دودویی استفاده کنیم، اما نوشتن آن بسیار ساده‌تر است.
 
-Notice that our code assumes $0^0 = 1$, i.e. the code will compute $0$ as solution for the equation $0^x \equiv 1 \pmod m$ and also as solution for $0^x \equiv 0 \pmod 1$.
-This is an often used convention in algebra, but it's also not universally accepted in all areas.
-Sometimes $0^0$ is simply undefined.
-If you don't like our convention, then you need to handle the case $a=0$ separately:
+توجه داشته باشید که کد ما فرض می‌کند $0^0 = 1$، یعنی کد برای معادله $0^x \equiv 1 \pmod m$ جواب $0$ را محاسبه می‌کند و همچنین برای $0^x \equiv 0 \pmod 1$ نیز جواب $0$ را محاسبه می‌کند.
+این یک قرارداد رایج در جبر است، اما در همه حوزه‌ها به طور جهانی پذیرفته نشده است.
+گاهی اوقات $0^0$ به سادگی تعریف نشده است.
+اگر این قرارداد را دوست ندارید، باید حالت $a=0$ را به طور جداگانه مدیریت کنید:
 
 ```cpp
     if (a == 0)
         return b == 0 ? 1 : -1;
 ```
 
-Another thing to note is that, if there are multiple arguments $p$ that map to the same value of $f_1$, we only store one such argument.
-This works in this case because we only want to return one possible solution.
-If we need to return all possible solutions, we need to change `map<int, int>` to, say, `map<int, vector<int>>`.
-We also need to change the second step accordingly.
+نکته دیگر این است که اگر چندین آرگومان $p$ به یک مقدار یکسان از $f_1$ نگاشت شوند، ما فقط یکی از این آرگومان‌ها را ذخیره می‌کنیم.
+این کار در این مورد جواب می‌دهد زیرا ما فقط می‌خواهیم یک جواب ممکن را برگردانیم.
+اگر لازم باشد تمام جواب‌های ممکن را برگردانیم، باید `map<int, int>` را به چیزی مانند `map<int, vector<int>>` تغییر دهیم.
+همچنین باید مرحله دوم را نیز متناسب با آن تغییر دهیم.
 
-## Improved implementation
+## پیاده‌سازی بهبودیافته
 
-A possible improvement is to get rid of binary exponentiation.
-This can be done by keeping a variable that is multiplied by $a$ each time we increase $q$ and a variable that is multiplied by $a^n$ each time we increase $p$.
-With this change, the complexity of the algorithm is still the same, but now the $\log$ factor is only for the `map`.
-Instead of a `map`, we can also use a hash table (`unordered_map` in C++) which has the average time complexity $O(1)$ for inserting and searching.
+یک بهبود ممکن، خلاص شدن از توان‌یابی سریع است.
+این کار را می‌توان با نگهداری یک متغیر که در هر بار افزایش $q$ در $a$ ضرب می‌شود و یک متغیر که در هر بار افزایش $p$ در $a^n$ ضرب می‌شود، انجام داد.
+با این تغییر، پیچیدگی الگوریتم همچنان یکسان است، اما اکنون عامل $\log$ فقط برای `map` است.
+به جای `map`، می‌توانیم از جدول هش (`unordered_map` در C++) نیز استفاده کنیم که میانگین پیچیدگی زمانی آن برای درج و جستجو $O(1)$ است.
 
-Problems often ask for the minimum $x$ which satisfies the solution.  
-It is possible to get all answers and take the minimum, or reduce the first found answer using [Euler's theorem](phi-function.md#toc-tgt-2), but we can be smart about the order in which we calculate values and ensure the first answer we find is the minimum.
+مسائل اغلب کوچکترین $x$ را که در جواب صدق می‌کند، می‌خواهند.
+می‌توان تمام جواب‌ها را به دست آورد و کوچکترین را انتخاب کرد، یا اولین جواب یافت شده را با استفاده از [قضیه اویلر](phi-function.md#toc-tgt-2) کاهش داد، اما می‌توانیم در مورد ترتیبی که مقادیر را محاسبه می‌کنیم هوشمندانه عمل کنیم و اطمینان حاصل کنیم که اولین جوابی که پیدا می‌کنیم کوچکترین است.
 
-```{.cpp file=discrete_log}
-// Returns minimum x for which a ^ x % m = b % m, a and m are coprime.
+```cpp {.file=discrete_log}
+// کوچکترین x را برمی‌گرداند که a ^ x % m = b % m باشد، a و m نسبت به هم اول هستند.
 int solve(int a, int b, int m) {
     a %= m, b %= m;
     int n = sqrt(m) + 1;
@@ -158,14 +158,14 @@ int solve(int a, int b, int m) {
 }
 ```
 
-The complexity is $O(\sqrt{m})$ using `unordered_map`.
+پیچیدگی با استفاده از `unordered_map` برابر با $O(\sqrt{m})$ است.
 
-## When $a$ and $m$ are not coprime { data-toc-label='When a and m are not coprime' }
-Let $g = \gcd(a, m)$, and $g > 1$. Clearly $a^x \bmod m$ for every $x \ge 1$ will be divisible by $g$.
+## وقتی a و m نسبت به هم اول نیستند { data-toc-label='وقتی a و m نسبت به هم اول نیستند' }
+فرض کنید $g = \gcd(a, m)$ و $g > 1$. واضح است که $a^x \bmod m$ برای هر $x \ge 1$ بر $g$ بخش‌پذیر خواهد بود.
 
-If $g \nmid b$, there is no solution for $x$.
+اگر $g \nmid b$، هیچ جوابی برای $x$ وجود ندارد.
 
-If $g \mid b$, let $a = g \alpha, b = g \beta, m = g \nu$.
+اگر $g \mid b$، فرض کنید $a = g \alpha, b = g \beta, m = g \nu$.
 
 $$
 \begin{aligned}
@@ -175,10 +175,10 @@ a^x & \equiv b \mod m \\\
 \end{aligned}
 $$
 
-The baby-step giant-step algorithm can be easily extended to solve $ka^{x} \equiv b \pmod m$ for $x$.
+الگوریتم گام کودک گام غول را می‌توان به راحتی برای حل $ka^{x} \equiv b \pmod m$ برای $x$ تعمیم داد.
 
-```{.cpp file=discrete_log_extended}
-// Returns minimum x for which a ^ x % m = b % m.
+```cpp {.file=discrete_log_extended}
+// کوچکترین x را برمی‌گرداند که a ^ x % m = b % m باشد.
 int solve(int a, int b, int m) {
     a %= m, b %= m;
     int k = 1, add = 0, g;
@@ -213,15 +213,15 @@ int solve(int a, int b, int m) {
 }
 ```
 
-The time complexity remains $O(\sqrt{m})$ as before since the initial reduction to coprime $a$ and $m$ is done in $O(\log^2 m)$.
+پیچیدگی زمانی همانند قبل $O(\sqrt{m})$ باقی می‌ماند، زیرا کاهش اولیه به حالت $a$ و $m$ نسبت به هم اول، در $O(\log^2 m)$ انجام می‌شود.
 
-## Practice Problems
+## مسائل تمرینی
 * [Spoj - Power Modulo Inverted](http://www.spoj.com/problems/MOD/)
 * [Topcoder - SplittingFoxes3](https://community.topcoder.com/stat?c=problem_statement&pm=14386&rd=16801)
 * [CodeChef - Inverse of a Function](https://www.codechef.com/problems/INVXOR/)
-* [Hard Equation](https://codeforces.com/gym/101853/problem/G) (assume that $0^0$ is undefined)
+* [Hard Equation](https://codeforces.com/gym/101853/problem/G) (فرض کنید $0^0$ تعریف نشده است)
 * [CodeChef - Chef and Modular Sequence](https://www.codechef.com/problems/CHEFMOD)
 
-## References
+## منابع
 * [Wikipedia - Baby-step giant-step](https://en.wikipedia.org/wiki/Baby-step_giant-step)
 * [Answer by Zander on Mathematics StackExchange](https://math.stackexchange.com/a/133054)

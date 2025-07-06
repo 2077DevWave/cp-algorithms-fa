@@ -1,24 +1,24 @@
 ---
 tags:
-  
-e_maxx_link: determinant_gauss
+  - AI Translated
+e_maxx_link: determinant-gauss
 ---
 
-# Calculating the determinant of a matrix by Gauss
+# محاسبه دترمینان ماتریس با روش گاوس
 
-Problem: Given a matrix $A$ of size $N \times N$. Compute its determinant.
+مسئله: یک ماتریس $A$ با ابعاد $N \times N$ داده شده است. دترمینان آن را محاسبه کنید.
 
-## Algorithm
+## الگوریتم
 
-We use the ideas of [Gauss method for solving systems of linear equations](linear-system-gauss.md)
+ما از ایده‌های [روش گاوس برای حل دستگاه معادلات خطی](linear-system-gauss.md) استفاده می‌کنیم.
 
-We will perform the same steps as in the solution of systems of linear equations, excluding only the division of the current line to $a_{ij}$. These operations will not change the absolute value of the determinant of the matrix. When we exchange two lines of the matrix, however, the sign of the determinant can change.
+ما همان مراحل حل دستگاه معادلات خطی را انجام می‌دهیم، با این تفاوت که از تقسیم سطر جاری بر $a_{ij}$ صرف نظر می‌کنیم. این عملیات قدر مطلق دترمینان ماتریس را تغییر نمی‌دهند. با این حال، هنگامی که دو سطر از ماتریس را جابجا می‌کنیم، علامت دترمینان می‌تواند تغییر کند.
 
-After applying Gauss on the matrix, we receive a diagonal matrix, whose determinant is just the product of the elements on the diagonal. The sign, as previously mentioned, can be determined by the number of exchanged rows (if odd, then the sign of the determinant should be reversed). Thus, we can use the Gauss algorithm to compute the determinant of the matrix in complexity $O(N^3)$.
+پس از اعمال روش گاوس بر روی ماتریس، به یک ماتریس قطری می‌رسیم که دترمینان آن برابر با حاصل‌ضرب درایه‌های روی قطر اصلی است. همانطور که قبلاً ذکر شد، علامت دترمینان را می‌توان با توجه به تعداد سطرهای جابجا شده تعیین کرد (اگر تعداد جابجایی‌ها فرد باشد، علامت دترمینان باید معکوس شود). بنابراین، می‌توانیم از الگوریتم گاوس برای محاسبه دترمینان ماتریس با پیچیدگی زمانی $O(N^3)$ استفاده کنیم.
 
-It should be noted that if at some point, we do not find non-zero cell in current column, the algorithm should stop and returns 0.
+باید توجه داشت که اگر در مرحله‌ای، در ستون فعلی هیچ درایه غیرصفری پیدا نکنیم، الگوریتم باید متوقف شود و مقدار 0 را برگرداند.
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
 const double EPS = 1E-9;
@@ -50,5 +50,5 @@ for (int i=0; i<n; ++i) {
 cout << det;
 ```
 
-## Practice Problems
+## مسائل تمرینی
 * [Codeforces - Wizards and Bets](http://codeforces.com/contest/167/problem/E)

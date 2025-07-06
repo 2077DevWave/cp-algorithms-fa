@@ -1,71 +1,71 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: sqrt_decomposition
 ---
 
-# Sqrt Decomposition
+# تجزیه جذر (Sqrt Decomposition)
 
-Sqrt Decomposition is a method (or a data structure) that allows you to perform some common operations (finding sum of the elements of the sub-array, finding the minimal/maximal element, etc.) in $O(\sqrt n)$ operations, which is much faster than $O(n)$ for the trivial algorithm.
+تجزیه جذر (Sqrt Decomposition) یک روش (یا یک ساختمان داده) است که به شما امکان می‌دهد برخی عملیات رایج (مانند یافتن مجموع عناصر یک زیرآرایه، یافتن عنصر کمینه/بیشینه و غیره) را در $O(\sqrt n)$ عملیات انجام دهید، که بسیار سریع‌تر از $O(n)$ در الگوریتم بدیهی است.
 
-First we describe the data structure for one of the simplest applications of this idea, then show how to generalize it to solve some other problems, and finally look at a slightly different use of this idea: splitting the input requests into sqrt blocks.
+ابتدا، ساختمان داده را برای یکی از ساده‌ترین کاربردهای این ایده توصیف می‌کنیم، سپس نشان می‌دهیم که چگونه آن را برای حل مسائل دیگر تعمیم دهیم، و در نهایت به یک کاربرد کمی متفاوت از این ایده نگاهی می‌اندازیم: تقسیم درخواست‌های ورودی به بلاک‌های جذری.
 
-## Sqrt-decomposition based data structure
+## ساختمان داده مبتنی بر تجزیه جذر
 
-Given an array $a[0 \dots n-1]$, implement a data structure that allows to find the sum of the elements $a[l \dots r]$ for arbitrary $l$ and $r$ in $O(\sqrt n)$ operations.
+با داشتن یک آرایه $a[0 \dots n-1]$، یک ساختمان داده پیاده‌سازی کنید که امکان یافتن مجموع عناصر $a[l \dots r]$ برای $l$ و $r$ دلخواه را در $O(\sqrt n)$ عملیات فراهم کند.
 
-### Description
+### شرح
 
-The basic idea of sqrt decomposition is preprocessing. We'll divide the array $a$ into blocks of length approximately $\sqrt n$, and for each block $i$ we'll precalculate the sum of elements in it $b[i]$.
+ایده اصلی تجزیه جذر، پیش‌پردازش است. ما آرایه $a$ را به بلاک‌هایی با طول تقریبی $\sqrt n$ تقسیم می‌کنیم و برای هر بلاک $i$، مجموع عناصر آن یعنی $b[i]$ را پیش‌محاسبه می‌کنیم.
 
-We can assume that both the size of the block and the number of blocks are equal to $\sqrt n$ rounded up:
+می‌توانیم فرض کنیم که هم اندازه بلاک و هم تعداد بلاک‌ها برابر با $\sqrt n$ گردشده به بالا است:
 
 $$ s = \lceil \sqrt n \rceil $$
 
-Then the array $a$ is divided into blocks in the following way:
+سپس آرایه $a$ به روش زیر به بلاک‌ها تقسیم می‌شود:
 
 $$ \underbrace{a[0], a[1], \dots, a[s-1]}_{\text{b[0]}}, \underbrace{a[s], \dots, a[2s-1]}_{\text{b[1]}}, \dots, \underbrace{a[(s-1) \cdot s], \dots, a[n-1]}_{\text{b[s-1]}} $$
 
-The last block may have fewer elements than the others (if $n$ not a multiple of $s$), it is not important to the discussion (as it can be handled easily).
-Thus, for each block $k$, we know the sum of elements on it $b[k]$:
+بلاک آخر ممکن است عناصر کمتری نسبت به بقیه داشته باشد (اگر $n$ مضربی از $s$ نباشد)، این موضوع برای بحث ما اهمیتی ندارد (زیرا به راحتی قابل مدیریت است).
+بنابراین، برای هر بلاک $k$، ما مجموع عناصر آن یعنی $b[k]$ را می‌دانیم:
 
 $$ b[k] = \sum\limits_{i=k\cdot s}^{\min {(n-1,(k+1)\cdot s - 1})} a[i] $$
 
-So, we have calculated the values of $b[k]$ (this required $O(n)$ operations). How can they help us to answer each query $[l, r]$ ?
-Notice that if the interval $[l, r]$ is long enough, it will contain several whole blocks, and for those blocks we can find the sum of elements in them in a single operation. As a result, the interval $[l, r]$ will contain parts of only two blocks, and we'll have to calculate the sum of elements in these parts trivially.
+خب، ما مقادیر $b[k]$ را محاسبه کرده‌ایم (این کار به $O(n)$ عملیات نیاز داشت). این مقادیر چگونه می‌توانند به ما در پاسخ به هر پرس‌وجوی $[l, r]$ کمک کنند؟
+توجه کنید که اگر بازه $[l, r]$ به اندازه کافی طولانی باشد، شامل چندین بلاک کامل خواهد بود و برای آن بلاک‌ها می‌توانیم مجموع عناصر را در یک عملیات واحد پیدا کنیم. در نتیجه، بازه $[l, r]$ تنها شامل بخش‌هایی از دو بلاک خواهد بود و ما باید مجموع عناصر این بخش‌ها را به صورت بدیهی محاسبه کنیم.
 
-Thus, in order to calculate the sum of elements on the interval $[l, r]$ we only need to sum the elements of the two "tails":
-$[l\dots (k + 1)\cdot s-1]$ and $[p\cdot s\dots r]$ , and sum the values $b[i]$ in all the blocks from $k + 1$ to $p-1$:
+بنابراین، برای محاسبه مجموع عناصر در بازه $[l, r]$، فقط باید عناصر دو "دنباله" را جمع کنیم:
+$[l\dots (k + 1)\cdot s-1]$ و $[p\cdot s\dots r]$، و مقادیر $b[i]$ را در تمام بلاک‌ها از $k + 1$ تا $p-1$ جمع کنیم:
 
 $$ \sum\limits_{i=l}^r a[i] = \sum\limits_{i=l}^{(k+1) \cdot s-1} a[i] + \sum\limits_{i=k+1}^{p-1} b[i] + \sum\limits_{i=p\cdot s}^r a[i] $$
 
-_Note: When $k = p$, i.e. $l$ and $r$ belong to the same block, the formula can't be applied, and the sum should be calculated trivially._
+*نکته: وقتی $k = p$ باشد، یعنی $l$ و $r$ به یک بلاک تعلق داشته باشند، فرمول بالا قابل استفاده نیست و مجموع باید به صورت بدیهی محاسبه شود.*
 
-This approach allows us to significantly reduce the number of operations. Indeed, the size of each "tail" does not exceed the block length $s$, and the number of blocks in the sum does not exceed $s$. Since we have chosen $s \approx \sqrt n$, the total number of operations required to find the sum of elements on the interval $[l, r]$ is $O(\sqrt n)$.
+این رویکرد به ما امکان می‌دهد تعداد عملیات را به طور قابل توجهی کاهش دهیم. در واقع، اندازه هر "دنباله" از طول بلاک $s$ تجاوز نمی‌کند و تعداد بلاک‌ها در مجموع نیز از $s$ بیشتر نیست. از آنجایی که ما $s \approx \sqrt n$ را انتخاب کرده‌ایم، تعداد کل عملیات مورد نیاز برای یافتن مجموع عناصر در بازه $[l, r]$ برابر با $O(\sqrt n)$ است.
 
-### Implementation
+### پیاده‌سازی
 
-Let's start with the simplest implementation:
+بیایید با ساده‌ترین پیاده‌سازی شروع کنیم:
 
 ```cpp
-// input data
+// داده‌های ورودی
 int n;
 vector<int> a (n);
 
-// preprocessing
-int len = (int) sqrt (n + .0) + 1; // size of the block and the number of blocks
+// پیش‌پردازش
+int len = (int) sqrt (n + .0) + 1; // اندازه بلاک و تعداد بلاک‌ها
 vector<int> b (len);
 for (int i=0; i<n; ++i)
     b[i / len] += a[i];
 
-// answering the queries
+// پاسخ به پرس‌وجوها
 for (;;) {
     int l, r;
-  // read input data for the next query
+  // خواندن داده‌های ورودی برای پرس‌وجوی بعدی
     int sum = 0;
     for (int i=l; i<=r; )
         if (i % len == 0 && i + len - 1 <= r) {
-            // if the whole block starting at i belongs to [l, r]
+            // اگر کل بلاکی که از i شروع می‌شود در بازه [l, r] قرار داشته باشد
             sum += b[i / len];
             i += len;
         }
@@ -76,7 +76,7 @@ for (;;) {
 }
 ```
 
-This implementation has unreasonably many division operations (which are much slower than other arithmetical operations). Instead, we can calculate the indices of the blocks $c_l$ and $c_r$ which contain indices $l$ and $r$, and loop through blocks $c_l+1 \dots c_r-1$ with separate processing of the "tails" in blocks $c_l$ and $c_r$. This approach corresponds to the last formula in the description, and makes the case $c_l = c_r$ a special case.
+این پیاده‌سازی تعداد نامعقولی عملیات تقسیم دارد (که بسیار کندتر از سایر عملیات حسابی هستند). به جای آن، می‌توانیم اندیس بلاک‌هایی که شامل اندیس‌های $l$ و $r$ هستند یعنی $c_l$ و $c_r$ را محاسبه کنیم، و روی بلاک‌های $c_l+1 \dots c_r-1$ حلقه بزنیم و "دنباله‌ها" را در بلاک‌های $c_l$ و $c_r$ به طور جداگانه پردازش کنیم. این رویکرد با آخرین فرمول در بخش شرح مطابقت دارد و حالت $c_l = c_r$ را به یک حالت خاص تبدیل می‌کند.
 
 ```cpp
 int sum = 0;
@@ -94,55 +94,55 @@ else {
 }
 ```
 
-## Other problems
+## مسائل دیگر
 
-So far we were discussing the problem of finding the sum of elements of a continuous subarray. This problem can be extended to allow to **update individual array elements**. If an element $a[i]$ changes, it's sufficient to update the value of $b[k]$ for the block to which this element belongs ($k = i / s$) in one operation:
+تا اینجا ما در مورد مسئله یافتن مجموع عناصر یک زیرآرایه پیوسته صحبت کردیم. این مسئله را می‌توان گسترش داد تا امکان **به‌روزرسانی عناصر تکی آرایه** را نیز فراهم کند. اگر یک عنصر $a[i]$ تغییر کند، کافی است مقدار $b[k]$ را برای بلاکی که این عنصر به آن تعلق دارد ($k = i / s$) در یک عملیات به‌روزرسانی کنیم:
 
 $$ b[k] += a_{new}[i] - a_{old}[i] $$
 
-On the other hand, the task of finding the sum of elements can be replaced with the task of finding minimal/maximal element of a subarray. If this problem has to address individual elements' updates as well, updating the value of $b[k]$ is also possible, but it will require iterating through all values of block $k$ in $O(s) = O(\sqrt{n})$ operations.
+از طرف دیگر، وظیفه یافتن مجموع عناصر را می‌توان با وظیفه یافتن عنصر کمینه/بیشینه یک زیرآرایه جایگزین کرد. اگر این مسئله نیاز به مدیریت به‌روزرسانی عناصر تکی نیز داشته باشد، به‌روزرسانی مقدار $b[k]$ نیز ممکن است، اما این کار نیازمند پیمایش تمام مقادیر بلاک $k$ در $O(s) = O(\sqrt{n})$ عملیات خواهد بود.
 
-Sqrt decomposition can be applied in a similar way to a whole class of other problems: finding the number of zero elements, finding the first non-zero element, counting elements which satisfy a certain property etc.
+تجزیه جذر را می‌توان به روشی مشابه برای دسته وسیعی از مسائل دیگر به کار برد: یافتن تعداد عناصر صفر، یافتن اولین عنصر غیر صفر، شمردن عناصری که ویژگی خاصی را برآورده می‌کنند و غیره.
 
-Another class of problems appears when we need to **update array elements on intervals**: increment existing elements or replace them with a given value.
+دسته دیگری از مسائل زمانی به وجود می‌آیند که نیاز به **به‌روزرسانی عناصر آرایه در بازه‌ها** داریم: افزایش عناصر موجود یا جایگزینی آنها با یک مقدار داده شده.
 
-For example, let's say we can do two types of operations on an array: add a given value $\delta$ to all array elements on interval $[l, r]$ or query the value of element $a[i]$. Let's store the value which has to be added to all elements of block $k$ in $b[k]$ (initially all $b[k] = 0$). During each "add" operation we need to add $\delta$ to $b[k]$ for all blocks which belong to interval $[l, r]$ and to add $\delta$ to $a[i]$ for all elements which belong to the "tails" of the interval. The answer to query $i$ is simply $a[i] + b[i/s]$. This way "add" operation has $O(\sqrt{n})$ complexity, and answering a query has $O(1)$ complexity.
+به عنوان مثال، فرض کنید می‌توانیم دو نوع عملیات روی یک آرایه انجام دهیم: اضافه کردن مقدار داده شده $\delta$ به تمام عناصر آرایه در بازه $[l, r]$ یا پرس‌وجو در مورد مقدار عنصر $a[i]$. بیایید مقداری را که باید به تمام عناصر بلاک $k$ اضافه شود در $b[k]$ ذخیره کنیم (در ابتدا تمام $b[k] = 0$ هستند). در طول هر عملیات "اضافه کردن"، باید $\delta$ را به $b[k]$ برای تمام بلاک‌هایی که به بازه $[l, r]$ تعلق دارند اضافه کنیم و $\delta$ را به $a[i]$ برای تمام عناصری که به "دنباله"‌های بازه تعلق دارند، اضافه کنیم. پاسخ به پرس‌وجوی $i$ به سادگی $a[i] + b[i/s]$ است. به این ترتیب، عملیات "اضافه کردن" پیچیدگی $O(\sqrt{n})$ و پاسخ به یک پرس‌وجو پیچیدگی $O(1)$ دارد.
 
-Finally, those two classes of problems can be combined if the task requires doing **both** element updates on an interval and queries on an interval. Both operations can be done with $O(\sqrt{n})$ complexity. This will require two block arrays $b$ and $c$: one to keep track of element updates and another to keep track of answers to the query.
+در نهایت، این دو دسته از مسائل را می‌توان با هم ترکیب کرد اگر مسئله نیازمند انجام **هم** به‌روزرسانی عناصر در یک بازه و **هم** پرس‌وجو در یک بازه باشد. هر دو عملیات را می‌توان با پیچیدگی $O(\sqrt{n})$ انجام داد. این کار به دو آرایه بلاکی $b$ و $c$ نیاز دارد: یکی برای پیگیری به‌روزرسانی عناصر و دیگری برای پیگیری پاسخ‌های پرس‌وجو.
 
-There exist other problems which can be solved using sqrt decomposition, for example, a problem about maintaining a set of numbers which would allow adding/deleting numbers, checking whether a number belongs to the set and finding $k$-th largest number. To solve it one has to store numbers in increasing order, split into several blocks with $\sqrt{n}$ numbers in each. Every time a number is added/deleted, the blocks have to be rebalanced by moving numbers between beginnings and ends of adjacent blocks.
+مسائل دیگری نیز وجود دارند که می‌توان با استفاده از تجزیه جذر حل کرد، به عنوان مثال، مسئله‌ای در مورد نگهداری مجموعه‌ای از اعداد که امکان اضافه/حذف کردن اعداد، بررسی تعلق یک عدد به مجموعه و یافتن $k$-امین عدد بزرگتر را فراهم می‌کند. برای حل آن، باید اعداد را به ترتیب صعودی ذخیره کرد و به چندین بلاک با $\sqrt{n}$ عدد در هر کدام تقسیم کرد. هر بار که یک عدد اضافه/حذف می‌شود، بلاک‌ها باید با جابجایی اعداد بین ابتدا و انتهای بلاک‌های مجاور، مجدداً متعادل شوند.
 
-## Mo's algorithm
+## الگوریتم مو (Mo's algorithm)
 
-A similar idea, based on sqrt decomposition, can be used to answer range queries ($Q$) offline in $O((N+Q)\sqrt{N})$.
-This might sound like a lot worse than the methods in the previous section, since this is a slightly worse complexity than we had earlier and cannot update values between two queries.
-But in a lot of situations this method has advantages.
-During a normal sqrt decomposition, we have to precompute the answers for each block, and merge them during answering queries.
-In some problems this merging step can be quite problematic.
-E.g. when each queries asks to find the **mode** of its range (the number that appears the most often).
-For this each block would have to store the count of each number in it in some sort of data structure, and we can no longer perform the merge step fast enough any more.
-**Mo's algorithm** uses a completely different approach, that can answer these kind of queries fast, because it only keeps track of one data structure, and the only operations with it are easy and fast.
+یک ایده مشابه، مبتنی بر تجزیه جذر، می‌تواند برای پاسخ به پرس‌وجوهای بازه‌ای ($Q$) به صورت آفلاین در $O((N+Q)\sqrt{N})$ استفاده شود.
+این ممکن است بسیار بدتر از روش‌های بخش قبل به نظر برسد، زیرا پیچیدگی آن کمی بدتر از چیزی است که قبلاً داشتیم و نمی‌تواند مقادیر را بین دو پرس‌وجو به‌روزرسانی کند.
+اما در بسیاری از موقعیت‌ها این روش مزایایی دارد.
+در تجزیه جذر معمولی، ما باید پاسخ‌ها را برای هر بلاک پیش‌محاسبه کنیم و در هنگام پاسخ به پرس‌وجوها آنها را ادغام کنیم.
+در برخی مسائل، این مرحله ادغام می‌تواند کاملاً مشکل‌ساز باشد.
+برای مثال، وقتی هر پرس‌وجو می‌خواهد **مد** بازه خود (عددی که بیشترین تکرار را دارد) را پیدا کند.
+برای این کار، هر بلاک باید تعداد هر عدد در خود را در نوعی ساختمان داده ذخیره کند و دیگر نمی‌توانیم مرحله ادغام را به اندازه کافی سریع انجام دهیم.
+**الگوریتم مو** از یک رویکرد کاملاً متفاوت استفاده می‌کند که می‌تواند به این نوع پرس‌وجوها سریع پاسخ دهد، زیرا تنها یک ساختمان داده را نگهداری می‌کند و تنها عملیات با آن آسان و سریع هستند.
 
-The idea is to answer the queries in a special order based on the indices.
-We will first answer all queries which have the left index in block 0, then answer all queries which have left index in block 1 and so on.
-And also we will have to answer the queries of a block is a special order, namely sorted by the right index of the queries.
+ایده این است که به پرس‌وجوها با ترتیب خاصی بر اساس اندیس‌ها پاسخ دهیم.
+ابتدا به تمام پرس‌وجوهایی که اندیس چپ آنها در بلاک 0 است پاسخ می‌دهیم، سپس به پرس‌وجوهایی که اندیس چپ آنها در بلاک 1 است و به همین ترتیب.
+و همچنین باید به پرس‌وجوهای یک بلاک با ترتیب خاصی پاسخ دهیم، یعنی مرتب شده بر اساس اندیس راست پرس‌وجوها.
 
-As already said we will use a single data structure.
-This data structure will store information about the range.
-At the beginning this range will be empty.
-When we want to answer the next query (in the special order), we simply extend or reduce the range, by adding/removing elements on both sides of the current range, until we transformed it into the query range.
-This way, we only need to add or remove a single element once at a time, which should be pretty easy operations in our data structure.
+همانطور که گفته شد، از یک ساختمان داده واحد استفاده خواهیم کرد.
+این ساختمان داده اطلاعات مربوط به بازه را ذخیره می‌کند.
+در ابتدا این بازه خالی خواهد بود.
+وقتی می‌خواهیم به پرس‌وجوی بعدی (با ترتیب خاص) پاسخ دهیم، به سادگی بازه را با اضافه/حذف کردن عناصر از دو طرف بازه فعلی، گسترش یا کاهش می‌دهیم تا آن را به بازه پرس‌وجو تبدیل کنیم.
+به این ترتیب، ما فقط نیاز داریم که هر بار یک عنصر را اضافه یا حذف کنیم، که باید عملیات بسیار آسانی در ساختمان داده ما باشند.
 
-Since we change the order of answering the queries, this is only possible when we are allowed to answer the queries in offline mode.
+از آنجایی که ما ترتیب پاسخ به پرس‌وجوها را تغییر می‌دهیم، این کار تنها زمانی ممکن است که مجاز به پاسخ به پرس‌وجوها به صورت آفلاین باشیم.
 
-### Implementation
+### پیاده‌سازی
 
-In Mo's algorithm we use two functions for adding an index and for removing an index from the range which we are currently maintaining.
+در الگوریتم مو، ما از دو تابع برای اضافه کردن یک اندیس و حذف یک اندیس از بازه‌ای که در حال حاضر نگهداری می‌کنیم، استفاده می‌کنیم.
 
 ```cpp
-void remove(idx);  // TODO: remove value at idx from data structure
-void add(idx);     // TODO: add value at idx from data structure
-int get_answer();  // TODO: extract the current answer of the data structure
+void remove(idx);  // TODO: مقدار در اندیس idx را از ساختمان داده حذف کن
+void add(idx);     // TODO: مقدار در اندیس idx را به ساختمان داده اضافه کن
+int get_answer();  // TODO: پاسخ فعلی را از ساختمان داده استخراج کن
 
 int block_size;
 
@@ -159,11 +159,11 @@ vector<int> mo_s_algorithm(vector<Query> queries) {
     vector<int> answers(queries.size());
     sort(queries.begin(), queries.end());
 
-    // TODO: initialize data structure
+    // TODO: ساختمان داده را مقداردهی اولیه کن
 
     int cur_l = 0;
     int cur_r = -1;
-    // invariant: data structure will always reflect the range [cur_l, cur_r]
+    // ناوردا: ساختمان داده همیشه بازه [cur_l, cur_r] را منعکس می‌کند
     for (Query q : queries) {
         while (cur_l > q.l) {
             cur_l--;
@@ -187,42 +187,41 @@ vector<int> mo_s_algorithm(vector<Query> queries) {
 }
 ```
 
-Based on the problem we can use a different data structure and modify the `add`/`remove`/`get_answer` functions accordingly.
-For example if we are asked to find range sum queries then we use a simple integer as data structure, which is $0$ at the beginning.
-The `add` function will simply add the value of the position and subsequently update the answer variable.
-On the other hand `remove` function will subtract the value at position and subsequently update the answer variable.
-And `get_answer` just returns the integer.
+بسته به مسئله، می‌توانیم از یک ساختمان داده متفاوت استفاده کنیم و توابع `add`/`remove`/`get_answer` را متناسب با آن تغییر دهیم.
+برای مثال، اگر از ما خواسته شود که پرس‌وجوهای مجموع بازه‌ای را پیدا کنیم، از یک عدد صحیح ساده به عنوان ساختمان داده استفاده می‌کنیم که در ابتدا $0$ است.
+تابع `add` به سادگی مقدار موقعیت را اضافه می‌کند و متعاقباً متغیر پاسخ را به‌روز می‌کند.
+از طرف دیگر، تابع `remove` مقدار در موقعیت را کم می‌کند و متعاقباً متغیر پاسخ را به‌روز می‌کند.
+و `get_answer` فقط عدد صحیح را برمی‌گرداند.
 
-For answering mode-queries, we can use a binary search tree (e.g. `map<int, int>`) for storing how often each number appears in the current range, and a second binary search tree (e.g. `set<pair<int, int>>`) for keeping counts of the numbers (e.g. as count-number pairs) in order.
-The `add` method removes the current number from the second BST, increases the count in the first one, and inserts the number back into the second one.
-`remove` does the same thing, it only decreases the count.
-And `get_answer` just looks at second tree and returns the best value in $O(1)$.
+برای پاسخ به پرس‌وجوهای مد، می‌توانیم از یک درخت جستجوی دودویی (مثلاً `map<int, int>`) برای ذخیره تعداد تکرار هر عدد در بازه فعلی، و یک درخت جستجوی دودویی دوم (مثلاً `set<pair<int, int>>`) برای نگهداری تعداد تکرار اعداد (مثلاً به صورت زوج‌های تعداد-عدد) به ترتیب استفاده کنیم.
+متد `add` عدد فعلی را از BST دوم حذف می‌کند، تعداد آن را در اولی افزایش می‌دهد، و عدد را دوباره به دومی وارد می‌کند.
+`remove` نیز همین کار را انجام می‌دهد، فقط تعداد را کاهش می‌دهد.
+و `get_answer` فقط به درخت دوم نگاه می‌کند و بهترین مقدار را در $O(1)$ برمی‌گرداند.
 
-### Complexity
+### پیچیدگی
 
+مرتب‌سازی تمام پرس‌وجوها $O(Q \log Q)$ طول می‌کشد.
 
-Sorting all queries will take $O(Q \log Q)$.
+در مورد عملیات دیگر چطور؟
+توابع `add` و `remove` چند بار فراخوانی خواهند شد؟
 
-How about the other operations?
-How many times will the `add` and `remove` be called?
+فرض کنید اندازه بلاک $S$ باشد.
 
-Let's say the block size is $S$.
+اگر فقط به تمام پرس‌وجوهایی که اندیس چپ آنها در یک بلاک یکسان است نگاه کنیم، پرس‌وجوها بر اساس اندیس راست مرتب شده‌اند.
+بنابراین، ما `add(cur_r)` و `remove(cur_r)` را در مجموع برای تمام این پرس‌وجوها فقط $O(N)$ بار فراخوانی می‌کنیم.
+این برای تمام بلاک‌ها $O(\frac{N}{S} N)$ فراخوانی می‌دهد.
 
-If we only look at all queries having the left index in the same block, the queries are sorted by the right index.
-Therefore we will call `add(cur_r)` and `remove(cur_r)` only $O(N)$ times for all these queries combined.
-This gives $O(\frac{N}{S} N)$ calls for all blocks.
+مقدار `cur_l` می‌تواند بین دو پرس‌وجو حداکثر $O(S)$ تغییر کند.
+بنابراین، ما $O(S Q)$ فراخوانی اضافی از `add(cur_l)` و `remove(cur_l)` داریم.
 
-The value of `cur_l` can change by at most $O(S)$ during between two queries.
-Therefore we have an additional $O(S Q)$ calls of `add(cur_l)` and `remove(cur_l)`.
+برای $S \approx \sqrt{N}$، این در مجموع $O((N + Q) \sqrt{N})$ عملیات می‌دهد.
+بنابراین پیچیدگی $O((N+Q)F\sqrt{N})$ است که $O(F)$ پیچیدگی توابع `add` و `remove` است.
 
-For $S \approx \sqrt{N}$ this gives $O((N + Q) \sqrt{N})$ operations in total.
-Thus the complexity is $O((N+Q)F\sqrt{N})$ where $O(F)$  is the complexity of `add` and `remove` function.
+### نکاتی برای بهبود زمان اجرا
 
-### Tips for improving runtime
-
-* Block size of precisely $\sqrt{N}$ doesn't always offer the best runtime.  For example, if $\sqrt{N}=750$ then it may happen that block size of $700$ or $800$ may run better.
-More importantly, don't compute the block size at runtime - make it `const`. Division by constants is well optimized by compilers.
-* In odd blocks sort the right index in ascending order and in even blocks sort it in descending order. This will minimize the movement of right pointer, as the normal sorting will move the right pointer from the end back to the beginning at the start of every block. With the improved version this resetting is no more necessary.
+*   اندازه بلاک دقیقاً $\sqrt{N}$ همیشه بهترین زمان اجرا را ارائه نمی‌دهد. به عنوان مثال، اگر $\sqrt{N}=750$ باشد، ممکن است اندازه بلاک $700$ یا $800$ بهتر عمل کند.
+    مهم‌تر از آن، اندازه بلاک را در زمان اجرا محاسبه نکنید - آن را `const` کنید. تقسیم بر ثوابت توسط کامپایلرها به خوبی بهینه می‌شود.
+*   در بلاک‌های فرد، اندیس راست را به ترتیب صعودی و در بلاک‌های زوج به ترتیب نزولی مرتب کنید. این کار حرکت اشاره‌گر راست را به حداقل می‌رساند، زیرا مرتب‌سازی معمولی در ابتدای هر بلاک، اشاره‌گر راست را از انتها به ابتدا برمی‌گرداند. با نسخه بهبود یافته، این بازنشانی دیگر لازم نیست.
 
 ```cpp
 bool cmp(pair<int, int> p, pair<int, int> q) {
@@ -232,9 +231,9 @@ bool cmp(pair<int, int> p, pair<int, int> q) {
 }
 ```
 
-You can read about even faster sorting approach [here](https://codeforces.com/blog/entry/61203).
+می‌توانید در مورد رویکرد مرتب‌سازی حتی سریع‌تر [اینجا](https://codeforces.com/blog/entry/61203) بخوانید.
 
-## Practice Problems
+## مسائل تمرینی
 
 * [Codeforces - Kuriyama Mirai's Stones](https://codeforces.com/problemset/problem/433/B)
 * [UVA - 12003 - Array Transformer](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=3154)

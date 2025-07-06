@@ -1,38 +1,38 @@
 ---
 tags:
-  
-e_maxx_link: fft_multiply
+  - AI Translated
+e_maxx_link: fft
 ---
 
-# Fast Fourier transform
+# تبدیل فوریه سریع
 
-In this article we will discuss an algorithm that allows us to multiply two polynomials of length $n$ in $O(n \log n)$ time, which is better than the trivial multiplication which takes $O(n^2)$ time.
-Obviously also multiplying two long numbers can be reduced to multiplying polynomials, so also two long numbers can be multiplied in $O(n \log n)$ time (where $n$ is the number of digits in the numbers).
+در این مقاله، الگوریتمی را مورد بحث قرار می‌دهیم که به ما اجازه می‌دهد دو چندجمله‌ای به طول $n$ را در زمان $O(n \log n)$ ضرب کنیم، که بهتر از ضرب معمولی با زمان $O(n^2)$ است.
+بدیهی است که ضرب دو عدد طولانی نیز می‌تواند به ضرب چندجمله‌ای‌ها کاهش یابد، بنابراین دو عدد طولانی نیز می‌توانند در زمان $O(n \log n)$ ضرب شوند (که در آن $n$ تعداد ارقام اعداد است).
 
-The discovery of the **Fast Fourier transformation (FFT)** is attributed to Cooley and Tukey, who published an algorithm in 1965.
-But in fact the FFT has been discovered repeatedly before, but the importance of it was not understood before the inventions of modern computers.
-Some researchers attribute the discovery of the FFT to Runge and König in 1924.
-But actually Gauss developed such a method already in 1805, but never published it.
+کشف **تبدیل فوریه سریع (FFT)** به کولی و توکی نسبت داده می‌شود که در سال ۱۹۶۵ الگوریتمی را منتشر کردند.
+اما در واقع FFT بارها پیش از آن کشف شده بود، اما اهمیت آن قبل از اختراع کامپیوترهای مدرن درک نشده بود.
+برخی محققان کشف FFT را به رونگه و کونیگ در سال ۱۹۲۴ نسبت می‌دهند.
+اما در واقع، گاوس چنین روشی را در سال ۱۸۰۵ توسعه داده بود، اما هرگز آن را منتشر نکرد.
 
-Notice, that the FFT algorithm presented here runs in $O(n \log n)$ time, but it doesn't work for multiplying arbitrary big polynomials with arbitrary large coefficients or for multiplying arbitrary big integers.
-It can easily handle polynomials of size $10^5$ with small coefficients, or multiplying two numbers of size $10^6$, which is usually enough for solving competitive programming problems. Beyond the scale of multiplying numbers with $10^6$ bits, the range and precision of the floating point numbers used during the computation will not be enough to give accurate final results, though there are more complex variations that can perform arbitrary large polynomial/integer multiplications.
-E.g. in 1971 Schönhage and Strasser developed a variation for multiplying arbitrary large numbers that applies the FFT recursively in rings structures running in $O(n \log n \log \log n)$.
-And recently (in 2019) Harvey and van der Hoeven published an algorithm that runs in true $O(n \log n)$.
+توجه داشته باشید که الگوریتم FFT ارائه‌شده در اینجا در زمان $O(n \log n)$ اجرا می‌شود، اما برای ضرب چندجمله‌ای‌های دلخواه بزرگ با ضرایب دلخواه بزرگ یا برای ضرب اعداد صحیح دلخواه بزرگ کار نمی‌کند.
+این الگوریتم به راحتی می‌تواند چندجمله‌ای‌هایی با اندازه $10^5$ و ضرایب کوچک را مدیریت کند یا دو عدد با اندازه $10^6$ را ضرب کند، که معمولاً برای حل مسائل برنامه‌نویسی رقابتی کافی است. فراتر از مقیاس ضرب اعداد با $10^6$ بیت، محدوده و دقت اعداد ممیز شناور مورد استفاده در طول محاسبات برای ارائه نتایج نهایی دقیق کافی نخواهد بود، اگرچه نسخه‌های پیچیده‌تری وجود دارند که می‌توانند ضرب‌های چندجمله‌ای/اعداد صحیح دلخواه بزرگ را انجام دهند.
+به عنوان مثال، در سال ۱۹۷۱، شونهاگه و اشتراسر نسخه‌ای برای ضرب اعداد دلخواه بزرگ توسعه دادند که FFT را به صورت بازگشتی در ساختارهای حلقه‌ای با زمان اجرای $O(n \log n \log \log n)$ به کار می‌برد.
+و اخیراً (در سال ۲۰۱۹) هاروی و فان در هوون الگوریتمی را منتشر کردند که دقیقاً در زمان $O(n \log n)$ اجرا می‌شود.
 
-## Discrete Fourier transform
+## تبدیل فوریه گسسته
 
-Let there be a polynomial of degree $n - 1$:
+یک چندجمله‌ای از درجه $n-1$ را در نظر بگیرید:
 
 $$A(x) = a_0 x^0 + a_1 x^1 + \dots + a_{n-1} x^{n-1}$$
 
-Without loss of generality we assume that $n$ - the number of coefficients - is a power of $2$.
-If $n$ is not a power of $2$, then we simply add the missing terms $a_i x^i$ and set the coefficients $a_i$ to $0$.
+بدون از دست دادن کلیت، فرض می‌کنیم که $n$ - تعداد ضرایب - توانی از ۲ است.
+اگر $n$ توانی از ۲ نباشد، به سادگی جملات недостающие $a_i x^i$ را اضافه کرده و ضرایب $a_i$ را برابر با ۰ قرار می‌دهیم.
 
-The theory of complex numbers tells us that the equation $x^n = 1$ has $n$ complex solutions (called the $n$-th roots of unity), and the solutions are of the form $w_{n, k} = e^{\frac{2 k \pi i}{n}}$ with $k = 0 \dots n-1$.
-Additionally these complex numbers have some very interesting properties:
-e.g. the principal $n$-th root $w_n = w_{n, 1} = e^{\frac{2 \pi i}{n}}$ can be used to describe all other $n$-th roots: $w_{n, k} = (w_n)^k$.
+نظریه اعداد مختلط به ما می‌گوید که معادله $x^n = 1$ دارای $n$ جواب مختلط است (که به آنها ریشه‌های $n$-ام واحد گفته می‌شود) و جواب‌ها به شکل $w_{n, k} = e^{\frac{2 k \pi i}{n}}$ برای $k = 0 \dots n-1$ هستند.
+علاوه بر این، این اعداد مختلط خواص بسیار جالبی دارند:
+برای مثال، ریشه اصلی $n$-ام $w_n = w_{n, 1} = e^{\frac{2 \pi i}{n}}$ می‌تواند برای توصیف تمام ریشه‌های $n$-ام دیگر استفاده شود: $w_{n, k} = (w_n)^k$.
 
-The **discrete Fourier transform (DFT)** of the polynomial $A(x)$ (or equivalently the vector of coefficients $(a_0, a_1, \dots, a_{n-1})$ is defined as the values of the polynomial at the points $x = w_{n, k}$, i.e. it is the vector:
+**تبدیل فوریه گسسته (DFT)** چندجمله‌ای $A(x)$ (یا به طور معادل بردار ضرایب $(a_0, a_1, \dots, a_{n-1})$) به عنوان مقادیر چندجمله‌ای در نقاط $x = w_{n, k}$ تعریف می‌شود، یعنی این بردار است:
 
 $$\begin{align}
 \text{DFT}(a_0, a_1, \dots, a_{n-1}) &= (y_0, y_1, \dots, y_{n-1}) \\
@@ -40,76 +40,76 @@ $$\begin{align}
 &= (A(w_n^0), A(w_n^1), \dots, A(w_n^{n-1}))
 \end{align}$$
 
-Similarly the **inverse discrete Fourier transform** is defined:
-The inverse DFT of values of the polynomial $(y_0, y_1, \dots, y_{n-1})$ are the coefficients of the polynomial $(a_0, a_1, \dots, a_{n-1})$.
+به طور مشابه، **تبدیل فوریه گسسته معکوس** تعریف می‌شود:
+تبدیل فوریه گسسته معکوس از مقادیر چندجمله‌ای $(y_0, y_1, \dots, y_{n-1})$، ضرایب چندجمله‌ای $(a_0, a_1, \dots, a_{n-1})$ است.
 
 $$\text{InverseDFT}(y_0, y_1, \dots, y_{n-1}) = (a_0, a_1, \dots, a_{n-1})$$
 
-Thus, if a direct DFT computes the values of the polynomial at the points at the $n$-th roots, the inverse DFT can restore the coefficients of the polynomial using those values.
+بنابراین، اگر یک DFT مستقیم مقادیر چندجمله‌ای را در نقاط ریشه‌های $n$-ام محاسبه کند، DFT معکوس می‌تواند ضرایب چندجمله‌ای را با استفاده از آن مقادیر بازیابی کند.
 
-### Application of the DFT: fast multiplication of polynomials
+### کاربرد DFT: ضرب سریع چندجمله‌ای‌ها
 
-Let there be two polynomials $A$ and $B$.
-We compute the DFT for each of them: $\text{DFT}(A)$ and $\text{DFT}(B)$.
+دو چندجمله‌ای $A$ و $B$ را در نظر بگیرید.
+ما DFT را برای هر یک از آنها محاسبه می‌کنیم: $\text{DFT}(A)$ و $\text{DFT}(B)$.
 
-What happens if we multiply these polynomials?
-Obviously at each point the values are simply multiplied, i.e.
+چه اتفاقی می‌افتد اگر این چندجمله‌ای‌ها را ضرب کنیم؟
+بدیهی است که در هر نقطه، مقادیر به سادگی در هم ضرب می‌شوند، یعنی:
 
 $$(A \cdot B)(x) = A(x) \cdot B(x).$$
 
-This means that if we multiply the vectors $\text{DFT}(A)$ and $\text{DFT}(B)$ - by multiplying each element of one vector by the corresponding element of the other vector - then we get nothing other than the DFT of the polynomial $\text{DFT}(A \cdot B)$:
+این بدان معناست که اگر بردارهای $\text{DFT}(A)$ و $\text{DFT}(B)$ را - با ضرب هر عنصر از یک بردار در عنصر متناظر از بردار دیگر - ضرب کنیم، چیزی جز DFT چندجمله‌ای $\text{DFT}(A \cdot B)$ به دست نمی‌آوریم:
 
 $$\text{DFT}(A \cdot B) = \text{DFT}(A) \cdot \text{DFT}(B)$$
 
-Finally, applying the inverse DFT, we obtain:
+در نهایت، با اعمال DFT معکوس، به دست می‌آوریم:
 
 $$A \cdot B = \text{InverseDFT}(\text{DFT}(A) \cdot \text{DFT}(B))$$
 
-On the right the product of the two DFTs we mean the pairwise product of the vector elements.
-This can be computed in $O(n)$ time.
-If we can compute the DFT and the inverse DFT in $O(n \log n)$, then we can compute the product of the two polynomials (and consequently also two long numbers) with the same time complexity.
+در سمت راست، منظور از ضرب دو DFT، ضرب زوجی عناصر بردار است.
+این کار می‌تواند در زمان $O(n)$ محاسبه شود.
+اگر بتوانیم DFT و DFT معکوس را در $O(n \log n)$ محاسبه کنیم، آنگاه می‌توانیم حاصل‌ضرب دو چندجمله‌ای (و در نتیجه دو عدد طولانی) را با همان پیچیدگی زمانی محاسبه کنیم.
 
-It should be noted, that the two polynomials should have the same degree.
-Otherwise the two result vectors of the DFT have different length.
-We can accomplish this by adding coefficients with the value $0$.
+باید توجه داشت که دو چندجمله‌ای باید درجه یکسانی داشته باشند.
+در غیر این صورت، دو بردار حاصل از DFT طول‌های متفاوتی خواهند داشت.
+ما می‌توانیم این کار را با افزودن ضرایب با مقدار ۰ انجام دهیم.
 
-And also, since the result of the product of two polynomials is a polynomial of degree $2 (n - 1)$, we have to double the degrees of each polynomial (again by padding $0$s).
-From a vector with $n$ values we cannot reconstruct the desired polynomial with $2n - 1$ coefficients.
+و همچنین، از آنجایی که حاصل‌ضرب دو چندجمله‌ای، چندجمله‌ای با درجه $2(n-1)$ است، باید درجه هر چندجمله‌ای را دو برابر کنیم (دوباره با پر کردن با ۰).
+از یک بردار با $n$ مقدار نمی‌توانیم چندجمله‌ای مورد نظر با $2n-1$ ضریب را بازسازی کنیم.
 
-### Fast Fourier Transform
+### تبدیل فوریه سریع
 
-The **fast Fourier transform** is a method that allows computing the DFT in $O(n \log n)$ time.
-The basic idea of the FFT is to apply divide and conquer.
-We divide the coefficient vector of the polynomial into two vectors, recursively compute the DFT for each of them, and combine the results to compute the DFT of the complete polynomial.
+**تبدیل فوریه سریع** روشی است که امکان محاسبه DFT را در زمان $O(n \log n)$ فراهم می‌کند.
+ایده اصلی FFT استفاده از روش تقسیم و حل است.
+ما بردار ضرایب چندجمله‌ای را به دو بردار تقسیم می‌کنیم، به صورت بازگشتی DFT را برای هر کدام محاسبه می‌کنیم، و نتایج را برای محاسبه DFT چندجمله‌ای کامل ترکیب می‌کنیم.
 
-So let there be a polynomial $A(x)$ with degree $n - 1$, where $n$ is a power of $2$, and $n > 1$:
+پس یک چندجمله‌ای $A(x)$ با درجه $n-1$ را در نظر بگیرید، که در آن $n$ توانی از ۲ است و $n > 1$:
 
 $$A(x) = a_0 x^0 + a_1 x^1 + \dots + a_{n-1} x^{n-1}$$
 
-We divide it into two smaller polynomials, the one containing only the coefficients of the even positions, and the one containing the coefficients of the odd positions:
+ما آن را به دو چندجمله‌ای کوچک‌تر تقسیم می‌کنیم، یکی شامل ضرایب موقعیت‌های زوج، و دیگری شامل ضرایب موقعیت‌های فرد:
 
 $$\begin{align}
 A_0(x) &= a_0 x^0 + a_2 x^1 + \dots + a_{n-2} x^{\frac{n}{2}-1} \\
 A_1(x) &= a_1 x^0 + a_3 x^1 + \dots + a_{n-1} x^{\frac{n}{2}-1}
 \end{align}$$
 
-It is easy to see that
+به راحتی می‌توان دید که
 
 $$A(x) = A_0(x^2) + x A_1(x^2).$$
 
-The polynomials $A_0$ and $A_1$ have only half as many coefficients as the polynomial $A$.
-If we can compute the $\text{DFT}(A)$ in linear time using $\text{DFT}(A_0)$ and $\text{DFT}(A_1)$, then we get the recurrence $T_{\text{DFT}}(n) = 2 T_{\text{DFT}}\left(\frac{n}{2}\right) + O(n)$ for the time complexity, which results in $T_{\text{DFT}}(n) = O(n \log n)$ by the **master theorem**.
+چندجمله‌ای‌های $A_0$ و $A_1$ فقط نصف ضرایب چندجمله‌ای $A$ را دارند.
+اگر بتوانیم $\text{DFT}(A)$ را در زمان خطی با استفاده از $\text{DFT}(A_0)$ و $\text{DFT}(A_1)$ محاسبه کنیم، آنگاه رابطه بازگشتی $T_{\text{DFT}}(n) = 2 T_{\text{DFT}}\left(\frac{n}{2}\right) + O(n)$ را برای پیچیدگی زمانی به دست می‌آوریم، که طبق **قضیه اصلی (Master Theorem)** به $T_{\text{DFT}}(n) = O(n \log n)$ منجر می‌شود.
 
-Let's learn how we can accomplish that.
+بیایید یاد بگیریم چگونه می‌توانیم این کار را انجام دهیم.
 
-Suppose we have computed the vectors $\left(y_k^0\right)_{k=0}^{n/2-1} = \text{DFT}(A_0)$ and $\left(y_k^1\right)_{k=0}^{n/2-1} = \text{DFT}(A_1)$.
-Let us find a expression for $\left(y_k\right)_{k=0}^{n-1} = \text{DFT}(A)$.
+فرض کنید بردارهای $\left(y_k^0\right)_{k=0}^{n/2-1} = \text{DFT}(A_0)$ و $\left(y_k^1\right)_{k=0}^{n/2-1} = \text{DFT}(A_1)$ را محاسبه کرده‌ایم.
+بیایید عبارتی برای $\left(y_k\right)_{k=0}^{n-1} = \text{DFT}(A)$ پیدا کنیم.
 
-For the first $\frac{n}{2}$ values we can just use the previously noted equation $A(x) = A_0(x^2) + x A_1(x^2)$:
+برای $\frac{n}{2}$ مقدار اول، می‌توانیم از معادله ذکر شده قبلی $A(x) = A_0(x^2) + x A_1(x^2)$ استفاده کنیم:
 
 $$y_k = y_k^0 + w_n^k y_k^1, \quad k = 0 \dots \frac{n}{2} - 1.$$
 
-However for the second $\frac{n}{2}$ values we need to find a slightly, different expression:
+اما برای $\frac{n}{2}$ مقدار دوم، باید عبارتی کمی متفاوت پیدا کنیم:
 
 $$\begin{align}
 y_{k+n/2} &= A\left(w_n^{k+n/2}\right) \\
@@ -119,27 +119,27 @@ y_{k+n/2} &= A\left(w_n^{k+n/2}\right) \\
 &= y_k^0 - w_n^k y_k^1
 \end{align}$$
 
-Here we used again $A(x) = A_0(x^2) + x A_1(x^2)$ and the two identities $w_n^n = 1$ and $w_n^{n/2} = -1$.
+در اینجا ما دوباره از $A(x) = A_0(x^2) + x A_1(x^2)$ و دو اتحاد $w_n^n = 1$ و $w_n^{n/2} = -1$ استفاده کردیم.
 
-Therefore we get the desired formulas for computing the whole vector $(y_k)$:
+بنابراین، فرمول‌های مورد نظر برای محاسبه کل بردار $(y_k)$ را به دست می‌آوریم:
 
 $$\begin{align}
 y_k &= y_k^0 + w_n^k y_k^1, &\quad k = 0 \dots \frac{n}{2} - 1, \\
 y_{k+n/2} &= y_k^0 - w_n^k y_k^1, &\quad k = 0 \dots \frac{n}{2} - 1.
 \end{align}$$
 
-(This pattern $a + b$ and $a - b$ is sometimes called a **butterfly**.)
+(این الگو $a+b$ و $a-b$ گاهی اوقات **پروانه (butterfly)** نامیده می‌شود.)
 
-Thus we learned how to compute the DFT in $O(n \log n)$ time.
+بنابراین یاد گرفتیم که چگونه DFT را در زمان $O(n \log n)$ محاسبه کنیم.
 
-### Inverse FFT
+### تبدیل فوریه معکوس
 
-Let the vector $(y_0, y_1, \dots y_{n-1})$ - the values of polynomial $A$ of degree $n - 1$ in the points $x = w_n^k$ - be given.
-We want to restore the coefficients $(a_0, a_1, \dots, a_{n-1})$ of the polynomial.
-This known problem is called **interpolation**, and there are general algorithms for solving it.
-But in this special case (since we know the values of the points at the roots of unity), we can obtains a much simpler algorithm (that is practically the same as the direct FFT).
+فرض کنید بردار $(y_0, y_1, \dots y_{n-1})$ - مقادیر چندجمله‌ای $A$ از درجه $n-1$ در نقاط $x = w_n^k$ - داده شده است.
+ما می‌خواهیم ضرایب $(a_0, a_1, \dots, a_{n-1})$ چندجمله‌ای را بازیابی کنیم.
+این مسئله به عنوان **درونیابی** شناخته می‌شود و الگوریتم‌های کلی برای حل آن وجود دارد.
+اما در این مورد خاص (از آنجایی که مقادیر نقاط را در ریشه‌های واحد می‌دانیم)، می‌توانیم الگوریتم بسیار ساده‌تری به دست آوریم (که عملاً همانند FFT مستقیم است).
 
-We can write the DFT, according to its definition, in the matrix form:
+ما می‌توانیم DFT را، طبق تعریف آن، به شکل ماتریسی بنویسیم:
 
 $$
 \begin{pmatrix}
@@ -156,9 +156,9 @@ y_0 \\ y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_{n-1}
 \end{pmatrix}
 $$
 
-This matrix is called the **Vandermonde matrix**.
+این ماتریس، **ماتریس وندرموند** نامیده می‌شود.
 
-Thus we can compute the vector $(a_0, a_1, \dots, a_{n-1})$ by multiplying the vector $(y_0, y_1, \dots y_{n-1})$ from the left with the inverse of the matrix:
+بنابراین می‌توانیم بردار $(a_0, a_1, \dots, a_{n-1})$ را با ضرب بردار $(y_0, y_1, \dots y_{n-1})$ از سمت چپ در معکوس ماتریس محاسبه کنیم:
 
 $$
 \begin{pmatrix}
@@ -175,7 +175,7 @@ y_0 \\ y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_{n-1}
 \end{pmatrix}
 $$
 
-A quick check can verify that the inverse of the matrix has the following form:
+یک بررسی سریع می‌تواند تأیید کند که معکوس ماتریس به شکل زیر است:
 
 $$
 \frac{1}{n}
@@ -189,24 +189,24 @@ w_n^0 & w_n^{-(n-1)} & w_n^{-2(n-1)} & w_n^{-3(n-1)} & \cdots & w_n^{-(n-1)(n-1)
 \end{pmatrix}
 $$
 
-Thus we obtain the formula:
+بنابراین فرمول زیر را به دست می‌آوریم:
 
 $$a_k = \frac{1}{n} \sum_{j=0}^{n-1} y_j w_n^{-k j}$$
 
-Comparing this to the formula for $y_k$
+با مقایسه این فرمول با فرمول $y_k$
 
 $$y_k = \sum_{j=0}^{n-1} a_j w_n^{k j},$$
 
-we notice that these problems are almost the same, so the coefficients $a_k$ can be found by the same divide and conquer algorithm, as well as the direct FFT, only instead of $w_n^k$ we have to use $w_n^{-k}$, and at the end we need to divide the resulting coefficients by $n$.
+متوجه می‌شویم که این مسائل تقریباً یکسان هستند، بنابراین ضرایب $a_k$ را می‌توان با همان الگوریتم تقسیم و حل، و همچنین FFT مستقیم، پیدا کرد، تنها به جای $w_n^k$ باید از $w_n^{-k}$ استفاده کنیم و در انتها ضرایب حاصل را بر $n$ تقسیم کنیم.
 
-Thus the computation of the inverse DFT is almost the same as the calculation of the direct DFT, and it also can be performed in $O(n \log n)$ time.
+بنابراین، محاسبه DFT معکوس تقریباً همانند محاسبه DFT مستقیم است و همچنین می‌تواند در زمان $O(n \log n)$ انجام شود.
 
-### Implementation
+### پیاده‌سازی
 
-Here we present a simple recursive **implementation of the FFT** and the inverse FFT, both in one function, since the difference between the forward and the inverse FFT are so minimal.
-To store the complex numbers we use the complex type in the C++ STL.
+در اینجا یک **پیاده‌سازی بازگشتی** ساده از FFT و FFT معکوس را ارائه می‌دهیم، هر دو در یک تابع، زیرا تفاوت بین FFT مستقیم و معکوس بسیار ناچیز است.
+برای ذخیره اعداد مختلط از نوع `complex` در کتابخانه استاندارد ++C استفاده می‌کنیم.
 
-```{.cpp file=fft_recursive}
+```cpp {.cpp file=fft_recursive}
 using cd = complex<double>;
 const double PI = acos(-1);
 
@@ -237,18 +237,18 @@ void fft(vector<cd> & a, bool invert) {
 }
 ```
 
-The function gets passed a vector of coefficients, and the function will compute the DFT or inverse DFT and store the result again in this vector.
-The argument $\text{invert}$ shows whether the direct or the inverse DFT should be computed.
-Inside the function we first check if the length of the vector is equal to one, if this is the case then we don't have to do anything.
-Otherwise we divide the vector $a$ into two vectors $a0$ and $a1$ and compute the DFT for both recursively.
-Then we initialize the value $wn$ and a variable $w$, which will contain the current power of $wn$.
-Then the values of the resulting DFT are computed using the above formulas.
+تابع یک بردار از ضرایب را دریافت می‌کند و DFT یا DFT معکوس را محاسبه کرده و نتیجه را دوباره در همین بردار ذخیره می‌کند.
+آرگومان `invert` نشان می‌دهد که آیا DFT مستقیم یا معکوس باید محاسبه شود.
+درون تابع ابتدا بررسی می‌کنیم که آیا طول بردار برابر با یک است، اگر این‌طور باشد، نیازی به انجام کاری نداریم.
+در غیر این صورت، بردار `a` را به دو بردار `a0` و `a1` تقسیم می‌کنیم و DFT را برای هر دو به صورت بازگشتی محاسبه می‌کنیم.
+سپس مقدار `wn` و متغیر `w` را که توان فعلی `wn` را نگه می‌دارد، مقداردهی اولیه می‌کنیم.
+سپس مقادیر DFT حاصل با استفاده از فرمول‌های بالا محاسبه می‌شوند.
 
-If the flag $\text{invert}$ is set, then we replace $wn$ with $wn^{-1}$, and each of the values of the result is divided by $2$ (since this will be done in each level of the recursion, this will end up dividing the final values by $n$).
+اگر پرچم `invert` تنظیم شده باشد، `wn` را با `wn^{-1}` جایگزین می‌کنیم و هر یک از مقادیر نتیجه بر ۲ تقسیم می‌شود (از آنجایی که این کار در هر سطح از بازگشت انجام می‌شود، در نهایت مقادیر نهایی بر $n$ تقسیم خواهند شد).
 
-Using this function we can create a function for **multiplying two polynomials**:
+با استفاده از این تابع می‌توانیم تابعی برای **ضرب دو چندجمله‌ای** ایجاد کنیم:
 
-```{.cpp file=fft_multiply}
+```cpp {.cpp file=fft_multiply}
 vector<int> multiply(vector<int> const& a, vector<int> const& b) {
     vector<cd> fa(a.begin(), a.end()), fb(b.begin(), b.end());
     int n = 1;
@@ -270,11 +270,11 @@ vector<int> multiply(vector<int> const& a, vector<int> const& b) {
 }
 ```
 
-This function works with polynomials with integer coefficients, however you can also adjust it to work with other types.
-Since there is some error when working with complex numbers, we need round the resulting coefficients at the end.
+این تابع با چندجمله‌ای‌هایی با ضرایب صحیح کار می‌کند، اما می‌توانید آن را برای کار با انواع دیگر داده‌ها نیز تنظیم کنید.
+از آنجایی که هنگام کار با اعداد مختلط مقداری خطا وجود دارد، باید در انتها ضرایب حاصل را گرد کنیم.
 
-Finally the function for **multiplying** two long numbers practically doesn't differ from the function for multiplying polynomials.
-The only thing we have to do afterwards, is to normalize the number:
+در نهایت، تابع **ضرب** دو عدد طولانی عملاً با تابع ضرب چندجمله‌ای‌ها تفاوتی ندارد.
+تنها کاری که باید بعد از آن انجام دهیم، نرمال‌سازی عدد است:
 
 ```cpp
     int carry = 0;
@@ -285,54 +285,54 @@ The only thing we have to do afterwards, is to normalize the number:
     }
 ```
 
-Since the length of the product of two numbers never exceed the total length of both numbers, the size of the vector is enough to perform all carry operations.
+از آنجایی که طول حاصل‌ضرب دو عدد هرگز از مجموع طول هر دو عدد بیشتر نمی‌شود، اندازه بردار برای انجام تمام عملیات نقلی کافی است.
 
-### Improved implementation: in-place computation
+### پیاده‌سازی بهبودیافته: محاسبه درجا
 
-To increase the efficiency we will switch from the recursive implementation to an iterative one.
-In the above recursive implementation we explicitly separated the vector $a$ into two vectors - the element on the even positions got assigned to one temporary vector, and the elements on odd positions to another.
-However if we reorder the elements in a certain way, we don't need to create these temporary vectors (i.e. all the calculations can be done "in-place", right in the vector $A$ itself).
+برای افزایش کارایی، از پیاده‌سازی بازگشتی به یک پیاده‌سازی تکراری تغییر می‌دهیم.
+در پیاده‌سازی بازگشتی بالا، ما به صراحت بردار `a` را به دو بردار - عناصری که در موقعیت‌های زوج قرار داشتند به یک بردار موقت و عناصری که در موقعیت‌های فرد قرار داشتند به بردار موقت دیگر - تقسیم کردیم.
+اما اگر عناصر را به روش خاصی مرتب کنیم، دیگر نیازی به ایجاد این بردارهای موقت نداریم (یعنی تمام محاسبات می‌تواند "درجا" و مستقیماً در خود بردار `A` انجام شود).
 
-Note that at the first recursion level, the elements whose lowest bit of the position was zero got assigned to the vector $a_0$, and the ones with a one as the lowest bit of the position got assigned to $a_1$.
-In the second recursion level the same thing happens, but with the second lowest bit instead, etc.
-Therefore if we reverse the bits of the position of each coefficient, and sort them by these reversed values, we get the desired order (it is called the bit-reversal permutation).
+توجه داشته باشید که در اولین سطح بازگشت، عناصری که کم‌ارزش‌ترین بیت موقعیتشان صفر بود به بردار `a_0` و آنهایی که کم‌ارزش‌ترین بیت موقعیتشان یک بود به `a_1` اختصاص داده شدند.
+در سطح دوم بازگشت، همین اتفاق می‌افتد، اما این بار با دومین بیت کم‌ارزش و غیره.
+بنابراین، اگر بیت‌های موقعیت هر ضریب را معکوس کنیم و آنها را بر اساس این مقادیر معکوس شده مرتب کنیم، ترتیب مورد نظر را به دست می‌آوریم (این ترتیب، جایگشت بیت-معکوس نامیده می‌شود).
 
-For example the desired order for $n = 8$ has the form:
+برای مثال، ترتیب مورد نظر برای $n=8$ به این شکل است:
 
 $$a = \bigg\{ \Big[ (a_0, a_4), (a_2, a_6) \Big], \Big[ (a_1, a_5), (a_3, a_7) \Big] \bigg\}$$
 
-Indeed in the first recursion level (surrounded by curly braces), the vector gets divided into two parts $[a_0, a_2, a_4, a_6]$ and $[a_1, a_3, a_5, a_7]$.
-As we see, in the bit-reversal permutation this corresponds to simply dividing the vector into two halves: the first $\frac{n}{2}$ elements and the last $\frac{n}{2}$ elements.
-Then there is a recursive call for each halve.
-Let the resulting DFT for each of them be returned in place of the elements themselves (i.e. the first half and the second half of the vector $a$ respectively.
+در واقع، در اولین سطح بازگشت (که با آکولادها احاطه شده است)، بردار به دو بخش $[a_0, a_2, a_4, a_6]$ و $[a_1, a_3, a_5, a_7]$ تقسیم می‌شود.
+همانطور که می‌بینیم، در جایگشت بیت-معکوس این معادل تقسیم ساده بردار به دو نیمه است: $\frac{n}{2}$ عنصر اول و $\frac{n}{2}$ عنصر آخر.
+سپس برای هر نیمه یک فراخوانی بازگشتی وجود دارد.
+فرض کنید DFT حاصل برای هر یک از آنها در جای خود عناصر بازگردانده شود (یعنی به ترتیب نیمه اول و دوم بردار `a`).
 
 $$a = \bigg\{ \Big[y_0^0, y_1^0, y_2^0, y_3^0\Big], \Big[y_0^1, y_1^1, y_2^1, y_3^1 \Big] \bigg\}$$
 
-Now we want to combine the two DFTs into one for the complete vector.
-The order of the elements is ideal, and we can also perform the union directly in this vector.
-We can take the elements $y_0^0$ and $y_0^1$ and perform the butterfly transform.
-The place of the resulting two values is the same as the place of the two initial values, so we get:
+حالا می‌خواهیم دو DFT را در یک DFT برای کل بردار ترکیب کنیم.
+ترتیب عناصر ایده‌آل است و ما می‌توانیم این ادغام را نیز مستقیماً در این بردار انجام دهیم.
+می‌توانیم عناصر $y_0^0$ و $y_0^1$ را برداشته و تبدیل پروانه‌ای را روی آنها اعمال کنیم.
+محل دو مقدار حاصل همان محل دو مقدار اولیه است، بنابراین به دست می‌آوریم:
 
 $$a = \bigg\{ \Big[y_0^0 + w_n^0 y_0^1, y_1^0, y_2^0, y_3^0\Big], \Big[y_0^0 - w_n^0 y_0^1, y_1^1, y_2^1, y_3^1\Big] \bigg\}$$
 
-Similarly we can compute the butterfly transform of $y_1^0$ and $y_1^1$ and put the results in their place, and so on.
-As a result we get:
+به طور مشابه می‌توانیم تبدیل پروانه‌ای $y_1^0$ و $y_1^1$ را محاسبه کرده و نتایج را در جای خودشان قرار دهیم، و به همین ترتیب ادامه دهیم.
+در نتیجه به دست می‌آوریم:
 
 $$a = \bigg\{ \Big[y_0^0 + w_n^0 y_0^1, y_1^0 + w_n^1 y_1^1, y_2^0 + w_n^2 y_2^1, y_3^0 + w_n^3 y_3^1\Big], \Big[y_0^0 - w_n^0 y_0^1, y_1^0 - w_n^1 y_1^1, y_2^0 - w_n^2 y_2^1, y_3^0 - w_n^3 y_3^1\Big] \bigg\}$$
 
-Thus we computed the required DFT from the vector $a$.
+بنابراین DFT مورد نیاز را از بردار `a` محاسبه کردیم.
 
-Here we described the process of computing the DFT only at the first recursion level, but the same works obviously also for all other levels.
-Thus, after applying the bit-reversal permutation, we can compute the DFT in-place, without any additional memory.
+در اینجا ما فرآیند محاسبه DFT را فقط در اولین سطح بازگشت توصیف کردیم، اما همین فرآیند به وضوح برای تمام سطوح دیگر نیز کار می‌کند.
+بنابراین، پس از اعمال جایگشت بیت-معکوس، می‌توانیم DFT را به صورت درجا و بدون هیچ حافظه اضافی محاسبه کنیم.
 
-This additionally allows us to get rid of the recursion.
-We just start at the lowest level, i.e. we divide the vector into pairs and apply the butterfly transform to them.
-This results with the vector $a$ with the work of the last level applied.
-In the next step we divide the vector into vectors of size $4$, and again apply the butterfly transform, which gives us the DFT for each block of size $4$.
-And so on.
-Finally in the last step we obtained the result of the DFTs of both halves of $a$, and by applying the butterfly transform we obtain the DFT for the complete vector $a$.
+این کار به ما اجازه می‌دهد تا از بازگشت خلاص شویم.
+ما فقط از پایین‌ترین سطح شروع می‌کنیم، یعنی بردار را به جفت‌ها تقسیم کرده و تبدیل پروانه‌ای را روی آنها اعمال می‌کنیم.
+این کار منجر به بردار `a` با اعمال کار آخرین سطح می‌شود.
+در مرحله بعد، بردار را به بردارهایی با اندازه ۴ تقسیم می‌کنیم و دوباره تبدیل پروانه‌ای را اعمال می‌کنیم، که به ما DFT را برای هر بلوک با اندازه ۴ می‌دهد.
+و به همین ترتیب ادامه می‌دهیم.
+در نهایت، در آخرین مرحله، نتیجه DFTهای هر دو نیمه `a` را به دست می‌آوریم و با اعمال تبدیل پروانه‌ای، DFT را برای کل بردار `a` به دست می‌آوریم.
 
-```{.cpp file=fft_implementation_iterative}
+```cpp {.cpp file=fft_implementation_iterative}
 using cd = complex<double>;
 const double PI = acos(-1);
 
@@ -377,23 +377,23 @@ void fft(vector<cd> & a, bool invert) {
 }
 ```
 
-At first we apply the bit-reversal permutation by swapping the each element with the element of the reversed position.
-Then the $\log n - 1$ states of the algorithm we compute the DFT for each block of the corresponding size $\text{len}$.
-For all those blocks we have the same root of unity $\text{wlen}$.
-We iterate all blocks and perform the butterfly transform on each of them.
+ابتدا با جابجایی هر عنصر با عنصر موقعیت معکوس شده، جایگشت بیت-معکوس را اعمال می‌کنیم.
+سپس در $\log n - 1$ مرحله الگوریتم، DFT را برای هر بلوک با اندازه متناظر `len` محاسبه می‌کنیم.
+برای تمام این بلوک‌ها، ریشه واحد `wlen` یکسانی داریم.
+ما روی تمام بلوک‌ها تکرار می‌کنیم و تبدیل پروانه‌ای را روی هر یک از آنها انجام می‌دهیم.
 
-We can further optimize the reversal of the bits.
-In the previous implementation we iterated all bits of the index and created the bitwise reversed index.
-However we can reverse the bits in a different way.
+می‌توانیم معکوس‌سازی بیت‌ها را بیشتر بهینه کنیم.
+در پیاده‌سازی قبلی، ما روی تمام بیت‌های اندیس تکرار کرده و اندیس معکوس بیتی را ایجاد کردیم.
+اما می‌توانیم بیت‌ها را به روش دیگری معکوس کنیم.
 
-Suppose that $j$ already contains the reverse of $i$.
-Then by to go to $i + 1$, we have to increment $i$, and we also have to increment $j$, but in a "reversed" number system.
-Adding one in the conventional binary system is equivalent to flip all tailing ones into zeros and flipping the zero right before them into a one.
-Equivalently in the "reversed" number system, we flip all leading ones, and the also the next zero.
+فرض کنید $j$ از قبل حاوی معکوس $i$ است.
+سپس برای رفتن به $i+1$، باید $i$ را افزایش دهیم، و همچنین باید $j$ را نیز افزایش دهیم، اما در یک سیستم عددی "معکوس".
+اضافه کردن یک در سیستم باینری معمولی معادل تغییر تمام یک‌های انتهایی به صفر و تغییر صفر درست قبل از آنها به یک است.
+به طور معادل، در سیستم عددی "معکوس"، ما تمام یک‌های ابتدایی و همچنین صفر بعدی را تغییر می‌دهیم.
 
-Thus we get the following implementation:
+بنابراین پیاده‌سازی زیر را به دست می‌آوریم:
 
-```{.cpp file=fft_implementation_iterative_opt}
+```cpp {.cpp file=fft_implementation_iterative_opt}
 using cd = complex<double>;
 const double PI = acos(-1);
 
@@ -431,54 +431,54 @@ void fft(vector<cd> & a, bool invert) {
 }
 ```
 
-Additionally we can precompute the bit-reversal permutation beforehand.
-This is especially useful when the size $n$ is the same for all calls.
-But even when we only have three calls (which are necessary for multiplying two polynomials), the effect is noticeable.
-Also we can precompute all roots of unity and their powers.
+علاوه بر این، می‌توانیم جایگشت بیت-معکوس را از قبل محاسبه کنیم.
+این کار به ویژه زمانی مفید است که اندازه $n$ برای تمام فراخوانی‌ها یکسان باشد.
+اما حتی زمانی که فقط سه فراخوانی داریم (که برای ضرب دو چندجمله‌ای لازم است)، تأثیر آن قابل توجه است.
+همچنین می‌توانیم تمام ریشه‌های واحد و توان‌های آنها را از قبل محاسبه کنیم.
 
-## Number theoretic transform
+## تبدیل نظریه اعداد
 
-Now we switch the objective a little bit.
-We still want to multiply two polynomials in $O(n \log n)$ time, but this time we want to compute the coefficients modulo some prime number $p$.
-Of course for this task we can use the normal DFT and apply the modulo operator to the result.
-However, doing so might lead to rounding errors, especially when dealing with large numbers.
-The **number theoretic transform (NTT)** has the advantage, that it only works with integer, and therefore the result are guaranteed to be correct.
- 
-The discrete Fourier transform is based on complex numbers, and the $n$-th roots of unity.
-To efficiently compute it, we extensively use properties of the roots (e.g. that there is one root that generates all other roots by exponentiation).
+حالا هدف را کمی تغییر می‌دهیم.
+ما هنوز می‌خواهیم دو چندجمله‌ای را در زمان $O(n \log n)$ ضرب کنیم، اما این بار می‌خواهیم ضرایب را به پیمانه یک عدد اول $p$ محاسبه کنیم.
+البته برای این کار می‌توانیم از DFT معمولی استفاده کنیم و عملگر پیمانه را روی نتیجه اعمال کنیم.
+با این حال، انجام این کار ممکن است به خطاهای گرد کردن منجر شود، به ویژه هنگام کار با اعداد بزرگ.
+**تبدیل نظریه اعداد (NTT)** این مزیت را دارد که فقط با اعداد صحیح کار می‌کند و بنابراین نتایج تضمین شده صحیح هستند.
 
-But the same properties hold for the $n$-th roots of unity in modular arithmetic.
-A $n$-th root of unity under a primitive field is such a number $w_n$ that satisfies:
+تبدیل فوریه گسسته بر اساس اعداد مختلط و ریشه‌های $n$-ام واحد است.
+برای محاسبه کارآمد آن، ما به طور گسترده از خواص ریشه‌ها استفاده می‌کنیم (مثلاً اینکه یک ریشه وجود دارد که تمام ریشه‌های دیگر را با توان‌رسانی تولید می‌کند).
+
+اما همین خواص برای ریشه‌های $n$-ام واحد در حساب پیمانه‌ای نیز برقرار است.
+یک ریشه $n$-ام واحد تحت یک میدان اولیه، عددی مانند $w_n$ است که در شرایط زیر صدق می‌کند:
 
 $$\begin{align}
 (w_n)^n &= 1 \pmod{p}, \\
 (w_n)^k &\ne 1 \pmod{p}, \quad 1 \le k < n.
 \end{align}$$
 
-The other $n-1$ roots can be obtained as powers of the root $w_n$.
+$n-1$ ریشه دیگر را می‌توان به صورت توان‌های ریشه $w_n$ به دست آورد.
 
-To apply it in the fast Fourier transform algorithm, we need a root to exist for some $n$, which is a power of $2$, and also for all smaller powers.
-We can notice the following interesting property:
+برای اعمال آن در الگوریتم تبدیل فوریه سریع، نیاز داریم که یک ریشه برای یک $n$ که توانی از ۲ است، و همچنین برای تمام توان‌های کوچکتر وجود داشته باشد.
+می‌توانیم به خاصیت جالب زیر توجه کنیم:
 
 $$\begin{align}
 (w_n^2)^m = w_n^n &= 1 \pmod{p}, \quad \text{with } m = \frac{n}{2}\\
 (w_n^2)^k = w_n^{2k} &\ne 1 \pmod{p}, \quad 1 \le k < m.
 \end{align}$$
 
-Thus if $w_n$ is a $n$-th root of unity, then $w_n^2$ is a $\frac{n}{2}$-th root of unity.
-And consequently for all smaller powers of two there exist roots of the required degree, and they can be computed using $w_n$.
+بنابراین اگر $w_n$ یک ریشه $n$-ام واحد باشد، آنگاه $w_n^2$ یک ریشه $\frac{n}{2}$-ام واحد است.
+و در نتیجه برای تمام توان‌های کوچکتر از دو، ریشه‌هایی با درجه مورد نیاز وجود دارند و می‌توانند با استفاده از $w_n$ محاسبه شوند.
 
-For computing the inverse DFT, we need the inverse $w_n^{-1}$ of $w_n$.
-But for a prime modulus the inverse always exists.
+برای محاسبه DFT معکوس، به معکوس $w_n^{-1}$ از $w_n$ نیاز داریم.
+اما برای یک پیمانه اول، معکوس همیشه وجود دارد.
 
-Thus all the properties that we need from the complex roots are also available in modular arithmetic, provided that we have a large enough module $p$ for which a $n$-th root of unity exists.
+بنابراین تمام خواصی که از ریشه‌های مختلط نیاز داریم، در حساب پیمانه‌ای نیز موجود است، به شرطی که یک پیمانه $p$ به اندازه کافی بزرگ داشته باشیم که برای آن یک ریشه $n$-ام واحد وجود داشته باشد.
 
-For example we can take the following values: module $p = 7340033$, $w_{2^{20}} = 5$.
-If this module is not enough, we need to find a different pair.
-We can use that fact that for modules of the form $p = c 2^k + 1$ (and $p$ is prime), there always exists the $2^k$-th root of unity.
-It can be shown that $g^c$ is such a $2^k$-th root of unity, where $g$ is a [primitive root](primitive-root.md) of $p$.
+برای مثال، می‌توانیم مقادیر زیر را در نظر بگیریم: پیمانه $p = 7340033$ و $w_{2^{20}} = 5$.
+اگر این پیمانه کافی نباشد، باید یک جفت دیگر پیدا کنیم.
+می‌توانیم از این واقعیت استفاده کنیم که برای پیمانه‌هایی به شکل $p = c 2^k + 1$ (و $p$ اول است)، همیشه ریشه $2^k$-ام واحد وجود دارد.
+می‌توان نشان داد که $g^c$ چنین ریشه $2^k$-ام واحدی است، که در آن $g$ یک [ریشه اولیه](primitive-root.md) از $p$ است.
 
-```{.cpp file=fft_implementation_modular_arithmetic}
+```cpp {.cpp file=fft_implementation_modular_arithmetic}
 const int mod = 7340033;
 const int root = 5;
 const int root_1 = 4404020;
@@ -521,134 +521,134 @@ void fft(vector<int> & a, bool invert) {
 }
 ```
 
-Here the function `inverse` computes the modular inverse (see [Modular Multiplicative Inverse](module-inverse.md)).
-The constants `mod`, `root`, `root_pw` determine the module and the root, and `root_1` is the inverse of `root` modulo `mod`.
+در اینجا تابع `inverse` معکوس پیمانه‌ای را محاسبه می‌کند (به [معکوس ضربی پیمانه‌ای](module-inverse.md) مراجعه کنید).
+ثابت‌های `mod`، `root` و `root_pw` پیمانه و ریشه را تعیین می‌کنند و `root_1` معکوس `root` به پیمانه `mod` است.
 
-In practice this implementation is slower than the implementation using complex numbers (due to the huge number of modulo operations), but it has some advantages such as less memory usage and no rounding errors.
+در عمل، این پیاده‌سازی کندتر از پیاده‌سازی با استفاده از اعداد مختلط است (به دلیل تعداد زیاد عملیات پیمانه)، اما مزایایی مانند استفاده کمتر از حافظه و عدم وجود خطاهای گرد کردن دارد.
 
-## Multiplication with arbitrary modulus
+## ضرب با پیمانه دلخواه
 
-Here we want to achieve the same goal as in previous section.
-Multiplying two polynomial $A(x)$ and $B(x)$, and computing the coefficients modulo some number $M$.
-The number theoretic transform only works for certain prime numbers.
-What about the case when the modulus is not of the desired form?
+در اینجا می‌خواهیم به همان هدفی برسیم که در بخش قبل داشتیم.
+ضرب دو چندجمله‌ای $A(x)$ و $B(x)$ و محاسبه ضرایب به پیمانه یک عدد $M$.
+تبدیل نظریه اعداد فقط برای اعداد اول خاصی کار می‌کند.
+در مورد زمانی که پیمانه به شکل مورد نظر نباشد، چه باید کرد؟
 
-One option would be to perform multiple number theoretic transforms with different prime numbers of the form $c 2^k + 1$, then apply the [Chinese Remainder Theorem](chinese-remainder-theorem.md) to compute the final coefficients.
+یک گزینه این است که چندین تبدیل نظریه اعداد با اعداد اول مختلف به شکل $c 2^k + 1$ انجام دهیم، سپس از [قضیه باقیمانده چینی](chinese-remainder-theorem.md) برای محاسبه ضرایب نهایی استفاده کنیم.
 
-Another options is to distribute the polynomials $A(x)$ and $B(x)$ into two smaller polynomials each
+گزینه دیگر این است که چندجمله‌ای‌های $A(x)$ و $B(x)$ را هر کدام به دو چندجمله‌ای کوچک‌تر تقسیم کنیم:
 
 $$\begin{align}
 A(x) &= A_1(x) + A_2(x) \cdot C \\
 B(x) &= B_1(x) + B_2(x) \cdot C
 \end{align}$$
 
-with $C \approx \sqrt{M}$.
+با $C \approx \sqrt{M}$.
 
-Then the product of $A(x)$ and $B(x)$ can then be represented as:
+سپس حاصل‌ضرب $A(x)$ و $B(x)$ می‌تواند به صورت زیر نمایش داده شود:
 
 $$A(x) \cdot B(x) = A_1(x) \cdot B_1(x) + \left(A_1(x) \cdot B_2(x) + A_2(x) \cdot B_1(x)\right)\cdot C + \left(A_2(x) \cdot B_2(x)\right)\cdot C^2$$
 
-The polynomials $A_1(x)$, $A_2(x)$, $B_1(x)$ and $B_2(x)$ contain only coefficients smaller than $\sqrt{M}$, therefore the coefficients of all the appearing products are smaller than $M \cdot n$, which is usually small enough to handle with typical floating point types.
+چندجمله‌ای‌های $A_1(x)$، $A_2(x)$، $B_1(x)$ و $B_2(x)$ فقط شامل ضرایب کوچکتر از $\sqrt{M}$ هستند، بنابراین ضرایب تمام حاصل‌ضرب‌های ظاهر شده کوچکتر از $M \cdot n$ خواهند بود، که معمولاً به اندازه کافی کوچک است تا با انواع ممیز شناور معمولی قابل مدیریت باشد.
 
-This approach therefore requires computing the products of polynomials with smaller coefficients (by using the normal FFT and inverse FFT), and then the original product can be restored using modular addition and multiplication in $O(n)$ time.
+این رویکرد بنابراین نیازمند محاسبه حاصل‌ضرب چندجمله‌ای‌ها با ضرایب کوچکتر است (با استفاده از FFT معمولی و FFT معکوس)، و سپس حاصل‌ضرب اصلی می‌تواند با استفاده از جمع و ضرب پیمانه‌ای در زمان $O(n)$ بازیابی شود.
 
-## Applications
+## کاربردها
 
-DFT can be used in a huge variety of other problems, which at the first glance have nothing to do with multiplying polynomials.
+DFT می‌تواند در طیف گسترده‌ای از مسائل دیگر که در نگاه اول هیچ ارتباطی با ضرب چندجمله‌ای‌ها ندارند، استفاده شود.
 
-### All possible sums
+### تمام مجموع‌های ممکن
 
-We are given two arrays $a[]$ and $b[]$.
-We have to find all possible sums $a[i] + b[j]$, and for each sum count how often it appears.
+دو آرایه $a[]$ و $b[]$ به ما داده شده است.
+باید تمام مجموع‌های ممکن $a[i] + b[j]$ را پیدا کنیم، و برای هر مجموع بشماریم که چند بار ظاهر می‌شود.
 
-For example for $a = [1,~ 2,~ 3]$ and $b = [2,~ 4]$ we get:
-then sum $3$ can be obtained in $1$ way, the sum $4$ also in $1$ way, $5$ in $2$, $6$ in $1$, $7$ in $1$.
+برای مثال برای $a = [1,~ 2,~ 3]$ و $b = [2,~ 4]$ به دست می‌آوریم:
+مجموع $3$ به ۱ روش، مجموع $4$ نیز به ۱ روش، $5$ به ۲ روش، $6$ به ۱ روش و $7$ به ۱ روش قابل دستیابی است.
 
-We construct for the arrays $a$ and $b$ two polynomials $A$ and $B$.
-The numbers of the array will act as the exponents in the polynomial ($a[i] \Rightarrow x^{a[i]}$); and the coefficients of this term will be how often the number appears in the array.
+ما برای آرایه‌های $a$ و $b$ دو چندجمله‌ای $A$ و $B$ می‌سازیم.
+اعداد آرایه به عنوان توان‌ها در چندجمله‌ای عمل می‌کنند ($a[i] \Rightarrow x^{a[i]}$)؛ و ضرایب این جمله تعداد دفعات ظهور عدد در آرایه خواهد بود.
 
-Then, by multiplying these two polynomials in $O(n \log n)$ time, we get a polynomial $C$, where the exponents will tell us which sums can be obtained, and the coefficients tell us how often.
-To demonstrate this on the example:
+سپس، با ضرب این دو چندجمله‌ای در زمان $O(n \log n)$، یک چندجمله‌ای $C$ به دست می‌آوریم که در آن توان‌ها به ما می‌گویند کدام مجموع‌ها قابل دستیابی هستند و ضرایب به ما می‌گویند چند بار.
+برای نشان دادن این موضوع با مثال:
 
 $$(1 x^1 + 1 x^2 + 1 x^3) (1 x^2 + 1 x^4) = 1 x^3 + 1 x^4 + 2 x^5 + 1 x^6 + 1 x^7$$
 
-### All possible scalar products
+### تمام ضرب‌های داخلی ممکن
 
-We are given two arrays $a[]$ and $b[]$ of length $n$.
-We have to compute the products of $a$ with every cyclic shift of $b$.
+دو آرایه $a[]$ و $b[]$ به طول $n$ به ما داده شده است.
+باید حاصل‌ضرب $a$ با هر شیفت دایره‌ای از $b$ را محاسبه کنیم.
 
-We generate two new arrays of size $2n$:
-We reverse $a$ and append $n$ zeros to it.
-And we just append $b$ to itself.
-When we multiply these two arrays as polynomials, and look at the coefficients $c[n-1],~ c[n],~ \dots,~ c[2n-2]$ of the product $c$, we get:
+دو آرایه جدید به اندازه $2n$ ایجاد می‌کنیم:
+$a$ را معکوس کرده و $n$ صفر به آن اضافه می‌کنیم.
+و $b$ را به خودش الحاق می‌کنیم.
+وقتی این دو آرایه را به عنوان چندجمله‌ای ضرب می‌کنیم و به ضرایب $c[n-1],~ c[n],~ \dots,~ c[2n-2]$ حاصل‌ضرب $c$ نگاه می‌کنیم، به دست می‌آوریم:
 
 $$c[k] = \sum_{i+j=k} a[i] b[j]$$
 
-And since all the elements $a[i] = 0$ for $i \ge n$:
+و از آنجایی که تمام عناصر $a[i] = 0$ برای $i \ge n$ هستند:
 
 $$c[k] = \sum_{i=0}^{n-1} a[i] b[k-i]$$
 
-It is easy to see that this sum is just the scalar product of the vector $a$ with the $(k - (n - 1))$-th cyclic left shift of $b$.
-Thus these coefficients are the answer to the problem, and we were still able to obtain it in $O(n \log n)$ time.
-Note here that $c[2n-1]$ also gives us the $n$-th cyclic shift but that is the same as the $0$-th cyclic shift so we don't need to consider that separately into our answer.
+به راحتی می‌توان دید که این مجموع همان ضرب داخلی بردار $a$ با شیفت دایره‌ای چپ $(k - (n - 1))$-ام از $b$ است.
+بنابراین این ضرایب پاسخ مسئله هستند و ما همچنان توانستیم آن را در زمان $O(n \log n)$ به دست آوریم.
+توجه داشته باشید که $c[2n-1]$ نیز به ما شیفت دایره‌ای $n$-ام را می‌دهد اما این همان شیفت دایره‌ای صفرم است، بنابراین نیازی به در نظر گرفتن آن به طور جداگانه در پاسخ خود نداریم.
 
-### Two stripes
+### دو نوار
 
-We are given two Boolean stripes (cyclic arrays of values $0$ and $1$) $a$ and $b$.
-We want to find all ways to attach the first stripe to the second one, such that at no position we have a $1$ of the first stripe next to a $1$ of the second stripe.
+دو نوار بولی (آرایه‌های دایره‌ای از مقادیر $0$ و $1$) $a$ و $b$ به ما داده شده است.
+می‌خواهیم تمام راه‌های اتصال نوار اول به نوار دوم را پیدا کنیم، به طوری که در هیچ موقعیتی یک $1$ از نوار اول در کنار یک $1$ از نوار دوم قرار نگیرد.
 
-The problem doesn't actually differ much from the previous problem.
-Attaching two stripes just means that we perform a cyclic shift on the second array, and we can attach the two stripes, if scalar product of the two arrays is $0$.
+این مسئله در واقع تفاوت چندانی با مسئله قبلی ندارد.
+اتصال دو نوار به این معنی است که ما یک شیفت دایره‌ای روی آرایه دوم انجام می‌دهیم و می‌توانیم دو نوار را متصل کنیم، اگر ضرب داخلی دو آرایه $0$ باشد.
 
-### String matching
+### تطابق رشته
 
-We are given two strings, a text $T$ and a pattern $P$, consisting of lowercase letters.
-We have to compute all the occurrences of the pattern in the text.
+دو رشته به ما داده شده است، یک متن $T$ و یک الگو $P$ که از حروف کوچک تشکیل شده‌اند.
+باید تمام رخدادهای الگو را در متن محاسبه کنیم.
 
-We create a polynomial for each string ($T[i]$ and $P[I]$ are numbers between $0$ and $25$ corresponding to the $26$ letters of the alphabet):
+برای هر رشته یک چندجمله‌ای ایجاد می‌کنیم ($T[i]$ و $P[I]$ اعدادی بین $0$ تا $25$ متناظر با $26$ حرف الفبا هستند):
 
 $$A(x) = a_0 x^0 + a_1 x^1 + \dots + a_{n-1} x^{n-1}, \quad n = |T|$$
 
-with
+با
 
 $$a_i = \cos(\alpha_i) + i \sin(\alpha_i), \quad \alpha_i = \frac{2 \pi T[i]}{26}.$$
 
-And
+و
 
 $$B(x) = b_0 x^0 + b_1 x^1 + \dots + b_{m-1} x^{m-1}, \quad m = |P|$$
 
-with
+با
 
 $$b_i = \cos(\beta_i) - i \sin(\beta_i), \quad \beta_i = \frac{2 \pi P[m-i-1]}{26}.$$
 
-Notice that with the expression $P[m-i-1]$ explicitly reverses the pattern.
+توجه داشته باشید که با عبارت $P[m-i-1]$ الگو به صراحت معکوس می‌شود.
 
-The $(m-1+i)$th coefficients of the product of the two polynomials $C(x) = A(x) \cdot B(x)$ will tell us, if the pattern appears in the text at position $i$.
+ضریب $(m-1+i)$-ام حاصل‌ضرب دو چندجمله‌ای $C(x) = A(x) \cdot B(x)$ به ما خواهد گفت که آیا الگو در متن در موقعیت $i$ ظاهر می‌شود یا خیر.
 
 $$c_{m-1+i} = \sum_{j = 0}^{m-1} a_{i+j} \cdot b_{m-1-j} = \sum_{j=0}^{m-1} \left(\cos(\alpha_{i+j}) + i \sin(\alpha_{i+j})\right) \cdot \left(\cos(\beta_j) - i \sin(\beta_j)\right)$$
 
-with $\alpha_{i+j} = \frac{2 \pi T[i+j]}{26}$ and $\beta_j = \frac{2 \pi P[j]}{26}$
+با $\alpha_{i+j} = \frac{2 \pi T[i+j]}{26}$ و $\beta_j = \frac{2 \pi P[j]}{26}$.
 
-If there is a match, than $T[i+j] = P[j]$, and therefore $\alpha_{i+j} = \beta_j$.
-This gives (using the Pythagorean trigonometric identity):
+اگر تطابقی وجود داشته باشد، آنگاه $T[i+j] = P[j]$، و بنابراین $\alpha_{i+j} = \beta_j$.
+این می‌دهد (با استفاده از اتحاد مثلثاتی فیثاغورثی):
 
 $$\begin{align}
 c_{m-1+i} &= \sum_{j = 0}^{m-1}  \left(\cos(\alpha_{i+j}) + i \sin(\alpha_{i+j})\right) \cdot \left(\cos(\alpha_{i+j}) - i \sin(\alpha_{i+j})\right) \\
 &= \sum_{j = 0}^{m-1} \cos(\alpha_{i+j})^2 + \sin(\alpha_{i+j})^2 = \sum_{j = 0}^{m-1} 1 = m
 \end{align}$$
 
-If there isn't a match, then at least a character is different, which leads that one of the products $a_{i+1} \cdot b_{m-1-j}$ is not equal to $1$, which leads to the coefficient $c_{m-1+i} \ne m$.
+اگر تطابقی وجود نداشته باشد، آنگاه حداقل یک کاراکتر متفاوت است، که منجر به این می‌شود که یکی از حاصل‌ضرب‌های $a_{i+1} \cdot b_{m-1-j}$ برابر با $1$ نباشد، که به ضریب $c_{m-1+i} \ne m$ منجر می‌شود.
 
-### String matching with wildcards
+### تطابق رشته با کاراکترهای Wildcard
 
-This is an extension of the previous problem.
-This time we allow that the pattern contains the wildcard character $\*$, which can match every possible letter.
-E.g. the pattern $a*c$ appears in the text $abccaacc$ at exactly three positions, at index $0$, index $4$ and index $5$.
+این تعمیمی از مسئله قبلی است.
+این بار اجازه می‌دهیم که الگو شامل کاراکتر wildcard `*` باشد که می‌تواند با هر حرف ممکنی تطابق داشته باشد.
+برای مثال، الگوی $a*c$ در متن $abccaacc$ دقیقاً در سه موقعیت، در اندیس $0$، اندیس $4$ و اندیس $5$ ظاهر می‌شود.
 
-We create the exact same polynomials, except that we set $b_i = 0$ if $P[m-i-1] = *$.
-If $x$ is the number of wildcards in $P$, then we will have a match of $P$ in $T$ at index $i$ if $c_{m-1+i} = m - x$.
+ما دقیقاً همان چندجمله‌ای‌ها را ایجاد می‌کنیم، با این تفاوت که اگر $P[m-i-1] = *$ باشد، $b_i = 0$ قرار می‌دهیم.
+اگر $x$ تعداد کاراکترهای wildcard در $P$ باشد، آنگاه ما یک تطابق از $P$ در $T$ در اندیس $i$ خواهیم داشت اگر $c_{m-1+i} = m - x$ باشد.
 
-## Practice problems
+## مسائل تمرینی
 
 - [SPOJ - POLYMUL](http://www.spoj.com/problems/POLYMUL/)
 - [SPOJ - MAXMATCH](http://www.spoj.com/problems/MAXMATCH/)

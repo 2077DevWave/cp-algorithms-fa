@@ -1,31 +1,31 @@
 ---
 tags:
-  
-e_maxx_link: profile_dynamics
+  - AI Translated
+e_maxx_link: profile-dynamics
 ---
 
-# Dynamic Programming on Broken Profile. Problem "Parquet"
+# برنامه‌ریزی پویا روی پروفایل شکسته. مسئله «پارکت»
 
-Common problems solved using DP on broken profile include:
+مسائل رایجی که با استفاده از DP روی پروفایل شکسته حل می‌شوند، عبارتند از:
 
-- finding number of ways to fully fill an area (e.g. chessboard/grid) with some figures (e.g. dominoes)
-- finding a way to fill an area with minimum number of figures
-- finding a partial fill with minimum number of unfilled space (or cells, in case of grid)
-- finding a partial fill with the minimum number of figures, such that no more figures can be added
+- پیدا کردن تعداد راه‌های پر کردن کامل یک ناحیه (مثلاً صفحه شطرنج/جدول) با اشکال مشخص (مثلاً دومینو)
+- پیدا کردن راهی برای پر کردن یک ناحیه با کمترین تعداد شکل
+- پیدا کردن یک چیدمان جزئی با کمترین فضای خالی (یا خانه‌های خالی، در مورد جدول)
+- پیدا کردن یک چیدمان جزئی با کمترین تعداد شکل، به طوری که دیگر نتوان شکلی به آن اضافه کرد
 
-## Problem "Parquet"
+## مسئله «پارکت»
 
-**Problem description.** Given a grid of size $N \times M$. Find number of ways to fill the grid with figures of size $2 \times 1$ (no cell should be left unfilled, and figures should not overlap each other).
+**شرح مسئله.** جدولی با ابعاد $N \times M$ داده شده است. تعداد راه‌های پر کردن این جدول با اشکال $2 \times 1$ را پیدا کنید (هیچ خانه‌ای نباید خالی بماند و اشکال نباید با یکدیگر همپوشانی داشته باشند).
 
-Let the DP state be: $dp[i, mask]$, where $i = 1, \ldots N$ and $mask = 0, \ldots 2^M - 1$.
+حالت DP را به صورت $dp[i, mask]$ تعریف می‌کنیم، که در آن $i = 1, \ldots N$ و $mask = 0, \ldots 2^M - 1$ است.
 
-$i$ represents number of rows in the current grid, and $mask$ is the state of last row of current grid. If $j$-th bit of $mask$ is $0$ then the corresponding cell is filled, otherwise it is unfilled.
+$i$ تعداد سطرهای جدول فعلی را نشان می‌دهد، و $mask$ وضعیت سطر آخر جدول فعلی است. اگر بیت $j$-ام از $mask$ برابر $0$ باشد، خانه متناظر آن پر شده است، در غیر این صورت خالی است.
 
-Clearly, the answer to the problem will be $dp[N, 0]$.
+بدیهی است که پاسخ مسئله برابر با $dp[N, 0]$ خواهد بود.
 
-We will be building the DP state by iterating over each $i = 1, \cdots N$ and each $mask = 0, \ldots 2^M - 1$, and for each $mask$ we will be only transitioning forward, that is, we will be _adding_ figures to the current grid.
+ما حالت DP را با پیمایش روی هر $i = 1, \cdots N$ و هر $mask = 0, \ldots 2^M - 1$ می‌سازیم، و برای هر $mask$ فقط به جلو انتقال (transition) انجام می‌دهیم، یعنی اشکال را به جدول فعلی _اضافه_ می‌کنیم.
 
-### Implementation
+### پیاده‌سازی
 
 ```cpp
 int n, m;
@@ -68,7 +68,7 @@ int main()
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
 - [UVA 10359 - Tiling](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1300)
 - [UVA 10918 - Tri Tiling](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1859)
@@ -84,8 +84,8 @@ int main()
 - [Timus 1519 - Formula 1](https://acm.timus.ru/problem.aspx?space=1&num=1519)
 - [Codeforces Parquet](https://codeforces.com/problemset/problem/26/C)
 
-## References
+## مراجع
 
-- [Blog by EvilBunny](https://web.archive.org/web/20180712171735/https://blog.evilbuggy.com/2018/05/broken-profile-dynamic-programming.html)
-- [TopCoder Recipe by "syg96"](https://apps.topcoder.com/forums/?module=Thread&start=0&threadID=697369)
-- [Blogpost by sk765](http://sk765.blogspot.com/2012/02/dynamic-programming-with-profile.html)
+- [بلاگ توسط EvilBunny](https://web.archive.org/web/20180712171735/https://blog.evilbuggy.com/2018/05/broken-profile-dynamic-programming.html)
+- [دستورالعمل TopCoder توسط "syg96"](https://apps.topcoder.com/forums/?module=Thread&start=0&threadID=697369)
+- [پست وبلاگ توسط sk765](http://sk765.blogspot.com/2012/02/dynamic-programming-with-profile.html)

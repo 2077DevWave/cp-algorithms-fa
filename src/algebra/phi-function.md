@@ -1,14 +1,14 @@
 ---
 tags:
-  
-e_maxx_link: euler_function
+  - AI Translated
+e_maxx_link: phi-function
 ---
 
-# Euler's totient function
+# تابع فی اویلر
 
-Euler's totient function, also known as **phi-function** $\phi (n)$, counts the number of integers between 1 and $n$ inclusive, which are coprime to $n$. Two numbers are coprime if their greatest common divisor equals $1$ ($1$ is considered to be coprime to any number).
+تابع فی اویلر، که با نام **تابع فی** $\phi (n)$ نیز شناخته می‌شود، تعداد اعداد صحیح در بازه ۱ تا $n$ (شامل خود ۱ و $n$) را می‌شمارد که نسبت به $n$ اول هستند. دو عدد را نسبت به هم اول (متباین) می‌گوییم هرگاه بزرگ‌ترین مقسوم‌علیه مشترک آن‌ها برابر با ۱ باشد ($۱$ نسبت به هر عددی اول در نظر گرفته می‌شود).
 
-Here are values of $\phi(n)$ for the first few positive integers:
+در ادامه مقادیر $\phi(n)$ برای چند عدد صحیح مثبت اول آمده است:
 
 $$\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -16,33 +16,33 @@ n & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 
 \phi(n) & 1 & 1 & 2 & 2 & 4 & 2 & 6 & 4 & 6 & 4 & 10 & 4 & 12 & 6 & 8 & 8 & 16 & 6 & 18 & 8 & 12 \\\\ \hline
 \end{array}$$
 
-## Properties
+## ویژگی‌ها
 
-The following properties of Euler totient function are sufficient to calculate it for any number:
+ویژگی‌های زیر برای محاسبه تابع فی اویلر برای هر عددی کافی هستند:
 
-  - If $p$ is a prime number, then $\gcd(p, q) = 1$ for all $1 \le q < p$. Therefore we have:
+  - اگر $p$ یک عدد اول باشد، آنگاه برای تمام $q$ های در بازه $1 \le q < p$ داریم $\gcd(p, q) = 1$. بنابراین:
   
 $$\phi (p) = p - 1.$$
 
-  - If $p$ is a prime number and $k \ge 1$, then there are exactly $p^k / p$ numbers between $1$ and $p^k$ that are divisible by $p$.
-    Which gives us:
+  - اگر $p$ یک عدد اول و $k \ge 1$ باشد، آنگاه دقیقاً $p^k / p$ عدد بین ۱ و $p^k$ وجود دارد که بر $p$ بخش‌پذیر هستند.
+    این به ما نتیجه زیر را می‌دهد:
     
 $$\phi(p^k) = p^k - p^{k-1}.$$
 
-  - If $a$ and $b$ are relatively prime, then:
+  - اگر $a$ و $b$ نسبت به هم اول باشند، آنگاه:
     
     \[\phi(a b) = \phi(a) \cdot \phi(b).\]
     
-    This relation is not trivial to see. It follows from the [Chinese remainder theorem](chinese-remainder-theorem.md). The Chinese remainder theorem guarantees, that for each $0 \le x < a$ and each $0 \le y < b$, there exists a unique $0 \le z < a b$ with $z \equiv x \pmod{a}$ and $z \equiv y \pmod{b}$. It's not hard to show that $z$ is coprime to $a b$ if and only if $x$ is coprime to $a$ and $y$ is coprime to $b$. Therefore the amount of integers coprime to $a b$ is equal to product of the amounts of $a$ and $b$.
+    اثبات این رابطه بدیهی نیست و از [قضیه باقیمانده چینی](chinese-remainder-theorem.md) نتیجه می‌شود. قضیه باقیمانده چینی تضمین می‌کند که برای هر $0 \le x < a$ و هر $0 \le y < b$، یک $z$ یکتای $0 \le z < a b$ وجود دارد که $z \equiv x \pmod{a}$ و $z \equiv y \pmod{b}$ است. به راحتی می‌توان نشان داد که $z$ نسبت به $ab$ اول است اگر و تنها اگر $x$ نسبت به $a$ و $y$ نسبت به $b$ اول باشند. بنابراین، تعداد اعداد صحیح اول نسبت به $ab$ برابر با حاصل‌ضرب تعداد اعداد اول نسبت به $a$ و $b$ است.
 
-  - In general, for not coprime $a$ and $b$, the equation
+  - به طور کلی، برای $a$ و $b$ که نسبت به هم اول نیستند، معادله زیر برقرار است:
 
     \[\phi(ab) = \phi(a) \cdot \phi(b) \cdot \dfrac{d}{\phi(d)}\]
 
-    with $d = \gcd(a, b)$ holds.
+    که در آن $d = \gcd(a, b)$ است.
 
-Thus, using the first three properties, we can compute $\phi(n)$ through the factorization of $n$ (decomposition of $n$ into a product of its prime factors).
-If $n = {p_1}^{a_1} \cdot {p_2}^{a_2} \cdots {p_k}^{a_k}$, where $p_i$ are prime factors of $n$,
+بنابراین، با استفاده از سه ویژگی اول، می‌توانیم $\phi(n)$ را از طریق تجزیه $n$ به عوامل اول (تجزیه $n$ به حاصل‌ضرب عوامل اولش) محاسبه کنیم.
+اگر $n = {p_1}^{a_1} \cdot {p_2}^{a_2} \cdots {p_k}^{a_k}$ که در آن $p_i$ ها عوامل اول $n$ هستند،
 
 $$\begin{align}
 \phi (n) &= \phi ({p_1}^{a_1}) \cdot \phi ({p_2}^{a_2}) \cdots  \phi ({p_k}^{a_k}) \\\\
@@ -51,9 +51,9 @@ $$\begin{align}
 &= n \cdot \left(1 - \frac{1}{p_1}\right) \cdot \left(1 - \frac{1}{p_2}\right) \cdots \left(1 - \frac{1}{p_k}\right)
 \end{align}$$
 
-## Implementation
+## پیاده‌سازی
 
-Here is an implementation using factorization in $O(\sqrt{n})$:
+در اینجا پیاده‌سازی با استفاده از تجزیه به عوامل اول با پیچیدگی $O(\sqrt{n})$ آمده است:
 
 ```cpp
 int phi(int n) {
@@ -71,13 +71,13 @@ int phi(int n) {
 }
 ```
 
-## Euler totient function from $1$ to $n$ in $O(n \log\log{n})$ { #etf_1_to_n data-toc-label="Euler totient function from 1 to n in <script type=\"math/tex\">O(n log log n)</script>" }
+## محاسبه تابع فی اویلر از ۱ تا $n$ در $O(n \log\log{n})$ { #etf_1_to_n data-toc-label="محاسبه تابع فی اویلر از ۱ تا n در <script type=\"math/tex\">O(n log log n)</script>" }
 
-If we need the totient of all numbers between $1$ and $n$, then factorizing all $n$ numbers is not efficient.
-We can use the same idea as the [Sieve of Eratosthenes](sieve-of-eratosthenes.md).
-It is still based on the property shown above, but instead of updating the temporary result for each prime factor for each number, we find all prime numbers and for each one update the temporary results of all numbers that are divisible by that prime number.
+اگر به مقدار فی برای تمام اعداد بین ۱ تا $n$ نیاز داشته باشیم، تجزیه تمام $n$ عدد کارآمد نیست.
+می‌توانیم از ایده‌ای مشابه [غربال اراتوستن](sieve-of-eratosthenes.md) استفاده کنیم.
+این روش هنوز بر اساس ویژگی نشان داده شده در بالا است، اما به جای به‌روزرسانی نتیجه موقت برای هر عامل اول برای هر عدد، تمام اعداد اول را پیدا می‌کنیم و برای هر کدام، نتایج موقت تمام اعدادی را که بر آن عدد اول بخش‌پذیر هستند، به‌روزرسانی می‌کنیم.
 
-Since this approach is basically identical to the Sieve of Eratosthenes, the complexity will also be the same: $O(n \log \log n)$
+از آنجایی که این رویکرد اساساً با غربال اراتوستن یکسان است، پیچیدگی زمانی آن نیز یکسان خواهد بود: $O(n \log \log n)$
 
 ```cpp
 void phi_1_to_n(int n) {
@@ -95,21 +95,21 @@ void phi_1_to_n(int n) {
 ```
 
 
-## Divisor sum property { #divsum}
+## ویژگی مجموع مقسوم‌علیه‌ها { #divsum}
 
-This interesting property was established by Gauss:
+این ویژگی جالب توسط گاوس اثبات شده است:
 
 $$ \sum_{d|n} \phi{(d)} = n$$
 
-Here the sum is over all positive divisors $d$ of $n$.
+در اینجا مجموع روی تمام مقسوم‌علیه‌های مثبت $d$ از $n$ است.
 
-For instance the divisors of 10 are 1, 2, 5 and 10.
-Hence $\phi{(1)} + \phi{(2)} + \phi{(5)} + \phi{(10)} = 1 + 1 + 4 + 4 = 10$.
+به عنوان مثال، مقسوم‌علیه‌های 10 عبارتند از ۱، ۲، ۵ و ۱۰.
+از این رو $\phi{(1)} + \phi{(2)} + \phi{(5)} + \phi{(10)} = 1 + 1 + 4 + 4 = 10$.
 
-### Finding the totient from 1 to $n$ using the divisor sum property { data-toc-label="Finding the totient from 1 to n using the divisor sum property" }
+### یافتن فی از ۱ تا $n$ با استفاده از ویژگی مجموع مقسوم‌علیه‌ها { data-toc-label="یافتن فی از ۱ تا n با استفاده از ویژگی مجموع مقسوم‌علیه‌ها" }
 
-The divisor sum property also allows us to compute the totient of all numbers between 1 and $n$.
-This implementation is a little simpler than the previous implementation based on the Sieve of Eratosthenes, however also has a slightly worse complexity: $O(n \log n)$
+ویژگی مجموع مقسوم‌علیه‌ها همچنین به ما امکان محاسبه فی تمام اعداد بین ۱ تا $n$ را می‌دهد.
+این پیاده‌سازی کمی ساده‌تر از پیاده‌سازی قبلی مبتنی بر غربال اراتوستن است، اما پیچیدگی زمانی آن کمی بدتر است: $O(n \log n)$
 
 ```cpp
 void phi_1_to_n(int n) {
@@ -125,42 +125,42 @@ void phi_1_to_n(int n) {
 }
 ```
 
-## Application in Euler's theorem { #application }
+## کاربرد در قضیه اویلر { #application }
 
-The most famous and important property of Euler's totient function is expressed in **Euler's theorem**: 
+مشهورترین و مهم‌ترین ویژگی تابع فی اویلر در **قضیه اویلر** بیان شده است: 
 
-$$a^{\phi(m)} \equiv 1 \pmod m \quad \text{if } a \text{ and } m \text{ are relatively prime.}$$
+$$a^{\phi(m)} \equiv 1 \pmod m \quad \text{اگر } a \text{ و } m \text{ نسبت به هم اول باشند.}$$
 
-In the particular case when $m$ is prime, Euler's theorem turns into **Fermat's little theorem**:
+در حالت خاصی که $m$ اول باشد، قضیه اویلر به **قضیه کوچک فرما** تبدیل می‌شود:
 
 $$a^{m - 1} \equiv 1 \pmod m$$
 
-Euler's theorem and Euler's totient function occur quite often in practical applications, for example both are used to compute the [modular multiplicative inverse](module-inverse.md).
+قضیه اویلر و تابع فی اویلر اغلب در کاربردهای عملی ظاهر می‌شوند، به عنوان مثال هر دو برای محاسبه [وارون ضربی به پیمانه](module-inverse.md) استفاده می‌شوند.
 
-As immediate consequence we also get the equivalence:
+به عنوان یک نتیجه فوری، به هم‌ارزی زیر نیز می‌رسیم:
 
 $$a^n \equiv a^{n \bmod \phi(m)} \pmod m$$
 
-This allows computing $x^n \bmod m$ for very big $n$, especially if $n$ is the result of another computation, as it allows to compute $n$ under a modulo.
+این رابطه امکان محاسبه $x^n \bmod m$ را برای $n$ های بسیار بزرگ فراهم می‌کند، به خصوص اگر $n$ نتیجه یک محاسبه دیگر باشد، زیرا به ما امکان می‌دهد $n$ را تحت یک پیمانه محاسبه کنیم.
 
-### Group Theory
-$\phi(n)$ is the [order of the multiplicative group mod n](https://en.wikipedia.org/wiki/Multiplicative_group_of_integers_modulo_n) $(\mathbb Z / n\mathbb Z)^\times$, that is the group of units (elements with multiplicative inverses). The elements with multiplicative inverses are precisely those coprime to $n$.
+### نظریه گروه‌ها
+$\phi(n)$ برابر است با [مرتبه گروه ضربی به پیمانه n](https://en.wikipedia.org/wiki/Multiplicative_group_of_integers_modulo_n) $(\mathbb Z / n\mathbb Z)^\times$، یعنی گروه یکه‌ها (عناصری که وارون ضربی دارند). عناصری که وارون ضربی دارند دقیقاً همان‌هایی هستند که نسبت به $n$ اول هستند.
 
-The [multiplicative order](https://en.wikipedia.org/wiki/Multiplicative_order) of an element $a$ mod $n$, denoted $\operatorname{ord}_n(a)$, is the smallest $k>0$ such that $a^k \equiv 1 \pmod m$. $\operatorname{ord}_n(a)$ is the size of the subgroup generated by $a$, so by Lagrange's Theorem, the multiplicative order of any $a$ must divide $\phi(n)$. If the multiplicative order of $a$ is $\phi(n)$, the largest possible, then $a$ is a [primitive root](primitive-root.md) and the group is cyclic by definition. 
+[مرتبه ضربی](https://en.wikipedia.org/wiki/Multiplicative_order) یک عنصر $a$ به پیمانه $n$ که با $\operatorname{ord}_n(a)$ نمایش داده می‌شود، کوچک‌ترین $k>0$ است به طوری که $a^k \equiv 1 \pmod m$. $\operatorname{ord}_n(a)$ اندازه زیرگروه تولید شده توسط $a$ است، بنابراین طبق قضیه لاگرانژ، مرتبه ضربی هر عنصر $a$ باید $\phi(n)$ را بشمارد. اگر مرتبه ضربی $a$ برابر با $\phi(n)$ باشد، که بزرگ‌ترین مقدار ممکن است، آنگاه $a$ یک [ریشه اولیه](primitive-root.md) است و گروه طبق تعریف، دوری است.
 
-## Generalization
+## تعمیم
 
-There is a less known version of the last equivalence, that allows computing $x^n \bmod m$ efficiently for not coprime $x$ and $m$.
-For arbitrary $x, m$ and $n \geq \log_2 m$:
+نسخه کمتر شناخته شده‌ای از هم‌ارزی آخر وجود دارد که امکان محاسبه کارآمد $x^n \bmod m$ را برای $x$ و $m$ که نسبت به هم اول نیستند، فراهم می‌کند.
+برای $x$ و $m$ دلخواه و $n \geq \log_2 m$:
 
 $$x^{n}\equiv x^{\phi(m)+[n \bmod \phi(m)]} \mod m$$
 
-Proof:
+اثبات:
 
-Let $p_1, \dots, p_t$ be common prime divisors of $x$ and $m$, and $k_i$ their exponents in $m$.
-With those we define $a = p_1^{k_1} \dots p_t^{k_t}$, which makes $\frac{m}{a}$ coprime to $x$.
-And let $k$ be the smallest number such that $a$ divides $x^k$.
-Assuming $n \ge k$, we can write:
+فرض کنید $p_1, \dots, p_t$ مقسوم‌علیه‌های اول مشترک $x$ و $m$ باشند و $k_i$ توان آن‌ها در $m$ باشد.
+با این‌ها $a = p_1^{k_1} \dots p_t^{k_t}$ را تعریف می‌کنیم، که باعث می‌شود $\frac{m}{a}$ نسبت به $x$ اول باشد.
+و فرض کنید $k$ کوچک‌ترین عددی باشد که $a$ عدد $x^k$ را بشمارد.
+با فرض $n \ge k$ می‌توانیم بنویسیم:
 
 $$\begin{align}x^n \bmod m &= \frac{x^k}{a}ax^{n-k}\bmod m \\
 &= \frac{x^k}{a}\left(ax^{n-k}\bmod m\right) \bmod m \\
@@ -169,30 +169,29 @@ $$\begin{align}x^n \bmod m &= \frac{x^k}{a}ax^{n-k}\bmod m \\
 &= x^k\left(x^{n-k} \bmod \frac{m}{a}\right)\bmod m
 \end{align}$$
 
-The equivalence between the third and forth line follows from the fact that $ab \bmod ac = a(b \bmod c)$.
-Indeed if $b = cd + r$ with $r < c$, then $ab = acd + ar$ with $ar < ac$.
+هم‌ارزی بین خط سوم و چهارم از این واقعیت ناشی می‌شود که $ab \bmod ac = a(b \bmod c)$. در واقع اگر $b = cd + r$ با $r < c$ باشد، آنگاه $ab = acd + ar$ با $ar < ac$.
 
-Since $x$ and $\frac{m}{a}$ are coprime, we can apply Euler's theorem and get the efficient (since $k$ is very small; in fact $k \le \log_2 m$) formula:
+از آنجایی که $x$ و $\frac{m}{a}$ نسبت به هم اول هستند، می‌توانیم قضیه اویلر را به کار ببریم و فرمول کارآمد زیر را به دست آوریم (کارآمد است چون $k$ بسیار کوچک است؛ در واقع $k \le \log_2 m$):
 
 $$x^n \bmod m = x^k\left(x^{n-k \bmod \phi(\frac{m}{a})} \bmod \frac{m}{a}\right)\bmod m.$$
 
-This formula is difficult to apply, but we can use it to analyze the behavior of $x^n \bmod m$. We can see that the sequence of powers $(x^1 \bmod m, x^2 \bmod m, x^3 \bmod m, \dots)$ enters a cycle of length $\phi\left(\frac{m}{a}\right)$ after the first $k$ (or less) elements. 
-$\phi\left(\frac{m}{a}\right)$ divides $\phi(m)$ (because $a$ and $\frac{m}{a}$ are coprime we have $\phi(a) \cdot \phi\left(\frac{m}{a}\right) = \phi(m)$), therefore we can also say that the period has length $\phi(m)$.
-And since $\phi(m) \ge \log_2 m \ge k$, we can conclude the desired, much simpler, formula:
+به کار بردن این فرمول دشوار است، اما می‌توانیم از آن برای تحلیل رفتار $x^n \bmod m$ استفاده کنیم. می‌توان دید که دنباله توان‌ها $(x^1 \bmod m, x^2 \bmod m, x^3 \bmod m, \dots)$ پس از $k$ عنصر اول (یا کمتر) وارد یک دور به طول $\phi\left(\frac{m}{a}\right)$ می‌شود.
+$\phi\left(\frac{m}{a}\right)$ عدد $\phi(m)$ را می‌شمارد (زیرا $a$ و $\frac{m}{a}$ نسبت به هم اول هستند و داریم $\phi(a) \cdot \phi\left(\frac{m}{a}\right) = \phi(m)$)، بنابراین می‌توانیم بگوییم که دوره تناوب طولی برابر با $\phi(m)$ دارد.
+و از آنجایی که $\phi(m) \ge \log_2 m \ge k$ است، می‌توانیم فرمول مطلوب و بسیار ساده‌تر زیر را نتیجه بگیریم:
 
 $$ x^n \equiv x^{\phi(m)} x^{(n - \phi(m)) \bmod \phi(m)} \bmod m \equiv x^{\phi(m)+[n \bmod \phi(m)]} \mod m.$$
 
-## Practice Problems  
+## مسائل تمرینی
 
-* [SPOJ #4141 "Euler Totient Function" [Difficulty: CakeWalk]](http://www.spoj.com/problems/ETF/)
-* [UVA #10179 "Irreducible Basic Fractions" [Difficulty: Easy]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1120)
-* [UVA #10299 "Relatives" [Difficulty: Easy]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1240)
-* [UVA #11327 "Enumerating Rational Numbers" [Difficulty: Medium]](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2302)
-* [TIMUS #1673 "Admission to Exam" [Difficulty: High]](http://acm.timus.ru/problem.aspx?space=1&num=1673)
+* [SPOJ #4141 "Euler Totient Function" [سختی: بسیار آسان]](http://www.spoj.com/problems/ETF/)
+* [UVA #10179 "Irreducible Basic Fractions" [سختی: آسان]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1120)
+* [UVA #10299 "Relatives" [سختی: آسان]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1240)
+* [UVA #11327 "Enumerating Rational Numbers" [سختی: متوسط]](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2302)
+* [TIMUS #1673 "Admission to Exam" [سختی: زیاد]](http://acm.timus.ru/problem.aspx?space=1&num=1673)
 * [UVA 10990 - Another New Function](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1931)
 * [Codechef - Golu and Sweetness](https://www.codechef.com/problems/COZIE)
 * [SPOJ - LCM Sum](http://www.spoj.com/problems/LCMSUM/)
-* [GYM - Simple Calculations  (F)](http://codeforces.com/gym/100975)
+* [GYM - Simple Calculations (F)](http://codeforces.com/gym/100975)
 * [UVA 13132 - Laser Mirrors](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=5043)
 * [SPOJ - GCDEX](http://www.spoj.com/problems/GCDEX/)
 * [UVA 12995 - Farey Sequence](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=4878)

@@ -1,74 +1,75 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: lattice-points
 ---
 
-# Lattice points inside non-lattice polygon
+# نقاط شبکه‌ای درون چندضلعی غیرشبکه‌ای
 
-For lattice polygons there is Pick's formula to enumerate the lattice points inside the polygon.
-What about polygons with arbitrary vertices?
+برای چندضلعی‌های شبکه‌ای، فرمول پیک برای شمارش نقاط شبکه‌ای درون چندضلعی وجود دارد.
+در مورد چندضلعی‌هایی با رئوس دلخواه چطور؟
 
-Let's process each of the polygon's edges individually, and after that we may sum up the amounts of lattice points under each edge considering its orientations to choose a sign (like in calculating the area of a polygon using trapezoids).
+بیایید هر یک از یال‌های چندضلعی را به صورت جداگانه پردازش کنیم، و پس از آن می‌توانیم تعداد نقاط شبکه‌ای زیر هر یال را با در نظر گرفتن جهت آن برای انتخاب علامت، جمع بزنیم (مانند محاسبه مساحت یک چندضلعی با استفاده از ذوزنقه‌ها).
 
-First of all we should note that if current edge has endpoints in $A=(x_1;y_1)$ and $B=(x_2;y_2)$ then it can be represented as a linear function:
+اول از همه باید توجه داشت که اگر یال فعلی دارای نقاط انتهایی $A=(x_1;y_1)$ و $B=(x_2;y_2)$ باشد، می‌توان آن را به صورت یک تابع خطی نمایش داد:
 
 $$y=y_1+(y_2-y_1) \cdot \dfrac{x-x_1}{x_2-x_1}=\left(\dfrac{y_2-y_1}{x_2-x_1}\right)\cdot x + \left(\dfrac{y_1x_2-x_1y_2}{x_2-x_1}\right)$$
 
 $$y = k \cdot x + b,~k = \dfrac{y_2-y_1}{x_2-x_1},~b = \dfrac{y_1x_2-x_1y_2}{x_2-x_1}$$
 
-Now we will perform a substitution $x=x'+\lceil x_1 \rceil$ so that $b' = b + k \cdot \lceil x_1 \rceil$.
-This allows us to work with $x_1'=0$ and $x_2'=x_2 - \lceil x_1 \rceil$.
-Let's denote $n = \lfloor x_2' \rfloor$.
+حالا یک جایگزینی $x=x'+\lceil x_1 \rceil$ انجام می‌دهیم تا $b' = b + k \cdot \lceil x_1 \rceil$ شود.
+این کار به ما اجازه می‌دهد تا با $x_1'=0$ و $x_2'=x_2 - \lceil x_1 \rceil$ کار کنیم.
+بیایید $n = \lfloor x_2' \rfloor$ را تعریف کنیم.
 
-We will not sum up points at $x = n$ and on $y = 0$ for the integrity of the algorithm.
-They may be added manually afterwards.
-Thus we have to sum up $\sum\limits_{x'=0}^{n - 1} \lfloor k' \cdot x' + b'\rfloor$. We also assume that $k' \geq 0$ and $b'\geq 0$.
-Otherwise one should substitute $x'=-t$ and add $\lceil|b'|\rceil$ to $b'$.
+برای حفظ یکپارچگی الگوریتم، نقاط روی $x = n$ و روی $y = 0$ را جمع نمی‌زنیم.
+این نقاط را می‌توان بعداً به صورت دستی اضافه کرد.
+بنابراین، باید $\sum\limits_{x'=0}^{n - 1} \lfloor k' \cdot x' + b'\rfloor$ را محاسبه کنیم. همچنین فرض می‌کنیم که $k' \geq 0$ و $b'\geq 0$ است.
+در غیر این صورت، باید $x'=-t$ را جایگزین کرده و $\lceil|b'|\rceil$ را به $b'$ اضافه کرد.
 
-Let's discuss how we can evaluate a sum $\sum\limits_{x=0}^{n - 1} \lfloor k \cdot x + b\rfloor$.
-We have two cases:
+بیایید بررسی کنیم که چگونه می‌توانیم مجموع $\sum\limits_{x=0}^{n - 1} \lfloor k \cdot x + b\rfloor$ را ارزیابی کنیم.
+دو حالت داریم:
 
-  - $k \geq 1$ or $b \geq 1$.
+  - $k \geq 1$ یا $b \geq 1$.
   
-    Then we should start with summing up points below $y=\lfloor k \rfloor \cdot x + \lfloor b \rfloor$. Their amount equals to
+    در این حالت، باید با جمع زدن نقاط زیر خط $y=\lfloor k \rfloor \cdot x + \lfloor b \rfloor$ شروع کنیم. تعداد این نقاط برابر است با
     
     \[ \sum\limits_{x=0}^{n - 1} \lfloor k \rfloor \cdot x + \lfloor b \rfloor=\dfrac{(\lfloor k \rfloor(n-1)+2\lfloor b \rfloor) n}{2}. \]
     
-    Now we are interested only in points $(x;y)$ such that $\lfloor k \rfloor \cdot x + \lfloor b \rfloor < y \leq k\cdot x + b$.
-    This amount is the same as the number of points such that $0 < y \leq (k - \lfloor k \rfloor) \cdot x + (b - \lfloor b \rfloor)$.
-    So we reduced our problem to $k'= k - \lfloor k \rfloor$, $b' = b - \lfloor b \rfloor$ and both $k'$ and $b'$ less than $1$ now.
-    Here is a picture, we just summed up blue points and subtracted the blue linear function from the black one to reduce problem to smaller values for $k$ and $b$:
+    حالا فقط به نقاط $(x;y)$ علاقه‌مندیم که در شرط $\lfloor k \rfloor \cdot x + \lfloor b \rfloor < y \leq k\cdot x + b$ صدق کنند.
+    این تعداد با تعداد نقاطی که در شرط $0 < y \leq (k - \lfloor k \rfloor) \cdot x + (b - \lfloor b \rfloor)$ صدق می‌کنند، یکسان است.
+    بنابراین، مسئله خود را به $k'= k - \lfloor k \rfloor$ و $b' = b - \lfloor b \rfloor$ کاهش دادیم و اکنون هر دو $k'$ و $b'$ کمتر از ۱ هستند.
+    در تصویر زیر، ما نقاط آبی را جمع زده و تابع خطی آبی را از تابع سیاه کم کرده‌ایم تا مسئله را به مقادیر کوچکتری برای $k$ و $b$ کاهش دهیم:
     <div style="text-align: center;">
-  <img src="lattice.png" alt="Subtracting floored linear function">
+  <img src="lattice.png" alt="کم کردن تابع خطی جزء صحیح گرفته شده">
 </div>
 
-  - $k < 1$ and $b < 1$.
+  - $k < 1$ و $b < 1$.
 
-    If $\lfloor k \cdot n + b\rfloor$ equals $0$, we can safely return $0$.
-    If this is not the case, we can say that there are no lattice points such that $x < 0$ and $0 < y \leq k \cdot x + b$.
-    That means that we will have the same answer if we consider new reference system in which $O'=(n;\lfloor k\cdot n + b\rfloor)$, axis $x'$ is directed down and axis $y'$ is directed to the left.
-    For this reference system we are interested in lattice points on the set
+    اگر $\lfloor k \cdot n + b\rfloor$ برابر با $0$ باشد، می‌توانیم با اطمینان $0$ را برگردانیم.
+    اگر اینطور نباشد، می‌توان گفت که هیچ نقطه شبکه‌ای وجود ندارد که در شرط $x < 0$ و $0 < y \leq k \cdot x + b$ صدق کند.
+    این بدان معناست که اگر یک دستگاه مختصات جدید در نظر بگیریم که در آن $O'=(n;\lfloor k\cdot n + b\rfloor)$، محور $x'$ به سمت پایین و محور $y'$ به سمت چپ باشد، به همان پاسخ خواهیم رسید.
+    برای این دستگاه مختصات، ما به نقاط شبکه‌ای در مجموعه زیر علاقه‌مندیم
     
     \[ \left\{(x;y)~\bigg|~0 \leq x < \lfloor k \cdot n + b\rfloor,~ 0 < y \leq \dfrac{x+(k\cdot n+b)-\lfloor k\cdot n + b \rfloor}{k}\right\} \]
     
-    which returns us back to the case $k>1$.
-    You can see new reference point $O'$ and axes $X'$ and $Y'$ in the picture below:
+    که ما را به حالت $k>1$ بازمی‌گرداند.
+    می‌توانید نقطه مرجع جدید $O'$ و محورهای $X'$ و $Y'$ را در تصویر زیر مشاهده کنید:
     <div style="text-align: center;">
-  <img src="mirror.png" alt="New reference and axes">
+  <img src="mirror.png" alt="مرجع و محورهای جدید">
 </div>
-    As you see, in new reference system linear function will have coefficient $\tfrac 1 k$ and its zero will be in the point $\lfloor k\cdot n + b \rfloor-(k\cdot n+b)$ which makes formula above correct.
+    همانطور که می‌بینید، در دستگاه مختصات جدید، تابع خطی ضریب $\tfrac 1 k$ خواهد داشت و صفر آن در نقطه $\lfloor k\cdot n + b \rfloor-(k\cdot n+b)$ خواهد بود که فرمول بالا را صحیح می‌کند.
 
-## Complexity analysis
+## تحلیل پیچیدگی
 
-We have to count at most $\dfrac{(k(n-1)+2b)n}{2}$ points.
-Among them we will count $\dfrac{\lfloor k \rfloor (n-1)+2\lfloor b \rfloor}{2}$ on the very first step.
-We may consider that $b$ is negligibly small because we can start with making it less than $1$.
-In that case we cay say that we count about $\dfrac{\lfloor k \rfloor}{k} \geq \dfrac 1 2$  of all points.
-Thus we will finish in $O(\log n)$ steps.
+ما باید حداکثر $\dfrac{(k(n-1)+2b)n}{2}$ نقطه را بشماریم.
+از میان آنها، در همان مرحله اول $\dfrac{\lfloor k \rfloor (n-1)+2\lfloor b \rfloor}{2}$ نقطه را شمارش می‌کنیم.
+می‌توانیم $b$ را قابل اغماض در نظر بگیریم، زیرا می‌توانیم با تبدیل آن به مقداری کمتر از ۱ شروع کنیم.
+در آن صورت می‌توان گفت که ما حدود $\dfrac{\lfloor k \rfloor}{k} \geq \dfrac 1 2$ از کل نقاط را شمارش می‌کنیم.
+بنابراین، ما در $O(\log n)$ مرحله کار را به پایان می‌رسانیم.
 
-## Implementation
+## پیاده‌سازی
 
-Here is simple function which calculates number of integer points $(x;y)$ such for $0 \leq x < n$ and $0 < y \leq \lfloor k x+b\rfloor$:
+در اینجا یک تابع ساده وجود دارد که تعداد نقاط صحیح $(x;y)$ را برای $0 \leq x < n$ و $0 < y \leq \lfloor k x+b\rfloor$ محاسبه می‌کند:
 
 ```cpp
 int count_lattices(Fraction k, Fraction b, long long n) {
@@ -89,7 +90,7 @@ int count_lattices(Fraction k, Fraction b, long long n) {
 }
 ```
 
-Here `Fraction` is some class handling rational numbers.
-On practice it seems that if all denominators and numerators are at most $C$ by absolute value then in the recursive calls they will be at most $C^2$ if you keep dividing numerators and denominators by their greatest common divisor.
-Given this assumption we can say that one may use doubles and require accuracy of $\varepsilon^2$ where $\varepsilon$ is accuracy with which $k$ and $b$ are given.
-That means that in floor one should consider numbers as integer if they differs at most by $\varepsilon^2$ from an integer.
+در اینجا `Fraction` کلاسی برای کار با اعداد گویا است.
+در عمل، اگر قدر مطلق صورت و مخرج‌ها حداکثر $C$ باشد، به نظر می‌رسد در فراخوانی‌های بازگشتی این مقادیر حداکثر $C^2$ خواهند بود، به شرطی که صورت و مخرج را پیوسته بر ب.م.م آن‌ها تقسیم کنید.
+با این فرض، می‌توان گفت که می‌توان از `double`ها استفاده کرد و به دقتی برابر با $\varepsilon^2$ نیاز داشت، که در آن $\varepsilon$ دقتی است که $k$ و $b$ با آن داده شده‌اند.
+این بدان معناست که در تابع جزء صحیح، باید اعدادی را که حداکثر به اندازه $\varepsilon^2$ با یک عدد صحیح اختلاف دارند، به عنوان عدد صحیح در نظر گرفت.

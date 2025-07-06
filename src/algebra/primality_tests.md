@@ -1,22 +1,23 @@
 ---
 tags:
-    - Original
+  - AI Translated
+e_maxx_link: primality_tests
 ---
 
-# Primality tests
+# آزمون‌های اول بودن
 
-This article describes multiple algorithms to determine if a number is prime or not.
+این مقاله چندین الگوریتم را برای تشخیص اول بودن یا نبودن یک عدد شرح می‌دهد.
 
-## Trial division
+## تقسیم آزمایشی
 
-By definition a prime number doesn't have any divisors other than $1$ and itself.
-A composite number has at least one additional divisor, let's call it $d$.
-Naturally $\frac{n}{d}$ is also a divisor of $n$.
-It's easy to see, that either $d \le \sqrt{n}$ or $\frac{n}{d} \le \sqrt{n}$, therefore one of the divisors $d$ and $\frac{n}{d}$ is $\le \sqrt{n}$.
-We can use this information to check for primality.
+طبق تعریف، یک عدد اول هیچ مقسوم‌علیهی به جز ۱ و خودش ندارد.
+یک عدد مرکب حداقل یک مقسوم‌علیه اضافی دارد، بیایید آن را $d$ بنامیم.
+طبیعتاً $\frac{n}{d}$ نیز مقسوم‌علیه $n$ است.
+به راحتی می‌توان دید که یا $d \le \sqrt{n}$ یا $\frac{n}{d} \le \sqrt{n}$ است، بنابراین یکی از مقسوم‌علیه‌های $d$ و $\frac{n}{d}$ کوچکتر یا مساوی $\sqrt{n}$ است.
+ما می‌توانیم از این اطلاعات برای بررسی اول بودن استفاده کنیم.
 
-We try to find a non-trivial divisor, by checking if any of the numbers between $2$ and $\sqrt{n}$ is a divisor of $n$.
-If it is a divisor, then $n$ is definitely not prime, otherwise it is.
+ما با بررسی اینکه آیا هیچ‌کدام از اعداد بین ۲ و $\sqrt{n}$ مقسوم‌علیه $n$ هستند یا نه، سعی در یافتن یک مقسوم‌علیه غیربدیهی می‌کنیم.
+اگر مقسوم‌علیهی پیدا شود، آنگاه $n$ قطعاً اول نیست، در غیر این صورت اول است.
 
 ```cpp
 bool isPrime(int x) {
@@ -28,34 +29,34 @@ bool isPrime(int x) {
 }
 ```
 
-This is the simplest form of a prime check.
-You can optimize this function quite a bit, for instance by only checking all odd numbers in the loop, since the only even prime number is 2.
-Multiple such optimizations are described in the article about [integer factorization](factorization.md).
+این ساده‌ترین شکل یک بررسی اول بودن است.
+شما می‌توانید این تابع را کمی بهینه‌سازی کنید، برای مثال با بررسی تنها اعداد فرد در حلقه، زیرا تنها عدد اول زوج ۲ است.
+چندین بهینه‌سازی از این دست در مقاله [تجزیه اعداد صحیح](factorization.md) شرح داده شده است.
 
-## Fermat primality test
+## آزمون اول بودن فرما
 
-This is a probabilistic test.
+این یک آزمون احتمالی است.
 
-Fermat's little theorem (see also [Euler's totient function](phi-function.md)) states, that for a prime number $p$ and a coprime integer $a$ the following equation holds:
+قضیه کوچک فرما (همچنین [تابع فی اویلر](phi-function.md) را ببینید) بیان می‌کند که برای یک عدد اول $p$ و یک عدد صحیح $a$ که نسبت به $p$ اول است، رابطه زیر برقرار است:
 
 $$a^{p-1} \equiv 1 \bmod p$$
 
-In general this theorem doesn't hold for composite numbers.
+به طور کلی این قضیه برای اعداد مرکب برقرار نیست.
 
-This can be used to create a primality test.
-We pick an integer $2 \le a \le p - 2$, and check if the equation holds or not.
-If it doesn't hold, e.g. $a^{p-1} \not\equiv 1 \bmod p$, we know that $p$ cannot be a prime number.
-In this case we call the base $a$ a *Fermat witness* for the compositeness of $p$.
+از این موضوع می‌توان برای ایجاد یک آزمون اول بودن استفاده کرد.
+ما یک عدد صحیح $2 \le a \le p - 2$ انتخاب می‌کنیم و بررسی می‌کنیم که آیا این رابطه برقرار است یا نه.
+اگر برقرار نباشد، یعنی $a^{p-1} \not\equiv 1 \bmod p$، می‌دانیم که $p$ نمی‌تواند یک عدد اول باشد.
+در این حالت، پایه $a$ را یک *شاهد فرما* (Fermat witness) برای مرکب بودن $p$ می‌نامیم.
 
-However it is also possible, that the equation holds for a composite number.
-So if the equation holds, we don't have a proof for primality.
-We only can say that $p$ is *probably prime*.
-If it turns out that the number is actually composite, we call the base $a$ a *Fermat liar*.
+با این حال، این امکان نیز وجود دارد که این رابطه برای یک عدد مرکب برقرار باشد.
+بنابراین اگر رابطه برقرار باشد، ما اثباتی برای اول بودن نداریم.
+ما فقط می‌توانیم بگوییم که $p$ *احتمالاً اول* است.
+اگر معلوم شود که عدد در واقع مرکب است، ما پایه $a$ را یک *دروغگوی فرما* (Fermat liar) می‌نامیم.
 
-By running the test for all possible bases $a$, we can actually prove that a number is prime.
-However this is not done in practice, since this is a lot more effort that just doing *trial division*.
-Instead the test will be repeated multiple times with random choices for $a$.
-If we find no witness for the compositeness, it is very likely that the number is in fact prime.
+با اجرای آزمون برای تمام پایه‌های ممکن $a$، ما در واقع می‌توانیم ثابت کنیم که یک عدد اول است.
+با این حال، این کار در عمل انجام نمی‌شود، زیرا این کار بسیار پر زحمت‌تر از *تقسیم آزمایشی* است.
+به جای آن، آزمون چندین بار با انتخاب‌های تصادفی برای $a$ تکرار می‌شود.
+اگر شاهدی برای مرکب بودن پیدا نکنیم، بسیار محتمل است که عدد در واقع اول باشد.
 
 ```cpp
 bool probablyPrimeFermat(int n, int iter=5) {
@@ -71,26 +72,26 @@ bool probablyPrimeFermat(int n, int iter=5) {
 }
 ```
 
-We use [Binary Exponentiation](binary-exp.md) to efficiently compute the power $a^{p-1}$.
+ما از [توان‌رسانی دودویی](binary-exp.md) برای محاسبه بهینه توان $a^{p-1}$ استفاده می‌کنیم.
 
-There is one bad news though:
-there exist some composite numbers where $a^{n-1} \equiv 1 \bmod n$ holds for all $a$ coprime to $n$, for instance for the number $561 = 3 \cdot 11 \cdot 17$.
-Such numbers are called *Carmichael numbers*.
-The Fermat primality test can identify these numbers only, if we have immense luck and choose a base $a$ with $\gcd(a, n) \ne 1$.
+اما یک خبر بد وجود دارد:
+برخی اعداد مرکب وجود دارند که در آن‌ها رابطه $a^{n-1} \equiv 1 \bmod n$ برای تمام $a$ های متباین با $n$ برقرار است، به عنوان مثال برای عدد $561 = 3 \cdot 11 \cdot 17$.
+چنین اعدادی *اعداد کارمایکل* (Carmichael numbers) نامیده می‌شوند.
+آزمون اول بودن فرما تنها در صورتی می‌تواند این اعداد را شناسایی کند که شانس بسیار زیادی داشته باشیم و پایه‌ای مانند $a$ را با $\gcd(a, n) \ne 1$ انتخاب کنیم.
 
-The Fermat test is still being used in practice, as it is very fast and Carmichael numbers are very rare.
-E.g. there only exist 646 such numbers below $10^9$.
+آزمون فرما هنوز در عمل استفاده می‌شود، زیرا بسیار سریع است و اعداد کارمایکل بسیار نادر هستند.
+به عنوان مثال، تنها ۶۴۶ عدد از این نوع زیر $10^9$ وجود دارد.
 
-## Miller-Rabin primality test
+## آزمون اول بودن میلر-رابین
 
-The Miller-Rabin test extends the ideas from the Fermat test.
+آزمون میلر-رابین ایده‌های آزمون فرما را گسترش می‌دهد.
 
-For an odd number $n$, $n-1$ is even and we can factor out all powers of 2.
-We can write:
+برای یک عدد فرد $n$، عدد $n-1$ زوج است و می‌توانیم تمام توان‌های ۲ را از آن فاکتور بگیریم.
+می‌توانیم بنویسیم:
 
-$$n - 1 = 2^s \cdot d,~\text{with}~d~\text{odd}.$$
+$$n - 1 = 2^s \cdot d,~\text{که در آن}~d~\text{فرد است}.$$
 
-This allows us to factorize the equation of Fermat's little theorem:
+این به ما اجازه می‌دهد تا معادله قضیه کوچک فرما را تجزیه کنیم:
 
 $$\begin{array}{rl}
 a^{n-1} \equiv 1 \bmod n &\Longleftrightarrow a^{2^s d} - 1 \equiv 0 \bmod n \\\\
@@ -100,30 +101,30 @@ a^{n-1} \equiv 1 \bmod n &\Longleftrightarrow a^{2^s d} - 1 \equiv 0 \bmod n \\\
 &\Longleftrightarrow (a^{2^{s-1} d} + 1) (a^{2^{s-2} d} + 1) \cdots (a^{d} + 1) (a^{d} - 1) \equiv 0 \bmod n \\\\
 \end{array}$$
 
-If $n$ is prime, then $n$ has to divide one of these factors.
-And in the Miller-Rabin primality test we check exactly that statement, which is a more stricter version of the statement of the Fermat test.
-For a base $2 \le a \le n-2$ we check if either
+اگر $n$ اول باشد، آنگاه $n$ باید یکی از این عامل‌ها را بشمارد.
+و در آزمون اول بودن میلر-رابین ما دقیقاً همین گزاره را بررسی می‌کنیم، که نسخه قوی‌تری از گزاره آزمون فرما است.
+برای یک پایه $2 \le a \le n-2$ ما بررسی می‌کنیم که آیا
 
 $$a^d \equiv 1 \bmod n$$
 
-holds or
+برقرار است یا
 
 $$a^{2^r d} \equiv -1 \bmod n$$
 
-holds for some $0 \le r \le s - 1$.
+برای برخی $0 \le r \le s - 1$ برقرار است.
 
-If we found a base $a$ which doesn't satisfy any of the above equalities, then we found a *witness* for the compositeness of $n$.
-In this case we have proven that $n$ is not a prime number.
+اگر پایه‌ای مانند $a$ پیدا کنیم که هیچ یک از تساوی‌های بالا را برآورده نکند، آنگاه ما یک *شاهد* برای مرکب بودن $n$ پیدا کرده‌ایم.
+در این حالت، ثابت کرده‌ایم که $n$ یک عدد اول نیست.
 
-Similar to the Fermat test, it is also possible that the set of equations is satisfied for a composite number.
-In that case the base $a$ is called a *strong liar*.
-If a base $a$ satisfies the equations (one of them), $n$ is only *strong probable prime*.
-However, there are no numbers like the Carmichael numbers, where all non-trivial bases lie.
-In fact it is possible to show, that at most $\frac{1}{4}$ of the bases can be strong liars.
-If $n$ is composite, we have a probability of $\ge 75\%$ that a random base will tell us that it is composite.
-By doing multiple iterations, choosing different random bases, we can tell with very high probability if the number is truly prime or if it is composite.
+مشابه آزمون فرما، این امکان نیز وجود دارد که مجموعه معادلات برای یک عدد مرکب برآورده شود.
+در آن صورت، پایه $a$ یک *دروغگوی قوی* (strong liar) نامیده می‌شود.
+اگر یک پایه $a$ معادلات را برآورده کند (یکی از آنها را)، $n$ فقط *قویاً محتمل به اول بودن* (strong probable prime) است.
+با این حال، اعدادی مانند اعداد کارمایکل وجود ندارند که تمام پایه‌های غیربدیهی برای آنها دروغگو باشند.
+در واقع، می‌توان نشان داد که حداکثر $\frac{1}{4}$ از پایه‌ها می‌توانند دروغگوی قوی باشند.
+اگر $n$ مرکب باشد، ما با احتمال $\ge 75\%$ یک پایه تصادفی انتخاب می‌کنیم که به ما بگوید مرکب است.
+با انجام چندین تکرار و انتخاب پایه‌های تصادفی مختلف، می‌توانیم با احتمال بسیار بالایی بگوییم که آیا عدد واقعاً اول است یا مرکب.
 
-Here is an implementation for 64 bit integer.
+در اینجا یک پیاده‌سازی برای اعداد صحیح ۶۴ بیتی آورده شده است.
 
 ```cpp
 using u64 = uint64_t;
@@ -153,7 +154,7 @@ bool check_composite(u64 n, u64 a, u64 d, int s) {
     return true;
 };
 
-bool MillerRabin(u64 n, int iter=5) { // returns true if n is probably prime, else returns false.
+bool MillerRabin(u64 n, int iter=5) { // اگر n احتمالاً اول باشد true وگرنه false برمی‌گرداند.
     if (n < 4)
         return n == 2 || n == 3;
 
@@ -173,25 +174,25 @@ bool MillerRabin(u64 n, int iter=5) { // returns true if n is probably prime, el
 }
 ```
 
-Before the Miller-Rabin test you can test additionally if one of the first few prime numbers is a divisor.
-This can speed up the test by a lot, since most composite numbers have very small prime divisors.
-E.g. $88\%$ of all numbers have a prime factor smaller than $100$.
+قبل از آزمون میلر-رابین، می‌توانید علاوه بر آن بررسی کنید که آیا یکی از چند عدد اول کوچک، مقسوم‌علیه عدد مورد نظر است یا خیر.
+این کار می‌تواند سرعت آزمون را به شدت افزایش دهد، زیرا اکثر اعداد مرکب مقسوم‌علیه‌های اول بسیار کوچکی دارند.
+به عنوان مثال، ۸۸٪ از کل اعداد یک عامل اول کوچکتر از ۱۰۰ دارند.
 
-### Deterministic version
+### نسخه قطعی
 
-Miller showed that it is possible to make the algorithm deterministic by only checking all bases $\le O((\ln n)^2)$.
-Bach later gave a concrete bound, it is only necessary to test all bases $a \le 2 \ln(n)^2$.
+میلر نشان داد که با بررسی تنها تمام پایه‌های $\le O((\ln n)^2)$ می‌توان این الگوریتم را قطعی کرد.
+بعدها باخ یک کران مشخص ارائه داد، که طبق آن تنها لازم است تمام پایه‌های $a \le 2 \ln(n)^2$ را آزمایش کنیم.
 
-This is still a pretty large number of bases.
-So people have invested quite a lot of computation power into finding lower bounds.
-It turns out, for testing a 32 bit integer it is only necessary to check the first 4 prime bases: 2, 3, 5 and 7.
-The smallest composite number that fails this test is $3,215,031,751 = 151 \cdot 751 \cdot 28351$.
-And for testing 64 bit integer it is enough to check the first 12 prime bases: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, and 37.
+این هنوز تعداد زیادی پایه است.
+بنابراین افراد قدرت محاسباتی زیادی را برای یافتن کران‌های پایین‌تر صرف کرده‌اند.
+مشخص شده است که برای آزمایش یک عدد صحیح ۳۲ بیتی، تنها کافی است ۴ پایه اول اول: ۲، ۳، ۵ و ۷ را بررسی کنیم.
+کوچکترین عدد مرکبی که این آزمون را با موفقیت پشت سر می‌گذارد $3,215,031,751 = 151 \cdot 751 \cdot 28351$ است.
+و برای آزمایش یک عدد صحیح ۶۴ بیتی، کافی است ۱۲ پایه اول اول را بررسی کنیم: ۲، ۳، ۵، ۷، ۱۱، ۱۳، ۱۷، ۱۹، ۲۳، ۲۹، ۳۱ و ۳۷.
 
-This results in the following deterministic implementation:
+این منجر به پیاده‌سازی قطعی زیر می‌شود:
 
 ```cpp
-bool MillerRabin(u64 n) { // returns true if n is prime, else returns false.
+bool MillerRabin(u64 n) { // اگر n اول باشد true وگرنه false برمی‌گرداند.
     if (n < 2)
         return false;
 
@@ -212,10 +213,10 @@ bool MillerRabin(u64 n) { // returns true if n is prime, else returns false.
 }
 ```
 
-It's also possible to do the check with only 7 bases: 2, 325, 9375, 28178, 450775, 9780504 and 1795265022.
-However, since these numbers (except 2) are not prime, you need to check additionally if the number you are checking is equal to any prime divisor of those bases: 2, 3, 5, 13, 19, 73, 193, 407521, 299210837.
+همچنین امکان انجام بررسی تنها با ۷ پایه وجود دارد: ۲، ۳۲۵، ۹۳۷۵، ۲۸۱۷۸، ۴۵۰۷۷۵، ۹۷۸۰۵۰۴ و ۱۷۹۵۲۶۵۰۲۲.
+با این حال، از آنجا که این اعداد (به جز ۲) اول نیستند، باید علاوه بر آن بررسی کنید که آیا عددی که در حال آزمایش آن هستید با هر یک از مقسوم‌علیه‌های اول آن پایه‌ها برابر است یا خیر: ۲، ۳، ۵، ۱۳، ۱۹، ۷۳، ۱۹۳، ۴۰۷۵۲۱، ۲۹۹۲۱۰۸۳۷.
 
-## Practice Problems
+## مسائل تمرینی
 
 - [SPOJ - Prime or Not](https://www.spoj.com/problems/PON/)
 - [Project euler - Investigating a Prime Pattern](https://projecteuler.net/problem=146)

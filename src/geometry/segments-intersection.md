@@ -1,42 +1,31 @@
 ---
 tags:
-  
-e_maxx_link: segments_intersection
+  - AI Translated
+e_maxx_link: segments-intersection
 ---
 
-# Finding intersection of two segments
+# یافتن نقطه تقاطع دو پاره‌خط
 
-You are given two segments AB and CD, described as pairs of their endpoints. Each segment can be a single point if its endpoints are the same. 
-You have to find the intersection of these segments, which can be empty (if the segments don't intersect), a single point or a segment (if the given segments overlap).
+دو پاره‌خط AB و CD به شما داده شده است که با زوج نقاط انتهایی‌شان مشخص شده‌اند. هر پاره‌خط می‌تواند یک نقطه باشد اگر نقاط انتهایی آن یکسان باشند. شما باید اشتراک این دو پاره‌خط را پیدا کنید، که می‌تواند تهی (اگر پاره‌خط‌ها تقاطع نداشته باشند)، یک نقطه، یا یک پاره‌خط دیگر (اگر پاره‌خط‌های داده‌شده هم‌پوشانی داشته باشند) باشد.
 
-## Solution
+## راه‌حل
 
-We can find the intersection point of segments in the same way as [the intersection of lines](lines-intersection.md): 
-reconstruct line equations from the segments' endpoints and check whether they are parallel. 
+می‌توانیم نقطه تقاطع پاره‌خط‌ها را همانند [تقاطع خطوط](lines-intersection.md) پیدا کنیم:
+معادلات خط را از نقاط انتهایی پاره‌خط‌ها بازسازی کرده و موازی بودن آن‌ها را بررسی می‌کنیم.
 
-If the lines are not parallel, we need to find their point of intersection and check whether it belongs to both segments
-(to do this it's sufficient to verify that the intersection point belongs to each segment projected on X and Y axes). 
-In this case the answer will be either "no intersection" or the single point of lines' intersection.
+اگر خطوط موازی نباشند، باید نقطه تقاطع آن‌ها را پیدا کرده و بررسی کنیم که آیا این نقطه به هر دو پاره‌خط تعلق دارد یا خیر (برای این کار کافی است بررسی کنیم که نقطه تقاطع به تصویر هر پاره‌خط روی محورهای X و Y تعلق داشته باشد). در این حالت، پاسخ یا "عدم تقاطع" است یا همان نقطه تقاطع خطوط.
 
-The case of parallel lines is slightly more complicated (the case of one or more segments being a single point also belongs here).
-In this case we need to check that both segments belong to the same line.
-If they don't, the answer is "no intersection".
-If they do, the answer is the intersection of the segments belonging to the same line, which is obtained by 
-ordering the endpoints of both segments in the increasing order of certain coordinate and taking the rightmost of left endpoints and the leftmost of right endpoints.
+حالت خطوط موازی کمی پیچیده‌تر است (حالت یکی یا هر دو پاره‌خط بودن به صورت یک نقطه نیز در این دسته قرار می‌گیرد). در این حالت، باید بررسی کنیم که هر دو پاره‌خط روی یک خط قرار دارند یا خیر. اگر اینطور نباشد، پاسخ "عدم تقاطع" است. اگر روی یک خط باشند، پاسخ برابر است با اشتراک دو پاره‌خطِ هم‌خط. این اشتراک با مرتب‌سازی نقاط انتهایی هر دو پاره‌خط بر اساس یک مختصات مشخص به ترتیب صعودی و سپس در نظر گرفتن راست‌ترین نقطه از میان نقاط ابتدایی و چپ‌ترین نقطه از میان نقاط انتهایی به دست می‌آید.
 
-If both segments are single points, these points have to be identical, and it makes sense to perform this check separately.
+اگر هر دو پاره‌خط تک‌نقطه‌ای باشند، این نقاط باید یکسان باشند و منطقی است که این بررسی به طور جداگانه انجام شود.
 
-In the beginning of the algorithm let's add a bounding box check - it is necessary for the case when the segments belong to the same line, 
-and (being a lightweight check) it allows the algorithm to work faster on average on random tests.
+در ابتدای الگوریتم، یک بررسی جعبه مرزی (Bounding Box Check) اضافه می‌کنیم - این بررسی برای حالتی که پاره‌خط‌ها روی یک خط قرار دارند ضروری است و (به دلیل سبک بودن) باعث می‌شود الگوریتم به طور میانگین در تست‌های تصادفی سریع‌تر عمل کند.
 
+## پیاده‌سازی
 
-## Implementation
+در ادامه پیاده‌سازی این الگوریتم، شامل تمام توابع کمکی برای پردازش خطوط و پاره‌خط‌ها، آمده است.
 
-Here is the implementation, including all helper functions for lines and segments processing.
-
-The main function `intersect` returns true if the segments have a non-empty intersection, 
-and stores endpoints of the intersection segment in arguments `left` and `right`. 
-If the answer is a single point, the values written to `left` and `right` will be the same.
+تابع اصلی `intersect` در صورتی که پاره‌خط‌ها اشتراک غیرتهی داشته باشند، `true` برمی‌گرداند و نقاط انتهایی پاره‌خط اشتراک را در آرگومان‌های `left` و `right` ذخیره می‌کند. اگر پاسخ یک نقطه باشد، مقادیری که در `left` و `right` نوشته می‌شوند یکسان خواهند بود.
 
 ```{.cpp file=segment_intersection}
 const double EPS = 1E-9;

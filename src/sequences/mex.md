@@ -1,11 +1,12 @@
 ---
 tags:
-    - Original
-title: MEX (minimal excluded) of a sequence
+  - AI Translated
+e_maxx_link: mex
 ---
-# MEX (minimal excluded) of a sequence
 
-Given an array $A$ of size $N$. You have to find the minimal non-negative element that is not present in the array. That number is commonly called the **MEX** (minimal excluded).
+# MEX (کوچکترین عضو ناموجود) یک دنباله
+
+با داشتن آرایه $A$ به طول $N$، باید کوچکترین عدد صحیح غیرمنفی را که در آرایه وجود ندارد، پیدا کنید. این عدد معمولاً **MEX** (کوچکترین عضو حذف‌شده یا minimal excluded) نامیده می‌شود.
 
 $$
 \begin{align}
@@ -15,14 +16,14 @@ $$
 \end{align}
 $$
 
-Notice, that the MEX of an array of size $N$ can never be bigger than $N$ itself.
+توجه داشته باشید که MEX یک آرایه به طول $N$ هرگز نمی‌تواند بزرگتر از خود $N$ باشد.
 
-The easiest approach is to create a set of all elements in the array $A$, so that we can quickly check if a number is part of the array or not.
-Then we can check all numbers from $0$ to $N$, if the current number is not present in the set, return it.
+ساده‌ترین رویکرد این است که یک `set` از تمام عناصر آرایه $A$ بسازیم تا بتوانیم به سرعت بررسی کنیم که آیا عددی در آرایه وجود دارد یا خیر.
+سپس می‌توانیم تمام اعداد از $0$ تا $N$ را بررسی کنیم و اگر عدد فعلی در `set` وجود نداشت، آن را برگردانیم.
 
-## Implementation
+## پیاده‌سازی
 
-The following algorithm runs in $O(N \log N)$ time.
+الگوریتم زیر در زمان $O(N \log N)$ اجرا می‌شود.
 
 ```{.cpp file=mex_simple}
 int mex(vector<int> const& A) {
@@ -35,26 +36,26 @@ int mex(vector<int> const& A) {
 }
 ```
 
-If an algorithm requires a $O(N)$ MEX computation, it is possible by using a boolean vector instead of a set.
-Notice, that the array needs to be as big as the biggest possible array size.
+اگر یک الگوریتم به محاسبه MEX با پیچیدگی زمانی $O(N)$ نیاز داشته باشد، می‌توان به جای `set` از یک آرایه بولین (boolean) استفاده کرد.
+توجه داشته باشید که اندازه این آرایه کمکی باید به اندازه بزرگترین مقدار ممکن در آرایه باشد.
 
 
 ```{.cpp file=mex_linear}
 int mex(vector<int> const& A) {
     static bool used[MAX_N+1] = { 0 };
 
-    // mark the given numbers
+    // علامت‌گذاری اعداد موجود
     for (int x : A) {
         if (x <= MAX_N)
             used[x] = true;
     }
 
-    // find the mex
+    // پیدا کردن mex
     int result = 0;
     while (used[result])
         ++result;
  
-    // clear the array again
+    // پاک‌سازی دوباره آرایه کمکی
     for (int x : A) {
         if (x <= MAX_N)
             used[x] = false;
@@ -64,26 +65,22 @@ int mex(vector<int> const& A) {
 }
 ```
 
-This approach is fast, but only works well if you have to compute the MEX once.
-If you need to compute the MEX over and over, e.g. because your array keeps changing, then it is not effective.
-For that, we need something better.
+این رویکرد سریع است، اما تنها زمانی خوب کار می‌کند که لازم باشد MEX را فقط یک بار محاسبه کنید.
+اگر نیاز به محاسبه مکرر MEX داشته باشید، برای مثال به این دلیل که آرایه شما مدام در حال تغییر است، این روش کارآمد نخواهد بود.
+برای این منظور، به راهکار بهتری نیاز داریم.
 
-## MEX with array updates
+## محاسبه MEX با به‌روزرسانی‌های آرایه
 
-In the problem you need to change individual numbers in the array, and compute the new MEX of the array after each such update.
+در این نوع مسائل، شما باید اعداد خاصی را در آرایه تغییر دهید و پس از هر به‌روزرسانی، MEX جدید آرایه را محاسبه کنید.
 
-There is a need for a better data structure that handles such queries efficiently.
+برای این کار به یک ساختمان داده بهتر نیاز است تا بتواند چنین پرس‌وجوهایی را به صورت کارآمد مدیریت کند.
 
-One approach would be take the frequency of each number from $0$ to $N$, and build a tree-like data structure over it.
-E.g. a segment tree or a treap.
-Each node represents a range of numbers, and together to total frequency in the range, you additionally store the amount of distinct numbers in that range.
-It's possible to update this data structure in $O(\log N)$ time, and also find the MEX in $O(\log N)$ time, by doing a binary search for the MEX.
-If the node representing the range $[0, \lfloor N/2 \rfloor)$ doesn't contain $\lfloor N/2 \rfloor$ many distinct numbers, then one is missing and the MEX is smaller than $\lfloor N/2 \rfloor$, and you can recurse in the left branch of the tree. Otherwise it is at least $\lfloor N/2 \rfloor$, and you can recurse in the right branch of the tree.
+یک رویکرد این است که فراوانی هر عدد از $0$ تا $N$ را محاسبه کرده و یک ساختمان داده درختی روی آن بسازیم. به عنوان مثال، یک درخت بازه‌ای (segment tree) یا یک treap. هر گره نماینده یک بازه از اعداد است و علاوه بر مجموع فراوانی در آن بازه، تعداد اعداد متمایز موجود در آن بازه را نیز ذخیره می‌کند. به‌روزرسانی این ساختمان داده در زمان $O(\log N)$ ممکن است و همچنین می‌توان MEX را با انجام یک جستجوی دودویی روی درخت در زمان $O(\log N)$ پیدا کرد. اگر گره‌ای که نماینده بازه $[0, \lfloor N/2 \rfloor)$ است، شامل $\lfloor N/2 \rfloor$ عدد متمایز نباشد، پس یک عدد در این بازه وجود ندارد و MEX کوچکتر از $\lfloor N/2 \rfloor$ است و می‌توان به صورت بازگشتی در شاخه چپ درخت جستجو کرد. در غیر این صورت، MEX حداقل برابر با $\lfloor N/2 \rfloor$ است و می‌توان در شاخه راست درخت به صورت بازگشتی جستجو کرد.
 
-It's also possible to use the standard library data structures `map` and `set` (based on an approach explained [here](https://codeforces.com/blog/entry/81287?#comment-677837)).
-With a `map` we will remember the frequency of each number, and with the `set` we represent the numbers that are currently missing from the array.
-Since a `set` is ordered, `*set.begin()` will be the MEX.
-In total we need $O(N \log N)$ precomputation, and afterwards the MEX can be computed in $O(1)$ and an update can be performed in $O(\log N)$.
+همچنین می‌توان از ساختمان داده‌های کتابخانه استاندارد مانند `map` و `set` استفاده کرد (بر اساس رویکردی که [اینجا](https://codeforces.com/blog/entry/81287?#comment-677837) توضیح داده شده است).
+با یک `map` فراوانی هر عدد را ذخیره می‌کنیم و با یک `set`، اعدادی را که در حال حاضر در آرایه موجود نیستند، نگهداری می‌کنیم.
+از آنجایی که `set` مرتب است، `*set.begin()` همان MEX خواهد بود.
+در مجموع به پیش‌پردازشی با پیچیدگی زمانی $O(N \log N)$ نیاز داریم و پس از آن، MEX را می‌توان در زمان $O(1)$ محاسبه کرد و هر به‌روزرسانی را در زمان $O(\log N)$ انجام داد.
 
 ```{.cpp file=mex_updates}
 class Mex {
@@ -117,7 +114,7 @@ public:
 };
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
 - [AtCoder: Neq Min](https://atcoder.jp/contests/hhkb2020/tasks/hhkb2020_c)
 - [Codeforces: Informatics in MAC](https://codeforces.com/contest/1935/problem/B)

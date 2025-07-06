@@ -1,49 +1,50 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: sparse-table
 ---
 
 # Sparse Table
 
-Sparse Table is a data structure, that allows answering range queries.
-It can answer most range queries in $O(\log n)$, but its true power is answering range minimum queries (or equivalent range maximum queries).
-For those queries it can compute the answer in $O(1)$ time.
+Sparse Table یک ساختمان داده است که امکان پاسخ‌گویی به پرس‌وجوهای بازه‌ای (range queries) را فراهم می‌کند.
+این ساختمان داده می‌تواند به اکثر پرس‌وجوهای بازه‌ای در زمان $O(\log n)$ پاسخ دهد، اما قدرت اصلی آن در پاسخ‌گویی به پرس‌وجوهای کمینه بازه‌ای (range minimum queries) (یا معادل آن، پرس‌وجوهای بیشینه بازه‌ای) است.
+برای این نوع پرس‌وجوها، می‌تواند پاسخ را در زمان $O(1)$ محاسبه کند.
 
-The only drawback of this data structure is, that it can only be used on _immutable_ arrays.
-This means, that the array cannot be changed between two queries.
-If any element in the array changes, the complete data structure has to be recomputed.
+تنها نقطه ضعف این ساختمان داده این است که فقط می‌توان از آن روی آرایه‌های _تغییرناپذیر_ (immutable) استفاده کرد.
+این یعنی آرایه بین دو پرس‌وجو نباید تغییر کند.
+اگر هر عنصری در آرایه تغییر کند، کل ساختمان داده باید از نو محاسبه شود.
 
-## Intuition
+## شهود
 
-Any non-negative number can be uniquely represented as a sum of decreasing powers of two.
-This is just a variant of the binary representation of a number.
-E.g. $13 = (1101)_2 = 8 + 4 + 1$.
-For a number $x$ there can be at most $\lceil \log_2 x \rceil$ summands.
+هر عدد نامنفی را می‌توان به طور منحصربه‌فرد به صورت مجموعی از توان‌های کاهشی از دو نمایش داد.
+این در واقع شکلی دیگر از نمایش دودویی یک عدد است.
+مثلاً $13 = (1101)_2 = 8 + 4 + 1$.
+برای یک عدد $x$، حداکثر $\lceil \log_2 x \rceil$ جمله در این مجموع وجود خواهد داشت.
 
-By the same reasoning any interval can be uniquely represented as a union of intervals with lengths that are decreasing powers of two.
-E.g. $[2, 14] = [2, 9] \cup [10, 13] \cup [14, 14]$, where the complete interval has length 13, and the individual intervals have the lengths 8, 4 and 1 respectively.
-And also here the union consists of at most $\lceil \log_2(\text{length of interval}) \rceil$ many intervals.
+با همین استدلال، هر بازه را می‌توان به طور منحصربه‌فرد به صورت اجتماعی از بازه‌هایی با طول‌های توانی از دو (به صورت کاهشی) نمایش داد.
+برای مثال، بازه $[2, 14]$ را می‌توان به صورت $[2, 9] \cup [10, 13] \cup [14, 14]$ نوشت، که در آن طول بازه کامل ۱۳ و طول بازه‌های مجزا به ترتیب ۸، ۴ و ۱ است.
+در اینجا نیز، این اجتماع حداکثر از $\lceil \log_2(\text{طول بازه}) \rceil$ بازه تشکیل شده است.
 
-The main idea behind Sparse Tables is to precompute all answers for range queries with power of two length.
-Afterwards a different range query can be answered by splitting the range into ranges with power of two lengths, looking up the precomputed answers, and combining them to receive a complete answer.
+ایده اصلی پشت Sparse Table، پیش‌محاسبه کردن پاسخ تمام پرس‌وجوهای بازه‌ای است که طول آن‌ها توانی از دو است.
+پس از آن، می‌توان به یک پرس‌وجوی بازه‌ای دلخواه، با شکستن آن بازه به بازه‌هایی با طول توانی از دو، پیدا کردن پاسخ‌های از پیش محاسبه‌شده و ترکیب آن‌ها برای رسیدن به جواب نهایی، پاسخ داد.
 
-## Precomputation
+## پیش‌محاسبه
 
-We will use a 2-dimensional array for storing the answers to the precomputed queries.
-$\text{st}[i][j]$ will store the answer for the range $[j, j + 2^i - 1]$ of length $2^i$.
-The size of the 2-dimensional array will be $(K + 1) \times \text{MAXN}$, where $\text{MAXN}$ is the biggest possible array length.
-$\text{K}$ has to satisfy $\text{K} \ge \lfloor \log_2 \text{MAXN} \rfloor$, because $2^{\lfloor \log_2 \text{MAXN} \rfloor}$ is the biggest power of two range, that we have to support.
-For arrays with reasonable length ($\le 10^7$ elements), $K = 25$ is a good value.
+ما از یک آرایه دو بعدی برای ذخیره پاسخ‌های پرس‌وجوهای پیش‌محاسبه‌شده استفاده خواهیم کرد.
+$\text{st}[i][j]$ پاسخ برای بازه $[j, j + 2^i - 1]$ به طول $2^i$ را ذخیره می‌کند.
+اندازه آرایه دو بعدی $(K + 1) \times \text{MAXN}$ خواهد بود، که در آن $\text{MAXN}$ بزرگ‌ترین طول ممکن برای آرایه است.
+مقدار $\text{K}$ باید در شرط $\text{K} \ge \lfloor \log_2 \text{MAXN} \rfloor$ صدق کند، زیرا $2^{\lfloor \log_2 \text{MAXN} \rfloor}$ بزرگ‌ترین بازه با طول توانی از دو است که باید پشتیبانی کنیم.
+برای آرایه‌هایی با طول معقول (تا $10^7$ عنصر)، $K = 25$ مقدار مناسبی است.
 
-The $\text{MAXN}$ dimension is second to allow (cache friendly) consecutive memory accesses.
+بعدِ $\text{MAXN}$ به عنوان بعد دوم قرار داده شده تا دسترسی‌های متوالی به حافظه (سازگار با حافظه پنهان) امکان‌پذیر باشد.
 
-```{.cpp file=sparsetable_definition}
+```cpp
 int st[K + 1][MAXN];
 ```
 
-Because the range $[j, j + 2^i - 1]$ of length $2^i$ splits nicely into the ranges $[j, j + 2^{i - 1} - 1]$ and $[j + 2^{i - 1}, j + 2^i - 1]$, both of length $2^{i - 1}$, we can generate the table efficiently using dynamic programming:
+از آنجا که بازه $[j, j + 2^i - 1]$ به طول $2^i$ به خوبی به دو بازه $[j, j + 2^{i-1} - 1]$ و $[j + 2^{i-1}, j + 2^i - 1]$، که هر دو طولی برابر با $2^{i-1}$ دارند، تقسیم می‌شود، می‌توانیم جدول را با استفاده از برنامه‌ریزی پویا (dynamic programming) به طور بهینه بسازیم:
 
-```{.cpp file=sparsetable_generation}
+```cpp
 std::copy(array.begin(), array.end(), st[0]);
 
 for (int i = 1; i <= K; i++)
@@ -51,18 +52,18 @@ for (int i = 1; i <= K; i++)
         st[i][j] = f(st[i - 1][j], st[i - 1][j + (1 << (i - 1))]);
 ```
 
-The function $f$ will depend on the type of query.
-For range sum queries it will compute the sum, for range minimum queries it will compute the minimum.
+تابع $f$ به نوع پرس‌وجو بستگی دارد.
+برای پرس‌وجوهای مجموع بازه‌ای، این تابع مجموع را محاسبه می‌کند و برای پرس‌وجوهای کمینه بازه‌ای، کمینه را محاسبه می‌کند.
 
-The time complexity of the precomputation is $O(\text{N} \log \text{N})$.
+پیچیدگی زمانی پیش‌محاسبه $O(\text{N} \log \text{N})$ است.
 
-## Range Sum Queries
+## پرس‌وجوهای مجموع بازه‌ای
 
-For this type of queries, we want to find the sum of all values in a range.
-Therefore the natural definition of the function $f$ is $f(x, y) = x + y$.
-We can construct the data structure with:
+برای این نوع پرس‌وجوها، می‌خواهیم مجموع تمام مقادیر در یک بازه را پیدا کنیم.
+بنابراین، تعریف طبیعی برای تابع $f$ به صورت $f(x, y) = x + y$ است.
+می‌توانیم ساختمان داده را به این صورت بسازیم:
 
-```{.cpp file=sparsetable_sum_generation}
+```cpp
 long long st[K + 1][MAXN];
 
 std::copy(array.begin(), array.end(), st[0]);
@@ -72,10 +73,10 @@ for (int i = 1; i <= K; i++)
         st[i][j] = st[i - 1][j] + st[i - 1][j + (1 << (i - 1))];
 ```
 
-To answer the sum query for the range $[L, R]$, we iterate over all powers of two, starting from the biggest one.
-As soon as a power of two $2^i$ is smaller or equal to the length of the range ($= R - L + 1$), we process the first part of range $[L, L + 2^i - 1]$, and continue with the remaining range $[L + 2^i, R]$.
+برای پاسخ به پرس‌وجوی مجموع برای بازه $[L, R]$، ما روی تمام توان‌های دو، از بزرگ‌ترین آن‌ها شروع کرده و پیمایش می‌کنیم.
+هرگاه توان دویی مانند $2^i$ کوچک‌تر یا مساوی طول بازه ($= R - L + 1$) باشد، بخش اول بازه یعنی $[L, L + 2^i - 1]$ را پردازش کرده و با بازه باقیمانده یعنی $[L + 2^i, R]$ ادامه می‌دهیم.
 
-```{.cpp file=sparsetable_sum_query}
+```cpp
 long long sum = 0;
 for (int i = K; i >= 0; i--) {
     if ((1 << i) <= R - L + 1) {
@@ -85,30 +86,30 @@ for (int i = K; i >= 0; i--) {
 }
 ```
 
-Time complexity for a Range Sum Query is $O(K) = O(\log \text{MAXN})$.
+پیچیدگی زمانی برای یک پرس‌وجوی مجموع بازه‌ای $O(K) = O(\log \text{MAXN})$ است.
 
-## Range Minimum Queries (RMQ)
+## پرس‌وجوهای کمینه بازه‌ای (RMQ)
 
-These are the queries where the Sparse Table shines.
-When computing the minimum of a range, it doesn't matter if we process a value in the range once or twice.
-Therefore instead of splitting a range into multiple ranges, we can also split the range into only two overlapping ranges with power of two length.
-E.g. we can split the range $[1, 6]$ into the ranges $[1, 4]$ and $[3, 6]$.
-The range minimum of $[1, 6]$ is clearly the same as the minimum of the range minimum of $[1, 4]$ and the range minimum of $[3, 6]$.
-So we can compute the minimum of the range $[L, R]$ with:
+این‌ها پرس‌وجوهایی هستند که Sparse Table در آن‌ها می‌درخشد.
+هنگام محاسبه کمینه یک بازه، مهم نیست که یک مقدار را یک بار یا دو بار پردازش کنیم.
+بنابراین، به جای تقسیم یک بازه به چندین بازه، می‌توانیم آن را فقط به دو بازه همپوشان با طول توانی از دو تقسیم کنیم.
+مثلاً، می‌توانیم بازه $[1, 6]$ را به بازه‌های $[1, 4]$ و $[3, 6]$ تقسیم کنیم.
+کمینه بازه $[1, 6]$ به وضوح با کمینهِ «کمینه بازه $[1, 4]$» و «کمینه بازه $[3, 6]$» برابر است.
+پس می‌توانیم کمینه بازه $[L, R]$ را با فرمول زیر محاسبه کنیم:
 
-$$\min(\text{st}[i][L], \text{st}[i][R - 2^i + 1]) \quad \text{ where } i = \log_2(R - L + 1)$$
+$$\min(\text{st}[i][L], \text{st}[i][R - 2^i + 1]) \quad \text{ که در آن } i = \log_2(R - L + 1)$$
 
-This requires that we are able to compute $\log_2(R - L + 1)$ fast.
-You can accomplish that by precomputing all logarithms:
+این کار مستلزم آن است که بتوانیم $\log_2(R - L + 1)$ را سریع محاسبه کنیم.
+می‌توانید این کار را با پیش‌محاسبه تمام لگاریتم‌ها انجام دهید:
 
-```{.cpp file=sparse_table_log_table}
+```cpp
 int lg[MAXN+1];
 lg[1] = 0;
 for (int i = 2; i <= MAXN; i++)
     lg[i] = lg[i/2] + 1;
 ```
-Alternatively, log can be computed on the fly in constant space and time:
-```c++
+به طور جایگزین، لگاریتم را می‌توان به صورت درلحظه (on the fly) با فضا و زمان ثابت محاسبه کرد:
+```cpp
 // C++20
 #include <bit>
 int log2_floor(unsigned long i) {
@@ -120,11 +121,11 @@ int log2_floor(unsigned long long i) {
     return i ? __builtin_clzll(1) - __builtin_clzll(i) : -1;
 }
 ```
-[This benchmark](https://quick-bench.com/q/Zghbdj_TEkmw4XG2nqOpD3tsJ8U) shows that using `lg` array is slower because of cache misses.
+[این بنچمارک](https://quick-bench.com/q/Zghbdj_TEkmw4XG2nqOpD3tsJ8U) نشان می‌دهد که استفاده از آرایه `lg` به دلیل خطاهای حافظه پنهان (cache misses) کندتر است.
 
-Afterwards we need to precompute the Sparse Table structure. This time we define $f$ with $f(x, y) = \min(x, y)$.
+سپس باید ساختار Sparse Table را پیش‌محاسبه کنیم. این بار $f$ را با $f(x, y) = \min(x, y)$ تعریف می‌کنیم.
 
-```{.cpp file=sparse_table_minimum_generation}
+```cpp
 int st[K + 1][MAXN];
 
 std::copy(array.begin(), array.end(), st[0]);
@@ -134,25 +135,25 @@ for (int i = 1; i <= K; i++)
         st[i][j] = min(st[i - 1][j], st[i - 1][j + (1 << (i - 1))]);
 ```
 
-And the minimum of a range $[L, R]$ can be computed with:
+و کمینه بازه $[L, R]$ را می‌توان به این صورت محاسبه کرد:
 
-```{.cpp file=sparse_table_minimum_query}
+```cpp
 int i = lg[R - L + 1];
 int minimum = min(st[i][L], st[i][R - (1 << i) + 1]);
 ```
 
-Time complexity for a Range Minimum Query is $O(1)$.
+پیچیدگی زمانی برای یک پرس‌وجوی کمینه بازه‌ای $O(1)$ است.
 
-## Similar data structures supporting more types of queries
+## ساختمان داده‌های مشابه با پشتیبانی از انواع بیشتری از پرس‌وجوها
 
-One of the main weakness of the $O(1)$ approach discussed in the previous section is, that this approach only supports queries of [idempotent functions](https://en.wikipedia.org/wiki/Idempotence).
-I.e. it works great for range minimum queries, but it is not possible to answer range sum queries using this approach.
+یکی از ضعف‌های اصلی رویکرد $O(1)$ که در بخش قبل بحث شد این است که این رویکرد تنها از پرس‌وجوهایی با [توابع خودتوان (idempotent)](https://en.wikipedia.org/wiki/Idempotence) پشتیبانی می‌کند.
+یعنی برای پرس‌وجوهای کمینه بازه‌ای عالی عمل می‌کند، اما پاسخ به پرس‌وجوهای مجموع بازه‌ای با این رویکرد ممکن نیست.
 
-There are similar data structures that can handle any type of associative functions and answer range queries in $O(1)$.
-One of them is called [Disjoint Sparse Table](https://discuss.codechef.com/questions/117696/tutorial-disjoint-sparse-table).
-Another one would be the [Sqrt Tree](sqrt-tree.md).
+ساختمان داده‌های مشابهی وجود دارند که می‌توانند هر نوع تابع شرکت‌پذیری را مدیریت کرده و به پرس‌وجوهای بازه‌ای در زمان $O(1)$ پاسخ دهند.
+یکی از آن‌ها [Disjoint Sparse Table](https://discuss.codechef.com/questions/117696/tutorial-disjoint-sparse-table) نام دارد.
+مورد دیگر [Sqrt Tree](sqrt-tree.md) است.
 
-## Practice Problems
+## مسائل تمرینی
 
 * [SPOJ - RMQSQ](http://www.spoj.com/problems/RMQSQ/)
 * [SPOJ - THRBL](http://www.spoj.com/problems/THRBL/)

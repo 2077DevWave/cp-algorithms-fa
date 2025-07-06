@@ -1,19 +1,19 @@
 ---
 tags:
-  
-e_maxx_link: suffix_array
+  - AI Translated
+e_maxx_link: suffix-array
 ---
 
-# Suffix Array
+# آرایه پسوندی (Suffix Array)
 
-## Definition
+## تعریف
 
-Let $s$ be a string of length $n$. The $i$-th suffix of $s$ is the substring $s[i \ldots n - 1]$.
+فرض کنید $s$ یک رشته به طول $n$ باشد. $i$-امین پسوند رشته $s$ زیررشته $s[i \ldots n - 1]$ است.
 
-A **suffix array** will contain integers that represent the **starting indexes** of the all the suffixes of a given string, after the aforementioned suffixes are sorted.
+**آرایه پسوندی** (suffix array) شامل اعداد صحیحی است که **اندیس شروع** تمام پسوندهای یک رشتهٔ معین را، پس از مرتب‌سازی آن پسوندها، نشان می‌دهد.
 
-As an example look at the string $s = abaab$.
-All suffixes are as follows
+به عنوان مثال، رشته $s = abaab$ را در نظر بگیرید.
+تمام پسوندها به شرح زیر هستند:
 
 $$\begin{array}{ll}
 0. & abaab \\
@@ -23,7 +23,7 @@ $$\begin{array}{ll}
 4. & b
 \end{array}$$
 
-After sorting these strings:
+پس از مرتب‌سازی این رشته‌ها:
 
 $$\begin{array}{ll}
 2. & aab \\
@@ -33,25 +33,25 @@ $$\begin{array}{ll}
 1. & baab
 \end{array}$$
 
-Therefore the suffix array for $s$ will be $(2,~ 3,~ 0,~ 4,~ 1)$.
+بنابراین، آرایه پسوندی برای رشته $s$ برابر با $(2,~ 3,~ 0,~ 4,~ 1)$ خواهد بود.
 
-As a data structure it is widely used in areas such as data compression, bioinformatics and, in general, in any area that deals with strings and string matching problems.
+این ساختمان داده به طور گسترده در حوزه‌هایی مانند فشرده‌سازی داده، بیوانفورماتیک و به طور کلی در هر حوزه‌ای که با رشته‌ها و مسائل تطبیق رشته سروکار دارد، استفاده می‌شود.
 
-## Construction
+## ساخت
 
-### $O(n^2 \log n)$ approach {data-toc-label="O(n^2 log n) approach"}
+### رویکرد $O(n^2 \log n)$ {data-toc-label="O(n^2 log n) approach"}
 
-This is the most naive approach.
-Get all the suffixes and sort them using quicksort or mergesort and simultaneously retain their original indices.
-Sorting uses $O(n \log n)$ comparisons, and since comparing two strings will additionally take $O(n)$ time, we get the final complexity of $O(n^2 \log n)$.
+این ساده‌ترین رویکرد است.
+تمام پسوندها را استخراج کرده و با استفاده از quicksort یا mergesort مرتب می‌کنیم و همزمان اندیس‌های اصلی آن‌ها را نگه می‌داریم.
+مرتب‌سازی به $O(n \log n)$ مقایسه نیاز دارد و از آنجایی که مقایسه دو رشته نیز $O(n)$ زمان می‌برد، پیچیدگی نهایی $O(n^2 \log n)$ خواهد بود.
 
-### $O(n \log n)$ approach {data-toc-label="O(n log n) approach"}
+### رویکرد $O(n \log n)$ {data-toc-label="O(n log n) approach"}
 
-Strictly speaking the following algorithm will not sort the suffixes, but rather the cyclic shifts of a string.
-However we can very easily derive an algorithm for sorting suffixes from it:
-it is enough to append an arbitrary character to the end of the string which is smaller than any character from the string.
-It is common to use the symbol \$.
-Then the order of the sorted cyclic shifts is equivalent to the order of the sorted suffixes, as demonstrated here with the string $dabbb$.
+به بیان دقیق، الگوریتم زیر پسوندها را مرتب نمی‌کند، بلکه شیفت‌های دوری یک رشته را مرتب می‌کند.
+با این حال، می‌توانیم به راحتی الگوریتمی برای مرتب‌سازی پسوندها از آن استخراج کنیم:
+کافی است یک کاراکتر دلخواه که از تمام کاراکترهای رشته کوچک‌تر است را به انتهای رشته اضافه کنیم.
+معمولاً از نماد \$ استفاده می‌شود.
+در این صورت، ترتیب شیفت‌های دوری مرتب‌شده معادل ترتیب پسوندهای مرتب‌شده خواهد بود، همانطور که در اینجا با رشته $dabbb$ نشان داده شده است.
 
 $$\begin{array}{lll}
 1. & abbb\$d & abbb \\
@@ -61,25 +61,25 @@ $$\begin{array}{lll}
 0. & dabbb\$ & dabbb
 \end{array}$$
 
-Since we are going to sort cyclic shifts, we will consider **cyclic substrings**.
-We will use the notation $s[i \dots j]$ for the substring of $s$ even if $i > j$.
-In this case we actually mean the string $s[i \dots n-1] + s[0 \dots j]$.
-In addition we will take all indices modulo the length of $s$, and will omit the modulo operation for simplicity.
+از آنجایی که قصد مرتب‌سازی شیفت‌های دوری را داریم، **زیررشته‌های دوری** را در نظر خواهیم گرفت.
+ما از نماد $s[i \dots j]$ برای زیررشته $s$ استفاده خواهیم کرد، حتی اگر $i > j$ باشد.
+در این حالت، منظور ما در واقع رشته $s[i \dots n-1] + s[0 \dots j]$ است.
+علاوه بر این، تمام اندیس‌ها را به پیمانه طول رشته $s$ در نظر می‌گیریم و برای سادگی، عمل پیمانه را حذف می‌کنیم.
 
-The algorithm we discuss will perform $\lceil \log n \rceil + 1$ iterations.
-In the $k$-th iteration ($k = 0 \dots \lceil \log n \rceil$) we sort the $n$ cyclic substrings of $s$ of length $2^k$.
-After the $\lceil \log n \rceil$-th iteration the substrings of length $2^{\lceil \log n \rceil} \ge n$ will be sorted, so this is equivalent to sorting the cyclic shifts altogether.
+الگوریتمی که بحث می‌کنیم، $\lceil \log n \rceil + 1$ تکرار انجام می‌دهد.
+در $k$-امین تکرار ($k = 0 \dots \lceil \log n \rceil$) ما $n$ زیررشتهٔ دوری از $s$ به طول $2^k$ را مرتب می‌کنیم.
+پس از تکرار $\lceil \log n \rceil$-ام، زیررشته‌هایی به طول $2^{\lceil \log n \rceil} \ge n$ مرتب خواهند شد، که این معادل مرتب‌سازی کامل شیفت‌های دوری است.
 
-In each iteration of the algorithm, in addition to the permutation $p[0 \dots n-1]$, where $p[i]$ is the index of the $i$-th substring (starting at $i$ and with length $2^k$) in the sorted order, we will also maintain an array $c[0 \dots n-1]$, where $c[i]$ corresponds to the **equivalence class** to which the substring belongs.
-Because some of the substrings will be identical, and the algorithm needs to treat them equally.
-For convenience the classes will be labeled by numbers started from zero.
-In addition the numbers $c[i]$ will be assigned in such a way that they preserve information about the order:
-if one substring is smaller than the other, then it should also have a smaller class label.
-The number of equivalence classes will be stored in a variable $\text{classes}$.
+در هر تکرار الگوریتم، علاوه بر جایگشت $p[0 \dots n-1]$ که در آن $p[i]$ اندیس $i$-امین زیررشته (که از $i$ شروع شده و طول $2^k$ دارد) در ترتیب مرتب‌شده است، یک آرایه $c[0 \dots n-1]$ را نیز نگهداری خواهیم کرد که در آن $c[i]$ متناظر با **کلاس هم‌ارزی** است که زیررشته به آن تعلق دارد.
+زیرا برخی از زیررشته‌ها یکسان خواهند بود و الگوریتم باید با آنها به طور یکسان رفتار کند.
+برای راحتی، کلاس‌ها با اعدادی از صفر شماره‌گذاری می‌شوند.
+علاوه بر این، اعداد $c[i]$ به گونه‌ای تخصیص داده می‌شوند که اطلاعات مربوط به ترتیب را حفظ کنند:
+اگر یک زیررشته از دیگری کوچک‌تر باشد، باید برچسب کلاس کوچک‌تری نیز داشته باشد.
+تعداد کلاس‌های هم‌ارزی در متغیر $\text{classes}$ ذخیره می‌شود.
 
-Let's look at an example.
-Consider the string $s = aaba$.
-The cyclic substrings and the corresponding arrays $p[]$ and $c[]$ are given for each iteration:
+بیایید به یک مثال نگاه کنیم.
+رشته $s = aaba$ را در نظر بگیرید.
+زیررشته‌های دوری و آرایه‌های متناظر $p[]$ و $c[]$ برای هر تکرار آورده شده است:
 
 $$\begin{array}{cccc}
 0: & (a,~ a,~ b,~ a) & p = (0,~ 1,~ 3,~ 2) & c = (0,~ 0,~ 1,~ 0)\\
@@ -87,14 +87,14 @@ $$\begin{array}{cccc}
 2: & (aaba,~ abaa,~ baaa,~ aaab) & p = (3,~ 0,~ 1,~ 2) & c = (1,~ 2,~ 3,~ 0)\\
 \end{array}$$
 
-It is worth noting that the values of $p[]$ can be different.
-For example in the $0$-th iteration the array could also be $p = (3,~ 1,~ 0,~ 2)$ or $p = (3,~ 0,~ 1,~ 2)$.
-All these options permutation the substrings into a sorted order.
-So they are all valid.
-At the same time the array $c[]$ is fixed, there can be no ambiguities.
+شایان ذکر است که مقادیر $p[]$ می‌توانند متفاوت باشند.
+به عنوان مثال، در تکرار 0-ام، آرایه می‌توانست $p = (3,~ 1,~ 0,~ 2)$ یا $p = (3,~ 0,~ 1,~ 2)$ نیز باشد.
+همه این گزینه‌ها زیررشته‌ها را به ترتیب مرتب‌شده جایگشت می‌دهند.
+بنابراین همه آنها معتبر هستند.
+در عین حال، آرایه $c[]$ ثابت است و هیچ ابهامی در آن وجود ندارد.
 
-Let us now focus on the implementation of the algorithm.
-We will write a function that takes a string $s$ and returns the permutations of the sorted cyclic shifts.
+حال بیایید بر روی پیاده‌سازی الگوریتم تمرکز کنیم.
+تابعی خواهیم نوشت که یک رشته $s$ را گرفته و جایگشت شیفت‌های دوری مرتب‌شده را برمی‌گرداند.
 
 ```{.cpp file=suffix_array_sort_cyclic1}
 vector<int> sort_cyclic_shifts(string const& s) {
@@ -102,10 +102,10 @@ vector<int> sort_cyclic_shifts(string const& s) {
     const int alphabet = 256;
 ```
 
-At the beginning (in the **$0$-th iteration**) we must sort the cyclic substrings of length $1$, that is we have to sort all characters of the string and divide them into equivalence classes (same symbols get assigned to the same class).
-This can be done trivially, for example, by using **counting sort**.
-For each character we count how many times it appears in the string, and then use this information to create the array $p[]$.
-After that we go through the array $p[]$ and construct $c[]$ by comparing adjacent characters.
+در ابتدا (در **تکرار 0-ام**) باید زیررشته‌های دوری به طول ۱ را مرتب کنیم، یعنی باید تمام کاراکترهای رشته را مرتب کرده و آنها را به کلاس‌های هم‌ارزی تقسیم کنیم (نمادهای یکسان در یک کلاس قرار می‌گیرند).
+این کار را می‌توان به سادگی انجام داد، به عنوان مثال، با استفاده از **مرتب‌سازی شمارشی (counting sort)**.
+برای هر کاراکتر، تعداد دفعات تکرار آن در رشته را می‌شماریم و سپس از این اطلاعات برای ایجاد آرایه $p[]$ استفاده می‌کنیم.
+پس از آن، آرایه $p[]$ را پیمایش کرده و با مقایسه کاراکترهای مجاور، $c[]$ را می‌سازیم.
 
 ```{.cpp file=suffix_array_sort_cyclic2}
     vector<int> p(n), c(n), cnt(max(alphabet, n), 0);
@@ -124,52 +124,52 @@ After that we go through the array $p[]$ and construct $c[]$ by comparing adjace
     }
 ```
 
-Now we have to talk about the iteration step.
-Let's assume we have already performed the $k-1$-th step and computed the values of the arrays $p[]$ and $c[]$ for it.
-We want to compute the values for the $k$-th step in $O(n)$ time.
-Since we perform this step $O(\log n)$ times, the complete algorithm will have a time complexity of $O(n \log n)$.
+اکنون باید در مورد مرحله تکرار صحبت کنیم.
+فرض کنید مرحله $k-1$-ام را انجام داده‌ایم و مقادیر آرایه‌های $p[]$ و $c[]$ را برای آن محاسبه کرده‌ایم.
+می‌خواهیم مقادیر را برای مرحله $k$-ام در زمان $O(n)$ محاسبه کنیم.
+از آنجایی که این مرحله را $O(\log n)$ بار انجام می‌دهیم، کل الگوریتم دارای پیچیدگی زمانی $O(n \log n)$ خواهد بود.
 
-To do this, note that the cyclic substrings of length $2^k$ consists of two substrings of length $2^{k-1}$ which we can compare with each other in $O(1)$ using the information from the previous phase - the values of the equivalence classes $c[]$.
-Thus, for two substrings of length $2^k$ starting at position $i$ and $j$, all necessary information to compare them is contained in the pairs $(c[i],~ c[i + 2^{k-1}])$ and $(c[j],~ c[j + 2^{k-1}])$.
+برای انجام این کار، توجه داشته باشید که زیررشته‌های دوری به طول $2^k$ از دو زیررشته به طول $2^{k-1}$ تشکیل شده‌اند که می‌توانیم آنها را با استفاده از اطلاعات فاز قبلی - یعنی مقادیر کلاس‌های هم‌ارزی $c[]$ - در زمان $O(1)$ با یکدیگر مقایسه کنیم.
+بنابراین، برای دو زیررشته به طول $2^k$ که از موقعیت $i$ و $j$ شروع می‌شوند، تمام اطلاعات لازم برای مقایسه آنها در زوج‌های $(c[i],~ c[i + 2^{k-1}])$ و $(c[j],~ c[j + 2^{k-1}])$ موجود است.
 
 $$\dots
 \overbrace{
-\underbrace{s_i \dots s_{i+2^{k-1}-1}}_{\text{length} = 2^{k-1},~ \text{class} = c[i]}
+\underbrace{s_i \dots s_{i+2^{k-1}-1}}_{\text{طول} = 2^{k-1},~ \text{کلاس} = c[i]}
 \quad
-\underbrace{s_{i+2^{k-1}} \dots s_{i+2^k-1}}_{\text{length} = 2^{k-1},~ \text{class} = c[i + 2^{k-1}]}
-}^{\text{length} = 2^k}
+\underbrace{s_{i+2^{k-1}} \dots s_{i+2^k-1}}_{\text{طول} = 2^{k-1},~ \text{کلاس} = c[i + 2^{k-1}]}
+}^{\text{طول} = 2^k}
 \dots
 \overbrace{
-\underbrace{s_j \dots s_{j+2^{k-1}-1}}_{\text{length} = 2^{k-1},~ \text{class} = c[j]}
+\underbrace{s_j \dots s_{j+2^{k-1}-1}}_{\text{طول} = 2^{k-1},~ \text{کلاس} = c[j]}
 \quad
-\underbrace{s_{j+2^{k-1}} \dots s_{j+2^k-1}}_{\text{length} = 2^{k-1},~ \text{class} = c[j + 2^{k-1}]}
-}^{\text{length} = 2^k}
+\underbrace{s_{j+2^{k-1}} \dots s_{j+2^k-1}}_{\text{طول} = 2^{k-1},~ \text{کلاس} = c[j + 2^{k-1}]}
+}^{\text{طول} = 2^k}
 \dots
 $$
 
-This gives us a very simple solution:
-**sort** the substrings of length $2^k$ **by these pairs of numbers**.
-This will give us the required order $p[]$.
-However a normal sort runs in $O(n \log n)$ time, with which we are not satisfied.
-This will only give us an algorithm for constructing a suffix array in $O(n \log^2 n)$ times.
+این به ما یک راه حل بسیار ساده می‌دهد:
+**مرتب‌سازی** زیررشته‌های به طول $2^k$ **بر اساس این زوج اعداد**.
+این کار ترتیب مورد نیاز $p[]$ را به ما می‌دهد.
+با این حال، یک مرتب‌سازی معمولی در زمان $O(n \log n)$ اجرا می‌شود که ما از آن راضی نیستیم.
+این تنها الگوریتمی برای ساخت آرایه پسوندی در زمان $O(n \log^2 n)$ به ما می‌دهد.
 
-How do we quickly perform such a sorting of the pairs?
-Since the elements of the pairs do not exceed $n$, we can use counting sort again.
-However sorting pairs with counting sort is not the most efficient.
-To achieve a better hidden constant in the complexity, we will use another trick.
+چگونه می‌توانیم چنین مرتب‌سازی زوج‌ها را به سرعت انجام دهیم؟
+از آنجایی که عناصر زوج‌ها از $n$ تجاوز نمی‌کنند، می‌توانیم دوباره از مرتب‌سازی شمارشی استفاده کنیم.
+با این حال، مرتب‌سازی زوج‌ها با مرتب‌سازی شمارشی کارآمدترین روش نیست.
+برای دستیابی به یک ثابت پنهان بهتر در پیچیدگی، از ترفند دیگری استفاده خواهیم کرد.
 
-We use here the technique on which **radix sort** is based: to sort the pairs we first sort them by the second element, and then by the first element (with a stable sort, i.e. sorting without breaking the relative order of equal elements).
-However the second elements were already sorted in the previous iteration.
-Thus, in order to sort the pairs by the second elements, we just need to subtract $2^{k-1}$ from the indices in $p[]$ (e.g. if the smallest substring of length $2^{k-1}$ starts at position $i$, then the substring of length $2^k$ with the smallest second half starts at $i - 2^{k-1}$).
+ما در اینجا از تکنیکی استفاده می‌کنیم که **مرتب‌سازی مبنایی (radix sort)** بر آن استوار است: برای مرتب‌سازی زوج‌ها، ابتدا آن‌ها را بر اساس عنصر دوم مرتب کرده و سپس بر اساس عنصر اول مرتب‌سازی می‌کنیم (با یک مرتب‌سازی پایدار، یعنی مرتب‌سازی بدون برهم زدن ترتیب نسبی عناصر مساوی).
+اما عناصر دوم در تکرار قبلی از قبل مرتب شده‌اند.
+بنابراین، برای مرتب‌سازی زوج‌ها بر اساس عنصر دوم، کافی است $2^{k-1}$ را از اندیس‌های موجود در $p[]$ کم کنیم (مثلاً اگر کوچکترین زیررشته به طول $2^{k-1}$ از موقعیت $i$ شروع شود، آنگاه زیررشته به طول $2^k$ با کوچکترین نیمه دوم از موقعیت $i - 2^{k-1}$ شروع می‌شود).
 
-So only by simple subtractions we can sort the second elements of the pairs in $p[]$.
-Now we need to perform a stable sort by the first elements.
-As already mentioned, this can be accomplished with counting sort.
+بنابراین تنها با تفریق‌های ساده می‌توانیم عناصر دوم زوج‌ها را در $p[]$ مرتب کنیم.
+اکنون باید یک مرتب‌سازی پایدار بر اساس عناصر اول انجام دهیم.
+همانطور که قبلاً ذکر شد، این کار را می‌توان با مرتب‌سازی شمارشی انجام داد.
 
-The only thing left is to compute the equivalence classes $c[]$, but as before this can be done by simply iterating over the sorted permutation $p[]$ and comparing neighboring pairs.
+تنها کار باقی‌مانده محاسبه کلاس‌های هم‌ارزی $c[]$ است، اما مانند قبل، این کار را می‌توان با پیمایش ساده جایگشت مرتب‌شده $p[]$ و مقایسه زوج‌های همسایه انجام داد.
 
-Here is the remaining implementation.
-We use temporary arrays $pn[]$ and $cn[]$ to store the permutation by the second elements and the new equivalent class indices.
+در اینجا پیاده‌سازی باقی‌مانده آمده است.
+ما از آرایه‌های موقت $pn[]$ و $cn[]$ برای ذخیره جایگشت بر اساس عناصر دوم و اندیس‌های کلاس هم‌ارزی جدید استفاده می‌کنیم.
 
 ```{.cpp file=suffix_array_sort_cyclic3}
     vector<int> pn(n), cn(n);
@@ -200,13 +200,13 @@ We use temporary arrays $pn[]$ and $cn[]$ to store the permutation by the second
     return p;
 }
 ```
-The algorithm requires $O(n \log n)$ time and $O(n)$ memory. For simplicity we used the complete ASCII range as alphabet.
+این الگوریتم به زمان $O(n \log n)$ و حافظه $O(n)$ نیاز دارد. برای سادگی، ما از کل دامنه ASCII به عنوان الفبا استفاده کردیم.
 
-If it is known that the string only contains a subset of characters, e.g. only lowercase letters, then the implementation can be optimized, but the optimization factor would likely be insignificant, as the size of the alphabet only matters on the first iteration. Every other iteration depends on the number of equivalence classes, which may quickly reach $O(n)$ even if initially it was a string over the alphabet of size $2$.
+اگر مشخص باشد که رشته فقط شامل زیرمجموعه‌ای از کاراکترها است، به عنوان مثال فقط حروف کوچک انگلیسی، پیاده‌سازی را می‌توان بهینه‌سازی کرد، اما ضریب بهینه‌سازی احتمالاً ناچیز خواهد بود، زیرا اندازه الفبا فقط در تکرار اول اهمیت دارد. هر تکرار دیگر به تعداد کلاس‌های هم‌ارزی بستگی دارد که ممکن است به سرعت به $O(n)$ برسد حتی اگر در ابتدا رشته‌ای بر روی الفبایی به اندازه ۲ باشد.
 
-Also note, that this algorithm only sorts the cycle shifts.
-As mentioned at the beginning of this section we can generate the sorted order of the suffixes by appending a character that is smaller than all other characters of the string, and sorting this resulting string by cycle shifts, e.g. by sorting the cycle shifts of $s + \$$.
-This will obviously give the suffix array of $s$, however prepended with $|s|$.
+همچنین توجه داشته باشید که این الگوریتم فقط شیفت‌های دوری را مرتب می‌کند.
+همانطور که در ابتدای این بخش ذکر شد، می‌توانیم ترتیب مرتب‌شده پسوندها را با اضافه کردن کاراکتری که از تمام کاراکترهای دیگر رشته کوچکتر است، تولید کنیم و سپس این رشته حاصل را بر اساس شیفت‌های دوری مرتب کنیم، به عنوان مثال با مرتب‌سازی شیفت‌های دوری $s + \$$.
+این کار به وضوح آرایه پسوندی $s$ را به ما می‌دهد، با این تفاوت که $|s|$ در ابتدای آن قرار دارد.
 
 ```{.cpp file=suffix_array_construction}
 vector<int> suffix_array_construction(string s) {
@@ -217,54 +217,54 @@ vector<int> suffix_array_construction(string s) {
 }
 ```
 
-## Applications
+## کاربردها
 
-### Finding the smallest cyclic shift
+### یافتن کوچکترین شیفت دوری
 
-The algorithm above sorts all cyclic shifts (without appending a character to the string), and therefore $p[0]$ gives the position of the smallest cyclic shift. 
+الگوریتم بالا تمام شیفت‌های دوری را مرتب می‌کند (بدون اضافه کردن کاراکتر به رشته)، و بنابراین $p[0]$ موقعیت کوچکترین شیفت دوری را نشان می‌دهد.
 
-### Finding a substring in a string
+### یافتن یک زیررشته در یک رشته
 
-The task is to find a string $s$ inside some text $t$ online - we know the text $t$ beforehand, but not the string $s$.
-We can create the suffix array for the text $t$ in $O(|t| \log |t|)$ time.
-Now we can look for the substring $s$ in the following way.
-The occurrence of $s$ must be a prefix of some suffix from $t$.
-Since we sorted all the suffixes we can perform a binary search for $s$ in $p$.
-Comparing the current suffix and the substring $s$ within the binary search can be done in $O(|s|)$ time, therefore the complexity for finding the substring is $O(|s| \log |t|)$.
-Also notice that if the substring occurs multiple times in $t$, then all occurrences will be next to each other in $p$.
-Therefore the number of occurrences can be found with a second binary search, and all occurrences can be printed easily.
+وظیفه یافتن یک رشته $s$ در داخل یک متن $t$ به صورت آنلاین است - ما متن $t$ را از قبل می‌دانیم، اما رشته $s$ را نه.
+ما می‌توانیم آرایه پسوندی را برای متن $t$ در زمان $O(|t| \log |t|)$ ایجاد کنیم.
+اکنون می‌توانیم به روش زیر به دنبال زیررشته $s$ بگردیم.
+وقوع $s$ باید پیشوندی از یکی از پسوندهای $t$ باشد.
+از آنجایی که ما تمام پسوندها را مرتب کرده‌ایم، می‌توانیم یک جستجوی دودویی برای $s$ در $p$ انجام دهیم.
+مقایسه پسوند فعلی و زیررشته $s$ در داخل جستجوی دودویی در زمان $O(|s|)$ قابل انجام است، بنابراین پیچیدگی یافتن زیررشته $O(|s| \log |t|)$ است.
+همچنین توجه داشته باشید که اگر زیررشته چندین بار در $t$ تکرار شود، تمام وقوع‌ها در $p$ کنار یکدیگر قرار خواهند گرفت.
+بنابراین، تعداد وقوع‌ها را می‌توان با یک جستجوی دودویی دوم پیدا کرد و تمام وقوع‌ها را به راحتی چاپ کرد.
 
-### Comparing two substrings of a string
+### مقایسه دو زیررشته از یک رشته
 
-We want to be able to compare two substrings of the same length of a given string $s$ in $O(1)$ time, i.e. checking if the first substring is smaller than the second one.
+می‌خواهیم بتوانیم دو زیررشته با طول یکسان از یک رشته $s$ را در زمان $O(1)$ مقایسه کنیم، یعنی بررسی کنیم که آیا زیررشته اول از دومی کوچکتر است یا نه.
 
-For this we construct the suffix array in $O(|s| \log |s|)$ time and store all the intermediate results of the equivalence classes $c[]$.
+برای این کار، آرایه پسوندی را در زمان $O(|s| \log |s|)$ می‌سازیم و تمام نتایج میانی کلاس‌های هم‌ارزی $c[]$ را ذخیره می‌کنیم.
 
-Using this information we can compare any two substring whose length is equal to a power of two in O(1):
-for this it is sufficient to compare the equivalence classes of both substrings.
-Now we want to generalize this method to substrings of arbitrary length.
+با استفاده از این اطلاعات، می‌توانیم هر دو زیررشته‌ای که طول آنها توانی از دو باشد را در O(1) مقایسه کنیم:
+برای این کار کافی است کلاس‌های هم‌ارزی هر دو زیررشته را مقایسه کنیم.
+اکنون می‌خواهیم این روش را برای زیررشته‌هایی با طول دلخواه تعمیم دهیم.
 
-Let's compare two substrings of length $l$ with the starting indices $i$ and $j$.
-We find the largest length of a block that is placed inside a substring of this length: the greatest $k$ such that $2^k \le l$.
-Then comparing the two substrings can be replaced by comparing two overlapping blocks of length $2^k$:
-first you need to compare the two blocks starting at $i$ and $j$, and if these are equal then compare the two blocks ending in positions $i + l - 1$ and $j + l - 1$:
+بیایید دو زیررشته به طول $l$ با اندیس‌های شروع $i$ و $j$ را مقایسه کنیم.
+بزرگترین طول بلوکی که در یک زیررشته با این طول قرار می‌گیرد را پیدا می‌کنیم: بزرگترین $k$ به طوری که $2^k \le l$.
+سپس مقایسه دو زیررشته را می‌توان با مقایسه دو بلوک همپوشان به طول $2^k$ جایگزین کرد:
+ابتدا باید دو بلوک که از $i$ و $j$ شروع می‌شوند را مقایسه کنید، و اگر اینها مساوی بودند، دو بلوک که در موقعیت‌های $i + l - 1$ و $j + l - 1$ تمام می‌شوند را مقایسه کنید:
 
 $$\dots
-\overbrace{\underbrace{s_i \dots s_{i+l-2^k} \dots s_{i+2^k-1}}_{2^k} \dots s_{i+l-1}}^{\text{first}}
+\overbrace{\underbrace{s_i \dots s_{i+l-2^k} \dots s_{i+2^k-1}}_{2^k} \dots s_{i+l-1}}^{\text{اولی}}
 \dots
-\overbrace{\underbrace{s_j \dots s_{j+l-2^k} \dots s_{j+2^k-1}}_{2^k} \dots s_{j+l-1}}^{\text{second}}
+\overbrace{\underbrace{s_j \dots s_{j+l-2^k} \dots s_{j+2^k-1}}_{2^k} \dots s_{j+l-1}}^{\text{دومی}}
 \dots$$
 
 $$\dots
-\overbrace{s_i \dots \underbrace{s_{i+l-2^k} \dots s_{i+2^k-1} \dots s_{i+l-1}}_{2^k}}^{\text{first}}
+\overbrace{s_i \dots \underbrace{s_{i+l-2^k} \dots s_{i+2^k-1} \dots s_{i+l-1}}_{2^k}}^{\text{اولی}}
 \dots
-\overbrace{s_j \dots \underbrace{s_{j+l-2^k} \dots s_{j+2^k-1} \dots s_{j+l-1}}_{2^k}}^{\text{second}}
+\overbrace{s_j \dots \underbrace{s_{j+l-2^k} \dots s_{j+2^k-1} \dots s_{j+l-1}}_{2^k}}^{\text{دومی}}
 \dots$$
 
-Here is the implementation of the comparison.
-Note that it is assumed that the function gets called with the already calculated $k$.
-$k$ can be computed with $\lfloor \log l \rfloor$, but it is more efficient to precompute all $k$ values for every $l$.
-See for instance the article about the [Sparse Table](../data_structures/sparse-table.md), which uses a similar idea and computes all $\log$ values.
+در اینجا پیاده‌سازی مقایسه آمده است.
+توجه داشته باشید که فرض بر این است که تابع با $k$ از قبل محاسبه شده فراخوانی می‌شود.
+$k$ را می‌توان با $\lfloor \log l \rfloor$ محاسبه کرد، اما کارآمدتر است که تمام مقادیر $k$ را برای هر $l$ از قبل محاسبه کنیم.
+به عنوان مثال، مقاله مربوط به [جدول پراکنده (Sparse Table)](../data_structures/sparse-table.md) را ببینید که از ایده مشابهی استفاده می‌کند و تمام مقادیر $\log$ را محاسبه می‌کند.
 
 ```cpp
 int compare(int i, int j, int l, int k) {
@@ -274,18 +274,18 @@ int compare(int i, int j, int l, int k) {
 }
 ```
 
-### Longest common prefix of two substrings with additional memory
+### طولانی‌ترین پیشوند مشترک دو زیررشته با حافظه اضافی
 
-For a given string $s$ we want to compute the longest common prefix (**LCP**)  of two arbitrary suffixes with position $i$ and $j$.
+برای یک رشته داده شده $s$، می‌خواهیم طولانی‌ترین پیشوند مشترک (**LCP**) دو پسوند دلخواه با موقعیت $i$ و $j$ را محاسبه کنیم.
 
-The method described here uses $O(|s| \log |s|)$ additional memory.
-A completely different approach that will only use a linear amount of memory is described in the next section.
+روشی که در اینجا شرح داده شده است از حافظه اضافی $O(|s| \log |s|)$ استفاده می‌کند.
+رویکردی کاملاً متفاوت که فقط از مقدار خطی حافظه استفاده می‌کند در بخش بعدی شرح داده شده است.
 
-We construct the suffix array in $O(|s| \log |s|)$ time, and remember the intermediate results of the arrays $c[]$ from each iteration.
+ما آرایه پسوندی را در زمان $O(|s| \log |s|)$ می‌سازیم و نتایج میانی آرایه‌های $c[]$ را از هر تکرار به خاطر می‌سپاریم.
 
-Let's compute the LCP for two suffixes starting at $i$ and $j$.
-We can compare any two substrings with a length equal to a power of two in $O(1)$.
-To do this, we compare the strings by power of twos (from highest to lowest power) and if the substrings of this length are the same, then we add the equal length to the answer and continue checking for the LCP to the right of the equal part, i.e. $i$ and $j$ get added by the current power of two.
+بیایید LCP را برای دو پسوند که از $i$ و $j$ شروع می‌شوند محاسبه کنیم.
+ما می‌توانیم هر دو زیررشته با طولی برابر با توانی از دو را در $O(1)$ مقایسه کنیم.
+برای انجام این کار، رشته‌ها را بر اساس توان‌های دو (از بزرگ‌ترین به کوچک‌ترین توان) مقایسه می‌کنیم و اگر زیررشته‌های این طول یکسان بودند، طول برابر را به پاسخ اضافه کرده و به بررسی LCP در سمت راست بخش برابر ادامه می‌دهیم، یعنی به $i$ و $j$ توان فعلی دو اضافه می‌شود.
 
 ```cpp
 int lcp(int i, int j) {
@@ -301,41 +301,41 @@ int lcp(int i, int j) {
 }
 ```
 
-Here `log_n` denotes a constant that is equal to the logarithm of $n$ in base $2$ rounded down.
+در اینجا `log_n` یک ثابت است که برابر با لگاریتم $n$ در پایه ۲ گرد شده به پایین است.
 
-### Longest common prefix of two substrings without additional memory
+### طولانی‌ترین پیشوند مشترک دو زیررشته بدون حافظه اضافی
 
-We have the same task as in the previous section.
-We have compute the longest common prefix (**LCP**) for two suffixes of a string $s$.
+ما همان وظیفه بخش قبل را داریم.
+باید طولانی‌ترین پیشوند مشترک (**LCP**) را برای دو پسوند از یک رشته $s$ محاسبه کنیم.
 
-Unlike the previous method this one will only use $O(|s|)$ memory.
-The result of the preprocessing will be an array (which itself is an important source of information about the string, and therefore also used to solve other tasks).
-LCP queries can be answered by performing RMQ queries (range minimum queries) in this array, so for different implementations it is possible to achieve logarithmic and even constant query time. 
+برخلاف روش قبلی، این روش فقط از حافظه $O(|s|)$ استفاده می‌کند.
+نتیجه پیش‌پردازش یک آرایه خواهد بود (که خود منبع مهمی از اطلاعات در مورد رشته است و بنابراین برای حل مسائل دیگر نیز استفاده می‌شود).
+پرس‌وجوهای LCP را می‌توان با انجام پرس‌وجوهای RMQ (پرس‌وجوهای کمینه بازه) در این آرایه پاسخ داد، بنابراین برای پیاده‌سازی‌های مختلف امکان دستیابی به زمان پرس‌وجوی لگاریتمی و حتی ثابت وجود دارد.
 
-The basis for this algorithm is the following idea:
-we will compute the longest common prefix for each **pair of adjacent suffixes in the sorted order**.
-In other words we construct an array $\text{lcp}[0 \dots n-2]$, where $\text{lcp}[i]$ is equal to the length of the longest common prefix of the suffixes starting at $p[i]$ and $p[i+1]$.
-This array will give us an answer for any two adjacent suffixes of the string.
-Then the answer for arbitrary two suffixes, not necessarily neighboring ones, can be obtained from this array.
-In fact, let the request be to compute the LCP of the suffixes $p[i]$ and $p[j]$.
-Then the answer to this query will be $\min(lcp[i],~ lcp[i+1],~ \dots,~ lcp[j-1])$.
+اساس این الگوریتم ایده زیر است:
+ما طولانی‌ترین پیشوند مشترک را برای هر **جفت پسوند مجاور در ترتیب مرتب‌شده** محاسبه می‌کنیم.
+به عبارت دیگر، ما یک آرایه $\text{lcp}[0 \dots n-2]$ می‌سازیم، که در آن $\text{lcp}[i]$ برابر با طول طولانی‌ترین پیشوند مشترک پسوندهایی است که از $p[i]$ و $p[i+1]$ شروع می‌شوند.
+این آرایه پاسخی برای هر دو پسوند مجاور رشته به ما می‌دهد.
+سپس پاسخ برای دو پسوند دلخواه، که لزوماً همسایه نیستند، را می‌توان از این آرایه به دست آورد.
+در واقع، فرض کنید درخواست، محاسبه LCP پسوندهای $p[i]$ و $p[j]$ باشد.
+آنگاه پاسخ به این پرس‌وجو برابر با $\min(lcp[i],~ lcp[i+1],~ \dots,~ lcp[j-1])$ خواهد بود.
 
-Thus if we have such an array $\text{lcp}$, then the problem is reduced to the [RMQ](../sequences/rmq.md), which has many wide number of different solutions with different complexities.
+بنابراین اگر چنین آرایه $\text{lcp}$ ای داشته باشیم، مسئله به [RMQ](../sequences/rmq.md) کاهش می‌یابد که راه‌حل‌های بسیار متنوعی با پیچیدگی‌های مختلف دارد.
 
-So the main task is to **build** this array $\text{lcp}$.
-We will use **Kasai's algorithm**, which can compute this array in $O(n)$ time.
+بنابراین وظیفه اصلی **ساختن** این آرایه $\text{lcp}$ است.
+ما از **الگوریتم Kasai** استفاده خواهیم کرد که می‌تواند این آرایه را در زمان $O(n)$ محاسبه کند.
 
-Let's look at two adjacent suffixes in the sorted order (order of the suffix array).
-Let their starting positions be $i$ and $j$ and their $\text{lcp}$ equal to $k > 0$.
-If we remove the first letter of both suffixes - i.e. we take the suffixes $i+1$ and $j+1$ - then it should be obvious that the $\text{lcp}$ of these two is $k - 1$.
-However we cannot use this value and write it in the $\text{lcp}$ array, because these two suffixes might not be next to each other in the sorted order.
-The suffix $i+1$ will of course be smaller than the suffix $j+1$, but there might be some suffixes between them.
-However, since we know that the LCP between two suffixes is the minimum value of all transitions, we also know that the LCP between any two pairs in that interval has to be at least $k-1$, especially also between $i+1$ and the next suffix.
-And possibly it can be bigger.
+دو پسوند مجاور در ترتیب مرتب‌شده (ترتیب آرایه پسوندی) را در نظر بگیرید.
+فرض کنید موقعیت شروع آنها $i$ و $j$ و $\text{lcp}$ آنها برابر با $k > 0$ باشد.
+اگر حرف اول هر دو پسوند را حذف کنیم - یعنی پسوندهای $i+1$ و $j+1$ را در نظر بگیریم - واضح است که $\text{lcp}$ این دو برابر $k - 1$ خواهد بود.
+با این حال، نمی‌توانیم از این مقدار استفاده کرده و آن را در آرایه $\text{lcp}$ بنویسیم، زیرا این دو پسوند ممکن است در ترتیب مرتب‌شده کنار هم نباشند.
+پسوند $i+1$ البته از پسوند $j+1$ کوچکتر خواهد بود، اما ممکن است پسوندهای دیگری بین آنها وجود داشته باشد.
+اما از آنجایی که می‌دانیم LCP بین دو پسوند، کمینه مقدار تمام گذارهاست، می‌دانیم که LCP بین هر دو جفت در آن بازه باید حداقل $k-1$ باشد، به ویژه بین $i+1$ و پسوند بعدی‌اش.
+و ممکن است بزرگ‌تر هم باشد.
 
-Now we already can implement the algorithm.
-We will iterate over the suffixes in order of their length. This way we can reuse the last value $k$, since going from suffix $i$ to the suffix $i+1$ is exactly the same as removing the first letter.
-We will need an additional array $\text{rank}$, which will give us the position of a suffix in the sorted list of suffixes.
+اکنون می‌توانیم الگوریتم را پیاده‌سازی کنیم.
+ما روی پسوندها به ترتیب موقعیتشان در رشته اصلی پیمایش می‌کنیم. به این ترتیب می‌توانیم از مقدار آخر $k$ دوباره استفاده کنیم، زیرا رفتن از پسوند $i$ به پسوند $i+1$ دقیقاً مانند حذف حرف اول است.
+به یک آرایه اضافی $\text{rank}$ نیاز خواهیم داشت که موقعیت یک پسوند را در لیست مرتب‌شده پسوندها به ما می‌دهد.
 
 ```{.cpp file=suffix_array_lcp_construction}
 vector<int> lcp_construction(string const& s, vector<int> const& p) {
@@ -362,26 +362,26 @@ vector<int> lcp_construction(string const& s, vector<int> const& p) {
 }
 ```
 
-It is easy to see, that we decrease $k$ at most $O(n)$ times (each iteration at most once, except for $\text{rank}[i] == n-1$, where we directly reset it to $0$), and the LCP between two strings is at most $n-1$, we will also increase $k$ only $O(n)$ times.
-Therefore the algorithm runs in $O(n)$ time.
+به راحتی می‌توان دید که ما $k$ را حداکثر $O(n)$ بار کاهش می‌دهیم (در هر تکرار حداکثر یک بار، به جز زمانی که $\text{rank}[i] == n-1$ باشد که مستقیماً آن را به ۰ بازنشانی می‌کنیم)، و از آنجا که LCP بین دو رشته حداکثر $n-1$ است، ما همچنین $k$ را فقط $O(n)$ بار افزایش خواهیم داد.
+بنابراین، الگوریتم در زمان $O(n)$ اجرا می‌شود.
 
-### Number of different substrings
+### تعداد زیررشته‌های مختلف
 
-We preprocess the string $s$ by computing the suffix array and the LCP array.
-Using this information we can compute the number of different substrings in the string.
+ما رشته $s$ را با محاسبه آرایه پسوندی و آرایه LCP پیش‌پردازش می‌کنیم.
+با استفاده از این اطلاعات، می‌توانیم تعداد زیررشته‌های مختلف در رشته را محاسبه کنیم.
 
-To do this, we will think about which **new** substrings begin at position $p[0]$, then at $p[1]$, etc.
-In fact we take the suffixes in sorted order and see what prefixes give new substrings.
-Thus we will not overlook any by accident.
+برای انجام این کار، به این فکر می‌کنیم که کدام زیررشته‌های **جدید** از موقعیت $p[0]$ شروع می‌شوند، سپس از $p[1]$ و غیره.
+در واقع، ما پسوندها را به ترتیب مرتب‌شده در نظر می‌گیریم و می‌بینیم کدام پیشوندها زیررشته‌های جدیدی ایجاد می‌کنند.
+بنابراین، به طور تصادفی هیچ‌کدام را از قلم نخواهیم انداخت.
 
-Because the suffixes are sorted, it is clear that the current suffix $p[i]$ will give new substrings for all its prefixes, except for the prefixes that coincide with the suffix $p[i-1]$.
-Thus, all its prefixes except the first $\text{lcp}[i-1]$ one.
-Since the length of the current suffix is $n - p[i]$, $n - p[i] - \text{lcp}[i-1]$ new prefixes start at $p[i]$.
-Summing over all the suffixes, we get the final answer:
+از آنجایی که پسوندها مرتب شده‌اند، واضح است که پسوند فعلی $p[i]$ برای تمام پیشوندهایش زیررشته‌های جدیدی ایجاد می‌کند، به جز پیشوندهایی که با پسوند $p[i-1]$ مشترک هستند.
+بنابراین، تمام پیشوندهای آن به جز $\text{lcp}[i-1]$ تای اول.
+از آنجایی که طول پسوند فعلی $n - p[i]$ است، تعداد $n - p[i] - \text{lcp}[i-1]$ پیشوند جدید از $p[i]$ شروع می‌شود.
+با جمع زدن روی تمام پسوندها، به پاسخ نهایی می‌رسیم:
 
 $$\sum_{i=0}^{n-1} (n - p[i]) - \sum_{i=0}^{n-2} \text{lcp}[i] = \frac{n^2 + n}{2} - \sum_{i=0}^{n-2} \text{lcp}[i]$$
 
-## Practice Problems
+## مسائل تمرینی
 
 * [Uva 760 - DNA Sequencing](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=701)
 * [Uva 1223 - Editor](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=3664)

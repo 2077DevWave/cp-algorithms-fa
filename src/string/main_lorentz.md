@@ -1,142 +1,142 @@
 ---
 tags:
-  
-e_maxx_link: string_tandems
+  - AI Translated
+e_maxx_link: main_lorentz
 ---
 
-# Finding repetitions
+# یافتن تکرارها
 
-Given a string $s$ of length $n$.
+یک رشته‌ی $s$ به طول $n$ داده شده است.
 
-A **repetition** is two occurrences of a string in a row.
-In other words a repetition can be described by a pair of indices $i < j$ such that the substring $s[i \dots j]$ consists of two identical strings written after each other.
+یک **تکرار** (repetition) به دو رخداد از یک رشته به صورت پشت سر هم گفته می‌شود.
+به عبارت دیگر، یک تکرار را می‌توان با یک جفت اندیس $i < j$ توصیف کرد، به طوری که زیررشته‌ی $s[i \dots j]$ از دو رشته‌ی یکسان که پشت سر هم نوشته شده‌اند، تشکیل شده باشد.
 
-The challenge is to **find all repetitions** in a given string $s$.
-Or a simplified task: find **any** repetition or find the **longest** repetition.
+چالش، **یافتن همه‌ی تکرارها** در رشته‌ی داده‌شده‌ی $s$ است.
+یا یک وظیفه‌ی ساده‌تر: یافتن **هر** تکرار دلخواه یا یافتن **طولانی‌ترین** تکرار.
 
-The algorithm described here was published in 1982 by Main and Lorentz.
+الگوریتم توصیف‌شده در اینجا در سال ۱۹۸۲ توسط Main و Lorentz منتشر شد.
 
-## Example
+## مثال
 
-Consider the repetitions in the following example string:
+تکرارها را در رشته‌ی مثال زیر در نظر بگیرید:
 
 $$acababaee$$
 
-The string contains the following three repetitions:
+این رشته شامل سه تکرار زیر است:
 
 - $s[2 \dots 5] = abab$
 - $s[3 \dots 6] = baba$
 - $s[7 \dots 8] = ee$
 
-Another example:
+مثال دیگر:
 
 $$abaaba$$
 
-Here there are only two repetitions
+در اینجا فقط دو تکرار وجود دارد
 
 - $s[0 \dots 5] = abaaba$
 - $s[2 \dots 3] = aa$
 
-## Number of repetitions
+## تعداد تکرارها
 
-In general there can be up to $O(n^2)$ repetitions in a string of length $n$.
-An obvious example is a string consisting of $n$ times the same letter, in this case any substring of even length is a repetition.
-In general any periodic string with a short period will contain a lot of repetitions.
+به طور کلی، در یک رشته به طول $n$ می‌تواند تا $O(n^2)$ تکرار وجود داشته باشد.
+یک مثال واضح، رشته‌ای است که از $n$ بار تکرار یک حرف یکسان تشکیل شده است. در این حالت، هر زیررشته با طول زوج یک تکرار محسوب می‌شود.
+به طور کلی، هر رشته‌ی متناوب با یک دوره‌ی تناوب کوتاه، شامل تعداد زیادی تکرار خواهد بود.
 
-On the other hand this fact does not prevent computing the number of repetitions in $O(n \log n)$ time, because the algorithm can give the repetitions in compressed form, in groups of several pieces at once.
+از سوی دیگر، این واقعیت مانع از محاسبه‌ی تعداد تکرارها در زمان $O(n \log n)$ نمی‌شود، زیرا الگوریتم می‌تواند تکرارها را به صورت فشرده، در قالب گروه‌هایی از چند بخش به طور همزمان ارائه دهد.
 
-There is even the concept, that describes groups of periodic substrings with tuples of size four.
-It has been proven that we the number of such groups is at most linear with respect to the string length.
+حتی مفهومی وجود دارد که گروه‌هایی از زیررشته‌های متناوب را با چندتایی‌هایی (tuple) به اندازه‌ی چهار توصیف می‌کند.
+ثابت شده است که تعداد چنین گروه‌هایی حداکثر از مرتبه‌ی خطی نسبت به طول رشته است.
 
-Also, here are some more interesting results related to the number of repetitions:
+همچنین، در اینجا چند نتیجه‌ی جالب دیگر در رابطه با تعداد تکرارها آورده شده است:
 
-  - The number of primitive repetitions (those whose halves are not repetitions) is at most $O(n \log n)$.
-  - If we encode repetitions with tuples of numbers (called Crochemore triples) $(i,~ p,~ r)$ (where $i$ is the position of the beginning, $p$ the length of the repeating substring, and $r$ the number of repetitions), then all repetitions can be described with $O(n \log n)$ such triples.
-  - Fibonacci strings, defined as 
-    
+- تعداد تکرارهای اولیه (primitive) (آنهایی که نصف‌هایشان خودشان تکرار نیستند) حداکثر $O(n \log n)$ است.
+- اگر تکرارها را با چندتایی‌هایی از اعداد (که سه‌تایی‌های Crochemore نامیده می‌شوند) به صورت $(i,~ p,~ r)$ کدگذاری کنیم (که در آن $i$ موقعیت شروع، $p$ طول زیررشته‌ی تکرارشونده و $r$ تعداد تکرارها است)، آنگاه تمام تکرارها را می‌توان با $O(n \log n)$ از این سه‌تایی‌ها توصیف کرد.
+- رشته‌های فیبوناچی که به صورت زیر تعریف می‌شوند:
+
     \[\begin{align}
     t_0 &= a, \\\\
     t_1 &= b, \\\\
     t_i &= t_{i-1} + t_{i-2},
     \end{align}\]
-    
-    are "strongly" periodic.
-    The number of repetitions in the Fibonacci string $f_i$, even in the compressed with Crochemore triples, is $O(f_n \log f_n)$.
-    The number of primitive repetitions is also $O(f_n \log f_n)$.
 
-## Main-Lorentz algorithm
+    "قویاً" متناوب هستند.
+    تعداد تکرارها در رشته‌ی فیبوناچی $f_i$، حتی در حالت فشرده با سه‌تایی‌های Crochemore، از مرتبه‌ی $O(f_n \log f_n)$ است.
+    تعداد تکرارهای اولیه نیز $O(f_n \log f_n)$ است.
 
-The idea behind the Main-Lorentz algorithm is **divide-and-conquer**.
+## الگوریتم Main-Lorentz
 
-It splits the initial string into halves, and computes the number of repetitions that lie completely in each halve by two recursive calls.
-Then comes the difficult part.
-The algorithm finds all repetitions starting in the first half and ending in the second half (which we will call **crossing repetitions**).
-This is the essential part of the Main-Lorentz algorithm, and we will discuss it in detail here.
+ایده‌ی اصلی الگوریتم Main-Lorentz، **تقسیم و حل** (divide-and-conquer) است.
 
-The complexity of divide-and-conquer algorithms is well researched.
-The [master theorem](https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)) says, that we will end up with an $O(n \log n)$ algorithm, if we can compute the crossing repetitions in $O(n)$ time.
+این الگوریتم رشته‌ی اولیه را به دو نیمه تقسیم می‌کند و تعداد تکرارهایی که به طور کامل در هر نیمه قرار دارند را با دو فراخوانی بازگشتی محاسبه می‌کند.
+سپس بخش دشوار کار فرا می‌رسد.
+الگوریتم تمام تکرارهایی را که از نیمه‌ی اول شروع شده و در نیمه‌ی دوم خاتمه می‌یابند (که آنها را **تکرارهای عبوری** (crossing repetitions) می‌نامیم) پیدا می‌کند.
+این بخش اصلی الگوریتم Main-Lorentz است و ما در اینجا آن را با جزئیات بررسی خواهیم کرد.
 
-### Search for crossing repetitions
+پیچیدگی الگوریتم‌های تقسیم و حل به خوبی مطالعه شده است.
+[قضیه‌ی اصلی](https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)) می‌گوید که اگر بتوانیم تکرارهای عبوری را در زمان $O(n)$ محاسبه کنیم، به یک الگوریتم با پیچیدگی $O(n \log n)$ خواهیم رسید.
 
-So we want to find all such repetitions that start in the first half of the string, let's call it $u$, and end in the second half, let's call it $v$:
+### جستجو برای تکرارهای عبوری
+
+بنابراین، می‌خواهیم تمام تکرارهایی را پیدا کنیم که از نیمه‌ی اول رشته، که آن را $u$ می‌نامیم، شروع شده و در نیمه‌ی دوم، که آن را $v$ می‌نامیم، به پایان می‌رسند:
 
 $$s = u + v$$
 
-Their lengths are approximately equal to the length of $s$ divided by two.
+طول آنها تقریباً برابر با نصف طول $s$ است.
 
-Consider an arbitrary repetition and look at the middle character (more precisely the first character of the second half of the repetition).
-I.e. if the repetition is a substring $s[i \dots j]$, then the middle character is $(i + j + 1) / 2$.
+یک تکرار دلخواه را در نظر بگیرید و به کاراکتر میانی آن نگاه کنید (به طور دقیق‌تر، اولین کاراکتر نیمه‌ی دوم تکرار).
+یعنی اگر تکرار، زیررشته‌ی $s[i \dots j]$ باشد، کاراکتر میانی در موقعیت $(i + j + 1) / 2$ قرار دارد.
 
-We call a repetition **left** or **right** depending on which string this character is located - in the string $u$ or in the string $v$.
-In other words a string is called left, if the majority of it lies in $u$, otherwise we call it right.
+ما یک تکرار را بسته به اینکه این کاراکتر در کدام رشته قرار دارد - در رشته‌ی $u$ یا در رشته‌ی $v$ - **چپ** یا **راست** می‌نامیم.
+به عبارت دیگر، یک تکرار را چپ می‌نامیم اگر بخش عمده‌ی آن در $u$ قرار داشته باشد، در غیر این صورت آن را راست می‌نامیم.
 
-We will now discuss how to find **all left repetitions**.
-Finding all right repetitions can be done in the same way.
+اکنون نحوه‌ی یافتن **همه‌ی تکرارهای چپ** را مورد بحث قرار می‌دهیم.
+یافتن تمام تکرارهای راست را می‌توان به همین روش انجام داد.
 
-Let us denote the length of the left repetition by $2l$ (i.e. each half of the repetition has length $l$).
-Consider the first character of the repetition falling into the string $v$ (it is at position $|u|$ in the string $s$).
-It coincides with the character $l$ positions before it, let's denote this position $cntr$.
+طول تکرار چپ را با $2l$ نشان می‌دهیم (یعنی هر نیمه‌ی تکرار طولی برابر با $l$ دارد).
+اولین کاراکتر تکرار را که در رشته‌ی $v$ قرار می‌گیرد در نظر بگیرید (این کاراکتر در موقعیت $|u|$ در رشته‌ی $s$ قرار دارد).
+این کاراکتر با کاراکتری که $l$ موقعیت قبل از آن قرار دارد، یکسان است. این موقعیت را $cntr$ می‌نامیم.
 
-We will fixate this position $cntr$, and **look for all repetitions at this position** $cntr$.
+ما این موقعیت $cntr$ را ثابت در نظر می‌گیریم و **به دنبال همه‌ی تکرارها در این موقعیت** $cntr$ می‌گردیم.
 
-For example:
+برای مثال:
 
 $$c ~ \underset{cntr}{a} ~ c ~ | ~ a ~ d ~ a$$
 
-The vertical lines divides the two halves.
-Here we fixated the position $cntr = 1$, and at this position we find the repetition $caca$.
+خط عمودی دو نیمه را از هم جدا می‌کند.
+در اینجا موقعیت $cntr = 1$ را ثابت در نظر گرفتیم و در این موقعیت، تکرار $caca$ را پیدا می‌کنیم.
 
-It is clear, that if we fixate the position $cntr$, we simultaneously fixate the length of the possible repetitions: $l = |u| - cntr$.
-Once we know how to find these repetitions, we will iterate over all possible values for $cntr$ from $0$ to $|u|-1$, and find all left crossover repetitions of length $l = |u|,~ |u|-1,~ \dots, 1$.
+واضح است که اگر موقعیت $cntr$ را ثابت در نظر بگیریم، همزمان طول تکرارهای ممکن را نیز ثابت کرده‌ایم: $l = |u| - cntr$.
+وقتی بدانیم چگونه این تکرارها را پیدا کنیم، روی تمام مقادیر ممکن برای $cntr$ از $0$ تا $|u|-1$ پیمایش کرده و تمام تکرارهای عبوری چپ با طول $l = |u|,~ |u|-1,~ \dots, 1$ را پیدا خواهیم کرد.
 
-### Criterion for left crossing repetitions
+### شرط لازم و کافی برای تکرارهای عبوری چپ
 
-Now, how can we find all such repetitions for a fixated $cntr$?
-Keep in mind that there still can be multiple such repetitions.
+حال، چگونه می‌توانیم تمام این تکرارها را برای یک $cntr$ ثابت پیدا کنیم؟
+به خاطر داشته باشید که هنوز هم ممکن است چندین تکرار از این نوع وجود داشته باشد.
 
-Let's again look at a visualization, this time for the repetition $abcabc$:
+بیایید دوباره به یک تصویرسازی نگاه کنیم، این بار برای تکرار $abcabc$:
 
 $$\overbrace{a}^{l_1} ~ \overbrace{\underset{cntr}{b} ~ c}^{l_2} ~ \overbrace{a}^{l_1} ~ | ~ \overbrace{b ~ c}^{l_2}$$
 
-Here we denoted the lengths of the two pieces of the repetition with $l_1$ and $l_2$:
-$l_1$ is the length of the repetition up to the position $cntr-1$, and $l_2$ is the length of the repetition from $cntr$ to the end of the half of the repetition.
-We have $2l = l_1 + l_2 + l_1 + l_2$ as the total length of the repetition.
+در اینجا طول‌های دو قطعه از تکرار را با $l_1$ و $l_2$ مشخص کرده‌ایم:
+$l_1$ طول تکرار تا موقعیت $cntr-1$ است، و $l_2$ طول تکرار از $cntr$ تا انتهای نیمه‌ی تکرار است.
+طول کل تکرار برابر است با $2l = l_1 + l_2 + l_1 + l_2$.
 
-Let us generate **necessary and sufficient** conditions for such a repetition at position $cntr$ of length $2l = 2(l_1 + l_2) = 2(|u| - cntr)$:
+بیایید شرایط **لازم و کافی** را برای چنین تکراری در موقعیت $cntr$ با طول $2l = 2(l_1 + l_2) = 2(|u| - cntr)$ استخراج کنیم:
 
-- Let $k_1$ be the largest number such that the first $k_1$ characters before the position $cntr$ coincide with the last $k_1$ characters in the string $u$:
-  
+- فرض کنید $k_1$ بزرگترین عددی باشد که $k_1$ کاراکتر قبل از موقعیت $cntr$ با $k_1$ کاراکتر آخر رشته‌ی $u$ یکسان باشند:
+
 $$
 u[cntr - k_1 \dots cntr - 1] = u[|u| - k_1 \dots |u| - 1]
 $$
-  
-- Let $k_2$ be the largest number such that the $k_2$ characters starting at position $cntr$ coincide with the first $k_2$ characters in the string $v$:
+
+- فرض کنید $k_2$ بزرگترین عددی باشد که $k_2$ کاراکتر که از موقعیت $cntr$ شروع می‌شوند با $k_2$ کاراکتر اول رشته‌ی $v$ یکسان باشند:
 
 $$  
   u[cntr \dots cntr + k_2 - 1] = v[0 \dots k_2 - 1]
 $$
-  
-- Then we have a repetition exactly for any pair $(l_1,~ l_2)$ with
+
+- آنگاه دقیقاً برای هر جفت $(l_1,~ l_2)$ که در شرایط زیر صدق کند، یک تکرار خواهیم داشت:
 
 $$
   \begin{align}
@@ -145,13 +145,13 @@ $$
   \end{align}
 $$
 
-To summarize:
+به طور خلاصه:
 
-- We fixate a specific position $cntr$.
-- All repetition which we will find now have length $2l = 2(|u| - cntr)$.
-  There might be multiple such repetitions, they depend on the lengths $l_1$ and $l_2 = l - l_1$.
-- We find $k_1$ and $k_2$ as described above.
-- Then all suitable repetitions are the ones for which the lengths of the pieces $l_1$ and $l_2$ satisfy the conditions:
+- یک موقعیت خاص $cntr$ را ثابت می‌کنیم.
+- تمام تکرارهایی که اکنون پیدا می‌کنیم، طولی برابر با $2l = 2(|u| - cntr)$ دارند.
+- ممکن است چندین تکرار از این نوع وجود داشته باشد، که به طول‌های $l_1$ و $l_2 = l - l_1$ بستگی دارند.
+- ما $k_1$ و $k_2$ را همانطور که در بالا توضیح داده شد، پیدا می‌کنیم.
+- سپس تمام تکرارهای مناسب، آنهایی هستند که طول قطعات $l_1$ و $l_2$ در شرایط زیر صدق کنند:
 
 $$
   \begin{align}
@@ -161,37 +161,37 @@ $$
   \end{align}
 $$
 
-Therefore the only remaining part is how we can compute the values $k_1$ and $k_2$ quickly for every position $cntr$.
-Luckily we can compute them in $O(1)$ using the [Z-function](../string/z-function.md):
+بنابراین، تنها بخش باقی‌مانده این است که چگونه می‌توانیم مقادیر $k_1$ و $k_2$ را به سرعت برای هر موقعیت $cntr$ محاسبه کنیم.
+خوشبختانه می‌توانیم آنها را با استفاده از [تابع Z](../string/z-function.md) در زمان $O(1)$ محاسبه کنیم:
 
-- To can find the value $k_1$ for each position by calculating the Z-function for the string $\overline{u}$ (i.e. the reversed string $u$).
-  Then the value $k_1$ for a particular $cntr$ will be equal to the corresponding value of the array of the Z-function.
-- To precompute all values $k_2$, we calculate the Z-function for the string $v + \# + u$ (i.e. the string $u$ concatenated with the separator character $\#$ and the string $v$).
-  Again we just need to look up the corresponding value in the Z-function to get the $k_2$ value.
+- برای پیدا کردن مقدار $k_1$ برای هر موقعیت، تابع Z را برای رشته‌ی $\overline{u}$ (یعنی رشته‌ی معکوس $u$) محاسبه می‌کنیم.
+  سپس مقدار $k_1$ برای یک $cntr$ خاص برابر با مقدار متناظر در آرایه‌ی تابع Z خواهد بود.
+- برای پیش‌محاسبه‌ی تمام مقادیر $k_2$، تابع Z را برای رشته‌ی $v + \# + u$ (یعنی رشته‌ی $v$ الحاق‌شده با کاراکتر جداکننده $\#$ و رشته‌ی $u$) محاسبه می‌کنیم.
+  دوباره، فقط کافی است مقدار متناظر در تابع Z را برای به دست آوردن مقدار $k_2$ جستجو کنیم.
 
-So this is enough to find all left crossing repetitions.
+بنابراین این کار برای یافتن تمام تکرارهای عبوری چپ کافی است.
 
-### Right crossing repetitions
+### تکرارهای عبوری راست
 
-For computing the right crossing repetitions we act similarly:
-we define the center $cntr$ as the character corresponding to the last character in the string $u$.
+برای محاسبه‌ی تکرارهای عبوری راست، به طور مشابه عمل می‌کنیم:
+ما مرکز $cntr$ را به عنوان کاراکتری که متناظر با آخرین کاراکتر در رشته‌ی $u$ است، تعریف می‌کنیم.
 
-Then the length $k_1$ will be defined as the largest number of characters before the position $cntr$ (inclusive) that coincide with the last characters of the string $u$.
-And the length $k_2$ will be defined as the largest number of characters starting at $cntr + 1$ that coincide with the characters of the string $v$.
+سپس طول $k_1$ به عنوان بزرگترین تعداد کاراکترهایی تعریف می‌شود که قبل از موقعیت $cntr$ (شامل خود آن) قرار دارند و با کاراکترهای آخر رشته‌ی $u$ یکسان هستند.
+و طول $k_2$ به عنوان بزرگترین تعداد کاراکترهایی تعریف می‌شود که از $cntr + 1$ شروع می‌شوند و با کاراکترهای رشته‌ی $v$ یکسان هستند.
 
-Thus we can find the values $k_1$ and $k_2$ by computing the Z-function for the strings $\overline{u} + \# + \overline{v}$ and $v$.
+بنابراین، می‌توانیم مقادیر $k_1$ و $k_2$ را با محاسبه‌ی تابع Z برای رشته‌های $\overline{u} + \# + \overline{v}$ و $v$ پیدا کنیم.
 
-After that we can find the repetitions by looking at all positions $cntr$, and use the same criterion as we had for left crossing repetitions.
+پس از آن، می‌توانیم با بررسی تمام موقعیت‌های $cntr$ و با استفاده از همان شرطی که برای تکرارهای عبوری چپ داشتیم، تکرارها را پیدا کنیم.
 
-### Implementation
+### پیاده‌سازی
 
-The implementation of the Main-Lorentz algorithm finds all repetitions in form of peculiar tuples of size four: $(cntr,~ l,~ k_1,~ k_2)$ in $O(n \log n)$ time.
-If you only want to find the number of repetitions in a string, or only want to find the longest repetition in a string, this information is enough and the runtime will still be $O(n \log n)$.
+پیاده‌سازی الگوریتم Main-Lorentz تمام تکرارها را به شکل چندتایی‌های (tuple) چهارعضوی خاص $(cntr,~ l,~ k_1,~ k_2)$ در زمان $O(n \log n)$ پیدا می‌کند.
+اگر فقط بخواهید تعداد تکرارها را در یک رشته پیدا کنید، یا فقط بخواهید طولانی‌ترین تکرار را پیدا کنید، این اطلاعات کافی است و زمان اجرا همچنان $O(n \log n)$ خواهد بود.
 
-Notice that if you want to expand these tuples to get the starting and end position of each repetition, then the runtime will be the runtime will be $O(n^2)$ (remember that there can be $O(n^2)$ repetitions).
-In this implementation we will do so, and store all found repetition in a vector of pairs of start and end indices.
+توجه داشته باشید که اگر بخواهید این چندتایی‌ها را برای به دست آوردن موقعیت شروع و پایان هر تکرار بسط دهید، آنگاه زمان اجرا $O(n^2)$ خواهد بود (به یاد داشته باشید که می‌تواند تا $O(n^2)$ تکرار وجود داشته باشد).
+در این پیاده‌سازی، ما این کار را انجام می‌دهیم و تمام تکرارهای یافت‌شده را در یک `vector` از جفت‌های اندیس شروع و پایان ذخیره می‌کنیم.
 
-```{.cpp file=main_lorentz}
+```cpp
 vector<int> z_function(string const& s) {
     int n = s.size();
     vector<int> z(n);

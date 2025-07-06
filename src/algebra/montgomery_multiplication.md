@@ -1,69 +1,70 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: montgomery_multiplication
 ---
 
-# Montgomery Multiplication
+# ضرب مونتگومری
 
-Many algorithms in number theory, like [prime testing](primality_tests.md) or [integer factorization](factorization.md), and in cryptography, like RSA, require lots of operations modulo a large number.
-A multiplications like $x y \bmod{n}$ is quite slow to compute with the typical algorithms, since it requires a division to know how many times $n$ has to be subtracted from the product.
-And division is a really expensive operation, especially with big numbers.
+بسیاری از الگوریتم‌ها در نظریه اعداد، مانند [آزمایش اول بودن](primality_tests.md) یا [تجزیه اعداد](factorization.md)، و در رمزنگاری، مانند RSA، به عملیات‌های زیادی به پیمانه یک عدد بزرگ نیاز دارند.
+محاسبه یک ضرب مانند $x y \bmod{n}$ با الگوریتم‌های معمول بسیار کند است، زیرا برای دانستن اینکه چند بار باید $n$ از حاصل‌ضرب کم شود، به یک عملیات تقسیم نیاز دارد.
+و تقسیم، به خصوص با اعداد بزرگ، یک عملیات بسیار پرهزینه است.
 
-The **Montgomery (modular) multiplication** is a method that allows computing such multiplications faster.
-Instead of dividing the product and subtracting $n$ multiple times, it adds multiples of $n$ to cancel out the lower bits and then just discards the lower bits.
+**ضرب (پیمانه‌ای) مونتگومری** روشی است که امکان محاسبه سریع‌تر چنین ضرب‌هایی را فراهم می‌کند.
+به جای تقسیم حاصل‌ضرب و کم کردن چندباره $n$، این روش مضارب $n$ را اضافه می‌کند تا بیت‌های کم‌ارزش را حذف کند و سپس به سادگی بیت‌های کم‌ارزش را نادیده می‌گیرد.
 
-## Montgomery representation
+## نمایش مونتگومری
 
-However the Montgomery multiplication doesn't come for free.
-The algorithm works only in the **Montgomery space**.
-And we need to transform our numbers into that space, before we can start multiplying.
+با این حال، ضرب مونتگومری رایگان نیست.
+این الگوریتم تنها در **فضای مونتگومری** کار می‌کند.
+و ما باید قبل از شروع ضرب، اعداد خود را به آن فضا تبدیل کنیم.
 
-For the space we need a positive integer $r \ge n$ coprime to $n$, i.e. $\gcd(n, r) = 1$.
-In practice we always choose $r$ to be $2^m$ for a positive integer $m$, since multiplications, divisions and modulo $r$ operations can then be efficiently implemented using shifts and other bit operations.
-$n$ will be an odd number in pretty much all applications, since it is not hard to factorize an even number.
-So every power of $2$ will be coprime to $n$.
+برای این فضا، ما به یک عدد صحیح مثبت $r \ge n$ نیاز داریم که نسبت به $n$ اول باشد، یعنی $\gcd(n, r) = 1$.
+در عمل، ما همیشه $r$ را به صورت $2^m$ برای یک عدد صحیح مثبت $m$ انتخاب می‌کنیم، زیرا در این صورت عملیات ضرب، تقسیم و پیمانه $r$ را می‌توان با استفاده از شیفت‌ها و دیگر عملیات بیتی به طور کارآمد پیاده‌سازی کرد.
+$n$ تقریباً در تمام کاربردها یک عدد فرد خواهد بود، زیرا تجزیه یک عدد زوج کار دشواری نیست.
+بنابراین هر توانی از $2$ نسبت به $n$ اول خواهد بود.
 
-The representative $\bar{x}$ of a number $x$ in the Montgomery space is defined as: 
+نمایانگر $\bar{x}$ از عدد $x$ در فضای مونتگومری به صورت زیر تعریف می‌شود:
 
 $$\bar{x} := x \cdot r \bmod n$$
 
-Notice, the transformation is actually such a multiplication that we want to optimize.
-So this is still an expensive operation.
-However you only need to transform a number once into the space.
-As soon as you are in the Montgomery space, you can perform as many operations as you want efficiently.
-And at the end you transform the final result back.
-So as long as you are doing lots of operations modulo $n$, this will be no problem.
+توجه داشته باشید که خود این تبدیل در واقع همان نوع ضربی است که ما می‌خواهیم بهینه‌سازی کنیم.
+بنابراین این عملیات هنوز پرهزینه است.
+با این حال، شما فقط یک بار نیاز به تبدیل یک عدد به این فضا دارید.
+به محض اینکه وارد فضای مونتگومری شدید، می‌توانید هر تعداد عملیات را که می‌خواهید به طور کارآمد انجام دهید.
+و در پایان، نتیجه نهایی را به فضای اولیه باز می‌گردانید.
+بنابراین تا زمانی که عملیات زیادی به پیمانه $n$ انجام می‌دهید، این موضوع مشکلی ایجاد نخواهد کرد.
 
-Inside the Montgomery space you can still perform most operations as usual.
-You can add two elements ($x \cdot r + y \cdot r \equiv (x + y) \cdot r \bmod n$), subtract, check for equality, and even compute the greatest common divisor of a number with $n$ (since $\gcd(n, r) = 1$).
-All with the usual algorithms.
+درون فضای مونتگومری، شما هنوز هم می‌توانید بیشتر عملیات را به صورت معمول انجام دهید.
+شما می‌توانید دو عنصر را با هم جمع کنید ($x \cdot r + y \cdot r \equiv (x + y) \cdot r \bmod n$)، تفریق کنید، برابری را بررسی کنید و حتی بزرگترین مقسوم‌علیه مشترک یک عدد با $n$ را محاسبه کنید (زیرا $\gcd(n, r) = 1$).
+همه اینها با الگوریتم‌های معمول انجام می‌شود.
 
-However this is not the case for multiplication.
+اما این موضوع در مورد ضرب صدق نمی‌کند.
 
-We expect the result to be:
+ما انتظار داریم نتیجه به این صورت باشد:
 
 $$\bar{x} * \bar{y} = \overline{x \cdot y} = (x \cdot y) \cdot r \bmod n.$$
 
-But the normal multiplication will give us:
+اما ضرب معمولی به ما این نتیجه را می‌دهد:
 
 $$\bar{x} \cdot \bar{y} = (x \cdot y) \cdot r \cdot r \bmod n.$$
 
-Therefore the multiplication in the Montgomery space is defined as:
+بنابراین، ضرب در فضای مونتگومری به صورت زیر تعریف می‌شود:
 
 $$\bar{x} * \bar{y} := \bar{x} \cdot \bar{y} \cdot r^{-1} \bmod n.$$
 
-## Montgomery reduction
+## کاهش مونتگومری
 
-The multiplication of two numbers in the Montgomery space requires an efficient computation of $x \cdot r^{-1} \bmod n$.
-This operation is called the **Montgomery reduction**, and is also known as the algorithm **REDC**.
+ضرب دو عدد در فضای مونتگومری نیازمند محاسبه کارآمد $x \cdot r^{-1} \bmod n$ است.
+این عملیات **کاهش مونتگومری** نامیده می‌شود و با نام الگوریتم **REDC** نیز شناخته می‌شود.
 
-Because $\gcd(n, r) = 1$, we know that there are two numbers $r^{-1}$ and $n^{\prime}$ with $0 < r^{-1}, n^{\prime} < n$ with
+از آنجا که $\gcd(n, r) = 1$، می‌دانیم که دو عدد $r^{-1}$ و $n^{\prime}$ با شرط $0 < r^{-1}, n^{\prime} < n$ وجود دارند که:
 
 $$r \cdot r^{-1} + n \cdot n^{\prime} = 1.$$
 
-Both $r^{-1}$ and $n^{\prime}$ can be computed using the [Extended Euclidean algorithm](extended-euclid-algorithm.md).
+هر دو عدد $r^{-1}$ و $n^{\prime}$ را می‌توان با استفاده از [الگوریتم اقلیدسی تعمیم‌یافته](extended-euclid-algorithm.md) محاسبه کرد.
 
-Using this identity we can write $x \cdot r^{-1}$ as:
+با استفاده از این اتحاد، می‌توانیم $x \cdot r^{-1}$ را به صورت زیر بنویسیم:
 
 $$\begin{aligned}
 x \cdot r^{-1} &= x \cdot r \cdot r^{-1} / r = x \cdot (-n \cdot n^{\prime} + 1) / r \\
@@ -71,10 +72,10 @@ x \cdot r^{-1} &= x \cdot r \cdot r^{-1} / r = x \cdot (-n \cdot n^{\prime} + 1)
 &\equiv ((-x \cdot n^{\prime} + l \cdot r) \cdot n + x) / r \bmod n
 \end{aligned}$$
 
-The equivalences hold for any arbitrary integer $l$.
-This means, that we can add or subtract an arbitrary multiple of $r$ to $x \cdot n^{\prime}$, or in other words, we can compute $q := x \cdot n^{\prime}$ modulo $r$.
+این هم‌نهشتی‌ها برای هر عدد صحیح دلخواه $l$ برقرار است.
+این بدان معناست که ما می‌توانیم یک مضرب دلخواه از $r$ را به $x \cdot n^{\prime}$ اضافه یا از آن کم کنیم، یا به عبارت دیگر، می‌توانیم $q := x \cdot n^{\prime}$ را به پیمانه $r$ محاسبه کنیم.
 
-This gives us the following algorithm to compute $x \cdot r^{-1} \bmod n$:
+این موضوع الگوریتم زیر را برای محاسبه $x \cdot r^{-1} \bmod n$ به ما می‌دهد:
 
 ```text
 function reduce(x):
@@ -85,22 +86,22 @@ function reduce(x):
     return a
 ```
 
-Since $x < n \cdot n < r \cdot n$ (even if $x$ is the product of a multiplication) and $q \cdot n < r \cdot n$ we know that $-n < (x - q \cdot n) / r < n$.
-Therefore the final modulo operation is implemented using a single check and one addition.
+از آنجا که $x < n \cdot n < r \cdot n$ (حتی اگر $x$ حاصل یک ضرب باشد) و $q \cdot n < r \cdot n$، می‌دانیم که $-n < (x - q \cdot n) / r < n$.
+بنابراین عملیات پیمانه نهایی با استفاده از یک بررسی و یک جمع پیاده‌سازی می‌شود.
 
-As we see, we can perform the Montgomery reduction without any heavy modulo operations.
-If we choose $r$ as a power of $2$, the modulo operations and divisions in the algorithm can be computed using bitmasking and shifting.
+همانطور که می‌بینیم، می‌توانیم کاهش مونتگومری را بدون هیچ عملیات پیمانه سنگینی انجام دهیم.
+اگر $r$ را به عنوان توانی از $2$ انتخاب کنیم، عملیات پیمانه و تقسیم در الگوریتم را می‌توان با استفاده از bitmasking و شیفت دادن محاسبه کرد.
 
-A second application of the Montgomery reduction is to transfer a number back from the Montgomery space into the normal space.
+کاربرد دوم کاهش مونتگومری، بازگرداندن یک عدد از فضای مونتگومری به فضای عادی است.
 
-## Fast inverse trick
+## ترفند معکوس سریع
 
-For computing the inverse $n^{\prime} := n^{-1} \bmod r$ efficiently, we can use the following trick (which is inspired from the Newton's method):
+برای محاسبه کارآمد معکوس $n^{\prime} := n^{-1} \bmod r$، می‌توانیم از ترفند زیر استفاده کنیم (که از روش نیوتن الهام گرفته شده است):
 
 $$a \cdot x \equiv 1 \bmod 2^k \Longrightarrow a \cdot x \cdot (2 - a \cdot x) \equiv 1 \bmod 2^{2k}$$
 
-This can easily be proven.
-If we have $a \cdot x = 1 + m \cdot 2^k$, then we have:
+این را می‌توان به راحتی اثبات کرد.
+اگر داشته باشیم $a \cdot x = 1 + m \cdot 2^k$، آنگاه داریم:
 
 $$\begin{aligned}
 a \cdot x \cdot (2 - a \cdot x) &= 2 \cdot a \cdot x - (a \cdot x)^2 \\
@@ -110,18 +111,18 @@ a \cdot x \cdot (2 - a \cdot x) &= 2 \cdot a \cdot x - (a \cdot x)^2 \\
 &\equiv 1 \bmod 2^{2k}.
 \end{aligned}$$
 
-This means we can start with $x = 1$ as the inverse of $a$ modulo $2^1$, apply the trick a few times and in each iteration we double the number of correct bits of $x$.
+این بدان معناست که می‌توانیم با $x=1$ به عنوان معکوس $a$ به پیمانه $2^1$ شروع کنیم، این ترفند را چند بار اعمال کنیم و در هر تکرار، تعداد بیت‌های صحیح $x$ را دو برابر کنیم.
 
-## Implementation
+## پیاده‌سازی
 
-Using the GCC compiler we can compute $x \cdot y \bmod n$ still efficiently, when all three numbers are 64 bit integer, since the compiler supports 128 bit integer with the types `__int128` and `__uint128`.
+با استفاده از کامپایلر GCC، وقتی هر سه عدد، اعداد صحیح ۶۴ بیتی باشند، هنوز هم می‌توانیم $x \cdot y \bmod n$ را به طور کارآمد محاسبه کنیم، زیرا این کامپایلر از اعداد صحیح ۱۲۸ بیتی با نوع‌های `__int128` و `__uint128` پشتیبانی می‌کند.
 
 ```cpp
 long long result = (__int128)x * y % n;
 ```
 
-However there is no type for 256 bit integer.
-Therefore we will here show an implementation for a 128 bit multiplication.
+اما نوعی برای اعداد صحیح ۲۵۶ بیتی وجود ندارد.
+بنابراین در اینجا یک پیاده‌سازی برای ضرب ۱۲۸ بیتی نشان خواهیم داد.
 
 ```cpp
 using u64 = uint64_t;
@@ -179,21 +180,21 @@ struct Montgomery {
 };
 ```
 
-## Fast transformation
+## تبدیل سریع
 
-The current method of transforming a number into Montgomery space is pretty slow.
-There are faster ways.
+روش فعلی برای تبدیل یک عدد به فضای مونتگومری بسیار کند است.
+راه‌های سریع‌تری نیز وجود دارد.
 
-You can notice the following relation:
+می‌توانید به رابطه زیر توجه کنید:
 
 $$\bar{x} := x \cdot r \bmod n = x \cdot r^2 / r = x * r^2$$
 
-Transforming a number into the space is just a multiplication inside the space of the number with $r^2$.
-Therefore we can precompute $r^2 \bmod n$ and just perform a multiplication instead of shifting the number 128 times.
+تبدیل یک عدد به این فضا، صرفاً یک ضربِ آن عدد در $r^2$ داخل همان فضا است.
+بنابراین می‌توانیم $r^2 \bmod n$ را از قبل محاسبه کنیم و به جای ۱۲۸ بار شیفت دادن عدد، فقط یک ضرب انجام دهیم.
 
-In the following code we initialize `r2` with `-n % n`, which is equivalent to $r - n \equiv r \bmod n$, shift it 4 times to get $r \cdot 2^4 \bmod n$.
-This number can be interpreted as $2^4$ in Montgomery space.
-If we square it $5$ times, we get $(2^4)^{2^5} = (2^4)^{32} = 2^{128} = r$ in Montgomery space, which is exactly $r^2 \bmod n$.
+در کد زیر، ما `r2` را با `-n % n` مقداردهی اولیه می‌کنیم که معادل $r - n \equiv r \bmod n$ است، سپس آن را ۴ بار شیفت می‌دهیم تا به $r \cdot 2^4 \bmod n$ برسیم.
+این عدد را می‌توان به عنوان $2^4$ در فضای مونتگومری تفسیر کرد.
+اگر آن را ۵ بار به توان دو برسانیم، به $(2^4)^{2^5} = (2^4)^{32} = 2^{128} = r$ در فضای مونتگومری می‌رسیم که دقیقاً همان $r^2 \bmod n$ است.
 
 ```
 struct Montgomery {

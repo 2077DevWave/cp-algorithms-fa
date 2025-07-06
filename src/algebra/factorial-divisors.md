@@ -1,33 +1,33 @@
 ---
 tags:
-  
-e_maxx_link: factorial_divisors
+  - AI Translated
+e_maxx_link: factorial-divisors
 ---
 
-# Finding Power of Factorial Divisor
+# یافتن توان مقسوم‌علیهِ فاکتوریل
 
-You are given two numbers $n$ and $k$. Find the largest power of $k$ $x$ such that $n!$ is divisible by $k^x$.
+دو عدد `n` و `k` به شما داده شده است. بزرگ‌ترین توان `k` یعنی `x` را بیابید به طوری که `!n` بر `k^x` بخش‌پذیر باشد.
 
-## Prime $k$ {data-toc-label="Prime k"}
+## `k` اول {data-toc-label="k اول"}
 
-Let's first consider the case of prime $k$. The explicit expression for factorial
+ابتدا حالتی را در نظر بگیریم که `k` عددی اول باشد. عبارت صریح برای فاکتوریل به این صورت است:
 
 $$n! = 1 \cdot 2 \cdot 3 \ldots (n-1) \cdot n$$
 
-Note that every $k$-th element of the product is divisible by $k$, i.e. adds $+1$ to the answer; the number of such elements is $\Bigl\lfloor\dfrac{n}{k}\Bigr\rfloor$.
+توجه داشته باشید که هر عنصر `k`-اُم در این حاصل‌ضرب بر `k` بخش‌پذیر است، یعنی ۱+ به جواب اضافه می‌کند؛ تعداد این عناصر برابر با $\Bigl\lfloor\dfrac{n}{k}\Bigr\rfloor$ است.
 
-Next, every $k^2$-th element is divisible by $k^2$, i.e. adds another $+1$ to the answer (the first power of $k$ has already been counted in the previous paragraph). The number of such elements is $\Bigl\lfloor\dfrac{n}{k^2}\Bigr\rfloor$.
+سپس، هر عنصر $k^2$-اُم بر $k^2$ بخش‌پذیر است، یعنی یک ۱+ دیگر به جواب اضافه می‌کند (توان اول `k` قبلاً در پاراگراف قبل شمرده شده است). تعداد این عناصر برابر با $\Bigl\lfloor\dfrac{n}{k^2}\Bigr\rfloor$ است.
 
-And so on, for every $i$ each $k^i$-th element adds another $+1$ to the answer, and there are $\Bigl\lfloor\dfrac{n}{k^i}\Bigr\rfloor$ such elements.
+و به همین ترتیب، برای هر `i`، هر عنصر $k^i$-اُم یک ۱+ دیگر به جواب اضافه می‌کند و تعداد این عناصر برابر با $\Bigl\lfloor\dfrac{n}{k^i}\Bigr\rfloor$ است.
 
-The final answer is
+جواب نهایی برابر است با:
 
 $$\Bigl\lfloor\dfrac{n}{k}\Bigr\rfloor + \Bigl\lfloor\dfrac{n}{k^2}\Bigr\rfloor + \ldots + \Bigl\lfloor\dfrac{n}{k^i}\Bigr\rfloor + \ldots$$
 
-This result is also known as [Legendre's formula](https://en.wikipedia.org/wiki/Legendre%27s_formula).
-The sum is of course finite, since only approximately the first $\log_k n$ elements are not zeros. Thus, the runtime of this algorithm is $O(\log_k n)$.
+این نتیجه با نام [فرمول لوژاندر](https://en.wikipedia.org/wiki/Legendre%27s_formula) نیز شناخته می‌شود.
+این مجموع البته متناهی است، زیرا تقریباً فقط $\log_k n$ جمله اول آن غیر صفر هستند. بنابراین، زمان اجرای این الگوریتم $O(\log_k n)$ است.
 
-### Implementation
+### پیاده‌سازی
 
 ```cpp
 
@@ -42,8 +42,8 @@ int fact_pow (int n, int k) {
 
 ```
 
-## Composite $k$ {data-toc-label="Composite k"}
+## `k` مرکب {data-toc-label="k مرکب"}
 
-The same idea can't be applied directly. Instead we can factor $k$, representing it as $k = k_1^{p_1} \cdot \ldots \cdot k_m^{p_m}$. For each $k_i$, we find the number of times it is present in $n!$ using the algorithm described above - let's call this value $a_i$. The answer for composite $k$ will be
+همین ایده را نمی‌توان به طور مستقیم به کار برد. در عوض می‌توانیم `k` را تجزیه کنیم و آن را به صورت $k = k_1^{p_1} \cdot \ldots \cdot k_m^{p_m}$ نمایش دهیم. برای هر $k_i$، با استفاده از الگوریتم توصیف‌شده در بالا، تعداد دفعاتی که در `!n` وجود دارد را پیدا می‌کنیم - این مقدار را $a_i$ می‌نامیم. جواب برای `k` مرکب برابر خواهد بود با:
 
 $$\min_ {i=1 \ldots m} \dfrac{a_i}{p_i}$$

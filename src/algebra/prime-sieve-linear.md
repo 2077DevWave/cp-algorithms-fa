@@ -1,49 +1,49 @@
 ---
 tags:
-  
-e_maxx_link: prime_sieve_linear
+  - AI Translated
+e_maxx_link: prime-sieve-linear
 ---
 
-# Linear Sieve
+# غربال خطی
 
-Given a number $n$, find all prime numbers in a segment $[2;n]$.
+با داشتن عدد $n$، تمام اعداد اول در بازهٔ $[2, n]$ را پیدا کنید.
 
-The standard way of solving a task is to use [the sieve of Eratosthenes](sieve-of-eratosthenes.md). This algorithm is very simple, but it has runtime $O(n \log \log n)$.
+روش استاندارد برای حل این مسئله، استفاده از [غربال اراتستن](sieve-of-eratosthenes.md) است. این الگوریتم بسیار ساده است، اما زمان اجرای آن $O(n \log \log n)$ است.
 
-Although there are a lot of known algorithms with sublinear runtime (i.e. $o(n)$), the algorithm described below is interesting by its simplicity: it isn't any more complex than the classic sieve of Eratosthenes.
+اگرچه الگوریتم‌های شناخته‌شدهٔ زیادی با زمان اجرای زیرخطی (یعنی $o(n)$) وجود دارند، الگوریتمی که در ادامه توضیح داده می‌شود به دلیل سادگی‌اش جالب است: این الگوریتم از غربال کلاسیک اراتستن پیچیده‌تر نیست.
 
-Besides, the algorithm given here calculates **factorizations of all numbers** in the segment $[2; n]$ as a side effect, and that can be helpful in many practical applications.
+علاوه بر این، الگوریتم ارائه‌شده در اینجا به عنوان یک محصول جانبی، **تجزیه به عوامل اول تمام اعداد** در بازهٔ $[2, n]$ را محاسبه می‌کند و این می‌تواند در بسیاری از کاربردهای عملی مفید باشد.
 
-The weakness of the given algorithm is in using more memory than the classic sieve of Eratosthenes': it requires an array of $n$ numbers, while for the classic sieve of Eratosthenes it is enough to have $n$ bits of memory (which is 32 times less).
+نقطه ضعف این الگوریتم، استفاده از حافظهٔ بیشتر نسبت به غربال کلاسیک اراتستن است: این الگوریتم به آرایه‌ای از $n$ عدد نیاز دارد، در حالی که برای غربال کلاسیک اراتستن داشتن $n$ بیت حافظه (که ۳۲ برابر کمتر است) کافی است.
 
-Thus, it makes sense to use the described algorithm only until for numbers of order $10^7$ and not greater.
+بنابراین، استفاده از الگوریتم توصیف‌شده فقط برای اعداد تا مرتبهٔ $10^7$ و نه بیشتر منطقی است.
 
-The algorithm is due to Paul Pritchard. It is a variant of Algorithm 3.3 in (Pritchard, 1987: see references in the end of the article).
+این الگوریتم توسط پل پریچارد (Paul Pritchard) ارائه شده است. این یک نسخه از الگوریتم ۳.۳ در (Pritchard, 1987: به مراجع در انتهای مقاله مراجعه کنید) است.
 
-## Algorithm
+## الگوریتم
 
-Our goal is to calculate **minimum prime factor** $lp [i]$ for every number $i$ in the segment $[2; n]$.
+هدف ما محاسبهٔ **کوچکترین عامل اول** ($lp [i]$) برای هر عدد $i$ در بازهٔ $[2, n]$ است.
 
-Besides, we need to store the list of all the found prime numbers - let's call it $pr []$.
+علاوه بر این، باید لیستی از تمام اعداد اول پیدا شده را ذخیره کنیم - بیایید آن را $pr []$ بنامیم.
 
-We'll initialize the values $lp [i]$ with zeros, which means that we assume all numbers are prime. During the algorithm execution this array will be filled gradually.
+مقادیر $lp [i]$ را با صفر مقداردهی اولیه می‌کنیم، که به این معنی است که فرض می‌کنیم همه اعداد اول هستند. در طول اجرای الگوریتم، این آرایه به تدریج پر می‌شود.
 
-Now we'll go through the numbers from 2 to $n$. We have two cases for the current number $i$:
+حالا اعداد را از ۲ تا $n$ پیمایش می‌کنیم. برای عدد فعلی $i$ دو حالت داریم:
 
-- $lp[i] = 0$ - that means that $i$ is prime, i.e. we haven't found any smaller factors for it.  
-  Hence, we assign $lp [i] = i$ and add $i$ to the end of the list $pr[]$.
+- $lp[i] = 0$ - این یعنی $i$ یک عدد اول است، یعنی هیچ عامل کوچکتری برای آن پیدا نکرده‌ایم.
+  بنابراین، $lp [i] = i$ را قرار می‌دهیم و $i$ را به انتهای لیست $pr[]$ اضافه می‌کنیم.
 
-- $lp[i] \neq 0$ - that means that $i$ is composite, and its minimum prime factor is $lp [i]$.
+- $lp[i] \neq 0$ - این یعنی $i$ عددی مرکب است و کوچکترین عامل اول آن $lp [i]$ است.
 
-In both cases we update values of $lp []$ for the numbers that are divisible by $i$. However, our goal is to learn to do so as to set a value $lp []$ at most once for every number. We can do it as follows:
+در هر دو حالت، مقادیر $lp []$ را برای اعدادی که بر $i$ بخش‌پذیر هستند به‌روزرسانی می‌کنیم. با این حال، هدف ما این است که یاد بگیریم این کار را طوری انجام دهیم که مقدار $lp []$ برای هر عدد حداکثر یک بار تنظیم شود. می‌توانیم این کار را به صورت زیر انجام دهیم:
 
-Let's consider numbers $x_j = i \cdot p_j$, where $p_j$ are all prime numbers less than or equal to $lp [i]$ (this is why we need to store the list of all prime numbers).
+اعداد $x_j = i \cdot p_j$ را در نظر بگیرید، که در آن $p_j$ تمام اعداد اول کوچکتر یا مساوی $lp [i]$ هستند (به همین دلیل است که باید لیست تمام اعداد اول را ذخیره کنیم).
 
-We'll set a new value $lp [x_j] = p_j$ for all numbers of this form.
+برای تمام اعداد به این شکل، مقدار جدید $lp [x_j] = p_j$ را تنظیم می‌کنیم.
 
-The proof of correctness of this algorithm and its runtime can be found after the implementation.
+اثبات درستی این الگوریتم و زمان اجرای آن را می‌توان پس از پیاده‌سازی یافت.
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
 const int N = 10000000;
@@ -64,35 +64,34 @@ for (int i=2; i <= N; ++i) {
 }
 ```
 
-## Correctness Proof
+## اثبات درستی
 
-We need to prove that the algorithm sets all values $lp []$ correctly, and that every value will be set exactly once. Hence, the algorithm will have linear runtime, since all the remaining actions of the algorithm, obviously, work for $O (n)$.
+باید ثابت کنیم که الگوریتم تمام مقادیر $lp []$ را به درستی تنظیم می‌کند و هر مقدار دقیقاً یک بار تنظیم خواهد شد. از این رو، الگوریتم زمان اجرای خطی خواهد داشت، زیرا تمام اقدامات باقیمانده الگوریتم، به وضوح در زمان $O(n)$ کار می‌کنند.
 
-Notice that every number $i$ has exactly one representation in form:
+توجه داشته باشید که هر عدد $i$ دقیقاً یک نمایش به شکل زیر دارد:
 
-$$i = lp [i] \cdot x,$$
+$$i = lp [i] \cdot x$$
 
-where $lp [i]$ is the minimal prime factor of $i$, and the number $x$ doesn't have any prime factors less than $lp [i]$, i.e.
+که در آن $lp [i]$ کوچکترین عامل اول $i$ است، و عدد $x$ هیچ عامل اولی کوچکتر از $lp [i]$ ندارد، یعنی:
 
-$$lp [i] \le lp [x].$$
+$$lp [i] \le lp [x]$$
 
-Now, let's compare this with the actions of our algorithm: in fact, for every $x$ it goes through all prime numbers it could be multiplied by, i.e. all prime numbers up to $lp [x]$ inclusive, in order to get the numbers in the form given above.
+حال، بیایید این را با اقدامات الگوریتم خود مقایسه کنیم: در واقع، برای هر $x$، الگوریتم تمام اعداد اولی را که می‌توان در آن ضرب کرد (یعنی تمام اعداد اول تا $lp [x]$ به طور فراگیر) پیمایش می‌کند تا اعدادی به شکل بالا به دست آورد.
 
-Hence, the algorithm will go through every composite number exactly once, setting the correct values $lp []$ there. Q.E.D.
+بنابراین، الگوریتم هر عدد مرکب را دقیقاً یک بار پیمایش کرده و مقادیر صحیح $lp []$ را در آنجا تنظیم می‌کند. اثبات کامل شد.
 
-## Runtime and Memory
+## زمان اجرا و حافظه
 
-Although the running time of $O(n)$ is better than $O(n \log \log n)$ of the classic sieve of Eratosthenes, the difference between them is not so big.
-In practice the linear sieve runs about as fast as a typical implementation of the sieve of Eratosthenes.
+اگرچه زمان اجرای $O(n)$ بهتر از $O(n \log \log n)$ غربال کلاسیک اراتستن است، تفاوت بین آنها چندان زیاد نیست. در عمل، غربال خطی تقریباً با همان سرعت یک پیاده‌سازی معمولی از غربال اراتستن اجرا می‌شود.
 
-In comparison to optimized versions of the sieve of Erathosthenes, e.g. the segmented sieve, it is much slower.
+در مقایسه با نسخه‌های بهینه‌سازی‌شدهٔ غربال اراتستن، مانند غربال قطعه‌بندی‌شده (segmented sieve)، این الگوریتم بسیار کندتر است.
 
-Considering the memory requirements of this algorithm - an array $lp []$ of length $n$, and an array of $pr []$ of length  $\frac n {\ln n}$, this algorithm seems to be worse than the classic sieve in every way.
+با توجه به نیازهای حافظه این الگوریتم - یک آرایه $lp []$ به طول $n$ و یک آرایه $pr []$ به طول $\frac n {\ln n}$ - به نظر می‌رسد این الگوریتم از هر نظر از غربال کلاسیک بدتر است.
 
-However, its redeeming quality is that this algorithm calculates an array $lp []$, which allows us to find factorization of any number in the segment $[2; n]$ in the time of the size order of this factorization. Moreover, using just one extra array will allow us to avoid divisions when looking for factorization.
+با این حال، ویژگی برجسته آن این است که این الگوریتم آرایه $lp []$ را محاسبه می‌کند، که به ما امکان می‌دهد تجزیهٔ هر عدد در بازه $[2, n]$ را در زمانی از مرتبهٔ اندازهٔ تجزیهٔ آن پیدا کنیم. علاوه بر این، استفاده از تنها یک آرایهٔ اضافی به ما این امکان را می‌دهد که هنگام یافتن تجزیه، از عملیات تقسیم اجتناب کنیم.
 
-Knowing the factorizations of all numbers is very useful for some tasks, and this algorithm is one of the few which allow to find them in linear time.
+دانستن تجزیهٔ تمام اعداد برای برخی مسائل بسیار مفید است و این الگوریتم یکی از معدود الگوریتم‌هایی است که امکان یافتن آن‌ها را در زمان خطی فراهم می‌کند.
 
-## References
+## مراجع
 
 - Paul Pritchard, **Linear Prime-Number Sieves: a Family Tree**, Science of Computer Programming, vol. 9 (1987), pp.17-35.

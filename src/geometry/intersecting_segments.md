@@ -1,70 +1,70 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: intersecting_segments
 ---
 
-# Search for a pair of intersecting segments
+# جستجوی یک جفت پاره‌خط متقاطع
 
-Given $n$ line segments on the plane. It is required to check whether at least two of them intersect with each other.
-If the answer is yes, then print this pair of intersecting segments; it is enough to choose any of them among several answers.
+با داشتن $n$ پاره‌خط در صفحه، باید بررسی کنیم که آیا حداقل دو تا از آن‌ها با یکدیگر تقاطع دارند یا خیر.
+اگر پاسخ مثبت بود، این جفت پاره‌خط متقاطع را چاپ کنید؛ انتخاب هر یک از آن‌ها در میان چندین پاسخ ممکن کافی است.
 
-The naive solution algorithm is to iterate over all pairs of segments in $O(n^2)$ and check for each pair whether they intersect or not. This article describes an algorithm with the runtime time $O(n \log n)$, which is based on the **sweep line algorithm**.
+الگوریتم راه‌حل ساده این است که روی تمام جفت‌های پاره‌خط در $O(n^2)$ پیمایش کرده و برای هر جفت بررسی کنیم که آیا تقاطع دارند یا نه. این مقاله الگوریتمی با زمان اجرای $O(n \log n)$ را توصیف می‌کند که بر اساس **الگوریتم خط جاروب (sweep line)** است.
 
-## Algorithm
+## الگوریتم
 
-Let's draw a vertical line $x = -\infty$ mentally and start moving this line to the right.
-In the course of its movement, this line will meet with segments, and at each time a segment intersect with our line it intersects in exactly one point (we will assume that there are no vertical segments).
+بیایید یک خط عمودی $x = -\infty$ را به صورت ذهنی ترسیم کرده و شروع به حرکت این خط به سمت راست کنیم.
+در طول حرکت، این خط با پاره‌خط‌ها برخورد خواهد کرد و هر بار که یک پاره‌خط با خط ما تقاطع پیدا کند، دقیقاً در یک نقطه تقاطع خواهد داشت (فرض می‌کنیم که هیچ پاره‌خط عمودی وجود ندارد).
 
 <div style="text-align: center;">
   <img src="sweep_line_1.png" alt="sweep line and line segment intersection">
 </div>
 
-Thus, for each segment, at some point in time, its point will appear on the sweep line, then with the movement of the line, this point will move, and finally, at some point, the segment will disappear from the line.
+بنابراین، برای هر پاره‌خط، در یک نقطه زمانی، نقطه‌ی آن روی خط جاروب ظاهر می‌شود، سپس با حرکت خط، این نقطه جابجا شده و در نهایت، در نقطه‌ای دیگر، پاره‌خط از خط جاروب ناپدید می‌شود.
 
-We are interested in the **relative order of the segments** along the vertical.
-Namely, we will store a list of segments crossing the sweep line at a given time, where the segments will be sorted by their $y$-coordinate on the sweep line.
+ما به **ترتیب نسبی پاره‌خط‌ها** در راستای عمودی علاقه‌مندیم.
+به‌طور مشخص، ما لیستی از پاره‌خط‌هایی که در یک زمان معین خط جاروب را قطع می‌کنند، ذخیره خواهیم کرد که در آن پاره‌خط‌ها بر اساس مختصات $y$ خود روی خط جاروب مرتب شده‌اند.
 
 <div style="text-align: center;">
   <img src="sweep_line_2.png" alt="relative order of the segments across sweep line">
 </div>
 
-This order is interesting because intersecting segments will have the same $y$-coordinate at least at one time:
+این ترتیب از آن جهت جالب است که پاره‌خط‌های متقاطع حداقل در یک لحظه مختصات $y$ یکسانی خواهند داشت:
 
 <div style="text-align: center;">
   <img src="sweep_line_3.png" alt="intersection point having same y-coordinate">
 </div>
 
-We formulate key statements:
+گزاره‌های کلیدی را فرمول‌بندی می‌کنیم:
 
-  - To find an intersecting pair, it is sufficient to consider **only adjacent segments** at each fixed position of the sweep line.
-  - It is enough to consider the sweep line not in all possible real positions $(-\infty \ldots +\infty)$, but **only in those positions when new segments appear or old ones disappear**. In other words, it is enough to limit yourself only to the positions equal to the abscissas of the end points of the segments.
-  - When a new line segment appears, it is enough to **insert** it to the desired location in the list obtained for the previous sweep line. We should only check for the intersection of the **added segment with its immediate neighbors in the list above and below**.
-  - If the segment disappears, it is enough to **remove** it from the current list. After that, it is necessary **check for the intersection of the upper and lower neighbors in the list**.
-  - Other changes in the sequence of segments in the list, except for those described, do not exist. No other intersection checks are required.
+-   برای یافتن یک جفت متقاطع، کافی است در هر موقعیت ثابت خط جاروب، **فقط پاره‌خط‌های مجاور** را در نظر بگیریم.
+-   کافی است خط جاروب را نه در تمام موقعیت‌های حقیقی ممکن $(-\infty \ldots +\infty)$، بلکه **فقط در موقعیت‌هایی که پاره‌خط‌های جدید ظاهر یا پاره‌خط‌های قدیمی ناپدید می‌شوند**، در نظر بگیریم. به عبارت دیگر، کافی است خود را فقط به موقعیت‌های برابر با طول (مختصات x) نقاط انتهایی پاره‌خط‌ها محدود کنیم.
+-   هنگامی که یک پاره‌خط جدید ظاهر می‌شود، کافی است آن را در مکان مورد نظر در لیستی که برای خط جاروب قبلی به دست آمده، **درج** کنیم. ما فقط باید تقاطع **پاره‌خط اضافه‌شده با همسایه‌های فوری آن در لیست (بالایی و پایینی)** را بررسی کنیم.
+-   اگر پاره‌خطی ناپدید شود، کافی است آن را از لیست فعلی **حذف** کنیم. پس از آن، لازم است **تقاطع همسایه‌های بالایی و پایینی در لیست را بررسی کنیم**.
+-   تغییرات دیگری در ترتیب پاره‌خط‌ها در لیست، به جز موارد توصیف شده، وجود ندارد. هیچ بررسی تقاطع دیگری لازم نیست.
 
-To understand the truth of these statements, the following remarks are sufficient:
+برای درک درستی این گزاره‌ها، نکات زیر کافی است:
 
-  - Two disjoint segments never change their **relative order**.<br>
-    In fact, if one segment was first higher than the other, and then became lower, then between these two moments there was an intersection of these two segments.
-  - Two non-intersecting segments also cannot have the same $y$-coordinates.
-  - From this it follows that at the moment of the segment appearance we can find the position for this segment in the queue, and we will not have to rearrange this segment in the queue any more: **its order relative to other segments in the queue will not change**.
-  - Two intersecting segments at the moment of their intersection point will be neighbors of each other in the queue.
-  - Therefore, for finding pairs of intersecting line segments is sufficient to check the intersection of all and only those pairs of segments that sometime during the movement of the sweep line at least once were neighbors to each other. <br>
-    It is easy to notice that it is enough only to check the added segment with its upper and lower neighbors, as well as when removing the segment — its upper and lower neighbors (which after removal will become neighbors of each other).<br>
-  - It should be noted that at a fixed position of the sweep line, we must **first add all the segments** that start at this x-coordinate, and only **then remove all the segments** that end here.<br>
-    Thus, we do not miss the intersection of segments on the vertex: i.e. such cases when two segments have a common vertex.
-  - Note that **vertical segments** do not actually affect the correctness of the algorithm.<br>
-    These segments are distinguished by the fact that they appear and disappear at the same time. However, due to the previous comment, we know that all segments will be added to the queue first, and only then they will be deleted. Therefore, if the vertical segment intersects with some other segment opened at that moment (including the vertical one), it will be detected.<br>
-    **In what place of the queue to place vertical segments?** After all, a vertical segment does not have one specific $y$-coordinate, it extends for an entire segment along the $y$-coordinate. However, it is easy to understand that any coordinate from this segment can be taken as a $y$-coordinate.
+-   دو پاره‌خط غیرمتقاطع هرگز **ترتیب نسبی** خود را تغییر نمی‌دهند.<br>
+    در واقع، اگر یک پاره‌خط ابتدا بالاتر از دیگری بوده و سپس پایین‌تر از آن قرار گیرد، پس بین این دو لحظه، تقاطعی بین این دو پاره‌خط رخ داده است.
+-   دو پاره‌خط غیرمتقاطع همچنین نمی‌توانند مختصات $y$ یکسانی داشته باشند.
+-   از این نتیجه می‌گیریم که در لحظه ظاهر شدن پاره‌خط می‌توانیم موقعیت آن را در صف پیدا کنیم و دیگر نیازی به جابجایی این پاره‌خط در صف نخواهیم داشت: **ترتیب آن نسبت به سایر پاره‌خط‌ها در صف تغییر نخواهد کرد**.
+-   دو پاره‌خط متقاطع در لحظه رسیدن به نقطه تقاطعشان، در صف همسایه یکدیگر خواهند بود.
+-   بنابراین، برای یافتن جفت‌های پاره‌خط متقاطع، کافی است تقاطع تمام و فقط آن جفت پاره‌خط‌هایی را بررسی کنیم که در طول حرکت خط جاروب حداقل یک بار با یکدیگر همسایه بوده‌اند. <br>
+    به راحتی می‌توان دریافت که کافی است فقط پاره‌خط اضافه‌شده را با همسایه‌های بالایی و پایینی آن بررسی کنیم، و همچنین هنگام حذف یک پاره‌خط — همسایه‌های بالایی و پایینی آن را (که پس از حذف، همسایه یکدیگر خواهند شد) بررسی کنیم.<br>
+-   باید توجه داشت که در یک موقعیت ثابت خط جاروب، ما باید **ابتدا تمام پاره‌خط‌هایی** را که در این مختصات x شروع می‌شوند، اضافه کنیم و **سپس تمام پاره‌خط‌هایی** را که در اینجا به پایان می‌رسند، حذف کنیم.<br>
+    بنابراین، ما تقاطع پاره‌خط‌ها روی رأس را از دست نمی‌دهیم: یعنی مواردی که دو پاره‌خط یک رأس مشترک دارند.
+-   توجه داشته باشید که **پاره‌خط‌های عمودی** در واقع بر صحت الگوریتم تأثیر نمی‌گذارند.<br>
+    این پاره‌خط‌ها با این واقعیت متمایز می‌شوند که در یک زمان ظاهر و ناپدید می‌شوند. با این حال، با توجه به نکته قبلی، می‌دانیم که همه پاره‌خط‌ها ابتدا به صف اضافه می‌شوند و سپس حذف خواهند شد. بنابراین، اگر پاره‌خط عمودی با پاره‌خط دیگری که در آن لحظه باز است (از جمله یک پاره‌خط عمودی دیگر) تقاطع داشته باشد، این تقاطع شناسایی خواهد شد.<br>
+    **پاره‌خط‌های عمودی را در کجای صف قرار دهیم؟** به هر حال، یک پاره‌خط عمودی یک مختصات $y$ مشخص ندارد، بلکه در تمام طول یک پاره‌خط در امتداد محور $y$ کشیده شده است. با این حال، به راحتی می‌توان فهمید که هر مختصاتی از این پاره‌خط را می‌توان به عنوان مختصات $y$ در نظر گرفت.
 
-Thus, the entire algorithm will perform no more than $2n$ tests on the intersection of a pair of segments, and will perform $O(n)$ operations with a queue of segments ($O(1)$ operations at the time of appearance and disappearance of each segment).
+بنابراین، کل الگوریتم حداکثر $2n$ بار تست تقاطع یک جفت پاره‌خط را انجام می‌دهد و $O(n)$ عملیات با صف پاره‌خط‌ها انجام خواهد داد (عملیات $O(1)$ در زمان ظهور و ناپدید شدن هر پاره‌خط).
 
-The final **asymptotic behavior of the algorithm** is thus $O(n \log n)$.
+بنابراین، **رفتار مجانبی نهایی الگوریتم** $O(n \log n)$ است.
 
-## Implementation
+## پیاده‌سازی
 
-We present the full implementation of the described algorithm:
+پیاده‌سازی کامل الگوریتم توصیف‌شده را ارائه می‌دهیم:
 
 ```cpp
 const double EPS = 1E-9;
@@ -168,15 +168,16 @@ pair<int, int> solve(const vector<seg>& a) {
 }
 ```
 
-The main function here is `solve()`, which returns the intersecting segments if exists, or $(-1, -1)$, if there are no intersections.
+تابع اصلی در اینجا `solve()` است که در صورت وجود، پاره‌خط‌های متقاطع را برمی‌گرداند، یا در صورت عدم وجود تقاطع، `(-1, -1)` را برمی‌گرداند.
 
-Checking for the intersection of two segments is carried out by the `intersect ()` function, using an **algorithm based on the oriented area of the triangle**.
+بررسی تقاطع دو پاره‌خط توسط تابع `intersect()` انجام می‌شود که از **الگوریتمی مبتنی بر مساحت جهت‌دار مثلث** استفاده می‌کند.
 
-The queue of segments is the global variable `s`, a `set<event>`. Iterators that specify the position of each segment in the queue (for convenient removal of segments from the queue) are stored in the global array `where`.
+صف پاره‌خط‌ها متغیر سراسری `s` است که یک `set<seg>` می‌باشد. `iterator`هایی که موقعیت هر پاره‌خط را در صف مشخص می‌کنند (برای حذف راحت پاره‌خط‌ها از صف)، در آرایه سراسری `where` ذخیره می‌شوند.
 
-Two auxiliary functions `prev()` and `next()` are also introduced, which return iterators to the previous and next elements (or `end()`, if one does not exist).
+دو تابع کمکی `prev()` و `next()` نیز معرفی شده‌اند که `iterator`هایی به عناصر قبلی و بعدی را برمی‌گردانند (یا `end()`، اگر چنین عنصری وجود نداشته باشد).
 
-The constant `EPS` denotes the error of comparing two real numbers (it is mainly used when checking two segments for intersection).
+ثابت `EPS` خطای مقایسه دو عدد حقیقی را نشان می‌دهد (عمدتاً هنگام بررسی تقاطع دو پاره‌خط استفاده می‌شود).
 
-## Problems
- * [TIMUS 1469 No Smoking!](https://acm.timus.ru/problem.aspx?space=1&num=1469)
+## مسائل
+
+-   [TIMUS 1469 No Smoking!](https://acm.timus.ru/problem.aspx?space=1&num=1469)

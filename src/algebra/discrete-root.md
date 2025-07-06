@@ -1,60 +1,60 @@
 ---
 tags:
-  
-e_maxx_link: discrete_root
+  - AI Translated
+e_maxx_link: discrete-root
 ---
 
-# Discrete Root
+# ریشه گسسته
 
-The problem of finding a discrete root is defined as follows. Given a prime $n$ and two integers $a$ and $k$, find all $x$ for which:
+مسئله‌ی یافتن ریشه گسسته به صورت زیر تعریف می‌شود. با داشتن یک عدد اول $n$ و دو عدد صحیح $a$ و $k$، تمام مقادیر $x$ را بیابید که در شرط زیر صدق کنند:
 
 $x^k \equiv a \pmod n$
 
-## The algorithm
+## الگوریتم
 
-We will solve this problem by reducing it to the [discrete logarithm problem](discrete-log.md).
+این مسئله را با کاهش آن به [مسئله لگاریتم گسسته](discrete-log.md) حل خواهیم کرد.
 
-Let's apply the concept of a [primitive root](primitive-root.md) modulo $n$. Let $g$ be a primitive root modulo $n$. Note that since $n$ is prime, it must exist, and it can be found in $O(Ans \cdot \log \phi (n) \cdot \log n) = O(Ans \cdot \log^2 n)$ plus time of factoring $\phi (n)$.
+بیایید از مفهوم [ریشه اولیه](primitive-root.md) به پیمانه $n$ استفاده کنیم. فرض کنید $g$ یک ریشه اولیه به پیمانه $n$ باشد. توجه داشته باشید که چون $n$ اول است، ریشه اولیه حتماً وجود دارد و می‌توان آن را در زمان $O(Ans \cdot \log \phi (n) \cdot \log n) = O(Ans \cdot \log^2 n)$ به علاوه زمان لازم برای تجزیه $\phi (n)$ پیدا کرد.
 
-We can easily discard the case where $a = 0$. In this case, obviously there is only one answer: $x = 0$.
+می‌توانیم به راحتی حالتی که $a = 0$ است را نادیده بگیریم. در این حالت، واضح است که تنها یک جواب وجود دارد: $x = 0$.
 
-Since we know that $n$ is a prime and any number between 1 and $n-1$ can be represented as a power of the primitive root, we can represent the discrete root problem as follows:
+از آنجایی که می‌دانیم $n$ اول است و هر عدد بین ۱ و $n-1$ را می‌توان به صورت توانی از ریشه اولیه نمایش داد، می‌توانیم مسئله ریشه گسسته را به صورت زیر بازنویسی کنیم:
 
 $(g^y)^k \equiv a \pmod n$
 
-where
+که در آن
 
 $x \equiv g^y \pmod n$
 
-This, in turn, can be rewritten as
+این رابطه را نیز می‌توان به صورت زیر نوشت:
 
 $(g^k)^y \equiv a \pmod n$
 
-Now we have one unknown $y$, which is a discrete logarithm problem. The solution can be found using Shanks' baby-step giant-step algorithm in $O(\sqrt {n} \log n)$ (or we can verify that there are no solutions).
+اکنون یک مجهول $y$ داریم که این خود یک مسئله لگاریتم گسسته است. جواب را می‌توان با استفاده از الگوریتم گام کودک-گام غول Shanks در زمان $O(\sqrt {n} \log n)$ پیدا کرد (یا می‌توانیم بررسی کنیم که آیا جوابی وجود ندارد).
 
-Having found one solution $y_0$, one of solutions of discrete root problem will be $x_0 = g^{y_0} \pmod n$.
+با پیدا کردن یک جواب $y_0$، یکی از جواب‌های مسئله ریشه گسسته برابر با $x_0 = g^{y_0} \pmod n$ خواهد بود.
 
-## Finding all solutions from one known solution
+## یافتن تمام جواب‌ها با داشتن یک جواب
 
-To solve the given problem in full, we need to find all solutions knowing one of them: $x_0 = g^{y_0} \pmod n$.
+برای حل کامل مسئله، باید با داشتن یکی از جواب‌ها، یعنی $x_0 = g^{y_0} \pmod n$، تمام جواب‌های دیگر را پیدا کنیم.
 
-Let's recall the fact that a primitive root always has order of $\phi (n)$, i.e. the smallest power of $g$ which gives 1 is $\phi (n)$. Therefore, if we add the term $\phi (n)$ to the exponential, we still get the same value:
+این واقعیت را به یاد بیاوریم که یک ریشه اولیه همیشه دارای مرتبه $\phi (n)$ است، یعنی کوچک‌ترین توانی از $g$ که برابر با ۱ می‌شود، $\phi (n)$ است. بنابراین، اگر مضربی از $\phi (n)$ را به توان $y_0 \cdot k$ اضافه کنیم، همچنان همان مقدار را به دست می‌آوریم:
 
 $x^k \equiv g^{ y_0 \cdot k + l \cdot \phi (n)} \equiv a \pmod n \forall l \in Z$
 
-Hence, all the solutions are of the form:
+از این رو، تمام جواب‌ها به شکل زیر هستند:
 
 $x = g^{y_0 + \frac {l \cdot \phi (n)}{k}} \pmod n \forall l \in Z$.
 
-where $l$ is chosen such that the fraction must be an integer. For this to be true, the numerator has to be divisible by the least common multiple of  $\phi (n)$ and $k$. Remember that least common multiple of two numbers $lcm(a, b) = \frac{a \cdot b}{gcd(a, b)}$; we'll get
+که در آن $l$ به گونه‌ای انتخاب می‌شود که کسر باید یک عدد صحیح باشد. این شرط منجر به فرمول نهایی زیر برای تمام جواب‌ها می‌شود:
 
-$x = g^{y_0 + i \frac {\phi (n)}{gcd(k, \phi (n))}} \pmod n \forall i \in Z$.
+$x = g^{y_0 + i \frac {\phi (n)}{\gcd(k, \phi (n))}} \pmod n \forall i \in Z$.
 
-This is the final formula for all solutions of the discrete root problem.
+این فرمول نهایی برای تمام جواب‌های مسئله ریشه گسسته است.
 
-## Implementation
+## پیاده‌سازی
 
-Here is a full implementation, including procedures for finding the primitive root, discrete log and finding and printing all solutions.
+در ادامه یک پیاده‌سازی کامل آمده است که شامل رویه‌هایی برای یافتن ریشه اولیه، لگاریتم گسسته، و یافتن و چاپ تمام جواب‌ها است.
 
 ```cpp
 int gcd(int a, int b) {
@@ -73,7 +73,7 @@ int powmod(int a, int b, int p) {
 	return res;
 }
  
-// Finds the primitive root modulo p
+// ریشه اولیه به پیمانه p را پیدا می‌کند
 int generator(int p) {
 	vector<int> fact;
 	int phi = p-1, n = phi;
@@ -100,7 +100,7 @@ int generator(int p) {
 	return -1;
 }
  
-// This program finds all numbers x such that x^k = a (mod n)
+// این برنامه تمام اعداد x را پیدا می‌کند که در رابطه x^k = a (mod n) صدق می‌کنند
 int main() {
 	int n, k, a;
 	scanf("%d %d %d", &n, &k, &a);
@@ -111,7 +111,7 @@ int main() {
  
 	int g = generator(n);
  
-	// Baby-step giant-step discrete logarithm algorithm
+	// الگوریتم لگاریتم گسسته گام کودک-گام غول
 	int sq = (int) sqrt (n + .0) + 1;
 	vector<pair<int, int>> dec(sq);
 	for (int i = 1; i <= sq; ++i)
@@ -131,7 +131,7 @@ int main() {
 		return 0;
 	}
  
-	// Print all possible answers
+	// چاپ تمام جواب‌های ممکن
 	int delta = (n-1) / gcd(k, n-1);
 	vector<int> ans;
 	for (int cur = any_ans % delta; cur < n-1; cur += delta)
@@ -143,6 +143,6 @@ int main() {
 }
 ```
 
-## Practice problems
+## مسائل تمرینی
 
 * [Codeforces - Lunar New Year and a Recursive Sequence](https://codeforces.com/contest/1106/problem/F)

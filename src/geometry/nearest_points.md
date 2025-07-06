@@ -1,82 +1,82 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: nearest_points
 ---
 
-# Finding the nearest pair of points
+# یافتن نزدیک‌ترین جفت نقاط
 
-## Problem statement
+## صورت مسئله
 
-Given $n$ points on the plane. Each point $p_i$ is defined by its coordinates $(x_i,y_i)$. It is required to find among them two such points, such that the distance between them is minimal:
+$n$ نقطه در صفحه داده شده است. هر نقطه $p_i$ با مختصات $(x_i,y_i)$ خود تعریف می‌شود. هدف، یافتن دو نقطه از میان آن‌هاست به طوری که فاصله بینشان کمینه باشد:
 
 $$ \min_{\scriptstyle i, j=0 \ldots n-1,\atop \scriptstyle i \neq j } \rho (p_i, p_j). $$
 
-We take the usual Euclidean distances:
+ما از فاصله اقلیدسی معمول استفاده می‌کنیم:
 
 $$ \rho (p_i,p_j) = \sqrt{(x_i-x_j)^2 + (y_i-y_j)^2} .$$
 
-The trivial algorithm - iterating over all pairs and calculating the distance for each — works in $O(n^2)$. 
+الگوریتم بدیهی - یعنی پیمایش تمام جفت‌ها و محاسبه فاصله برای هر کدام - در زمان $O(n^2)$ اجرا می‌شود.
 
-The algorithm running in time $O(n \log n)$ is described below. This algorithm was proposed by Shamos and Hoey in 1975. (Source: Ch. 5 Notes of _Algorithm Design_ by Kleinberg & Tardos, also see [here](https://ieeexplore.ieee.org/abstract/document/4567872)) Preparata and Shamos also showed that this algorithm is optimal in the decision tree model.
+در ادامه، الگوریتمی با زمان اجرای $O(n \log n)$ شرح داده می‌شود. این الگوریتم توسط Shamos و Hoey در سال ۱۹۷۵ ارائه شد. (منبع: یادداشت‌های فصل ۵ کتاب _Algorithm Design_ نوشته Kleinberg & Tardos، همچنین [اینجا](https://ieeexplore.ieee.org/abstract/document/4567872) را ببینید). Preparata و Shamos همچنین نشان دادند که این الگوریتم در مدل درخت تصمیم (decision tree model) بهینه است.
 
-## Algorithm
-We construct an algorithm according to the general scheme of **divide-and-conquer** algorithms: the algorithm is designed as a recursive function, to which we pass a set of points; this recursive function splits this set in half, calls itself recursively on each half, and then performs some operations to combine the answers. The operation of combining consist of  detecting the cases when one point of the optimal solution fell into one half, and the other point into the other (in this case, recursive calls from each of the halves cannot detect this pair separately). The main difficulty, as always in case of divide and conquer algorithms, lies in the effective implementation of the merging stage. If a set of $n$ points is passed to the recursive function, then the merge stage should work no more than $O(n)$, then the asymptotics of the whole algorithm $T(n)$ will be found from the equation:
+## الگوریتم
+ما الگوریتمی را بر اساس طرح کلی الگوریتم‌های **تقسیم و حل** (divide-and-conquer) می‌سازیم: الگوریتم به صورت یک تابع بازگشتی طراحی می‌شود که مجموعه‌ای از نقاط را به عنوان ورودی می‌گیرد؛ این تابع بازگشتی مجموعه را به دو نیمه تقسیم کرده، خود را به صورت بازگشتی روی هر نیمه فراخوانی می‌کند و سپس عملیاتی را برای ترکیب جواب‌ها انجام می‌دهد. عملیات ترکیب شامل شناسایی مواردی است که یک نقطه از جفت بهینه در یک نیمه و نقطه دیگر در نیمه دیگر قرار گرفته باشد (در این حالت، فراخوانی‌های بازگشتی از هر یک از نیمه‌ها به تنهایی نمی‌توانند این جفت را تشخیص دهند). مشکل اصلی، مانند همیشه در الگوریتم‌های تقسیم و حل، در پیاده‌سازی مؤثر مرحله ادغام نهفته است. اگر مجموعه‌ای از $n$ نقطه به تابع بازگشتی داده شود، آنگاه مرحله ادغام نباید بیشتر از $O(n)$ طول بکشد، در این صورت پیچیدگی کل الگوریتم $T(n)$ از معادله زیر به دست می‌آید:
 
-$$T(n) = 2T(n/2) + O(n).$$ 
+$$T(n) = 2T(n/2) + O(n).$$
 
-The solution to this equation, as is known, is $T(n) = O(n \log n).$
+همانطور که می‌دانیم، حل این معادله $T(n) = O(n \log n)$ است.
 
-So, we proceed on to the construction of the algorithm. In order to come to an effective implementation of the merge stage in the future, we will divide the set of points into two subsets, according to their $x$-coordinates: In fact, we draw some vertical line dividing the set of points into two subsets of approximately the same size. It is convenient to make such a partition as follows: We sort the points in the standard way as pairs of numbers, ie.:
+بنابراین، به ساخت الگوریتم می‌پردازیم. برای رسیدن به یک پیاده‌سازی کارآمد برای مرحله ادغام در آینده، مجموعه نقاط را بر اساس مختصات $x$ آن‌ها به دو زیرمجموعه تقسیم می‌کنیم: در واقع، یک خط عمودی رسم می‌کنیم که مجموعه نقاط را به دو زیرمجموعه با اندازه‌های تقریباً برابر تقسیم کند. انجام چنین تقسیمی به این صورت راحت است: نقاط را به صورت استاندارد به عنوان جفت اعداد مرتب می‌کنیم، یعنی:
 
 $$p_i < p_j \Longleftrightarrow (x_i < x_j) \lor \Big(\left(x_i = x_j\right) \wedge \left(y_i < y_j \right) \Big) $$
 
-Then take the middle point after sorting $p_m (m = \lfloor n/2 \rfloor)$, and all the points before it and the $p_m$ itself are assigned to the first half, and all the points after it - to the second half:
+سپس نقطه میانی پس از مرتب‌سازی یعنی $p_m (m = \lfloor n/2 \rfloor)$ را در نظر می‌گیریم و تمام نقاط قبل از آن به همراه خود $p_m$ را به نیمه اول، و تمام نقاط بعد از آن را به نیمه دوم اختصاص می‌دهیم:
 
 $$A_1 = \{p_i \ | \ i = 0 \ldots m \}$$
 
-$$A_2 = \{p_i \ | \ i = m + 1 \ldots n-1 \}.$$ 
+$$A_2 = \{p_i \ | \ i = m + 1 \ldots n-1 \}.$$
 
-Now, calling recursively on each of the sets $A_1$ and $A_2$, we will find the answers $h_1$ and $h_2$ for each of the halves. And take the best of them: $h = \min(h_1, h_2)$.
+حالا با فراخوانی بازگشتی روی هر یک از مجموعه‌های $A_1$ و $A_2$، جواب‌های $h_1$ و $h_2$ را برای هر نیمه پیدا می‌کنیم و بهترین آن‌ها را انتخاب می‌کنیم: $h = \min(h_1, h_2)$.
 
-Now we need to make a **merge stage**, i.e. we try to find such pairs of points, for which the distance between which is less than $h$ and one point is lying in $A_1$ and the other in $A_2$.
-It is obvious that it is sufficient to consider only those points that are separated from the vertical line by a distance less than $h$, i.e. the set $B$ of the points considered at this stage is equal to:
+اکنون باید **مرحله ادغام** را انجام دهیم، یعنی سعی می‌کنیم جفت نقاطی را پیدا کنیم که فاصله بین آن‌ها کمتر از $h$ باشد و یک نقطه در $A_1$ و دیگری در $A_2$ قرار داشته باشد.
+بدیهی است که کافی است تنها نقاطی را در نظر بگیریم که از خط عمودی فاصله‌ای کمتر از $h$ دارند، یعنی مجموعه $B$ از نقاطی که در این مرحله بررسی می‌شوند برابر است با:
 
-$$B = \{ p_i\ | \ | x_i - x_m\ | < h \}.$$ 
+$$B = \{ p_i\ | \ | x_i - x_m\ | < h \}.$$
 
-For each point in the set $B$, we try to find the points that are closer to it than $h$. For example, it is sufficient to consider only those points whose $y$-coordinate differs by no more than $h$. Moreover, it makes no sense to consider those points whose $y$-coordinate is greater than the $y$-coordinate of the current point. Thus, for each point $p_i$ we define the set of considered points $C(p_i)$ as follows:
+برای هر نقطه در مجموعه $B$، سعی می‌کنیم نقاطی را پیدا کنیم که از آن به $h$ نزدیک‌تر باشند. به عنوان مثال، کافی است تنها نقاطی را در نظر بگیریم که مختصات $y$ آن‌ها حداکثر $h$ تفاوت داشته باشد. علاوه بر این، در نظر گرفتن نقاطی که مختصات $y$ آن‌ها بزرگتر از مختصات $y$ نقطه فعلی است، بی‌معنی است. بنابراین، برای هر نقطه $p_i$ مجموعه نقاط مورد بررسی $C(p_i)$ را به صورت زیر تعریف می‌کنیم:
 
 $$C(p_i) = \{ p_j\ |\ p_j \in B,\ \ y_i - h < y_j \le y_i \}.$$
 
-If we sort the points of the set $B$ by $y$-coordinate, it will be very easy to find $C(p_i)$: these are several points in a row ahead to the point $p_i$.
+اگر نقاط مجموعه $B$ را بر اساس مختصات $y$ مرتب کنیم، پیدا کردن $C(p_i)$ بسیار آسان خواهد بود: این‌ها چند نقطه متوالی قبل از نقطه $p_i$ هستند.
 
-So, in the new notation, the **merging stage** looks like this: build a set $B$, sort the points in it by $y$-coordinate, then for each point $p_i \in B$ consider all points $p_j \in C(p_i)$, and for each pair $(p_i,p_j)$ calculate the distance and compare with the current best distance.
+بنابراین، با نمادگذاری جدید، **مرحله ادغام** به این صورت است: مجموعه $B$ را بسازید، نقاط موجود در آن را بر اساس مختصات $y$ مرتب کنید، سپس برای هر نقطه $p_i \in B$ تمام نقاط $p_j \in C(p_i)$ را در نظر بگیرید و برای هر جفت $(p_i,p_j)$ فاصله را محاسبه کرده و با بهترین فاصله فعلی مقایسه کنید.
 
-At first glance, this is still a non-optimal algorithm: it seems that the sizes of sets $C(p_i)$ will be of order $n$, and the required asymptotics will not work. However, surprisingly, it can be proved that the size of each of the sets $C(p_i)$ is a quantity $O(1)$, i.e. it does not exceed some small constant regardless of the points themselves. Proof of this fact is given in the next section.
+در نگاه اول، این هنوز یک الگوریتم غیربهینه به نظر می‌رسد: به نظر می‌رسد که اندازه مجموعه‌های $C(p_i)$ از مرتبه $n$ خواهد بود و پیچیدگی مورد نظر به دست نخواهد آمد. با این حال، به طرز شگفت‌آوری، می‌توان ثابت کرد که اندازه هر یک از مجموعه‌های $C(p_i)$ یک مقدار $O(1)$ است، یعنی صرف‌نظر از خود نقاط، از یک ثابت کوچک تجاوز نمی‌کند. اثبات این واقعیت در بخش بعدی آورده شده است.
 
-Finally, we pay attention to the sorting, which the above algorithm contains: first,sorting by pairs $(x, y)$, and then second, sorting the elements of the set $B$ by $y$. In fact, both of these sorts inside the recursive function can be eliminated (otherwise we would not reach the $O(n)$ estimate for the **merging stage**, and the general asymptotics of the algorithm would be $O(n \log^2 n)$). It is easy to get rid of the first sort — it is enough to perform this sort before starting the recursion: after all, the elements themselves do not change inside the recursion, so there is no need to sort again. With the second sorting a little more difficult to perform, performing it previously will not work. But, remembering the merge sort, which also works on the principle of divide-and-conquer, we can simply embed this sort in our recursion. Let recursion, taking some set of points (as we remember,ordered by pairs $(x, y)$), return the same set, but sorted by the $y$-coordinate. To do this, simply merge (in $O(n)$) the two results returned by recursive calls. This will result in a set sorted by $y$-coordinate.
+در نهایت، به مرتب‌سازی‌هایی که الگوریتم فوق شامل می‌شود توجه می‌کنیم: اول، مرتب‌سازی بر اساس جفت‌های $(x, y)$ و دوم، مرتب‌سازی عناصر مجموعه $B$ بر اساس $y$. در واقع، هر دوی این مرتب‌سازی‌ها را می‌توان از داخل تابع بازگشتی حذف کرد (در غیر این صورت به تخمین $O(n)$ برای **مرحله ادغام** نمی‌رسیدیم و پیچیدگی کلی الگوریتم $O(n \log^2 n)$ می‌شد). خلاص شدن از مرتب‌سازی اول آسان است — کافی است این مرتب‌سازی را قبل از شروع بازگشت انجام دهیم: چرا که خود عناصر در داخل بازگشت تغییر نمی‌کنند، بنابراین نیازی به مرتب‌سازی مجدد نیست. انجام مرتب‌سازی دوم کمی دشوارتر است و انجام آن از قبل کارساز نخواهد بود. اما، با به یاد آوردن مرتب‌سازی ادغامی (merge sort) که آن هم بر اساس اصل تقسیم و حل کار می‌کند، می‌توانیم این مرتب‌سازی را به سادگی در بازگشت خود جای دهیم. اجازه دهید تابع بازگشتی، با گرفتن یک مجموعه از نقاط (که همانطور که به یاد داریم، بر اساس جفت‌های $(x, y)$ مرتب شده‌اند)، همان مجموعه را برگرداند، اما این بار مرتب شده بر اساس مختصات $y$. برای انجام این کار، کافی است دو نتیجه بازگشتی را با هم ادغام کنیم (در زمان $O(n)$). این کار منجر به مجموعه‌ای مرتب شده بر اساس مختصات $y$ خواهد شد.
 
-## Evaluation of the asymptotics
+## ارزیابی پیچیدگی زمانی
 
-To show that the above algorithm is actually executed in $O(n \log n)$, we need to prove the following fact: $|C(p_i)| = O(1)$.
+برای نشان دادن اینکه الگوریتم فوق در واقع در زمان $O(n \log n)$ اجرا می‌شود، باید واقعیت زیر را ثابت کنیم: $|C(p_i)| = O(1)$.
 
-So, let us consider some point $p_i$; recall that the set $C(p_i)$ is a set of points whose $y$-coordinate lies in the segment $[y_i-h; y_i]$, and, moreover, along the $x$ coordinate, the point $p_i$ itself, and all the points of the set $C(p_i)$ lie in the band width $2h$. In other words, the points we are considering $p_i$ and $C(p_i)$ lie in a rectangle of size $2h \times h$.
+بنابراین، یک نقطه $p_i$ را در نظر می‌گیریم؛ به یاد بیاورید که مجموعه $C(p_i)$ مجموعه‌ای از نقاط است که مختصات $y$ آن‌ها در بازه $[y_i-h; y_i]$ قرار دارد و علاوه بر این، در امتداد مختصات $x$، خود نقطه $p_i$ و تمام نقاط مجموعه $C(p_i)$ در نواری به عرض $2h$ قرار دارند. به عبارت دیگر، نقاطی که ما در نظر می‌گیریم، یعنی $p_i$ و $C(p_i)$، در یک مستطیل به ابعاد $2h \times h$ قرار دارند.
 
-Our task is to estimate the maximum number of points that can lie in this rectangle $2h \times h$; thus, we estimate the maximum size of the set $C(p_i)$. At the same time, when evaluating, we must not forget that there may be repeated points.
+وظیفه ما تخمین حداکثر تعداد نقاطی است که می‌توانند در این مستطیل $2h \times h$ قرار بگیرند؛ بنابراین، حداکثر اندازه مجموعه $C(p_i)$ را تخمین می‌زنیم. در عین حال، هنگام ارزیابی، نباید فراموش کنیم که ممکن است نقاط تکراری وجود داشته باشند.
 
-Remember that $h$ was obtained from the results of two recursive calls — on sets $A_1$ and $A_2$, and $A_1$ contains points to the left of the partition line and partially on it, $A_2$ contains the remaining points of the partition line and points to the right of it. For any pair of points from $A_1$, as well as from $A_2$, the distance can not be less than $h$ — otherwise it would mean incorrect operation of the recursive function.
+به یاد داشته باشید که $h$ از نتایج دو فراخوانی بازگشتی - روی مجموعه‌های $A_1$ و $A_2$ - به دست آمده است، و $A_1$ شامل نقاط سمت چپ خط تقسیم و بخشی از نقاط روی آن است، و $A_2$ شامل نقاط باقی‌مانده روی خط تقسیم و نقاط سمت راست آن است. برای هر جفت نقطه از $A_1$ و همچنین از $A_2$، فاصله نمی‌تواند کمتر از $h$ باشد — در غیر این صورت به معنای عملکرد نادرست تابع بازگشتی خواهد بود.
 
-To estimate the maximum number of points in the rectangle $2h \times h$ we divide it into two squares $h \times h$, the first square include all points $C(p_i) \cap A_1$, and the second contains all the others, i.e. $C(p_i) \cap A_2$. It follows from the above considerations that in each of these squares the distance between any two points is at least $h$.
+برای تخمین حداکثر تعداد نقاط در مستطیل $2h \times h$، آن را به دو مربع $h \times h$ تقسیم می‌کنیم. مربع اول شامل تمام نقاط $C(p_i) \cap A_1$ و مربع دوم شامل بقیه، یعنی $C(p_i) \cap A_2$ است. از ملاحظات فوق نتیجه می‌شود که در هر یک از این مربع‌ها فاصله بین هر دو نقطه حداقل $h$ است.
 
-We show that there are at most four points in each square. For example, this can be done as follows: divide the square into $4$ sub-squares with sides $h/2$. Then there can be no more than one point in each of these sub-squares (since even the diagonal is equal to $h / \sqrt{2}$, which is less than $h$). Therefore, there can be no more than $4$ points in the whole square.
+نشان می‌دهیم که در هر مربع حداکثر چهار نقطه وجود دارد. به عنوان مثال، این کار را می‌توان به صورت زیر انجام داد: مربع را به ۴ زیرمربع با اضلاع $h/2$ تقسیم کنید. آنگاه در هر یک از این زیرمربع‌ها نمی‌تواند بیش از یک نقطه وجود داشته باشد (زیرا حتی قطر آن برابر با $h / \sqrt{2}$ است که کمتر از $h$ است). بنابراین، در کل مربع نمی‌تواند بیش از ۴ نقطه وجود داشته باشد.
 
-So, we have proved that in a rectangle $2h \times h$ can not be more than $4 \cdot 2 = 8$ points, and, therefore, the size of the set $C(p_i)$ cannot exceed $7$, as required.
+بنابراین، ما ثابت کردیم که در یک مستطیل $2h \times h$ نمی‌تواند بیش از $4 \cdot 2 = 8$ نقطه وجود داشته باشد، و در نتیجه، اندازه مجموعه $C(p_i)$ نمی‌تواند از ۷ تجاوز کند، که همان چیزی بود که می‌خواستیم.
 
-## Implementation
+## پیاده‌سازی
 
-We introduce a data structure to store a point (its coordinates and a number) and comparison operators required for two types of sorting:
+یک ساختار داده برای ذخیره یک نقطه (مختصات و شماره آن) و عملگرهای مقایسه مورد نیاز برای دو نوع مرتب‌سازی معرفی می‌کنیم:
 
-```{.cpp file=nearest_pair_def}
+```cpp
 struct pt {
     int x, y, id;
 };
@@ -97,9 +97,9 @@ int n;
 vector<pt> a;
 ```
 
-For a convenient implementation of recursion, we introduce an auxiliary function upd_ans(), which will calculate the distance between two points and check whether it is better than the current answer:
+برای پیاده‌سازی راحت‌تر بازگشت، یک تابع کمکی `upd_ans()` معرفی می‌کنیم که فاصله بین دو نقطه را محاسبه کرده و بررسی می‌کند که آیا از جواب فعلی بهتر است یا خیر:
 
-```{.cpp file=nearest_pair_update}
+```cpp
 double mindist;
 pair<int, int> best_pair;
  
@@ -112,13 +112,13 @@ void upd_ans(const pt & a, const pt & b) {
 }
 ```
 
-Finally, the implementation of the recursion itself. It is assumed that before calling it, the array $a[]$ is already sorted by $x$-coordinate. In recursion we pass just two pointers $l, r$, which indicate that it should look for the answer for $a[l \ldots r)$. If the distance between $r$ and $l$ is too small, the recursion must be stopped, and perform a trivial algorithm to find the nearest pair and then sort the subarray by $y$-coordinate.
+در نهایت، پیاده‌سازی خود بازگشت. فرض بر این است که قبل از فراخوانی آن، آرایه `a[]` از قبل بر اساس مختصات $x$ مرتب شده است. در بازگشت فقط دو اشاره‌گر `l` و `r` را پاس می‌دهیم که نشان می‌دهد باید به دنبال پاسخ برای `a[l ... r)` بگردد. اگر فاصله بین `r` و `l` خیلی کم باشد، بازگشت باید متوقف شود و یک الگوریتم بدیهی برای یافتن نزدیک‌ترین جفت اجرا شود و سپس زیرآرایه بر اساس مختصات `y` مرتب شود.
 
-To merge two sets of points received from recursive calls into one (ordered by $y$-coordinate), we use the standard STL $merge()$ function, and create an auxiliary buffer $t[]$(one for all recursive calls). (Using inplace_merge () is impractical because it generally does not work in linear time.)
+برای ادغام دو مجموعه از نقاط دریافت شده از فراخوانی‌های بازگشتی به یک مجموعه واحد (مرتب شده بر اساس مختصات `y`)، از تابع استاندارد `merge()` از STL استفاده می‌کنیم و یک بافر کمکی `t[]` (یکی برای تمام فراخوانی‌های بازگشتی) ایجاد می‌کنیم. (استفاده از `inplace_merge()` عملی نیست زیرا به طور کلی در زمان خطی کار نمی‌کند.)
 
-Finally, the set $B$ is stored in the same array $t$.
+در نهایت، مجموعه $B$ در همان آرایه `t` ذخیره می‌شود.
 
-```{.cpp file=nearest_pair_rec}
+```cpp
 vector<pt> t;
 
 void rec(int l, int r) {
@@ -151,28 +151,28 @@ void rec(int l, int r) {
 }
 ```
 
-By the way, if all the coordinates are integer, then at the time of the recursion you can not move to fractional values, and store in $mindist$ the square of the minimum distance.
+ضمناً، اگر تمام مختصات صحیح باشند، می‌توانید در طول بازگشت به مقادیر کسری نروید و در `mindist` مربع کمترین فاصله را ذخیره کنید.
 
-In the main program, recursion should be called as follows:
+در برنامه اصلی، تابع بازگشتی باید به این صورت فراخوانی شود:
 
-```{.cpp file=nearest_pair_main}
+```cpp
 t.resize(n);
 sort(a.begin(), a.end(), cmp_x());
 mindist = 1E20;
 rec(0, n);
 ```
 
-## Generalization: finding a triangle with minimal perimeter
+## تعمیم: یافتن مثلثی با کمترین محیط
 
-The algorithm described above is interestingly generalized to this problem: among a given set of points, choose three different points so that the sum of pairwise distances between them is the smallest.
+الگوریتم توصیف شده در بالا به طرز جالبی به این مسئله تعمیم می‌یابد: از میان مجموعه‌ای از نقاط داده شده، سه نقطه مختلف را به گونه‌ای انتخاب کنید که مجموع فواصل دو به دوی بین آن‌ها کمترین مقدار ممکن باشد.
 
-In fact, to solve this problem, the algorithm remains the same: we divide the field into two halves of the vertical line, call the solution recursively on both halves, choose the minimum $minper$ from the found perimeters, build a strip with the thickness of $minper / 2$, and iterate through all triangles that can improve the answer. (Note that the triangle with perimeter $\le minper$ has the longest side $\le minper / 2$.)
+در واقع، برای حل این مسئله، الگوریتم به همان صورت باقی می‌ماند: صفحه را با یک خط عمودی به دو نیمه تقسیم می‌کنیم، راه حل را به صورت بازگشتی روی هر دو نیمه فراخوانی می‌کنیم، کمترین محیط `minper` را از میان محیط‌های یافت شده انتخاب می‌کنیم، نواری به ضخامت `minper / 2` می‌سازیم و تمام مثلث‌هایی که می‌توانند پاسخ را بهبود بخشند، بررسی می‌کنیم. (توجه داشته باشید که مثلثی با محیط $\le minper$ دارای بزرگترین ضلع $\le minper / 2$ است.)
 
-## Practice problems
+## مسائل تمرینی
 
-* [UVA 10245 "The Closest Pair Problem" [difficulty: low]](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1186)
-* [SPOJ #8725 CLOPPAIR "Closest Point Pair" [difficulty: low]](https://www.spoj.com/problems/CLOPPAIR/)
-* [CODEFORCES Team Olympiad Saratov - 2011 "Minimum amount" [difficulty: medium]](http://codeforces.com/contest/120/problem/J)
-* [Google CodeJam 2009 Final "Min Perimeter" [difficulty: medium]](https://github.com/google/coding-competitions-archive/blob/main/codejam/2009/world_finals/min_perimeter/statement.pdf)
-* [SPOJ #7029 CLOSEST "Closest Triple" [difficulty: medium]](https://www.spoj.com/problems/CLOSEST/)
-* [TIMUS 1514 National Park [difficulty: medium]](https://acm.timus.ru/problem.aspx?space=1&num=1514)
+* [UVA 10245 "The Closest Pair Problem" [سطح: آسان]](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1186)
+* [SPOJ #8725 CLOPPAIR "Closest Point Pair" [سطح: آسان]](https://www.spoj.com/problems/CLOPPAIR/)
+* [CODEFORCES Team Olympiad Saratov - 2011 "Minimum amount" [سطح: متوسط]](http://codeforces.com/contest/120/problem/J)
+* [Google CodeJam 2009 Final "Min Perimeter" [سطح: متوسط]](https://github.com/google/coding-competitions-archive/blob/main/codejam/2009/world_finals/min_perimeter/statement.pdf)
+* [SPOJ #7029 CLOSEST "Closest Triple" [سطح: متوسط]](https://www.spoj.com/problems/CLOSEST/)
+* [TIMUS 1514 National Park [سطح: متوسط]](https://acm.timus.ru/problem.aspx?space=1&num=1514)

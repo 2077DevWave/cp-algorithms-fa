@@ -1,218 +1,210 @@
 ---
 tags:
-  
-e_maxx_link: sprague_grundy
+  - AI Translated
+e_maxx_link: sprague-grundy-nim
 ---
 
-# Sprague-Grundy theorem. Nim
+# قضیه اسپراگ-گراندی. نیم
 
-## Introduction
+## مقدمه
 
-This theorem describes the so-called **impartial** two-player game,
-i.e. those in which the available moves and winning/losing depends only on the state of the game.
-In other words, the only difference between the two players is that one of them moves first.
+این قضیه بازی‌های دو نفره‌ی **بی‌طرفانه** را توصیف می‌کند، یعنی بازی‌هایی که در آن‌ها حرکات موجود و برد/باخت تنها به وضعیت بازی بستگی دارد.
+به عبارت دیگر، تنها تفاوت بین دو بازیکن این است که یکی از آن‌ها اول حرکت می‌کند.
 
-Additionally, we assume that the game has **perfect information**, i.e. no information is hidden from the players (they know the rules and the possible moves).
+علاوه بر این، فرض می‌کنیم که بازی دارای **اطلاعات کامل** است، یعنی هیچ اطلاعاتی از بازیکنان پنهان نیست (آن‌ها قوانین و حرکات ممکن را می‌دانند).
 
-It is assumed that the game is **finite**, i.e. after a certain number of moves, one of the players will end up in a losing position — from which they can't move to another position.
-On the other side, the player who set up this position for the opponent wins.
-Understandably, there are no draws in this game.
+فرض بر این است که بازی **متناهی** است، یعنی پس از تعداد معینی حرکت، یکی از بازیکنان در موقعیت بازنده قرار می‌گیرد — موقعیتی که از آن نمی‌تواند به موقعیت دیگری حرکت کند.
+در مقابل، بازیکنی که این موقعیت را برای حریف ایجاد کرده، برنده می‌شود.
+طبیعتاً، در این بازی تساوی وجود ندارد.
 
-Such games can be completely described by a *directed acyclic graph*: the vertices are game states and the edges are transitions (moves).
-A vertex without outgoing edges is a losing vertex (a player who must make a move from this vertex loses).
+این‌گونه بازی‌ها را می‌توان به طور کامل با یک *گراف جهت‌دار غیرمدور* توصیف کرد: رأس‌ها وضعیت‌های بازی و یال‌ها انتقال‌ها (حرکات) هستند.
+رأسی که یال خروجی ندارد، یک رأس بازنده است (بازیکنی که باید از این رأس حرکت کند، می‌بازد).
 
-Since there are no draws, we can classify all game states as either **winning** or **losing**.
-Winning states are those from which there is a move that causes inevitable defeat of the other player, even with their best response.
-Losing states are those from which all moves lead to winning states for the other player.
-Summarizing, a state is winning if there is at least one transition to a losing state and is losing if there isn't at least one transition to a losing state.
+از آنجایی که تساوی وجود ندارد، می‌توانیم تمام وضعیت‌های بازی را به دو دسته **برنده** یا **بازنده** طبقه‌بندی کنیم.
+وضعیت‌های برنده آن‌هایی هستند که از آن‌ها حرکتی وجود دارد که منجر به شکست قطعی بازیکن دیگر می‌شود، حتی با بهترین پاسخ او.
+وضعیت‌های بازنده آن‌هایی هستند که تمام حرکات از آن‌ها به وضعیت‌های برنده برای بازیکن دیگر ختم می‌شود.
+به طور خلاصه، یک وضعیت برنده است اگر حداقل یک انتقال به وضعیت بازنده وجود داشته باشد و بازنده است اگر حداقل یک انتقال به وضعیت بازنده وجود نداشته باشد.
 
-Our task is to classify the states of a given game.
+وظیفه ما طبقه‌بندی وضعیت‌های یک بازی معین است.
 
-The theory of such games was independently developed by Roland Sprague in 1935 and Patrick Michael Grundy in 1939.
+نظریه این‌گونه بازی‌ها به طور مستقل توسط Roland Sprague در سال ۱۹۳۵ و Patrick Michael Grundy در سال ۱۹۳۹ توسعه یافت.
 
-## Nim
+## نیم (Nim)
 
-This game obeys the restrictions described above.
-Moreover, *any* perfect-information impartial two-player game can be reduced to the game of Nim.
-Studying this game will allow us to solve all other similar games, but more on that later.
+این بازی از محدودیت‌های توصیف‌شده در بالا پیروی می‌کند.
+علاوه بر این، *هر* بازی دو نفره بی‌طرفانه با اطلاعات کامل را می‌توان به بازی نیم کاهش داد.
+مطالعه این بازی به ما امکان می‌دهد تا تمام بازی‌های مشابه دیگر را حل کنیم، اما بعداً بیشتر به این موضوع خواهیم پرداخت.
 
-Historically this game was popular in ancient times.
-Its origin is probably in China — or at least the game *Jianshizi* is very similar to it.
-In Europe the earliest references to it are from the 16th century.
-The name was given by Charles Bouton, who in 1901 published a full analysis of this game.
+از نظر تاریخی، این بازی در دوران باستان محبوب بوده است.
+منشأ آن احتمالاً چین است — یا حداقل بازی *Jianshizi* بسیار شبیه به آن است.
+در اروپا اولین اشارات به آن به قرن شانزدهم بازمی‌گردد.
+این نام توسط Charles Bouton انتخاب شد، که در سال ۱۹۰۱ تحلیل کاملی از این بازی را منتشر کرد.
 
-### Game description
+### شرح بازی
 
-There are several piles, each with several stones.
-In a move a player can take any positive number of stones from any one pile and throw them away.
-A player loses if they can't make a move, which happens when all the piles are empty.
+چندین کپه وجود دارد که هر کدام دارای تعدادی سنگ است.
+در هر حرکت، یک بازیکن می‌تواند هر تعداد سنگ مثبت را از یکی از کپه‌ها برداشته و دور بریزد.
+بازیکنی که نتواند حرکتی انجام دهد، می‌بازد، که این اتفاق زمانی رخ می‌دهد که همه کپه‌ها خالی باشند.
 
-The game state is unambiguously described by a multiset of positive integers.
-A move consists of strictly decreasing a chosen integer (if it becomes zero, it is removed from the set).
+وضعیت بازی به طور یکتا با یک چندمجموعه از اعداد صحیح مثبت توصیف می‌شود.
+یک حرکت شامل کاهش اکید یک عدد صحیح انتخاب شده است (اگر صفر شود، از مجموعه حذف می‌شود).
 
-### The solution
+### راه‌حل
 
-The solution by Charles L. Bouton looks like this:
+راه‌حل Charles L. Bouton به این صورت است:
 
-**Theorem.**
-The current player has a winning strategy if and only if the xor-sum of the pile sizes is non-zero.
-The xor-sum of a sequence $a$ is $a_1 \oplus a_2 \oplus \ldots \oplus  a_n$, where $\oplus$ is the *bitwise exclusive or*.
+**قضیه.**
+بازیکن فعلی یک استراتژی برد دارد اگر و تنها اگر حاصل جمع xor اندازه‌های کپه‌ها غیرصفر باشد.
+حاصل جمع xor یک دنباله $a$ برابر است با $a_1 \oplus a_2 \oplus \ldots \oplus  a_n$، که در آن $\oplus$ عملگر *or انحصاری بیتی* است.
 
-**Proof.**
-The key to the proof is the presence of a **symmetric strategy for the opponent**.
-We show that a once in a position with the xor-sum equal to zero, the player won't be able to make it non-zero in the long term —
-if they transition to a position with a non-zero xor-sum, the opponent will always have a move returning the xor-sum back to zero.
+**اثبات.**
+نکته کلیدی در اثبات، وجود یک **استراتژی متقارن برای حریف** است.
+نشان می‌دهیم که اگر بازیکنی در موقعیتی با xor-sum برابر با صفر قرار گیرد، نمی‌تواند در بلندمدت آن را غیرصفر نگه دارد — اگر او به موقعیتی با xor-sum غیرصفر منتقل شود، حریف همیشه حرکتی خواهد داشت که xor-sum را به صفر بازگرداند.
 
-We will prove the theorem by mathematical induction.
+این قضیه را با استقرای ریاضی اثبات خواهیم کرد.
 
-For an empty Nim (where all the piles are empty i.e. the multiset is empty) the xor-sum is zero and the theorem is true.
+برای یک بازی نیم خالی (که در آن همه کپه‌ها خالی هستند، یعنی چندمجموعه خالی است) حاصل جمع xor صفر است و قضیه برقرار است.
 
-Now suppose we are in a non-empty state.
-Using the assumption of induction (and the acyclicity of the game) we assume that the theorem is proven for all states reachable from the current one.
+حال فرض کنید در یک وضعیت غیرخالی هستیم.
+با استفاده از فرض استقرا (و غیرمدور بودن بازی) فرض می‌کنیم که قضیه برای تمام وضعیت‌های قابل دسترس از وضعیت فعلی اثبات شده است.
 
-Then the proof splits into two parts:
-if for the current position the xor-sum $s = 0$, we have to prove that this state is losing, i.e. all reachable states have xor-sum $t \neq 0$.
-If $s \neq 0$, we have to prove that there is a move leading to a state with $t = 0$.
+سپس اثبات به دو بخش تقسیم می‌شود:
+اگر برای موقعیت فعلی، xor-sum $s = 0$ باشد، باید ثابت کنیم که این وضعیت، بازنده است، یعنی تمام وضعیت‌های قابل دسترس دارای xor-sum $t \neq 0$ هستند.
+اگر $s \neq 0$ باشد، باید ثابت کنیم که حرکتی وجود دارد که به وضعیتی با $t = 0$ منجر می‌شود.
 
-*   Let $s = 0$ and let's consider any move.
-    This move reduces the size of a pile $x$ to a size $y$.
-    Using elementary properties of $\oplus$, we have
+*   فرض کنید $s = 0$ و هر حرکتی را در نظر بگیریم.
+    این حرکت اندازه کپه $x$ را به اندازه $y$ کاهش می‌دهد.
+    با استفاده از ویژگی‌های ابتدایی $\oplus$، داریم:
     
     \[ t = s \oplus x \oplus y = 0 \oplus x \oplus y = x \oplus y \]
     
-    Since $y < x$, $y \oplus x$ can't be zero, so $t \neq 0$.
-    That means any reachable state is a winning one (by the assumption of induction), so we are in a losing position.
+    از آنجایی که $y < x$ است، $y \oplus x$ نمی‌تواند صفر باشد، بنابراین $t \neq 0$ است.
+    این بدان معناست که هر وضعیت قابل دسترس، یک وضعیت برنده است (طبق فرض استقرا)، بنابراین ما در یک موقعیت بازنده هستیم.
 
-*   Let $s \neq 0$.
-    Consider the binary representation of the number $s$.
-    Let $d$ be the index of its leading (biggest value) non-zero bit.
-    Our move will be on a pile whose size's bit number $d$ is set (it must exist, otherwise the bit wouldn't be set in $s$).
-    We will reduce its size $x$ to $y = x \oplus s$.
-    All bits at positions greater than $d$ in $x$ and $y$ match and bit $d$ is set in $x$ but not set in $y$.
-    Therefore, $y < x$, which is all we need for a move to be legal.
-    Now we have:
+*   فرض کنید $s \neq 0$ باشد.
+    نمایش دودویی عدد $s$ را در نظر بگیرید.
+    فرض کنید $d$ اندیس پرارزش‌ترین بیت غیرصفر آن باشد.
+    حرکت ما بر روی کپه‌ای خواهد بود که بیت شماره $d$ اندازه‌اش یک باشد (چنین کپه‌ای باید وجود داشته باشد، در غیر این صورت این بیت در $s$ یک نمی‌شد).
+    ما اندازه آن $x$ را به $y = x \oplus s$ کاهش خواهیم داد.
+    تمام بیت‌ها در موقعیت‌های بزرگتر از $d$ در $x$ و $y$ یکسان هستند و بیت $d$ در $x$ یک است اما در $y$ یک نیست.
+    بنابراین، $y < x$ است، که این تمام چیزی است که برای قانونی بودن یک حرکت نیاز داریم.
+    اکنون داریم:
     
     \[ t = s \oplus x \oplus y = s \oplus x \oplus (s \oplus x) = 0 \]
     
-    This means we found a reachable losing state (by the assumption of induction) and the current state is winning.
+    این بدان معناست که ما یک وضعیت بازنده قابل دسترس پیدا کرده‌ایم (طبق فرض استقرا) و وضعیت فعلی برنده است.
 
-**Corollary.**
-Any state of Nim can be replaced by an equivalent state as long as the xor-sum doesn't change.
-Moreover, when analyzing a Nim with several piles, we can replace it with a single pile of size $s$.
+**نتیجه.**
+هر وضعیت از بازی نیم را می‌توان با یک وضعیت معادل جایگزین کرد، تا زمانی که xor-sum تغییر نکند.
+علاوه بر این، هنگام تحلیل یک بازی نیم با چندین کپه، می‌توانیم آن را با یک کپه به اندازه $s$ جایگزین کنیم.
 
-### Misère Game
+### بازی میزِر (Misère Game)
 
-In a **misère game**, the goal of the game is opposite, so the player who removes the last stick loses the game.
-It turns out that the misère nim game can be optimally played almost like a standard nim game.
- The idea is to first play the misère game like the standard game, but change the strategy at the end of the game.
- The new strategy will be introduced in a situation where each heap would contain at most one stick after the next move.
-In the standard game, we should choose a move after which there is an even number of heaps with one stick. However, in 
-the misère game,we choose a move so that there is an odd number of heaps with one stick.
-  This strategy works because a state where the strategy changes always appears in the game, and this state is a 
-  winning state, because it contains exactly one heap that has more than one stick so the nim sum is not 0.
+در یک **بازی میزِر (misère game)**، هدف بازی برعکس است، بنابراین بازیکنی که آخرین سنگ را برمی‌دارد، بازنده است.
+معلوم شده است که بازی نیم میزِر را می‌توان به طور بهینه تقریباً مانند بازی نیم استاندارد بازی کرد.
+ایده این است که ابتدا بازی میزِر را مانند بازی استاندارد بازی کنیم، اما در انتهای بازی استراتژی را تغییر دهیم.
+استراتژی جدید در وضعیتی به کار گرفته می‌شود که پس از حرکت بعدی، هر کپه حداکثر یک سنگ داشته باشد.
+در بازی استاندارد، باید حرکتی را انتخاب کنیم که پس از آن تعداد زوجی از کپه‌های تک‌سنگی وجود داشته باشد. اما در بازی میزِر، حرکتی را انتخاب می‌کنیم که تعداد فردی از کپه‌های تک‌سنگی وجود داشته باشد.
+این استراتژی کار می‌کند زیرا وضعیتی که در آن استراتژی تغییر می‌کند، همیشه در بازی پیش می‌آید و این وضعیت، یک وضعیت برنده است، زیرا دقیقاً شامل یک کپه با بیش از یک سنگ است، بنابراین حاصل جمع نیم (nim sum) صفر نیست.
 
-## The equivalence of impartial games and Nim (Sprague-Grundy theorem)
+## معادل بودن بازی‌های بی‌طرفانه و نیم (قضیه اسپراگ-گراندی)
 
-Now we will learn how to find, for any game state of any impartial game, a corresponding state of Nim.
+اکنون یاد خواهیم گرفت که چگونه برای هر وضعیت از هر بازی بی‌طرفانه‌ای، یک وضعیت متناظر از بازی نیم پیدا کنیم.
 
-### Lemma about Nim with increases
+### لم در مورد بازی نیم با امکان افزایش
 
-We consider the following modification to Nim: we also allow **adding stones to a chosen pile**.
-The exact rules about how and when increasing is allowed **do not interest us**, however the rules should keep our game **acyclic**. In later sections, example games are considered.
+تغییر زیر را در بازی نیم در نظر می‌گیریم: ما اجازه **اضافه کردن سنگ به یک کپه انتخاب شده** را نیز می‌دهیم.
+قوانین دقیق در مورد چگونگی و زمان مجاز بودن افزایش، **برای ما اهمیتی ندارد**، اما این قوانین باید بازی ما را **غیرمدور** نگه دارند. در بخش‌های بعدی، بازی‌های نمونه‌ای در نظر گرفته می‌شوند.
 
-**Lemma.**
-The addition of increasing to Nim doesn't change how winning and losing states are determined.
-In other words, increases are useless, and we don't have to use them in a winning strategy.
+**لم.**
+اضافه کردن امکان افزایش به بازی نیم، نحوه تعیین وضعیت‌های برنده و بازنده را تغییر نمی‌دهد.
+به عبارت دیگر، افزایش‌ها بی‌فایده هستند و ما مجبور نیستیم از آن‌ها در یک استراتژی برد استفاده کنیم.
 
-**Proof.**
-Suppose a player added stones to a pile. Then his opponent can simply undo his move — decrease the number back to the previous value.
-Since the game is acyclic, sooner or later the current player won't be able to use an increase move and will have to do the usual Nim move.
+**اثبات.**
+فرض کنید یک بازیکن به یک کپه سنگ اضافه کرده است. در این صورت حریف او می‌تواند به سادگی حرکت او را خنثی کند — تعداد سنگ‌ها را به مقدار قبلی کاهش دهد.
+از آنجایی که بازی غیرمدور است، دیر یا زود بازیکن فعلی قادر به استفاده از حرکت افزایش نخواهد بود و مجبور به انجام حرکت معمول نیم خواهد شد.
 
-### Sprague-Grundy theorem
+### قضیه اسپراگ-گراندی
 
-Let's consider a state $v$ of a two-player impartial game and let $v_i$ be the states reachable from it (where $i \in \{ 1, 2, \dots, k \} , k \ge 0$).
-To this state, we can assign a fully equivalent game of Nim with one pile of size $x$.
-The number $x$ is called the Grundy value or nim-value of state $v$.
+یک وضعیت $v$ از یک بازی دو نفره بی‌طرفانه را در نظر بگیرید و فرض کنید $v_i$ وضعیت‌های قابل دسترس از آن باشند (که در آن $i \in \{ 1, 2, \dots, k \} , k \ge 0$).
+به این وضعیت، می‌توانیم یک بازی نیم کاملاً معادل با یک کپه به اندازه $x$ نسبت دهیم.
+عدد $x$ را مقدار گراندی (Grundy value) یا مقدار نیم (nim-value) وضعیت $v$ می‌نامند.
 
-Moreover, this number can be found in the following recursive way:
+علاوه بر این، این عدد را می‌توان به روش بازگشتی زیر پیدا کرد:
 
 $$ x = \text{mex}\ \{ x_1, \ldots, x_k \}, $$
 
-where $x_i$ is the Grundy value for state $v_i$ and the function $\text{mex}$ (*minimum excludant*) is the smallest non-negative integer not found in the given set.
+که در آن $x_i$ مقدار گراندی برای وضعیت $v_i$ است و تابع $\text{mex}$ (*minimum excludant*) کوچکترین عدد صحیح نامنفی است که در مجموعه داده شده یافت نمی‌شود.
 
-Viewing the game as a graph, we can gradually calculate the Grundy values starting from vertices without outgoing edges.
-Grundy value being equal to zero means a state is losing.
+با در نظر گرفتن بازی به عنوان یک گراف، می‌توانیم مقادیر گراندی را به تدریج با شروع از رأس‌های بدون یال خروجی محاسبه کنیم.
+مقدار گراندی برابر با صفر به معنای بازنده بودن یک وضعیت است.
 
-**Proof.**
-We will use a proof by induction.
+**اثبات.**
+از اثبات با استقرا استفاده خواهیم کرد.
 
-For vertices without a move, the value $x$ is the $\text{mex}$ of an empty set, which is zero.
-That is correct, since an empty Nim is losing.
+برای رأس‌های بدون حرکت، مقدار $x$ برابر با $\text{mex}$ یک مجموعه تهی است که برابر با صفر است.
+این درست است، زیرا یک بازی نیم خالی، بازنده است.
 
-Now consider any other vertex $v$.
-By induction, we assume the values $x_i$ corresponding to its reachable vertices are already calculated.
+اکنون هر رأس دیگری مانند $v$ را در نظر بگیرید.
+طبق فرض استقرا، فرض می‌کنیم مقادیر $x_i$ مربوط به رأس‌های قابل دسترس از آن، قبلاً محاسبه شده‌اند.
 
-Let $p = \text{mex}\ \{ x_1, \ldots, x_k \}$.
-Then we know that for any integer $i \in [0, p)$ there exists a reachable vertex with Grundy value $i$.
-This means $v$ is **equivalent to a state of the game of Nim with increases with one pile of size $p$**.
-In such a game we have transitions to piles of every size smaller than $p$ and possibly transitions to piles with sizes greater than $p$.
-Therefore, $p$ is indeed the desired Grundy value for the currently considered state.
+فرض کنید $p = \text{mex}\ \{ x_1, \ldots, x_k \}$ باشد.
+آنگاه می‌دانیم که برای هر عدد صحیح $i \in [0, p)$، یک رأس قابل دسترس با مقدار گراندی $i$ وجود دارد.
+این بدان معناست که $v$ **معادل با یک وضعیت از بازی نیم با امکان افزایش و با یک کپه به اندازه $p$ است**.
+در چنین بازی‌ای، ما انتقال‌هایی به کپه‌هایی با هر اندازه کوچکتر از $p$ و احتمالاً انتقال‌هایی به کپه‌هایی با اندازه‌های بزرگتر از $p$ داریم.
+بنابراین، $p$ در واقع همان مقدار گراندی مورد نظر برای وضعیت فعلی است.
 
-## Application of the theorem
+## کاربرد قضیه
 
-Finally, we describe an algorithm to determine the win/loss outcome of a game, which is applicable to any impartial two-player game.
+در نهایت، الگوریتمی برای تعیین نتیجه برد/باخت یک بازی را توصیف می‌کنیم که برای هر بازی دو نفره بی‌طرفانه قابل اجرا است.
 
-To calculate the Grundy value of a given state you need to:
+برای محاسبه مقدار گراندی یک وضعیت معین، باید:
 
-* Get all possible transitions from this state
+* تمام انتقال‌های ممکن از این وضعیت را بدست آورید.
 
-* Each transition can lead to a **sum of independent games** (one game in the degenerate case).
-Calculate the Grundy value for each independent game and xor-sum them.
-Of course xor does nothing if there is just one game.
+* هر انتقال می‌تواند به **مجموعی از بازی‌های مستقل** منجر شود (در حالت خاص، یک بازی).
+مقدار گراندی را برای هر بازی مستقل محاسبه کرده و حاصل جمع xor آنها را بدست آورید.
+البته اگر فقط یک بازی وجود داشته باشد، عمل xor تأثیری ندارد.
 
-* After we calculated Grundy values for each transition we find the state's value as the $\text{mex}$ of these numbers.
+* پس از محاسبه مقادیر گراندی برای هر انتقال، مقدار وضعیت را به عنوان $\text{mex}$ این اعداد پیدا می‌کنیم.
 
-* If the value is zero, then the current state is losing, otherwise it is winning.
+* اگر مقدار صفر باشد، وضعیت فعلی بازنده است، در غیر این صورت برنده است.
 
-In comparison to the previous section, we take into account the fact that there can be transitions to combined games.
-We consider them a Nim with pile sizes equal to the independent games' Grundy values.
-We can xor-sum them just like usual Nim according to Bouton's theorem.
+در مقایسه با بخش قبل، این واقعیت را در نظر می‌گیریم که ممکن است انتقال‌هایی به بازی‌های ترکیبی وجود داشته باشد.
+ما آن‌ها را به عنوان یک بازی نیم در نظر می‌گیریم که اندازه کپه‌های آن برابر با مقادیر گراندی بازی‌های مستقل است.
+طبق قضیه بوتون، می‌توانیم آنها را مانند بازی نیم معمولی با هم xor کنیم.
 
-## Patterns in Grundy values
+## الگوها در مقادیر گراندی
 
-Very often when solving specific tasks using Grundy values, it may be beneficial to **study the table of the values** in search of patterns.
+اغلب هنگام حل مسائل خاص با استفاده از مقادیر گراندی، **مطالعه جدول مقادیر** برای یافتن الگوها می‌تواند مفید باشد.
 
-In many games, which may seem rather difficult for theoretical analysis,
-the Grundy values turn out to be periodic or of an easily understandable form.
-In the overwhelming majority of cases the observed pattern turns out to be true and can be proved by induction if desired.
+در بسیاری از بازی‌ها که تحلیل نظری آن‌ها ممکن است دشوار به نظر برسد، مقادیر گراندی به صورت دوره‌ای یا شکلی به سادگی قابل درک ظاهر می‌شوند.
+در اکثریت قریب به اتفاق موارد، الگوی مشاهده شده صحیح است و در صورت تمایل می‌توان آن را با استقرا اثبات کرد.
 
-However, Grundy values are far from *always* containing such regularities and even for some very simple games, the problem asking if those regularities exist is still open (e.g. "Grundy's game").
+با این حال، مقادیر گراندی *همیشه* حاوی چنین نظم‌هایی نیستند و حتی برای برخی بازی‌های بسیار ساده، مسئله وجود این نظم‌ها هنوز یک مسئله باز است (مثلاً "بازی گراندی").
 
-## Example games
+## بازی‌های نمونه
 
-### Crosses-crosses
+### صلیب-صلیب
 
-**The rules.**
-Consider a checkered strip of size $1 \times n$. In one move, the player must put one cross, but it is forbidden to put two crosses next to each other (in adjacent cells). As usual, the player without a valid move loses.
+**قوانین.**
+یک نوار شطرنجی به اندازه $1 \times n$ را در نظر بگیرید. در یک حرکت، بازیکن باید یک صلیب قرار دهد، اما قرار دادن دو صلیب در کنار هم (در خانه‌های مجاور) ممنوع است. طبق معمول، بازیکنی که حرکت معتبری نداشته باشد، می‌بازد.
 
-**The solution.**
-When a player puts a cross in any cell, we can think of the strip being split into two independent parts:
-to the left of the cross and to the right of it.
-In this case, the cell with a cross, as well as its left and right neighbours are destroyed — nothing more can be put in them.
-Therefore, if we number the cells from $1$ to $n$ then putting the cross in position $1 < i < n$ breaks the strip
-into two strips of length $i-2$ and $n-i-1$ i.e. we go to the sum of games $i-2$ and $n-i-1$.
-For the edge case of the cross being marked on position $1$ or $n$, we go to the game $n-2$.
+**راه حل.**
+وقتی یک بازیکن در هر خانه‌ای یک صلیب قرار می‌دهد، می‌توانیم اینطور در نظر بگیریم که نوار به دو بخش مستقل تقسیم می‌شود: بخش سمت چپ صلیب و بخش سمت راست آن.
+در این حالت، خانه دارای صلیب و همچنین همسایه‌های چپ و راست آن از بین می‌روند — دیگر نمی‌توان چیزی در آن‌ها قرار داد.
+بنابراین، اگر خانه‌ها را از $1$ تا $n$ شماره‌گذاری کنیم، قرار دادن صلیب در موقعیت $1 < i < n$ نوار را به دو نوار به طول $i-2$ و $n-i-1$ می‌شکند، یعنی به مجموع بازی‌های $i-2$ و $n-i-1$ منتقل می‌شویم.
+برای حالت‌های کناری که صلیب در موقعیت $1$ یا $n$ قرار می‌گیرد، به بازی $n-2$ منتقل می‌شویم.
 
-Thus, the Grundy value $g(n)$ has the form:
+بنابراین، مقدار گراندی $g(n)$ به این شکل است:
 
 $$g(n) = \text{mex} \Bigl( \{ g(n-2) \} \cup \{g(i-2) \oplus g(n-i-1) \mid 2 \leq i \leq n-1\} \Bigr) .$$
 
-So we've got a $O(n^2)$ solution.
+بنابراین ما یک راه‌حل با پیچیدگی $O(n^2)$ داریم.
 
-In fact, $g(n)$ has a period of length 34 starting with $n=52$.
+در واقع، $g(n)$ از $n=52$ به بعد دارای یک دوره تناوب به طول ۳۴ است.
 
-
-## Practice Problems
+## مسائل تمرینی
 
 - [KATTIS S-Nim](https://open.kattis.com/problems/snim)
 - [CodeForces - Marbles (2018-2019 ACM-ICPC Brazil Subregional)](https://codeforces.com/gym/101908/problem/B)

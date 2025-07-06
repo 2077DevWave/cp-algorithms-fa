@@ -1,53 +1,53 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: knuth-optimization
 ---
 
-# Knuth's Optimization
+# بهینه‌سازی Knuth
 
-Knuth's optimization, also known as the Knuth-Yao Speedup, is a special case of dynamic programming on ranges, that can optimize the time complexity of solutions by a linear factor, from $O(n^3)$ for standard range DP to $O(n^2)$.
+بهینه‌سازی Knuth، که با نام Knuth-Yao Speedup نیز شناخته می‌شود، حالت خاصی از برنامه‌نویسی پویا روی بازه‌ها است که می‌تواند پیچیدگی زمانی راه‌حل‌ها را به اندازه یک ضریب خطی، از $O(n^3)$ برای برنامه‌نویسی پویای بازه‌ای استاندارد به $O(n^2)$ کاهش دهد.
 
-## Conditions
+## شرایط
 
-The Speedup is applied for transitions of the form
+این بهینه‌سازی (Speedup) برای انتقال‌هایی به شکل زیر اعمال می‌شود:
 
 $$dp(i, j) = \min_{i \leq k < j} [ dp(i, k) + dp(k+1, j) + C(i, j) ].$$
 
-Similar to [divide and conquer DP](./divide-and-conquer-dp.md), let $opt(i, j)$ be the value of $k$ that minimizes the expression in the transition ($opt$ is referred to as the "optimal splitting point" further in this article). The optimization requires that the following holds:
+مشابه با [برنامه‌نویسی پویای تقسیم و غلبه](./divide-and-conquer-dp.md)، فرض کنید $opt(i, j)$ مقداری از $k$ باشد که عبارت موجود در انتقال را کمینه می‌کند ($opt$ در ادامه این مقاله به عنوان «نقطه شکست بهینه» نامیده می‌شود). این بهینه‌سازی نیازمند برقراری شرط زیر است:
 
 $$opt(i, j-1) \leq opt(i, j) \leq opt(i+1, j).$$
 
-We can show that it is true when the cost function $C$ satisfies the following conditions for $a \leq b \leq c \leq d$:
+می‌توان نشان داد که این شرط زمانی برقرار است که تابع هزینه $C$ در شرایط $a \leq b \leq c \leq d$ صدق کند:
 
 1. $C(b, c) \leq C(a, d)$;
 
-2. $C(a, c) + C(b, d) \leq C(a, d) + C(b, c)$ (the quadrangle inequality [QI]).
+2. $C(a, c) + C(b, d) \leq C(a, d) + C(b, c)$ (نامساوی چهارضلعی یا Quadrangle Inequality [QI]).
 
-This result is proved further below.
+این نتیجه در ادامه اثبات می‌شود.
 
-## Algorithm
+## الگوریتم
 
-Let's process the dp states in such a way that we calculate $dp(i, j-1)$ and $dp(i+1, j)$ before $dp(i, j)$, and in doing so we also calculate $opt(i, j-1)$ and $opt(i+1, j)$. Then for calculating $opt(i, j)$, instead of testing values of $k$ from $i$ to $j-1$, we only need to test from $opt(i, j-1)$ to $opt(i+1, j)$. To process $(i,j)$ pairs in this order it is sufficient to use nested for loops in which $i$ goes from the maximum value to the minimum one and $j$ goes from $i+1$ to the maximum value.
+بیایید حالت‌های `dp` را به گونه‌ای پردازش کنیم که $dp(i, j-1)$ و $dp(i+1, j)$ را قبل از $dp(i, j)$ محاسبه کنیم و در حین این کار، $opt(i, j-1)$ و $opt(i+1, j)$ را نیز به دست آوریم. سپس برای محاسبه $opt(i, j)$، به جای آزمودن مقادیر $k$ از $i$ تا $j-1$، تنها لازم است مقادیر را از $opt(i, j-1)$ تا $opt(i+1, j)$ بررسی کنیم. برای پردازش زوج‌های $(i,j)$ با این ترتیب، کافی است از حلقه‌های `for` تودرتو استفاده کنیم که در آن $i$ از مقدار بیشینه به کمینه و $j$ از $i+1$ تا مقدار بیشینه حرکت می‌کند.
 
-### Generic implementation
+### پیاده‌سازی عمومی
 
-Though implementation varies, here's a fairly generic
-example. The structure of the code is almost identical to that of Range DP.
+اگرچه پیاده‌سازی‌ها متفاوت است، در اینجا یک مثال نسبتاً عمومی آورده شده است. ساختار کد تقریباً با برنامه‌نویسی پویای بازه‌ای (Range DP) یکسان است.
 
 ```{.cpp file=knuth_optimization}
 
 int solve() {
     int N;
-    ... // read N and input
+    ... // خواندن N و ورودی
     int dp[N][N], opt[N][N];
 
     auto C = [&](int i, int j) {
-        ... // Implement cost function C.
+        ... // پیاده‌سازی تابع هزینه C.
     };
 
     for (int i = 0; i < N; i++) {
         opt[i][i] = i;
-        ... // Initialize dp[i][i] according to the problem
+        ... // مقداردهی اولیه dp[i][i] بر اساس مسئله
     }
 
     for (int i = N-2; i >= 0; i--) {
@@ -68,98 +68,98 @@ int solve() {
 }
 ```
 
-### Complexity
+### پیچیدگی
 
-A complexity of the algorithm can be estimated as the following sum:
+پیچیدگی الگوریتم را می‌توان با جمع زیر تخمین زد:
 
 $$
 \sum\limits_{i=1}^N \sum\limits_{j=i+1}^N [opt(i+1,j)-opt(i,j-1)] =
 \sum\limits_{i=1}^N \sum\limits_{j=i}^{N-1} [opt(i+1,j+1)-opt(i,j)].
 $$
 
-As you see, most of the terms in this expression cancel each other out, except for positive terms with $j=N-1$ and negative terms with $i=1$. Thus, the whole sum can be estimated as
+همانطور که می‌بینید، بیشتر جملات در این عبارت یکدیگر را خنثی می‌کنند، به جز جملات مثبت با $j=N-1$ و جملات منفی با $i=1$. بنابراین، کل مجموع را می‌توان به صورت زیر تخمین زد
 
 $$
 \sum\limits_{k=1}^N[opt(k,N)-opt(1,k)] = O(n^2),
 $$
 
-rather than $O(n^3)$ as it would be if we were using a regular range DP.
+به جای $O(n^3)$ که در صورت استفاده از یک برنامه‌نویسی پویای بازه‌ای معمولی به دست می‌آمد.
 
-### On practice
+### در عمل
 
-The most common application of Knuth's optimization is in Range DP, with the given transition. The only difficulty is in proving that the cost function satisfies the given conditions. The simplest case is when the cost function $C(i, j)$ is simply the sum of the elements of the subarray $S[i, i+1, ..., j]$ for some array (depending on the question). However, they can be more complicated at times. 
+رایج‌ترین کاربرد بهینه‌سازی Knuth در برنامه‌نویسی پویای بازه‌ای (Range DP)، با انتقال داده شده است. تنها دشواری، اثبات این است که تابع هزینه در شرایط داده شده صدق می‌کند. ساده‌ترین حالت زمانی است که تابع هزینه $C(i, j)$ به سادگی برابر با مجموع عناصر زیرآرایه $S[i, i+1, ..., j]$ برای یک آرایه خاص (بسته به مسئله) باشد. با این حال، گاهی اوقات این توابع می‌توانند پیچیده‌تر باشند.
 
-Note that more than the conditions on the dp transition and the cost function, the key to this optimization is the inequality on the optimum splitting point. In some problems, such as the optimal binary search tree problem (which is, incidentally, the original problem for which this optimization was developed), the transitions and cost functions will be less obvious, however, one can still prove that $opt(i, j-1) \leq opt(i, j) \leq opt(i+1, j)$, and thus, use this optimization.
+توجه داشته باشید که مهم‌تر از شرایط مربوط به انتقال `dp` و تابع هزینه، کلید این بهینه‌سازی، نامساوی مربوط به نقطه شکست بهینه است. در برخی مسائل، مانند مسئله درخت جستجوی دودویی بهینه (که اتفاقاً، مسئله اصلی‌ای است که این بهینه‌سازی برای آن توسعه یافته است)، انتقال‌ها و توابع هزینه کمتر واضح خواهند بود، با این حال، همچنان می‌توان اثبات کرد که $opt(i, j-1) \leq opt(i, j) \leq opt(i+1, j)$ برقرار است و در نتیجه از این بهینه‌سازی استفاده کرد.
 
 
-### Proof of correctness
+### اثبات درستی
 
-To prove the correctness of this algorithm in terms of $C(i,j)$ conditions, it suffices to prove that
+برای اثبات درستی این الگوریتم بر اساس شرایط $C(i,j)$، کافی است اثبات کنیم که:
 
 $$
 opt(i, j-1) \leq opt(i, j) \leq opt(i+1, j)
 $$
 
-assuming the given conditions are satisfied. 
+با فرض اینکه شرایط داده شده برقرار هستند.
 
-!!! lemma "Lemma"
-    $dp(i, j)$ also satisfies the quadrangle inequality, given the conditions of the problem are satisfied.
+!!! lemma "لم"
+    $dp(i, j)$ نیز در نامساوی چهارضلعی صدق می‌کند، به شرطی که شرایط مسئله برقرار باشند.
 
-??? hint "Proof"
-    The proof for this lemma uses strong induction. It has been taken from the paper <a href="https://dl.acm.org/doi/pdf/10.1145/800141.804691">Efficient Dynamic Programming Using Quadrangle Inequalities</a>, authored by F. Frances Yao, which introduced the Knuth-Yao Speedup (this particular statement is Lemma 2.1 in the paper). The idea is to induct on the length $l = d - a$. The case where $l = 1$ is trivial. For $l > 1$ consider 2 cases:  
+??? hint "اثبات"
+    اثبات این لم از استقرای قوی استفاده می‌کند. این اثبات از مقاله <a href="https://dl.acm.org/doi/pdf/10.1145/800141.804691">Efficient Dynamic Programming Using Quadrangle Inequalities</a>، نوشته F. Frances Yao که بهینه‌سازی Knuth-Yao Speedup را معرفی کرد، گرفته شده است (این گزاره خاص، لم 2.1 در آن مقاله است). ایده اصلی، استقرا بر روی طول $l = d - a$ است. حالت $l = 1$ بدیهی است. برای $l > 1$ دو حالت را در نظر می‌گیریم:
 
     1. $b = c$  
-    The inequality reduces to $dp(a, b) + dp(b, d) \leq dp(a, d)$ (This assumes that $dp(i, i) = 0$ for all $i$, which is the case for all problems using this optimization). Let $opt(a,d) = z$. 
+    نامساوی به $dp(a, b) + dp(b, d) \leq dp(a, d)$ کاهش می‌یابد (این فرض می‌کند که $dp(i, i) = 0$ برای تمام $i$ها، که در تمام مسائلی که از این بهینه‌سازی استفاده می‌کنند، صادق است). فرض کنید $opt(a,d) = z$.
 
-        - If $z < j$,  
-        Note that
+        - اگر $z < b$ باشد،  
+        توجه داشته باشید که
         
             $$
             dp(a, b) \leq dp_{z}(a, b) = dp(a, z) + dp(z+1, b) + C(a, b).
             $$
             
-            Therefore,  
+            بنابراین،  
             
             $$
             dp(a, b) + dp(b, d) \leq dp(a, z) + dp(z+1, b) + dp(b, d) + C(a, b)
             $$
 
-            From the induction hypothesis, $dp(z+1, b) + dp(b, d) \leq dp(z+1, d)$. Also, it is given that $C(a, b) \leq C(a, d)$. Combining these 2 facts with above inequality yields the desired result.
+            از فرض استقرا، $dp(z+1, b) + dp(b, d) \leq dp(z+1, d)$ است. همچنین، داده شده است که $C(a, b) \leq C(a, d)$. ترکیب این دو واقعیت با نامساوی بالا، نتیجه مطلوب را به دست می‌دهد.
 
-        - If $z \geq j$, the proof of this case is symmetric to the previous case.
+        - اگر $z \geq b$ باشد، اثبات این حالت متقارن با حالت قبلی است.
 
     2. $b < c$  
-    Let $opt(b, c) = z$ and $opt(a, d) = y$. 
+    فرض کنید $opt(b, c) = z$ و $opt(a, d) = y$. 
         
-        - If $z \leq y$,  
+        - اگر $z \leq y$ باشد،  
         
             $$
             dp(a, c) + dp(b, d) \leq dp_{z}(a, c) + dp_{y}(b, d)
             $$
 
-            where
+            که در آن
 
             $$
             dp_{z}(a, c) + dp_{y}(b, d) = C(a, c) + C(b, d) + dp(a, z) + dp(z+1, c) + dp(b, y) + dp(y+1, d).
             $$
 
-            Using the QI on $C$ and on the dp state for the indices $z+1 \leq y+1 \leq c \leq d$ (from the induction hypothesis) yields the desired result.
+            با استفاده از QI روی $C$ و روی حالت dp برای اندیس‌های $z+1 \leq y+1 \leq c \leq d$ (از فرض استقرا)، نتیجه مطلوب به دست می‌آید.
         
-        - If $z > y$, the proof of this case is symmetric to the previous case.
+        - اگر $z > y$ باشد، اثبات این حالت متقارن با حالت قبلی است.
 
-    This completes the proof of the lemma.
+    این، اثبات لم را کامل می‌کند.
 
-Now, consider the following setup. We have 2 indices $i \leq p \leq q < j$. Set $dp_{k} = C(i, j) + dp(i, k) + dp(k+1, j)$.
+اکنون، ساختار زیر را در نظر بگیرید. دو اندیس $i \leq p \leq q < j$ داریم. قرار می‌دهیم $dp_{k} = C(i, j) + dp(i, k) + dp(k+1, j)$.
 
-Suppose we show that
+فرض کنید نشان دهیم که
 
 $$
 dp_{p}(i, j-1) \geq dp_{q}(i, j-1) \implies dp_{p}(i, j) \geq dp_{q}(i, j).
 $$
 
-Setting $q = opt(i, j-1)$, by definition, $dp_{p}(i, j-1) \geq dp_{q}(i, j-1)$. Therefore, applying the inequality to all $i \leq p \leq q$, we can infer that $opt(i, j)$ is at least as much as $opt(i, j-1)$, proving the first half of the inequality.
+با قرار دادن $q = opt(i, j-1)$، بنا به تعریف، $dp_{p}(i, j-1) \geq dp_{q}(i, j-1)$ است. بنابراین، با اعمال این نامساوی برای تمام $i \leq p \leq q$، می‌توان نتیجه گرفت که $opt(i, j)$ حداقل به اندازه $opt(i, j-1)$ است، که نیمه اول نامساوی را اثبات می‌کند.
 
-Now, using the QI on some indices $p+1 \leq q+1 \leq j-1 \leq j$, we get
+اکنون، با استفاده از QI روی اندیس‌های $p+1 \leq q+1 \leq j-1 \leq j$، داریم:
 
 $$\begin{align}
 &dp(p+1, j-1) + dp(q+1, j) ≤ dp(q+1, j-1) + dp(p+1, j) \\
@@ -169,7 +169,7 @@ $$\begin{align}
 \implies& dp_{p}(i, j-1) - dp_{q}(i, j-1) ≤ dp_{p}(i, j) - dp_{q}(i, j) \\
 \end{align}$$
 
-Finally,
+در نهایت،
 
 $$\begin{align}
 &dp_{p}(i, j-1) \geq dp_{q}(i, j-1) \\
@@ -177,19 +177,18 @@ $$\begin{align}
 &\implies dp_{p}(i, j) \geq dp_{q}(i, j)
 \end{align}$$  
 
-This proves the first part of the inequality, i.e., $opt(i, j-1) \leq opt(i, j)$. The second part $opt(i, j) \leq opt(i+1, j)$ can be shown with the same idea, starting with the inequality 
-$dp(i, p) + dp(i+1, q) ≤ dp(i+1, p) + dp(i, q)$.
+این بخش اول نامساوی، یعنی $opt(i, j-1) \leq opt(i, j)$ را اثبات می‌کند. بخش دوم، $opt(i, j) \leq opt(i+1, j)$، را می‌توان با ایده مشابهی، با شروع از نامساوی $dp(i, p) + dp(i+1, q) ≤ dp(i+1, p) + dp(i, q)$ نشان داد.
 
-This completes the proof.
+این اثبات را کامل می‌کند.
 
-## Practice Problems
+## مسائل تمرینی
 - [UVA - Cutting Sticks](https://onlinejudge.org/external/100/10003.pdf)
 - [UVA - Prefix Codes](https://onlinejudge.org/external/120/12057.pdf)
 - [SPOJ - Breaking String](https://www.spoj.com/problems/BRKSTRNG/)
 - [UVA - Optimal Binary Search Tree](https://onlinejudge.org/external/103/10304.pdf)
 
 
-## References
+## مراجع
 - [Geeksforgeeks Article](https://www.geeksforgeeks.org/knuths-optimization-in-dynamic-programming/)
 - [Doc on DP Speedups](https://home.cse.ust.hk/~golin/COMP572/Notes/DP_speedup.pdf)
 - [Efficient Dynamic Programming Using Quadrangle Inequalities](https://dl.acm.org/doi/pdf/10.1145/800141.804691)

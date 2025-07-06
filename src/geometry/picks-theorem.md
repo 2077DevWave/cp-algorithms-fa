@@ -1,55 +1,55 @@
 ---
 tags:
-  
-e_maxx_link: pick_grid_theorem
+  - AI Translated
+e_maxx_link: picks-theorem
 ---
 
-# Pick's Theorem
+# قضیه پیک
 
-A polygon without self-intersections is called lattice if all its vertices have integer coordinates in some 2D grid. Pick's theorem provides a way to compute the area of this polygon through the number of vertices that are lying on the boundary and the number of vertices that lie strictly inside the polygon.
+یک چندضلعی ساده (بدون خود-برخورد) را شبکه‌ای می‌نامیم اگر تمام رئوس آن در یک شبکه دو بعدی دارای مختصات صحیح باشند. قضیه پیک راهی برای محاسبه مساحت این چندضلعی با استفاده از تعداد نقاطی که روی مرز آن قرار دارند و تعداد نقاطی که کاملاً درون آن قرار دارند، ارائه می‌دهد.
 
-## Formula
+## فرمول
 
-Given a certain lattice polygon with non-zero area.
+یک چندضلعی شبکه‌ای با مساحت غیر صفر را در نظر بگیرید.
 
-We denote its area by $S$, the number of points with integer coordinates lying strictly inside the polygon by $I$ and the number of points lying on polygon sides by $B$.
+مساحت آن را با $S$، تعداد نقاط با مختصات صحیح که کاملاً درون چندضلعی قرار دارند را با $I$ و تعداد نقاطی که روی اضلاع چندضلعی قرار دارند را با $B$ نمایش می‌دهیم.
 
-Then, the **Pick's formula** states:
+در این صورت، **فرمول پیک** بیان می‌کند:
 
 $$S=I+\frac{B}{2}-1$$
 
-In particular, if the values of $I$ and $B$ for a polygon are given, the area can be calculated in $O(1)$ without even knowing the vertices.
+به طور خاص، اگر مقادیر $I$ و $B$ برای یک چندضلعی داده شده باشند، مساحت آن را می‌توان در زمان $O(1)$ و حتی بدون دانستن رئوس آن محاسبه کرد.
 
-This formula was discovered and proven by Austrian mathematician Georg Alexander Pick in 1899.
+این فرمول در سال ۱۸۹۹ توسط ریاضیدان اتریشی، گئورگ الکساندر پیک، کشف و اثبات شد.
 
-## Proof
+## اثبات
 
-The proof is carried out in many stages: from simple polygons to arbitrary ones:
+اثبات در چند مرحله انجام می‌شود: از چندضلعی‌های ساده شروع کرده و به چندضلعی‌های دلخواه می‌رسیم:
 
-- A single square: $S=1, I=0, B=4$, which satisfies the formula.
+-   یک مربع واحد: $S=1, I=0, B=4$ که در فرمول صدق می‌کند.
 
-- An arbitrary non-degenerate rectangle with sides parallel to coordinate axes: Assume $a$ and $b$ be the length of the sides of rectangle. Then, $S=ab, I=(a-1)(b-1), B=2(a+b)$. On substituting, we see that formula is true.
+-   یک مستطیل دلخواه غیرتبهگن با اضلاع موازی با محورهای مختصات: فرض کنید طول اضلاع مستطیل $a$ و $b$ باشند. در این صورت داریم $S=ab, I=(a-1)(b-1), B=2(a+b)$. با جایگذاری این مقادیر، می‌بینیم که فرمول درست است.
 
-- A right angle with legs parallel to the axes: To prove this, note that any such triangle can be obtained by cutting off a rectangle by a diagonal. Denoting the number of integral points lying on diagonal by $c$, it can be shown that Pick's formula holds for this triangle regardless of $c$.
+-   یک مثلث قائم‌الزاویه با ساق‌های موازی با محورها: برای اثبات این مورد، توجه کنید که هر مثلث این‌چنینی را می‌توان با بریدن یک مستطیل توسط قطر آن به دست آورد. با فرض اینکه $c$ تعداد نقاط صحیح روی قطر باشد، می‌توان نشان داد که فرمول پیک برای این مثلث، صرف‌نظر از مقدار $c$، برقرار است.
 
-- An arbitrary triangle: Note that any such triangle can be turned into a rectangle by attaching it to sides of right-angled triangles with legs parallel to the axes (you will not need more than 3 such triangles). From here, we can get correct formula for any triangle.
+-   یک مثلث دلخواه: توجه کنید که هر مثلثی را می‌توان با الحاق مثلث‌های قائم‌الزاویه‌ای با ساق‌های موازی با محورها به آن، به یک مستطیل تبدیل کرد (به بیش از ۳ مثلث از این نوع نیاز نخواهید داشت). از اینجا می‌توان فرمول صحیح را برای هر مثلثی استخراج کرد.
 
-- An arbitrary polygon: To prove this, triangulate it, ie, divide into triangles with integral coordinates. Further, it is possible to prove that Pick's theorem retains its validity when a polygon is added to a triangle. Thus, we have proven Pick's formula for arbitrary polygon.
+-   یک چندضلعی دلخواه: برای اثبات، آن را مثلث‌بندی می‌کنیم، یعنی آن را به مثلث‌هایی با رئوس دارای مختصات صحیح تقسیم می‌کنیم. علاوه بر این، می‌توان اثبات کرد که وقتی یک مثلث به یک چندضلعی (که در قضیه صدق می‌کند) اضافه شود، قضیه پیک برای چندضلعی جدید نیز معتبر باقی می‌ماند. به این ترتیب، فرمول پیک را برای هر چندضلعی دلخواهی اثبات کرده‌ایم.
 
-## Generalization to higher dimensions
+## تعمیم به ابعاد بالاتر
 
-Unfortunately, this simple and beautiful formula cannot be generalized to higher dimensions.
+متأسفانه، این فرمول ساده و زیبا را نمی‌توان به ابعاد بالاتر تعمیم داد.
 
-John Reeve demonstrated this by proposing a tetrahedron (**Reeve tetrahedron**) with following vertices in 1957:
+جان ریو (John Reeve) در سال ۱۹۵۷ با معرفی یک چهاروجهی (**چهاروجهی Reeve**) با رئوس زیر این موضوع را نشان داد:
 
 $$A=(0,0,0),
 B=(1,0,0),
 C=(0,1,0),
 D=(1,1,k),$$
 
-where $k$ can be any natural number. Then for any $k$, the tetrahedron $ABCD$ does not contain integer point inside it and has only $4$ points on its borders, $A, B, C, D$. Thus, the volume and surface area may vary in spite of unchanged number of points within and on boundary. Therefore, Pick's theorem doesn't allow generalizations.
+که در آن $k$ می‌تواند هر عدد طبیعی باشد. در این صورت برای هر مقدار $k$، چهاروجهی $ABCD$ هیچ نقطه صحیحی در داخل خود ندارد و فقط ۴ نقطه روی مرزهایش دارد که همان رئوس $A, B, C, D$ هستند. بنابراین، حجم و مساحت سطح می‌توانند با وجود ثابت ماندن تعداد نقاط داخلی و مرزی، متغیر باشند. در نتیجه، قضیه پیک تعمیم‌پذیر نیست.
 
-However, higher dimensions still has a generalization using **Ehrhart polynomials** but they are quite complex and depends not only on points inside but also on the boundary of polytype.
+با این حال، برای ابعاد بالاتر تعمیمی با استفاده از **چندجمله‌ای‌های Ehrhart** وجود دارد، اما این چندجمله‌ای‌ها بسیار پیچیده هستند و نه تنها به نقاط داخلی، بلکه به مرز چندوجهی (polytope) نیز بستگی دارند.
 
-## Extra Resources
-A few simple examples and a simple proof of Pick's theorem can be found [here](http://www.geometer.org/mathcircles/pick.pdf).
+## منابع بیشتر
+چند مثال ساده و یک اثبات ساده برای قضیه پیک را می‌توانید [اینجا](http://www.geometer.org/mathcircles/pick.pdf) پیدا کنید.

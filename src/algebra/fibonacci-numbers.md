@@ -1,59 +1,59 @@
 ---
 tags:
-  
-e_maxx_link: fibonacci_numbers
+  - AI Translated
+e_maxx_link: fibonacci-numbers
 ---
 
-# Fibonacci Numbers
+# اعداد فیبوناچی
 
-The Fibonacci sequence is defined as follows:
+دنباله فیبوناچی به صورت زیر تعریف می‌شود:
 
 $$F_0 = 0, F_1 = 1, F_n = F_{n-1} + F_{n-2}$$
 
-The first elements of the sequence ([OEIS A000045](http://oeis.org/A000045)) are:
+عناصر اول این دنباله ([OEIS A000045](http://oeis.org/A000045)) عبارتند از:
 
 $$0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...$$
 
-## Properties
+## ویژگی‌ها
 
-Fibonacci numbers possess a lot of interesting properties. Here are a few of them:
+اعداد فیبوناچی ویژگی‌های جالب زیادی دارند. در اینجا به چند مورد از آنها اشاره می‌کنیم:
 
-* Cassini's identity:
-  
+*   اتحاد کاسینی:
+
 $$F_{n-1} F_{n+1} - F_n^2 = (-1)^n$$
 
->This can be proved by induction. A one-line proof by Knuth comes from taking the determinant of the 2x2 matrix form below.
+> این را می‌توان با استقرا اثبات کرد. یک اثبات یک خطی توسط Knuth از طریق محاسبه دترمینان شکل ماتریسی ۲x۲ زیر به دست می‌آید.
 
-* The "addition" rule:
-  
+*   قانون «جمع»:
+
 $$F_{n+k} = F_k F_{n+1} + F_{k-1} F_n$$
 
-* Applying the previous identity to the case $k = n$, we get:
-  
+*   با اعمال اتحاد قبلی برای حالت $k = n$، به دست می‌آوریم:
+
 $$F_{2n} = F_n (F_{n+1} + F_{n-1})$$
 
-* From this we can prove by induction that for any positive integer $k$,  $F_{nk}$ is multiple of $F_n$.
+*   از این طریق می‌توانیم با استقرا اثبات کنیم که برای هر عدد صحیح مثبت $k$، $F_{nk}$ مضربی از $F_n$ است.
 
-* The inverse is also true: if $F_m$ is multiple of $F_n$, then $m$ is multiple of $n$.
+*   عکس این قضیه نیز درست است: اگر $F_m$ مضربی از $F_n$ باشد، آنگاه $m$ مضربی از $n$ است.
 
-* GCD identity:
-  
+*   اتحاد ب.م.م:
+
 $$GCD(F_m, F_n) = F_{GCD(m, n)}$$
 
-* Fibonacci numbers are the worst possible inputs for Euclidean algorithm (see Lame's theorem in [Euclidean algorithm](euclid-algorithm.md))
+*   اعداد فیبوناچی بدترین ورودی‌های ممکن برای الگوریتم اقلیدس هستند (قضیه لامه را در [الگوریتم اقلیدس](euclid-algorithm.md) ببینید).
 
-## Fibonacci Coding
+## کدگذاری فیبوناچی
 
-We can use the sequence to encode positive integers into binary code words. According to Zeckendorf's theorem, any natural number $n$ can be uniquely represented as a sum of Fibonacci numbers:
+ما می‌توانیم از این دنباله برای کدگذاری اعداد صحیح مثبت به کلمات کد باینری استفاده کنیم. طبق قضیه زکندورف، هر عدد طبیعی $n$ را می‌توان به طور منحصر به فرد به صورت مجموعی از اعداد فیبوناچی نمایش داد:
 
 $$N = F_{k_1} + F_{k_2} + \ldots + F_{k_r}$$
 
-such that $k_1 \ge k_2 + 2,\ k_2 \ge k_3 + 2,\  \ldots,\  k_r \ge 2$ (i.e.: the representation cannot use two consecutive Fibonacci numbers).
+به طوری که $k_1 \ge k_2 + 2,\ k_2 \ge k_3 + 2,\ \ldots,\ k_r \ge 2$ باشد (یعنی: در این نمایش نمی‌توان از دو عدد فیبوناچی متوالی استفاده کرد).
 
-It follows that any number can be uniquely encoded in the Fibonacci coding.
-And we can describe this representation with binary codes $d_0 d_1 d_2 \dots d_s 1$, where $d_i$ is $1$ if $F_{i+2}$ is used in the representation.
-The code will be appended by a $1$ to indicate the end of the code word.
-Notice that this is the only occurrence where two consecutive 1-bits appear.
+نتیجه می‌شود که هر عددی را می‌توان به طور منحصر به فرد در کدگذاری فیبوناچی، کد کرد.
+و می‌توانیم این نمایش را با کدهای باینری $d_0 d_1 d_2 \dots d_s 1$ توصیف کنیم، که در آن $d_i$ برابر با $1$ است اگر $F_{i+2}$ در نمایش استفاده شده باشد.
+به انتهای کلمه کد یک $1$ اضافه می‌شود تا پایان آن را مشخص کند.
+توجه داشته باشید که این تنها جایی است که دو بیت ۱ متوالی ظاهر می‌شوند.
 
 $$\begin{eqnarray}
 1 &=& 1 &=& F_2 &=& (11)_F \\
@@ -64,44 +64,43 @@ $$\begin{eqnarray}
 19 &=& 13 + 5 + 1 &=& F_7 + F_5 + F_2 &=& (1001011)_F
 \end{eqnarray}$$
 
-The encoding of an integer $n$ can be done with a simple greedy algorithm:
+کدگذاری یک عدد صحیح $n$ را می‌توان با یک الگوریتم حریصانه ساده انجام داد:
 
-1. Iterate through the Fibonacci numbers from the largest to the smallest until you find one less than or equal to $n$.
+1.  اعداد فیبوناچی را از بزرگترین به کوچکترین پیمایش کنید تا عددی را بیابید که کوچکتر یا مساوی $n$ باشد.
 
-2. Suppose this number was $F_i$. Subtract $F_i$ from $n$ and put a $1$ in the $i-2$ position of the code word (indexing from 0 from the leftmost to the rightmost bit).
+2.  فرض کنید این عدد $F_i$ است. $F_i$ را از $n$ کم کنید و در موقعیت $i-2$ از کلمه کد یک $1$ قرار دهید (اندیس‌گذاری از ۰ از چپ‌ترین بیت به راست‌ترین بیت).
 
-3. Repeat until there is no remainder.
+3.  این کار را تا زمانی که باقیمانده‌ای وجود نداشته باشد تکرار کنید.
 
-4. Add a final $1$ to the codeword to indicate its end.
+4.  یک $1$ نهایی به کلمه کد اضافه کنید تا پایان آن را مشخص کند.
 
-To decode a code word, first remove the final $1$. Then, if the $i$-th bit is set (indexing from 0 from the leftmost to the rightmost bit), sum $F_{i+2}$ to the number.
+برای کدگشایی یک کلمه کد، ابتدا $1$ نهایی را حذف کنید. سپس، اگر بیت $i$-ام (اندیس‌گذاری از ۰ از چپ‌ترین بیت به راست‌ترین بیت) برابر ۱ بود، $F_{i+2}$ را به عدد اضافه کنید.
 
+## فرمول‌هایی برای عدد فیبوناچی $n$-ام { data-toc-label="فرمول‌هایی برای عدد فیبوناچی <script type='math/tex'>n</script>-ام" }
 
-## Formulas for the $n^{\text{th}}$ Fibonacci number { data-toc-label="Formulas for the <script type='math/tex'>n</script>-th Fibonacci number" }
+### عبارت فرم بسته
 
-### Closed-form expression
-
-There is a formula known as "Binet's formula", even though it was already known by Moivre:
+فرمول زیر به «فرمول بینه» معروف است، هرچند که پیش از او توسط مواور نیز شناخته شده بود:
 
 $$F_n = \frac{\left(\frac{1 + \sqrt{5}}{2}\right)^n - \left(\frac{1 - \sqrt{5}}{2}\right)^n}{\sqrt{5}}$$
 
-This formula is easy to prove by induction, but it can be deduced with the help of the concept of generating functions or by solving a functional equation.
+اثبات این فرمول با استقرا آسان است، اما می‌توان آن را با کمک مفهوم توابع مولد یا با حل یک معادله تابعی نیز به دست آورد.
 
-You can immediately notice that the second term's absolute value is always less than $1$, and it also decreases very rapidly (exponentially). Hence the value of the first term alone is "almost" $F_n$. This can be written strictly as: 
+می‌توان بلافاصله متوجه شد که قدر مطلق جمله دوم همیشه کمتر از $1$ است و همچنین به سرعت (به صورت نمایی) کاهش می‌یابد. از این رو، مقدار جمله اول به تنهایی «تقریباً» برابر با $F_n$ است. این را می‌توان به طور دقیق به صورت زیر نوشت:
 
 $$F_n = \left[\frac{\left(\frac{1 + \sqrt{5}}{2}\right)^n}{\sqrt{5}}\right]$$
 
-where the square brackets denote rounding to the nearest integer.
+که در آن براکت‌ها نشان‌دهنده گرد کردن به نزدیک‌ترین عدد صحیح هستند.
 
-As these two formulas would require very high accuracy when working with fractional numbers, they are of little use in practical calculations.
+از آنجایی که این دو فرمول هنگام کار با اعداد کسری به دقت بسیار بالایی نیاز دارند، در محاسبات عملی کاربرد چندانی ندارند.
 
-### Fibonacci in linear time
+### محاسبه فیبوناچی در زمان خطی
 
-The $n$-th Fibonacci number can be easily found in $O(n)$ by computing the numbers one by one up to $n$. However, there are also faster ways, as we will see.
+عدد فیبوناچی $n$-ام را می‌توان به راحتی در زمان $O(n)$ با محاسبه یک به یک اعداد تا $n$ پیدا کرد. با این حال، راه‌های سریع‌تری نیز وجود دارد که در ادامه خواهیم دید.
 
-We can start from an iterative approach, to take advantage of the use of the formula $F_n = F_{n-1} + F_{n-2}$, therefore, we will simply precalculate those values in an array. Taking into account the base cases for $F_0$ and $F_1$.
+با استفاده از فرمول $F_n = F_{n-1} + F_{n-2}$ و شروع از مقادیر پایه $F_0$ و $F_1$ می‌توانیم اعداد را به صورت تکراری محاسبه کنیم.
 
-```{.cpp file=fibonacci_linear}
+```cpp file=fibonacci_linear
 int fib(int n) {
     int a = 0;
     int b = 1;
@@ -114,11 +113,11 @@ int fib(int n) {
 }
 ```
 
-In this way, we obtain a linear solution, $O(n)$ time, saving all the values prior to $n$ in the sequence.
+با این روش، به یک راه حل خطی با زمان $O(n)$ می‌رسیم.
 
-### Matrix form
+### فرم ماتریسی
 
-To go from $(F_n, F_{n-1})$ to $(F_{n+1}, F_n)$, we can express the linear recurrence as a 2x2 matrix multiplication:
+برای رفتن از $(F_n, F_{n-1})$ به $(F_{n+1}, F_n)$، می‌توانیم رابطه بازگشتی خطی را به صورت ضرب ماتریس ۲x۲ بیان کنیم:
 
 $$
 \begin{pmatrix}
@@ -141,7 +140,7 @@ F_{n}
 \end{pmatrix}
 $$
 
-This lets us treat iterating the recurrence as repeated matrix multiplication, which has nice properties. In particular,
+این به ما امکان می‌دهد که تکرار رابطه بازگشتی را به عنوان ضرب ماتریس مکرر در نظر بگیریم که ویژگی‌های خوبی دارد. به طور خاص،
 
 $$
 \begin{pmatrix}
@@ -159,24 +158,24 @@ F_{n}
 \end{pmatrix}
 $$
 
-where $F_1 = 1, F_0 = 0$. 
-In fact, since 
+که در آن $F_1 = 1, F_0 = 0$ است.
+در واقع، از آنجایی که
 
 $$
 \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}
 = \begin{pmatrix} F_2 & F_1 \\ F_1 & F_0 \end{pmatrix}
 $$
 
-we can use the matrix directly:
+می‌توانیم از ماتریس به طور مستقیم استفاده کنیم:
 
 $$
 \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}^n
 = \begin{pmatrix} F_{n+1} & F_n \\ F_n & F_{n-1} \end{pmatrix}
 $$
 
-Thus, in order to find $F_n$ in $O(\log  n)$ time, we must raise the matrix to n. (See [Binary exponentiation](binary-exp.md))
+بنابراین، برای یافتن $F_n$ در زمان $O(\log n)$، باید ماتریس را به توان n برسانیم. (به [توان‌رسانی دودویی](binary-exp.md) مراجعه کنید).
 
-```{.cpp file=fibonacci_matrix}
+```cpp file=fibonacci_matrix
 struct matrix {
     long long mat[2][2];
     matrix friend operator *(const matrix &a, const matrix &b){
@@ -216,9 +215,9 @@ long long fib(int n) {
 }
 ```
 
-### Fast Doubling Method
+### روش دو برابر کردن سریع
 
-By expanding the above matrix expression for $n = 2\cdot k$
+با بسط دادن عبارت ماتریسی بالا برای $n = 2\cdot k$
 
 $$
 \begin{pmatrix}
@@ -238,16 +237,16 @@ F_{k} & F_{k-1}
 ^2
 $$
 
-we can find these simpler equations:
+می‌توانیم این معادلات ساده‌تر را پیدا کنیم:
 
 $$ \begin{align}
 F_{2k+1} &= F_{k+1}^2 + F_{k}^2 \\
 F_{2k} &= F_k(F_{k+1}+F_{k-1}) = F_k (2F_{k+1} - F_{k})\\
 \end{align}.$$
 
-Thus using above two equations Fibonacci numbers can be calculated easily by the following code:
+بنابراین با استفاده از دو معادله بالا، اعداد فیبوناچی را می‌توان به راحتی با کد زیر محاسبه کرد:
 
-```{.cpp file=fibonacci_doubling}
+```cpp file=fibonacci_doubling
 pair<int, int> fib (int n) {
     if (n == 0)
         return {0, 1};
@@ -261,33 +260,34 @@ pair<int, int> fib (int n) {
         return {c, d};
 }
 ```
-The above code returns $F_n$ and $F_{n+1}$ as a pair.
 
-## Periodicity modulo p
+کد بالا $F_n$ و $F_{n+1}$ را به صورت یک زوج برمی‌گرداند.
 
-Consider the Fibonacci sequence modulo $p$. We will prove the sequence is periodic.
+## تناوب به پیمانه p
 
-Let us prove this by contradiction. Consider the first $p^2 + 1$ pairs of Fibonacci numbers taken modulo $p$:
+دنباله فیبوناچی را به پیمانه $p$ در نظر بگیرید. ثابت خواهیم کرد که این دنباله متناوب است.
+
+این را با برهان خلف ثابت می‌کنیم. $p^2 + 1$ زوج اول از اعداد فیبوناچی را به پیمانه $p$ در نظر بگیرید:
 
 $$(F_0,\ F_1),\ (F_1,\ F_2),\ \ldots,\ (F_{p^2},\ F_{p^2 + 1})$$
 
-There can only be $p$ different remainders modulo $p$, and at most $p^2$ different pairs of remainders, so there are at least two identical pairs among them. This is sufficient to prove the sequence is periodic, as a Fibonacci number is only determined by its two predecessors. Hence if two pairs of consecutive numbers repeat, that would also mean the numbers after the pair will repeat in the same fashion.
+به پیمانه $p$ تنها $p$ باقیمانده مختلف و حداکثر $p^2$ زوج باقیمانده مختلف وجود دارد، بنابراین حداقل دو زوج یکسان در میان آنها وجود دارد. این برای اثبات تناوبی بودن دنباله کافی است، زیرا یک عدد فیبوناچی تنها توسط دو عدد قبلی خود تعیین می‌شود. از این رو، اگر دو زوج از اعداد متوالی تکرار شوند، به این معنی است که اعداد بعد از آن زوج نیز به همان شکل تکرار خواهند شد.
 
-We now choose two pairs of identical remainders with the smallest indices in the sequence. Let the pairs be $(F_a,\ F_{a + 1})$ and $(F_b,\ F_{b + 1})$. We will prove that $a = 0$. If this was false, there would be two previous pairs $(F_{a-1},\ F_a)$ and $(F_{b-1},\ F_b)$, which, by the property of Fibonacci numbers, would also be equal. However, this contradicts the fact that we had chosen pairs with the smallest indices, completing our proof that there is no pre-period (i.e the numbers are periodic starting from $F_0$).
+اکنون دو زوج از باقیمانده‌های یکسان را با کوچکترین اندیس‌ها در دنباله انتخاب می‌کنیم. فرض کنید این زوج‌ها $(F_a,\ F_{a + 1})$ و $(F_b,\ F_{b + 1})$ باشند. ثابت خواهیم کرد که $a = 0$ است. اگر این نادرست بود، دو زوج قبلی $(F_{a-1},\ F_a)$ و $(F_{b-1},\ F_b)$ وجود داشتند که طبق ویژگی اعداد فیبوناچی، آنها نیز باید برابر باشند. با این حال، این با این واقعیت که ما زوج‌هایی با کوچکترین اندیس‌ها را انتخاب کرده‌ایم در تناقض است و اثبات ما را مبنی بر عدم وجود پیش‌دوره (یعنی اعداد از $F_0$ به بعد متناوب هستند) کامل می‌کند.
 
-## Practice Problems
+## مسائل تمرینی
 
-* [SPOJ - Euclid Algorithm Revisited](http://www.spoj.com/problems/MAIN74/)
-* [SPOJ - Fibonacci Sum](http://www.spoj.com/problems/FIBOSUM/)
-* [HackerRank - Is Fibo](https://www.hackerrank.com/challenges/is-fibo/problem)
-* [Project Euler - Even Fibonacci numbers](https://www.hackerrank.com/contests/projecteuler/challenges/euler002/problem)
-* [DMOJ - Fibonacci Sequence](https://dmoj.ca/problem/fibonacci)
-* [DMOJ - Fibonacci Sequence (Harder)](https://dmoj.ca/problem/fibonacci2)
-* [DMOJ UCLV - Numbered sequence of pencils](https://dmoj.uclv.edu.cu/problem/secnum)
-* [DMOJ UCLV - Fibonacci 2D](https://dmoj.uclv.edu.cu/problem/fibonacci)
-* [DMOJ UCLV - fibonacci calculation](https://dmoj.uclv.edu.cu/problem/fibonaccicalculatio)
-* [LightOJ -  Number Sequence](https://lightoj.com/problem/number-sequence)
-* [Codeforces - C. Fibonacci](https://codeforces.com/problemset/gymProblem/102644/C)
-* [Codeforces - A. Hexadecimal's theorem](https://codeforces.com/problemset/problem/199/A)
-* [Codeforces - B. Blackboard Fibonacci](https://codeforces.com/problemset/problem/217/B)
-* [Codeforces - E. Fibonacci Number](https://codeforces.com/problemset/problem/193/E)
+*   [SPOJ - Euclid Algorithm Revisited](http://www.spoj.com/problems/MAIN74/)
+*   [SPOJ - Fibonacci Sum](http://www.spoj.com/problems/FIBOSUM/)
+*   [HackerRank - Is Fibo](https://www.hackerrank.com/challenges/is-fibo/problem)
+*   [Project Euler - Even Fibonacci numbers](https://www.hackerrank.com/contests/projecteuler/challenges/euler002/problem)
+*   [DMOJ - Fibonacci Sequence](https://dmoj.ca/problem/fibonacci)
+*   [DMOJ - Fibonacci Sequence (Harder)](https://dmoj.ca/problem/fibonacci2)
+*   [DMOJ UCLV - Numbered sequence of pencils](https://dmoj.uclv.edu.cu/problem/secnum)
+*   [DMOJ UCLV - Fibonacci 2D](https://dmoj.uclv.edu.cu/problem/fibonacci)
+*   [DMOJ UCLV - fibonacci calculation](https://dmoj.uclv.edu.cu/problem/fibonaccicalculatio)
+*   [LightOJ -  Number Sequence](https://lightoj.com/problem/number-sequence)
+*   [Codeforces - C. Fibonacci](https://codeforces.com/problemset/gymProblem/102644/C)
+*   [Codeforces - A. Hexadecimal's theorem](https://codeforces.com/problemset/problem/199/A)
+*   [Codeforces - B. Blackboard Fibonacci](https://codeforces.com/problemset/problem/217/B)
+*   [Codeforces - E. Fibonacci Number](https://codeforces.com/problemset/problem/193/E)

@@ -1,51 +1,48 @@
 ---
-title: Check if point belongs to the convex polygon in O(log N)
 tags:
-  
-e_maxx_link: pt_in_polygon
+  - AI Translated
+e_maxx_link: point-in-convex-polygon
 ---
-# Check if point belongs to the convex polygon in $O(\log N)$
 
-Consider the following problem: you are given a convex polygon with integer vertices and a lot of queries.
-Each query is a point, for which we should determine whether it lies inside or on the boundary of the polygon or not.
-Suppose the polygon is ordered counter-clockwise. We will answer each query in $O(\log n)$ online.
+# بررسی تعلق یک نقطه به چندضلعی محدب در $O(\log N)$
 
-## Algorithm
-Let's pick the point with the smallest x-coordinate. If there are several of them, we pick the one with the smallest y-coordinate. Let's denote it as $p_0$.
-Now all other points $p_1,\dots,p_n$ of the polygon are ordered by their polar angle from the chosen point (because the polygon is ordered counter-clockwise).
+مسئله زیر را در نظر بگیرید: یک چندضلعی محدب با رئوس صحیح و تعداد زیادی پرس‌وجو (query) به شما داده شده است. هر پرس‌وجو یک نقطه است که باید تعیین کنیم آیا درون چندضلعی یا روی مرز آن قرار دارد یا خیر. فرض کنید رئوس چندضلعی به ترتیب پادساعتگرد مرتب شده‌اند. ما به هر پرس‌وجو به صورت آنلاین و در زمان $O(\log n)$ پاسخ خواهیم داد.
 
-If the point belongs to the polygon, it belongs to some triangle $p_0, p_i, p_{i + 1}$ (maybe more than one if it lies on the boundary of triangles).
-Consider the triangle $p_0, p_i, p_{i + 1}$ such that $p$ belongs to this triangle and $i$ is maximum among all such triangles.
+## الگوریتم
+نقطه‌ای با کوچکترین مختص x را انتخاب می‌کنیم. اگر چند نقطه با این ویژگی وجود داشت، نقطه‌ای را انتخاب می‌کنیم که کوچکترین مختص y را داشته باشد. این نقطه را $p_0$ می‌نامیم.
+حال، تمام نقاط دیگر چندضلعی، یعنی $p_1,\dots,p_n$، بر اساس زاویه قطبی‌شان نسبت به نقطه انتخابی مرتب شده‌اند (زیرا چندضلعی به ترتیب پادساعتگرد مرتب شده است).
 
-There is one special case. $p$ lies on the segment $(p_0, p_n)$. This case we will check separately.
-Otherwise all points $p_j$ with $j \le i$ are counter-clockwise from $p$ with respect to $p_0$, and all other points are not counter-clockwise from $p$.
-This means that we can apply binary search for the point $p_i$, such that $p_i$ is not counter-clockwise from $p$ with respect to $p_0$, and $i$ is maximum among all such points.
-And afterwards we check if the points is actually in the determined triangle.
+اگر نقطه مورد نظر متعلق به چندضلعی باشد، متعلق به یک مثلث $p_0, p_i, p_{i + 1}$ خواهد بود (و اگر روی مرز مشترک مثلث‌ها قرار داشته باشد، ممکن است متعلق به بیش از یک مثلث باشد).
+مثلث $p_0, p_i, p_{i + 1}$ را در نظر بگیرید به طوری که نقطه $p$ به این مثلث تعلق داشته باشد و $i$ در میان تمام چنین مثلث‌هایی بیشترین مقدار ممکن باشد.
 
-The sign of $(a - c) \times (b - c)$ will tell us, if the point $a$ is clockwise or counter-clockwise from the point $b$ with respect to the point $c$.
-If $(a - c) \times (b - c) > 0$, then the point $a$ is to the right of the vector going from $c$ to $b$, which means clockwise from $b$ with respect to $c$.
-And if $(a - c) \times (b - c) < 0$, then the point is to the left, or counter clockwise.
-And it is exactly on the line between the points $b$ and $c$.
+یک حالت خاص وجود دارد که $p$ روی پاره‌خط $(p_0, p_n)$ قرار می‌گیرد. این حالت را جداگانه بررسی خواهیم کرد.
+در غیر این صورت، تمام نقاط $p_j$ با $j \le i$ نسبت به $p_0$ در جهت پادساعتگرد از $p$ قرار دارند، و تمام نقاط دیگر این‌طور نیستند.
+این بدان معناست که می‌توانیم با جستجوی دودویی، نقطه‌ی $p_i$ را پیدا کنیم به طوری که $p_i$ نسبت به $p_0$ در جهت پادساعتگرد از $p$ قرار *نداشته باشد* و $i$ در میان تمام چنین نقاطی بیشترین مقدار باشد.
+و پس از آن، بررسی می‌کنیم که آیا نقطه واقعاً در مثلث تعیین‌شده قرار دارد یا خیر.
 
-Back to the algorithm:
-Consider a query point $p$.
-Firstly, we must check if the point lies between $p_1$ and $p_n$.
-Otherwise we already know that it cannot be part of the polygon.
-This can be done by checking if the cross product $(p_1 - p_0)\times(p - p_0)$ is zero or has the same sign with $(p_1 - p_0)\times(p_n - p_0)$, and $(p_n - p_0)\times(p - p_0)$ is zero or has the same sign with $(p_n - p_0)\times(p_1 - p_0)$.
-Then we handle the special case in which $p$ is part of the line $(p_0, p_1)$.
-And then we can binary search the last point from $p_1,\dots p_n$ which is not counter-clockwise from $p$ with respect to $p_0$.
-For a single point $p_i$ this condition can be checked by checking that $(p_i - p_0)\times(p - p_0) \le 0$. After we found such a point $p_i$, we must test if $p$ lies inside the triangle $p_0, p_i, p_{i + 1}$.
-To test if it belongs to the triangle, we may simply check that $|(p_i - p_0)\times(p_{i + 1} - p_0)| = |(p_0 - p)\times(p_i - p)| + |(p_i - p)\times(p_{i + 1} - p)| + |(p_{i + 1} - p)\times(p_0 - p)|$.
-This checks if the area of the triangle $p_0, p_i, p_{i+1}$ has to exact same size as the sum of the sizes of the triangle $p_0, p_i, p$, the triangle $p_0, p, p_{i+1}$ and the triangle $p_i, p_{i+1}, p$.
-If $p$ is outside, then the sum of those three triangle will be bigger than the size of the triangle.
-If it is inside, then it will be equal.
+علامت $(a - c) \times (b - c)$ به ما می‌گوید که آیا نقطه $a$ نسبت به نقطه $b$ حول نقطه $c$، در جهت ساعتگرد است یا پادساعتگرد.
+اگر $(a - c) \times (b - c) > 0$ باشد، آنگاه نقطه $a$ در سمت راست برداری قرار دارد که از $c$ به $b$ می‌رود، که به معنای ساعتگرد بودن آن نسبت به $b$ حول $c$ است.
+و اگر $(a - c) \times (b - c) < 0$ باشد، آنگاه نقطه در سمت چپ، یا پادساعتگرد قرار دارد.
+و اگر حاصلضرب صفر باشد، نقطه دقیقاً روی خطی است که از نقاط $b$ و $c$ می‌گذرد.
 
-## Implementation
+بازگردیم به الگوریتم:
+نقطه پرس‌وجو $p$ را در نظر بگیرید.
+ابتدا باید بررسی کنیم که آیا نقطه بین $p_1$ و $p_n$ قرار می‌گیرد.
+در غیر این صورت از قبل می‌دانیم که نمی‌تواند بخشی از چندضلعی باشد.
+این کار را می‌توان با بررسی این موضوع انجام داد که آیا حاصلضرب خارجی $(p_1 - p_0)\times(p - p_0)$ صفر است یا علامتی یکسان با $(p_1 - p_0)\times(p_n - p_0)$ دارد، و همچنین آیا $(p_n - p_0)\times(p - p_0)$ صفر است یا علامتی یکسان با $(p_n - p_0)\times(p_1 - p_0)$ دارد.
+سپس حالت خاصی را که در آن $p$ بخشی از خط $(p_0, p_1)$ است، مدیریت می‌کنیم.
+و سپس می‌توانیم با جستجوی دودویی، آخرین نقطه از میان $p_1,\dots p_n$ را پیدا کنیم که نسبت به $p_0$ در جهت پادساعتگرد از $p$ قرار *ندارد*.
+برای یک نقطه منفرد $p_i$ این شرط را می‌توان با بررسی $(p_i - p_0)\times(p - p_0) \le 0$ انجام داد. پس از یافتن چنین نقطه‌ای $p_i$، باید بررسی کنیم که آیا $p$ درون مثلث $p_0, p_i, p_{i + 1}$ قرار دارد یا خیر.
+برای آزمایش تعلق نقطه به مثلث، می‌توانیم به سادگی بررسی کنیم که آیا $|(p_i - p_0)\times(p_{i + 1} - p_0)| = |(p_0 - p)\times(p_i - p)| + |(p_i - p)\times(p_{i + 1} - p)| + |(p_{i + 1} - p)\times(p_0 - p)|$ برقرار است.
+این رابطه بررسی می‌کند که آیا مساحت مثلث $p_0, p_i, p_{i+1}$ دقیقاً با مجموع مساحت‌های سه مثلث $p, p_0, p_i$ و $p, p_i, p_{i+1}$ و $p, p_{i+1}, p_0$ برابر است.
+اگر $p$ بیرون باشد، مجموع مساحت آن سه مثلث از مساحت مثلث اصلی بزرگتر خواهد بود. اگر داخل باشد، برابر خواهد بود.
 
-The function `prepare` will make sure that the lexicographical smallest point (smallest x value, and in ties smallest y value) will be $p_0$, and computes the vectors $p_i - p_0$.
-Afterwards the function `pointInConvexPolygon` computes the result of a query.
-We additionally remember the point $p_0$ and translate all queried points with it in order compute the correct distance, as vectors don't have an initial point.
-By translating the query points we can assume that all vectors start at the origin $(0, 0)$, and simplify the computations for distances and lengths.
+## پیاده‌سازی
+
+تابع `prepare` تضمین می‌کند که نقطه‌ی با کوچکترین مقدار لغوی (کوچکترین مقدار x، و در صورت تساوی، کوچکترین مقدار y) به عنوان $p_0$ انتخاب شود و بردارهای $p_i - p_0$ را محاسبه می‌کند.
+پس از آن، تابع `pointInConvexPolygon` نتیجه یک پرس‌وجو را محاسبه می‌کند.
+ما همچنین نقطه $p_0$ را به خاطر می‌سپاریم و تمام نقاط پرس‌وجو شده را با آن انتقال (translate) می‌دهیم تا فاصله صحیح را محاسبه کنیم، زیرا بردارها نقطه شروع مشخصی ندارند.
+با انتقال نقاط پرس‌وجو، می‌توانیم فرض کنیم که تمام بردارها از مبدأ $(0, 0)$ شروع می‌شوند و محاسبات مربوط به فاصله‌ها و طول‌ها را ساده‌تر کنیم.
 
 ```{.cpp file=points_in_convex_polygon}
 struct pt {
@@ -119,6 +116,6 @@ bool pointInConvexPolygon(pt point) {
 }
 ```
 
-## Problems
+## مسائل
 [SGU253 Theodore Roosevelt](https://codeforces.com/problemsets/acmsguru/problem/99999/253)
 [Codeforces 55E Very simple problem](https://codeforces.com/contest/55/problem/E)

@@ -1,25 +1,25 @@
 ---
 tags:
-  
-e_maxx_link: ukkonen
+  - AI Translated
+e_maxx_link: suffix-tree-ukkonen
 ---
 
-# Suffix Tree. Ukkonen's Algorithm
+# درخت پسوندی. الگوریتم Ukkonen
 
-*This article is a stub and doesn't contain any descriptions. For a description of the algorithm, refer to other sources, such as [Algorithms on Strings, Trees, and Sequences](https://www.cs.cmu.edu/afs/cs/project/pscico-guyb/realworld/www/slidesF06/cmuonly/gusfield.pdf) by Dan Gusfield.*
+*این مقاله یک نوشتار خرد است و حاوی هیچ توضیحی نیست. برای مطالعه توضیحات الگوریتم، به منابع دیگر مانند کتاب [Algorithms on Strings, Trees, and Sequences](https://www.cs.cmu.edu/afs/cs/project/pscico-guyb/realworld/www/slidesF06/cmuonly/gusfield.pdf) نوشته Dan Gusfield مراجعه کنید.*
 
-This algorithm builds a suffix tree for a given string $s$ of length $n$ in $O(n\log(k))$) time, where $k$ is the size of the alphabet (if $k$ is considered to be a constant, the asymptotic behavior is linear).
+این الگوریتم یک درخت پسوندی برای یک رشته‌ی داده شده $s$ به طول $n$ در زمان $O(n\log(k))$ می‌سازد که در آن $k$ اندازه‌ی الفبا است (اگر $k$ ثابت در نظر گرفته شود، پیچیدگی زمانی خطی خواهد بود).
 
-The input to the algorithm are the string $s$ and its length $n$, which are passed as global variables.
+ورودی الگوریتم، رشته‌ی $s$ و طول آن $n$ است که به عنوان متغیرهای سراسری (global) پاس داده می‌شوند.
 
-The main function `build_tree` builds a suffix tree. It is stored as an array of structures `node`, where `node[0]` is the root of the tree.
+تابع اصلی `build_tree` درخت پسوندی را می‌سازد. این درخت به صورت آرایه‌ای از ساختارهای `node` ذخیره می‌شود که `node[0]` ریشه‌ی درخت است.
 
-In order to simplify the code, the edges are stored in the same structures: for each vertex its structure `node` stores the information about the edge between it and its parent. Overall each `node` stores the following information: 
+برای ساده‌سازی کد، یال‌ها نیز در همین ساختارها ذخیره می‌شوند: برای هر گره، ساختار `node` آن اطلاعات مربوط به یال بین آن و والدش را ذخیره می‌کند. در مجموع هر `node` اطلاعات زیر را ذخیره می‌کند:
 
-* `(l, r)` - left and right boundaries of the substring `s[l..r-1]` which correspond to the edge to this node,
-* `par` - the parent node,
-* `link` - the suffix link,
-* `next` - the list of edges going out from this node.
+*   `(l, r)` - کران‌های چپ و راست زیررشته‌ی `s[l..r-1]` که متناظر با یال ورودی به این گره است،
+*   `par` - گره والد،
+*   `link` - پیوند پسوندی (suffix link)،
+*   `next` - لیست یال‌های خروجی از این گره.
 
 ```cpp
 string s;
@@ -111,9 +111,9 @@ void build_tree() {
 }
 ```
 
-## Compressed Implementation
+## پیاده‌سازی فشرده
 
-This compressed implementation was proposed by [freopen](http://codeforces.com/profile/freopen).
+این پیاده‌سازی فشرده توسط [freopen](http://codeforces.com/profile/freopen) پیشنهاد شده است.
 
 ```cpp
 const int N=1000000,INF=1000000000;
@@ -155,47 +155,47 @@ void build() {
 }
 ```
 
-Same code with comments:
+همان کد با توضیحات:
 
 ```cpp
-const int N=1000000,    // maximum possible number of nodes in suffix tree
-	INF=1000000000; // infinity constant
-string a;       // input string for which the suffix tree is being built
-int t[N][26],   // array of transitions (state, letter)
-	l[N],   // left...
-	r[N],   // ...and right boundaries of the substring of a which correspond to incoming edge
-	p[N],   // parent of the node
-	s[N],   // suffix link
-	tv,     // the node of the current suffix (if we're mid-edge, the lower node of the edge)
-	tp,     // position in the string which corresponds to the position on the edge (between l[tv] and r[tv], inclusive)
-	ts,     // the number of nodes
-	la;     // the current character in the string
+const int N=1000000,    // بیشترین تعداد ممکن گره‌ها در درخت پسوندی
+	INF=1000000000; // ثابت بی‌نهایت
+string a;       // رشته ورودی که درخت پسوندی برای آن ساخته می‌شود
+int t[N][26],   // آرایه انتقال‌ها (حالت، حرف)
+	l[N],   // کران چپ...
+	r[N],   // ...و راستِ زیررشته‌ای از a که متناظر با یال ورودی است
+	p[N],   // والد گره
+	s[N],   // پیوند پسوندی
+	tv,     // گره پسوند فعلی (اگر وسط یک یال باشیم، گره پایینیِ یال)
+	tp,     // موقعیت در رشته که متناظر با موقعیت روی یال است (بین l[tv] و r[tv]، شامل خودشان)
+	ts,     // تعداد گره‌ها
+	la;     // کاراکتر فعلی در رشته
  
-void ukkadd(int c) { // add character s to the tree
-	suff:;      // we'll return here after each transition to the suffix (and will add character again)
-	if (r[tv]<tp) { // check whether we're still within the boundaries of the current edge
-		// if we're not, find the next edge. If it doesn't exist, create a leaf and add it to the tree
+void ukkadd(int c) { // اضافه کردن کاراکتر c به درخت
+	suff:;      // بعد از هر انتقال به پسوند به اینجا برمی‌گردیم (و دوباره کاراکتر را اضافه می‌کنیم)
+	if (r[tv]<tp) { // بررسی می‌کند که آیا هنوز در محدوده‌ی یال فعلی هستیم یا خیر
+		// اگر نیستیم، یال بعدی را پیدا می‌کنیم. اگر وجود نداشت، یک برگ ایجاد کرده و به درخت اضافه می‌کنیم
 		if (t[tv][c]==-1) {t[tv][c]=ts;l[ts]=la;p[ts++]=tv;tv=s[tv];tp=r[tv]+1;goto suff;}
 		tv=t[tv][c];tp=l[tv];
-	} // otherwise just proceed to the next edge
+	} // در غیر این صورت فقط به یال بعدی می‌رویم
 	if (tp==-1 || c==a[tp]-'a')
-		tp++; // if the letter on the edge equal c, go down that edge
+		tp++; // اگر حرف روی یال با c برابر باشد، در امتداد آن یال پایین می‌رویم
 	else { 
-		// otherwise split the edge in two with middle in node ts
+		// در غیر این صورت، یال را با گره میانی ts به دو قسمت تقسیم می‌کنیم
 		l[ts]=l[tv];r[ts]=tp-1;p[ts]=p[tv];t[ts][a[tp]-'a']=tv;
-		// add leaf ts+1. It corresponds to transition through c.
+		// برگ ts+1 را اضافه می‌کنیم. این برگ متناظر با انتقال از طریق c است.
 		t[ts][c]=ts+1;l[ts+1]=la;p[ts+1]=ts;
-		// update info for the current node - remember to mark ts as parent of tv
+		// اطلاعات گره فعلی را به‌روزرسانی می‌کنیم - به یاد داشته باشید که ts را به عنوان والد tv علامت‌گذاری کنید
 		l[tv]=tp;p[tv]=ts;t[p[ts]][a[l[ts]]-'a']=ts;ts+=2;
-		// prepare for descent
-		// tp will mark where are we in the current suffix
+		// برای پایین رفتن آماده می‌شویم
+		// tp مشخص می‌کند که در پسوند فعلی کجا هستیم
 		tv=s[p[ts-2]];tp=l[ts-2];
-		// while the current suffix is not over, descend
+		// تا زمانی که پسوند فعلی تمام نشده، پایین می‌رویم
 		while (tp<=r[ts-2]) {tv=t[tv][a[tp]-'a'];tp+=r[tv]-l[tv]+1;}
-		// if we're in a node, add a suffix link to it, otherwise add the link to ts
-		// (we'll create ts on next iteration).
+		// اگر در یک گره هستیم، یک پیوند پسوندی به آن اضافه می‌کنیم، در غیر این صورت پیوند را به ts اضافه می‌کنیم
+		// (ما ts را در تکرار بعدی ایجاد خواهیم کرد).
 		if (tp==r[ts-2]+1) s[ts-2]=tv; else s[ts-2]=ts; 
-		// add tp to the new edge and return to add letter to suffix
+		// tp را به یال جدید اضافه کرده و برای اضافه کردن حرف به پسوند برمی‌گردیم
 		tp=r[tv]-(tp-r[ts-2])+2;goto suff;
 	}
 }
@@ -205,7 +205,7 @@ void build() {
 	tv=0;
 	tp=0;
 	fill(r,r+N,(int)a.size()-1);
-	// initialize data for the root of the tree
+	// داده‌ها را برای ریشه درخت مقداردهی اولیه می‌کنیم
 	s[0]=1;
 	l[0]=-1;
 	r[0]=-1;
@@ -213,12 +213,12 @@ void build() {
 	r[1]=-1;
 	memset (t, -1, sizeof t);
 	fill(t[1],t[1]+26,0);
-	// add the text to the tree, letter by letter
+	// متن را حرف به حرف به درخت اضافه می‌کنیم
 	for (la=0; la<(int)a.size(); ++la)
 		ukkadd (a[la]-'a');
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
-* [UVA 10679 - I Love Strings!!!](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1620)
+*   [UVA 10679 - I Love Strings!!!](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1620)

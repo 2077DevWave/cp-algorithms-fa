@@ -1,56 +1,56 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: roots_newton
 ---
 
-# Newton's method for finding roots 
+# روش نیوتن برای یافتن ریشه
 
-This is an iterative method invented by Isaac Newton around 1664. However, this method is also sometimes called the Raphson method, since Raphson invented the same algorithm a few years after Newton, but his article was published much earlier.
+این یک روش تکراری است که توسط اسحاق نیوتن در حدود سال ۱۶۶۴ ابداع شد. با این حال، این روش گاهی اوقات روش رافسون نیز نامیده می‌شود، زیرا رافسون همین الگوریتم را چند سال پس از نیوتن ابداع کرد، اما مقاله‌اش بسیار زودتر منتشر شد.
 
-The task is as follows. Given the following equation:
+مسئله به شرح زیر است. با توجه به معادله زیر:
 
 $$f(x) = 0$$
 
-We want to solve the equation. More precisely, we want to find one of its roots (it is assumed that the root exists). It is assumed that $f(x)$ is continuous and differentiable on an interval $[a, b]$.
+می‌خواهیم این معادله را حل کنیم. به‌طور دقیق‌تر، می‌خواهیم یکی از ریشه‌های آن را بیابیم (فرض بر این است که ریشه وجود دارد). فرض می‌شود که $f(x)$ در بازه $[a, b]$ پیوسته و مشتق‌پذیر باشد.
 
-## Algorithm
+## الگوریتم
 
-The input parameters of the algorithm consist of not only the function $f(x)$ but also the initial approximation - some $x_0$, with which the algorithm starts.
+پارامترهای ورودی الگوریتم نه تنها شامل تابع $f(x)$ است، بلکه یک تقریب اولیه - مقداری $x_0$ - را نیز در بر می‌گیرد که الگوریتم با آن شروع می‌شود.
 
 <p align="center">
-	<img src="./roots_newton.png" alt="plot_f(x)">
+	<img src="./roots_newton.png" alt="نمودار f(x)">
 </p>
 
-Suppose we have already calculated $x_i$, calculate $x_{i+1}$ as follows. Draw the tangent to the graph of the function $f(x)$ at the point $x = x_i$, and find the point of intersection of this tangent with the $x$-axis. $x_{i+1}$ is set equal to the $x$-coordinate of the point found, and we repeat the whole process from the beginning.
+فرض کنید $x_i$ را محاسبه کرده‌ایم، $x_{i+1}$ را به صورت زیر محاسبه می‌کنیم. خط مماس بر نمودار تابع $f(x)$ را در نقطه $x = x_i$ رسم کرده و نقطه تقاطع این مماس با محور $x$ها را پیدا می‌کنیم. $x_{i+1}$ برابر با مختصات $x$ نقطه یافت‌شده قرار داده می‌شود و ما کل فرآیند را از ابتدا تکرار می‌کنیم.
 
-It is not difficult to obtain the following formula,
+به دست آوردن فرمول زیر دشوار نیست،
 
 $$ x_{i+1} = x_i - \frac{f(x_i)}{f^\prime(x_i)} $$
 
-First, we calculate the slope $f'(x)$, derivative of $f(x)$, and then determine the equation of the tangent which is,
+ابتدا شیب $f'(x)$، یعنی مشتق $f(x)$ را محاسبه می‌کنیم و سپس معادله خط مماس را که به صورت زیر است، تعیین می‌کنیم،
 
-$$ y - f(x_i) = f'(x_i)(x - x_i) $$ 
+$$ y - f(x_i) = f'(x_i)(x - x_i) $$
 
-The tangent intersects with the x-axis at cordinate, $y = 0$ and $x = x_{i+1}$,
+مماس، محور xها را در مختصات $y = 0$ و $x = x_{i+1}$ قطع می‌کند،
 
-$$ - f(x_i) = f'(x_i)(x_{i+1} - x_i) $$ 
+$$ - f(x_i) = f'(x_i)(x_{i+1} - x_i) $$
 
-Now, solving the equation we get the value of $x_{i+1}$.
+حال، با حل این معادله مقدار $x_{i+1}$ را به دست می‌آوریم.
 
-It is intuitively clear that if the function $f(x)$ is "good" (smooth), and $x_i$ is close enough to the root, then $x_{i+1}$ will be even closer to the desired root.
+به‌طور شهودی واضح است که اگر تابع $f(x)$ «خوب» (هموار) باشد و $x_i$ به اندازه کافی به ریشه نزدیک باشد، آنگاه $x_{i+1}$ حتی به ریشه مورد نظر نزدیک‌تر خواهد بود.
 
-The rate of convergence is quadratic, which, conditionally speaking, means that the number of exact digits in the approximate value $x_i$ doubles with each iteration.
+نرخ همگرایی از مرتبه دو است که به زبان ساده، به این معنی است که تعداد ارقام صحیح در مقدار تقریبی $x_i$ با هر تکرار دو برابر می‌شود.
 
-## Application for calculating the square root
+## کاربرد در محاسبه ریشه دوم
 
-Let's use the calculation of square root as an example of Newton's method.
+بیایید از محاسبه ریشه دوم به عنوان مثالی از روش نیوتن استفاده کنیم.
 
-If we substitute $f(x) = x^2 - n$, then after simplifying the expression, we get:
+اگر $f(x) = x^2 - n$ را جایگزین کنیم، آنگاه پس از ساده‌سازی عبارت، به نتیجه زیر می‌رسیم:
 
 $$ x_{i+1} = \frac{x_i + \frac{n}{x_i}}{2} $$
 
-The first typical variant of the problem is when a rational number $n$ is given, and its root must be calculated with some accuracy `eps`:
+اولین حالت متداول این مسئله زمانی است که یک عدد گویای $n$ داده شده و باید ریشه آن با دقت مشخص `eps` محاسبه شود:
 
 ```cpp
 double sqrt_newton(double n) {
@@ -66,7 +66,7 @@ double sqrt_newton(double n) {
 }
 ```
 
-Another common variant of the problem is when we need to calculate the integer root (for the given $n$ find the largest $x$ such that $x^2 \le n$). Here it is necessary to slightly change the termination condition of the algorithm, since it may happen that $x$ will start to "jump" near the answer. Therefore, we add a condition that if the value $x$ has decreased in the previous step, and it tries to increase at the current step, then the algorithm must be stopped.
+حالت متداول دیگر مسئله زمانی است که نیاز به محاسبه ریشه صحیح داریم (برای $n$ داده‌شده، بزرگترین $x$ را بیابید به طوری که $x^2 \le n$). در اینجا لازم است شرط توقف الگوریتم را کمی تغییر دهیم، زیرا ممکن است $x$ در نزدیکی پاسخ شروع به «پرش» کند. بنابراین، شرطی را اضافه می‌کنیم که اگر مقدار $x$ در مرحله قبل کاهش یافته و در مرحله فعلی سعی در افزایش دارد، الگوریتم باید متوقف شود.
 
 ```cpp
 int isqrt_newton(int n) {
@@ -83,7 +83,7 @@ int isqrt_newton(int n) {
 }
 ```
 
-Finally, we are given the third variant - for the case of bignum arithmetic. Since the number $n$ can be large enough, it makes sense to pay attention to the initial approximation. Obviously, the closer it is to the root, the faster the result will be achieved. It is simple enough and effective to take the initial approximation as the number $2^{\textrm{bits}/2}$, where $\textrm{bits}$ is the number of bits in the number $n$. Here is the Java code that demonstrates this variant:
+در نهایت، به حالت سوم می‌رسیم - برای محاسبات با اعداد بزرگ (bignum). از آنجایی که عدد $n$ می‌تواند به اندازه کافی بزرگ باشد، توجه به تقریب اولیه منطقی است. بدیهی است که هر چه تقریب اولیه به ریشه نزدیک‌تر باشد، نتیجه سریع‌تر به دست می‌آید. روشی ساده و مؤثر این است که تقریب اولیه را برابر با عدد $2^{\textrm{bits}/2}$ در نظر بگیریم، که در آن $\textrm{bits}$ تعداد بیت‌های عدد $n$ است. در ادامه کد Java که این حالت را نشان می‌دهد آمده است:
 
 ```java
 public static BigInteger isqrtNewton(BigInteger n) {
@@ -100,7 +100,7 @@ public static BigInteger isqrtNewton(BigInteger n) {
 }
 ```
 
-For example, this code is executed in $60$ milliseconds for $n = 10^{1000}$, and if we remove the improved selection of the initial approximation (just starting with $1$), then it will be executed in about $120$ milliseconds.
+به عنوان مثال، این کد برای $n = 10^{1000}$ در $60$ میلی‌ثانیه اجرا می‌شود، و اگر انتخاب بهبودیافته تقریب اولیه را حذف کنیم (یعنی فقط با $1$ شروع کنیم)، آنگاه حدوداً در $120$ میلی‌ثانیه اجرا خواهد شد.
 
-## Practice Problems
+## مسائل تمرینی
 - [UVa 10428 - The Roots](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=16&page=show_problem&problem=1369)

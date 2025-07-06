@@ -1,42 +1,42 @@
 ---
 tags:
-  
-e_maxx_link: lines_intersection
+  - AI Translated
+e_maxx_link: lines-intersection
 ---
 
-# Intersection Point of Lines
+# نقطه تقاطع خطوط
 
-You are given two lines, described via the equations $a_1 x + b_1 y + c_1 = 0$ and  $a_2 x + b_2 y + c_2 = 0$.
-We have to find the intersection point of the lines, or determine that the lines are parallel.
+دو خط با معادلات $a_1 x + b_1 y + c_1 = 0$ و $a_2 x + b_2 y + c_2 = 0$ به شما داده شده است.
+باید نقطه تقاطع این دو خط را پیدا کنیم یا تشخیص دهیم که خطوط موازی هستند.
 
-## Solution
+## راه‌حل
 
-If two lines are not parallel, they intersect.
-To find their intersection point, we need to solve the following system of linear equations:
+اگر دو خط موازی نباشند، یکدیگر را قطع می‌کنند.
+برای یافتن نقطه تقاطع آنها، باید دستگاه معادلات خطی زیر را حل کنیم:
 
 $$\begin{cases} a_1 x + b_1 y + c_1 = 0 \\
 a_2 x + b_2 y + c_2 = 0
 \end{cases}$$
 
-Using Cramer's rule, we can immediately write down the solution for the system, which will give us the required intersection point of the lines:
+با استفاده از قاعده کرامر، می‌توانیم بلافاصله جواب دستگاه را بنویسیم که نقطه تقاطع مورد نیاز خطوط را به ما می‌دهد:
 
 $$x = - \frac{\begin{vmatrix}c_1 & b_1 \cr c_2 & b_2\end{vmatrix}}{\begin{vmatrix}a_1 & b_1 \cr a_2 & b_2\end{vmatrix} } = - \frac{c_1 b_2 - c_2 b_1}{a_1 b_2 - a_2 b_1},$$
 
 $$y = - \frac{\begin{vmatrix}a_1 & c_1 \cr a_2 & c_2\end{vmatrix}}{\begin{vmatrix}a_1 & b_1 \cr a_2 & b_2\end{vmatrix}} = - \frac{a_1 c_2 - a_2 c_1}{a_1 b_2 - a_2 b_1}.$$
 
-If the denominator equals $0$, i.e.
+اگر مخرج برابر با $0$ باشد، یعنی:
 
 $$\begin{vmatrix}a_1 & b_1 \cr a_2 & b_2\end{vmatrix} = a_1 b_2 - a_2 b_1 = 0 $$
 
-then either the system has no solutions (the lines are parallel and distinct) or there are infinitely many solutions (the lines overlap).
-If we need to distinguish these two cases, we have to check if coefficients $c$ are proportional with the same ratio as the coefficients $a$ and $b$.
-To do that we only have calculate the following determinants, and if they both equal $0$, the lines overlap:
+در این صورت، دستگاه یا جوابی ندارد (خطوط موازی و متمایز هستند) یا بی‌نهایت جواب دارد (خطوط بر هم منطبق هستند).
+اگر بخواهیم این دو حالت را از هم تشخیص دهیم، باید بررسی کنیم که آیا ضرایب $c$ با همان نسبت ضرایب $a$ و $b$ متناسب هستند یا خیر.
+برای این کار کافی است دترمینان‌های زیر را محاسبه کنیم، و اگر هر دو برابر با $0$ شوند، خطوط بر هم منطبق هستند:
 
 $$\begin{vmatrix}a_1 & c_1 \cr a_2 & c_2\end{vmatrix}, \begin{vmatrix}b_1 & c_1 \cr b_2 & c_2\end{vmatrix} $$
 
-Notice, a different approach for computing the intersection point is explained in the article [Basic Geometry](basic-geometry.md).
+توجه داشته باشید که یک رویکرد متفاوت برای محاسبه نقطه تقاطع در مقاله [هندسه پایه](basic-geometry.md) توضیح داده شده است.
 
-## Implementation
+## پیاده‌سازی
 
 ```{.cpp file=line_intersection}
 struct pt {

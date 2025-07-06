@@ -1,52 +1,52 @@
 ---
-title: Manacher's Algorithm - Finding all sub-palindromes in O(N)
 tags:
-  
-e_maxx_link: palindromes_count
+  - AI Translated
+e_maxx_link: manacher
 ---
-# Manacher's Algorithm - Finding all sub-palindromes in $O(N)$
 
-## Statement
+# الگوریتم ماناکر - یافتن تمام زیرپالیندروم‌ها در $O(N)$
 
-Given string $s$ with length $n$. Find all the pairs $(i, j)$ such that substring $s[i\dots j]$ is a palindrome. String $t$ is a palindrome when $t = t_{rev}$ ($t_{rev}$ is a reversed string for $t$).
+## صورت مسئله
 
-## More precise statement
+رشته $s$ با طول $n$ داده شده است. تمام زوج‌های $(i, j)$ را به طوری پیدا کنید که زیررشته $s[i \dots j]$ یک پالیندروم باشد. رشته $t$ یک پالیندروم است هرگاه $t = t_{rev}$ باشد ($t_{rev}$ رشته معکوس $t$ است).
 
-In the worst case string might have up to $O(n^2)$ palindromic substrings, and at the first glance it seems that there is no linear algorithm for this problem.
+## صورت مسئله دقیق‌تر
 
-But the information about the palindromes can be kept **in a compact way**: for each position $i$ we will find the number of non-empty palindromes centered at this position.
+در بدترین حالت، یک رشته ممکن است تا $O(n^2)$ زیررشته پالیندرومی داشته باشد، و در نگاه اول به نظر می‌رسد که هیچ الگوریتم خطی برای این مسئله وجود ندارد.
 
-Palindromes with a common center form a contiguous chain, that is if we have a palindrome of length $l$ centered in $i$, we also have palindromes of lengths $l-2$, $l-4$ and so on also centered in $i$. Therefore, we will collect the information about all palindromic substrings in this way.
+اما اطلاعات مربوط به پالیندروم‌ها را می‌توان **به صورت فشرده** نگهداری کرد: برای هر موقعیت $i$، تعداد پالیندروم‌های ناتهی با مرکز این موقعیت را پیدا خواهیم کرد.
 
-Palindromes of odd and even lengths are accounted for separately as $d_{odd}[i]$ and $d_{even}[i]$. For the palindromes of even length we assume that they're centered in the position $i$ if their two central characters are $s[i]$ and $s[i-1]$.
+پالیندروم‌ها با یک مرکز مشترک، یک زنجیره پیوسته را تشکیل می‌دهند، یعنی اگر یک پالیندروم به طول $l$ با مرکز $i$ داشته باشیم، پالیندروم‌هایی با طول‌های $l-2$، $l-4$ و غیره نیز با مرکز $i$ خواهیم داشت. بنابراین، ما اطلاعات مربوط به تمام زیررشته‌های پالیندرومی را به این روش جمع‌آوری می‌کنیم.
 
-For instance, string $s = abababc$ has three palindromes with odd length with centers in the position $s[3] = b$, i. e. $d_{odd}[3] = 3$:
+پالیندروم‌های با طول فرد و زوج به صورت جداگانه با $d_{odd}[i]$ و $d_{even}[i]$ شمرده می‌شوند. برای پالیندروم‌های با طول زوج، فرض می‌کنیم مرکز آن‌ها در موقعیت $i$ است اگر دو کاراکتر مرکزی آن‌ها $s[i]$ و $s[i-1]$ باشند.
 
-$$a\ \overbrace{b\ a\ \underbrace{b}_{s_3}\ a\ b}^{d_{odd}[3]=3} c$$
+برای مثال، رشته $s = abababc$ سه پالیندروم با طول فرد با مرکز در موقعیت $s[3] = b$ دارد، یعنی $d_{odd}[3] = 3$:
 
-And string $s = cbaabd$ has two palindromes with even length with centers in the position $s[3] = a$, i. e. $d_{even}[3] = 2$:
+$$a\ \overbrace{b\ a\ \underbrace{b}_{s_3}\ a\ b}^{\text{پالیندروم}} c$$
 
-$$c\ \overbrace{b\ a\ \underbrace{a}_{s_3}\ b}^{d_{even}[3]=2} d$$
+و رشته $s = cbaabd$ دو پالیندروم با طول زوج با مرکز در موقعیت $s[3] = a$ دارد، یعنی $d_{even}[3] = 2$:
 
-It's a surprising fact that there is an algorithm, which is simple enough, that calculates these "palindromity arrays" $d_{odd}[]$ and $d_{even}[]$ in linear time. The algorithm is described in this article.
+$$c\ \overbrace{b\ a\ \underbrace{a}_{s_3}\ b}^{\text{پالیندروم}} d$$
 
-## Solution
+این یک واقعیت شگفت‌انگیز است که الگوریتمی به اندازه کافی ساده وجود دارد که این "آرایه‌های پالیندرومی" $d_{odd}[]$ و $d_{even}[]$ را در زمان خطی محاسبه می‌کند. این الگوریتم در این مقاله توضیح داده شده است.
 
-In general, this problem has many solutions: with [String Hashing](string-hashing.md) it can be solved in $O(n\cdot \log n)$, and with [Suffix Trees](suffix-tree-ukkonen.md) and fast LCA this problem can be solved in $O(n)$.
+## راه‌حل
 
-But the method described here is **sufficiently** simpler and has less hidden constant in time and memory complexity. This algorithm was discovered by **Glenn K. Manacher** in 1975.
+به طور کلی، این مسئله راه‌حل‌های زیادی دارد: با [درهم‌سازی رشته (String Hashing)](string-hashing.md) می‌توان آن را در $O(n \cdot \log n)$ حل کرد، و با [درخت‌های پسوندی (Suffix Trees)](suffix-tree-ukkonen.md) و LCA سریع، این مسئله در $O(n)$ قابل حل است.
 
-Another modern way to solve this problem and to deal with palindromes in general is through the so-called palindromic tree, or eertree.
+اما روشی که در اینجا شرح داده شده است **به مراتب** ساده‌تر است و ثابت پنهان کمتری در پیچیدگی زمانی و حافظه دارد. این الگوریتم توسط **Glenn K. Manacher** در سال ۱۹۷۵ کشف شد.
 
-## Trivial algorithm
+یک روش مدرن دیگر برای حل این مسئله و به طور کلی کار با پالیندروم‌ها، از طریق چیزی است که درخت پالیندرومی یا eertree نامیده می‌شود.
 
-To avoid ambiguities in the further description we denote what "trivial algorithm" is.
+## الگوریتم بدیهی
 
-It's the algorithm that does the following. For each center position $i$ it tries to increase the answer by one as long as it's possible, comparing a pair of corresponding characters each time.
+برای جلوگیری از ابهامات در توضیحات بعدی، مشخص می‌کنیم که "الگوریتم بدیهی" چیست.
 
-Such an algorithm is slow, it can calculate the answer only in $O(n^2)$.
+این الگوریتم به این صورت عمل می‌کند: برای هر موقعیت مرکزی $i$، سعی می‌کند پاسخ را یک به یک افزایش دهد تا زمانی که امکان دارد، و هر بار یک جفت کاراکتر متناظر را مقایسه می‌کند.
 
-The implementation of the trivial algorithm is:
+چنین الگوریتمی کند است و فقط می‌تواند پاسخ را در $O(n^2)$ محاسبه کند.
+
+پیاده‌سازی الگوریتم بدیهی به این صورت است:
 
 ```cpp
 vector<int> manacher_odd_trivial(string s) {
@@ -62,21 +62,21 @@ vector<int> manacher_odd_trivial(string s) {
 }
 ```
 
-Terminal characters `$` and `^` were used to avoid dealing with ends of the string separately.
+کاراکترهای پایانی `$` و `^` برای این استفاده شده‌اند که نیازی به رسیدگی جداگانه به انتهای رشته نباشد.
 
-## Manacher's algorithm
+## الگوریتم ماناکر
 
-We describe the algorithm to find all the sub-palindromes with odd length, i. e. to calculate $d_{odd}[]$.
+الگوریتم را برای یافتن تمام زیرپالیندروم‌های با طول فرد، یعنی محاسبه $d_{odd}[]$، توضیح می‌دهیم.
 
-For fast calculation we'll maintain the **exclusive borders $(l, r)$** of the rightmost found (sub-)palindrome (i. e. the current rightmost (sub-)palindrome is $s[l+1] s[l+2] \dots s[r-1]$). Initially we set $l = 0, r = 1$, which corresponds to the empty string.
+برای محاسبه سریع، ما **مرزهای انحصاری $(l, r)$** راست‌ترین (زیر)پالیندروم یافت‌شده را نگهداری می‌کنیم (یعنی راست‌ترین (زیر)پالیندروم فعلی $s[l+1] s[l+2] \dots s[r-1]$ است). در ابتدا $l = 0, r = 1$ قرار می‌دهیم که متناظر با رشته تهی است.
 
-So, we want to calculate $d_{odd}[i]$ for the next $i$, and all the previous values in $d_{odd}[]$ have been already calculated. We do the following:
+بنابراین، ما می‌خواهیم $d_{odd}[i]$ را برای $i$ بعدی محاسبه کنیم، و تمام مقادیر قبلی در $d_{odd}[]$ قبلاً محاسبه شده‌اند. به این صورت عمل می‌کنیم:
 
-* If $i$ is outside the current sub-palindrome, i. e. $i \geq r$, we'll just launch the trivial algorithm.
+*   اگر $i$ خارج از زیرپالیندروم فعلی باشد، یعنی $i \geq r$، به سادگی الگوریتم بدیهی را اجرا می‌کنیم.
     
-    So we'll increase $d_{odd}[i]$ consecutively and check each time if the current rightmost substring $[i - d_{odd}[i]\dots i + d_{odd}[i]]$ is a palindrome. When we find the first mismatch or meet the boundaries of $s$, we'll stop. In this case we've finally calculated $d_{odd}[i]$. After this, we must not forget to update $(l, r)$. $r$ should be updated in such a way that it represents the last index of the current rightmost sub-palindrome.
+    بنابراین $d_{odd}[i]$ را به طور متوالی افزایش می‌دهیم و هر بار بررسی می‌کنیم که آیا زیررشته راست‌ترین فعلی $[i - d_{odd}[i]\dots i + d_{odd}[i]]$ یک پالیندروم است یا نه. وقتی اولین عدم تطابق را پیدا کنیم یا به مرزهای $s$ برسیم، متوقف می‌شویم. در این حالت، ما سرانجام $d_{odd}[i]$ را محاسبه کرده‌ایم. پس از این، نباید فراموش کنیم که $(l, r)$ را به‌روزرسانی کنیم. $r$ باید به گونه‌ای به‌روز شود که نمایانگر آخرین اندیس زیرپالیندروم راست‌ترین فعلی باشد.
 
-* Now consider the case when $i \le r$. We'll try to extract some information from the already calculated values in $d_{odd}[]$. So, let's find the "mirror" position of $i$ in the sub-palindrome $(l, r)$, i.e. we'll get the position $j = l + (r - i)$, and we check the value of $d_{odd}[j]$. Because $j$ is the position symmetrical to $i$ with respect to $(l+r)/2$, we can **almost always** assign $d_{odd}[i] = d_{odd}[j]$. Illustration of this (palindrome around $j$ is actually "copied" into the palindrome around $i$):
+*   حال حالتی را در نظر بگیرید که $i \le r$ باشد. سعی می‌کنیم از مقادیر قبلاً محاسبه شده در $d_{odd}[]$ اطلاعاتی استخراج کنیم. بنابراین، موقعیت "آینه‌ای" $i$ را در زیرپالیندروم $(l, r)$ پیدا می‌کنیم، یعنی موقعیت $j = l + (r - i)$ را به دست می‌آوریم، و مقدار $d_{odd}[j]$ را بررسی می‌کنیم. از آنجا که $j$ موقعیتی متقارن با $i$ نسبت به $(l+r)/2$ است، ما می‌توانیم **تقریباً همیشه** مقدار $d_{odd}[i] = d_{odd}[j]$ را اختصاص دهیم. تصویری از این موضوع (پالیندروم اطراف $j$ در واقع به پالیندروم اطراف $i$ "کپی" می‌شود):
     
     $$
     \ldots\ 
@@ -84,63 +84,63 @@ So, we want to calculate $d_{odd}[i]$ for the next $i$, and all the previous val
         s_{l+1}\ \ldots\ 
         \underbrace{
             s_{j-d_{odd}[j]+1}\ \ldots\ s_j\ \ldots\ s_{j+d_{odd}[j]-1}\ 
-        }_\text{palindrome}\ 
+        }_\text{پالیندروم}\ 
         \ldots\ 
         \underbrace{
             s_{i-d_{odd}[j]+1}\ \ldots\ s_i\ \ldots\ s_{i+d_{odd}[j]-1}\ 
-        }_\text{palindrome}\ 
+        }_\text{پالیندروم}\ 
         \ldots\ s_{r-1}\ 
-    }^\text{palindrome}\ 
+    }^\text{پالیندروم}\ 
     \ldots
     $$
     
-    But there is a **tricky case** to be handled correctly: when the "inner" palindrome reaches the borders of the "outer" one, i. e. $j - d_{odd}[j] \le l$ (or, which is the same, $i + d_{odd}[j] \ge r$). Because the symmetry outside the "outer" palindrome is not guaranteed, just assigning $d_{odd}[i] = d_{odd}[j]$ will be incorrect: we do not have enough data to state that the palindrome in the position $i$ has the same length.
+    اما یک **نکته ظریف** وجود دارد که باید به درستی مدیریت شود: زمانی که پالیندروم "داخلی" به مرزهای پالیندروم "بیرونی" می‌رسد، یعنی $j - d_{odd}[j] \le l$ (یا به طور معادل، $i + d_{odd}[j] \ge r$). از آنجا که تقارن در خارج از پالیندروم "بیرونی" تضمین نشده است، صرفاً اختصاص دادن $d_{odd}[i] = d_{odd}[j]$ نادرست خواهد بود: ما داده‌های کافی برای این ادعا که پالیندروم در موقعیت $i$ همان طول را دارد، نداریم.
     
-    Actually, we should restrict the length of our palindrome for now, i. e. assign $d_{odd}[i] = r - i$, to handle such situations correctly. After this we'll run the trivial algorithm which will try to increase $d_{odd}[i]$ while it's possible.
+    در واقع، برای مدیریت صحیح چنین موقعیت‌هایی، باید طول پالیندروم خود را فعلاً محدود کنیم، یعنی $d_{odd}[i] = r - i$ را اختصاص دهیم. پس از این، الگوریتم بدیهی را اجرا می‌کنیم که سعی می‌کند $d_{odd}[i]$ را تا زمانی که امکان دارد افزایش دهد.
     
-    Illustration of this case (the palindrome with center $j$ is restricted to fit the "outer" palindrome):
+    تصویری از این حالت (پالیندروم با مرکز $j$ محدود شده است تا در پالیندروم "بیرونی" جای گیرد):
     
     $$
     \ldots\ 
     \overbrace{
         \underbrace{
             s_{l+1}\ \ldots\ s_j\ \ldots\ s_{j+(j-l)-1}\ 
-        }_\text{palindrome}\ 
+        }_\text{پالیندروم}\ 
         \ldots\ 
         \underbrace{
             s_{i-(r-i)+1}\ \ldots\ s_i\ \ldots\ s_{r-1}
-        }_\text{palindrome}\ 
-    }^\text{palindrome}\ 
+        }_\text{پالیندروم}\ 
+    }^\text{پالیندروم}\ 
     \underbrace{
         \ldots \ldots \ldots \ldots \ldots
-    }_\text{try moving here}
+    }_\text{تلاش برای گسترش به اینجا}
     $$
     
-    It is shown in the illustration that though the palindrome with center $j$ could be larger and go outside the "outer" palindrome, but with $i$ as the center we can use only the part that entirely fits into the "outer" palindrome. But the answer for the position $i$ ($d_{odd}[i]$) can be much bigger than this part, so next we'll run our trivial algorithm that will try to grow it outside our "outer" palindrome, i. e. to the region "try moving here".
+    همانطور که در تصویر نشان داده شده است، اگرچه پالیندروم با مرکز $j$ می‌توانست بزرگتر باشد و از پالیندروم "بیرونی" خارج شود، اما با مرکز $i$ ما فقط می‌توانیم از بخشی استفاده کنیم که کاملاً در پالیندروم "بیرونی" قرار می‌گیرد. اما پاسخ برای موقعیت $i$ ($d_{odd}[i]$) می‌تواند بسیار بزرگتر از این بخش باشد، بنابراین در ادامه الگوریتم بدیهی خود را اجرا می‌کنیم که سعی می‌کند آن را به خارج از پالیندروم "بیرونی" ما، یعنی به منطقه "تلاش برای گسترش به اینجا" گسترش دهد.
 
-Again, we should not forget to update the values $(l, r)$ after calculating each $d_{odd}[i]$.
+دوباره، نباید فراموش کنیم که مقادیر $(l, r)$ را پس از محاسبه هر $d_{odd}[i]$ به‌روزرسانی کنیم.
 
-## Complexity of Manacher's algorithm
+## پیچیدگی الگوریتم ماناکر
 
-At the first glance it's not obvious that this algorithm has linear time complexity, because we often run the naive algorithm while searching the answer for a particular position.
+در نگاه اول مشخص نیست که این الگوریتم دارای پیچیدگی زمانی خطی است، زیرا ما اغلب هنگام جستجوی پاسخ برای یک موقعیت خاص، الگوریتم بدیهی را اجرا می‌کنیم.
 
-However, a more careful analysis shows that the algorithm is linear. In fact, [Z-function building algorithm](z-function.md), which looks similar to this algorithm, also works in linear time.
+با این حال، یک تحلیل دقیق‌تر نشان می‌دهد که الگوریتم خطی است. در واقع، [الگوریتم ساخت Z-function](z-function.md) که شبیه به این الگوریتم به نظر می‌رسد، نیز در زمان خطی کار می‌کند.
 
-We can notice that every iteration of trivial algorithm increases $r$ by one. Also $r$ cannot be decreased during the algorithm. So, trivial algorithm will make $O(n)$ iterations in total.
+می‌توانیم متوجه شویم که هر تکرار الگوریتم بدیهی، $r$ را یک واحد افزایش می‌دهد. همچنین $r$ در طول الگوریتم نمی‌تواند کاهش یابد. بنابراین، الگوریتم بدیهی در مجموع $O(n)$ تکرار خواهد داشت.
 
-Other parts of Manacher's algorithm work obviously in linear time. Thus, we get $O(n)$ time complexity.
+سایر بخش‌های الگوریتم ماناکر به وضوح در زمان خطی کار می‌کنند. بنابراین، ما به پیچیدگی زمانی $O(n)$ می‌رسیم.
 
-## Implementation of Manacher's algorithm
+## پیاده‌سازی الگوریتم ماناکر
 
-For calculating $d_{odd}[]$, we get the following code. Things to note:
+برای محاسبه $d_{odd}[]$، کد زیر را به دست می‌آوریم. نکات قابل توجه:
 
- - $i$ is the index of the center letter of the current palindrome.
- - If $i$ exceeds $r$, $d_{odd}[i]$ is initialized to 0.
- - If $i$ does not exceed $r$, $d_{odd}[i]$ is either initialized to the $d_{odd}[j]$, where $j$ is the mirror position of $i$ in $(l,r)$, or $d_{odd}[i]$ is restricted to the size of the "outer" palindrome.
- - The while loop denotes the trivial algorithm. We launch it irrespective of the value of $k$.
- - If the size of palindrome centered at $i$ is $x$, then $d_{odd}[i]$ stores $\frac{x+1}{2}$.
+*   $i$ اندیس حرف مرکزی پالیندروم فعلی است.
+*   اگر $i$ از $r$ بزرگتر شود، $d_{odd}[i]$ با مقدار اولیه ۰ مقداردهی می‌شود.
+*   اگر $i$ از $r$ بزرگتر نباشد، $d_{odd}[i]$ یا با مقدار $d_{odd}[j]$ مقداردهی اولیه می‌شود که $j$ موقعیت آینه‌ای $i$ در $(l,r)$ است، یا $d_{odd}[i]$ به اندازه پالیندروم "بیرونی" محدود می‌شود.
+*   حلقه `while` الگوریتم بدیهی را نشان می‌دهد. ما آن را صرف‌نظر از مقداری که در ابتدا به `p[i]` اختصاص داده‌ایم، اجرا می‌کنیم.
+*   اگر طول پالیندروم با مرکز $i$ برابر $x$ باشد، آنگاه $d_{odd}[i]$ مقدار $\frac{x+1}{2}$ را ذخیره می‌کند.
 
-```{.cpp file=manacher_odd}
+```cpp {.file=manacher_odd}
 vector<int> manacher_odd(string s) {
     int n = s.size();
     s = "$" + s + "^";
@@ -159,23 +159,17 @@ vector<int> manacher_odd(string s) {
 }
 ```
 
-## Working with parities
+## کار با زوجیت‌ها
 
-Although it is possible to implement Manacher's algorithm for odd and even lengths separately, the implementation of the version for even lengths is often deemed more difficult, as it is less natural and easily leads to off-by-one errors.
+اگرچه می‌توان الگوریتم ماناکر را برای طول‌های فرد و زوج به طور جداگانه پیاده‌سازی کرد، پیاده‌سازی نسخه برای طول‌های زوج اغلب دشوارتر تلقی می‌شود، زیرا کمتر طبیعی است و به راحتی منجر به خطاهای یکی کمتر/بیشتر (off-by-one) می‌شود.
 
-To mitigate this, it is possible to reduce the whole problem to the case when we only deal with the palindromes of odd length. To do this, we can put an additional `#` character between each letter in the string and also in the beginning and the end of the string:
+برای کاهش این مشکل، می‌توان کل مسئله را به حالتی کاهش داد که فقط با پالیندروم‌های با طول فرد سروکار داریم. برای این کار، می‌توانیم یک کاراکتر `#` اضافی بین هر حرف در رشته و همچنین در ابتدا و انتهای رشته قرار دهیم:
 
-$$abcbcba \to \#a\#b\#c\#b\#c\#b\#a\#,$$
+$$abcbcba \to \#a\#b\#c\#b\#c\#b\#a\#$$
 
-$$d = [1,2,1,2,1,4,1,8,1,4,1,2,1,2,1].$$
+هر پالیندروم در رشته اصلی (چه با طول فرد و چه زوج) به یک پالیندروم با طول فرد در رشته جدید تبدیل می‌شود. پالیندروم‌های با طول فرد در رشته اصلی، در رشته جدید نیز حول همان حروف مرکزی قرار دارند. پالیندروم‌های با طول زوج در رشته اصلی، در رشته جدید حول کاراکترهای `#` قرار می‌گیرند.
 
-As you can see, $d[2i]=2 d_{even}[i]+1$ and $d[2i+1]=2 d_{odd}[i]$ where $d$ denotes the Manacher array for odd-length palindromes in `#`-joined string, while $d_{odd}$ and $d_{even}$ correspond to the arrays defined above in the initial string.
-
-Indeed, `#` characters do not affect the odd-length palindromes, which are still centered in the initial string's characters, but now even-length palindromes of the initial string are odd-length palindromes of the new string centered in `#` characters.
-
-Note that $d[2i]$ and $d[2i+1]$ are essentially the increased by $1$ lengths of the largest odd- and even-length palindromes centered in $i$ correspondingly.
-
-The reduction is implemented in the following way:
+این کاهش به صورت زیر پیاده‌سازی می‌شود:
 
 ```cpp
 vector<int> manacher(string s) {
@@ -188,9 +182,9 @@ vector<int> manacher(string s) {
 }
 ```
 
-For simplicity, splitting the array into $d_{odd}$ and $d_{even}$ as well as their explicit calculation is omitted.
+برای سادگی، تقسیم آرایه به $d_{odd}$ و $d_{even}$ و همچنین محاسبه صریح آنها حذف شده است. آرایه نتیجه حاوی تمام اطلاعات لازم برای استخراج پالیندروم‌های هر دو نوع است.
 
-## Problems
+## مسائل
 
 - [Library Checker - Enumerate Palindromes](https://judge.yosupo.jp/problem/enumerate_palindromes)
 - [Longest Palindrome](https://cses.fi/problemset/task/1111)
@@ -199,4 +193,3 @@ For simplicity, splitting the array into $d_{odd}$ and $d_{even}$ as well as the
 - [CF - Prefix-Suffix Palindrome](https://codeforces.com/contest/1326/problem/D2)
 - [SPOJ - Number of Palindromes](https://www.spoj.com/problems/NUMOFPAL/)
 - [Kattis - Palindromes](https://open.kattis.com/problems/palindromes)
-

@@ -1,26 +1,26 @@
 ---
 tags:
-  
-e_maxx_link: stern_brocot_farey
+  - AI Translated
+e_maxx_link: stern_brocot_tree_farey_sequences
 ---
 
-# The Stern-Brocot tree and Farey sequences
+# درخت Stern-Brocot و دنباله‌های Farey
 
-## Stern-Brocot tree
+## درخت Stern-Brocot
 
-The Stern-Brocot tree is an elegant construction to represent the set of all positive fractions. It was independently discovered by German mathematician Moritz Stern in 1858 and by French watchmaker Achille Brocot in 1861. However, some sources attribute the discovery to ancient Greek mathematician Eratosthenes.
+درخت Stern-Brocot یک ساختار زیبا برای نمایش مجموعه‌ی تمام کسرهای مثبت است. این درخت به طور مستقل توسط ریاضیدان آلمانی Moritz Stern در سال ۱۸۵۸ و ساعت‌ساز فرانسوی Achille Brocot در سال ۱۸۶۱ کشف شد. با این حال، برخی منابع این کشف را به ریاضیدان یونان باستان، Eratosthenes، نسبت می‌دهند.
 
-The construction starts at the zeroth iteration with the two fractions
+این ساختار در تکرار صفرم با دو کسر زیر آغاز می‌شود:
 
 $$
     \frac{0}{1}, \frac{1}{0}
 $$
 
-where it should be noted that the second quantity is not strictly a fraction, but it can be interpreted as an irreducible fraction representing infinity.
+باید توجه داشت که عبارت دوم دقیقاً یک کسر نیست، اما می‌توان آن را به عنوان یک کسر ساده‌نشدنی که نماینده بی‌نهایت است، در نظر گرفت.
 
-At every subsequent iteration, consider all adjacent fractions $\frac{a}{b}$ and $\frac{c}{d}$ and insert their [mediant](https://en.wikipedia.org/wiki/Mediant_(mathematics)) $\frac{a+c}{b+d}$ between them.
+در هر تکرار بعدی، تمام کسرهای مجاور $\frac{a}{b}$ و $\frac{c}{d}$ را در نظر گرفته و [میانجی (mediant)](https://en.wikipedia.org/wiki/Mediant_(mathematics)) آن‌ها، یعنی $\frac{a+c}{b+d}$ را بینشان درج کنید.
 
-The first few iterations look like this:
+چند تکرار اول به این صورت خواهد بود:
 
 $$
     \begin{array}{c}
@@ -30,70 +30,70 @@ $$
     \end{array}
 $$
 
-Continuing this process to infinity this covers *all* positive fractions. Additionally, all fractions will be *unique* and *irreducible*. Finally, the fractions will also appear in ascending order.
+با ادامه این فرآیند تا بی‌نهایت، این ساختار *تمام* کسرهای مثبت را پوشش می‌دهد. علاوه بر این، تمام کسرها *یکتا* و *ساده‌نشدنی* خواهند بود. در نهایت، کسرها به ترتیب صعودی نیز ظاهر خواهند شد.
 
-Before proving these properties, let us actually show a visualization of the Stern-Brocot tree, rather than the list representation. Every fraction in the tree has two children. Each child is the mediant of the closest ancestor on the left and closest ancestor to the right.
+قبل از اثبات این ویژگی‌ها، بیایید به جای نمایش لیستی، یک تصویر از درخت Stern-Brocot را نشان دهیم. هر کسر در درخت دو فرزند دارد. هر فرزند، میانجیِ نزدیک‌ترین جد در سمت چپ و نزدیک‌ترین جد در سمت راست است.
 
 <div style="text-align: center;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/SternBrocotTree.svg/1024px-SternBrocotTree.svg.png" alt="Stern-Brocot tree">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/SternBrocotTree.svg/1024px-SternBrocotTree.svg.png" alt="درخت Stern-Brocot">
 </div>
 
-## Proofs
+## اثبات‌ها
 
-**Ordering.** Proving ordering is simple. We note that the mediant of two fractions is always in-between the fractions
+**ترتیب.** اثبات مرتب بودن ساده است. می‌بینیم که میانجی دو کسر همیشه بین آن دو کسر قرار می‌گیرد:
 
 $$
     \frac{a}{b} \le \frac{a+c}{b+d} \le \frac{c}{d}
 $$
 
-given that
+با فرض اینکه:
 
 $$
     \frac{a}{b} \le \frac{c}{d}.
 $$
 
-The two inequalities can be easily shown by rewriting the fractions with common denominators.
+این دو نامساوی را می‌توان با بازنویسی کسرها با مخرج مشترک به راحتی نشان داد.
 
-As the ordering is ascending in the zeroth iteration, it will be maintained at every subsequent iteration.
+از آنجایی که ترتیب در تکرار صفرم صعودی است، در هر تکرار بعدی نیز حفظ خواهد شد.
 
-**Irreducibility.** To prove this we will show that for any two adjacent fractions $\frac{a}{b}$ and $\frac{c}{d}$ we have that
+**ساده‌نشدنی بودن.** برای اثبات این موضوع، نشان می‌دهیم که برای هر دو کسر مجاور $\frac{a}{b}$ و $\frac{c}{d}$ داریم:
 
 $$
     bc - ad = 1.
 $$
 
-Recall that a Diophantine equation with two variables $ax+by=c$ has a solution iff $c$ is a multiple of $\gcd(a,b)$. In our case this implies that $\gcd(a,b) = \gcd(c,d) = 1$, which is what we want to show.
+به یاد بیاورید که یک معادله سیاله‌ی دو متغیره $ax+by=c$ تنها در صورتی جواب دارد که $c$ مضربی از $\gcd(a,b)$ باشد. در مورد ما، این به این معناست که $\gcd(a,b) = \gcd(c,d) = 1$ است، که همان چیزی است که می‌خواهیم نشان دهیم.
 
-Clearly at the zeroth iteration $bc - ad = 1$. What remains to be shown is that mediants retain this property.
+بدیهی است که در تکرار صفرم $bc - ad = 1$ برقرار است. آنچه باقی می‌ماند این است که نشان دهیم میانجی‌ها این ویژگی را حفظ می‌کنند.
 
-Assume our two adjacent fractions uphold $bc - ad = 1$, after the mediant is added to the list
+فرض کنید دو کسر مجاور ما در شرط $bc - ad = 1$ صدق می‌کنند. پس از اضافه شدن میانجی به لیست:
 
 $$
     \frac{a}{b}, \frac{a+c}{b+d}, \frac{c}{d}
 $$
 
-the new expressions become
+عبارات جدید به این صورت خواهند بود:
 
 $$\begin{align}
     b(a+c) - a(b+d) &= 1 \\
     c(b+d) - d(a+c) &= 1
 \end{align}$$
 
-which, using that $bc-ad=1$, can be easily shown to be true.
+که با استفاده از $bc-ad=1$ به راحتی می‌توان نشان داد که درست هستند.
 
-From this we see that the property is always maintained and thus all fractions are irreducible.
+از این رو، می‌بینیم که این ویژگی همیشه حفظ می‌شود و بنابراین تمام کسرها ساده‌نشدنی هستند.
 
-**The presence of all fractions.** This proof is closely related to locating a fraction in the Stern-Brocot tree. From the ordering property we have that left subtree of a fraction contains only fractions smaller than the parent fraction, and the right subtree contains only fractions larger than the parent fraction. This means we can search for a fraction by traversing the tree from the root, going left if the target is smaller than the fraction and going right if the target is larger.
+**وجود تمام کسرها.** این اثبات ارتباط نزدیکی با پیدا کردن یک کسر در درخت Stern-Brocot دارد. بر اساس ویژگی ترتیب، می‌دانیم که زیردرخت چپ یک کسر فقط شامل کسرهایی کوچکتر از کسر والد است و زیردرخت راست فقط شامل کسرهایی بزرگتر از کسر والد است. این بدان معناست که می‌توانیم با پیمایش درخت از ریشه، یک کسر را جستجو کنیم: اگر کسر هدف کوچکتر از کسر فعلی باشد به چپ می‌رویم و اگر بزرگتر باشد به راست می‌رویم.
 
-Pick an arbitrary positive target fraction $\frac{x}{y}$. It is obviously between $\frac{0}{1}$ and $\frac{1}{0}$, so the only way for the fraction to not be in the tree is if it takes an infinite number of steps to get to it.
+یک کسر مثبت دلخواه $\frac{x}{y}$ را به عنوان هدف انتخاب کنید. واضح است که این کسر بین $\frac{0}{1}$ و $\frac{1}{0}$ قرار دارد، بنابراین تنها راهی که این کسر در درخت نباشد این است که رسیدن به آن به تعداد بی‌نهایت مرحله نیاز داشته باشد.
 
-If that is the case we would at all iterations have
+اگر چنین باشد، در تمام تکرارها خواهیم داشت:
 
 $$
     \frac{a}{b} \lt \frac{x}{y} \lt \frac{c}{d}
 $$
 
-which (using the fact than an integer $z \gt 0 \iff z \ge 1$) can be rewritten as
+که (با استفاده از این واقعیت که برای یک عدد صحیح $z > 0 \iff z \ge 1$) می‌توان آن را به صورت زیر بازنویسی کرد:
 
 $$
 \begin{align}
@@ -102,44 +102,44 @@ $$
 \end{align}
 $$
 
-Now multiply the first inequality by $c+d$ and the second with $a+b$ and add them to get
+حال، نامساوی اول را در $c+d$ و دومی را در $a+b$ ضرب کرده و آنها را با هم جمع می‌کنیم تا به دست آوریم:
 
 $$
     (c+d)(bx - ay) + (a+b)(cy - dx) \ge a+b+c+d.
 $$
 
-Expanding this and using the previously shown property $bc-ad=1$ we get that
+با بسط دادن این عبارت و استفاده از ویژگی $bc-ad=1$ که قبلاً نشان دادیم، به دست می‌آوریم:
 
 $$
     x+y \ge a+b+c+d.
 $$
 
-And given that at every iteration at least one of $a,b,c,d$ will increase, the fraction searching process will contain no more than $x+y$ iterations. This contradicts the assumption that the path to $\frac{x}{y}$ was infinite and hence $\frac{x}{y}$ must be part of the tree.
+و با توجه به اینکه در هر تکرار حداقل یکی از مقادیر $a,b,c,d$ افزایش می‌یابد، فرآیند جستجوی کسر بیش از $x+y$ تکرار نخواهد داشت. این با فرض ما مبنی بر بی‌نهایت بودن مسیر به $\frac{x}{y}$ در تناقض است و بنابراین $\frac{x}{y}$ باید بخشی از درخت باشد.
 
-## Tree Building Algorithm
+## الگوریتم ساخت درخت
 
-To build any subtree of the Stern-Brocot tree, it suffices to know the left and right ancestor. On the first level, the left and right ancestors are $\frac{0}{1}$ and $\frac{1}{0}$ respectively. Using these, we calculate the mediant and proceed one level deeper, with the mediant replacing the right ancestor in the left subtree, and vice versa.
+برای ساختن هر زیردرخت از درخت Stern-Brocot، کافی است که جد چپ و راست آن را بدانیم. در سطح اول، اجداد چپ و راست به ترتیب $\frac{0}{1}$ و $\frac{1}{0}$ هستند. با استفاده از این دو، میانجی را محاسبه کرده و یک سطح پایین‌تر می‌رویم، به طوری که میانجی جایگزین جد راست در زیردرخت چپ می‌شود و بالعکس.
 
-This pseudocode tries to build the entire infinite tree:
+این شبه‌کد تلاش می‌کند تا کل درخت بی‌نهایت را بسازد:
 
 ```cpp
 void build(int a = 0, int b = 1, int c = 1, int d = 0, int level = 1) {
     int x = a + c, y = b + d;
 
-    ... output the current fraction x/y at the current level in the tree
+    // ... کسر فعلی x/y را در سطح فعلی درخت خروجی دهید
     
     build(a, b, x, y, level + 1);
     build(x, y, c, d, level + 1);
 }
 ```
 
-## Fraction Search Algorithm
+## الگوریتم جستجوی کسر
 
-The search algorithm was already described in the proof that all fractions appear in the tree, but we will repeat it here. The algorithm is a binary search algorithm. Initially we stand at the root of the tree and we compare our target with the current fraction. If they are the same we are done and stop the process. If our target is smaller we move to the left child, otherwise we move to the right child.
+الگوریتم جستجو قبلاً در اثبات وجود تمام کسرها در درخت توضیح داده شد، اما در اینجا آن را تکرار می‌کنیم. این الگوریتم یک الگوریتم جستجوی دودویی است. در ابتدا، در ریشه درخت قرار داریم و کسر هدف خود را با کسر فعلی مقایسه می‌کنیم. اگر یکسان بودند، کار تمام شده و فرآیند متوقف می‌شود. اگر هدف ما کوچکتر باشد، به فرزند چپ می‌رویم، در غیر این صورت به فرزند راست می‌رویم.
 
-### Naive search
+### جستجوی ساده
 
-Here is an implementation that returns the path to a given fraction $\frac{p}{q}$ as a sequence of `'L'` and `'R'` characters, meaning traversal to the left and right child respectively. This sequence of characters uniquely defines all positive fractions and is called the Stern-Brocot number system.
+در اینجا پیاده‌سازی‌ای ارائه شده است که مسیر به یک کسر داده شده $\frac{p}{q}$ را به صورت دنباله‌ای از کاراکترهای `'L'` و `'R'` برمی‌گرداند که به ترتیب به معنای پیمایش به فرزند چپ و راست است. این دنباله از کاراکترها به طور یکتا تمام کسرهای مثبت را تعریف می‌کند و سیستم عددی Stern-Brocot نامیده می‌شود.
 
 ```cpp
 string find(int p, int q) {
@@ -161,31 +161,31 @@ string find(int p, int q) {
 }
 ```
 
-Irrational numbers in the Stern-Brocot number system corresponds to infinite sequences of characters. Along the endless path towards the irrational number the algorithm will find reduced fractions with gradually increasing denominators that provides increasingly better approximations of the irrational number. So by taking a prefix of the infinite sequence approximations with any desired precision can be achieved. This application is important in watch-making, which explains why the tree was discovered in that domain.
+اعداد گنگ در سیستم عددی Stern-Brocot با دنباله‌های بی‌نهایتی از کاراکترها مطابقت دارند. در طول مسیر بی‌پایان به سمت عدد گنگ، الگوریتم کسرهای ساده‌شده‌ای با مخرج‌های به تدریج بزرگ‌تر پیدا می‌کند که تقریب‌های بهتری از عدد گنگ ارائه می‌دهند. بنابراین، با در نظر گرفتن یک پیشوند از این دنباله بی‌نهایت، می‌توان به تقریب‌هایی با هر دقت دلخواه دست یافت. این کاربرد در ساعت‌سازی اهمیت دارد، که توضیح می‌دهد چرا این درخت در این حوزه کشف شده است.
 
-Note that for a fraction $\frac{p}{q}$, the length of the resulting sequence could be as large as $O(p+q)$, for example when the fraction is of form $\frac{p}{1}$. This means that the algorithm above **should not be used, unless this is an acceptable complexity**! 
+توجه داشته باشید که برای یک کسر $\frac{p}{q}$، طول دنباله حاصل می‌تواند تا $O(p+q)$ بزرگ باشد، به عنوان مثال زمانی که کسر به شکل $\frac{p}{1}$ است. این بدان معناست که الگوریتم فوق **نباید استفاده شود، مگر اینکه این پیچیدگی قابل قبول باشد**!
 
-### Logarithmic search
+### جستجوی لگاریتمی
 
-Fortunately, it is possible to enhance the algorithm above to guarantee $O(\log (p+q))$ complexity. For this we should note that if the current boundary fractions are $\frac{p_L}{q_L}$ and $\frac{p_R}{q_R}$, then by doing $a$ steps to the right we move to the fraction $\frac{p_L + a p_R}{q_L + a q_R}$, and by doing $a$ steps to the left, we move to the fraction $\frac{a p_L + p_R}{a q_L + q_R}$. 
+خوشبختانه، می‌توان الگوریتم بالا را بهبود داد تا پیچیدگی $O(\log (p+q))$ را تضمین کند. برای این کار باید توجه داشت که اگر کسرهای مرزی فعلی $\frac{p_L}{q_L}$ و $\frac{p_R}{q_R}$ باشند، با انجام $a$ گام به سمت راست به کسر $\frac{p_L + a p_R}{q_L + a q_R}$ می‌رسیم و با انجام $a$ گام به سمت چپ، به کسر $\frac{a p_L + p_R}{a q_L + q_R}$ می‌رسیم.
 
-Therefore, instead of doing steps of `L` or `R` one by one, we can do $k$ steps in the same direction at once, after which we would switch to going into other direction, and so on. In this way, we can find the path to the fraction $\frac{p}{q}$ as its run-length encoding.
+بنابراین، به جای انجام گام‌های `L` یا `R` یکی یکی، می‌توانیم $k$ گام را در یک جهت به صورت یکجا برداریم و پس از آن به جهت دیگر تغییر مسیر دهیم و به همین ترتیب ادامه دهیم. به این ترتیب، می‌توانیم مسیر به کسر $\frac{p}{q}$ را به صورت کدگذاری طول اجرای (run-length encoding) آن پیدا کنیم.
 
-As the directions alternate this way, we will always know which one to take. So, for convenience we may represent a path to a fraction $\frac{p}{q}$ as a sequence of fractions
+از آنجا که جهت‌ها به این شکل متناوب تغییر می‌کنند، همیشه می‌دانیم کدام مسیر را باید انتخاب کنیم. بنابراین، برای راحتی کار، می‌توانیم مسیر به کسر $\frac{p}{q}$ را به صورت دنباله‌ای از کسرها نمایش دهیم:
 
 $$
 \frac{p_0}{q_0}, \frac{p_1}{q_1}, \frac{p_2}{q_2}, \dots, \frac{p_n}{q_n}, \frac{p_{n+1}}{q_{n+1}} = \frac{p}{q}
 $$
 
-such that $\frac{p_{k-1}}{q_{k-1}}$ and $\frac{p_k}{q_k}$ are the boundaries of the search interval on the $k$-th step, starting with $\frac{p_0}{q_0} = \frac{0}{1}$ and $\frac{p_1}{q_1} = \frac{1}{0}$. Then, after the $k$-th step we move to a fraction
+به طوری که $\frac{p_{k-1}}{q_{k-1}}$ و $\frac{p_k}{q_k}$ مرزهای بازه جستجو در گام $k$-ام هستند، که با $\frac{p_0}{q_0} = \frac{0}{1}$ و $\frac{p_1}{q_1} = \frac{1}{0}$ شروع می‌شود. سپس، بعد از گام $k$-ام به کسری می‌رسیم:
 
 $$
 \frac{p_{k+1}}{q_{k+1}} = \frac{p_{k-1} + a_k p_k}{q_{k-1} + a_k q_k},
 $$
 
-where $a_k$ is a positive integer number. If you're familiar with [continued fractions](../algebra/continued-fractions.md), you would recognize that the sequence $\frac{p_i}{q_i}$ is the sequence of the convergent fractions of $\frac{p}{q}$ and the sequence $[a_1; a_2, \dots, a_{n}, 1]$ represents the continued fraction of $\frac{p}{q}$.
+که در آن $a_k$ یک عدد صحیح مثبت است. اگر با [کسرهای مسلسل](../algebra/continued-fractions.md) آشنا باشید، متوجه می‌شوید که دنباله $\frac{p_i}{q_i}$ دنباله کسرهای همگرای $\frac{p}{q}$ است و دنباله $[a_1; a_2, \dots, a_{n}, 1]$ کسر مسلسل $\frac{p}{q}$ را نشان می‌دهد.
 
-This allows to find the run-length encoding of the path to $\frac{p}{q}$ in the manner which follows the algorithm for computing continued fraction representation of the fraction $\frac{p}{q}$:
+این امر به ما امکان می‌دهد تا کدگذاری طول اجرای مسیر به $\frac{p}{q}$ را به روشی که از الگوریتم محاسبه نمایش کسر مسلسل کسر $\frac{p}{q}$ پیروی می‌کند، پیدا کنیم:
 
 ```cpp
 auto find(int p, int q) {
@@ -201,31 +201,31 @@ auto find(int p, int q) {
 }
 ```
 
-However, this approach only works if we already know $\frac{p}{q}$ and want to find its place in the Stern-Brocot tree.
+با این حال، این رویکرد تنها زمانی کار می‌کند که ما از قبل کسر $\frac{p}{q}$ را بدانیم و بخواهیم جایگاه آن را در درخت Stern-Brocot پیدا کنیم.
 
-On practice, it is often the case that $\frac{p}{q}$ is not known in advance, but we are able to check for specific $\frac{x}{y}$ whether $\frac{x}{y} < \frac{p}{q}$.
+در عمل، اغلب پیش می‌آید که $\frac{p}{q}$ از قبل مشخص نیست، اما ما قادر به بررسی این هستیم که آیا برای یک $\frac{x}{y}$ مشخص، $\frac{x}{y} < \frac{p}{q}$ برقرار است یا خیر.
 
-Knowing this, we can emulate the search on Stern-Brocot tree by maintaining the current boundaries $\frac{p_{k-1}}{q_{k-1}}$ and $\frac{p_k}{q_k}$, and finding each $a_k$ via binary search. The algorithm then is a bit more technical and potentially have a complexity of $O(\log^2(x+y))$, unless the problem formulation allows you to find $a_k$ faster (for example, using `floor` of some known expression).
+با دانستن این موضوع، می‌توانیم جستجو در درخت Stern-Brocot را با نگهداری مرزهای فعلی $\frac{p_{k-1}}{q_{k-1}}$ و $\frac{p_k}{q_k}$ و یافتن هر $a_k$ از طریق جستجوی دودویی شبیه‌سازی کنیم. در این صورت، الگوریتم کمی فنی‌تر می‌شود و به طور بالقوه پیچیدگی $O(\log^2(x+y))$ خواهد داشت، مگر اینکه صورت مسئله به شما اجازه دهد $a_k$ را سریع‌تر پیدا کنید (مثلاً با استفاده از `floor` یک عبارت مشخص).
 
-## Farey Sequence
+## دنباله Farey
 
-The Farey sequence of order $n$ is the sorted sequence of fractions between $0$ and $1$ whose denominators do not exceed $n$.
+دنباله Farey از مرتبه $n$ دنباله‌ای مرتب‌شده از کسرهای بین $۰$ و $۱$ است که مخرج آن‌ها از $n$ بیشتر نباشد.
 
-The sequences are named after English geologist John Farey, who in 1816 conjectured that any fraction in a Farey sequence is the mediant of its neighbors. This was proven some time later by Cauchy, but independent of both of them, the mathematician Haros had come to almost the same conclusion in 1802.
+این دنباله‌ها به نام زمین‌شناس انگلیسی، John Farey، نام‌گذاری شده‌اند که در سال ۱۸۱۶ حدس زد هر کسر در دنباله Farey، میانجی همسایگان خود است. این حدس مدتی بعد توسط کوشی (Cauchy) اثبات شد، اما مستقل از هر دوی آنها، ریاضیدانی به نام Haros تقریباً به همین نتیجه در سال ۱۸۰۲ رسیده بود.
 
-The Farey sequences have many interesting properties on their own, but the connection to the Stern-Brocot tree is the most obvious. In fact, the Farey sequences can be obtained by trimming branches from the tree.
+دنباله‌های Farey به خودی خود ویژگی‌های جالب بسیاری دارند، اما ارتباط آنها با درخت Stern-Brocot از همه واضح‌تر است. در واقع، دنباله‌های Farey را می‌توان با هرس کردن شاخه‌های درخت به دست آورد.
 
-From the algorithm for building the Stern-Brocot tree, we get an algorithm for the Farey sequences. Start with the list of fractions $\frac{0}{1}, \frac{1}{0}$. At every subsequent iteration, insert the mediant only if the denominator does not exceed $n$. At some point the list will stop changing and the desired Farey sequence will have been found.
+از الگوریتم ساخت درخت Stern-Brocot، الگوریتمی برای ساخت دنباله‌های Farey به دست می‌آوریم. با لیست کسرهای $\frac{0}{1}, \frac{1}{0}$ شروع کنید. در هر تکرار بعدی، میانجی را تنها در صورتی درج کنید که مخرج آن از $n$ بیشتر نباشد. در نقطه‌ای، لیست دیگر تغییر نخواهد کرد و دنباله Farey مورد نظر به دست آمده است.
 
-### Length of a Farey Sequence
+### طول یک دنباله Farey
 
-A Farey sequence of order $n$ contains all elements of the Farey sequence of order $n-1$ as well as all irreducible fractions with denominator $n$, but the latter is just the totient $\varphi(n)$. So the length $L_n$ of the Farey sequence of order $n$ is
+یک دنباله Farey از مرتبه $n$ شامل تمام عناصر دنباله Farey از مرتبه $n-1$ و همچنین تمام کسرهای ساده‌نشدنی با مخرج $n$ است. تعداد این کسرهای جدید برابر با تابع فی اویلر، $\varphi(n)$، است. بنابراین طول $L_n$ دنباله Farey از مرتبه $n$ برابر است با:
 
 $$
     L_n = L_{n-1} + \varphi(n)
 $$
 
-or equivalently, by unraveling the recursion we get
+یا به طور معادل، با باز کردن رابطه بازگشتی به دست می‌آوریم:
 
 $$
     L_n = 1 + \sum_{k=1}^n \varphi(k).

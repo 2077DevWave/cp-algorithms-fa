@@ -1,46 +1,47 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: tortoise_and_hare
 ---
 
-# Floyd's Linked List Cycle Finding Algorithm
+# الگوریتم Floyd برای پیدا کردن چرخه در لیست پیوندی
 
-Given a linked list where the starting point of that linked list is denoted by **head**, and there may or may not be a cycle present. For instance:
-
-<div style="text-align: center;">
-  <img src="tortoise_hare_algo.png" alt=""Linked list with cycle"">
-</div>
-
-Here we need to find out the point **C**, i.e the starting point of the cycle.
-
-## Proposed algorithm
-The algorithm is called **Floyd’s Cycle Algorithm or Tortoise And Hare algorithm**.
-In order to figure out the starting point of the cycle, we need to figure out of the the cycle even exists or not.
-So, it involved two steps:
-1. Figure out the presence of the cycle.
-2. Find out the starting point of the cycle.
-
-### Step 1: Presence of the cycle
-1. Take two pointers $slow$ and $fast$.
-2. Both of them will point to head of the linked list initially.
-3. $slow$ will move one step at a time.
-4. $fast$ will move two steps at a time. (twice as speed as $slow$ pointer).
-5. Check if at any point they point to the same node before any one(or both) reach null.
-6. If they point to any same node at any point of their journey, it would indicate that the cycle indeed exists in the linked list.
-7. If we get null, it would indicate that the linked list has no cycle.
+یک لیست پیوندی (linked list) را در نظر بگیرید که نقطه شروع آن با **head** مشخص شده است و ممکن است در آن چرخه وجود داشته باشد یا نداشته باشد. برای مثال:
 
 <div style="text-align: center;">
-  <img src="tortoise_hare_cycle_found.png" alt=""Found cycle"">
+  <img src="tortoise_hare_algo.png" alt="لیست پیوندی دارای چرخه">
 </div>
 
-Now, that we have figured out that there is a cycle present in the linked list, for the next step we need to find out the starting point of cycle, i.e., **C**.
-### Step 2: Starting point of the cycle
-1. Reset the $slow$ pointer to the **head** of the linked list.
-2. Move both pointers one step at a time.
-3. The point they will meet at will be the starting point of the cycle.
+در اینجا باید نقطه **C**، یعنی نقطه شروع چرخه را پیدا کنیم.
+
+## الگوریتم پیشنهادی
+این الگوریتم، **الگوریتم چرخه Floyd یا الگوریتم لاک‌پشت و خرگوش (Tortoise And Hare)** نامیده می‌شود.
+برای پیدا کردن نقطه شروع چرخه، ابتدا باید بفهمیم که آیا اصلاً چرخه‌ای وجود دارد یا نه.
+بنابراین، این کار شامل دو مرحله است:
+۱. تشخیص وجود چرخه.
+۲. پیدا کردن نقطه شروع چرخه.
+
+### مرحله ۱: تشخیص وجود چرخه
+۱. دو اشاره‌گر (pointer) به نام‌های $slow$ و $fast$ در نظر بگیرید.
+۲. هر دوی آن‌ها در ابتدا به head لیست پیوندی اشاره می‌کنند.
+۳. اشاره‌گر $slow$ در هر مرحله یک قدم حرکت می‌کند.
+۴. اشاره‌گر $fast$ در هر مرحله دو قدم حرکت می‌کند (سرعت آن دو برابر اشاره‌گر $slow$ است).
+۵. بررسی کنید که آیا در هیچ نقطه‌ای قبل از اینکه یکی از آن‌ها (یا هر دو) به null برسند، به یک گره (node) یکسان اشاره می‌کنند یا خیر.
+۶. اگر در هر نقطه‌ای از مسیرشان به یک گره یکسان اشاره کنند، این نشان می‌دهد که در لیست پیوندی واقعاً یک چرخه وجود دارد.
+۷. اگر به null برسیم، این نشان می‌دهد که لیست پیوندی چرخه‌ای ندارد.
+
+<div style="text-align: center;">
+  <img src="tortoise_hare_cycle_found.png" alt="چرخه پیدا شد">
+</div>
+
+اکنون که فهمیدیم در لیست پیوندی یک چرخه وجود دارد، برای مرحله بعد باید نقطه شروع چرخه، یعنی **C** را پیدا کنیم.
+### مرحله ۲: پیدا کردن نقطه شروع چرخه
+۱. اشاره‌گر $slow$ را به **head** لیست پیوندی بازنشانی (reset) کنید.
+۲. هر دو اشاره‌گر را در هر مرحله یک قدم حرکت دهید.
+۳. نقطه‌ای که در آن به هم می‌رسند، نقطه شروع چرخه خواهد بود.
 
 ```java
-// Presence of cycle
+// تشخیص وجود چرخه
 public boolean hasCycle(ListNode head) {
     ListNode slow = head;
     ListNode fast = head;
@@ -58,64 +59,63 @@ public boolean hasCycle(ListNode head) {
 ```
 
 ```java
-// Assuming there is a cycle present and slow and fast are point to their meeting point
+// با فرض اینکه چرخه‌ای وجود دارد و slow و fast به نقطه تلاقی خود اشاره می‌کنند
 slow = head;
 while(slow!=fast){
 	slow = slow.next;
 	fast = fast.next;
 }
 
-return slow; // the starting point of the cycle.
+return slow; // نقطه شروع چرخه
 ```
 
-## Why does it work
+## چرا این الگوریتم کار می‌کند
 
-### Step 1: Presence of the cycle
-Since the pointer $fast$ is moving with twice as speed as $slow$, we can say that at any point of time, $fast$ would have covered twice as much distance as $slow$.
-We can also deduce that the difference between the distance covered by both of these pointers is increasing by $1$. 
+### مرحله ۱: تشخیص وجود چرخه
+از آنجا که اشاره‌گر $fast$ با سرعتی دو برابر $slow$ حرکت می‌کند، می‌توانیم بگوییم در هر لحظه از زمان، $fast$ دو برابر مسافتی را که $slow$ طی کرده است، پیموده است.
+همچنین می‌توانیم نتیجه بگیریم که اختلاف بین مسافت طی شده توسط هر دو اشاره‌گر به اندازه $1$ افزایش می‌یابد.
 ```
-slow: 0 --> 1 --> 2 --> 3 --> 4 (distance covered)
-fast: 0 --> 2 --> 4 --> 6 --> 8 (distance covered)
-diff: 0 --> 1 --> 2 --> 3 --> 4 (difference between distance covered by both pointers)
+slow: 0 --> 1 --> 2 --> 3 --> 4 (مسافت طی شده)
+fast: 0 --> 2 --> 4 --> 6 --> 8 (مسافت طی شده)
+diff: 0 --> 1 --> 2 --> 3 --> 4 (تفاوت مسافت طی شده توسط دو اشاره‌گر)
 ```
-Let $L$ denote the length of the cycle, and $a$ represent the number of steps required for the slow pointer to reach the entry of cycle. There exists a positive integer $k$ ($k > 0$) such that $k \cdot L \geq a$.
-When the slow pointer has moved $k \cdot L$ steps, and the fast pointer has covered $2 \cdot k \cdot L$ steps, both pointers find themselves within the cycle. At this point, there is a separation of $k \cdot L$ between them. Given that the cycle's length remains $L$, this signifies that they meet at the same point within the cycle, resulting in their encounter.
+فرض کنید $L$ طول چرخه باشد و $a$ تعداد قدم‌های لازم برای رسیدن اشاره‌گر slow به ورودی چرخه را نشان دهد. یک عدد صحیح مثبت $k$ ($k > 0$) وجود دارد به طوری که $k \cdot L \geq a$.
+هنگامی که اشاره‌گر slow به اندازه $k \cdot L$ قدم حرکت کرده و اشاره‌گر fast به اندازه $2 \cdot k \cdot L$ قدم را پیموده است، هر دو اشاره‌گر خود را درون چرخه می‌یابند. در این نقطه، فاصله‌ای به اندازه $k \cdot L$ بین آن‌ها وجود دارد. با توجه به اینکه طول چرخه $L$ باقی می‌ماند، این بدان معناست که آن‌ها در یک نقطه یکسان در چرخه به هم می‌رسند که منجر به تلاقی آن‌ها می‌شود.
 
-### Step 2: Starting point of the cycle
+### مرحله ۲: پیدا کردن نقطه شروع چرخه
 
-Lets try to calculate the distance covered by both of the pointers till they point they met within the cycle.
+بیایید سعی کنیم مسافت طی شده توسط هر دو اشاره‌گر را تا نقطه‌ای که در چرخه به هم رسیده‌اند، محاسبه کنیم.
 
 <div style="text-align: center;">
-  <img src="tortoise_hare_proof.png" alt=""Proof"">
+  <img src="tortoise_hare_proof.png" alt="اثبات">
 </div>
 
 $slowDist = a + xL + b$            , $x\ge0$
 
 $fastDist = a + yL + b$            , $y\ge0$
 
-- $slowDist$ is the total distance covered by slow pointer.
-- $fastDist$ is the total distance covered by fast pointer.
-- $a$ is the number of steps both pointers need to take to enter the cycle.
-- $b$ is the distance between **C** and **G**, i.e., distance between the starting point of cycle and meeting point of both pointers.
-- $x$ is the number of times the slow pointer has looped inside the cycle, starting from and ending at **C**.
-- $y$ is the number of times the fast pointer has looped inside the cycle, starting from and ending at **C**.
+-   $slowDist$ کل مسافت طی شده توسط اشاره‌گر slow است.
+-   $fastDist$ کل مسافت طی شده توسط اشاره‌گر fast است.
+-   $a$ تعداد قدم‌هایی است که هر دو اشاره‌گر برای ورود به چرخه نیاز دارند.
+-   $b$ فاصله بین **C** و **G** است، یعنی فاصله بین نقطه شروع چرخه و نقطه تلاقی دو اشاره‌گر.
+-   $x$ تعداد دفعاتی است که اشاره‌گر slow داخل چرخه چرخیده است، با شروع و پایان در **C**.
+-   $y$ تعداد دفعاتی است که اشاره‌گر fast داخل چرخه چرخیده است، با شروع و پایان در **C**.
 
 $fastDist = 2 \cdot (slowDist)$
 
 $a + yL + b = 2(a + xL + b)$
 
-Resolving the formula we get:
+با حل این فرمول به نتیجه زیر می‌رسیم:
 
 $a=(y-2x)L-b$
 
-where $y-2x$ is an integer
+که در آن $y-2x$ یک عدد صحیح است.
 
-This basically means that $a$ steps is same as doing some number of full loops in cycle and go $b$ steps backwards.
-Since the fast pointer already is $b$ steps ahead of the entry of cycle, if fast pointer moves another $a$ steps it will end up at the entry of the cycle.
-And since we let the slow pointer start at the start of the linked list, after $a$ steps it will also end up at the cycle entry. So, if they both move $a$ step they both will meet the entry of cycle.
+این اساساً به این معنی است که طی کردن $a$ قدم، معادل انجام چند دور کامل در چرخه و سپس $b$ قدم به عقب رفتن است.
+از آنجا که اشاره‌گر fast از قبل $b$ قدم از ورودی چرخه جلوتر است، اگر اشاره‌گر fast $a$ قدم دیگر حرکت کند، در ورودی چرخه قرار خواهد گرفت.
+و از آنجا که ما اجازه می‌دهیم اشاره‌گر slow از ابتدای لیست پیوندی شروع کند، پس از $a$ قدم آن نیز به ورودی چرخه خواهد رسید. بنابراین، اگر هر دو $a$ قدم حرکت کنند، هر دو در ورودی چرخه به هم خواهند رسید.
 
-# Problems:
-- [Linked List Cycle (EASY)](https://leetcode.com/problems/linked-list-cycle/)
-- [Happy Number (Easy)](https://leetcode.com/problems/happy-number/)
-- [Find the Duplicate Number (Medium)](https://leetcode.com/problems/find-the-duplicate-number/)
-
+# مسائل:
+- [Linked List Cycle (آسان)](https://leetcode.com/problems/linked-list-cycle/)
+- [Happy Number (آسان)](https://leetcode.com/problems/happy-number/)
+- [Find the Duplicate Number (متوسط)](https://leetcode.com/problems/find-the-duplicate-number/)

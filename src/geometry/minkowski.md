@@ -1,67 +1,58 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: minkowski
 ---
 
-# Minkowski sum of convex polygons
+# جمع مینکوفسکی برای چندضلعی‌های محدب
 
-## Definition
-Consider two sets $A$ and $B$ of points on a plane. Minkowski sum $A + B$ is defined as $\{a + b| a \in A, b \in B\}$.
-Here we will consider the case when $A$ and $B$ consist of convex polygons $P$ and $Q$ with their interiors.
-Throughout this article we will identify polygons with ordered sequences of their vertices, so that notation like $|P|$ or
-$P_i$ makes sense.
-It turns out that the sum of convex polygons $P$ and $Q$ is a convex polygon with at most $|P| + |Q|$ vertices.
+## تعریف
+دو مجموعه نقطه $A$ و $B$ را روی یک صفحه در نظر بگیرید. جمع مینکوفسکی $A + B$ به صورت $\{a + b| a \in A, b \in B\}$ تعریف می‌شود.
+در اینجا، حالتی را بررسی می‌کنیم که $A$ و $B$ از چندضلعی‌های محدب $P$ و $Q$ به همراه فضای داخلی‌شان تشکیل شده باشند.
+در سراسر این مقاله، چندضلعی‌ها را با دنباله‌ای مرتب از رئوسشان مشخص می‌کنیم، به طوری که نمادهایی مانند $|P|$ یا
+$P_i$ معنا پیدا کنند.
+مشخص شده است که حاصل‌جمع دو چندضلعی محدب $P$ و $Q$، یک چندضلعی محدب با حداکثر $|P| + |Q|$ رأس است.
 
-## Algorithm
+## الگوریتم
 
-Here we consider the polygons to be cyclically enumerated, i. e. $P_{|P|} = P_0,\ Q_{|Q|} = Q_0$ and so on.
+در اینجا، چندضلعی‌ها را به صورت چرخشی شماره‌گذاری می‌کنیم، یعنی $P_{|P|} = P_0$، $Q_{|Q|} = Q_0$ و غیره.
 
-Since the size of the sum is linear in terms of the sizes of initial polygons, we should aim at finding a linear-time algorithm.
-Suppose that both polygons are ordered counter-clockwise. Consider sequences of edges $\{\overrightarrow{P_iP_{i+1}}\}$
-and $\{\overrightarrow{Q_jQ_{j+1}}\}$ ordered by polar angle. We claim that the sequence of edges of $P + Q$ can be obtained by merging
-these two sequences preserving polar angle order and replacing consecutive co-directed vectors with their sum. Straightforward usage of this idea results
-in a linear-time algorithm, however, restoring the vertices of $P + Q$ from the sequence of sides requires repeated addition of vectors,
-which may introduce unwanted precision issues if we're working with floating-point coordinates, so we will describe a slight
-modification of this idea.
+از آنجایی که اندازه حاصل‌جمع از نظر اندازه چندضلعی‌های اولیه خطی است، باید به دنبال الگوریتمی با زمان اجرای خطی باشیم.
+فرض کنید هر دو چندضلعی در جهت پادساعتگرد مرتب شده باشند. دنباله یال‌های $\{\overrightarrow{P_iP_{i+1}}\}$
+و $\{\overrightarrow{Q_jQ_{j+1}}\}$ را که بر اساس زاویه قطبی مرتب شده‌اند، در نظر بگیرید. ادعا می‌کنیم که دنباله یال‌های $P + Q$ را می‌توان با ادغام این دو دنباله، با حفظ ترتیب زاویه قطبی و جایگزین کردن بردارهای هم‌جهت متوالی با حاصل‌جمعشان، به دست آورد. استفاده مستقیم از این ایده منجر به یک الگوریتم با زمان اجرای خطی می‌شود، اما بازیابی رئوس $P + Q$ از روی دنباله یال‌ها نیازمند جمع مکرر بردارها است که اگر با مختصات ممیز شناور کار کنیم، ممکن است مشکلات دقت ناخواسته‌ای ایجاد کند. بنابراین، ما یک تغییر جزئی در این ایده را شرح خواهیم داد.
 
 
-Firstly we should reorder the vertices in such a way that the first vertex
-of each polygon has the lowest y-coordinate (in case of several such vertices pick the one with the smallest x-coordinate). After that the sides of both polygons
-will become sorted by polar angle, so there is no need to sort them manually.
-Now we create two pointers $i$ (pointing to a vertex of $P$) and $j$ (pointing to a vertex of $Q$), both initially set to 0.
-We repeat the following steps while $i < |P|$ or $j < |Q|$.
+ابتدا باید رئوس را به گونه‌ای مرتب کنیم که اولین رأس هر چندضلعی دارای کمترین مختص y باشد (در صورت وجود چندین رأس با این ویژگی، رأسی را انتخاب کنید که کمترین مختص x را دارد). پس از این کار، یال‌های هر دو چندضلعی بر اساس زاویه قطبی مرتب می‌شوند، بنابراین نیازی به مرتب‌سازی دستی آنها نیست.
+اکنون دو اشاره‌گر $i$ (که به یک رأس از $P$ اشاره می‌کند) و $j$ (که به یک رأس از $Q$ اشاره می‌کند) ایجاد می‌کنیم که هر دو در ابتدا روی 0 تنظیم شده‌اند.
+مراحل زیر را تا زمانی که $i < |P|$ یا $j < |Q|$ باشد تکرار می‌کنیم.
 
-1. Append $P_i + Q_j$ to $P + Q$.
+1. $P_i + Q_j$ را به $P + Q$ اضافه کنید.
 
-2. Compare polar angles of $\overrightarrow{P_iP_{i + 1}}$ and $\overrightarrow{Q_jQ_{j+1}}$.
+2. زاویه‌های قطبی $\overrightarrow{P_iP_{i + 1}}$ و $\overrightarrow{Q_jQ_{j+1}}$ را مقایسه کنید.
 
-3. Increment the pointer which corresponds to the smallest angle (if the angles are equal, increment both).
+3. اشاره‌گری را که به زاویه کوچکتر تعلق دارد افزایش دهید (اگر زاویه‌ها مساوی بودند، هر دو را افزایش دهید).
 
-## Visualization
+## تصویرسازی
 
-Here is a nice visualization, which may help you understand what is going on.
+در اینجا یک تصویرسازی جالب وجود دارد که ممکن است به شما در درک بهتر موضوع کمک کند.
 
 <div style="text-align: center;">
   <img src="minkowski.gif" alt="Visual">
 </div>
 
-## Distance between two polygons
-One of the most common applications of Minkowski sum is computing the distance between two convex polygons (or simply checking whether they intersect).
-The distance between two convex polygons $P$ and $Q$ is defined as $\min\limits_{a \in P, b \in Q} ||a - b||$. One can note that
-the distance is always attained between two vertices or a vertex and an edge, so we can easily find the distance in $O(|P||Q|)$. However,
-with clever usage of Minkowski sum we can reduce the complexity to $O(|P| + |Q|)$.
+## فاصله بین دو چندضلعی
+یکی از رایج‌ترین کاربردهای جمع مینکوفسکی، محاسبه فاصله بین دو چندضلعی محدب (یا به سادگی، بررسی تقاطع آنها) است.
+فاصله بین دو چندضلعی محدب $P$ و $Q$ به صورت $\min\limits_{a \in P, b \in Q} ||a - b||$ تعریف می‌شود. می‌توان توجه داشت که این فاصله همیشه بین دو رأس یا یک رأس و یک یال به دست می‌آید، بنابراین می‌توانیم به راحتی فاصله را با پیچیدگی زمانی $O(|P||Q|)$ پیدا کنیم. با این حال، با استفاده هوشمندانه از جمع مینکوفسکی می‌توانیم این پیچیدگی را به $O(|P| + |Q|)$ کاهش دهیم.
 
-If we reflect $Q$ through the point $(0, 0)$ obtaining polygon $-Q$, the problem boils down to finding the smallest distance between a point in
-$P + (-Q)$ and $(0, 0)$. We can find that distance in linear time using the following idea.
-If $(0, 0)$ is inside or on the boundary of polygon, the distance is $0$, otherwise the distance is attained between $(0, 0)$ and some vertex or edge of the polygon.
-Since Minkowski sum can be computed
-in linear time, we obtain a linear-time algorithm for finding the distance between two convex polygons.
+اگر $Q$ را نسبت به نقطه $(0, 0)$ قرینه کنیم و چندضلعی $-Q$ را به دست آوریم، مسئله به یافتن کوتاه‌ترین فاصله بین یک نقطه در
+$P + (-Q)$ و نقطه $(0, 0)$ خلاصه می‌شود. می‌توانیم این فاصله را در زمان خطی با استفاده از ایده زیر پیدا کنیم.
+اگر نقطه $(0, 0)$ داخل یا روی مرز چندضلعی باشد، فاصله $0$ است؛ در غیر این صورت، فاصله بین $(0, 0)$ و یکی از رئوس یا یال‌های چندضلعی به دست می‌آید.
+از آنجایی که جمع مینکوفسکی را می‌توان در زمان خطی محاسبه کرد، یک الگوریتم با زمان خطی برای یافتن فاصله بین دو چندضلعی محدب به دست می‌آوریم.
 
-## Implementation
-Below is the implementation of Minkowski sum for polygons with integer points. Note that in this case all computations can be done in integers since
-instead of computing polar angles and directly comparing them we can look at the sign of cross product of two vectors.
+## پیاده‌سازی
+در زیر، پیاده‌سازی جمع مینکوفسکی برای چندضلعی‌هایی با نقاط صحیح آورده شده است. توجه داشته باشید که در این حالت تمام محاسبات را می‌توان با اعداد صحیح انجام داد، زیرا به جای محاسبه زوایای قطبی و مقایسه مستقیم آنها، می‌توانیم به علامت ضرب خارجی دو بردار نگاه کنیم.
 
-```{.cpp file=minkowski}
+```cpp
 struct pt{
     long long x, y;
     pt operator + (const pt & p) const {
@@ -85,15 +76,15 @@ void reorder_polygon(vector<pt> & P){
 }
 
 vector<pt> minkowski(vector<pt> P, vector<pt> Q){
-    // the first vertex must be the lowest
+    // اولین رأس باید پایین‌ترین رأس باشد
     reorder_polygon(P);
     reorder_polygon(Q);
-    // we must ensure cyclic indexing
+    // باید از اندیس‌گذاری چرخشی اطمینان حاصل کنیم
     P.push_back(P[0]);
     P.push_back(P[1]);
     Q.push_back(Q[0]);
     Q.push_back(Q[1]);
-    // main part
+    // بخش اصلی
     vector<pt> result;
     size_t i = 0, j = 0;
     while(i < P.size() - 2 || j < Q.size() - 2){
@@ -109,7 +100,7 @@ vector<pt> minkowski(vector<pt> P, vector<pt> Q){
 
 ```
 
-## Problems
+## مسائل
  * [Codeforces 87E Mogohu-Rea Idol](https://codeforces.com/problemset/problem/87/E)
  * [Codeforces 1195F Geometers Anonymous Club](https://codeforces.com/contest/1195/problem/F)
  * [TIMUS 1894 Non-Flying Weather](https://acm.timus.ru/problem.aspx?space=1&num=1894)

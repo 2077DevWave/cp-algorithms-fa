@@ -1,20 +1,20 @@
 ---
 tags:
-  
-e_maxx_link: gray_code
+  - AI Translated
+e_maxx_link: gray-code
 ---
 
-# Gray code
+# کد گری
 
-Gray code is a binary numeral system where two successive values differ in only one bit. 
+کد گری یک سیستم اعداد دودویی است که در آن دو مقدار متوالی تنها در یک بیت با هم تفاوت دارند.
 
-For example, the sequence of Gray codes for 3-bit numbers is: 000, 001, 011, 010, 110, 111, 101, 100, so $G(4) = 6$.
+برای مثال، دنباله‌ی کدهای گری برای اعداد ۳ بیتی به این صورت است: 000، 001، 011، 010، 110، 111، 101، 100، بنابراین $G(4) = 6$ است.
 
-This code was invented by Frank Gray in 1953.
+این کد توسط فرانک گری در سال ۱۹۵۳ اختراع شد.
 
-## Finding Gray code
+## پیدا کردن کد گری
 
-Let's look at the bits of number $n$ and the bits of number $G(n)$. Notice that $i$-th bit of $G(n)$ equals 1 only when $i$-th bit of $n$ equals 1 and $i + 1$-th bit equals 0 or the other way around ($i$-th bit equals 0 and $i + 1$-th bit equals 1). Thus, $G(n) = n \oplus (n >> 1)$:  
+بیایید به بیت‌های عدد $n$ و بیت‌های عدد $G(n)$ نگاه کنیم. توجه کنید که بیت $i$-ام از $G(n)$ تنها زمانی برابر با ۱ است که بیت $i$-ام از $n$ برابر با ۱ و بیت $i+1$-ام برابر با ۰ باشد، یا برعکس (بیت $i$-ام برابر با ۰ و بیت $i+1$-ام برابر با ۱ باشد). بنابراین، $G(n) = n \oplus (n >> 1)$ است:
 
 ```cpp
 int g (int n) {
@@ -22,11 +22,11 @@ int g (int n) {
 }
 ```
 
-## Finding inverse Gray code
+## پیدا کردن معکوس کد گری
 
-Given Gray code $g$, restore the original number $n$.
+با داشتن کد گری $g$، عدد اصلی $n$ را بازیابی می‌کنیم.
 
-We will move from the most significant bits to the least significant ones (the least significant bit has index 1 and the most significant bit has index $k$). The relation between the bits $n_i$ of number $n$ and the bits $g_i$ of number $g$:
+ما از پراهمیت‌ترین بیت‌ها به سمت کم‌اهمیت‌ترین بیت‌ها حرکت می‌کنیم (بیت کم‌اهمیت دارای اندیس ۱ و بیت پراهمیت دارای اندیس $k$ است). رابطه بین بیت‌های $n_i$ از عدد $n$ و بیت‌های $g_i$ از عدد $g$ به این صورت است:
 
 $$\begin{align}
   n_k &= g_k, \\
@@ -36,7 +36,7 @@ $$\begin{align}
   \vdots
 \end{align}$$
 
-The easiest way to write it in code is:
+ساده‌ترین راه برای نوشتن این منطق در کد به این صورت است:
 
 ```cpp
 int rev_g (int g) {
@@ -47,28 +47,26 @@ int rev_g (int g) {
 }
 ```
 
-## Practical applications
-Gray codes have some useful applications, sometimes quite unexpected:
+## کاربردهای عملی
+کدهای گری کاربردهای مفیدی دارند که گاهی اوقات کاملاً غیرمنتظره هستند:
 
-*   Gray code of $n$ bits forms a Hamiltonian cycle on a hypercube, where each bit corresponds to one dimension. 
+*   کد گری با $n$ بیت، یک دور همیلتونی روی یک ابرمکعب (hypercube) تشکیل می‌دهد، که در آن هر بیت متناظر با یک بُعد است.
 
-*   Gray codes are used to minimize the errors in digital-to-analog signals conversion (for example, in sensors). 
+*   کدهای گری برای به حداقل رساندن خطاها در تبدیل سیگنال‌های دیجیتال به آنالوگ (مثلاً در سنسورها) استفاده می‌شوند.
 
-*   Gray code can be used to solve the Towers of Hanoi problem.
-    Let $n$ denote number of disks. Start with Gray code of length $n$ which
-    consists of all zeroes ($G(0)$) and move between consecutive Gray codes (from $G(i)$ to $G(i+1)$).
-    Let $i$-th bit of current Gray code represent $n$-th disk 
-    (the least significant bit corresponds to the smallest disk and the most significant bit to the biggest disk). 
-    Since exactly one bit changes on each step, we can treat changing $i$-th bit as moving $i$-th disk.
-    Notice that there is exactly one move option for each disk (except the smallest one) on each step (except start and finish positions).
-    There are always two move options for the smallest disk but there is a strategy which will always lead to answer:
-    if $n$ is odd then sequence of the smallest disk moves looks like $f \to t \to r \to f \to t \to r \to ...$
-    where $f$ is the initial rod, $t$ is the terminal rod and $r$ is the remaining rod), and 
-    if $n$ is even: $f \to r \to t \to f \to r \to t \to ...$.
+*   از کد گری می‌توان برای حل مسئله برج‌های هانوی استفاده کرد.
+    فرض کنید $n$ تعداد دیسک‌ها باشد. با کد گری به طول $n$ که شامل همه صفرها است ($G(0)$) شروع کنید و بین کدهای گری متوالی حرکت کنید (از $G(i)$ به $G(i+1)$).
+    فرض کنید بیت $i$-ام از کد گری فعلی، دیسک $i$-ام را نشان می‌دهد (کم‌اهمیت‌ترین بیت مربوط به کوچک‌ترین دیسک و پراهمیت‌ترین بیت مربوط به بزرگ‌ترین دیسک است).
+    از آنجایی که در هر مرحله دقیقاً یک بیت تغییر می‌کند، می‌توانیم تغییر بیت $i$-ام را به عنوان حرکت دادن دیسک $i$-ام در نظر بگیریم.
+    توجه کنید که برای هر دیسک (به جز کوچک‌ترین دیسک) در هر مرحله (به جز وضعیت شروع و پایان) دقیقاً یک گزینه حرکت وجود دارد.
+    برای کوچک‌ترین دیسک همیشه دو گزینه حرکت وجود دارد، اما یک استراتژی وجود دارد که همیشه به جواب منجر می‌شود:
+    اگر $n$ فرد باشد، دنباله حرکت‌های کوچک‌ترین دیسک به این صورت است: $f \to t \to r \to f \to t \to r \to ...$
+    (که در آن $f$ میله اولیه، $t$ میله مقصد و $r$ میله باقیمانده است)، و 
+    اگر $n$ زوج باشد: $f \to r \to t \to f \to r \to t \to ...$
 
-*   Gray codes are also used in genetic algorithms theory.
+*   کدهای گری در تئوری الگوریتم‌های ژنتیک نیز کاربرد دارند.
 
 
-## Practice Problems
-*   <a href="https://cses.fi/problemset/task/2205">Gray Code &nbsp;&nbsp;&nbsp;&nbsp; [Difficulty: easy]</a>
-*   <a href="http://codeforces.com/problemsets/acmsguru/problem/99999/249">SGU #249 <b>"Matrix"</b> &nbsp;&nbsp;&nbsp;&nbsp; [Difficulty: medium]</a>
+## مسائل تمرینی
+*   <a href="https://cses.fi/problemset/task/2205">Gray Code &nbsp;&nbsp;&nbsp;&nbsp; [سختی: آسان]</a>
+*   <a href="http://codeforces.com/problemsets/acmsguru/problem/99999/249">SGU #249 <b>"Matrix"</b> &nbsp;&nbsp;&nbsp;&nbsp; [سختی: متوسط]</a>

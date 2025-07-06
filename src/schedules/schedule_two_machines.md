@@ -1,88 +1,87 @@
 ---
 tags:
-  
-e_maxx_link: johnson_problem_2
+  - AI Translated
+e_maxx_link: schedule_two_machines
 ---
 
-# Scheduling jobs on two machines
+# زمان‌بندی کارها روی دو ماشین
 
-This task is about finding an optimal schedule for $n$ jobs on two machines.
-Every item must first be processed on the first machine, and afterwards on the second one.
-The $i$-th job takes $a_i$ time on the first machine, and $b_i$ time on the second machine.
-Each machine can only process one job at a time.
+این مسئله در مورد یافتن یک زمان‌بندی بهینه برای $n$ کار روی دو ماشین است.
+هر کار ابتدا باید روی ماشین اول پردازش شود و سپس روی ماشین دوم.
+کار $i$-ام، $a_i$ زمان روی ماشین اول و $b_i$ زمان روی ماشین دوم نیاز دارد.
+هر ماشین در هر لحظه تنها می‌تواند یک کار را پردازش کند.
 
-We want to find the optimal order of the jobs, so that the final processing time is the minimum possible.
+می‌خواهیم ترتیب بهینه‌ی کارها را طوری پیدا کنیم که زمان نهایی پردازش، کمترین مقدار ممکن باشد.
 
-This solution that is discussed here is called Johnson's rule (named after S. M. Johnson).
+راه حلی که در اینجا مورد بحث قرار می‌گیرد، قانون جانسون (به نام S. M. Johnson) نام دارد.
 
-It is worth noting, that the task becomes NP-complete, if we have more than two machines.
+شایان ذکر است که اگر بیش از دو ماشین داشته باشیم، این مسئله NP-کامل می‌شود.
 
-## Construction of the algorithm
+## ساختار الگوریتم
 
-Note first, that we can assume that the order of jobs for the first and the second machine have to coincide.
-In fact, since the jobs for the second machine become available after processing them at the first, and if there are several jobs available for the second machine, than the processing time will be equal to the sum of their $b_i$, regardless of their order.
-Therefore it is only advantageous to send the jobs to the second machine in the same order as we sent them to the first machine.
+ابتدا توجه کنید که می‌توانیم فرض کنیم ترتیب کارها برای ماشین اول و دوم یکسان است.
+در واقع، از آنجا که کارها برای ماشین دوم پس از پردازش روی ماشین اول در دسترس قرار می‌گیرند، اگر چندین کار برای ماشین دوم موجود باشد، زمان پردازش آن‌ها برابر با مجموع $b_i$ هایشان خواهد بود، صرف‌نظر از ترتیبشان.
+بنابراین، تنها مزیت این است که کارها را با همان ترتیبی که به ماشین اول فرستاده‌ایم، به ماشین دوم بفرستیم.
 
-Consider the order of the jobs, which coincides with their input order $1, 2, \dots, n$.
+ترتیب کارها را همان ترتیب ورودی، یعنی $1, 2, \dots, n$ در نظر بگیرید.
 
-We denote by $x_i$ the **idle time** of the second machine immediately before processing $i$.
-Our goal is to **minimize the total idle time**:
+$x_i$ را به عنوان **زمان بیکاری** ماشین دوم درست قبل از پردازش کار $i$ تعریف می‌کنیم.
+هدف ما **کمینه کردن مجموع زمان بیکاری** است:
 
 $$F(x) = \sum x_i ~ \rightarrow \min$$
 
-For the first job we have $x_1 = a_1$.
-For the second job, since it gets sent to the machine at the time $a_1 + a_2$, and the second machine gets free at $x_1 + b_1$, we have $x_2 = \max\left((a_1 + a_2) - (x_1 + b_1), 0\right)$.
-In general we get the equation:
+برای کار اول داریم $x_1 = a_1$.
+برای کار دوم، از آنجا که در زمان $a_1 + a_2$ به ماشین دوم فرستاده می‌شود و ماشین دوم در زمان $x_1 + b_1$ آزاد می‌شود، داریم $x_2 = \max\left((a_1 + a_2) - (x_1 + b_1), 0\right)$.
+به طور کلی به این معادله می‌رسیم:
 
 $$x_k = \max\left(\sum_{i=1}^k a_i - \sum_{i=1}^{k-1} b_i - \sum_{i=1}^{k-1} x_i, 0 \right)$$
 
-We can now calculate the **total idle time** $F(x)$.
-It is claimed that it has the form
+اکنون می‌توانیم **مجموع زمان بیکاری** $F(x)$ را محاسبه کنیم.
+ادعا می‌شود که این مقدار به شکل زیر است
 
 $$F(x) = \max_{k=1 \dots n} K_i,$$
 
-where
+که در آن
 
 $$K_i = \sum_{i=1}^k a_i - \sum_{i=1}^{k-1} b_i.$$
 
-This can be easily verified using induction.
+این موضوع را می‌توان به سادگی با استقرا اثبات کرد.
 
-We now use the **permutation method**:
-we will exchange two neighboring jobs $j$ and $j+1$ and see how this will change the total idle time.
+اکنون از **روش جایگشت** استفاده می‌کنیم:
+دو کار مجاور $j$ و $j+1$ را با هم جابجا کرده و می‌بینیم که این کار چگونه مجموع زمان بیکاری را تغییر می‌دهد.
 
-By the form of the expression of $K_i$, it is clear that only $K_j$ and $K_{j+1}$ change, we denote their new values with $K_j'$ and $K_{j+1}'$.
+با توجه به شکل عبارت $K_i$، واضح است که تنها $K_j$ و $K_{j+1}$ تغییر می‌کنند. مقادیر جدید آن‌ها را با $K_j'$ و $K_{j+1}'$ نشان می‌دهیم.
 
-If this change from of the jobs $j$ and $j+1$ increased the total idle time, it has to be the case that:
+اگر این جابجایی کارهای $j$ و $j+1$ مجموع زمان بیکاری را افزایش داده باشد، باید داشته باشیم:
 
 $$\max(K_j, K_{j+1}) \le \max(K_j', K_{j+1}')$$
 
-(Switching two jobs might also have no impact at all.
-The above condition is only a sufficient one, but not a necessary one.)
+(جابجا کردن دو کار ممکن است هیچ تأثیری نداشته باشد. شرط بالا تنها یک شرط کافی است، نه یک شرط لازم.)
 
-After removing $\sum_{i=1}^{j+1} a_i - \sum_{i=1}^{j-1} b_i$ from both sides of the inequality, we get:
+پس از حذف $\sum_{i=1}^{j-1} a_i - \sum_{i=1}^{j-1} b_i$ از هر دو طرف نامساوی، به دست می‌آوریم:
 
 $$\max(-a_{j+1}, -b_j) \le \max(-b_{j+1}, -a_j)$$
 
-And after getting rid of the negative signs:
+و پس از حذف علامت‌های منفی:
 
 $$\min(a_j, b_{j+1}) \le \min(b_j, a_{j+1})$$
 
-Thus we obtained a **comparator**:
-by sorting the jobs on it, we obtain an optimal order of the jobs, in which no two jobs can be switched with an improvement of the final time.
+بنابراین، یک **مقایسه‌گر** به دست آوردیم:
+با مرتب‌سازی کارها بر اساس آن، ترتیب بهینه‌ی کارها را به دست می‌آوریم، که در آن هیچ دو کار مجاوری را نمی‌توان با جابجایی، زمان نهایی را بهبود بخشید.
 
-However you can further **simplify** the sorting, if you look at the comparator from a different angle.
-The comparator can be interpreted in the following way:
-If we have the four times $(a_j, a_{j+1}, b_j, b_{j+1})$, and the minimum of them is a time corresponding to the first machine, then the corresponding job should be done first.
-If the minimum time is a time from the second machine, then it should go later.
-Thus we can sort the jobs by $\min(a_i, b_i)$, and if the processing time of the current job on the first machine is less then the processing time on the second machine, then this job must be done before all the remaining jobs, and otherwise after all remaining tasks.
+با این حال، اگر از زاویه‌ای دیگر به این مقایسه‌گر نگاه کنید، می‌توانید مرتب‌سازی را **ساده‌تر** کنید.
+این مقایسه‌گر را می‌توان به این صورت تفسیر کرد:
+اگر چهار زمان $(a_j, a_{j+1}, b_j, b_{j+1})$ را داشته باشیم، و کمترینِ آن‌ها زمانی مربوط به ماشین اول باشد، آنگاه کار مربوطه باید زودتر انجام شود.
+اگر کمترین زمان مربوط به ماشین دوم باشد، آنگاه آن کار باید دیرتر انجام شود.
+بنابراین، می‌توانیم کارها را بر اساس $\min(a_i, b_i)$ مرتب کنیم، و اگر زمان پردازش کار فعلی روی ماشین اول کمتر از زمان پردازش آن روی ماشین دوم باشد، آن کار باید قبل از تمام کارهای باقیمانده انجام شود، و در غیر این صورت، بعد از تمام کارهای باقیمانده.
 
-One way or another, it turns out that by Johnson's rule we can solve the problem by sorting the jobs, and thus receive a time complexity of $O(n \log n)$.
+به هر حال، مشخص می‌شود که با قانون جانسون می‌توانیم مسئله را با مرتب‌سازی کارها حل کنیم و در نتیجه به پیچیدگی زمانی $O(n \log n)$ برسیم.
 
-## Implementation
+## پیاده‌سازی
 
-Here we implement the second variation of the described algorithm.
+در اینجا، نوع دوم الگوریتم توصیف‌شده را پیاده‌سازی می‌کنیم.
 
-```{.cpp file=johnsons_rule}
+```cpp
 struct Job {
     int a, b, idx;
 
@@ -114,6 +113,6 @@ pair<int, int> finish_times(vector<Job> const& jobs) {
 }
 ```
 
-All the information about each job is store in struct.
-The first function sorts all jobs and computes the optimal schedule.
-The second function computes the finish times of both machines given a schedule.
+تمام اطلاعات مربوط به هر کار در یک struct ذخیره می‌شود.
+تابع اول تمام کارها را مرتب کرده و زمان‌بندی بهینه را محاسبه می‌کند.
+تابع دوم زمان‌های پایان کار هر دو ماشین را با توجه به یک زمان‌بندی مشخص محاسبه می‌کند.

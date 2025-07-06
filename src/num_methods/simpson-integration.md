@@ -1,59 +1,59 @@
 ---
 tags:
-  
-e_maxx_link: simpson_integrating
+  - AI Translated
+e_maxx_link: simpson-integration
 ---
 
-# Integration by Simpson's formula
+# انتگرال‌گیری به روش سیمپسون
 
-We are going to calculate the value of a definite integral
+می‌خواهیم مقدار یک انتگرال معین را محاسبه کنیم
 
 $$\int_a ^ b f (x) dx$$
 
-The solution described here was published in one of the dissertations of **Thomas Simpson** in 1743.
+راه حلی که در اینجا شرح داده شده است، در یکی از رساله‌های **توماس سیمپسون** در سال ۱۷۴۳ منتشر شد.
 
-## Simpson's formula
+## فرمول سیمپسون
 
-Let $n$ be some natural number. We divide the integration segment $[a, b]$ into $2n$ equal parts:
+فرض کنید $n$ یک عدد طبیعی باشد. بازه انتگرال‌گیری $[a, b]$ را به $2n$ قسمت مساوی تقسیم می‌کنیم:
 
 $$x_i = a + i h, ~~ i = 0 \ldots 2n,$$
 
 $$h = \frac {b-a} {2n}.$$
 
-Now we calculate the integral separately on each of the segments $[x_ {2i-2}, x_ {2i}]$, $i = 1 \ldots n$, and then add all the values.
+اکنون انتگرال را به طور جداگانه روی هر یک از بازه‌های $[x_ {2i-2}, x_ {2i}]$ برای $i = 1 \ldots n$ محاسبه کرده و سپس همه مقادیر را با هم جمع می‌کنیم.
 
-So, suppose we consider the next segment $[x_ {2i-2}, x_ {2i}],  i = 1 \ldots n$. Replace the function $f(x)$ on it with a parabola $P(x)$ passing through 3 points $(x_ {2i-2}, x_ {2i-1}, x_ {2i})$. Such a parabola always exists and is unique; it can be found analytically.
-For instance we could construct it using the Lagrange polynomial interpolation.
-The only remaining thing left to do is to integrate this polynomial.
-If you do this for a general function $f$, you receive a remarkably simple expression:
+خب، فرض کنید بازه $[x_ {2i-2}, x_ {2i}]$ برای $i = 1 \ldots n$ را در نظر بگیریم. در این بازه، تابع $f(x)$ را با یک سهمی $P(x)$ که از ۳ نقطه $(x_ {2i-2}, x_ {2i-1}, x_ {2i})$ می‌گذرد، جایگزین می‌کنیم. چنین سهمی همیشه وجود دارد و یکتا است؛ می‌توان آن را به روش تحلیلی پیدا کرد.
+برای مثال، می‌توانیم آن را با استفاده از درون‌یابی چندجمله‌ای لاگرانژ (Lagrange polynomial interpolation) بسازیم.
+تنها کاری که باقی می‌ماند، انتگرال‌گیری از این چندجمله‌ای است.
+اگر این کار را برای یک تابع عمومی $f$ انجام دهید، به یک عبارت فوق‌العاده ساده می‌رسید:
 
 $$\int_{x_ {2i-2}} ^ {x_ {2i}} f (x) ~dx \approx \int_{x_ {2i-2}} ^ {x_ {2i}} P (x) ~dx = \left(f(x_{2i-2}) + 4f(x_{2i-1})+(f(x_{2i})\right)\frac {h} {3} $$
 
-Adding these values over all segments, we obtain the final **Simpson's formula**:
+با جمع کردن این مقادیر روی تمام بازه‌ها، به **فرمول نهایی سیمپسون** می‌رسیم:
 
 $$\int_a ^ b f (x) dx \approx \left(f (x_0) + 4 f (x_1) + 2 f (x_2) + 4f(x_3) + 2 f(x_4) + \ldots + 4 f(x_{2N-1}) + f(x_{2N}) \right)\frac {h} {3} $$
 
-## Error
+## خطا
 
-The error in approximating an integral by Simpson's formula is
+خطای تقریب یک انتگرال با استفاده از فرمول سیمپسون برابر است با
 
 $$ -\tfrac{1}{90} \left(\tfrac{b-a}{2}\right)^5 f^{(4)}(\xi)$$
 
-where $\xi$ is some number between $a$ and $b$.
+که در آن $\xi$ عددی بین $a$ و $b$ است.
 
-The error is asymptotically proportional to $(b-a)^5$. However, the above derivations suggest an error proportional to $(b-a)^4$. Simpson's rule gains an extra order because the points at which the integrand is evaluated are distributed symmetrically in the interval $[a, b]$.
+خطا به صورت مجانبی متناسب با $(b-a)^5$ است. با این حال، استنتاج‌های بالا خطایی متناسب با $(b-a)^4$ را نشان می‌دهند. قاعده سیمپسون یک مرتبه دقت بیشتر به دست می‌آورد زیرا نقاطی که انتگرال‌ده در آنها ارزیابی می‌شود، به صورت متقارن در بازه $[a, b]$ توزیع شده‌اند.
 
-## Implementation
+## پیاده‌سازی
 
-Here, $f(x)$ is some user-defined function.
+در اینجا، $f(x)$ یک تابع تعریف‌شده توسط کاربر است.
 
 ```cpp
-const int N = 1000 * 1000; // number of steps (already multiplied by 2)
+const int N = 1000 * 1000; // تعداد گام‌ها (قبلاً در ۲ ضرب شده است)
 
 double simpson_integration(double a, double b){
     double h = (b - a) / N;
-    double s = f(a) + f(b); // a = x_0 and b = x_2n
-    for (int i = 1; i <= N - 1; ++i) { // Refer to final Simpson's formula
+    double s = f(a) + f(b); // a = x_0 و b = x_2n
+    for (int i = 1; i <= N - 1; ++i) { // به فرمول نهایی سیمپسون مراجعه کنید
         double x = a + h * i;
         s += f(x) * ((i & 1) ? 4 : 2);
     }
@@ -62,6 +62,6 @@ double simpson_integration(double a, double b){
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
-* [Latin American Regionals 2012 - Environment Protection](https://matcomgrader.com/problem/9335/environment-protection/)
+*   [مسابقات منطقه‌ای آمریکای لاتین ۲۰۱۲ - حفاظت از محیط زیست](https://matcomgrader.com/problem/9335/environment-protection/)

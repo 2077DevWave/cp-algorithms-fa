@@ -1,7 +1,7 @@
 ---
 tags:
-  - AI Trasnlated
-e_maxx_link: chinese_theorem
+  - AI Translated
+e_maxx_link: chinese-remainder-theorem
 ---
 
 # قضیه باقیمانده چینی
@@ -118,7 +118,7 @@ a & \equiv & \sum_{j=1}^k a_j M_j N_j & \pmod{m_i} \\
 
 ### پیاده‌سازی
 
-```{.cpp file=chinese_remainder_theorem}
+```cpp
 struct Congruence {
     long long a, m;
 };

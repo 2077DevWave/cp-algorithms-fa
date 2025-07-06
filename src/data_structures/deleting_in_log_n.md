@@ -1,35 +1,36 @@
 ---
-title: Deleting from a data structure in O(T(n) log n)
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: deleting_in_log_n
 ---
-# Deleting from a data structure in $O(T(n)\log n)$
 
-Suppose you have a data structure which allows adding elements in **true** $O(T(n))$.
-This article will describe a technique that allows deletion in $O(T(n)\log n)$ offline.
+# حذف از یک data structure در زمان $O(T(n)\log n)$
 
-## Algorithm
+فرض کنید یک data structure دارید که امکان اضافه کردن عناصر را در زمان **واقعی** $O(T(n))$ فراهم می‌کند.
+این مقاله تکنیکی را توصیف می‌کند که امکان حذف را به صورت offline در زمان $O(T(n)\log n)$ فراهم می‌کند.
 
-Each element lives in the data structure for some segments of time between additions and deletions.
-Let's build a segment tree over the queries.
-Each segment when some element is alive splits into $O(\log n)$ nodes of the tree.
-Let's put each query when we want to know something about the structure into the corresponding leaf.
-Now to process all queries we will run a DFS on the segment tree.
-When entering the node we will add all the elements that are inside this node.
-Then we will go further to the children of this node or answer the queries (if the node is a leaf).
-When leaving the node, we must undo the additions.
-Note that if we change the structure in $O(T(n))$ we can roll back the changes in $O(T(n))$ by keeping a stack of changes.
-Note that rollbacks break amortized complexity.
+## الگوریتم
 
-## Notes
+هر عنصر برای بازه‌های زمانی مشخصی بین عملیات اضافه کردن و حذف، در data structure زنده است.
+یک segment tree روی کوئری‌ها می‌سازیم.
+هر بازه‌ای که در آن یک عنصر زنده است، به $O(\log n)$ گره از درخت تقسیم می‌شود.
+هر کوئری که در آن وضعیت ساختار را جویا می‌شویم، در برگ متناظر آن قرار می‌دهیم.
+حال برای پردازش تمام کوئری‌ها، یک DFS روی segment tree اجرا می‌کنیم.
+هنگام ورود به یک گره، تمام عناصری را که در آن گره قرار دارند اضافه می‌کنیم.
+سپس به سراغ فرزندان آن گره می‌رویم یا (اگر گره برگ باشد) به کوئری‌ها پاسخ می‌دهیم.
+هنگام خروج از گره، باید عملیات اضافه کردن را لغو (undo) کنیم.
+توجه داشته باشید که اگر ساختار را در زمان $O(T(n))$ تغییر دهیم، می‌توانیم با نگهداری یک stack از تغییرات، این تغییرات را در زمان $O(T(n))$ به حالت قبل بازگردانیم (roll back).
+توجه داشته باشید که عملیات بازگردانی (rollback) پیچیدگی زمانی سرشکن (amortized complexity) را نامعتبر می‌کند.
 
-The idea of creating a segment tree over segments when something is alive may be used not only for data structure problems.
-See some problems below.
+## نکات
 
-## Implementation
+ایده ساختن segment tree روی بازه‌های زمانی که یک موجودیت در آن فعال است، می‌تواند برای مسائلی غیر از مسائل data structure نیز به کار رود.
+برای نمونه، مسائل زیر را ببینید.
 
-This implementation is for the [dynamic connectivity](https://en.wikipedia.org/wiki/Dynamic_connectivity) problem.
-It can add edges, remove edges and count the number of connected components.
+## پیاده‌سازی
+
+این پیاده‌سازی برای مسئله‌ی [همبندی پویا (dynamic connectivity)](https://en.wikipedia.org/wiki/Dynamic_connectivity) است.
+این پیاده‌سازی می‌تواند یال اضافه کند، یال حذف کند و تعداد مؤلفه‌های همبند را بشمارد.
 
 ```{.cpp file=dynamic-conn}
 struct dsu_save {
@@ -150,7 +151,7 @@ struct QueryTree {
 };
 ```
 
-## Problems
+## مسائل
 
 - [Codeforces - Connect and Disconnect](https://codeforces.com/gym/100551/problem/A)
 - [Codeforces - Addition on Segments](https://codeforces.com/contest/981/problem/E)

@@ -1,32 +1,32 @@
 ---
 tags:
-  
-e_maxx_link: z_function
+  - AI Translated
+e_maxx_link: z-function
 ---
 
-# Z-function and its calculation
+# Z-function و نحوه‌ی محاسبه‌ی آن
 
-Suppose we are given a string $s$ of length $n$. The **Z-function** for this string is an array of length $n$ where the $i$-th element is equal to the greatest number of characters starting from the position $i$ that coincide with the first characters of $s$.
+فرض کنید یک رشته $s$ به طول $n$ به ما داده شده است. **Z-function** برای این رشته، یک آرایه به طول $n$ است که در آن، عنصر $i$-ام برابر با بزرگترین تعداد کاراکترهایی است که از موقعیت $i$ شروع شده و با کاراکترهای ابتدایی رشته $s$ یکسان هستند.
 
-In other words, $z[i]$ is the length of the longest string that is, at the same time, a prefix of $s$ and a prefix of the suffix of $s$ starting at $i$.
+به عبارت دیگر، $z[i]$ طول بلندترین رشته‌ای است که همزمان پیشوندی از $s$ و پیشوندی از پسوند $s$ که از خانه‌ی $i$ شروع می‌شود، است.
 
-**Note.** In this article, to avoid ambiguity, we assume $0$-based indexes; that is: the first character of $s$ has index $0$ and the last one has index $n-1$.
+**نکته.** در این مقاله، برای جلوگیری از ابهام، از اندیس‌گذاری ۰-پایه استفاده می‌کنیم؛ یعنی اولین کاراکتر $s$ اندیس ۰ و آخرین کاراکتر اندیس $n-1$ را دارد.
 
-The first element of Z-function, $z[0]$, is generally not well defined. In this article we will assume it is zero (although it doesn't change anything in the algorithm implementation).
+اولین عنصر Z-function، یعنی $z[0]$، به طور کلی تعریف مشخصی ندارد. در این مقاله فرض می‌کنیم که مقدار آن صفر است (هرچند این موضوع تغییری در پیاده‌سازی الگوریتم ایجاد نمی‌کند).
 
-This article presents an algorithm for calculating the Z-function in $O(n)$ time, as well as various of its applications.
+این مقاله الگوریتمی برای محاسبه‌ی Z-function در زمان $O(n)$ و همچنین کاربردهای مختلف آن را ارائه می‌دهد.
 
-## Examples
+## مثال‌ها
 
-For example, here are the values of the Z-function computed for different strings:
+برای مثال، در اینجا مقادیر Z-function برای رشته‌های مختلف محاسبه شده است:
 
-* "aaaaa" - $[0, 4, 3, 2, 1]$
-* "aaabaab" - $[0, 2, 1, 0, 2, 1, 0]$
-* "abacaba" - $[0, 0, 1, 0, 3, 0, 1]$
+*   "aaaaa" - $[0, 4, 3, 2, 1]$
+*   "aaabaab" - $[0, 2, 1, 0, 2, 1, 0]$
+*   "abacaba" - $[0, 0, 1, 0, 3, 0, 1]$
 
-## Trivial algorithm
+## الگوریتم ساده
 
-Formal definition can be represented in the following elementary $O(n^2)$ implementation.
+تعریف رسمی را می‌توان در پیاده‌سازی ساده‌ی زیر با پیچیدگی $O(n^2)$ نمایش داد.
 
 ```cpp
 vector<int> z_function_trivial(string s) {
@@ -41,51 +41,51 @@ vector<int> z_function_trivial(string s) {
 }
 ```
 
-We just iterate through every position $i$ and update $z[i]$ for each one of them, starting from $z[i] = 0$ and incrementing it as long as we don't find a mismatch (and as long as we don't reach the end of the line).
+ما به سادگی در تمام موقعیت‌های $i$ پیمایش می‌کنیم و برای هر کدام $z[i]$ را به‌روز می‌کنیم، با شروع از $z[i] = 0$ و افزایش آن تا زمانی که به یک عدم تطابق برخورد کنیم (و تا زمانی که به انتهای خط نرسیم).
 
-Of course, this is not an efficient implementation. We will now show the construction of an efficient implementation.
+البته، این یک پیاده‌سازی بهینه نیست. اکنون به ساخت یک پیاده‌سازی بهینه خواهیم پرداخت.
 
-## Efficient algorithm to compute the Z-function
+## الگوریتم بهینه برای محاسبه Z-function
 
-To obtain an efficient algorithm we will compute the values of $z[i]$ in turn from $i = 1$ to $n - 1$ but at the same time, when computing a new value, we'll try to make the best use possible of the previously computed values.
+برای به دست آوردن یک الگوریتم بهینه، مقادیر $z[i]$ را به ترتیب از $i = 1$ تا $n - 1$ محاسبه می‌کنیم، اما همزمان، هنگام محاسبه‌ی یک مقدار جدید، سعی می‌کنیم از مقادیر محاسبه‌شده‌ی قبلی بهترین استفاده‌ی ممکن را ببریم.
 
-For the sake of brevity, let's call **segment matches** those substrings that coincide with a prefix of $s$. For example, the value of the desired Z-function $z[i]$ is the length of the segment match starting at position $i$ (and that ends at position $i + z[i] - 1$).
+برای اختصار، زیررشته‌هایی که با پیشوندی از $s$ منطبق هستند را **تطابق‌های قطعه‌ای** می‌نامیم. برای مثال، مقدار Z-function مورد نظر، $z[i]$، طول تطابق قطعه‌ای است که از موقعیت $i$ شروع می‌شود (و در موقعیت $i + z[i] - 1$ پایان می‌یابد).
 
-To do this, we will keep **the $[l, r)$ indices of the rightmost segment match**. That is, among all detected segments we will keep the one that ends rightmost. In a way, the index $r$ can be seen as the "boundary" to which our string $s$ has been scanned by the algorithm; everything beyond that point is not yet known.
+برای این کار، ما اندیس‌های $[l, r)$ **راست‌ترین تطابق قطعه‌ای** را نگه می‌داریم. یعنی، در میان تمام قطعات تطابقی که پیدا کرده‌ایم، آنی را نگه می‌داریم که در سمت راست‌ترین نقطه تمام می‌شود. در واقع، اندیس $r$ را می‌توان به عنوان «مرزی» در نظر گرفت که رشته $s$ تا آنجا توسط الگوریتم پیمایش شده است؛ هر چیزی فراتر از آن نقطه هنوز ناشناخته است.
 
-Then, if the current index (for which we have to compute the next value of the Z-function) is $i$, we have one of two options:
+سپس، اگر اندیس کنونی (که باید مقدار بعدی Z-function را برای آن محاسبه کنیم) برابر با $i$ باشد، یکی از دو گزینه را داریم:
 
-*   $i \geq r$ -- the current position is **outside** of what we have already processed.
+*   $i \geq r$ -- موقعیت کنونی **خارج از** آن چیزی است که قبلاً پردازش کرده‌ایم.
 
-    We will then compute $z[i]$ with the **trivial algorithm** (that is, just comparing values one by one). Note that in the end, if $z[i] > 0$, we'll have to update the indices of the rightmost segment, because it's guaranteed that the new $r = i + z[i]$ is better than the previous $r$.
+    سپس $z[i]$ را با **الگوریتم ساده** محاسبه می‌کنیم (یعنی فقط مقایسه کاراکتر به کاراکتر). توجه داشته باشید که در پایان، اگر $z[i] > 0$ باشد، باید اندیس‌های راست‌ترین قطعه را به‌روز کنیم، زیرا تضمین می‌شود که $r$ جدید یعنی $i + z[i]$ از $r$ قبلی بهتر است.
 
-*   $i < r$ -- the current position is inside the current segment match $[l, r)$.
+*   $i < r$ -- موقعیت کنونی داخل تطابق قطعه‌ای فعلی $[l, r)$ است.
 
-    Then we can use the already calculated Z-values to "initialize" the value of $z[i]$ to something (it sure is better than "starting from zero"), maybe even some big number.
+    سپس می‌توانیم از مقادیر Z-function محاسبه‌شده برای «مقداردهی اولیه» به $z[i]$ استفاده کنیم (که قطعاً بهتر از «شروع از صفر» است)، شاید حتی با یک عدد بزرگ.
 
-    For this, we observe that the substrings $s[l \dots r)$ and $s[0 \dots r-l)$ **match**. This means that as an initial approximation for $z[i]$ we can take the value already computed for the corresponding segment $s[0 \dots r-l)$, and that is $z[i-l]$.
+    برای این کار، مشاهده می‌کنیم که زیررشته‌های $s[l \dots r)$ و $s[0 \dots r-l)$ **تطابق دارند**. این بدان معناست که به عنوان یک تقریب اولیه برای $z[i]$ می‌توانیم مقداری را که قبلاً برای قطعه متناظر $s[0 \dots r-l)$ محاسبه شده است، یعنی $z[i-l]$، در نظر بگیریم.
 
-    However, the value $z[i-l]$ could be too large: when applied to position $i$ it could exceed the index $r$. This is not allowed because we know nothing about the characters to the right of $r$: they may differ from those required.
+    با این حال، مقدار $z[i-l]$ ممکن است بیش از حد بزرگ باشد: وقتی برای موقعیت $i$ اعمال شود، ممکن است از اندیس $r$ فراتر رود. این مجاز نیست زیرا ما در مورد کاراکترهای سمت راست $r$ چیزی نمی‌دانیم: آنها ممکن است با آنچه لازم است متفاوت باشند.
 
-    Here is **an example** of a similar scenario:
+    در اینجا **یک مثال** از سناریوی مشابه آورده شده است:
 
     $$ s = "aaaabaa" $$
 
-    When we get to the last position ($i = 6$), the current match segment will be $[5, 7)$. Position $6$ will then match position $6 - 5 = 1$, for which the value of the Z-function is $z[1] = 3$. Obviously, we cannot initialize $z[6]$ to $3$, it would be completely incorrect. The maximum value we could initialize it to is $1$ -- because it's the largest value that doesn't bring us beyond the index $r$ of the match segment $[l, r)$.
+    هنگامی که به آخرین موقعیت ($i = 6$) می‌رسیم، قطعه تطابق فعلی $[5, 7)$ خواهد بود. موقعیت $6$ با موقعیت $6 - 5 = 1$ مطابقت دارد که مقدار Z-function برای آن $z[1] = 3$ است. واضح است که نمی‌توانیم $z[6]$ را با $3$ مقداردهی اولیه کنیم؛ این کاملاً نادرست خواهد بود. حداکثر مقداری که می‌توانیم با آن مقداردهی اولیه کنیم $1$ است - زیرا این بزرگترین مقداری است که ما را از اندیس $r$ قطعه تطابق $[l, r)$ فراتر نمی‌برد.
 
-    Thus, as an **initial approximation** for $z[i]$ we can safely take:
+    بنابراین، به عنوان یک **تقریب اولیه** برای $z[i]$ می‌توانیم با خیال راحت در نظر بگیریم:
 
     $$ z_0[i] = \min(r - i,\; z[i-l]) $$
 
-    After having $z[i]$ initialized to $z_0[i]$, we try to increment $z[i]$ by running the **trivial algorithm** -- because in general, after the border $r$, we cannot know if the segment will continue to match or not.
+    پس از مقداردهی اولیه $z[i]$ به $z_0[i]$، سعی می‌کنیم $z[i]$ را با اجرای **الگوریتم ساده** افزایش دهیم - زیرا به طور کلی، پس از مرز $r$، نمی‌توانیم بدانیم که آیا تطابق قطعه ادامه خواهد داشت یا نه.
 
-Thus, the whole algorithm is split in two cases, which differ only in **the initial value** of $z[i]$: in the first case it's assumed to be zero, in the second case it is determined by the previously computed values (using the above formula). After that, both branches of this algorithm can be reduced to the implementation of **the trivial algorithm**, which starts immediately after we specify the initial value.
+بنابراین، کل الگوریتم به دو حالت تقسیم می‌شود که فقط در **مقدار اولیه** $z[i]$ تفاوت دارند: در حالت اول فرض می‌شود صفر است، در حالت دوم توسط مقادیر محاسبه‌شده‌ی قبلی تعیین می‌شود (با استفاده از فرمول بالا). پس از آن، هر دو شاخه این الگوریتم را می‌توان به پیاده‌سازی **الگوریتم ساده** کاهش داد، که بلافاصله پس از مشخص کردن مقدار اولیه شروع می‌شود.
 
-The algorithm turns out to be very simple. Despite the fact that on each iteration the trivial algorithm is run, we have made significant progress, having an algorithm that runs in linear time. Later on we will prove that the running time is linear.
+الگوریتم بسیار ساده از آب در می‌آید. با وجود اینکه در هر تکرار الگوریتم ساده اجرا می‌شود، ما پیشرفت قابل توجهی داشته‌ایم و الگوریتمی به دست آورده‌ایم که در زمان خطی اجرا می‌شود. در ادامه ثابت خواهیم کرد که زمان اجرا خطی است.
 
-## Implementation
+## پیاده‌سازی
 
-Implementation turns out to be rather concise:
+پیاده‌سازی کاملاً مختصر است:
 
 ```cpp
 vector<int> z_function(string s) {
@@ -108,107 +108,107 @@ vector<int> z_function(string s) {
 }
 ```
 
-### Comments on this implementation
+### توضیحاتی در مورد این پیاده‌سازی
 
-The whole solution is given as a function which returns an array of length $n$ -- the Z-function of $s$.
+کل راه حل به صورت تابعی ارائه شده است که یک آرایه به طول $n$ - یعنی Z-function رشته $s$ - را برمی‌گرداند.
 
-Array $z$ is initially filled with zeros. The current rightmost match segment is assumed to be $[0; 0)$ (that is, a deliberately small segment which doesn't contain any $i$).
+آرایه $z$ در ابتدا با صفر پر می‌شود. فرض می‌شود که راست‌ترین قطعه تطابق فعلی $[0; 0)$ است (یعنی یک قطعه عمداً کوچک که هیچ $i$ را شامل نمی‌شود).
 
-Inside the loop for $i = 1 \dots n - 1$ we first determine the initial value $z[i]$ -- it will either remain zero or be computed using the above formula.
+داخل حلقه برای $i = 1 \dots n - 1$ ابتدا مقدار اولیه $z[i]$ را تعیین می‌کنیم - این مقدار یا صفر باقی می‌ماند یا با استفاده از فرمول بالا محاسبه می‌شود.
 
-Thereafter, the trivial algorithm attempts to increase the value of $z[i]$ as much as possible.
+پس از آن، الگوریتم ساده تلاش می‌کند تا مقدار $z[i]$ را تا حد امکان افزایش دهد.
 
-In the end, if it's required (that is, if $i + z[i] > r$), we update the rightmost match segment $[l, r)$.
+در نهایت، اگر لازم باشد (یعنی اگر $i + z[i] > r$ باشد)، راست‌ترین قطعه تطابق $[l, r)$ را به‌روز می‌کنیم.
 
-## Asymptotic behavior of the algorithm
+## رفتار مجانبی الگوریتم
 
-We will prove that the above algorithm has a running time that is linear in the length of the string -- thus, it's $O(n)$.
+ما ثابت خواهیم کرد که الگوریتم بالا زمان اجرای خطی نسبت به طول رشته دارد - یعنی $O(n)$ است.
 
-The proof is very simple.
+اثبات بسیار ساده است.
 
-We are interested in the nested `while` loop, since everything else is just a bunch of constant operations which sums up to $O(n)$.
+تمرکز ما بر روی حلقه تو در توی `while` است، زیرا بقیه موارد فقط مجموعه‌ای از عملیات با هزینه ثابت هستند که در مجموع $O(n)$ می‌شوند.
 
-We will show that **each iteration** of the `while` loop will increase the right border $r$ of the match segment.
+نشان خواهیم داد که **هر تکرار** حلقه `while` مرز راست $r$ از قطعه تطابق را افزایش می‌دهد.
 
-To do that, we will consider both branches of the algorithm:
+برای این کار، هر دو شاخه الگوریتم را در نظر می‌گیریم:
 
 *   $i \geq r$
 
-    In this case, either the `while` loop won't make any iteration (if $s[0] \ne s[i]$), or it will take a few iterations, starting at position $i$, each time moving one character to the right. After that, the right border $r$ will necessarily be updated.
+    در این حالت، یا حلقه `while` هیچ تکراری نخواهد داشت (اگر $s[0] \ne s[i]$)، یا چند تکرار خواهد داشت که از موقعیت $i$ شروع شده و هر بار یک کاراکتر به سمت راست حرکت می‌کند. پس از آن، مرز راست $r$ لزوماً به‌روز خواهد شد.
 
-    So we have found that, when $i \geq r$, each iteration of the `while` loop increases the value of the new $r$ index.
+    بنابراین متوجه شدیم که وقتی $i \geq r$ است، هر تکرار حلقه `while` مقدار اندیس $r$ جدید را افزایش می‌دهد.
 
 *   $i < r$
 
-    In this case, we initialize $z[i]$ to a certain value $z_0$ given by the above formula. Let's compare this initial value $z_0$ to the value $r - i$. We will have three cases:
+    در این حالت، $z[i]$ را با مقدار مشخص $z_0$ که از فرمول بالا به دست آمده، مقداردهی اولیه می‌کنیم. بیایید این مقدار اولیه $z_0$ را با مقدار $r - i$ مقایسه کنیم. سه حالت خواهیم داشت:
 
       *   $z_0 < r - i$
 
-          We prove that in this case no iteration of the `while` loop will take place.
+          ثابت می‌کنیم که در این حالت هیچ تکراری از حلقه `while` رخ نخواهد داد.
 
-          It's easy to prove, for example, by contradiction: if the `while` loop made at least one iteration, it would mean that initial approximation $z[i] = z_0$ was inaccurate (less than the match's actual length). But since $s[l \dots r)$ and $s[0 \dots r-l)$ are the same, this would imply that $z[i-l]$ holds the wrong value (less than it should be).
+          اثبات آن آسان است، برای مثال با برهان خلف: اگر حلقه `while` حداقل یک تکرار داشته باشد، به این معنی است که تقریب اولیه $z[i] = z_0$ نادرست بوده (کمتر از طول واقعی تطابق). اما از آنجا که $s[l \dots r)$ و $s[0 \dots r-l)$ یکسان هستند، این امر به این معنی است که $z[i-l]$ مقدار اشتباهی را در خود نگه داشته است (کمتر از آنچه باید باشد).
 
-          Thus, since $z[i-l]$ is correct and it is less than $r - i$, it follows that this value coincides with the required value $z[i]$.
+          بنابراین، از آنجا که $z[i-l]$ صحیح و کمتر از $r - i$ است، نتیجه می‌شود که این مقدار با مقدار مورد نیاز $z[i]$ منطبق است.
 
       *   $z_0 = r - i$
 
-          In this case, the `while` loop can make a few iterations, but each of them will lead to an increase in the value of the $r$ index because we will start comparing from $s[r]$, which will climb beyond the $[l, r)$ interval.
+          در این حالت، حلقه `while` ممکن است چند تکرار داشته باشد، اما هر یک از آنها منجر به افزایش مقدار اندیس $r$ خواهد شد، زیرا ما مقایسه را از $s[r]$ شروع خواهیم کرد که از بازه $[l, r)$ فراتر خواهد رفت.
 
       *   $z_0 > r - i$
 
-          This option is impossible, by definition of $z_0$.
+          این گزینه، طبق تعریف $z_0$، غیرممکن است.
 
-So, we have proved that each iteration of the inner loop make the $r$ pointer advance to the right. Since $r$ can't be more than $n-1$, this means that the inner loop won't make more than $n-1$ iterations.
+بنابراین، ثابت کردیم که هر تکرار حلقه داخلی باعث می‌شود که اشاره‌گر $r$ به سمت راست حرکت کند. از آنجا که $r$ نمی‌تواند بیشتر از $n-1$ باشد، این بدان معناست که حلقه داخلی بیش از $n-1$ تکرار نخواهد داشت.
 
-As the rest of the algorithm obviously works in $O(n)$, we have proved that the whole algorithm for computing Z-functions runs in linear time.
+از آنجا که بقیه الگوریتم به وضوح در $O(n)$ کار می‌کند، ثابت کردیم که کل الگوریتم محاسبه Z-function در زمان خطی اجرا می‌شود.
 
-## Applications
+## کاربردها
 
-We will now consider some uses of Z-functions for specific tasks.
+اکنون به بررسی برخی از کاربردهای Z-function برای وظایف خاص می‌پردازیم.
 
-These applications will be largely similar to applications of [prefix function](prefix-function.md).
+این کاربردها تا حد زیادی شبیه به کاربردهای [prefix function](prefix-function.md) هستند.
 
-### Search the substring
+### جستجوی زیررشته
 
-To avoid confusion, we call $t$ the **string of text**, and $p$ the **pattern**. The problem is: find all occurrences of the pattern $p$ inside the text $t$.
+برای جلوگیری از سردرگمی، $t$ را **رشته متن** و $p$ را **الگو** می‌نامیم. مسئله این است: تمام رخدادهای الگوی $p$ را در متن $t$ پیدا کنید.
 
-To solve this problem, we create a new string $s = p + \diamond + t$, that is, we apply string concatenation to $p$ and $t$ but we also put a separator character $\diamond$ in the middle (we'll choose $\diamond$ so that it will certainly not be present anywhere in the strings $p$ or $t$).
+برای حل این مسئله، رشته جدیدی به صورت $s = p + \diamond + t$ می‌سازیم، یعنی رشته‌های $p$ و $t$ را به هم می‌چسبانیم اما یک کاراکتر جداکننده $\diamond$ نیز در وسط قرار می‌دهیم (ما $\diamond$ را طوری انتخاب می‌کنیم که مطمئناً در هیچ کجای رشته‌های $p$ یا $t$ وجود نداشته باشد).
 
-Compute the Z-function for $s$. Then, for any $i$ in the interval $[0; \; \operatorname{length}(t) - 1]$, we will consider the corresponding value $k = z[i + \operatorname{length}(p) + 1]$. If $k$ is equal to $\operatorname{length}(p)$ then we know there is one occurrence of $p$ in the $i$-th position of $t$, otherwise there is no occurrence of $p$ in the $i$-th position of $t$.
+Z-function را برای $s$ محاسبه کنید. سپس برای هر $i$ در بازه $[0; \; \operatorname{length}(t) - 1]$، مقدار متناظر $k = z[i + \operatorname{length}(p) + 1]$ را در نظر می‌گیریم. اگر $k$ برابر با $\operatorname{length}(p)$ باشد، می‌دانیم که یک رخداد از $p$ در موقعیت $i$-ام از $t$ وجود دارد، در غیر این صورت هیچ رخدادی از $p$ در موقعیت $i$-ام از $t$ وجود ندارد.
 
-The running time (and memory consumption) is $O(\operatorname{length}(t) + \operatorname{length}(p))$.
+زمان اجرا (و مصرف حافظه) $O(\operatorname{length}(t) + \operatorname{length}(p))$ است.
 
-### Number of distinct substrings in a string
+### تعداد زیررشته‌های متمایز در یک رشته
 
-Given a string $s$ of length $n$, count the number of distinct substrings of $s$.
+با داشتن یک رشته $s$ به طول $n$، تعداد زیررشته‌های متمایز $s$ را بشمارید.
 
-We'll solve this problem iteratively. That is: knowing the current number of different substrings, recalculate this amount after adding to the end of $s$ one character.
+این مسئله را به صورت تکراری حل خواهیم کرد. یعنی: با دانستن تعداد فعلی زیررشته‌های متمایز، این مقدار را پس از افزودن یک کاراکتر به انتهای $s$ دوباره محاسبه می‌کنیم.
 
-So, let $k$ be the current number of distinct substrings of $s$. We append a new character $c$ to $s$. Obviously, there can be some new substrings ending in this new character $c$ (namely, all those strings that end with this symbol and that we haven't encountered yet).
+بنابراین، فرض کنید $k$ تعداد فعلی زیررشته‌های متمایز $s$ باشد. ما یک کاراکتر جدید $c$ را به انتهای $s$ اضافه می‌کنیم. بدیهی است که ممکن است زیررشته‌های جدیدی وجود داشته باشند که به این کاراکتر جدید $c$ ختم می‌شوند (یعنی تمام آن رشته‌هایی که با این نماد تمام می‌شوند و ما قبلاً با آنها روبرو نشده‌ایم).
 
-Take a string $t = s + c$ and invert it (write its characters in reverse order). Our task is now to count how many prefixes of $t$ are not found anywhere else in $t$. Let's compute the Z-function of $t$ and find its maximum value $z_{max}$. Obviously, $t$'s prefix of length $z_{max}$ occurs also somewhere in the middle of $t$. Clearly, shorter prefixes also occur.
+رشته $t = s + c$ را برداشته و آن را معکوس کنید (کاراکترهای آن را به ترتیب معکوس بنویسید). وظیفه ما اکنون شمارش تعداد پیشوندهایی از $t$ است که در هیچ جای دیگری از $t$ یافت نمی‌شوند. Z-function رشته $t$ را محاسبه کرده و مقدار بیشینه آن $z_{max}$ را پیدا می‌کنیم. بدیهی است که پیشوند $t$ به طول $z_{max}$ در جای دیگری در وسط $t$ نیز رخ می‌دهد. واضح است که پیشوندهای کوتاه‌تر نیز رخ می‌دهند.
 
-So, we have found that the number of new substrings that appear when symbol $c$ is appended to $s$ is equal to $\operatorname{length}(t) - z_{max}$.
+بنابراین، متوجه شدیم که تعداد زیررشته‌های جدیدی که هنگام اضافه شدن نماد $c$ به $s$ ظاهر می‌شوند برابر است با $\operatorname{length}(t) - z_{max}$.
 
-Consequently, the running time of this solution is $O(n^2)$ for a string of length $n$.
+در نتیجه، زمان اجرای این راه حل برای یک رشته به طول $n$ برابر با $O(n^2)$ است.
 
-It's worth noting that in exactly the same way we can recalculate, still in $O(n)$ time, the number of distinct substrings when appending a character in the beginning of the string, as well as when removing it (from the end or the beginning).
+شایان ذکر است که دقیقاً به همین روش می‌توانیم، باز هم در زمان $O(n)$، تعداد زیررشته‌های متمایز را هنگام اضافه کردن یک کاراکتر به ابتدای رشته و همچنین هنگام حذف آن (از انتها یا ابتدا) دوباره محاسبه کنیم.
 
-### String compression
+### فشرده‌سازی رشته
 
-Given a string $s$ of length $n$. Find its shortest "compressed" representation, that is: find a string $t$ of shortest length such that $s$ can be represented as a concatenation of one or more copies of $t$.
+یک رشته $s$ به طول $n$ داده شده است. کوتاه‌ترین نمایش «فشرده» آن را پیدا کنید، یعنی: کوتاه‌ترین رشته $t$ را پیدا کنید به طوری که $s$ بتواند به صورت الحاق یک یا چند کپی از $t$ نمایش داده شود.
 
-A solution is: compute the Z-function of $s$, loop through all $i$ such that $i$ divides $n$. Stop at the first $i$ such that $i + z[i] = n$. Then, the string $s$ can be compressed to the length $i$.
+یک راه حل این است: Z-function رشته $s$ را محاسبه کنید، در تمام $i$ هایی که $i$ بر $n$ بخش‌پذیر است، حلقه بزنید. در اولین $i$ که $i + z[i] = n$ باشد، متوقف شوید. سپس، رشته $s$ می‌تواند به طول $i$ فشرده شود.
 
-The proof for this fact is the same as the solution which uses the [prefix function](prefix-function.md).
+اثبات این واقعیت همانند راه حلی است که از [prefix function](prefix-function.md) استفاده می‌کند.
 
-## Practice Problems
+## مسائل تمرینی
 
-* [eolymp - Blocks of string](https://www.eolymp.com/en/problems/1309)
-* [Codeforces - Password [Difficulty: Easy]](http://codeforces.com/problemset/problem/126/B)
-* [UVA # 455 "Periodic Strings" [Difficulty: Medium]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=396)
-* [UVA # 11022 "String Factoring" [Difficulty: Medium]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1963)
-* [UVa 11475 - Extend to Palindrome](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=2470)
-* [LA 6439 - Pasti Pas!](https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&category=588&page=show_problem&problem=4450)
-* [Codechef - Chef and Strings](https://www.codechef.com/problems/CHSTR)
-* [Codeforces - Prefixes and Suffixes](http://codeforces.com/problemset/problem/432/D)
+*   [eolymp - Blocks of string](https://www.eolymp.com/en/problems/1309)
+*   [Codeforces - Password [Difficulty: Easy]](http://codeforces.com/problemset/problem/126/B)
+*   [UVA # 455 "Periodic Strings" [Difficulty: Medium]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=396)
+*   [UVA # 11022 "String Factoring" [Difficulty: Medium]](http://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1963)
+*   [UVa 11475 - Extend to Palindrome](http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=2470)
+*   [LA 6439 - Pasti Pas!](https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&category=588&page=show_problem&problem=4450)
+*   [Codechef - Chef and Strings](https://www.codechef.com/problems/CHSTR)
+*   [Codeforces - Prefixes and Suffixes](http://codeforces.com/problemset/problem/432/D)

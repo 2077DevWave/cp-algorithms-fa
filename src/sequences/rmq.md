@@ -1,42 +1,42 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: rmq
 ---
 
-# Range Minimum Query
+# پرس و جوی کمینه در بازه (Range Minimum Query)
 
-You are given an array $A[1..N]$.
-You have to answer incoming queries of the form $(L, R)$, which ask to find the minimum element in array $A$ between positions $L$ and $R$ inclusive.
+یک آرایه $A[1..N]$ به شما داده شده است.
+شما باید به پرس و جوهای ورودی به شکل $(L, R)$ پاسخ دهید که درخواست یافتن عنصر کمینه در آرایه $A$ بین موقعیت‌های $L$ و $R$ (شامل خودشان) را دارند.
 
-RMQ can appear in problems directly or can be applied in some other tasks, e.g. the [Lowest Common Ancestor](../graph/lca.md) problem.
+مسئله RMQ ممکن است مستقیماً در مسائل ظاهر شود یا در وظایف دیگری مانند مسئله [پایین‌ترین جد مشترک (Lowest Common Ancestor)](../graph/lca.md) کاربرد داشته باشد.
 
-## Solution
+## راه‌حل
 
-There are lots of possible approaches and data structures that you can use to solve the RMQ task.
+رویکردها و ساختمان داده‌های ممکن زیادی برای حل مسئله RMQ وجود دارد.
 
-The ones that are explained on this site are listed below.
+مواردی که در این سایت توضیح داده شده‌اند در زیر لیست شده‌اند.
 
-First the approaches that allow modifications to the array between answering queries.
+ابتدا رویکردهایی که امکان تغییر در آرایه بین پاسخ به پرس و جوها را فراهم می‌کنند:
 
-- [Sqrt-decomposition](../data_structures/sqrt_decomposition.md) - answers each query in $O(\sqrt{N})$, preprocessing done in $O(N)$.
-  Pros: a very simple data structure. Cons: worse complexity.
-- [Segment tree](../data_structures/segment_tree.md) - answers each query in $O(\log N)$, preprocessing done in $O(N)$.
-  Pros: good time complexity. Cons: larger amount of code compared to the other data structures.
-- [Fenwick tree](../data_structures/fenwick.md) - answers each query in $O(\log N)$, preprocessing done in $O(N \log N)$.
-  Pros: the shortest code, good time complexity. Cons: Fenwick tree can only be used for queries with $L = 1$, so it is not applicable to many problems.
+- [Sqrt-decomposition](../data_structures/sqrt_decomposition.md) - به هر پرس و جو در $O(\sqrt{N})$ پاسخ می‌دهد، پیش‌پردازش در $O(N)$ انجام می‌شود.
+  مزایا: یک ساختمان داده بسیار ساده. معایب: پیچیدگی زمانی بدتر.
+- [درخت بازه‌ها (Segment tree)](../data_structures/segment_tree.md) - به هر پرس و جو در $O(\log N)$ پاسخ می‌دهد، پیش‌پردازش در $O(N)$ انجام می‌شود.
+  مزایا: پیچیدگی زمانی خوب. معایب: حجم کد بیشتر در مقایسه با سایر ساختمان داده‌ها.
+- [درخت فنویک (Fenwick tree)](../data_structures/fenwick.md) - به هر پرس و جو در $O(\log N)$ پاسخ می‌دهد، پیش‌پردازش در $O(N \log N)$ انجام می‌شود.
+  مزایا: کوتاه‌ترین کد، پیچیدگی زمانی خوب. معایب: درخت فنویک فقط برای پرس و جوهایی با $L = 1$ قابل استفاده است، بنابراین برای بسیاری از مسائل کاربرد ندارد.
 
-And here are the approaches that only work on static arrays, i.e. it is not possible to change a value in the array without recomputing the complete data structure.
+و در اینجا رویکردهایی هستند که فقط روی آرایه‌های ایستا کار می‌کنند، یعنی امکان تغییر یک مقدار در آرایه بدون محاسبه مجدد کل ساختمان داده وجود ندارد.
 
-- [Sparse Table](../data_structures/sparse-table.md) - answers each query in $O(1)$, preprocessing done in $O(N \log N)$.
-  Pros: simple data structure, excellent time complexity.
-- [Sqrt Tree](../data_structures/sqrt-tree.md) - answers queries in $O(1)$, preprocessing done in $O(N \log \log N)$. Pros: fast. Cons: Complicated to implement.
-- [Disjoint Set Union / Arpa's Trick](../data_structures/disjoint_set_union.md#arpa) - answers queries in $O(1)$, preprocessing in $O(n)$. Pros: short, fast. Cons: only works if all queries are known in advance, i.e. only supports off-line processing of the queries.
-- [Cartesian Tree](../graph/rmq_linear.md) and [Farach-Colton and Bender algorithm](../graph/lca_farachcoltonbender.md) - answers queries in $O(1)$, preprocessing in $O(n)$. Pros: optimal complexity. Cons: large amount of code.
+- [جدول پراکنده (Sparse Table)](../data_structures/sparse-table.md) - به هر پرس و جو در $O(1)$ پاسخ می‌دهد، پیش‌پردازش در $O(N \log N)$ انجام می‌شود.
+  مزایا: ساختمان داده ساده، پیچیدگی زمانی عالی.
+- [Sqrt Tree](../data_structures/sqrt-tree.md) - به پرس و جوها در $O(1)$ پاسخ می‌دهد، پیش‌پردازش در $O(N \log \log N)$ انجام می‌شود. مزایا: سریع. معایب: پیاده‌سازی آن پیچیده است.
+- [Disjoint Set Union / ترفند آرپا (Arpa's Trick)](../data_structures/disjoint_set_union.md#arpa) - به پرس و جوها در $O(1)$ پاسخ می‌دهد، پیش‌پردازش در $O(n)$. مزایا: کوتاه، سریع. معایب: تنها در صورتی کار می‌کند که تمام پرس و جوها از قبل مشخص باشند، یعنی فقط از پردازش آفلاین پرس و جوها پشتیبانی می‌کند.
+- [درخت دکارتی (Cartesian Tree)](../graph/rmq_linear.md) و [الگوریتم Farach-Colton and Bender](../graph/lca_farachcoltonbender.md) - به پرس و جوها در $O(1)$ پاسخ می‌دهد، پیش‌پردازش در $O(n)$. مزایا: پیچیدگی بهینه. معایب: حجم کد زیاد.
 
-Note: Preprocessing is the preliminary processing of the given array by building the corresponding data structure for it.
+نکته: پیش‌پردازش (Preprocessing) به پردازش اولیه‌ی آرایه داده شده از طریق ساخت ساختمان داده مربوط به آن گفته می‌شود.
 
-## Practice Problems
+## مسائل تمرینی
 - [SPOJ: Range Minimum Query](http://www.spoj.com/problems/RMQSQ/)
 - [CODECHEF: Chef And Array](https://www.codechef.com/problems/FRMQ)
-- [Codeforces:  Array Partition](https://codeforces.com/contest/1454/problem/F)
+- [Codeforces: Array Partition](https://codeforces.com/contest/1454/problem/F)

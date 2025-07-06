@@ -1,55 +1,55 @@
 ---
 tags:
-    - Original
+  - AI Translated
+e_maxx_link: simulated_annealing
 ---
 
-# Simulated Annealing
+# آنیلینگ شبیه‌سازی شده
 
-**Simulated Annealing (SA)** is a randomized algorithm, which approximates the global optimum of a function. It's called a randomized algorithm, because it employs a certain amount of randomness in its search and thus its output can vary for the same input.
+**آنیلینگ شبیه‌سازی شده (Simulated Annealing - SA)** یک الگوریتم تصادفی است که بهینه سراسری یک تابع را تقریب می‌زند. به آن الگوریتم تصادفی گفته می‌شود زیرا در جستجوی خود از مقداری تصادف استفاده می‌کند و بنابراین خروجی آن برای ورودی یکسان می‌تواند متفاوت باشد.
 
-## The problem
+## مسئله
 
-We are given a function $E(s)$, which calculates the energy of the state $s$. We are tasked with finding the state $s_{best}$ at which $E(s)$ is minimized. **SA** is suited for problems where the states are discrete and $E(s)$ has multiple local minima. We'll take the example of the [Travelling Salesman Problem (TSP)](https://en.wikipedia.org/wiki/Travelling_salesman_problem). 
+تابعی به ما داده شده است، $E(s)$، که انرژی حالت $s$ را محاسبه می‌کند. وظیفه ما یافتن حالت $s_{best}$ است که در آن $E(s)$ کمینه می‌شود. **SA** برای مسائلی مناسب است که حالت‌ها گسسته بوده و $E(s)$ چندین کمینه محلی داشته باشد. ما مثال [مسئله فروشنده دوره‌گرد (TSP)](https://en.wikipedia.org/wiki/Travelling_salesman_problem) را بررسی خواهیم کرد.
 
-### Travelling Salesman Problem (TSP)
+### مسئله فروشنده دوره‌گرد (TSP)
 
-You are given a set of nodes in 2 dimensional space. Each node is characterised by its $x$ and $y$ coordinates. Your task is to find an ordering of the nodes, which will minimise the distance to be travelled when visiting these nodes in that order.
+مجموعه‌ای از گره‌ها در فضای دو بعدی به شما داده می‌شود. هر گره با مختصات $x$ و $y$ خود مشخص می‌شود. وظیفه شما یافتن ترتیبی از گره‌ها است که مسافت طی شده هنگام بازدید از این گره‌ها به آن ترتیب را کمینه کند.
 
-## Motivation
-Annealing is a metallurgical process, wherein a material is heated up and allowed to cool, in order to allow the atoms inside to rearrange themselves in an arrangement with minimal internal energy, which in turn causes the material to have different properties. The state is the arrangement of atoms and the internal energy is the function being minimised. We can think of the original state of the atoms, as a local minima for its internal energy. To make the material rearrange its atoms, we need to motivate it to go across a region where its internal energy is not minimised in order to reach the global minima. This motivation is given by heating the material to a higher temperature. 
+## انگیزه
+آنیلینگ (بازپخت) یک فرآیند متالورژیکی است که در آن یک ماده گرم شده و سپس به آن اجازه داده می‌شود تا خنک شود تا اتم‌های داخل آن بتوانند خود را در آرایشی با حداقل انرژی داخلی بازآرایی کنند، که به نوبه خود باعث می‌شود ماده خواص متفاوتی پیدا کند. «حالت» همان آرایش اتم‌ها و «انرژی داخلی» تابعی است که در حال کمینه شدن است. می‌توانیم حالت اولیه اتم‌ها را به عنوان یک کمینه محلی برای انرژی داخلی آن‌ها در نظر بگیریم. برای اینکه ماده اتم‌های خود را بازآرایی کند، باید آن را تشویق کنیم تا از منطقه‌ای عبور کند که انرژی داخلی آن کمینه نیست تا به کمینه سراسری برسد. این انگیزه با گرم کردن ماده تا دمای بالاتر فراهم می‌شود.
 
-Simulated annealing, literally, simulates this process. We start off with some random state (material) and set a high temperature (heat it up). Now, the algorithm is ready to accept states which have a higher energy than the current state, as it is motivated by the high temperature. This prevents the algorithm from getting stuck inside local minimas and move towards the global minima. As time progresses, the algorithm cools down and refuses the states with higher energy and moves into the closest minima it has found.
+آنیلینگ شبیه‌سازی شده، به معنای واقعی کلمه، این فرآیند را شبیه‌سازی می‌کند. ما با یک حالت تصادفی (ماده) شروع می‌کنیم و دمای بالایی را تنظیم می‌کنیم (آن را گرم می‌کنیم). اکنون، الگوریتم آماده پذیرش حالت‌هایی است که انرژی بالاتری نسبت به حالت فعلی دارند، زیرا توسط دمای بالا انگیزه پیدا کرده است. این کار از گیر افتادن الگوریتم در کمینه‌های محلی جلوگیری کرده و آن را به سمت کمینه سراسری سوق می‌دهد. با گذشت زمان، الگوریتم خنک می‌شود و حالت‌های با انرژی بالاتر را رد می‌کند و به سمت نزدیک‌ترین کمینه‌ای که پیدا کرده است حرکت می‌کند.
 
-### The energy function E(s)
+### تابع انرژی E(s)
 
-$E(s)$ is the function which needs to be minimised (or maximised). It maps every state to a real number. In the case of TSP, $E(s)$ returns the distance of travelling one full circle in the order of nodes in the state. 
+$E(s)$ تابعی است که باید کمینه (یا بیشینه) شود. این تابع هر حالت را به یک عدد حقیقی نگاشت می‌کند. در مورد TSP، تابع $E(s)$ مسافت طی کردن یک دور کامل به ترتیب گره‌های موجود در حالت را برمی‌گرداند.
 
-### State
+### حالت
 
-The state space is the domain of the energy function, $E(s)$, and a state is any element which belongs to the state space. In the case of TSP, all possible paths that we can take to visit all the nodes is the state space, and any single one of these paths can be considered as a state.
+فضای حالت، دامنه تابع انرژی $E(s)$ است و یک حالت، هر عنصری است که به فضای حالت تعلق دارد. در مورد TSP، تمام مسیرهای ممکن که می‌توانیم برای بازدید از همه گره‌ها طی کنیم، فضای حالت است و هر یک از این مسیرها را می‌توان یک حالت در نظر گرفت.
 
-### Neighbouring state
+### حالت همسایه
 
-It is a state in the state space which is close to the previous state. This usually means that we can obtain the neighbouring state from the original state using a simple transform. In the case of the Travelling Salesman Problem, a neighbouring state is obtained by randomly choosing 2 nodes, and swapping their positions in the current state. 
+حالت همسایه، حالتی در فضای حالت است که به حالت قبلی نزدیک است. این معمولاً به این معنی است که می‌توانیم حالت همسایه را از حالت اصلی با استفاده از یک تبدیل ساده به دست آوریم. در مورد مسئله فروشنده دوره‌گرد، یک حالت همسایه با انتخاب تصادفی ۲ گره و جابجایی موقعیت آن‌ها در حالت فعلی به دست می‌آید.
 
-## Algorithm
+## الگوریتم
 
-We start with a random state $s$. In every step, we choose a neighbouring state $s_{next}$ of the current state $s$. If $E(s_{next}) < E(s)$, then we update $s = s_{next}$. Otherwise, we use a probability acceptance function $P(E(s),E(s_{next}),T)$ which decides whether we should move to $s_{next}$ or stay at $s$. T here is the temperature, which is initially set to a high value and decays slowly with every step. The higher the temperature, the more likely it is to move to $s_{next}$. 
-At the same time we also keep a track of the best state $s_{best}$ across all iterations. Proceeding till convergence or time runs out.
-
+ما با یک حالت تصادفی $s$ شروع می‌کنیم. در هر مرحله، یک حالت همسایه $s_{next}$ از حالت فعلی $s$ را انتخاب می‌کنیم. اگر $E(s_{next}) < E(s)$، آنگاه $s = s_{next}$ را به‌روزرسانی می‌کنیم. در غیر این صورت، از یک تابع پذیرش احتمالاتی $P(E(s),E(s_{next}),T)$ استفاده می‌کنیم که تصمیم می‌گیرد آیا باید به $s_{next}$ برویم یا در $s$ بمانیم. در اینجا T دما است، که در ابتدا روی مقدار بالایی تنظیم شده و با هر مرحله به آرامی کاهش می‌یابد. هرچه دما بالاتر باشد، احتمال حرکت به $s_{next}$ بیشتر است.
+همزمان، ما بهترین حالت $s_{best}$ را در طول تمام تکرارها نیز پیگیری می‌کنیم. این فرآیند تا رسیدن به همگرایی یا تمام شدن زمان ادامه می‌یابد.
 
 <center>
 <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Hill_Climbing_with_Simulated_Annealing.gif" width="800px">
 <br>
-<i>A visual representation of simulated annealing, searching for the maxima of this function with multiple local maxima.</i>
+<i>نمایش بصری آنیلینگ شبیه‌سازی شده، در حال جستجو برای بیشینه این تابع با چندین بیشینه محلی.</i>
 <br>
 </center>
 
-### Temperature(T) and decay(u)
+### دما (T) و نرخ کاهش (u)
 
-The temperature of the system quantifies the willingness of the algorithm to accept a state with a higher energy. The decay is a constant which quantifies the "cooling rate" of the algorithm. A slow cooling rate (larger $u$) is known to give better results.
+دمای سیستم، میزان تمایل الگوریتم برای پذیرش حالتی با انرژی بالاتر را مشخص می‌کند. نرخ کاهش (Decay) یک ثابت است که "نرخ خنک شدن" الگوریتم را تعیین می‌کند. مشخص شده است که نرخ خنک شدن آهسته (u بزرگتر) نتایج بهتری می‌دهد.
 
-## Probability Acceptance Function(PAF)
+## تابع پذیرش احتمالاتی (PAF)
 
 $P(E,E_{next},T) = 
     \begin{cases}
@@ -57,7 +57,7 @@ $P(E,E_{next},T) =
        \text{False} &\quad\text{otherwise}\\
      \end{cases}$
 
-Here, $\mathcal{U}_{[0,1]}$ is a continuous uniform random value on $[0,1]$. This function takes in the current state, the next state and the temperature, returning a boolean value, which tells our search whether it should move to $s_{next}$ or stay at $s$. Note that for $E_{next} < E$ , this function will always return True, otherwise it can still make the move with probability $\exp(-\frac{E_{next}-E}{T})$, which corresponds to the [Gibbs measure](https://en.wikipedia.org/wiki/Gibbs_measure).
+در اینجا، $\mathcal{U}_{[0,1]}$ یک مقدار تصادفی پیوسته و یکنواخت در بازه $[0,1]$ است. این تابع، حالت فعلی، حالت بعدی و دما را دریافت کرده و یک مقدار بولین برمی‌گرداند که به جستجوی ما می‌گوید آیا باید به $s_{next}$ برود یا در $s$ بماند. توجه داشته باشید که برای $E_{next} < E$، این تابع همیشه True برمی‌گرداند، در غیر این صورت همچنان می‌تواند با احتمال $\exp(-\frac{E_{next}-E}{T})$ حرکت کند که با [اندازه گیبس (Gibbs measure)](https://en.wikipedia.org/wiki/Gibbs_measure) مطابقت دارد.
 
 ```cpp
 bool P(double E,double E_next,double T,mt19937 rng){
@@ -69,21 +69,21 @@ bool P(double E,double E_next,double T,mt19937 rng){
     }
 }
 ```
-## Code Template
+## قالب کد
 
 ```cpp
 class state {
     public:
     state() {
-        // Generate the initial state
+        // حالت اولیه را تولید کنید
     }
     state next() {
         state s_next;
-        // Modify s_next to a random neighboring state
+        // s_next را به یک حالت همسایه تصادفی تغییر دهید
         return s_next;
     }
     double E() {
-        // Implement the energy function here
+        // تابع انرژی را اینجا پیاده‌سازی کنید
     };
 };
 
@@ -91,8 +91,8 @@ class state {
 pair<double, state> simAnneal() {
     state s = state();
     state best = s;
-    double T = 10000; // Initial temperature
-    double u = 0.995; // decay rate
+    double T = 10000; // دمای اولیه
+    double u = 0.995; // نرخ کاهش
     double E = s.E();
     double E_next;
     double E_best = E;
@@ -114,22 +114,22 @@ pair<double, state> simAnneal() {
 }
 
 ```
-## How to use:
-Fill in the state class functions as appropriate. If you are trying to find a global maxima and not a minima, ensure that the $E()$ function returns negative of the function you are maximizing and print $-E_{best}$ in the end. Set the below parameters as per your need.
+## نحوه استفاده:
+توابع کلاس state را به شکل مناسب پر کنید. اگر به دنبال یافتن یک بیشینه سراسری و نه کمینه هستید، اطمینان حاصل کنید که تابع $E()$ منفی تابعی را که می‌خواهید بیشینه کنید برمی‌گرداند و در انتها $-E_{best}$ را چاپ کنید. پارامترهای زیر را بر اساس نیاز خود تنظیم کنید.
 
-### Parameters
-- $T$ : Initial temperature. Set it to a higher value if you want the search to run for a longer time.
-- $u$ : Decay. Decides the rate of cooling. A slower cooling rate (larger value of u) usually gives better results, at the cost of running for a longer time. Ensure $u < 1$. 
+### پارامترها
+- $T$: دمای اولیه. اگر می‌خواهید جستجو برای مدت طولانی‌تری اجرا شود، آن را روی مقدار بالاتری تنظیم کنید.
+- $u$: نرخ کاهش (Decay). نرخ خنک شدن را تعیین می‌کند. نرخ خنک شدن آهسته‌تر (مقدار بزرگتر u) معمولاً نتایج بهتری می‌دهد، اما به قیمت اجرای طولانی‌تر. اطمینان حاصل کنید که $u < 1$.
 
-The number of iterations the loop will run for is given by the expression
+تعداد تکرارهای حلقه از عبارت زیر به دست می‌آید:
 
 $N =   \lceil -\log_{u}{T} \rceil$ 
 
-Tips for choosing $T$ and $u$ : If there are many local minimas and a wide state space, set $u = 0.999$, for a slow cooling rate, which will allow the algorithm to explore more possibilities. On the other hand, if the state space is narrower, $u = 0.99$ should suffice. If you are not sure, play it safe by setting $u = 0.998$ or higher. Calculate the time complexity of a single iteration of the algorithm, and use this to approximate a value of $N$ which will prevent TLE, then use the below formula to obtain $T$.
+نکاتی برای انتخاب $T$ و $u$: اگر کمینه‌های محلی زیادی و فضای حالت وسیعی وجود دارد، $u = 0.999$ را برای نرخ خنک شدن آهسته تنظیم کنید، که به الگوریتم اجازه می‌دهد تا امکانات بیشتری را کاوش کند. از طرف دیگر، اگر فضای حالت محدودتر است، $u = 0.99$ کافی خواهد بود. اگر مطمئن نیستید، با تنظیم $u = 0.998$ یا بالاتر، جانب احتیاط را رعایت کنید. پیچیدگی زمانی یک تکرار الگوریتم را محاسبه کنید و از آن برای تخمین مقداری برای $N$ استفاده کنید که از TLE جلوگیری کند، سپس از فرمول زیر برای به دست آوردن $T$ استفاده کنید.
 
 $T = u^{-N}$
 
-### Example implementation for TSP
+### پیاده‌سازی نمونه برای TSP
 ```cpp
 
 class state {
@@ -177,15 +177,15 @@ int main() {
 }
 ```
 
-## Further modifications to the algorithm:
+## اصلاحات بیشتر در الگوریتم:
 
-- Add a time based exit condition to the while loop to prevent TLE
-- The decay implemented above is an exponential decay. You can always replace this with a decay function as per your needs.
-- The Probability acceptance function given above, prefers accepting states which are lower in energy because of the $E_{next} - E$ factor in the numerator of the exponent. You can simply remove this factor, to make the PAF independent of the difference in energies.
-- The effect of the difference in energies, $E_{next} - E$, on the PAF can be increased/decreased by increasing/decreasing the base of the exponent as shown below: 
+- یک شرط خروج مبتنی بر زمان به حلقه while اضافه کنید تا از TLE جلوگیری شود.
+- کاهش دمای پیاده‌سازی شده در بالا، یک کاهش نمایی است. شما همیشه می‌توانید این را با یک تابع کاهش دیگر متناسب با نیاز خود جایگزین کنید.
+- تابع پذیرش احتمالاتی ارائه شده در بالا، به دلیل وجود عامل $E_{next} - E$ در صورت کسر توان، پذیرش حالت‌هایی با انرژی کمتر را ترجیح می‌دهد. شما می‌توانید به سادگی این عامل را حذف کنید تا PAF مستقل از تفاوت انرژی‌ها شود.
+- تأثیر تفاوت انرژی‌ها، $E_{next} - E$، بر روی PAF را می‌توان با افزایش/کاهش پایه توان، همانطور که در زیر نشان داده شده، افزایش/کاهش داد:
 ```cpp
 bool P(double E, double E_next, double T, mt19937 rng) {
-    double e = 2; // set e to any real number greater than 1
+    double e = 2; // e را هر عدد حقیقی بزرگتر از 1 قرار دهید
     double prob =  pow(e,-(E_next-E)/T);
     if (prob > 1)
         return true;
@@ -196,7 +196,7 @@ bool P(double E, double E_next, double T, mt19937 rng) {
 }
 ```
 
-## Problems
+## مسائل
 
 - [USACO Jan 2017 - Subsequence Reversal](https://usaco.org/index.php?page=viewproblem2&cpid=698)
 - [Deltix Summer 2021 - DIY Tree](https://codeforces.com/contest/1556/problem/H)

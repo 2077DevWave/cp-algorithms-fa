@@ -1,26 +1,27 @@
 ---
 tags:
-  
-e_maxx_link: length_of_segments_union
+  - AI Translated
+e_maxx_link: length-of-segments-union
 ---
 
-# Length of the union of segments
+# طول اجتماع پاره‌خط‌ها
 
-Given $n$ segments on a line, each described by a pair of coordinates $(a_{i1}, a_{i2})$.
-We have to find the length of their union.
+$n$ پاره‌خط روی یک خط داده شده است که هر کدام با یک زوج مختصات $(a_{i1}, a_{i2})$ توصیف می‌شوند.
+باید طول اجتماع آن‌ها را پیدا کنیم.
 
-The following algorithm was proposed by Klee in 1977.
-It works in $O(n\log n)$ and has been proven to be the asymptotically optimal.
+الگوریتم زیر توسط Klee در سال ۱۹۷۷ ارائه شد.
+این الگوریتم در زمان $O(n\log n)$ اجرا می‌شود و ثابت شده است که از نظر مجانبی بهینه است.
 
-## Solution
+## راه حل
 
-We store in an array $x$ the endpoints of all the segments sorted by their values.
-And additionally we store whether it is a left end or a right end of a segment.
-Now we iterate over the array, keeping a counter $c$ of currently opened segments.
-Whenever the current element is a left end, we increase this counter, and otherwise we decrease it.
-To compute the answer, we take the length between the last to $x$ values $x_i - x_{i-1}$, whenever we come to a new coordinate, and there is currently at least one segment is open.
+نقاط ابتدایی و انتهایی تمام پاره‌خط‌ها را در یک آرایه به نام $x$ ذخیره می‌کنیم. علاوه بر مختصات هر نقطه، نوع آن (اینکه نقطه شروع پاره‌خط است یا پایان) را نیز ذخیره می‌کنیم.
+سپس این آرایه را بر اساس مقدار مختصات نقاط مرتب می‌کنیم.
 
-## Implementation
+حالا روی آرایهٔ مرتب‌شده پیمایش می‌کنیم و یک شمارنده $c$ برای نگهداری تعداد پاره‌خط‌های باز (فعال) در نظر می‌گیریم.
+هرگاه نقطهٔ فعلی، نقطهٔ شروع یک پاره‌خط باشد، شمارنده را یکی اضافه می‌کنیم و در غیر این صورت (اگر نقطهٔ پایان باشد)، آن را یکی کم می‌کنیم.
+برای محاسبهٔ پاسخ، فاصلهٔ بین مختصات فعلی و قبلی ($x_i - x_{i-1}$) را در نظر می‌گیریم. اگر قبل از پردازش نقطهٔ فعلی، شمارنده $c$ بزرگتر از صفر بوده باشد (به این معنی که بازهٔ بین $x_{i-1}$ و $x_i$ پوشانده شده است)، این فاصله را به جواب نهایی اضافه می‌کنیم.
+
+## پیاده‌سازی
 
 ```cpp
 int length_union(const vector<pair<int, int>> &a) {

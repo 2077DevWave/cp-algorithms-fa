@@ -1,13 +1,14 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: intro-to-dp
 ---
 
-# Introduction to Dynamic Programming
+# مقدمه‌ای بر برنامه‌نویسی پویا (Dynamic Programming)
 
-The essence of dynamic programming is to avoid repeated calculation.  Often, dynamic programming problems are naturally solvable by recursion. In such cases, it's easiest to write the recursive solution, then save repeated states in a lookup table. This process is known as top-down dynamic programming with memoization. That's read "memoization" (like we are writing in a memo pad) not memorization.
+جوهر اصلی برنامه‌نویسی پویا، پرهیز از محاسبات تکراری است. اغلب، مسائل برنامه‌نویسی پویا به طور طبیعی با بازگشت (recursion) قابل حل هستند. در چنین مواردی، ساده‌ترین راه این است که ابتدا راه‌حل بازگشتی را بنویسیم، سپس حالت‌های تکراری را در یک جدول جستجو (lookup table) ذخیره کنیم. این فرآیند به عنوان برنامه‌نویسی پویای بالا به پایین (top-down) با memoization شناخته می‌شود. این کلمه «memoization» تلفظ می‌شود (شبیه نوشتن در یک دفترچه یادداشت یا memo pad) و نه memorization (به معنی به خاطر سپردن).
 
-One of the most basic, classic examples of this process is the fibonacci sequence. Its recursive formulation is $f(n) = f(n-1) + f(n-2)$ where $n \ge 2$ and $f(0)=0$ and $f(1)=1$. In C++, this would be expressed as:
+یکی از اساسی‌ترین و کلاسیک‌ترین مثال‌های این فرآیند، دنباله فیبوناچی است. فرمول بازگشتی آن به صورت $f(n) = f(n-1) + f(n-2)$ است که در آن $n \ge 2$ و $f(0)=0$ و $f(1)=1$ می‌باشد. در C++، این به صورت زیر بیان می‌شود:
 
 ```cpp
 int f(int n) {
@@ -17,15 +18,15 @@ int f(int n) {
 }
 ```
 
-The runtime of this recursive function is exponential - approximately $O(2^n)$ since one function call ( $f(n)$ ) results in 2 similarly sized function calls ($f(n-1)$ and $f(n-2)$ ).
+زمان اجرای این تابع بازگشتی به صورت نمایی (exponential) است - تقریباً $O(2^n)$، زیرا یک فراخوانی تابع ($f(n)$) منجر به ۲ فراخوانی تابع با اندازه‌ای مشابه ($f(n-1)$ و $f(n-2)$) می‌شود.
 
-## Speeding up Fibonacci with Dynamic Programming (Memoization)
+## سرعت بخشیدن به فیبوناچی با برنامه‌نویسی پویا (Memoization)
 
-Our recursive function currently solves fibonacci in exponential time. This means that we can only handle small input values before the problem becomes too difficult. For instance, $f(29)$ results in *over 1 million* function calls!
+تابع بازگشتی فعلی ما فیبوناچی را در زمان نمایی حل می‌کند. این بدان معناست که ما فقط می‌توانیم مقادیر ورودی کوچک را پردازش کنیم قبل از اینکه مسئله بیش از حد دشوار شود. به عنوان مثال، $f(29)$ منجر به *بیش از ۱ میلیون* فراخوانی تابع می‌شود!
 
-To increase the speed, we recognize that the number of subproblems is only $O(n)$. That is, in order to calculate $f(n)$ we only need to know $f(n-1),f(n-2), \dots ,f(0)$. Therefore, instead of recalculating these subproblems, we solve them once and then save the result in a lookup table.  Subsequent calls will use this lookup table and immediately return a result, thus eliminating exponential work! 
+برای افزایش سرعت، متوجه می‌شویم که تعداد زیرمسئله‌ها فقط $O(n)$ است. یعنی برای محاسبه $f(n)$ فقط نیاز به دانستن $f(n-1),f(n-2), \dots ,f(0)$ داریم. بنابراین، به جای محاسبه مجدد این زیرمسئله‌ها، آن‌ها را یک بار حل کرده و سپس نتیجه را در یک جدول جستجو ذخیره می‌کنیم. فراخوانی‌های بعدی از این جدول جستجو استفاده کرده و بلافاصله نتیجه را برمی‌گردانند، و به این ترتیب کار نمایی را حذف می‌کنند!
 
-Each recursive call will check against a lookup table to see if the value has been calculated. This is done in $O(1)$ time.  If we have previously calculated it, return the result, otherwise, we calculate the function normally. The overall runtime is $O(n)$. This is an enormous improvement over our previous exponential time algorithm!
+هر فراخوانی بازگشتی با یک جدول جستجو بررسی می‌کند تا ببیند آیا مقدار قبلاً محاسبه شده است یا خیر. این کار در زمان $O(1)$ انجام می‌شود. اگر قبلاً آن را محاسبه کرده باشیم، نتیجه را برمی‌گردانیم، در غیر این صورت، تابع را به طور معمول محاسبه می‌کنیم. زمان اجرای کلی $O(n)$ است. این یک بهبود عظیم نسبت به الگوریتم زمان نمایی قبلی ماست!
 
 ```cpp
 const int MAXN = 100;
@@ -42,11 +43,11 @@ int f(int n) {
 }
 ```
 
-With our new memoized recursive function, $f(29)$, which used to result in *over 1 million calls*, now results in *only 57* calls, nearly *20,000 times* fewer function calls! Ironically, we are now limited by our data type. $f(46)$ is the last fibonacci number that can fit into a signed 32-bit integer.
+با تابع بازگشتی جدید ما که از memoization استفاده می‌کند، محاسبه $f(29)$ که قبلاً منجر به *بیش از ۱ میلیون فراخوانی* می‌شد، اکنون *فقط ۵۷* فراخوانی دارد، یعنی تقریباً *۲۰٬۰۰۰ برابر* فراخوانی تابع کمتر! جالب اینجاست که اکنون ما با نوع داده خود محدود شده‌ایم. $f(46)$ آخرین عدد فیبوناچی است که می‌تواند در یک عدد صحیح ۳۲ بیتی علامت‌دار (signed 32-bit integer) جای گیرد.
 
-Typically, we try to save states in arrays, if possible, since the lookup time is $O(1)$ with minimal overhead.  However, more generically, we can save states any way we like. Other examples include binary search trees (`map` in C++) or hash tables (`unordered_map` in C++).
+معمولاً، در صورت امکان، سعی می‌کنیم حالت‌ها را در آرایه‌ها ذخیره کنیم، زیرا زمان جستجو با کمترین سربار $O(1)$ است. با این حال، به طور کلی‌تر، می‌توانیم حالت‌ها را به هر روشی که دوست داریم ذخیره کنیم. مثال‌های دیگر شامل درخت‌های جستجوی دودویی (`map` در C++) یا جداول هش (`unordered_map` در C++) است.
 
-An example of this might be:
+یک مثال از این ممکن است به این صورت باشد:
 
 ```cpp
 unordered_map<int, int> memo;
@@ -59,7 +60,7 @@ int f(int n) {
 }
 ```
 
-Or analogously:
+یا به طور مشابه:
 
 ```cpp
 map<int, int> memo;
@@ -72,23 +73,23 @@ int f(int n) {
 }
 ```
 
-Both of these will almost always be slower than the array-based version for a generic memoized recursive function.
-These alternative ways of saving state are primarily useful when saving vectors or strings as part of the state space.
+هر دوی این روش‌ها تقریباً همیشه برای یک تابع بازگشتی عمومی با memoization کندتر از نسخه مبتنی بر آرایه خواهند بود.
+این روش‌های جایگزین برای ذخیره حالت عمدتاً زمانی مفید هستند که `vector` یا `string` به عنوان بخشی از فضای حالت ذخیره می‌شوند.
 
-The layman's way of analyzing the runtime of a memoized recursive function is:
+روش غیرتخصصی تحلیل زمان اجرای یک تابع بازگشتی با memoization به این صورت است:
 
-$$\text{work per subproblem} * \text{number of subproblems}$$
+$$\text{کار برای هر زیرمسئله} * \text{تعداد زیرمسئله‌ها}$$
 
-Using a binary search tree (map in C++) to save states will technically result in $O(n \log n)$ as each lookup and insertion will take $O(\log n)$ work and with $O(n)$ unique subproblems we have $O(n \log n)$ time.
+استفاده از یک درخت جستجوی دودویی (map در C++) برای ذخیره حالت‌ها از نظر فنی منجر به زمان اجرای $O(n \log n)$ می‌شود، زیرا هر جستجو و درج $O(\log n)$ کار می‌برد و با $O(n)$ زیرمسئله منحصربه‌فرد، ما زمان $O(n \log n)$ را خواهیم داشت.
 
-This approach is called top-down, as we can call the function with a query value and the calculation starts going from the top (queried value) down to the bottom (base cases of the recursion), and makes shortcuts via memoization on the way.
+این رویکرد بالا به پایین (top-down) نامیده می‌شود، زیرا می‌توانیم تابع را با یک مقدار پرس‌وجو فراخوانی کنیم و محاسبه از بالا (مقدار پرس‌وجو شده) به سمت پایین (حالت‌های پایه بازگشتی) شروع می‌شود و در طول مسیر از طریق memoization میان‌بر می‌زند.
 
-## Bottom-up Dynamic Programming
+## برنامه‌نویسی پویای پایین به بالا (Bottom-up)
 
-Until now you've only seen top-down dynamic programming with memoization. However, we can also solve problems with bottom-up dynamic programming. 
-Bottom-up is exactly the opposite of top-down, you start at the bottom (base cases of the recursion), and extend it to more and more values.
+تا به حال فقط برنامه‌نویسی پویای بالا به پایین با memoization را دیده‌اید. با این حال، ما می‌توانیم مسائل را با برنامه‌نویسی پویای پایین به بالا نیز حل کنیم.
+پایین به بالا دقیقاً برعکس بالا به پایین است، شما از پایین (حالت‌های پایه بازگشتی) شروع می‌کنید و آن را به مقادیر بیشتر و بیشتری گسترش می‌دهید.
 
-To create a bottom-up approach for fibonacci numbers, we initialize the base cases in an array. Then, we simply use the recursive definition on array:
+برای ایجاد یک رویکرد پایین به بالا برای اعداد فیبوناچی، ما حالت‌های پایه را در یک آرایه مقداردهی اولیه می‌کنیم. سپس، به سادگی از تعریف بازگشتی روی آرایه استفاده می‌کنیم:
 
 ```cpp
 const int MAXN = 100;
@@ -103,11 +104,11 @@ int f(int n) {
 }
 ```
 
-Of course, as written, this is a bit silly for two reasons: 
-Firstly, we do repeated work if we call the function more than once. 
-Secondly, we only need to use the two previous values to calculate the current element. Therefore, we can reduce our memory from $O(n)$ to $O(1)$. 
+البته، به شکلی که نوشته شده، این کد به دو دلیل کمی نابخردانه است:
+اولاً، اگر تابع را بیش از یک بار فراخوانی کنیم، کار تکراری انجام می‌دهیم.
+ثانیاً، ما فقط به دو مقدار قبلی برای محاسبه عنصر فعلی نیاز داریم. بنابراین، می‌توانیم حافظه خود را از $O(n)$ به $O(1)$ کاهش دهیم.
 
-An example of a bottom-up dynamic programming solution for fibonacci which uses $O(1)$ memory might be:
+یک مثال از راه‌حل برنامه‌نویسی پویای پایین به بالا برای فیبوناچی که از حافظه $O(1)$ استفاده می‌کند ممکن است به این صورت باشد:
 
 ```cpp
 const int MAX_SAVE = 3;
@@ -123,33 +124,33 @@ int f(int n) {
 }
 ```
 
-Note that we've changed the constant from `MAXN` TO `MAX_SAVE`. This is because the total number of elements we need to access is only 3. It no longer scales with the size of input and is, by definition, $O(1)$ memory. Additionally, we use a common trick (using the modulo operator) only maintaining the values we need.
+توجه داشته باشید که ما ثابت را از `MAXN` به `MAX_SAVE` تغییر داده‌ایم. این به این دلیل است که تعداد کل عناصری که نیاز به دسترسی داریم فقط ۳ است. دیگر با اندازه ورودی مقیاس نمی‌شود و بنا به تعریف، حافظه $O(1)$ است. علاوه بر این، ما از یک ترفند رایج (استفاده از عملگر باقیمانده) استفاده می‌کنیم و فقط مقادیری را که نیاز داریم حفظ می‌کنیم.
 
-That's it. That's the basics of dynamic programming: Don't repeat the work you've done before.
+تمام شد. این‌ها اصول اولیه برنامه‌نویسی پویا بودند: کاری را که قبلاً انجام داده‌اید، تکرار نکنید.
 
-One of the tricks to getting better at dynamic programming is to study some of the classic examples.
+یکی از ترفندها برای بهتر شدن در برنامه‌نویسی پویا، مطالعه برخی از مثال‌های کلاسیک است.
 
-## Classic Dynamic Programming Problems
-| Name                                           | Description/Example                                                                                                                                                                                                            |
-| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 0-1 Knapsack                                   | Given $W$, $N$, and $N$ items with weights $w_i$ and values $v_i$, what is the maximum $\sum_{i=1}^{k} v_i$ for each subset of items of size $k$ ($1 \le k \le N$) while ensuring $\sum_{i=1}^{k} w_i \le W$?                  |
-| Subset Sum                                     | Given $N$ integers and $T$, determine whether there exists a subset of the given set whose elements sum up to the $T$.                                                                                                         |
-| Longest Increasing Subsequence (LIS)           | You are given an array containing $N$ integers. Your task is to determine the LIS in the array, i.e., a subsequence where every element is larger than the previous one.                                                       |
-| Counting Paths in a 2D Array                   | Given $N$ and $M$, count all possible distinct paths from $(1,1)$ to $(N, M)$, where each step is either from $(i,j)$ to $(i+1,j)$ or $(i,j+1)$.                                                                               |
-| Longest Common Subsequence                     | You are given strings $s$ and $t$. Find the length of the longest string that is a subsequence of both $s$ and $t$.                                                                                                            |
-| Longest Path in a Directed Acyclic Graph (DAG) | Finding the longest path in Directed Acyclic Graph (DAG).                                                                                                                                                                      |
-| Longest Palindromic Subsequence                | Finding the Longest Palindromic Subsequence (LPS) of a given string.                                                                                                                                                           |
-| Rod Cutting                                    | Given a rod of length $n$ units, Given an integer array cuts where cuts[i] denotes a position you should perform a cut at. The cost of one cut is the length of the rod to be cut. What is the minimum total cost of the cuts. |
-| Edit Distance                                  | The edit distance between two strings is the minimum number of operations required to transform one string into the other. Operations are ["Add", "Remove", "Replace"]                                                         |
+## مسائل کلاسیک برنامه‌نویسی پویا
+| نام | توضیح/مثال |
+| --- | --- |
+| کوله‌پشتی صفر و یک (0-1 Knapsack) | با داشتن $W$ ،$N$ و $N$ آیتم با وزن‌های $w_i$ و ارزش‌های $v_i$، حداکثر مقدار $\sum_{i=1}^{k} v_i$ برای هر زیرمجموعه از آیتم‌ها به اندازه $k$ ($1 \le k \le N$) چقدر است، به طوری که شرط $\sum_{i=1}^{k} w_i \le W$ برقرار باشد؟ |
+| مجموع زیرمجموعه (Subset Sum) | با داشتن $N$ عدد صحیح و یک عدد $T$، مشخص کنید آیا زیرمجموعه‌ای از مجموعه داده شده وجود دارد که مجموع اعضای آن برابر با $T$ باشد. |
+| طولانی‌ترین زیردنباله افزایشی (LIS) | یک آرایه شامل $N$ عدد صحیح به شما داده شده است. وظیفه شما تعیین LIS در آرایه است، یعنی زیردنباله‌ای که در آن هر عنصر از عنصر قبلی خود بزرگ‌تر باشد. |
+| شمردن مسیرها در یک آرایه دو بعدی | با داشتن $N$ و $M$، تمام مسیرهای متمایز ممکن از $(1,1)$ به $(N, M)$ را بشمارید، به طوری که هر گام یا از $(i,j)$ به $(i+1,j)$ یا از $(i,j)$ به $(i,j+1)$ باشد. |
+| طولانی‌ترین زیردنباله مشترک | رشته‌های $s$ و $t$ به شما داده شده‌اند. طول طولانی‌ترین رشته‌ای را که زیردنباله‌ای از هر دو رشته $s$ و $t$ باشد، پیدا کنید. |
+| طولانی‌ترین مسیر در یک گراف جهت‌دار غیرمدور (DAG) | یافتن طولانی‌ترین مسیر در یک گراف جهت‌دار غیرمدور (DAG). |
+| طولانی‌ترین زیردنباله پالیندروم | یافتن طولانی‌ترین زیردنباله پالیندروم (LPS) از یک رشته داده شده. |
+| برش میله | یک میله به طول $n$ واحد و یک آرایه از اعداد صحیح به نام `cuts` داده شده است که `cuts[i]` موقعیتی را نشان می‌دهد که باید در آن برشی انجام دهید. هزینه یک برش برابر با طول میله‌ای است که برش داده می‌شود. حداقل هزینه کل برش‌ها چقدر است. |
+| فاصله ویرایش (Edit Distance) | فاصله ویرایش بین دو رشته، حداقل تعداد عملیات لازم برای تبدیل یک رشته به رشته دیگر است. عملیات‌ها عبارتند از: ["افزودن"، "حذف"، "جایگزینی"] |
 
-## Related Topics
-* Bitmask Dynamic Programming
-* Digit Dynamic Programming
-* Dynamic Programming on Trees
+## موضوعات مرتبط
+* برنامه‌نویسی پویا با بیت‌مسک (Bitmask)
+* برنامه‌نویسی پویا بر روی ارقام (Digit DP)
+* برنامه‌نویسی پویا روی درخت‌ها
 
-Of course, the most important trick is to practice.
+البته، مهم‌ترین ترفند، تمرین کردن است.
 
-## Practice Problems
+## مسائل تمرینی
 * [LeetCode - 1137. N-th Tribonacci Number](https://leetcode.com/problems/n-th-tribonacci-number/description/)
 * [LeetCode - 118. Pascal's Triangle](https://leetcode.com/problems/pascals-triangle/description/)
 * [LeetCode - 1025. Divisor Game](https://leetcode.com/problems/divisor-game/description/)
@@ -159,7 +160,6 @@ Of course, the most important trick is to practice.
 * [LeetCode - 221. Maximal Square](https://leetcode.com/problems/maximal-square/description/)
 * [LeetCode - 1039. Minimum Score Triangulation of Polygon](https://leetcode.com/problems/minimum-score-triangulation-of-polygon/description/)
 
-## DP Contests
+## مسابقات برنامه‌نویسی پویا
 * [Atcoder - Educational DP Contest](https://atcoder.jp/contests/dp/tasks)
 * [CSES - Dynamic Programming](https://cses.fi/problemset/list/)
-

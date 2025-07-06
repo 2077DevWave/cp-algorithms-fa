@@ -1,367 +1,383 @@
 ---
 tags:
-  
-e_maxx_link: suffix_automata
+  - AI Translated
+e_maxx_link: suffix-automaton
 ---
 
-# Suffix Automaton
+# آتاماتای پسوندی (Suffix Automaton)
 
-A **suffix automaton** is a powerful data structure that allows solving many string-related problems. 
+**آتاماتای پسوندی** یک ساختمان داده قدرتمند است که امکان حل بسیاری از مسائل مرتبط با رشته‌ها را فراهم می‌کند.
 
-For example, you can search for all occurrences of one string in another, or count the amount of different substrings of a given string.
-Both tasks can be solved in linear time with the help of a suffix automaton.
+به‌عنوان مثال، با استفاده از آن می‌توانید تمام رخدادهای یک رشته را در رشته‌ای دیگر پیدا کنید، یا تعداد زیررشته‌های متمایز یک رشته‌ی معین را بشمارید.
+هر دو این وظایف را می‌توان با کمک آتاماتای پسوندی در زمان خطی حل کرد.
 
-Intuitively a suffix automaton can be understood as a compressed form of **all substrings** of a given string.
-An impressive fact is, that the suffix automaton contains all this information in a highly compressed form.
-For a string of length $n$ it only requires $O(n)$ memory.
-Moreover, it can also be built in $O(n)$ time (if we consider the size $k$ of the alphabet as a constant), otherwise both the memory and the time complexity will be $O(n \log k)$.
+به‌طور شهودی، آتاماتای پسوندی را می‌توان به‌عنوان شکلی فشرده از **تمام زیررشته‌های** یک رشته‌ی معین درک کرد.
+یک واقعیت چشمگیر این است که آتاماتای پسوندی تمام این اطلاعات را در قالبی بسیار فشرده نگهداری می‌کند.
+برای یک رشته به طول $n$، این ساختار تنها به حافظه‌ای از مرتبه $O(n)$ نیاز دارد.
+علاوه بر این، ساخت آن نیز در زمان $O(n)$ امکان‌پذیر است (اگر اندازه الفبا، $k$، را ثابت در نظر بگیریم)، در غیر این صورت، هم حافظه و هم پیچیدگی زمانی $O(n \log k)$ خواهد بود.
 
-The linearity of the size of the suffix automaton was first discovered in 1983 by Blumer et al., and in 1985 the first linear algorithms for the construction was presented by Crochemore and Blumer.
+خطی بودن اندازه آتاماتای پسوندی اولین بار در سال ۱۹۸۳ توسط Blumer و همکارانش کشف شد و در سال ۱۹۸۵ اولین الگوریتم‌های خطی برای ساخت آن توسط Crochemore و Blumer ارائه گردید.
 
-## Definition of a suffix automaton
+## تعریف آتاماتای پسوندی
 
-A suffix automaton for a given string $s$ is a minimal **DFA** (deterministic finite automaton / deterministic finite state machine) that accepts all the suffixes of the string $s$.
+آتاماتای پسوندی برای یک رشته‌ی داده شده $s$، یک **DFA** (آتاماتای متناهی قطعی / ماشین حالت متناهی قطعی) کمینه است که تمام پسوندهای رشته $s$ را می‌پذیرد.
 
-In other words:
+به‌عبارت دیگر:
 
- -  A suffix automaton is an oriented acyclic graph.
-    The vertices are called **states**, and the edges are called **transitions** between states.
- -  One of the states $t_0$ is the **initial state**, and it must be the source of the graph (all other states are reachable from $t_0$).
- -  Each **transition** is labeled with some character.
-    All transitions originating from a state must have **different** labels.
- -  One or multiple states are marked as **terminal states**.
-    If we start from the initial state $t_0$ and move along transitions to a terminal state, then the labels of the passed transitions must spell one of the suffixes of the string $s$.
-    Each of the suffixes of $s$ must be spellable using a path from $t_0$ to a terminal state.
- -  The suffix automaton contains the minimum number of vertices among all automata satisfying the conditions described above.
+- آتاماتای پسوندی یک گراف جهت‌دار غیرمدور است.
+  رئوس آن **حالت** (states) و یال‌ها **گذار** (transitions) بین حالت‌ها نامیده می‌شوند.
+- یکی از حالت‌ها، $t_0$، **حالت اولیه** است و باید منبع گراف باشد (یعنی تمام حالت‌های دیگر از $t_0$ قابل دسترسی هستند).
+- هر **گذار** با یک کاراکتر برچسب‌گذاری شده است.
+  تمام گذارهای خارج‌شونده از یک حالت باید برچسب‌های **متفاوتی** داشته باشند.
+- یک یا چند حالت به‌عنوان **حالت‌های پایانی** علامت‌گذاری شده‌اند.
+  اگر از حالت اولیه $t_0$ شروع کرده و در طول گذارها به یک حالت پایانی برسیم، برچسب‌های گذارهای طی‌شده باید یکی از پسوندهای رشته $s$ را بسازند.
+  هر یک از پسوندهای $s$ باید با استفاده از یک مسیر از $t_0$ به یک حالت پایانی قابل ساختن باشد.
+- آتاماتای پسوندی شامل کمترین تعداد رأس در میان تمام آتاماتاهایی است که شرایط توصیف‌شده در بالا را برآورده می‌کنند.
 
-### Substring property
+### خاصیت زیررشته
 
-The simplest and most important property of a suffix automaton is, that it contains information about all substrings of the string $s$.
-Any path starting at the initial state $t_0$, if we write down the labels of the transitions, forms a **substring** of $s$.
-And conversely every substring of $s$ corresponds to a certain path starting at $t_0$.
+ساده‌ترین و مهم‌ترین خاصیت آتاماتای پسوندی این است که اطلاعات مربوط به تمام زیررشته‌های رشته $s$ را در خود دارد.
+هر مسیری که از حالت اولیه $t_0$ شروع شود، اگر برچسب‌های گذارهای آن را یادداشت کنیم، یک **زیررشته** از $s$ را تشکیل می‌دهد.
+و برعکس، هر زیررشته از $s$ با یک مسیر مشخص که از $t_0$ شروع می‌شود، متناظر است.
 
-In order to simplify the explanations, we will say that the substring **corresponds** to that path (starting at $t_0$ and the labels spell the substring).
-And conversely we say that any path **corresponds** to the string spelled by its labels.
+برای ساده‌سازی توضیحات، خواهیم گفت که زیررشته با آن مسیر **متناظر است** (مسیری که از $t_0$ شروع شده و برچسب‌هایش آن زیررشته را می‌سازند).
+و برعکس، می‌گوییم هر مسیر با رشته‌ای که از برچسب‌هایش ساخته می‌شود، **متناظر است**.
 
-One or multiple paths can lead to a state.
-Thus, we will say that a state **corresponds** to the set of strings, which correspond to these paths.
+یک یا چند مسیر می‌توانند به یک حالت منتهی شوند.
+بنابراین، خواهیم گفت که یک حالت با مجموعه‌ای از رشته‌ها **متناظر است** که این رشته‌ها با آن مسیرها متناظر هستند.
 
-### Examples of constructed suffix automata
+### نمونه‌هایی از آتاماتاهای پسوندی ساخته‌شده
 
-Here we will show some examples of suffix automata for several simple strings.
+در اینجا چند نمونه از آتاماتاهای پسوندی برای چند رشته ساده را نشان می‌دهیم.
 
-We will denote the initial state with blue and the terminal states with green.
+حالت اولیه را با رنگ آبی و حالت‌های پایانی را با رنگ سبز مشخص می‌کنیم.
 
-For the string $s =~ \text{""}$:
+برای رشته‌ی $s =~ \text{""}$:
+
 
 ![Suffix automaton for ""](SA.png)
 
-For the string $s =~ \text{"a"}$:
+
+برای رشته‌ی $s =~ \text{"a"}$:
+
 
 ![Suffix automaton for "a"](SAa.png)
 
-For the string $s =~ \text{"aa"}$:
+
+برای رشته‌ی $s =~ \text{"aa"}$:
+
 
 ![Suffix automaton for "aa"](SAaa.png)
 
-For the string $s =~ \text{"ab"}$:
+
+برای رشته‌ی $s =~ \text{"ab"}$:
+
 
 ![Suffix automaton for "ab"](SAab.png)
 
-For the string $s =~ \text{"aba"}$:
+
+برای رشته‌ی $s =~ \text{"aba"}$:
+
 
 ![Suffix automaton for "aba"](SAaba.png)
 
-For the string $s =~ \text{"abb"}$:
+
+برای رشته‌ی $s =~ \text{"abb"}$:
+
 
 ![Suffix automaton for "abb"](SAabb.png)
 
-For the string $s =~ \text{"abbb"}$:
+
+برای رشته‌ی $s =~ \text{"abbb"}$:
+
 
 ![Suffix automaton for "abbb"](SAabbb.png)
 
-## Construction in linear time
 
-Before we describe the algorithm to construct a suffix automaton in linear time, we need to introduce several new concepts and simple proofs, which will be very important in understanding the construction.
+## ساخت در زمان خطی
 
-### End positions $endpos$ {data-toc-label="End positions"}
+قبل از اینکه الگوریتم ساخت آتاماتای پسوندی در زمان خطی را توصیف کنیم، باید چند مفهوم جدید و اثبات ساده را معرفی کنیم که در درک فرآیند ساخت بسیار مهم خواهند بود.
 
-Consider any non-empty substring $t$ of the string $s$.
-We will denote with $endpos(t)$ the set of all positions in the string $s$, in which the occurrences of $t$ end. For instance, we have $endpos(\text{"bc"}) = \{2, 4\}$ for the string $\text{"abcbc"}$.
+### مواضع پایانی $endpos$ {data-toc-label="End positions"}
 
-We will call two substrings $t_1$ and $t_2$ $endpos$-equivalent, if their ending sets coincide: $endpos(t_1) = endpos(t_2)$.
-Thus all non-empty substrings of the string $s$ can be decomposed into several **equivalence classes** according to their sets $endpos$.
+هر زیررشته غیرتهی $t$ از رشته $s$ را در نظر بگیرید.
+مجموعه‌ی تمام مواضعی در رشته $s$ که رخدادهای $t$ در آنجا به پایان می‌رسند را با $endpos(t)$ نمایش می‌دهیم. برای مثال، برای رشته $\text{"abcbc"}$ داریم $endpos(\text{"bc"}) = \{2, 4\}$.
 
-It turns out, that in a suffix machine $endpos$-equivalent substrings **correspond to the same state**.
-In other words the number of states in a suffix automaton is equal to the number of equivalence classes among all substrings, plus the initial state.
-Each state of a suffix automaton corresponds to one or more substrings having the same value $endpos$.
+دو زیررشته $t_1$ و $t_2$ را $endpos$-هم‌ارز می‌نامیم اگر مجموعه‌های پایانی آنها یکسان باشند: $endpos(t_1) = endpos(t_2)$.
+بنابراین تمام زیررشته‌های غیرتهی رشته $s$ را می‌توان بر اساس مجموعه‌های $endpos$ آنها به چندین **کلاس هم‌ارزی** تقسیم کرد.
 
-We will later describe the construction algorithm using this assumption.
-We will then see, that all the required properties of a suffix automaton, except for the minimality, are fulfilled.
-And the minimality follows from Nerode's theorem (which will not be proven in this article).
+مشخص می‌شود که در یک ماشین پسوندی، زیررشته‌های $endpos$-هم‌ارز **با یک حالت یکسان متناظر هستند**.
+به‌عبارت دیگر، تعداد حالت‌ها در یک آتاماتای پسوندی برابر است با تعداد کلاس‌های هم‌ارزی در میان تمام زیررشته‌ها، به علاوه حالت اولیه.
+هر حالت از آتاماتای پسوندی با یک یا چند زیررشته که دارای مقدار $endpos$ یکسانی هستند، متناظر است.
 
-We can make some important observations concerning the values $endpos$:
+ما بعداً الگوریتم ساخت را با استفاده از این فرض توصیف خواهیم کرد.
+سپس خواهیم دید که تمام ویژگی‌های مورد نیاز یک آتاماتای پسوندی، به جز کمینه بودن، برآورده می‌شوند.
+و کمینه بودن از قضیه Nerode نتیجه می‌شود (که در این مقاله اثبات نخواهد شد).
 
-**Lemma 1**:
-Two non-empty substrings $u$ and $w$ (with $length(u) \le length(w)$) are $endpos$-equivalent, if and only if the string $u$ occurs in $s$ only in the form of a suffix of $w$.
+می‌توانیم چند مشاهده مهم در مورد مقادیر $endpos$ داشته باشیم:
 
-The proof is obvious.
-If $u$ and $w$ have the same $endpos$ values, then $u$ is a suffix of $w$ and appears only in the form of a suffix of $w$ in $s$.
-And if $u$ is a suffix of $w$ and appears only in the form as a suffix in $s$, then the values $endpos$ are equal by definition.
+**لم ۱**:
+دو زیررشته غیرتهی $u$ و $w$ (با $length(u) \le length(w)$) $endpos$-هم‌ارز هستند، اگر و تنها اگر رشته $u$ در $s$ فقط به شکل یک پسوند از $w$ ظاهر شود.
 
-**Lemma 2**:
-Consider two non-empty substrings $u$ and $w$ (with $length(u) \le length(w)$).
-Then their sets $endpos$ either don't intersect at all, or $endpos(w)$ is a subset of $endpos(u)$.
-And it depends on if $u$ is a suffix of $w$ or not.
+اثبات واضح است.
+اگر $u$ و $w$ مقادیر $endpos$ یکسانی داشته باشند، آنگاه $u$ پسوندی از $w$ است و فقط به شکل پسوندی از $w$ در $s$ ظاهر می‌شود.
+و اگر $u$ پسوندی از $w$ باشد و فقط به شکل پسوند در $s$ ظاهر شود، آنگاه مقادیر $endpos$ طبق تعریف برابر هستند.
+
+**لم ۲**:
+دو زیررشته غیرتهی $u$ و $w$ را در نظر بگیرید (با $length(u) \le length(w)$).
+آنگاه مجموعه‌های $endpos$ آنها یا اصلاً اشتراکی ندارند، یا $endpos(w)$ زیرمجموعه‌ای از $endpos(u)$ است.
+و این بستگی به این دارد که آیا $u$ پسوندی از $w$ است یا خیر.
 
 $$\begin{cases}
-endpos(w) \subseteq endpos(u) & \text{if } u \text{ is a suffix of } w \\\\
-endpos(w) \cap endpos(u) = \emptyset & \text{otherwise}
+endpos(w) \subseteq endpos(u) & \text{اگر } u \text{ پسوندی از } w \text{ باشد} \\\\
+endpos(w) \cap endpos(u) = \emptyset & \text{در غیر این صورت}
 \end{cases}$$
 
-Proof:
-If the sets $endpos(u)$ and $endpos(w)$ have at least one common element, then the strings $u$ and $w$ both end in that position, i.e. $u$ is a suffix of $w$.
-But then at every occurrence of $w$ also appears the substring $u$, which means that $endpos(w)$ is a subset of $endpos(u)$.
+اثبات:
+اگر مجموعه‌های $endpos(u)$ و $endpos(w)$ حداقل یک عنصر مشترک داشته باشند، آنگاه رشته‌های $u$ و $w$ هر دو در آن موضع به پایان می‌رسند، یعنی $u$ پسوندی از $w$ است.
+اما در این صورت، در هر رخداد $w$، زیررشته $u$ نیز ظاهر می‌شود، که به این معنی است که $endpos(w)$ زیرمجموعه‌ای از $endpos(u)$ است.
 
-**Lemma 3**:
-Consider an $endpos$-equivalence class.
-Sort all the substrings in this class by decreasing length.
-Then in the resulting sequence each substring will be one shorter than the previous one, and at the same time will be a suffix of the previous one.
-In other words, in a same equivalence class, the shorter substrings are actually suffixes of the longer substrings, and they take all possible lengths in a certain interval $[x; y]$.
+**لم ۳**:
+یک کلاس هم‌ارزی $endpos$ را در نظر بگیرید.
+تمام زیررشته‌های این کلاس را بر اساس طول نزولی مرتب کنید.
+آنگاه در دنباله حاصل، هر زیررشته یک کاراکتر کوتاه‌تر از قبلی خواهد بود و در عین حال پسوندی از قبلی خواهد بود.
+به‌عبارت دیگر، در یک کلاس هم‌ارزی یکسان، زیررشته‌های کوتاه‌تر در واقع پسوندهای زیررشته‌های بلندتر هستند و تمام طول‌های ممکن را در یک بازه مشخص $[x; y]$ به خود اختصاص می‌دهند.
 
-Proof:
-Fix some $endpos$-equivalence class.
-If it only contains one string, then the lemma is obviously true.
-Now let's say that the number of strings in the class is greater than one.
+اثبات:
+یک کلاس هم‌ارزی $endpos$ را ثابت در نظر بگیرید.
+اگر فقط شامل یک رشته باشد، لم بدیهی است.
+حال فرض کنید تعداد رشته‌ها در کلاس بیشتر از یک باشد.
 
-According to Lemma 1, two different $endpos$-equivalent strings are always in such a way, that the shorter one is a proper suffix of the longer one.
-Consequently, there cannot be two strings of the same length in the equivalence class.
+طبق لم ۱، دو رشته متفاوت $endpos$-هم‌ارز همیشه به گونه‌ای هستند که رشته کوتاه‌تر، یک پسوند سره از رشته بلندتر است.
+در نتیجه، نمی‌توان دو رشته با طول یکسان در یک کلاس هم‌ارزی داشت.
 
-Let's denote by $w$ the longest, and through $u$ the shortest string in the equivalence class.
-According to Lemma 1, the string $u$ is a proper suffix of the string $w$.
-Consider now any suffix of $w$ with a length in the interval $[length(u); length(w)]$.
-It is easy to see, that this suffix is also contained in the same equivalence class.
-Because this suffix can only appear in the form of a suffix of $w$ in the string $s$ (since also the shorter suffix $u$ occurs in $s$ only in the form of a suffix of $w$).
-Consequently, according to Lemma 1, this suffix is $endpos$-equivalent to the string $w$.
+$w$ را بلندترین و $u$ را کوتاه‌ترین رشته در کلاس هم‌ارزی در نظر بگیرید.
+طبق لم ۱، رشته $u$ یک پسوند سره از رشته $w$ است.
+حال هر پسوندی از $w$ با طولی در بازه $[length(u); length(w)]$ را در نظر بگیرید.
+به‌راحتی می‌توان دید که این پسوند نیز در همان کلاس هم‌ارزی قرار دارد.
+زیرا این پسوند تنها می‌تواند به شکل پسوندی از $w$ در رشته $s$ ظاهر شود (چون پسوند کوتاه‌تر $u$ نیز در $s$ فقط به شکل پسوندی از $w$ ظاهر می‌شود).
+در نتیجه، طبق لم ۱، این پسوند با رشته $w$ $endpos$-هم‌ارز است.
 
-### Suffix links $link$ {data-toc-label="Suffix links"}
+### لینک‌های پسوندی $link$ {data-toc-label="Suffix links"}
 
-Consider some state $v \ne t_0$ in the automaton.
-As we know, the state $v$ corresponds to the class of strings with the same $endpos$ values.
-And if we denote by $w$ the longest of these strings, then all the other strings are suffixes of $w$.
+یک حالت $v \ne t_0$ در آتاماتا را در نظر بگیرید.
+همان‌طور که می‌دانیم، حالت $v$ با کلاسی از رشته‌ها با مقادیر $endpos$ یکسان متناظر است.
+و اگر $w$ را بلندترینِ این رشته‌ها بنامیم، آنگاه تمام رشته‌های دیگر پسوندهای $w$ هستند.
 
-We also know the first few suffixes of a string $w$ (if we consider suffixes in descending order of their length) are all contained in this equivalence class, and all other suffixes (at least one other - the empty suffix) are in some other classes.
-We denote by $t$ the biggest such suffix, and make a suffix link to it.
+همچنین می‌دانیم که چند پسوند اول یک رشته $w$ (اگر پسوندها را به ترتیب نزولی طولشان در نظر بگیریم) همگی در این کلاس هم‌ارزی قرار دارند و سایر پسوندها (حداقل یک پسوند دیگر - پسوند تهی) در کلاس‌های دیگری قرار دارند.
+بزرگترین پسوندی که در کلاس دیگری قرار دارد را $t$ می‌نامیم و یک لینک پسوندی به آن ایجاد می‌کنیم.
 
-In other words, a **suffix link** $link(v)$ leads to the state that corresponds to the **longest suffix** of $w$ that is in another $endpos$-equivalence class.
+به‌عبارت دیگر، یک **لینک پسوندی** $link(v)$ به حالتی می‌رود که متناظر با **بلندترین پسوند** $w$ است که در یک کلاس هم‌ارزی $endpos$ دیگر قرار دارد.
 
-Here we assume that the initial state $t_0$ corresponds to its own equivalence class (containing only the empty string), and for convenience we set $endpos(t_0) = \{-1, 0, \dots, length(s)-1\}$.
+در اینجا فرض می‌کنیم که حالت اولیه $t_0$ با کلاس هم‌ارزی خودش متناظر است (که فقط شامل رشته تهی است) و برای راحتی کار، $endpos(t_0) = \{-1, 0, \dots, length(s)-1\}$ را تعریف می‌کنیم.
 
-**Lemma 4**:
-Suffix links form a **tree** with the root $t_0$.
+**لم ۴**:
+لینک‌های پسوندی یک **درخت** با ریشه $t_0$ تشکیل می‌دهند.
 
-Proof:
-Consider an arbitrary state $v \ne t_0$.
-A suffix link $link(v)$ leads to a state corresponding to strings with strictly smaller length (this follows from the definition of the suffix links and from Lemma 3).
-Therefore, by moving along the suffix links, we will sooner or later come to the initial state $t_0$, which corresponds to the empty string.
+اثبات:
+یک حالت دلخواه $v \ne t_0$ را در نظر بگیرید.
+یک لینک پسوندی $link(v)$ به حالتی می‌رود که متناظر با رشته‌هایی با طول اکیداً کمتر است (این از تعریف لینک‌های پسوندی و لم ۳ نتیجه می‌شود).
+بنابراین، با حرکت در طول لینک‌های پسوندی، دیر یا زود به حالت اولیه $t_0$ خواهیم رسید که با رشته تهی متناظر است.
 
-**Lemma 5**:
-If we construct a tree using the sets $endpos$ (by the rule that the set of a parent node contains the sets of all children as subsets), then the structure will coincide with the tree of suffix links.
+**لم ۵**:
+اگر با استفاده از مجموعه‌های $endpos$ درختی بسازیم (با این قانون که مجموعه گره والد شامل مجموعه‌های تمام فرزندانش به عنوان زیرمجموعه است)، آنگاه ساختار با درخت لینک‌های پسوندی منطبق خواهد بود.
 
-Proof:
-The fact that we can construct a tree using the sets $endpos$ follows directly from Lemma 2 (that any two sets either do not intersect or one is contained in the other).
+اثبات:
+این واقعیت که می‌توانیم با استفاده از مجموعه‌های $endpos$ یک درخت بسازیم، مستقیماً از لم ۲ نتیجه می‌شود (اینکه هر دو مجموعه یا اشتراکی ندارند یا یکی در دیگری محاط است).
 
-Let us now consider an arbitrary state $v \ne t_0$, and its suffix link $link(v)$.
-From the definition of the suffix link and from Lemma 2 it follows that
+حال یک حالت دلخواه $v \ne t_0$ و لینک پسوندی آن $link(v)$ را در نظر بگیرید.
+از تعریف لینک پسوندی و از لم ۲ نتیجه می‌شود که:
 
 $$endpos(v) \subseteq endpos(link(v)),$$
 
-which together with the previous lemma proves the assertion:
-the tree of suffix links is essentially a tree of sets $endpos$.
+که این رابطه همراه با لم قبلی، ادعا را اثبات می‌کند:
+درخت لینک‌های پسوندی در اصل یک درخت از مجموعه‌های $endpos$ است.
 
-Here is an **example** of a tree of suffix links in the suffix automaton build for the string $\text{"abcbc"}$.
-The nodes are labeled with the longest substring from the corresponding equivalence class.
+در اینجا یک **نمونه** از درخت لینک‌های پسوندی در آتاماتای پسوندی ساخته‌شده برای رشته $\text{"abcbc"}$ را می‌بینید.
+گره‌ها با بلندترین زیررشته از کلاس هم‌ارزی مربوطه برچسب‌گذاری شده‌اند.
+
 
 ![Suffix automaton for "abcbc" with suffix links](SA_suffix_links.png)
 
-### Recap
 
-Before proceeding to the algorithm itself, we recap the accumulated knowledge, and introduce a few auxiliary notations.
+### جمع‌بندی
 
-- The substrings of the string $s$ can be decomposed into equivalence classes according to their end positions $endpos$.
-- The suffix automaton consists of the initial state $t_0$, as well as of one state for each $endpos$-equivalence class.
-- For each state $v$ one or multiple substrings match.
-  We denote by $longest(v)$ the longest such string, and through $len(v)$ its length.
-  We denote by $shortest(v)$ the shortest such substring, and its length with $minlen(v)$.
-  Then all the strings corresponding to this state are different suffixes of the string $longest(v)$ and have all possible lengths in the interval $[minlen(v); len(v)]$.
-- For each state $v \ne t_0$ a suffix link is defined as a link, that leads to a state that corresponds to the suffix of the string $longest(v)$ of length $minlen(v) - 1$.
-  The suffix links form a tree with the root in $t_0$, and at the same time this tree forms an inclusion relationship between the sets $endpos$.
-- We can express $minlen(v)$ for $v \ne t_0$ using the suffix link $link(v)$ as:
+قبل از پرداختن به خود الگوریتم، دانش انباشته‌شده را مرور می‌کنیم و چند نماد کمکی معرفی می‌کنیم.
+
+- زیررشته‌های رشته $s$ را می‌توان بر اساس مواضع پایانی‌شان ($endpos$) به کلاس‌های هم‌ارزی تقسیم کرد.
+- آتاماتای پسوندی از حالت اولیه $t_0$ و همچنین یک حالت برای هر کلاس هم‌ارزی $endpos$ تشکیل شده است.
+- برای هر حالت $v$ یک یا چند زیررشته منطبق است.
+  ما بلندترینِ این رشته‌ها را با $longest(v)$ و طول آن را با $len(v)$ نشان می‌دهیم.
+  کوتاه‌ترینِ این زیررشته‌ها را با $shortest(v)$ و طول آن را با $minlen(v)$ نشان می‌دهیم.
+  آنگاه تمام رشته‌های متناظر با این حالت، پسوندهای متفاوتی از رشته $longest(v)$ هستند و تمام طول‌های ممکن در بازه $[minlen(v); len(v)]$ را دارند.
+- برای هر حالت $v \ne t_0$ یک لینک پسوندی تعریف می‌شود که به حالتی می‌رود که متناظر با پسوندی از رشته $longest(v)$ با طول $minlen(v) - 1$ است.
+  لینک‌های پسوندی درختی با ریشه $t_0$ تشکیل می‌دهند و در عین حال این درخت رابطه شمول بین مجموعه‌های $endpos$ را نشان می‌دهد.
+- می‌توانیم $minlen(v)$ را برای $v \ne t_0$ با استفاده از لینک پسوندی $link(v)$ به این صورت بیان کنیم:
   
 $$minlen(v) = len(link(v)) + 1$$
 
-- If we start from an arbitrary state $v_0$ and follow the suffix links, then sooner or later we will reach the initial state $t_0$.
-  In this case we obtain a sequence of disjoint intervals $[minlen(v_i); len(v_i)]$, which in union forms the continuous interval $[0; len(v_0)]$.
+- اگر از یک حالت دلخواه $v_0$ شروع کرده و لینک‌های پسوندی را دنبال کنیم، دیر یا زود به حالت اولیه $t_0$ خواهیم رسید.
+  در این حالت، دنباله‌ای از بازه‌های گسسته $[minlen(v_i); len(v_i)]$ به دست می‌آوریم که اجتماع آنها بازه پیوسته $[0; len(v_0)]$ را تشکیل می‌دهد.
 
-### Algorithm
+### الگوریتم
 
-Now we can proceed to the algorithm itself.
-The algorithm will be **online**, i.e. we will add the characters of the string one by one, and modify the automaton accordingly in each step.
+اکنون می‌توانیم به خود الگوریتم بپردازیم.
+الگوریتم **برخط (آنلاین)** خواهد بود، یعنی کاراکترهای رشته را یک به یک اضافه کرده و در هر مرحله آتاماتا را بر اساس آن اصلاح می‌کنیم.
 
-To achieve linear memory consumption, we will only store the values $len$, $link$ and a list of transitions in each state.
-We will not label terminal states (but we will later show how to arrange these labels after constructing the suffix automaton).
+برای دستیابی به مصرف حافظه خطی، فقط مقادیر $len$، $link$ و لیستی از گذارها را در هر حالت ذخیره می‌کنیم.
+حالت‌های پایانی را برچسب‌گذاری نمی‌کنیم (اما بعداً نشان خواهیم داد که چگونه پس از ساخت آتاماتای پسوندی این برچسب‌ها را تنظیم کنیم).
 
-Initially the automaton consists of a single state $t_0$, which will be the index $0$ (the remaining states will receive the indices $1, 2, \dots$).
-We assign it $len = 0$ and $link = -1$ for convenience ($-1$ will be a fictional, non-existing state).
+در ابتدا آتاماتا از یک حالت واحد $t_0$ تشکیل شده است که اندیس $0$ را خواهد داشت (حالت‌های باقیمانده اندیس‌های $1, 2, \dots$ را دریافت می‌کنند).
+برای راحتی، به آن $len = 0$ و $link = -1$ اختصاص می‌دهیم ($-1$ یک حالت فرضی و ناموجود خواهد بود).
 
-Now the whole task boils down to implementing the process of **adding one character** $c$ to the end of the current string.
-Let us describe this process:
+اکنون تمام کار به پیاده‌سازی فرآیند **افزودن یک کاراکتر** $c$ به انتهای رشته فعلی خلاصه می‌شود.
+بیایید این فرآیند را توصیف کنیم:
 
-  - Let $last$ be the state corresponding to the entire string before adding the character $c$.
-    (Initially we set $last = 0$, and we will change $last$ in the last step of the algorithm accordingly.)
-  - Create a new state $cur$, and assign it with $len(cur) = len(last) + 1$.
-    The value $link(cur)$ is not known at the time.
-  - Now we do the following procedure:
-    We start at the state $last$.
-    While there isn't a transition through the letter $c$, we will add a transition to the state $cur$, and follow the suffix link.
-    If at some point there already exists a transition through the letter $c$, then we will stop and denote this state with $p$.
-  - If we haven't found such a state $p$, then we reached the fictitious state $-1$, then we can just assign $link(cur) = 0$ and leave.
-  - Suppose now that we have found a state $p$, from which there exists a transition through the letter $c$.
-    We will denote the state, to which the transition leads,  with $q$.
-  - Now we have two cases. Either $len(p) + 1 = len(q)$, or not.
-  - If $len(p) + 1 = len(q)$, then we can simply assign $link(cur) = q$ and leave.
-  - Otherwise it is a bit more complicated.
-    It is necessary to **clone** the state $q$:
-    we create a new state $clone$, copy all the data from $q$ (suffix link and transition) except the value $len$.
-    We will assign $len(clone) = len(p) + 1$.
+  - فرض کنید $last$ حالتی است که با کل رشته قبل از افزودن کاراکتر $c$ متناظر است.
+    (در ابتدا $last = 0$ را تنظیم می‌کنیم و در آخرین مرحله الگوریتم، $last$ را بر اساس آن تغییر خواهیم داد.)
+  - یک حالت جدید $cur$ ایجاد کنید و به آن $len(cur) = len(last) + 1$ را اختصاص دهید.
+    مقدار $link(cur)$ در این لحظه مشخص نیست.
+  - اکنون رویه زیر را انجام می‌دهیم:
+    از حالت $last$ شروع می‌کنیم.
+    تا زمانی که گذاری با حرف $c$ وجود نداشته باشد، یک گذار به حالت $cur$ اضافه می‌کنیم و لینک پسوندی را دنبال می‌کنیم.
+    اگر در نقطه‌ای گذاری با حرف $c$ از قبل وجود داشته باشد، متوقف شده و این حالت را $p$ می‌نامیم.
+  - اگر چنین حالتی $p$ پیدا نکردیم، یعنی به حالت فرضی $-1$ رسیدیم، آنگاه می‌توانیم $link(cur) = 0$ را اختصاص داده و خارج شویم.
+  - حال فرض کنید حالتی $p$ پیدا کرده‌ایم که از آن گذاری با حرف $c$ وجود دارد.
+    حالتی را که این گذار به آن منتهی می‌شود، $q$ می‌نامیم.
+  - اکنون دو حالت داریم. یا $len(p) + 1 = len(q)$ یا نه.
+  - اگر $len(p) + 1 = len(q)$ باشد، آنگاه می‌توانیم به سادگی $link(cur) = q$ را اختصاص داده و خارج شویم.
+  - در غیر این صورت، کمی پیچیده‌تر است.
+    لازم است حالت $q$ را **کلون کنیم**:
+    یک حالت جدید $clone$ ایجاد می‌کنیم، تمام داده‌ها را از $q$ (لینک پسوندی و گذارها) به جز مقدار $len$ کپی می‌کنیم.
+    مقدار $len(clone) = len(p) + 1$ را اختصاص می‌دهیم.
 
-    After cloning we direct the suffix link from $cur$ to $clone$, and also from $q$ to clone.
+    پس از کلون کردن، لینک پسوندی از $cur$ را به $clone$ و همچنین از $q$ به $clone$ هدایت می‌کنیم.
 
-    Finally we need to walk from the state $p$ back using suffix links as long as there is a transition through $c$ to the state $q$, and redirect all those to the state $clone$.
+    در نهایت، باید از حالت $p$ به عقب با استفاده از لینک‌های پسوندی حرکت کنیم تا زمانی که گذاری با $c$ به حالت $q$ وجود دارد و همه آنها را به حالت $clone$ هدایت کنیم.
 
-  - In any of the three cases, after completing the procedure, we update the value $last$ with the state $cur$.
+  - در هر یک از سه حالت، پس از اتمام رویه، مقدار $last$ را با حالت $cur$ به‌روز می‌کنیم.
 
-If we also want to know which states are **terminal** and which are not, we can find all terminal states after constructing the complete suffix automaton for the entire string $s$.
-To do this, we take the state corresponding to the entire string (stored in the variable $last$), and follow its suffix links until we reach the initial state.
-We will mark all visited states as terminal.
-It is easy to understand that by doing so we will mark exactly the states corresponding to all the suffixes of the string $s$, which are exactly the terminal states.
+اگر بخواهیم بدانیم کدام حالت‌ها **پایانی** هستند و کدام نیستند، می‌توانیم پس از ساخت کامل آتاماتای پسوندی برای کل رشته $s$، تمام حالت‌های پایانی را پیدا کنیم.
+برای این کار، حالتی را که با کل رشته متناظر است (در متغیر $last$ ذخیره شده است) برمی‌داریم و لینک‌های پسوندی آن را دنبال می‌کنیم تا به حالت اولیه برسیم.
+تمام حالت‌های بازدید شده را به عنوان پایانی علامت‌گذاری می‌کنیم.
+به‌راحتی می‌توان فهمید که با این کار دقیقاً حالت‌های متناظر با تمام پسوندهای رشته $s$ را علامت‌گذاری می‌کنیم، که دقیقاً همان حالت‌های پایانی هستند.
 
-In the next section we will look in detail at each step and show its **correctness**.
+در بخش بعدی، هر مرحله را به تفصیل بررسی کرده و **صحت** آن را نشان خواهیم داد.
 
-Here we only note that, since we only create one or two new states for each character of $s$, the suffix automaton contains a **linear number of states**.
+در اینجا فقط اشاره می‌کنیم که، از آنجایی که برای هر کاراکتر از $s$ فقط یک یا دو حالت جدید ایجاد می‌کنیم، آتاماتای پسوندی دارای **تعداد خطی حالت** است.
 
-The linearity of the number of transitions, and in general the linearity of the runtime of the algorithm is less clear, and they will be proven after we proved the correctness.
+خطی بودن تعداد گذارها و به‌طور کلی خطی بودن زمان اجرای الگوریتم کمتر واضح است و پس از اثبات صحت، اثبات خواهند شد.
 
-### Correctness
+### صحت
 
-  - We will call a transition $(p, q)$ **continuous** if $len(p) + 1 = len(q)$.
-    Otherwise, i.e. when $len(p) + 1 < len(q)$, the transition will be called **non-continuous**.
+  - یک گذار $(p, q)$ را **پیوسته** می‌نامیم اگر $len(p) + 1 = len(q)$ باشد.
+    در غیر این صورت، یعنی زمانی که $len(p) + 1 < len(q)$ باشد، گذار **ناپیوسته** نامیده می‌شود.
 
-    As we can see from the description of the algorithm, continuous and non-continuous transitions will lead to different cases of the algorithm.
-    Continuous transitions are fixed, and will never change again.
-    In contrast non-continuous transition may change, when new letters are added to the string (the end of the transition edge may change).
+    همانطور که از توصیف الگوریتم می‌توان دید، گذارهای پیوسته و ناپیوسته به موارد مختلفی از الگوریتم منجر می‌شوند.
+    گذارهای پیوسته ثابت هستند و دیگر هرگز تغییر نخواهند کرد.
+    در مقابل، گذارهای ناپیوسته ممکن است با اضافه شدن حروف جدید به رشته تغییر کنند (انتهای یال گذار ممکن است تغییر کند).
 
-  - To avoid ambiguity we will denote the string, for which the suffix automaton was built before adding the current character $c$, with $s$.
+  - برای جلوگیری از ابهام، رشته‌ای که آتاماتای پسوندی برای آن قبل از افزودن کاراکتر فعلی $c$ ساخته شده است را با $s$ نشان می‌دهیم.
 
-  - The algorithm begins with creating a new state $cur$, which will correspond to the entire string $s + c$.
-    It is clear why we have to create a new state.
-    Together with the new character a new equivalence class is created.
+  - الگوریتم با ایجاد یک حالت جدید $cur$ شروع می‌شود که با کل رشته $s + c$ متناظر خواهد بود.
+    واضح است که چرا باید یک حالت جدید ایجاد کنیم.
+    همراه با کاراکتر جدید، یک کلاس هم‌ارزی جدید ایجاد می‌شود.
 
-  - After creating a new state we traverse by suffix links starting from the state corresponding to the entire string $s$.
-    For each state we try to add a transition with the character $c$ to the new state $cur$.
-    Thus we append to each suffix of $s$ the character $c$.
-    However we can only add these new transitions, if they don't conflict with an already existing one.
-    Therefore as soon as we find an already existing transition with $c$ we have to stop.
+  - پس از ایجاد یک حالت جدید، با شروع از حالتی که با کل رشته $s$ متناظر است، از طریق لینک‌های پسوندی حرکت می‌کنیم.
+    برای هر حالت، سعی می‌کنیم یک گذار با کاراکتر $c$ به حالت جدید $cur$ اضافه کنیم.
+    بنابراین کاراکتر $c$ را به هر پسوند $s$ اضافه می‌کنیم.
+    با این حال، تنها در صورتی می‌توانیم این گذارهای جدید را اضافه کنیم که با یک گذار موجود تداخل نداشته باشند.
+    بنابراین به محض اینکه یک گذار موجود با $c$ پیدا کنیم، باید متوقف شویم.
 
-  - In the simplest case we reached the fictitious state $-1$.
-    This means we added the transition with $c$ to all suffixes of $s$.
-    This also means, that the character $c$ hasn't been part of the string $s$ before.
-    Therefore the suffix link of $cur$ has to lead to the state $0$.
+  - در ساده‌ترین حالت، به حالت فرضی $-1$ رسیده‌ایم.
+    این بدان معناست که ما گذار با $c$ را به تمام پسوندهای $s$ اضافه کرده‌ایم.
+    این همچنین به این معناست که کاراکتر $c$ قبلاً بخشی از رشته $s$ نبوده است.
+    بنابراین لینک پسوندی $cur$ باید به حالت $0$ برود.
 
-  - In the second case we came across an existing transition $(p, q)$.
-    This means that we tried to add a string $x + c$ (where $x$ is a suffix of $s$) to the machine that **already exists** in the machine (the string $x + c$ already appears as a substring of $s$).
-    Since we assume that the automaton for the string $s$ is built correctly, we should not add a new transition here.
+  - در حالت دوم، به یک گذار موجود $(p, q)$ برخورد کرده‌ایم.
+    این بدان معناست که ما سعی کردیم رشته $x + c$ (که در آن $x$ یک پسوند از $s$ است) را به ماشین اضافه کنیم که **از قبل** در ماشین وجود دارد (رشته $x + c$ از قبل به عنوان یک زیررشته از $s$ ظاهر می‌شود).
+    از آنجایی که فرض می‌کنیم آتاماتا برای رشته $s$ به درستی ساخته شده است، نباید در اینجا یک گذار جدید اضافه کنیم.
 
-    However there is a difficulty.
-    To which state should the suffix link from the state $cur$ lead?
-    We have to make a suffix link to a state, in which the longest string is exactly $x + c$, i.e. the $len$ of this state should be $len(p) + 1$.
-    However it is possible, that such a state doesn't yet exists, i.e. $len(q) > len(p) + 1$.
-    In this case we have to create such a state, by **splitting** the state $q$.
+    با این حال، یک مشکل وجود دارد.
+    لینک پسوندی از حالت $cur$ باید به کدام حالت برود؟
+    باید یک لینک پسوندی به حالتی ایجاد کنیم که بلندترین رشته آن دقیقاً $x + c$ باشد، یعنی $len$ این حالت باید $len(p) + 1$ باشد.
+    اما ممکن است چنین حالتی هنوز وجود نداشته باشد، یعنی $len(q) > len(p) + 1$.
+    در این حالت باید چنین حالتی را با **تقسیم کردن** حالت $q$ ایجاد کنیم.
 
-  - If the transition $(p, q)$ turns out to be continuous, then $len(q) = len(p) + 1$.
-    In this case everything is simple.
-    We direct the suffix link from $cur$ to the state $q$.
+  - اگر گذار $(p, q)$ پیوسته باشد، آنگاه $len(q) = len(p) + 1$.
+    در این حالت همه چیز ساده است.
+    لینک پسوندی را از $cur$ به حالت $q$ هدایت می‌کنیم.
 
-  - Otherwise the transition is non-continuous, i.e. $len(q) > len(p) + 1$.
-    This means that the state $q$ corresponds to not only the suffix of $s + c$ with length $len(p) + 1$, but also to longer substrings of $s$.
-    We can do nothing other than **splitting** the state $q$ into two sub-states, so that the first one has length $len(p) + 1$.
+  - در غیر این صورت، گذار ناپیوسته است، یعنی $len(q) > len(p) + 1$.
+    این بدان معناست که حالت $q$ نه تنها با پسوند $s + c$ به طول $len(p) + 1$، بلکه با زیررشته‌های بلندتری از $s$ نیز متناظر است.
+    کاری جز **تقسیم کردن** حالت $q$ به دو حالت فرعی نمی‌توانیم انجام دهیم، به طوری که اولین حالت دارای طول $len(p) + 1$ باشد.
 
-    How can we split a state?
-    We **clone** the state $q$, which gives us the state $clone$, and we set $len(clone) = len(p) + 1$.
-    We copy all the transitions from $q$ to $clone$, because we don't want to change the paths that traverse through $q$.
-    Also we set the suffix link from $clone$ to the target of the suffix link of $q$, and set the suffix link of $q$ to $clone$.
+    چگونه می‌توان یک حالت را تقسیم کرد؟
+    ما حالت $q$ را **کلون می‌کنیم**، که حالت $clone$ را به ما می‌دهد و $len(clone) = len(p) + 1$ را تنظیم می‌کنیم.
+    تمام گذارها را از $q$ به $clone$ کپی می‌کنیم، زیرا نمی‌خواهیم مسیرهایی را که از $q$ عبور می‌کنند تغییر دهیم.
+    همچنین لینک پسوندی از $clone$ را به مقصد لینک پسوندی $q$ تنظیم می‌کنیم و لینک پسوندی $q$ را به $clone$ تنظیم می‌کنیم.
 
-    And after splitting the state, we set the suffix link from $cur$ to $clone$.
+    و پس از تقسیم حالت، لینک پسوندی از $cur$ را به $clone$ تنظیم می‌کنیم.
 
-    In the last step we change some of the transitions to $q$, we redirect them to $clone$.
-    Which transitions do we have to change?
-    It is enough to redirect only the transitions corresponding to all the suffixes of the string $w + c$ (where $w$ is the longest string of $p$), i.e. we need to continue to move along the suffix links, starting from the vertex $p$ until we reach the fictitious state $-1$ or a transition that leads to a different state than $q$.
+    در مرحله آخر، برخی از گذارها به $q$ را تغییر می‌دهیم، آنها را به $clone$ هدایت می‌کنیم.
+    کدام گذارها را باید تغییر دهیم؟
+    کافی است فقط گذارهای متناظر با تمام پسوندهای رشته $w + c$ (که در آن $w$ بلندترین رشته $p$ است) را تغییر دهیم، یعنی باید با شروع از رأس $p$ به حرکت در طول لینک‌های پسوندی ادامه دهیم تا به حالت فرضی $-1$ یا گذاری که به حالتی غیر از $q$ می‌رود، برسیم.
 
-### Linear number of operations
+### تعداد خطی عملیات
 
-First we immediately make the assumption that the size of the alphabet is **constant**.
-If this is not the case, then it will not be possible to talk about the linear time complexity.
-The list of transitions from one vertex will be stored in a balanced tree, which allows you to quickly perform key search operations and adding keys.
-Therefore if we denote with $k$ the size of the alphabet, then the asymptotic behavior of the algorithm will be $O(n \log k)$ with $O(n)$ memory.
-However if the alphabet is small enough, then you can sacrifice memory by avoiding balanced trees, and store the transitions at each vertex as an array of length $k$ (for quick searching by key) and a dynamic list (to quickly traverse all available keys).
-Thus we reach the $O(n)$ time complexity for the algorithm, but at a cost of $O(n k)$ memory complexity.
+ابتدا بلافاصله فرض می‌کنیم که اندازه الفبا **ثابت** است.
+اگر اینطور نباشد، نمی‌توان از پیچیدگی زمانی خطی صحبت کرد.
+لیست گذارها از یک رأس در یک درخت متوازن ذخیره می‌شود که به شما امکان می‌دهد عملیات جستجوی کلید و افزودن کلید را به سرعت انجام دهید.
+بنابراین اگر $k$ را اندازه الفبا بنامیم، رفتار مجانبی الگوریتم $O(n \log k)$ با حافظه $O(n)$ خواهد بود.
+با این حال، اگر الفبا به اندازه کافی کوچک باشد، می‌توانید با اجتناب از درختان متوازن، حافظه را فدا کرده و گذارها را در هر رأس به عنوان یک آرایه به طول $k$ (برای جستجوی سریع با کلید) و یک لیست پویا (برای پیمایش سریع همه کلیدهای موجود) ذخیره کنید.
+بنابراین به پیچیدگی زمانی $O(n)$ برای الگوریتم می‌رسیم، اما با هزینه حافظه $O(n k)$.
 
-So we will consider the size of the alphabet to be constant, i.e. each operation of searching for a transition on a character, adding a transition, searching for the next transition - all these operations can be done in $O(1)$.
+بنابراین اندازه الفبا را ثابت در نظر می‌گیریم، یعنی هر عملیات جستجوی یک گذار بر روی یک کاراکتر، افزودن یک گذار، جستجوی گذار بعدی - همه این عملیات را می‌توان در $O(1)$ انجام داد.
 
-If we consider all parts of the algorithm, then it contains three places in the algorithm in which the linear complexity is not obvious:
+اگر تمام بخش‌های الگوریتم را در نظر بگیریم، سه مکان در الگوریتم وجود دارد که پیچیدگی خطی در آنها واضح نیست:
 
-  - The first place is the traversal through the suffix links from the state $last$, adding transitions with the character $c$.
-  - The second place is the copying of transitions when the state $q$ is cloned into a new state $clone$.
-  - Third place is changing the transition leading to $q$, redirecting them to $clone$.
+  - مکان اول، پیمایش از طریق لینک‌های پسوندی از حالت $last$ و افزودن گذارها با کاراکتر $c$ است.
+  - مکان دوم، کپی کردن گذارها هنگام کلون شدن حالت $q$ به یک حالت جدید $clone$ است.
+  - مکان سوم، تغییر گذارهایی است که به $q$ می‌روند و هدایت آنها به $clone$.
 
-We use the fact that the size of the suffix automaton (both in the number of states and in the number of transitions) is **linear**.
-(The proof of the linearity of the number of states is the algorithm itself, and the proof of linearity of the number of states is given below, after the implementation of the algorithm).
+ما از این واقعیت استفاده می‌کنیم که اندازه آتاماتای پسوندی (هم از نظر تعداد حالت‌ها و هم از نظر تعداد گذارها) **خطی** است.
+(اثبات خطی بودن تعداد حالت‌ها خود الگوریتم است، و اثبات خطی بودن تعداد گذارها در زیر، پس از پیاده‌سازی الگوریتم، ارائه شده است).
 
-Thus the total complexity of the **first and second places** is obvious, after all each operation adds only one amortized new transition to the automaton.
+بنابراین، پیچیدگی کل **مکان اول و دوم** واضح است، زیرا هر عملیات به صورت سرشکن تنها یک گذار جدید به آتاماتا اضافه می‌کند.
 
-It remains to estimate the total complexity of the **third place**, in which we redirect transitions, that pointed originally to $q$, to $clone$.
-We denote $v = longest(p)$.
-This is a suffix of the string $s$, and with each iteration its length decreases - and therefore the position $v$ as the suffix of the string $s$ increases monotonically with each iteration.
-In this case, if before the first iteration of the loop, the corresponding string $v$ was at the depth $k$ ($k \ge 2$) from $last$ (by counting the depth as the number of suffix links), then after the last iteration the string $v + c$ will be a $2$-th suffix link on the path from $cur$ (which will become the new value $last$).
+باقی می‌ماند که پیچیدگی کل **مکان سوم** را تخمین بزنیم، که در آن گذارهایی که در ابتدا به $q$ اشاره داشتند را به $clone$ هدایت می‌کنیم.
+$v = longest(p)$ را در نظر می‌گیریم.
+این یک پسوند از رشته $s$ است و با هر تکرار طول آن کاهش می‌یابد - و بنابراین موقعیت $v$ به عنوان پسوند رشته $s$ با هر تکرار به طور یکنواخت افزایش می‌یابد.
+در این حالت، اگر قبل از اولین تکرار حلقه، رشته متناظر $v$ در عمق $k$ ($k \ge 2$) از $last$ قرار داشت (با شمارش عمق به عنوان تعداد لینک‌های پسوندی)، پس از آخرین تکرار، رشته $v + c$ دومین لینک پسوندی در مسیر از $cur$ خواهد بود (که به مقدار جدید $last$ تبدیل می‌شود).
 
-Thus, each iteration of this loop leads to the fact that the position of the string $longest(link(link(last))$ as a suffix of the current string will monotonically increase.
-Therefore this cycle cannot be executed more than $n$ iterations, which was required to prove.
+بنابراین، هر تکرار این حلقه منجر به این می‌شود که موقعیت رشته $longest(link(link(last)))$ به عنوان پسوندی از رشته فعلی به طور یکنواخت افزایش یابد.
+بنابراین این حلقه نمی‌تواند بیش از $n$ بار اجرا شود، که برای اثبات مورد نیاز بود.
 
-### Implementation
+### پیاده‌سازی
 
-First we describe a data structure that will store all information about a specific transition ($len$, $link$ and the list of transitions).
-If necessary you can add a terminal flag here, as well as other information.
-We will store the list of transitions in the form of a $map$, which allows us to achieve total $O(n)$ memory and $O(n \log k)$ time for processing the entire string.
+ابتدا یک ساختمان داده را توصیف می‌کنیم که تمام اطلاعات مربوط به یک گذار خاص ($len$، $link$ و لیست گذارها) را ذخیره می‌کند.
+در صورت لزوم می‌توانید یک پرچم پایانی و همچنین اطلاعات دیگر را در اینجا اضافه کنید.
+ما لیست گذارها را به شکل یک $map$ ذخیره می‌کنیم که به ما امکان می‌دهد به حافظه کل $O(n)$ و زمان $O(n \log k)$ برای پردازش کل رشته دست یابیم.
 
-```{.cpp file=suffix_automaton_struct}
+```cpp {.cpp file=suffix_automaton_struct}
 struct state {
     int len, link;
     map<char, int> next;
 };
 ```
 
-The suffix automaton itself will be stored in an array of these structures $state$.
-We store the current size $sz$ and also the variable $last$, the state corresponding to the entire string at the moment.
+خود آتاماتای پسوندی در یک آرایه از این ساختارهای $state$ ذخیره می‌شود.
+ما اندازه فعلی $sz$ و همچنین متغیر $last$ (حالتی که با کل رشته در لحظه متناظر است) را ذخیره می‌کنیم.
 
-```{.cpp file=suffix_automaton_def}
+```cpp {.cpp file=suffix_automaton_def}
 const int MAXLEN = 100000;
 state st[MAXLEN * 2];
 int sz, last;
 ```
 
-We give a function that initializes a suffix automaton (creating a suffix automaton with a single state).
+تابعی را ارائه می‌دهیم که یک آتاماتای پسوندی را مقداردهی اولیه می‌کند (یک آتاماتای پسوندی با یک حالت واحد ایجاد می‌کند).
 
-```{.cpp file=suffix_automaton_init}
+```cpp {.cpp file=suffix_automaton_init}
 void sa_init() {
     st[0].len = 0;
     st[0].link = -1;
@@ -370,9 +386,9 @@ void sa_init() {
 }
 ```
 
-And finally we give the implementation of the main function - which adds the next character to the end of the current line, rebuilding the machine accordingly.
+و در نهایت پیاده‌سازی تابع اصلی را ارائه می‌دهیم - که کاراکتر بعدی را به انتهای خط فعلی اضافه می‌کند و ماشین را بر اساس آن بازسازی می‌کند.
 
-```{.cpp file=suffix_automaton_extend}
+```cpp {.cpp file=suffix_automaton_extend}
 void sa_extend(char c) {
     int cur = sz++;
     st[cur].len = st[last].len + 1;
@@ -403,102 +419,101 @@ void sa_extend(char c) {
 }
 ```
 
-As mentioned above, if you sacrifice memory ($O(n k)$, where $k$ is the size of the alphabet), then you can achieve the build time of the machine in $O(n)$, even for any alphabet size $k$.
-But for this you will have to store an array of size $k$ in each state (for quickly jumping to the transition of the letter), and additional a list of all transitions (to quickly iterate over the transitions them).
+همانطور که در بالا ذکر شد، اگر حافظه را فدا کنید ($O(n k)$، که در آن $k$ اندازه الفبا است)، می‌توانید به زمان ساخت ماشین در $O(n)$ دست یابید، حتی برای هر اندازه الفبای $k$.
+اما برای این کار باید در هر حالت یک آرایه به اندازه $k$ (برای پرش سریع به گذار حرف) و یک لیست اضافی از تمام گذارها (برای تکرار سریع روی آنها) ذخیره کنید.
 
-## Additional properties
+## ویژگی‌های اضافی
 
-### Number of states
+### تعداد حالت‌ها
 
-The number of states in a suffix automaton of the string $s$ of length $n$ **doesn't exceed** $2n - 1$ (for $n \ge 2$).
+تعداد حالت‌ها در آتاماتای پسوندی رشته $s$ به طول $n$ **بیش از** $2n - 1$ **نیست** (برای $n \ge 2$).
 
-The proof is the construction algorithm itself, since initially the automaton consists of one state, and in the first and second iteration only a single state will be created, and in the remaining $n-2$ steps at most $2$ states will be created each.
+اثبات همان الگوریتم ساخت است، زیرا در ابتدا آتاماتا از یک حالت تشکیل شده است و در تکرار اول و دوم فقط یک حالت واحد ایجاد می‌شود و در $n-2$ مرحله باقیمانده در هر مرحله حداکثر $2$ حالت ایجاد می‌شود.
 
-However we can also **show** this estimation **without knowing the algorithm**.
-Let us recall that the number of states is equal to the number of different sets $endpos$.
-In addition theses sets $endpos$ form a tree (a parent vertex contains all children sets in his set).
-Consider this tree and transform it a little bit:
-as long as it has an internal vertex with only one child (which means that the set of the child misses at least one position from the parent set), we create a new child with the set of the missing positions.
-In the end we have a tree in which each inner vertex has a degree greater than one, and the number of leaves does not exceed $n$.
-Therefore there are no more than $2n - 1$ vertices in such a tree.
+با این حال، ما می‌توانیم این تخمین را **بدون دانستن الگوریتم** نیز **نشان دهیم**.
+به یاد بیاورید که تعداد حالت‌ها برابر با تعداد مجموعه‌های $endpos$ متفاوت است.
+علاوه بر این، این مجموعه‌های $endpos$ یک درخت را تشکیل می‌دهند (یک رأس والد تمام مجموعه‌های فرزندان را در مجموعه خود دارد).
+این درخت را در نظر بگیرید و آن را کمی تغییر دهید:
+تا زمانی که یک رأس داخلی با تنها یک فرزند دارد (که به این معنی است که مجموعه فرزند حداقل یک موقعیت از مجموعه والد را کم دارد)، ما یک فرزند جدید با مجموعه موقعیت‌های گمشده ایجاد می‌کنیم.
+در پایان، ما یک درخت داریم که در آن هر رأس داخلی درجه‌ای بزرگتر از یک دارد و تعداد برگ‌ها از $n$ تجاوز نمی‌کند.
+بنابراین در چنین درختی بیش از $2n - 1$ رأس وجود ندارد.
 
-This bound of the number of states can actually be achieved for each $n$.
-A possible string is:
+این کران برای تعداد حالت‌ها در واقع برای هر $n$ قابل دستیابی است.
+یک رشته ممکن این است:
 
 $$\text{"abbb}\dots \text{bbb"}$$
 
-In each iteration, starting at the third one, the algorithm will split a state, resulting in exactly $2n - 1$ states.
+در هر تکرار، با شروع از سومین تکرار، الگوریتم یک حالت را تقسیم می‌کند که منجر به دقیقاً $2n - 1$ حالت می‌شود.
 
-### Number of transitions
+### تعداد گذارها
 
-The number of transitions in a suffix automaton of a string $s$ of length $n$ **doesn't exceed** $3n - 4$ (for $n \ge 3$).
+تعداد گذارها در آتاماتای پسوندی رشته $s$ به طول $n$ **بیش از** $3n - 4$ **نیست** (برای $n \ge 3$).
 
-Let us prove this:
+بیایید این را اثبات کنیم:
 
-Let us first estimate the number of continuous transitions.
-Consider a spanning tree of the longest paths in the automaton starting in the state $t_0$.
-This skeleton will consist of only the continuous edges, and therefore their number is less than the number of states, i.e. it does not exceed $2n - 2$.
+ابتدا تعداد گذارهای پیوسته را تخمین می‌زنیم.
+یک درخت پوشا از طولانی‌ترین مسیرها در آتاماتا را که از حالت $t_0$ شروع می‌شود در نظر بگیرید.
+این اسکلت فقط از یال‌های پیوسته تشکیل خواهد شد و بنابراین تعداد آنها کمتر از تعداد حالت‌ها است، یعنی از $2n - 2$ تجاوز نمی‌کند.
 
-Now let us estimate the number of non-continuous transitions.
-Let the current non-continuous transition be $(p, q)$ with the character $c$.
-We take the correspondent string $u + c + w$, where the string $u$ corresponds to the longest path from the initial state to $p$, and $w$ to the longest path from $q$ to any terminal state.
-On one hand, each such string $u + c + w$ for each incomplete strings will be different (since the strings $u$ and $w$ are formed only by complete transitions).
-On the other hand each such string $u + c + w$, by the definition of the terminal states, will be a suffix of the entire string $s$.
-Since there are only $n$ non-empty suffixes of $s$, and none of the strings $u + c + w$ can contain $s$ (because the entire string only contains complete transitions), the total number of incomplete transitions does not exceed $n - 1$.
+اکنون تعداد گذارهای ناپیوسته را تخمین می‌زنیم.
+گذار ناپیوسته فعلی را $(p, q)$ با کاراکتر $c$ در نظر بگیرید.
+رشته متناظر $u + c + w$ را در نظر می‌گیریم، که در آن رشته $u$ با طولانی‌ترین مسیر از حالت اولیه به $p$ و $w$ با طولانی‌ترین مسیر از $q$ به هر حالت پایانی متناظر است.
+از یک طرف، هر چنین رشته‌ای $u + c + w$ برای هر رشته ناقص متفاوت خواهد بود (زیرا رشته‌های $u$ و $w$ فقط از گذارهای کامل تشکیل شده‌اند).
+از طرف دیگر، هر چنین رشته‌ای $u + c + w$، طبق تعریف حالت‌های پایانی، پسوندی از کل رشته $s$ خواهد بود.
+از آنجا که تنها $n$ پسوند غیرتهی از $s$ وجود دارد و هیچ یک از رشته‌های $u + c + w$ نمی‌تواند شامل $s$ باشد (زیرا کل رشته فقط شامل گذارهای کامل است)، تعداد کل گذارهای ناقص از $n - 1$ تجاوز نمی‌کند.
 
-Combining these two estimates gives us the bound $3n - 3$.
-However, since the maximum number of states can only be achieved with the test case $\text{"abbb\dots bbb"}$ and this case has clearly less than $3n - 3$ transitions, we get the tighter bound of $3n - 4$ for the number of transitions in a suffix automaton.
+ترکیب این دو تخمین به ما کران $3n - 3$ را می‌دهد.
+با این حال، از آنجا که حداکثر تعداد حالت‌ها فقط با مورد آزمایشی $\text{"abbb\dots bbb"}$ قابل دستیابی است و این مورد به وضوح کمتر از $3n - 3$ گذار دارد، ما کران تنگ‌تر $3n - 4$ را برای تعداد گذارها در یک آتاماتای پسوندی به دست می‌آوریم.
 
-This bound can also be achieved with the string:
+این کران را می‌توان با رشته زیر نیز به دست آورد:
 
 $$\text{"abbb}\dots \text{bbbc"}$$
 
-## Applications
+## کاربردها
 
-Here we look at some tasks that can be solved using the suffix automaton.
-For the simplicity we assume that the alphabet size $k$ is constant, which allows us to consider the complexity of appending a character and the traversal as constant.
+در اینجا به برخی از مسائلی که می‌توان با استفاده از آتاماتای پسوندی حل کرد، نگاهی می‌اندازیم.
+برای سادگی، فرض می‌کنیم که اندازه الفبای $k$ ثابت است، که به ما امکان می‌دهد پیچیدگی افزودن یک کاراکتر و پیمایش را ثابت در نظر بگیریم.
 
-### Check for occurrence
+### بررسی وجود یک رشته
 
-Given a text $T$, and multiple patterns $P$.
-We have to check whether or not the strings $P$ appear as a substring of $T$.
+یک متن $T$ و چندین الگوی $P$ داده شده است.
+باید بررسی کنیم که آیا رشته‌های $P$ به عنوان زیررشته‌ای از $T$ ظاهر می‌شوند یا خیر.
 
-We build a suffix automaton of the text $T$ in $O(length(T))$ time.
-To check if a pattern $P$ appears in $T$, we follow the transitions, starting from $t_0$, according to the characters of $P$.
-If at some point there doesn't exists a transition, then the pattern $P$ doesn't appear as a substring of $T$.
-If we can process the entire string $P$ this way, then the string appears in $T$.
+یک آتاماتای پسوندی از متن $T$ را در زمان $O(length(T))$ می‌سازیم.
+برای بررسی اینکه آیا یک الگوی $P$ در $T$ ظاهر می‌شود، با شروع از $t_0$، گذارها را مطابق با کاراکترهای $P$ دنبال می‌کنیم.
+اگر در نقطه‌ای گذاری وجود نداشته باشد، الگوی $P$ به عنوان زیررشته‌ای از $T$ ظاهر نمی‌شود.
+اگر بتوانیم کل رشته $P$ را به این روش پردازش کنیم، آنگاه رشته در $T$ ظاهر می‌شود.
 
-It is clear that this will take $O(length(P))$ time for each string $P$.
-Moreover the algorithm actually finds the length of the longest prefix of $P$ that appears in the text.
+واضح است که این کار برای هر رشته $P$ زمان $O(length(P))$ می‌برد.
+علاوه بر این، الگوریتم در واقع طول طولانی‌ترین پیشوند $P$ را که در متن ظاهر می‌شود، پیدا می‌کند.
 
-### Number of different substrings
+### تعداد زیررشته‌های متمایز
 
-Given a string $S$.
-You want to compute the number of different substrings.
+یک رشته $S$ داده شده است.
+می‌خواهید تعداد زیررشته‌های متمایز را محاسبه کنید.
 
-Let us build a suffix automaton for the string $S$.
+یک آتاماتای پسوندی برای رشته $S$ می‌سازیم.
 
-Each substring of $S$ corresponds to some path in the automaton.
-Therefore the number of different substrings is equal to the number of different paths in the automaton starting at $t_0$.
+هر زیررشته از $S$ با یک مسیر در آتاماتا متناظر است.
+بنابراین، تعداد زیررشته‌های متمایز برابر با تعداد مسیرهای مختلف در آتاماتا است که از $t_0$ شروع می‌شوند.
 
-Given that the suffix automaton is a directed acyclic graph, the number of different ways can be computed using dynamic programming.
+با توجه به اینکه آتاماتای پسوندی یک گراف جهت‌دار غیرمدور است، تعداد راه‌های مختلف را می‌توان با استفاده از برنامه‌نویسی پویا محاسبه کرد.
 
-Namely, let $d[v]$ be the number of ways, starting at the state $v$ (including the path of length zero).
-Then we have the recursion:
+یعنی، فرض کنید $d[v]$ تعداد راه‌هایی باشد که از حالت $v$ شروع می‌شوند (شامل مسیر به طول صفر).
+آنگاه رابطه بازگشتی زیر را داریم:
 
 $$d[v] = 1 + \sum_{w : (v, w, c) \in DAWG} d[w]$$
 
-I.e. $d[v]$ can be expressed as the sum of answers for all ends of the transitions of $v$.
+یعنی، $d[v]$ را می‌توان به عنوان مجموع پاسخ‌ها برای تمام انتهای گذارهای $v$ بیان کرد.
 
-The number of different substrings is the value $d[t_0] - 1$ (since we don't count the empty substring).
+تعداد زیررشته‌های متمایز مقدار $d[t_0] - 1$ است (زیرا زیررشته خالی را نمی‌شماریم).
 
-Total time complexity: $O(length(S))$
+پیچیدگی زمانی کل: $O(length(S))$
 
+به طور جایگزین، می‌توانیم از این واقعیت استفاده کنیم که هر حالت $v$ با زیررشته‌هایی به طول $[minlen(v),len(v)]$ مطابقت دارد.
+بنابراین، با توجه به اینکه $minlen(v) = 1 + len(link(v))$، تعداد کل زیررشته‌های متمایز در حالت $v$ برابر است با $len(v) - minlen(v) + 1 = len(v) - (1 + len(link(v))) + 1 = len(v) - len(link(v))$.
 
-Alternatively, we can take advantage of the fact that each state $v$ matches to substrings of length $[minlen(v),len(v)]$.
-Therefore, given $minlen(v) = 1 + len(link(v))$, we have total distinct substrings at state $v$ being $len(v) - minlen(v) + 1 = len(v) - (1 + len(link(v))) + 1 = len(v) - len(link(v))$.
-
-This is demonstrated succinctly below:
+این موضوع به طور خلاصه در زیر نشان داده شده است:
 
 ```cpp
 long long get_diff_strings(){
@@ -510,27 +525,27 @@ long long get_diff_strings(){
 }
 ```
 
-While this is also $O(length(S))$, it requires no extra space and no recursive calls, consequently running faster in practice.
+در حالی که این روش نیز $O(length(S))$ است، به فضای اضافی و فراخوانی‌های بازگشتی نیاز ندارد و در نتیجه در عمل سریعتر اجرا می‌شود.
 
-### Total length of all different substrings
+### طول کل تمام زیررشته‌های متمایز
 
-Given a string $S$.
-We want to compute the total length of all its various substrings.
+یک رشته $S$ داده شده است.
+می‌خواهیم طول کل تمام زیررشته‌های مختلف آن را محاسبه کنیم.
 
-The solution is similar to the previous one, only now it is necessary to consider two quantities for the dynamic programming part:
-the number of different substrings $d[v]$ and their total length $ans[v]$.
+راه حل شبیه به قبلی است، فقط اکنون لازم است دو کمیت برای بخش برنامه‌نویسی پویا در نظر گرفته شود:
+تعداد زیررشته‌های متمایز $d[v]$ و طول کل آنها $ans[v]$.
 
-We already described how to compute $d[v]$ in the previous task.
-The value $ans[v]$ can be computed using the recursion:
+ما قبلاً نحوه محاسبه $d[v]$ را در کار قبلی توصیف کردیم.
+مقدار $ans[v]$ را می‌توان با استفاده از رابطه بازگشتی زیر محاسبه کرد:
 
 $$ans[v] = \sum_{w : (v, w, c) \in DAWG} d[w] + ans[w]$$
 
-We take the answer of each adjacent vertex $w$, and add to it $d[w]$ (since every substring is one character longer when starting from the state $v$).
+ما پاسخ هر رأس مجاور $w$ را می‌گیریم و $d[w]$ را به آن اضافه می‌کنیم (زیرا هر زیررشته هنگام شروع از حالت $v$ یک کاراکتر طولانی‌تر است).
 
-Again this task can be computed in $O(length(S))$ time.
+باز هم این کار را می‌توان در زمان $O(length(S))$ محاسبه کرد.
 
-Alternatively, we can, again, take advantage of the fact that each state $v$ matches to substrings of length $[minlen(v),len(v)]$.
-Since $minlen(v) = 1 + len(link(v))$ and the arithmetic series formula $S_n = n \cdot \frac{a_1+a_n}{2}$ (where $S_n$ denotes the sum of $n$ terms, $a_1$ representing the first term, and $a_n$ representing the last), we can compute the length of substrings at a state in constant time.  We then sum up these totals for each state $v \neq t_0$ in the automaton. This is shown by the code below:
+به طور جایگزین، باز هم می‌توانیم از این واقعیت استفاده کنیم که هر حالت $v$ با زیررشته‌هایی به طول $[minlen(v),len(v)]$ مطابقت دارد.
+از آنجایی که $minlen(v) = 1 + len(link(v))$ و فرمول تصاعد حسابی $S_n = n \cdot \frac{a_1+a_n}{2}$ (که در آن $S_n$ مجموع $n$ جمله، $a_1$ جمله اول و $a_n$ جمله آخر را نشان می‌دهد)، می‌توانیم طول زیررشته‌ها را در یک حالت در زمان ثابت محاسبه کنیم. سپس این مجموع‌ها را برای هر حالت $v \neq t_0$ در آتاماتا جمع می‌کنیم. این توسط کد زیر نشان داده شده است:
 
 ```cpp
 long long get_tot_len_diff_substings() {
@@ -547,123 +562,123 @@ long long get_tot_len_diff_substings() {
 }
 ```
 
-This approach runs in  $O(length(S))$ time, but experimentally runs 20x faster than the memoized dynamic programming version on randomized strings. It requires no extra space and no recursion.
+این رویکرد در زمان $O(length(S))$ اجرا می‌شود، اما به طور تجربی ۲۰ برابر سریعتر از نسخه برنامه‌نویسی پویای با مموایزیشن روی رشته‌های تصادفی اجرا می‌شود. این روش به فضای اضافی و بازگشت نیاز ندارد.
 
-### Lexicographically $k$-th substring {data-toc-label="Lexicographically k-th substring"}
+### $k$-امین زیررشته از نظر لغت‌نامه‌ای {data-toc-label="Lexicographically k-th substring"}
 
-Given a string $S$.
-We have to answer multiple queries.
-For each given number $K_i$ we have to find the $K_i$-th string in the lexicographically ordered list of all substrings.
+یک رشته $S$ داده شده است.
+باید به چندین پرس‌وجو پاسخ دهیم.
+برای هر عدد داده شده $K_i$ باید $K_i$-امین رشته را در لیست مرتب‌شده از نظر لغت‌نامه‌ای از تمام زیررشته‌ها پیدا کنیم.
 
-The solution to this problem is based on the idea of the previous two problems.
-The lexicographically $k$-th substring corresponds to the lexicographically $k$-th path in the suffix automaton.
-Therefore after counting the number of paths from each state, we can easily search for the $k$-th path starting from the root of the automaton.
+راه حل این مسئله بر اساس ایده دو مسئله قبلی است.
+$k$-امین زیررشته از نظر لغت‌نامه‌ای با $k$-امین مسیر از نظر لغت‌نامه‌ای در آتاماتای پسوندی مطابقت دارد.
+بنابراین پس از شمارش تعداد مسیرها از هر حالت، می‌توانیم به راحتی به دنبال $k$-امین مسیر با شروع از ریشه آتاماتا بگردیم.
 
-This takes $O(length(S))$ time for preprocessing and then $O(length(ans) \cdot k)$ for each query (where $ans$ is the answer for the query and $k$ is the size of the alphabet).
+این کار $O(length(S))$ زمان برای پیش‌پردازش و سپس $O(length(ans) \cdot k)$ برای هر پرس‌وجو می‌برد (که در آن $ans$ پاسخ برای پرس‌وجو و $k$ اندازه الفبا است).
 
-### Smallest cyclic shift
+### کوچکترین شیفت دوره‌ای
 
-Given a string $S$.
-We want to find the lexicographically smallest cyclic shift.
+یک رشته $S$ داده شده است.
+می‌خواهیم کوچکترین شیفت دوره‌ای را از نظر لغت‌نامه‌ای پیدا کنیم.
 
-We construct a suffix automaton for the string $S + S$.
-Then the automaton will contain in itself as paths all the cyclic shifts of the string $S$.
+یک آتاماتای پسوندی برای رشته $S + S$ می‌سازیم.
+آنگاه آتاماتا تمام شیفت‌های دوره‌ای رشته $S$ را به عنوان مسیر در خود خواهد داشت.
 
-Consequently the problem is reduced to finding the lexicographically smallest path of length $length(S)$, which can be done in a trivial way: we start in the initial state and greedily pass through the transitions with the minimal character.
+در نتیجه، مسئله به یافتن کوچکترین مسیر از نظر لغت‌نامه‌ای به طول $length(S)$ کاهش می‌یابد، که به روشی بدیهی قابل انجام است: از حالت اولیه شروع می‌کنیم و حریصانه از طریق گذارها با کوچکترین کاراکتر عبور می‌کنیم.
 
-Total time complexity is $O(length(S))$.
+پیچیدگی زمانی کل $O(length(S))$ است.
 
-### Number of occurrences
+### تعداد رخدادها
 
-For a given text $T$.
-We have to answer multiple queries.
-For each given pattern $P$ we have to find out how many times the string $P$ appears in the string $T$ as a substring.
+برای یک متن داده شده $T$.
+باید به چندین پرس‌وجو پاسخ دهیم.
+برای هر الگوی داده شده $P$ باید بفهمیم رشته $P$ چند بار در رشته $T$ به عنوان زیررشته ظاهر می‌شود.
 
-We construct the suffix automaton for the text $T$.
+ما آتاماتای پسوندی را برای متن $T$ می‌سازیم.
 
-Next we do the following preprocessing:
-for each state $v$ in the automaton we calculate the number $cnt[v]$ that is equal to the size of the set $endpos(v)$.
-In fact all strings corresponding to the same state $v$ appear in the text $T$ an equal amount of times, which is equal to the number of positions in the set $endpos$.
+سپس پیش‌پردازش زیر را انجام می‌دهیم:
+برای هر حالت $v$ در آتاماتا، عدد $cnt[v]$ را محاسبه می‌کنیم که برابر با اندازه مجموعه $endpos(v)$ است.
+در واقع، تمام رشته‌های متناظر با یک حالت $v$ به تعداد مساوی در متن $T$ ظاهر می‌شوند که برابر با تعداد موقعیت‌ها در مجموعه $endpos$ است.
 
-However we cannot construct the sets $endpos$ explicitly, therefore we only consider their sizes $cnt$.
+با این حال، ما نمی‌توانیم مجموعه‌های $endpos$ را به صراحت بسازیم، بنابراین فقط اندازه‌های آنها $cnt$ را در نظر می‌گیریم.
 
-To compute them we proceed as follows.
-For each state, if it was not created by cloning (and if it is not the initial state $t_0$), we initialize it with $cnt = 1$.
-Then we will go through all states in decreasing order of their length $len$, and add the current value $cnt[v]$ to the suffix links:
+برای محاسبه آنها به صورت زیر عمل می‌کنیم.
+برای هر حالت، اگر با کلون کردن ایجاد نشده باشد (و اگر حالت اولیه $t_0$ نباشد)، آن را با $cnt = 1$ مقداردهی اولیه می‌کنیم.
+سپس تمام حالت‌ها را به ترتیب نزولی طولشان $len$ طی می‌کنیم و مقدار فعلی $cnt[v]$ را به لینک‌های پسوندی اضافه می‌کنیم:
 
 $$cnt[link(v)] \text{ += } cnt[v]$$
 
-This gives the correct value for each state.
+این مقدار صحیح را برای هر حالت می‌دهد.
 
-Why is this correct?
-The total number of states obtained _not_ via cloning is exactly $length(T)$, and the first $i$ of them appeared when we added the first $i$ characters.
-Consequently for each of these states we count the corresponding position at which it was processed.
-Therefore initially we have $cnt = 1$ for each such state, and $cnt = 0$ for all other.
+چرا این درست است؟
+تعداد کل حالت‌های به دست آمده که از طریق کلون کردن ایجاد نشده‌اند دقیقاً $length(T)$ است و $i$ تای اول آنها هنگام افزودن $i$ کاراکتر اول ظاهر شده‌اند.
+در نتیجه، برای هر یک از این حالت‌ها، موقعیت متناظری را که در آن پردازش شده است، می‌شماریم.
+بنابراین، در ابتدا برای هر چنین حالتی $cnt = 1$ و برای تمام حالت‌های دیگر $cnt = 0$ داریم.
 
-Then we apply the following operation for each $v$: $cnt[link(v)] \text{ += } cnt[v]$.
-The meaning behind this is, that if a string $v$ appears $cnt[v]$ times, then also all its suffixes appear at the exact same end positions, therefore also $cnt[v]$ times.
+سپس عملیات زیر را برای هر $v$ اعمال می‌کنیم: $cnt[link(v)] \text{ += } cnt[v]$.
+معنای این کار این است که اگر یک رشته $v$ $cnt[v]$ بار ظاهر شود، تمام پسوندهای آن نیز دقیقاً در همان موقعیت‌های پایانی ظاهر می‌شوند، بنابراین آنها نیز $cnt[v]$ بار ظاهر می‌شوند.
 
-Why don't we overcount in this procedure (i.e. don't count some positions twice)?
-Because we add the positions of a state to only one other state, so it can not happen that one state directs its positions to another state twice in two different ways.
+چرا در این رویه بیش‌شماری نمی‌کنیم (یعنی برخی موقعیت‌ها را دو بار نمی‌شماریم)؟
+زیرا ما موقعیت‌های یک حالت را فقط به یک حالت دیگر اضافه می‌کنیم، بنابراین نمی‌تواند اتفاق بیفتد که یک حالت موقعیت‌های خود را به دو روش مختلف به یک حالت دیگر هدایت کند.
 
-Thus we can compute the quantities $cnt$ for all states in the automaton in $O(length(T))$ time.
+بنابراین می‌توانیم مقادیر $cnt$ را برای تمام حالت‌ها در آتاماتا در زمان $O(length(T))$ محاسبه کنیم.
 
-After that answering a query by just looking up the value $cnt[t]$, where $t$ is the state corresponding to the pattern, if such a state exists.
-Otherwise answer with $0$.
-Answering a query takes $O(length(P))$ time.
+پس از آن، پاسخ به یک پرس‌وجو با جستجوی مقدار $cnt[t]$ است، که در آن $t$ حالت متناظر با الگو است، اگر چنین حالتی وجود داشته باشد.
+در غیر این صورت با $0$ پاسخ دهید.
+پاسخ به یک پرس‌وجو $O(length(P))$ زمان می‌برد.
 
-### First occurrence position
+### موقعیت اولین رخداد
 
-Given a text $T$ and multiple queries.
-For each query string $P$ we want to find the position of the first occurrence of $P$ in the string $T$ (the position of the beginning of $P$).
+یک متن $T$ و چندین پرس‌وجو داده شده است.
+برای هر رشته پرس‌وجوی $P$ می‌خواهیم موقعیت اولین رخداد $P$ را در رشته $T$ پیدا کنیم (موقعیت شروع $P$).
 
-We again construct a suffix automaton.
-Additionally we precompute the position $firstpos$ for all states in the automaton, i.e. for each state $v$ we want to find the position $firstpos[v]$ of the end of the first occurrence.
-In other words, we want to find in advance the minimal element of each set $endpos$ (since obviously cannot maintain all sets $endpos$ explicitly).
+دوباره یک آتاماتای پسوندی می‌سازیم.
+علاوه بر این، موقعیت $firstpos$ را برای تمام حالت‌ها در آتاماتا پیش‌محاسبه می‌کنیم، یعنی برای هر حالت $v$ می‌خواهیم موقعیت $firstpos[v]$ پایان اولین رخداد را پیدا کنیم.
+به عبارت دیگر، می‌خواهیم از قبل عنصر کمینه هر مجموعه $endpos$ را پیدا کنیم (زیرا بدیهی است که نمی‌توانیم تمام مجموعه‌های $endpos$ را به صراحت نگهداری کنیم).
 
-To maintain these positions $firstpos$ we extend the function `sa_extend()`.
-When we create a new state $cur$, we set:
+برای نگهداری این موقعیت‌های $firstpos$، تابع `sa_extend()` را گسترش می‌دهیم.
+وقتی یک حالت جدید $cur$ ایجاد می‌کنیم، تنظیم می‌کنیم:
 
 $$firstpos(cur) = len(cur) - 1$$
 
-And when we clone a vertex $q$ as $clone$, we set:
+و وقتی یک رأس $q$ را به عنوان $clone$ کلون می‌کنیم، تنظیم می‌کنیم:
 
 $$firstpos(clone) = firstpos(q)$$
 
-(since the only other option for a value would be $firstpos(cur)$ which is definitely too big)
+(زیرا تنها گزینه دیگر برای یک مقدار $firstpos(cur)$ خواهد بود که قطعاً خیلی بزرگ است)
 
-Thus the answer for a query is simply $firstpos(t) - length(P) + 1$, where $t$ is the state corresponding to the string $P$.
-Answering a query again takes only $O(length(P))$ time.
+بنابراین، پاسخ به یک پرس‌وجو به سادگی $firstpos(t) - length(P) + 1$ است، که در آن $t$ حالت متناظر با رشته $P$ است.
+پاسخ به یک پرس‌وجو دوباره تنها $O(length(P))$ زمان می‌برد.
 
-### All occurrence positions
+### تمام موقعیت‌های رخداد
 
-This time we have to display all positions of the occurrences in the string $T$.
+این بار باید تمام موقعیت‌های رخدادها را در رشته $T$ نمایش دهیم.
 
-Again we construct a suffix automaton for the text $T$.
-Similar as in the previous task we compute the position $firstpos$ for all states.
+دوباره یک آتاماتای پسوندی برای متن $T$ می‌سازیم.
+مشابه کار قبلی، موقعیت $firstpos$ را برای تمام حالت‌ها محاسبه می‌کنیم.
 
-Clearly $firstpos(t)$ is part of the answer, if $t$ is the state corresponding to a query string $P$.
-So we took into account the state of the automaton containing $P$.
-What other states do we need to take into account?
-All states that correspond to strings for which $P$ is a suffix.
-In other words we need to find all the states that can reach the state $t$ via suffix links.
+واضح است که $firstpos(t)$ بخشی از پاسخ است، اگر $t$ حالت متناظر با رشته پرس‌وجوی $P$ باشد.
+بنابراین حالت آتاماتا حاوی $P$ را در نظر گرفتیم.
+چه حالت‌های دیگری را باید در نظر بگیریم؟
+تمام حالت‌هایی که با رشته‌هایی متناظر هستند که $P$ پسوندی از آنهاست.
+به عبارت دیگر، باید تمام حالت‌هایی را پیدا کنیم که می‌توانند از طریق لینک‌های پسوندی به حالت $t$ برسند.
 
-Therefore to solve the problem we need to save for each state a list of suffix references leading to it.
-The answer to the query then will then contain all $firstpos$ for each state that we can find on a DFS / BFS starting from the state $t$ using only the suffix references.
+بنابراین برای حل مسئله، باید برای هر حالت لیستی از ارجاعات پسوندی که به آن منتهی می‌شوند را ذخیره کنیم.
+پاسخ به پرس‌وجو آنگاه شامل تمام $firstpos$ها برای هر حالتی خواهد بود که می‌توانیم در یک DFS / BFS با شروع از حالت $t$ با استفاده تنها از ارجاعات پسوندی پیدا کنیم.
 
-Overall, this requires $O(length (T))$ for preprocessing and $O(length(P) + answer(P))$ for each request, where $answer(P)$ — this is the size of the answer.
+در مجموع، این کار $O(length (T))$ برای پیش‌پردازش و $O(length(P) + answer(P))$ برای هر درخواست نیاز دارد، که در آن $answer(P)$ اندازه پاسخ است.
 
-First, we walk down the automaton for each character in the pattern to find our starting node requiring $O(length(P))$.  Then, we use our workaround which will work in time $O(answer(P))$, because we will not visit a state twice (because only one suffix link leaves each state, so there cannot be two different paths leading to the same state).
+ابتدا، برای هر کاراکتر در الگو در آتاماتا پایین می‌رویم تا گره شروع خود را پیدا کنیم که به $O(length(P))$ نیاز دارد. سپس، از راه حل خود استفاده می‌کنیم که در زمان $O(answer(P))$ کار خواهد کرد، زیرا یک حالت را دو بار بازدید نخواهیم کرد (چون از هر حالت فقط یک لینک پسوندی خارج می‌شود، بنابراین نمی‌تواند دو مسیر مختلف به یک حالت یکسان منتهی شود).
 
-We only must take into account that two different states can have the same $firstpos$ value.
-This happens if one state was obtained by cloning another.
-However, this doesn't ruin the complexity, since each state can only have at most one clone.
+فقط باید در نظر داشته باشیم که دو حالت مختلف می‌توانند مقدار $firstpos$ یکسانی داشته باشند.
+این اتفاق می‌افتد اگر یک حالت با کلون کردن دیگری به دست آمده باشد.
+با این حال، این پیچیدگی را خراب نمی‌کند، زیرا هر حالت حداکثر می‌تواند یک کلون داشته باشد.
 
-Moreover, we can also get rid of the duplicate positions, if we don't output the positions from the cloned states.
-In fact a state, that a cloned state can reach, is also reachable from the original state.
-Thus if we remember the flag `is_cloned` for each state, we can simply ignore the cloned states and only output $firstpos$ for all other states.
+علاوه بر این، اگر موقعیت‌های حالت‌های کلون شده را چاپ نکنیم، می‌توانیم از موقعیت‌های تکراری خلاص شویم.
+در واقع، حالتی که یک حالت کلون شده می‌تواند به آن برسد، از حالت اصلی نیز قابل دسترسی است.
+بنابراین اگر پرچم `is_cloned` را برای هر حالت به یاد داشته باشیم، می‌توانیم به سادگی حالت‌های کلون شده را نادیده بگیریم و فقط $firstpos$ را برای تمام حالت‌های دیگر چاپ کنیم.
 
-Here are some implementation sketches:
+در اینجا چند طرح کلی پیاده‌سازی آورده شده است:
 
 ```cpp
 struct state {
@@ -687,50 +702,50 @@ void output_all_occurrences(int v, int P_length) {
 }
 ```
 
-### Shortest non-appearing string
+### کوتاه‌ترین رشته‌ای که ظاهر نمی‌شود
 
-Given a string $S$ and a certain alphabet.
-We have to find a string of the smallest length, that doesn't appear in $S$.
+یک رشته $S$ و یک الفبای مشخص داده شده است.
+باید رشته‌ای با کوتاه‌ترین طول پیدا کنیم که در $S$ ظاهر نمی‌شود.
 
-We will apply dynamic programming on the suffix automaton built for the string $S$.
+ما برنامه‌نویسی پویا را بر روی آتاماتای پسوندی ساخته شده برای رشته $S$ اعمال می‌کنیم.
 
-Let $d[v]$ be the answer for the node $v$, i.e. we already processed part of the substring, are currently in the state $v$, and want to find the smallest number of characters that have to be added to find a non-existent transition.
-Computing $d[v]$ is very simple.
-If there is not transition using at least one character of the alphabet, then $d[v] = 1$.
-Otherwise one character is not enough, and so we need to take the minimum of all answers of all transitions:
+فرض کنید $d[v]$ پاسخ برای گره $v$ باشد، یعنی ما بخشی از زیررشته را پردازش کرده‌ایم، در حال حاضر در حالت $v$ هستیم و می‌خواهیم کمترین تعداد کاراکترهایی را که باید اضافه شوند تا یک گذار ناموجود پیدا شود، پیدا کنیم.
+محاسبه $d[v]$ بسیار ساده است.
+اگر حداقل برای یک کاراکتر از الفبا گذاری وجود نداشته باشد، آنگاه $d[v] = 1$.
+در غیر این صورت یک کاراکتر کافی نیست و بنابراین باید کمینه تمام پاسخ‌های تمام گذارها را بگیریم:
 
 $$d[v] = 1 + \min_{w:(v,w,c) \in SA} d[w].$$
 
-The answer to the problem will be $d[t_0]$, and the actual string can be restored using the computed array $d[]$.
+پاسخ به مسئله $d[t_0]$ خواهد بود و رشته واقعی را می‌توان با استفاده از آرایه محاسبه شده $d[]$ بازسازی کرد.
 
-### Longest common substring of two strings
+### طولانی‌ترین زیررشته مشترک دو رشته
 
-Given two strings $S$ and $T$.
-We have to find the longest common substring, i.e. such a string $X$ that appears as a substring in $S$ and also in $T$.
+دو رشته $S$ و $T$ داده شده است.
+باید طولانی‌ترین زیررشته مشترک را پیدا کنیم، یعنی رشته‌ای مانند $X$ که به عنوان زیررشته در $S$ و همچنین در $T$ ظاهر شود.
 
-We construct a suffix automaton for the string $S$.
+یک آتاماتای پسوندی برای رشته $S$ می‌سازیم.
 
-We will now take the string $T$, and for each prefix look for the longest suffix of this prefix in $S$.
-In other words, for each position in the string $T$, we want to find the longest common substring of $S$ and $T$ ending in that position.
+اکنون رشته $T$ را برمی‌داریم و برای هر پیشوند، به دنبال طولانی‌ترین پسوند این پیشوند در $S$ می‌گردیم.
+به عبارت دیگر، برای هر موقعیت در رشته $T$، می‌خواهیم طولانی‌ترین زیررشته مشترک $S$ و $T$ را که در آن موقعیت به پایان می‌رسد، پیدا کنیم.
 
-For this we will use two variables, the **current state** $v$, and the **current length** $l$.
-These two variables will describe the current matching part: its length and the state that corresponds to it.
+برای این کار از دو متغیر استفاده خواهیم کرد، **حالت فعلی** $v$ و **طول فعلی** $l$.
+این دو متغیر بخش تطبیق یافته فعلی را توصیف می‌کنند: طول آن و حالتی که با آن متناظر است.
 
-Initially $v = t_0$ and $l = 0$, i.e. the match is empty.
+در ابتدا $v = t_0$ و $l = 0$ است، یعنی تطبیق خالی است.
 
-Now let us describe how we can add a character $T[i]$ and recalculate the answer for it.
+اکنون بیایید توصیف کنیم که چگونه می‌توانیم یک کاراکتر $T[i]$ را اضافه کنیم و پاسخ را برای آن دوباره محاسبه کنیم.
 
-  - If there is a transition from $v$ with the character $T[i]$, then we simply follow the transition and increase $l$ by one.
-  - If there is no such transition, we have to shorten the current matching part, which means that we need to follow the suffix link: $v = link(v)$.
-    At the same time, the current length has to be shortened.
-    Obviously we need to assign $l = len(v)$, since after passing through the suffix link we end up in state whose corresponding longest string is a substring.
-  - If there is still no transition using the required character, we repeat and again go through the suffix link and decrease $l$, until we find a transition or we reach the fictional state $-1$ (which means that the symbol $T[i]$ doesn't appear at all in $S$, so we assign $v = l = 0$).
+  - اگر گذاری از $v$ با کاراکتر $T[i]$ وجود داشته باشد، به سادگی گذار را دنبال می‌کنیم و $l$ را یک واحد افزایش می‌دهیم.
+  - اگر چنین گذاری وجود نداشته باشد، باید بخش تطبیق یافته فعلی را کوتاه کنیم، که به این معنی است که باید لینک پسوندی را دنبال کنیم: $v = link(v)$.
+    در عین حال، طول فعلی باید کوتاه شود.
+    بدیهی است که باید $l = len(v)$ را اختصاص دهیم، زیرا پس از عبور از لینک پسوندی به حالتی می‌رسیم که طولانی‌ترین رشته متناظر آن یک زیررشته است.
+  - اگر هنوز گذاری با استفاده از کاراکتر مورد نیاز وجود نداشته باشد، تکرار می‌کنیم و دوباره از طریق لینک پسوندی می‌رویم و $l$ را کاهش می‌دهیم، تا زمانی که یک گذار پیدا کنیم یا به حالت فرضی $-1$ برسیم (که به این معنی است که نماد $T[i]$ اصلاً در $S$ ظاهر نمی‌شود، بنابراین $v = l = 0$ را اختصاص می‌دهیم).
 
-The answer to the task will be the maximum of all the values $l$.
+پاسخ به مسئله، بیشینه تمام مقادیر $l$ خواهد بود.
 
-The complexity of this part is $O(length(T))$, since in one move we can either increase $l$ by one, or make several passes through the suffix links, each one ends up reducing the value $l$.
+پیچیدگی این بخش $O(length(T))$ است، زیرا در یک حرکت می‌توانیم یا $l$ را یک واحد افزایش دهیم، یا چندین بار از طریق لینک‌های پسوندی عبور کنیم که هر کدام منجر به کاهش مقدار $l$ می‌شود.
 
-Implementation:
+پیاده‌سازی:
 
 ```cpp
 string lcs (string S, string T) {
@@ -757,25 +772,25 @@ string lcs (string S, string T) {
 } 
 ```
 
-### Largest common substring of multiple strings
+### بزرگترین زیررشته مشترک چندین رشته
 
-There are $k$ strings $S_i$ given.
-We have to find the longest common substring, i.e. such a string $X$ that appears as substring in each string $S_i$.
+$k$ رشته $S_i$ داده شده است.
+باید طولانی‌ترین زیررشته مشترک را پیدا کنیم، یعنی رشته‌ای مانند $X$ که به عنوان زیررشته در هر رشته $S_i$ ظاهر شود.
 
-We join all strings into one large string $T$, separating the strings by a special characters $D_i$ (one for each string):
+تمام رشته‌ها را به یک رشته بزرگ $T$ متصل می‌کنیم و رشته‌ها را با کاراکترهای ویژه $D_i$ (یکی برای هر رشته) از هم جدا می‌کنیم:
 
 $$T = S_1 + D_1 + S_2 + D_2 + \dots + S_k + D_k.$$
 
-Then we construct the suffix automaton for the string $T$.
+سپس آتاماتای پسوندی را برای رشته $T$ می‌سازیم.
 
-Now we need to find a string in the machine, which is contained in all the strings $S_i$, and this can be done by using the special added characters.
-Note that if a substring is included in some string $S_j$, then in the suffix automaton exists a path starting from this substring containing the character $D_j$ and not containing the other characters $D_1, \dots, D_{j-1}, D_{j+1}, \dots, D_k$.
+اکنون باید رشته‌ای را در ماشین پیدا کنیم که در تمام رشته‌های $S_i$ وجود داشته باشد و این کار را می‌توان با استفاده از کاراکترهای ویژه اضافه شده انجام داد.
+توجه داشته باشید که اگر یک زیررشته در رشته‌ای $S_j$ گنجانده شده باشد، در آتاماتای پسوندی مسیری وجود دارد که از این زیررشته شروع می‌شود و شامل کاراکتر $D_j$ است و شامل کاراکترهای دیگر $D_1, \dots, D_{j-1}, D_{j+1}, \dots, D_k$ نیست.
 
-Thus we need to calculate the attainability, which tells us for each state of the machine and each symbol $D_i$ if there exists such a path.
-This can easily be computed by DFS or BFS and dynamic programming.
-After that, the answer to the problem will be the string $longest(v)$ for the state $v$, from which the paths were exists for all special characters.
+بنابراین باید قابلیت دسترسی را محاسبه کنیم که به ما می‌گوید برای هر حالت ماشین و هر نماد $D_i$ آیا چنین مسیری وجود دارد یا خیر.
+این را می‌توان به راحتی با DFS یا BFS و برنامه‌نویسی پویا محاسبه کرد.
+پس از آن، پاسخ به مسئله رشته $longest(v)$ برای حالت $v$ خواهد بود که از آن مسیرهایی برای تمام کاراکترهای ویژه وجود داشته است.
 
-## Practice Problems
+## مسائل تمرینی
 
   - [CSES - Finding Patterns](https://cses.fi/problemset/task/2102)
   - [CSES - Counting Patterns](https://cses.fi/problemset/task/2103)

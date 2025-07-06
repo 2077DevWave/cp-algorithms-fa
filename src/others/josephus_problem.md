@@ -1,31 +1,31 @@
 ---
 tags:
-  
-e_maxx_link: joseph_problem
+  - AI Translated
+e_maxx_link: josephus_problem
 ---
 
-# Josephus Problem
+# مسئله یوسف
 
-## Statement
+## صورت مسئله
 
-We are given the natural numbers $n$ and $k$.
-All natural numbers from $1$ to $n$ are written in a circle. 
-First, count the $k$-th number starting from the first one and delete it.
-Then $k$ numbers are counted starting from the next one and the $k$-th one is removed again, and so on.
-The process stops when one number remains.
-It is required to find the last number.
+اعداد طبیعی $n$ و $k$ به ما داده شده‌اند.
+تمام اعداد طبیعی از ۱ تا $n$ در یک دایره نوشته شده‌اند.
+ابتدا، با شروع از عدد اول، $k$-امین عدد را شمرده و آن را حذف می‌کنیم.
+سپس با شروع از عدد بعدی، دوباره $k$ عدد شمرده شده و $k$-امین عدد حذف می‌شود و این روند ادامه می‌یابد.
+این فرآیند زمانی متوقف می‌شود که تنها یک عدد باقی بماند.
+مطلوب است که آخرین عدد باقی‌مانده را پیدا کنیم.
 
-This task was set by **Flavius Josephus** in the 1st century (though in a somewhat narrower formulation: for $k = 2$).
+این مسئله توسط **یوسف فلاویوس** در قرن اول میلادی مطرح شد (هرچند در فرمول‌بندی محدودتری: برای $k = 2$).
 
-This problem can be solved by modeling the procedure.
-Brute force modeling will work $O(n^{2})$. Using a [Segment Tree](../data_structures/segment_tree.md), we can improve it to $O(n \log n)$.
-We want something better though.
+این مسئله را می‌توان با شبیه‌سازی روند حل کرد.
+شبیه‌سازی با روش brute force با پیچیدگی $O(n^{2})$ کار خواهد کرد. با استفاده از یک [درخت بازه](../data_structures/segment_tree.md)، می‌توانیم آن را به $O(n \log n)$ بهبود دهیم.
+اما ما به دنبال راه‌حل بهتری هستیم.
 
-## Modeling a $O(n)$ solution
+## مدل‌سازی یک راه‌حل با پیچیدگی $O(n)$
 
-We will try to find a pattern expressing the answer for the problem $J_{n, k}$ through the solution of the previous problems.
+سعی می‌کنیم الگویی برای بیان پاسخ مسئله $J_{n, k}$ از طریق حل مسائل کوچکتر پیدا کنیم.
 
-Using brute force modeling we can construct a table of values, for example, the following:
+با استفاده از شبیه‌سازی مستقیم، می‌توانیم جدولی از مقادیر را بسازیم، برای مثال، جدول زیر:
 
 $$\begin{array}{ccccccccccc}
 n\setminus k & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
@@ -41,31 +41,31 @@ n\setminus k & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
 10 & 10 & 5 & 4 & 5 & 3 & 3 & 9 & 1 & 7 & 8 \\
 \end{array}$$
 
-And here we can clearly see the following **pattern**:
+و در اینجا می‌توانیم به وضوح **الگوی** زیر را مشاهده کنیم:
 
 $$J_{n,k} = \left( (J_{n-1,k} + k - 1) \bmod n \right) + 1$$
 
 $$J_{1,k} = 1$$
 
-Here, 1-indexing makes for a somewhat messy formula; if you instead number the positions from 0, you get a very elegant formula:
+در اینجا، اندیس‌گذاری از ۱ فرمول را کمی نامرتب می‌کند؛ اگر به جای آن موقعیت‌ها را از ۰ شماره‌گذاری کنید، به یک فرمول بسیار زیبا می‌رسید:
 
 $$J_{n,k} = (J_{n-1,k} + k) \bmod n$$
 
-So, we found a solution to the problem of Josephus, working in $O(n)$ operations.
+بنابراین، راه‌حلی برای مسئله یوسف پیدا کردیم که در $O(n)$ عملیات کار می‌کند.
 
-## Implementation
+## پیاده‌سازی
 
-Simple **recursive implementation** (in 1-indexing)
+**پیاده‌سازی بازگشتی** ساده (با اندیس‌گذاری از ۱)
 
-```{.cpp file=josephus_rec}
+```cpp
 int josephus(int n, int k) {
     return n > 1 ? (josephus(n-1, k) + k - 1) % n + 1 : 1;
 }
 ```
 
-**Non-recursive form** :
+**فرم غیربازگشتی**:
 
-```{.cpp file=josephus_iter}
+```cpp
 int josephus(int n, int k) {
     int res = 0;
     for (int i = 1; i <= n; ++i)
@@ -74,27 +74,27 @@ int josephus(int n, int k) {
 }
 ```
 
-This formula can also be found analytically.
-Again here we assume 0-indexing.
-After we delete the first number, we have $n-1$ numbers left.
-When we repeat the procedure, we will start with the number that had originally the index $k \bmod n$.
-$J_{n-1, k}$ would be the answer for the remaining circle, if we start counting at $0$, but because we actually start with $k$ we have $J_{n, k} = (J_{n-1,k} + k) \ \bmod n$.
+این فرمول را می‌توان به صورت تحلیلی نیز پیدا کرد.
+در اینجا نیز فرض می‌کنیم اندیس‌گذاری از ۰ است.
+پس از حذف اولین عدد، $n-1$ عدد باقی می‌ماند.
+وقتی فرآیند را تکرار می‌کنیم، از عددی شروع خواهیم کرد که در ابتدا اندیس $k \bmod n$ را داشته است.
+$J_{n-1, k}$ پاسخ دایره باقی‌مانده خواهد بود اگر شمارش را از ۰ شروع کنیم، اما چون در واقع از $k$ شروع می‌کنیم، داریم: $J_{n, k} = (J_{n-1,k} + k) \ \bmod n$.
 
-## Modeling a $O(k \log n)$ solution
+## مدل‌سازی یک راه‌حل با پیچیدگی $O(k \log n)$
 
-For relatively small $k$ we can come up with a better solution than the above recursive solution in $O(n)$.
-If $k$ is a lot smaller than $n$, then we can delete multiple numbers ($\lfloor \frac{n}{k} \rfloor$) in one run without looping over.
-Afterwards we have $n - \lfloor \frac{n}{k} \rfloor$ numbers left, and we start with the $(\lfloor \frac{n}{k} \rfloor \cdot k)$-th number.
-So we have to shift by that many.
-We can notice that $\lfloor \frac{n}{k} \rfloor \cdot k$ is simply $-n \bmod k$.
-And because we removed every $k$-th number, we have to add the number of numbers that we removed before the result index.
-Which we can compute by dividing the result index by $k - 1$.
+برای مقادیر نسبتاً کوچک $k$ می‌توانیم راه‌حل بهتری نسبت به راه‌حل بازگشتی $O(n)$ بالا ارائه دهیم.
+اگر $k$ بسیار کوچکتر از $n$ باشد، می‌توانیم چندین عدد ($\lfloor \frac{n}{k} \rfloor$) را در یک مرحله بدون پیمایش حلقه‌ای حذف کنیم.
+پس از آن، $n - \lfloor \frac{n}{k} \rfloor$ عدد باقی می‌ماند و ما از عدد $(\lfloor \frac{n}{k} \rfloor \cdot k)$-ام شروع می‌کنیم.
+بنابراین باید به همان اندازه جابجایی (شیفت) داشته باشیم.
+می‌توانیم متوجه شویم که $\lfloor \frac{n}{k} \rfloor \cdot k$ همان $-n \bmod k$ است.
+و از آنجایی که ما هر $k$-امین عدد را حذف کرده‌ایم، باید تعداد اعدادی را که قبل از اندیس نتیجه حذف شده‌اند، به آن اضافه کنیم.
+این مقدار را می‌توان با تقسیم اندیس نتیجه بر $k - 1$ محاسبه کرد.
 
-Also, we need to handle the case when $n$ becomes less than $k$. In this case, the above optimization would cause an infinite loop.
+همچنین، باید حالتی را که $n$ کمتر از $k$ می‌شود، مدیریت کنیم. در این حالت، بهینه‌سازی بالا باعث ایجاد یک حلقه بی‌نهایت می‌شود.
 
-**Implementation** (for convenience in 0-indexing):
+**پیاده‌سازی** (برای راحتی با اندیس‌گذاری از ۰):
 
-```{.cpp file=josephus_fast0}
+```cpp
 int josephus(int n, int k) {
     if (n == 1)
         return 0;
@@ -113,37 +113,37 @@ int josephus(int n, int k) {
 }
 ```
 
-Let us estimate the **complexity** of this algorithm. Immediately note that the case $n < k$ is analyzed by the old solution, which will work in this case for $O(k)$. Now consider the algorithm itself. In fact, after every iteration, instead of $n$ numbers, we are left with $n \left( 1 - \frac{1}{k} \right)$ numbers, so the total number of iterations $x$ of the algorithm can be found roughly from the following equation:
+بیایید **پیچیدگی** این الگوریتم را تخمین بزنیم. بلافاصله توجه داشته باشید که حالت $n < k$ توسط راه‌حل قدیمی تحلیل می‌شود، که در این حالت با پیچیدگی $O(k)$ کار خواهد کرد. اکنون خود الگوریتم را در نظر بگیرید. در واقع، پس از هر تکرار، به جای $n$ عدد، با $n \left( 1 - \frac{1}{k} \right)$ عدد باقی می‌مانیم، بنابراین تعداد کل تکرارهای $x$ الگوریتم را می‌توان تقریباً از معادله زیر پیدا کرد:
 
 $$ n \left(1 - \frac{1}{k} \right) ^ x = 1, $$
 
-on taking logarithm on both sides, we obtain:
+با گرفتن لگاریتم از دو طرف، به دست می‌آوریم:
 
 $$\ln n + x \ln \left(1 - \frac{1}{k} \right) = 0,$$ 
 $$x = - \frac{\ln n}{\ln \left(1 - \frac{1}{k} \right)},$$
 
-using the decomposition of the logarithm into Taylor series, we obtain an approximate estimate:
+با استفاده از بسط لگاریتم به سری تیلور، تخمین تقریبی زیر را به دست می‌آوریم:
 
 $$x \approx k \ln n$$
 
-Thus, the complexity of the algorithm is actually $O (k \log n)$.
+بنابراین، پیچیدگی الگوریتم در واقع $O (k \log n)$ است.
 
-## Analytical solution for $k = 2$
+## راه‌حل تحلیلی برای $k = 2$
 
-In this particular case (in which this task was set by Josephus Flavius) the problem is solved much easier.
+در این حالت خاص (که مسئله توسط یوسف فلاویوس در آن مطرح شد) مسئله بسیار ساده‌تر حل می‌شود.
 
-In the case of even $n$ we get that all even numbers will be crossed out, and then there will be a problem remaining for $\frac{n}{2}$, then the answer for $n$ will be obtained from the answer for $\frac{n}{2}$ by multiplying by two and subtracting one (by shifting positions):
+در حالت $n$ زوج، تمام اعداد زوج خط می‌خورند و سپس مسئله‌ای برای $\frac{n}{2}$ باقی می‌ماند. آنگاه پاسخ برای $n$ از پاسخ برای $\frac{n}{2}$ با ضرب در دو و کم کردن یک (به دلیل جابجایی موقعیت‌ها) به دست می‌آید:
 
 $$ J_{2n, 2} = 2 J_{n, 2} - 1 $$
 
-Similarly, in the case of an odd $n$, all even numbers will be crossed out, then the first number, and the problem for $\frac{n-1}{2}$ will remain, and taking into account the shift of positions, we obtain the second formula:
+به طور مشابه، در حالت $n$ فرد، تمام اعداد زوج خط می‌خورند، سپس عدد اول حذف می‌شود، و مسئله‌ای برای $\frac{n-1}{2}$ باقی می‌ماند، و با در نظر گرفتن جابجایی موقعیت‌ها، فرمول دوم را به دست می‌آوریم:
 
 $$J_{2n+1,2} = 2 J_{n, 2} + 1 $$
 
-We can use this recurrent dependency directly in our implementation. This pattern can be translated into another form: $J_{n, 2}$ represents a sequence of all odd numbers, "restarting" from one whenever $n$ turns out to be a power of two. This can be written as a single formula:
+ما می‌توانیم از این وابستگی بازگشتی مستقیماً در پیاده‌سازی خود استفاده کنیم. این الگو را می‌توان به شکل دیگری نیز بیان کرد: $J_{n, 2}$ دنباله‌ای از تمام اعداد فرد را نشان می‌دهد که هرگاه $n$ توانی از دو باشد، از یک «شروع مجدد» می‌کند. این را می‌توان به صورت یک فرمول واحد نوشت:
 
 $$J_{n, 2} = 1 + 2 \left(n-2^{\lfloor \log_2 n \rfloor} \right)$$
 
-## Analytical solution for $k > 2$
+## راه‌حل تحلیلی برای $k > 2$
 
-Despite the simple form of the problem and a large number of articles on this and related problems, a simple analytical representation of the solution of Josephus' problem has not yet been found. For small $k$, some formulas are derived, but apparently they are all difficult to apply in practice (for example, see Halbeisen, Hungerbuhler "The Josephus Problem" and Odlyzko, Wilf "Functional iteration and the Josephus problem").
+علی‌رغم شکل ساده مسئله و تعداد زیاد مقالات در مورد این مسئله و مسائل مرتبط، هنوز یک نمایش تحلیلی ساده برای راه‌حل مسئله یوسف پیدا نشده است. برای مقادیر کوچک $k$، فرمول‌هایی استخراج شده است، اما ظاهراً همه آنها در عمل به سختی قابل استفاده هستند (برای مثال، به Halbeisen, Hungerbuhler «The Josephus Problem» و Odlyzko, Wilf «Functional iteration and the Josephus problem» مراجعه کنید).

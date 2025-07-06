@@ -1,54 +1,54 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: treap
 ---
 
-# Treap (Cartesian tree)
+# تریپ (Treap) (درخت دکارتی)
 
-A treap is a data structure which combines binary tree and binary heap (hence the name: tree + heap $\Rightarrow$ Treap).
+تریپ (Treap) یک ساختمان داده است که درخت دودویی (binary tree) و هرم دودویی (binary heap) را با هم ترکیب می‌کند (و نام آن نیز از همین ترکیب گرفته شده است: tree + heap $\Rightarrow$ Treap).
 
-More specifically, treap is a data structure that stores pairs $(X, Y)$ in a binary tree in such a way that it is a binary search tree by $X$ and a binary heap by $Y$.
-If some node of the tree contains values $(X_0, Y_0)$, all nodes in the left subtree have $X \leq X_0$, all nodes in the right subtree have $X_0 \leq X$, and all nodes in both left and right subtrees have $Y \leq Y_0$.
+به طور مشخص‌تر، تریپ ساختمان داده‌ای است که زوج‌های $(X, Y)$ را در یک درخت دودویی به گونه‌ای ذخیره می‌کند که نسبت به $X$ یک درخت جستجوی دودویی (binary search tree) و نسبت به $Y$ یک هرم دودویی (binary heap) باشد.
+اگر گره‌ای از درخت حاوی مقادیر $(X_0, Y_0)$ باشد، تمام گره‌ها در زیردرخت چپ دارای $X \leq X_0$ و تمام گره‌ها در زیردرخت راست دارای $X_0 \leq X$ هستند، و تمام گره‌ها در هر دو زیردرخت چپ و راست دارای $Y \leq Y_0$ هستند.
 
-A treap is also often referred to as a "cartesian tree", as it is easy to embed it in a Cartesian plane:
+تریپ اغلب به عنوان «درخت دکارتی» (cartesian tree) نیز شناخته می‌شود، زیرا به راحتی می‌توان آن را در یک صفحه دکارتی ترسیم کرد:
 
 <center>
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Treap.svg" width="350px"/>
 </center>
 
-Treaps have been proposed by Raimund Siedel and Cecilia Aragon in 1989.
+تریپ‌ها توسط Raimund Siedel و Cecilia Aragon در سال ۱۹۸۹ پیشنهاد شدند.
 
-## Advantages of such data organisation
+## مزایای چنین سازماندهی داده‌ای
 
-In such implementation, $X$ values are the keys (and at same time the values stored in the treap), and $Y$ values are called **priorities**. Without priorities, the treap would be a regular binary search tree by $X$, and one set of $X$ values could correspond to a lot of different trees, some of them degenerate (for example, in the form of a linked list), and therefore extremely slow (the main operations would have $O(N)$ complexity).
+در چنین پیاده‌سازی، مقادیر $X$ کلیدها (و در عین حال مقادیر ذخیره شده در تریپ) هستند و مقادیر $Y$ **اولویت** (priority) نامیده می‌شوند. بدون اولویت‌ها، تریپ یک درخت جستجوی دودویی معمولی بر اساس $X$ خواهد بود و یک مجموعه از مقادیر $X$ می‌توانست به درختان بسیار متفاوتی منجر شود که برخی از آن‌ها تبهگن (degenerate) هستند (مثلاً به شکل یک لیست پیوندی) و در نتیجه بسیار کند عمل می‌کنند (عملیات اصلی پیچیدگی $O(N)$ خواهند داشت).
 
-At the same time, **priorities** (when they're unique) allow to **uniquely** specify the tree that will be constructed (of course, it does not depend on the order in which values are added), which can be proven using corresponding theorem. Obviously, if you **choose the priorities randomly**, you will get non-degenerate trees on average, which will ensure $O(\log N)$ complexity for the main operations. Hence another name of this data structure - **randomized binary search tree**.
+در عین حال، **اولویت‌ها** (وقتی یکتا باشند) این امکان را می‌دهند که درختی که ساخته می‌شود به طور **منحصر به فرد** مشخص شود (البته این موضوع به ترتیب اضافه شدن مقادیر بستگی ندارد)، که با استفاده از قضیه مربوطه قابل اثبات است. بدیهی است که اگر **اولویت‌ها را به صورت تصادفی انتخاب کنید**، به طور متوسط درختان غیرتبهگن به دست می‌آورید که پیچیدگی $O(\log N)$ را برای عملیات اصلی تضمین می‌کند. از این رو نام دیگر این ساختمان داده **درخت جستجوی دودویی تصادفی** (randomized binary search tree) است.
 
-## Operations
+## عملیات
 
-A treap provides the following operations:
+یک تریپ عملیات زیر را ارائه می‌دهد:
 
-- **Insert (X,Y)** in $O(\log N)$.  
-  Adds a new node to the tree. One possible variant is to pass only $X$ and generate $Y$ randomly inside the operation.
-- **Search (X)** in $O(\log N)$.  
-  Looks for a node with the specified key value $X$. The implementation is the same as for an ordinary binary search tree.
-- **Erase (X)** in $O(\log N)$.  
-  Looks for a node with the specified key value $X$ and removes it from the tree.
-- **Build ($X_1$, ..., $X_N$)** in $O(N)$.  
-  Builds a tree from a list of values. This can be done in linear time (assuming that $X_1, ..., X_N$ are sorted).
-- **Union ($T_1$, $T_2$)** in $O(M \log (N/M))$.  
-  Merges two trees, assuming that all the elements are different. It is possible to achieve the same complexity if duplicate elements should be removed during merge.
-- **Intersect ($T_1$, $T_2$)** in $O(M \log (N/M))$.  
-  Finds the intersection of two trees (i.e. their common elements). We will not consider the implementation of this operation here.
+- **Insert (X,Y)** با پیچیدگی $O(\log N)$.
+  یک گره جدید به درخت اضافه می‌کند. یک روش ممکن این است که فقط $X$ را به عنوان ورودی بگیریم و $Y$ را به صورت تصادفی داخل تابع تولید کنیم.
+- **Search (X)** با پیچیدگی $O(\log N)$.
+  به دنبال گره‌ای با مقدار کلید مشخص $X$ می‌گردد. پیاده‌سازی آن همانند یک درخت جستجوی دودویی معمولی است.
+- **Erase (X)** با پیچیدگی $O(\log N)$.
+  به دنبال گره‌ای با مقدار کلید مشخص $X$ می‌گردد و آن را از درخت حذف می‌کند.
+- **Build ($X_1$, ..., $X_N$)** با پیچیدگی $O(N)$.
+  یک درخت از لیستی از مقادیر می‌سازد. این کار را می‌توان در زمان خطی انجام داد (با فرض اینکه $X_1, ..., X_N$ مرتب باشند).
+- **Union ($T_1$, $T_2$)** با پیچیدگی $O(M \log (N/M))$.
+  دو درخت را با هم ادغام می‌کند، با این فرض که تمام عناصر متفاوت هستند. اگر عناصر تکراری باید در حین ادغام حذف شوند، می‌توان به همین پیچیدگی دست یافت.
+- **Intersect ($T_1$, $T_2$)** با پیچیدگی $O(M \log (N/M))$.
+  اشتراک دو درخت (یعنی عناصر مشترک آنها) را پیدا می‌کند. ما در اینجا پیاده‌سازی این عملیات را بررسی نخواهیم کرد.
 
-In addition, due to the fact that a treap is a binary search tree, it can implement other operations, such as finding the $K$-th largest element or finding the index of an element.
+علاوه بر این، به دلیل اینکه تریپ یک درخت جستجوی دودویی است، می‌تواند عملیات دیگری مانند یافتن $K$-امین عنصر بزرگتر یا یافتن اندیس یک عنصر را نیز پیاده‌سازی کند.
 
-## Implementation Description
+## توضیحات پیاده‌سازی
 
-In terms of implementation, each node contains $X$, $Y$ and pointers to the left ($L$) and right ($R$) children.
+از نظر پیاده‌سازی، هر گره شامل $X$، $Y$ و اشاره‌گرهایی به فرزندان چپ ($L$) و راست ($R$) است.
 
-We will implement all the required operations using just two auxiliary operations: Split and Merge.
+ما تمام عملیات مورد نیاز را فقط با استفاده از دو عملیات کمکی پیاده‌سازی خواهیم کرد: Split و Merge.
 
 ### Split
 
@@ -56,16 +56,16 @@ We will implement all the required operations using just two auxiliary operation
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Treap_split.svg" width="450px"/>
 </center>
 
-**Split ($T$, $X$)** separates tree $T$ in 2 subtrees $L$ and $R$ trees (which are the return values of split) so that $L$ contains all elements with key $X_L \le X$, and $R$ contains all elements with key $X_R > X$. This operation has $O (\log N)$ complexity and is implemented using a clean recursion:
+**Split ($T$, $X$)** درخت $T$ را به ۲ زیردرخت $L$ و $R$ (که مقادیر بازگشتی تابع split هستند) تقسیم می‌کند، به طوری که $L$ شامل تمام عناصری با کلید $X_L \le X$ و $R$ شامل تمام عناصری با کلید $X_R > X$ است. این عملیات پیچیدگی $O (\log N)$ دارد و با استفاده از یک بازگشت تمیز پیاده‌سازی می‌شود:
 
-1. If the value of the root node (R) is $\le X$, then `L` would at least consist of `R->L` and `R`. We then call split on `R->R`, and note its split result as `L'` and `R'`. Finally, `L` would also contain `L'`, whereas `R = R'`.
-2. If the value of the root node (R) is $> X$, then `R` would at least consist of `R` and `R->R`. We then call split on `R->L`, and note its split result as `L'` and `R'`. Finally, `L=L'`, whereas `R` would also contain `R'`.
+1. اگر مقدار گره ریشه (R) کوچکتر یا مساوی $X$ باشد، آنگاه `L` حداقل شامل `R->L` و خود `R` خواهد بود. سپس ما split را بر روی `R->R` فراخوانی می‌کنیم و نتیجه تقسیم آن را به عنوان `L'` و `R'` در نظر می‌گیریم. در نهایت، `L` شامل `L'` نیز خواهد بود، در حالی که `R = R'` می‌شود.
+2. اگر مقدار گره ریشه (R) بزرگتر از $X$ باشد، آنگاه `R` حداقل شامل خود `R` و `R->R` خواهد بود. سپس ما split را بر روی `R->L` فراخوانی می‌کنیم و نتیجه تقسیم آن را به عنوان `L'` و `R'` در نظر می‌گیریم. در نهایت، `L=L'` می‌شود، در حالی که `R` شامل `R'` نیز خواهد بود.
 
-Thus, the split algorithm is:
+بنابراین، الگوریتم split به این صورت است:
 
-1. decide which subtree the root node would belong to (left or right)
-2. recursively call split on one of its children
-3. create the final result by reusing the recursive split call.
+1. تصمیم بگیرید که گره ریشه به کدام زیردرخت (چپ یا راست) تعلق دارد.
+2. به صورت بازگشتی split را بر روی یکی از فرزندانش فراخوانی کنید.
+3. با استفاده مجدد از فراخوانی بازگشتی split، نتیجه نهایی را ایجاد کنید.
 
 ### Merge
 
@@ -73,7 +73,7 @@ Thus, the split algorithm is:
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Treap_merge.svg" width="500px"/>
 </center>
 
-**Merge ($T_1$, $T_2$)** combines two subtrees $T_1$ and $T_2$ and returns the new tree. This operation also has $O (\log N)$ complexity. It works under the assumption that $T_1$ and $T_2$ are ordered (all keys $X$ in $T_1$ are smaller than keys in $T_2$). Thus, we need to combine these trees without violating the order of priorities $Y$. To do this, we choose as the root the tree which has higher priority $Y$ in the root node, and recursively call Merge for the other tree and the corresponding subtree of the selected root node.
+**Merge ($T_1$, $T_2$)** دو زیردرخت $T_1$ و $T_2$ را ترکیب کرده و درخت جدید را برمی‌گرداند. این عملیات نیز پیچیدگی $O (\log N)$ دارد. این تابع با این فرض کار می‌کند که $T_1$ و $T_2$ مرتب هستند (تمام کلیدهای $X$ در $T_1$ کوچکتر از کلیدها در $T_2$ هستند). بنابراین، باید این دو درخت را بدون نقض ترتیب اولویت‌های $Y$ ترکیب کنیم. برای انجام این کار، درختی را به عنوان ریشه انتخاب می‌کنیم که اولویت $Y$ بالاتری در گره ریشه خود دارد و به صورت بازگشتی Merge را برای درخت دیگر و زیردرخت متناظر از گره ریشه انتخاب شده فراخوانی می‌کنیم.
 
 ### Insert
 
@@ -81,10 +81,9 @@ Thus, the split algorithm is:
 <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/Treap_insert.svg" width="500px"/>
 </center>
 
-Now implementation of **Insert ($X$, $Y$)** becomes obvious. First we descend in the tree (as in a regular binary search tree by X), and stop at the first node in which the priority value is less than $Y$. We have found the place where we will insert the new element. Next, we call **Split (T, X)** on the subtree starting at the found node, and use returned subtrees $L$ and $R$ as left and right children of the new node.
+اکنون پیاده‌سازی **Insert ($X$, $Y$)** واضح می‌شود. ابتدا در درخت پایین می‌رویم (مانند یک درخت جستجوی دودویی معمولی بر اساس X) و در اولین گره‌ای که مقدار اولویت آن کمتر از $Y$ است، متوقف می‌شویم. ما مکانی را که عنصر جدید را در آن درج خواهیم کرد، پیدا کرده‌ایم. سپس، **Split (T, X)** را بر روی زیردرختی که از گره یافت شده شروع می‌شود فراخوانی می‌کنیم و از زیردرخت‌های بازگشتی $L$ و $R$ به عنوان فرزندان چپ و راست گره جدید استفاده می‌کنیم.
 
-Alternatively, insert can be done by splitting the initial treap on $X$ and doing $2$ merges with the new node (see the picture).
-
+به طور جایگزین، می‌توان عملیات insert را با تقسیم کردن (split) تریپ اولیه بر اساس $X$ و انجام ۲ عمل ادغام (merge) با گره جدید انجام داد (تصویر را ببینید).
 
 ### Erase
 
@@ -92,19 +91,19 @@ Alternatively, insert can be done by splitting the initial treap on $X$ and doin
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Treap_erase.svg" width="500px"/>
 </center>
 
-Implementation of **Erase ($X$)** is also clear. First we descend in the tree (as in a regular binary search tree by $X$), looking for the element we want to delete. Once the node is found, we call **Merge** on it children and put the return value of the operation in the place of the element we're deleting.
+پیاده‌سازی **Erase ($X$)** نیز واضح است. ابتدا در درخت پایین می‌رویم (مانند یک درخت جستجوی دودویی معمولی بر اساس $X$) و به دنبال عنصری که می‌خواهیم حذف کنیم، می‌گردیم. هنگامی که گره پیدا شد، **Merge** را بر روی فرزندان آن فراخوانی می‌کنیم و مقدار بازگشتی این عملیات را در جای عنصری که حذف می‌کنیم، قرار می‌دهیم.
 
-Alternatively, we can factor out the subtree holding $X$ with $2$ split operations and merge the remaining treaps (see the picture).
+به طور جایگزین، می‌توانیم زیردرخت حاوی $X$ را با ۲ عملیات split جدا کرده و تریپ‌های باقی‌مانده را با هم ادغام کنیم (تصویر را ببینید).
 
 ### Build
 
-We implement **Build** operation with $O (N \log N)$ complexity using $N$ **Insert** calls.
+ما عملیات **Build** را با پیچیدگی $O (N \log N)$ با استفاده از $N$ فراخوانی **Insert** پیاده‌سازی می‌کنیم.
 
 ### Union
 
-**Union ($T_1$, $T_2$)** has theoretical complexity $O (M \log (N / M))$, but in practice it works very well, probably with a very small hidden constant. Let's assume without loss of generality that $T_1 \rightarrow Y > T_2 \rightarrow Y$, i. e. root of $T_1$ will be the root of the result. To get the result, we need to merge trees $T_1 \rightarrow L$, $T_1 \rightarrow R$ and $T_2$ in two trees which could be children of $T_1$ root. To do this, we call Split ($T_2$, $T_1\rightarrow X$), thus splitting $T_2$ in two parts L and R, which we then recursively combine with children of $T_1$: Union ($T_1 \rightarrow L$, $L$) and Union ($T_1 \rightarrow R$, $R$), thus getting left and right subtrees of the result.
+**Union ($T_1$, $T_2$)** دارای پیچیدگی نظری $O (M \log (N / M))$ است، اما در عمل بسیار خوب کار می‌کند، احتمالاً با یک ثابت پنهان بسیار کوچک. بدون از دست دادن کلیت، فرض کنیم $T_1 \rightarrow Y > T_2 \rightarrow Y$ باشد، یعنی ریشه $T_1$ ریشه نتیجه خواهد بود. برای به دست آوردن نتیجه، باید درختان $T_1 \rightarrow L$، $T_1 \rightarrow R$ و $T_2$ را در دو درخت ادغام کنیم که می‌توانند فرزندان ریشه $T_1$ باشند. برای این کار، Split ($T_2$, $T_1\rightarrow X$) را فراخوانی می‌کنیم، و بدین ترتیب $T_2$ را به دو بخش L و R تقسیم می‌کنیم، که سپس آنها را به صورت بازگشتی با فرزندان $T_1$ ترکیب می‌کنیم: Union ($T_1 \rightarrow L$, $L$) و Union ($T_1 \rightarrow R$, $R$)، و در نتیجه زیردرخت‌های چپ و راست نتیجه را به دست می‌آوریم.
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
 struct item {
@@ -117,7 +116,7 @@ struct item {
 typedef item* pitem;
 ```
 
-This is our item defintion. Note there are two child pointers, and an integer key (for the BST) and an integer priority (for the heap). The priority is assigned using a random number generator.
+این تعریف `item` ما است. توجه داشته باشید که دو اشاره‌گر به فرزندان، یک کلید صحیح (برای BST) و یک اولویت صحیح (برای هرم) وجود دارد. اولویت با استفاده از یک مولد اعداد تصادفی اختصاص داده می‌شود.
 
 ```cpp
 void split (pitem t, int key, pitem & l, pitem & r) {
@@ -130,7 +129,7 @@ void split (pitem t, int key, pitem & l, pitem & r) {
 }
 ```
 
-`t` is the treap to split, and `key` is the BST value by which to split. Note that we do not `return` the result values anywhere, instead, we just use them like so:
+`t` تریپی است که باید تقسیم شود و `key` مقدار BST است که بر اساس آن تقسیم انجام می‌شود. توجه داشته باشید که ما مقادیر نتیجه را در هیچ‌کجا `return` نمی‌کنیم، بلکه به این صورت از آنها استفاده می‌کنیم:
 
 ```cpp
 pitem l = nullptr, r = nullptr;
@@ -139,12 +138,12 @@ if (l) cout << "Left subtree size: " << (l->size) << endl;
 if (r) cout << "Right subtree size: " << (r->size) << endl;
 ```
 
-This `split` function can be tricky to understand, as it has both pointers (`pitem`) as well as reference to those pointers (`pitem &l`). Let us understand in words what the function call `split(t, k, l, r)` intends: "split treap `t` by value `k` into two treaps, and store the left treaps in `l` and right treap in `r`". Great! Now, let us apply this definition to the two recursive calls, using the case work we analyzed in the previous section: (The first if condition is a trivial base case for an empty treap)
+درک تابع `split` می‌تواند کمی دشوار باشد، زیرا هم اشاره‌گر (`pitem`) و هم ارجاع به آن اشاره‌گرها (`pitem &l`) را دارد. بیایید با کلمات بفهمیم که فراخوانی تابع `split(t, k, l, r)` چه قصدی دارد: «تریپ `t` را بر اساس مقدار `k` به دو تریپ تقسیم کن و تریپ چپ را در `l` و تریپ راست را در `r` ذخیره کن». عالی! حال، بیایید این تعریف را برای دو فراخوانی بازگشتی به کار ببریم، با استفاده از تحلیل موردی که در بخش قبل انجام دادیم: (شرط if اول یک حالت پایه پیش پا افتاده برای یک تریپ خالی است)
 
-1. When the root node value is $\le$ key, we call `split (t->r, key, t->r, r)`, which means: "split treap `t->r` (right subtree of `t`) by value `key` and store the left subtree in `t->r` and right subtree in `r`". After that, we set `l = t`. Note now that the `l` result value contains `t->l`, `t` as well as `t->r` (which is the result of the recursive call we made) all already merged in the correct order! You should pause to ensure that this result of `l` and `r` corresponds exactly with what we discussed earlier in Implementation Description.
-2. When the root node value is greater than key, we call `split (t->l, key, l, t->l)`, which means: "split treap `t->l` (left subtree of `t`) by value `key` and store the left subtree in `l` and right subtree in `t->l`". After that, we set `r = t`. Note now that the `r` result value contains `t->l` (which is the result of the recursive call we made), `t` as well as `t->r`, all already merged in the correct order! You should pause to ensure that this result of `l` and `r` corresponds exactly with what we discussed earlier in Implementation Description.
+1. هنگامی که مقدار گره ریشه $\le$ کلید است، ما `split (t->r, key, t->r, r)` را فراخوانی می‌کنیم، که به این معنی است: «تریپ `t->r` (زیردرخت راست `t`) را بر اساس مقدار `key` تقسیم کن و زیردرخت چپ را در `t->r` و زیردرخت راست را در `r` ذخیره کن». پس از آن، ما `l = t` را قرار می‌دهیم. توجه داشته باشید که اکنون مقدار نتیجه `l` شامل `t->l`، خود `t` و همچنین `t->r` (که نتیجه فراخوانی بازگشتی ما است) است که همگی قبلاً به ترتیب صحیح ادغام شده‌اند! باید مکث کنید تا مطمئن شوید که این نتیجه برای `l` و `r` دقیقاً با آنچه قبلاً در بخش «توضیحات پیاده‌سازی» بحث کردیم، مطابقت دارد.
+2. هنگامی که مقدار گره ریشه بزرگتر از کلید است، ما `split (t->l, key, l, t->l)` را فراخوانی می‌کنیم، که به این معنی است: «تریپ `t->l` (زیردرخت چپ `t`) را بر اساس مقدار `key` تقسیم کن و زیردرخت چپ را در `l` و زیردرخت راست را در `t->l` ذخیره کن». پس از آن، ما `r = t` را قرار می‌دهیم. توجه داشته باشید که اکنون مقدار نتیجه `r` شامل `t->l` (که نتیجه فراخوانی بازگشتی ما است)، خود `t` و همچنین `t->r` است که همگی قبلاً به ترتیب صحیح ادغام شده‌اند! باید مکث کنید تا مطمئن شوید که این نتیجه برای `l` و `r` دقیقاً با آنچه قبلاً در بخش «توضیحات پیاده‌سازی» بحث کردیم، مطابقت دارد.
 
-If you're still having trouble understanding the implementation, you should look at it _inductively_, that is: do *not* try to break down the recursive calls over and over again. Assume the split implementation works correct on empty treap, then try to run it for a single node treap, then a two node treap, and so on, each time reusing your knowledge that split on smaller treaps works.
+اگر هنوز در درک این پیاده‌سازی مشکل دارید، باید به آن به صورت *استقرایی* نگاه کنید، یعنی: سعی *نکنید* فراخوانی‌های بازگشتی را بارها و بارها تجزیه کنید. فرض کنید پیاده‌سازی split برای تریپ خالی به درستی کار می‌کند، سپس سعی کنید آن را برای یک تریپ تک‌گره‌ای، سپس یک تریپ دو گره‌ای و غیره اجرا کنید، و هر بار از دانش خود مبنی بر اینکه split روی تریپ‌های کوچکتر کار می‌کند، دوباره استفاده کنید.
 
 ```cpp
 void insert (pitem & t, pitem it) {
@@ -186,11 +185,11 @@ pitem unite (pitem l, pitem r) {
 }
 ```
 
-## Maintaining the sizes of subtrees
+## نگهداری اندازه زیردرخت‌ها
 
-To extend the functionality of the treap, it is often necessary to store the number of nodes in subtree of each node - field `int cnt` in the `item` structure. For example, it can be used to find K-th largest element of tree in $O (\log N)$, or to find the index of the element in the sorted list with the same complexity. The implementation of these operations will be the same as for the regular binary search tree.
+برای گسترش عملکرد تریپ، اغلب لازم است که تعداد گره‌ها در زیردرخت هر گره را ذخیره کنیم - فیلد `int cnt` در ساختار `item`. به عنوان مثال، می‌توان از آن برای یافتن K-امین عنصر بزرگتر درخت با پیچیدگی $O (\log N)$ یا برای یافتن اندیس عنصر در لیست مرتب شده با همان پیچیدگی استفاده کرد. پیاده‌سازی این عملیات مشابه درخت جستجوی دودویی معمولی خواهد بود.
 
-When a tree changes (nodes are added or removed etc.), `cnt` of some nodes should be updated accordingly. We'll create two functions: `cnt()` will return the current value of `cnt` or 0 if the node does not exist, and `upd_cnt()` will update the value of `cnt` for this node assuming that for its children L and R the values of `cnt` have already been updated. Evidently it's sufficient to add calls of `upd_cnt()` to the end of `insert`, `erase`, `split` and `merge` to keep `cnt` values up-to-date.
+هنگامی که یک درخت تغییر می‌کند (گره‌ها اضافه یا حذف می‌شوند و غیره)، `cnt` برخی از گره‌ها باید به روز شود. ما دو تابع ایجاد خواهیم کرد: `cnt()` مقدار فعلی `cnt` را برمی‌گرداند یا اگر گره وجود نداشته باشد ۰ را برمی‌گرداند، و `upd_cnt()` مقدار `cnt` را برای این گره به‌روز می‌کند با این فرض که برای فرزندان L و R آن مقادیر `cnt` قبلاً به‌روز شده‌اند. واضح است که کافی است فراخوانی‌های `upd_cnt()` را به انتهای توابع `insert`، `erase`، `split` و `merge` اضافه کنیم تا مقادیر `cnt` را به‌روز نگه داریم.
 
 ```cpp
 int cnt (pitem t) {
@@ -203,9 +202,9 @@ void upd_cnt (pitem t) {
 }
 ```
 
-## Building a Treap in $O (N)$ in offline mode {data-toc-label="Building a Treap in O(N) in offline mode"}
+## ساختن تریپ با پیچیدگی $O(N)$ به صورت آفلاین {data-toc-label="ساختن تریپ با پیچیدگی O(N) به صورت آفلاین"}
 
-Given a sorted list of keys, it is possible to construct a treap faster than by inserting the keys one at a time which takes $O(N \log N)$. Since the keys are sorted, a balanced binary search tree can be easily constructed in linear time. The heap values $Y$ are initialized randomly and then can be heapified independent of the keys $X$ to [build the heap](https://en.wikipedia.org/wiki/Binary_heap#Building_a_heap) in $O(N)$.
+با داشتن یک لیست مرتب از کلیدها، می‌توان یک تریپ را سریع‌تر از درج یک به یک کلیدها که $O(N \log N)$ زمان می‌برد، ساخت. از آنجایی که کلیدها مرتب هستند، یک درخت جستجوی دودویی متوازن را می‌توان به راحتی در زمان خطی ساخت. مقادیر هرم $Y$ به صورت تصادفی مقداردهی اولیه می‌شوند و سپس می‌توانند مستقل از کلیدهای $X$ برای [ساختن هرم](https://en.wikipedia.org/wiki/Binary_heap#Building_a_heap) در زمان $O(N)$ به حالت هرم (heapify) درآیند.
 
 ```cpp
 void heapify (pitem t) {
@@ -234,18 +233,18 @@ pitem build (int * a, int n) {
 }
 ```
 
-Note: calling `upd_cnt(t)` is only necessary if you need the subtree sizes.
+توجه: فراخوانی `upd_cnt(t)` تنها در صورتی ضروری است که به اندازه‌های زیردرخت نیاز داشته باشید.
 
-The approach above always provides a perfectly balanced tree, which is generally good for practical purposes, but at the cost of not preserving the priorities that were initially assigned to each node. Thus, this approach is not feasible to solve the following problem:
+رویکرد بالا همیشه یک درخت کاملاً متوازن ارائه می‌دهد، که به طور کلی برای اهداف عملی خوب است، اما به قیمت حفظ نکردن اولویت‌هایی که در ابتدا به هر گره اختصاص داده شده بود. بنابراین، این رویکرد برای حل مسئله زیر عملی نیست:
 
 !!! example "[acmsguru - Cartesian Tree](https://codeforces.com/problemsets/acmsguru/problem/99999/155)"
-    Given a sequence of pairs $(x_i, y_i)$, construct a cartesian tree on them. All $x_i$ and all $y_i$ are unique.
+    با داشتن دنباله‌ای از زوج‌های $(x_i, y_i)$، یک درخت دکارتی بر روی آنها بسازید. تمام $x_i$ ها و تمام $y_i$ ها یکتا هستند.
 
-Note that in this problem priorities are not random, hence just inserting vertices one by one could provide a quadratic solution.
+توجه داشته باشید که در این مسئله اولویت‌ها تصادفی نیستند، از این رو صرفاً درج رأس‌ها به صورت یک به یک می‌تواند به یک راه حل با پیچیدگی درجه دو منجر شود.
 
-One of possible solutions here is to find for each element the closest elements to the left and to the right which have a smaller priority than this element. Among these two elements, the one with the larger priority must be the parent of the current element.
+یکی از راه حل‌های ممکن در اینجا این است که برای هر عنصر، نزدیک‌ترین عناصر در سمت چپ و راست را که اولویت کمتری نسبت به این عنصر دارند، پیدا کنیم. از بین این دو عنصر، آنکه اولویت بزرگتری دارد باید والد عنصر فعلی باشد.
 
-This problem is solvable with a [minimum stack](./stack_queue_modification.md) modification in linear time:
+این مسئله با یک تغییر در [پشته مینیمم](./stack_queue_modification.md) در زمان خطی قابل حل است:
 
 ```cpp
 void connect(auto from, auto to) {
@@ -283,24 +282,23 @@ pitem build(int *x, int *y, int n) {
 }
 ```
 
-## Implicit Treaps
+## تریپ‌های ضمنی (Implicit Treaps)
 
-Implicit treap is a simple modification of the regular treap which is a very powerful data structure. In fact, implicit treap can be considered as an array with the following procedures implemented (all in $O (\log N)$ in the online mode):
+تریپ ضمنی (Implicit treap) یک تغییر ساده از تریپ معمولی است که یک ساختمان داده بسیار قدرتمند محسوب می‌شود. در واقع، تریپ ضمنی را می‌توان به عنوان یک آرایه در نظر گرفت که رویه‌های زیر بر روی آن پیاده‌سازی شده‌اند (همه با پیچیدگی $O (\log N)$ در حالت آنلاین):
 
-- Inserting an element in the array in any location
-- Removal of an arbitrary element
-- Finding sum, minimum / maximum element etc. on an arbitrary interval
-- Addition, painting on an arbitrary interval
-- Reversing elements on an arbitrary interval
+- درج یک عنصر در هر مکانی از آرایه
+- حذف یک عنصر دلخواه
+- یافتن مجموع، عنصر کمینه / بیشینه و غیره در یک بازه دلخواه
+- افزودن، رنگ‌آمیزی در یک بازه دلخواه
+- معکوس کردن عناصر در یک بازه دلخواه
 
-The idea is that the keys should be null-based **indices** of the elements in the array. But we will not store these values explicitly (otherwise, for example, inserting an element would cause changes of the key in $O (N)$ nodes of the tree).
+ایده این است که کلیدها باید **اندیس‌های** صفر-مبنای عناصر در آرایه باشند. اما ما این مقادیر را به طور صریح ذخیره نخواهیم کرد (در غیر این صورت، به عنوان مثال، درج یک عنصر باعث تغییر کلید در $O (N)$ گره از درخت می‌شود).
 
-Note that the key of a node is the number of nodes less than it (such nodes can be present not only in its left subtree but also in left subtrees of its ancestors). 
-More specifically, the **implicit key** for some node T is the number of vertices $cnt (T \rightarrow L)$ in the left subtree of this node plus similar values $cnt (P \rightarrow L) + 1$ for each ancestor P of the node T, if T is in the right subtree of P.
+توجه داشته باشید که کلید یک گره، تعداد گره‌های کمتر از آن است (چنین گره‌هایی می‌توانند نه تنها در زیردرخت چپ آن بلکه در زیردرخت‌های چپ اجداد آن نیز وجود داشته باشند). به طور مشخص‌تر، **کلید ضمنی** برای یک گره T برابر است با تعداد رأس‌های $cnt (T \rightarrow L)$ در زیردرخت چپ این گره به علاوه مقادیر مشابه $cnt (P \rightarrow L) + 1$ برای هر جد P از گره T، اگر T در زیردرخت راست P باشد.
 
-Now it's clear how to calculate the implicit key of current node quickly. Since in all operations we arrive to any node by descending in the tree, we can just accumulate this sum and pass it to the function. If we go to the left subtree, the accumulated sum does not change, if we go to the right subtree it increases by $cnt (T \rightarrow L) +1$.
+اکنون مشخص است که چگونه کلید ضمنی گره فعلی را به سرعت محاسبه کنیم. از آنجا که در تمام عملیات با پایین رفتن در درخت به هر گره می‌رسیم، می‌توانیم این مجموع را انباشته کرده و آن را به تابع منتقل کنیم. اگر به زیردرخت چپ برویم، مجموع انباشته شده تغییر نمی‌کند، اگر به زیردرخت راست برویم، به اندازه $cnt (T \rightarrow L) +1$ افزایش می‌یابد.
 
-Here are the new implementations of **Split** and **Merge**:
+در اینجا پیاده‌سازی‌های جدید **Split** و **Merge** آمده است:
 
 ```cpp
 void merge (pitem & t, pitem l, pitem r) {
@@ -325,24 +323,24 @@ void split (pitem t, pitem & l, pitem & r, int key, int add = 0) {
 }
 ```
 
-In the implementation above, after the call of $split(T, T_1, T_2, k)$, the tree $T_1$ will consist of first $k$ elements of $T$ (that is, of elements having their implicit key less than $k$) and $T_2$ will consist of all the rest.
+در پیاده‌سازی بالا، پس از فراخوانی $split(T, T_1, T_2, k)$, درخت $T_1$ شامل $k$ عنصر اول $T$ خواهد بود (یعنی عناصری که کلید ضمنی آنها کمتر از $k$ است) و $T_2$ شامل بقیه عناصر خواهد بود.
 
-Now let's consider the implementation of various operations on implicit treaps:
+حال بیایید پیاده‌سازی عملیات مختلف بر روی تریپ‌های ضمنی را بررسی کنیم:
 
-- **Insert element**.  
-  Suppose we need to insert an element at position $pos$. We divide the treap into two parts, which correspond to arrays $[0..pos-1]$ and $[pos..sz]$; to do this we call $split(T, T_1, T_2, pos)$. Then we can combine tree $T_1$ with the new vertex by calling $merge(T_1, T_1, \text{new item})$ (it is easy to see that all preconditions are met). Finally, we combine trees $T_1$ and $T_2$ back into $T$ by calling $merge(T, T_1, T_2)$.
-- **Delete element**.  
- This operation is even easier: find the element to be deleted $T$, perform merge of its children $L$ and $R$, and replace the element $T$ with the result of merge. In fact, element deletion in the implicit treap is exactly the same as in the regular treap.
-- Find **sum / minimum**, etc. on the interval.  
- First, create an additional field $F$ in the `item` structure to store the value of the target function for this node's subtree. This field is easy to maintain similarly to maintaining sizes of subtrees: create a function which calculates this value for a node based on values for its children and add calls of this function in the end of all functions which modify the tree.  
- Second, we need to know how to process a query for an arbitrary interval $[A; B]$.  
- To get a part of tree which corresponds to the interval $[A; B]$, we need to call $split(T, T_2, T_3, B+1)$, and then $split(T_2, T_1, T_2, A)$: after this $T_2$ will consist of all the elements in the interval $[A; B]$, and only of them. Therefore, the response to the query will be stored in the field $F$ of the root of $T_2$. After the query is answered, the tree has to be restored by calling $merge(T, T_1, T_2)$ and $merge(T, T, T_3)$.
-- **Addition / painting** on the interval.  
- We act similarly to the previous paragraph, but instead of the field F we will store a field `add` which will contain the added value for the subtree (or the value to which the subtree is painted). Before performing any operation we have to "push" this value correctly - i.e. change $T \rightarrow L \rightarrow add$ and $T \rightarrow R \rightarrow add$, and to clean up `add` in the parent node. This way after any changes to the tree the information will not be lost.
-- **Reverse** on the interval.  
- This is again similar to the previous operation: we have to add boolean flag `rev` and set it to true when the subtree of the current node has to be reversed. "Pushing" this value is a bit complicated - we swap children of this node and set this flag to true for them.
+- **درج عنصر**.
+  فرض کنید باید یک عنصر را در موقعیت $pos$ درج کنیم. ما تریپ را به دو بخش تقسیم می‌کنیم که متناظر با آرایه‌های $[0..pos-1]$ و $[pos..sz]$ هستند؛ برای این کار $split(T, T_1, T_2, pos)$ را فراخوانی می‌کنیم. سپس درخت $T_1$ را با گره جدید ادغام می‌کنیم (با فراخوانی $merge(T_1, T_1, \text{new item})$). در نهایت، درخت $T_1$ (که اکنون شامل عنصر جدید است) و $T_2$ را دوباره با هم ادغام می‌کنیم تا تریپ نهایی را بسازیم.
+- **حذف عنصر**.
+ این عملیات حتی ساده‌تر است: گره‌ای که باید حذف شود ($T$) را پیدا کنید، فرزندان آن ($L$ و $R$) را با هم ادغام کنید، و عنصر $T$ را با نتیجه این ادغام جایگزین کنید. در واقع، حذف عنصر در تریپ ضمنی دقیقاً همانند تریپ معمولی است.
+- **یافتن مجموع / کمینه**، و غیره در یک بازه.
+ اولاً، یک فیلد اضافی $F$ در ساختار `item` ایجاد کنید تا مقدار تابع هدف را برای زیردرخت این گره ذخیره کند. نگهداری این فیلد مشابه نگهداری اندازه زیردرخت‌ها آسان است: یک تابع ایجاد کنید که این مقدار را برای یک گره بر اساس مقادیر فرزندانش محاسبه کند و فراخوانی‌های این تابع را به انتهای تمام توابعی که درخت را تغییر می‌دهند اضافه کنید.
+ ثانیاً، باید بدانیم چگونه یک پرس‌وجو برای یک بازه دلخواه $[A; B]$ را پردازش کنیم.
+ برای به دست آوردن بخشی از درخت که متناظر با بازه $[A; B]$ است، باید $split(T, T_2, T_3, B+1)$ و سپس $split(T_2, T_1, T_2, A)$ را فراخوانی کنیم: پس از این، $T_2$ شامل تمام عناصر در بازه $[A; B]$ و فقط آنها خواهد بود. بنابراین، پاسخ به پرس‌وجو در فیلد $F$ ریشه $T_2$ ذخیره می‌شود. پس از پاسخ به پرس‌وجو، درخت باید با ادغام مجدد سه بخش بازیابی شود: ابتدا $T_1$ و $T_2$ را ادغام کرده و سپس نتیجه را با $T_3$ ادغام می‌کنیم.
+- **افزودن / رنگ‌آمیزی** در یک بازه.
+ ما مشابه پاراگراف قبلی عمل می‌کنیم، اما به جای فیلد F، یک فیلد `add` ذخیره می‌کنیم که حاوی مقدار اضافه‌شده برای زیردرخت (یا مقداری که زیردرخت با آن رنگ‌آمیزی شده) خواهد بود. قبل از انجام هر عملیاتی باید این مقدار را به درستی "push" کنیم - یعنی $T \rightarrow L \rightarrow add$ و $T \rightarrow R \rightarrow add$ را تغییر دهیم و `add` را در گره والد پاک کنیم. به این ترتیب پس از هر تغییری در درخت، اطلاعات از بین نخواهد رفت.
+- **معکوس کردن** در یک بازه.
+ این عملیات نیز مشابه عملیات قبلی است: باید یک پرچم بولین `rev` اضافه کنیم و زمانی که زیردرخت گره فعلی باید معکوس شود، آن را true کنیم. "Push" کردن این مقدار کمی پیچیده‌تر است - ما فرزندان این گره را با هم تعویض می‌کنیم و این پرچم را برای آنها true می‌کنیم.
 
-Here is an example implementation of the implicit treap with reverse on the interval. For each node we store field called `value` which is the actual value of the array element at current position. We also provide implementation of the function `output()`, which outputs an array that corresponds to the current state of the implicit treap.
+در اینجا یک پیاده‌سازی نمونه از تریپ ضمنی با قابلیت معکوس کردن در یک بازه آورده شده است. برای هر گره، فیلدی به نام `value` ذخیره می‌کنیم که مقدار واقعی عنصر آرایه در موقعیت فعلی است. ما همچنین پیاده‌سازی تابع `output()` را ارائه می‌دهیم که آرایه‌ای متناظر با وضعیت فعلی تریپ ضمنی را خروجی می‌دهد.
 
 ```cpp
 typedef struct item * pitem;
@@ -412,11 +410,11 @@ void output (pitem t) {
 }
 ```
 
-## Literature
+## ادبیات
 
 * [Blelloch, Reid-Miller "Fast Set Operations Using Treaps"](https://www.cs.cmu.edu/~scandal/papers/treaps-spaa98.pdf)
 
-## Practice Problems
+## مسائل تمرینی
 
 * [SPOJ - Ada and Aphids](http://www.spoj.com/problems/ADAAPHID/)
 * [SPOJ - Ada and Harvest](http://www.spoj.com/problems/ADACROP/)

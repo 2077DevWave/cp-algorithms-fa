@@ -1,49 +1,55 @@
-# Garner's algorithm
+---
+tags:
+  - AI Translated
+e_maxx_link: garners-algorithm
+---
 
-A consequence of the [Chinese Remainder Theorem](chinese-remainder-theorem.md) is, that we can represent big numbers using an array of small integers.
-For example, let $p$ be the product of the first $1000$ primes. $p$ has around $3000$ digits.
+# الگوریتم گارنر
 
-Any number $a$ less than $p$ can be represented as an array  $a_1, \ldots, a_k$, where $a_i \equiv a \pmod{p_i}$.
-But to do this we obviously need to know how to get back the number $a$ from its representation.
-One way is discussed in the article about the Chinese Remainder Theorem.
+یکی از نتایج [قضیه باقیمانده چینی](chinese-remainder-theorem.md) این است که می‌توانیم اعداد بزرگ را با استفاده از آرایه‌ای از اعداد صحیح کوچک نمایش دهیم.
+برای مثال، فرض کنید $p$ حاصل‌ضرب ۱۰۰۰ عدد اول نخست باشد. عدد $p$ حدود ۳۰۰۰ رقم دارد.
 
-In this article we discuss an alternative, Garner's Algorithm, which can also be used for this purpose.
+هر عدد $a$ کوچک‌تر از $p$ را می‌توان به صورت آرایه‌ای از $a_1, \ldots, a_k$ نمایش داد، به طوری که $a_i \equiv a \pmod{p_i}$.
+اما برای انجام این کار، بدیهی است که باید بدانیم چگونه عدد $a$ را از این نمایش بازگردانیم.
+یک راه در مقاله مربوط به قضیه باقیمانده چینی مورد بحث قرار گرفته است.
 
-## Mixed Radix Representation
+در این مقاله، ما یک جایگزین، یعنی الگوریتم گارنر را بررسی می‌کنیم که برای این منظور نیز قابل استفاده است.
 
-We can represent the number $a$ in the **mixed radix** representation:
+## نمایش مبنای مختلط
 
-$$a = x_1 + x_2 p_1 + x_3 p_1 p_2 + \ldots + x_k p_1 \cdots p_{k-1} \text{ with }x_i \in [0, p_i)$$
+می‌توانیم عدد $a$ را در نمایش **مبنای مختلط** (mixed radix) نشان دهیم:
 
-A mixed radix representation is a positional numeral system, that's a generalization of the typical number systems, like the binary numeral system or the decimal numeral system.
-For instance the decimal numeral system is a positional numeral system with the radix (or base) 10.
-Every a number is represented as a string of digits $d_1 d_2 d_3 \dots d_n$ between $0$ and $9$, and 
-E.g. the string $415$ represents the number $4 \cdot 10^2 + 1 \cdot 10^1 + 5 \cdot 10^0$.
-In general the string of digits $d_1 d_2 d_3 \dots d_n$ represents the number $d_1 b^{n-1} + d_2 b^{n-2} + \cdots + d_n b^0$ in the positional numeral system with radix $b$.
+$$a = x_1 + x_2 p_1 + x_3 p_1 p_2 + \ldots + x_k p_1 \cdots p_{k-1} \text{ با شرط } x_i \in [0, p_i)$$
 
-In a mixed radix system, we don't have one radix any more. The base varies from position to position.
+نمایش مبنای مختلط یک دستگاه اعداد جایگاهی است که تعمیمی از دستگاه‌های اعداد معمولی مانند دستگاه اعداد دودویی یا دستگاه اعداد ده‌دهی است.
+به عنوان مثال، دستگاه اعداد ده‌دهی یک دستگاه اعداد جایگاهی با مبنای (radix یا base) ۱۰ است.
+هر عدد به صورت رشته‌ای از ارقام $d_1 d_2 d_3 \dots d_n$ بین ۰ تا ۹ نمایش داده می‌شود.
+برای مثال، رشته‌ی $415$ نشان‌دهنده عدد $4 \cdot 10^2 + 1 \cdot 10^1 + 5 \cdot 10^0$ است.
+به طور کلی، رشته ارقام $d_1 d_2 d_3 \dots d_n$ در دستگاه اعداد جایگاهی با مبنای $b$، عدد $d_1 b^{n-1} + d_2 b^{n-2} + \cdots + d_n b^0$ را نمایش می‌دهد.
 
-## Garner's algorithm
+در یک دستگاه مبنای مختلط، دیگر یک مبنای واحد نداریم. مبنا از یک جایگاه به جایگاه دیگر متغیر است.
 
-Garner's algorithm computes the digits $x_1, \ldots, x_k$.
-Notice, that the digits are relatively small.
-The digit $x_i$ is an integer between $0$ and $p_i - 1$.
+## الگوریتم گارنر
 
-Let $r_{ij}$ denote the inverse of $p_i$ modulo $p_j$
+الگوریتم گارنر ارقام $x_1, \ldots, x_k$ را محاسبه می‌کند.
+توجه داشته باشید که این ارقام نسبتاً کوچک هستند.
+رقم $x_i$ یک عدد صحیح بین $0$ و $p_i - 1$ است.
+
+فرض کنید $r_{ij}$ وارون $p_i$ به پیمانه $p_j$ باشد:
 
 $$r_{ij} = (p_i)^{-1} \pmod{p_j}$$
 
-which can be found using the algorithm described in [Modular Inverse](module-inverse.md).
+که با استفاده از الگوریتم توصیف شده در [وارون پیمانه‌ای](module-inverse.md) قابل محاسبه است.
 
-Substituting $a$ from the mixed radix representation into the first congruence equation we obtain
+با جایگزین کردن $a$ از نمایش مبنای مختلط در اولین معادله همنهشتی، به دست می‌آوریم:
 
 $$a_1 \equiv x_1 \pmod{p_1}.$$
 
-Substituting into the second equation yields
+با جایگزینی در معادله دوم به دست می‌آید:
 
 $$a_2 \equiv x_1 + x_2 p_1 \pmod{p_2},$$
 
-which can be rewritten by subtracting $x_1$ and dividing by $p_1$ to get
+که می‌توان آن را با کم کردن $x_1$ و تقسیم بر $p_1$ به صورت زیر بازنویسی کرد:
 
 $$\begin{array}{rclr}
     a_2 - x_1 &\equiv& x_2 p_1 &\pmod{p_2} \\
@@ -51,11 +57,11 @@ $$\begin{array}{rclr}
     x_2 &\equiv& (a_2 - x_1) r_{12} &\pmod{p_2}
 \end{array}$$
 
-Similarly we get that
+به طور مشابه، به دست می‌آوریم که:
 
 $$x_3 \equiv ((a_3 - x_1) r_{13} - x_2) r_{23} \pmod{p_3}.$$
 
-Now, we can clearly see an emerging pattern, which can be expressed by the following code:
+اکنون می‌توانیم الگوی در حال ظهور را به وضوح ببینیم که با کد زیر قابل بیان است:
 
 ```cpp
 for (int i = 0; i < k; ++i) {
@@ -70,20 +76,20 @@ for (int i = 0; i < k; ++i) {
 }
 ```
 
-So we learned how to calculate digits $x_i$ in $O(k^2)$ time. The number $a$ can now be calculated using the previously mentioned formula
+بنابراین یاد گرفتیم چگونه ارقام $x_i$ را در زمان $O(k^2)$ محاسبه کنیم. عدد $a$ اکنون می‌تواند با استفاده از فرمول ذکر شده قبلی محاسبه شود:
 
 $$a = x_1 + x_2 \cdot p_1 + x_3 \cdot p_1 \cdot p_2 + \ldots + x_k \cdot p_1 \cdots p_{k-1}$$
 
-It is worth noting that in practice, we almost probably need to compute the answer $a$ using [Arbitrary-Precision Arithmetic](big-integer.md), but the digits $x_i$ (because they are small) can usually be calculated using built-in types, and therefore Garner's algorithm is very efficient.
+شایان ذکر است که در عمل، تقریباً همیشه نیاز داریم که پاسخ $a$ را با استفاده از [محاسبات با دقت دلخواه](big-integer.md) محاسبه کنیم، اما ارقام $x_i$ (چون کوچک هستند) معمولاً می‌توانند با استفاده از انواع داده داخلی محاسبه شوند و بنابراین الگوریتم گارنر بسیار کارآمد است.
 
-## Implementation of Garner's Algorithm
+## پیاده‌سازی الگوریتم گارنر
 
-It is convenient to implement this algorithm using Java, because it has built-in support for large numbers through the `BigInteger` class.
+پیاده‌سازی این الگوریتم با استفاده از Java راحت است، زیرا این زبان از طریق کلاس `BigInteger` از اعداد بزرگ پشتیبانی داخلی دارد.
 
-Here we show an implementation that can store big numbers in the form of a set of congruence equations.
-It supports addition, subtraction and multiplication.
-And with Garner's algorithm we can convert the set of equations into the unique integer.
-In this code, we take 100 prime numbers greater than $10^9$, which allows representing numbers as large as $10^{900}$.
+در اینجا پیاده‌سازی را نشان می‌دهیم که می‌تواند اعداد بزرگ را به صورت مجموعه‌ای از معادلات همنهشتی ذخیره کند.
+این پیاده‌سازی از عملیات جمع، تفریق و ضرب پشتیبانی می‌کند.
+و با الگوریتم گارنر می‌توانیم مجموعه‌ی معادلات را به یک عدد صحیح منحصر به فرد تبدیل کنیم.
+در این کد، ما ۱۰۰ عدد اول بزرگ‌تر از $10^9$ را در نظر می‌گیریم که امکان نمایش اعدادی به بزرگی $10^{900}$ را فراهم می‌کند.
 
 ```java
 final int SZ = 100;

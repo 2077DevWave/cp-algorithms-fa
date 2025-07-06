@@ -1,66 +1,68 @@
 ---
 tags:
-  
-e_maxx_link: dsu
+  - AI Translated
+e_maxx_link: disjoint_set_union
 ---
 
-# Disjoint Set Union
+# مجموعه‌های مجزا (Disjoint Set Union)
 
-This article discusses the data structure **Disjoint Set Union** or **DSU**.
-Often it is also called **Union Find** because of its two main operations.
+این مقاله به بررسی ساختمان داده **مجموعه‌های مجزا** یا **DSU** می‌پردازد.
+اغلب به دلیل دو عملیات اصلی‌اش، **Union Find** (ادغام-یافتن) نیز نامیده می‌شود.
 
-This data structure provides the following capabilities.
-We are given several elements, each of which is a separate set.
-A DSU will have an operation to combine any two sets, and it will be able to tell in which set a specific element is.
-The classical version also introduces a third operation, it can create a set from a new element.
+این ساختمان داده قابلیت‌های زیر را فراهم می‌کند.
+به ما چندین عنصر داده شده است که هر کدام یک مجموعه مجزا هستند.
+یک DSU عملیاتی برای ترکیب هر دو مجموعه خواهد داشت و قادر خواهد بود بگوید که یک عنصر خاص در کدام مجموعه قرار دارد.
+نسخه کلاسیک آن یک عملیات سوم را نیز معرفی می‌کند: می‌تواند از یک عنصر جدید، یک مجموعه بسازد.
 
-Thus the basic interface of this data structure consists of only three operations:
+بنابراین، رابط کاربری اصلی این ساختمان داده تنها از سه عملیات تشکیل شده است:
 
-- `make_set(v)` - creates a new set consisting of the new element `v`
-- `union_sets(a, b)` - merges the two specified sets (the set in which the element `a` is located, and the set in which the element `b` is located)
-- `find_set(v)` - returns the representative (also called leader) of the set that contains the element `v`.
-This representative is an element of its corresponding set.
-It is selected in each set by the data structure itself (and can change over time, namely after `union_sets` calls).
-This representative can be used to check if two elements are part of the same set or not.
-`a` and `b` are exactly in the same set, if `find_set(a) == find_set(b)`.
-Otherwise they are in different sets.
+- `make_set(v)` - یک مجموعه جدید شامل عنصر جدید `v` ایجاد می‌کند.
+- `union_sets(a, b)` - دو مجموعه مشخص شده را ادغام می‌کند (مجموعه‌ای که عنصر `a` در آن قرار دارد و مجموعه‌ای که عنصر `b` در آن قرار دارد).
+- `find_set(v)` - نماینده (که رهبر نیز نامیده می‌شود) مجموعه‌ای که عنصر `v` را در بر دارد، برمی‌گرداند.
+این نماینده، عنصری از مجموعه مربوط به خود است.
+این نماینده در هر مجموعه توسط خود ساختمان داده انتخاب می‌شود (و می‌تواند در طول زمان، به ویژه پس از فراخوانی‌های `union_sets` تغییر کند).
+از این نماینده می‌توان برای بررسی اینکه آیا دو عنصر در یک مجموعه قرار دارند یا خیر استفاده کرد.
+`a` و `b` دقیقاً در یک مجموعه هستند اگر `find_set(a) == find_set(b)`.
+در غیر این صورت، آن‌ها در مجموعه‌های متفاوتی قرار دارند.
 
-As described in more detail later, the data structure allows you to do each of these operations in almost $O(1)$ time on average.
+همانطور که بعداً با جزئیات بیشتری توضیح داده می‌شود، این ساختمان داده به شما امکان می‌دهد هر یک از این عملیات را به طور متوسط در زمان تقریباً $O(1)$ انجام دهید.
 
-Also in one of the subsections an alternative structure of a DSU is explained, which achieves a slower average complexity of $O(\log n)$, but can be more powerful than the regular DSU structure.
+همچنین در یکی از بخش‌ها، ساختار جایگزینی برای DSU توضیح داده شده است که به پیچیدگی متوسط کندتر $O(\log n)$ دست می‌یابد، اما می‌تواند از ساختار DSU معمولی قدرتمندتر باشد.
 
-## Build an efficient data structure
+## ساخت یک ساختمان داده کارآمد
 
-We will store the sets in the form of **trees**: each tree will correspond to one set.
-And the root of the tree will be the representative/leader of the set.
+ما مجموعه‌ها را به شکل **درخت** ذخیره خواهیم کرد: هر درخت با یک مجموعه متناظر خواهد بود.
+و ریشه درخت، نماینده/رهبر مجموعه خواهد بود.
 
-In the following image you can see the representation of such trees.
+در تصویر زیر می‌توانید نمایش چنین درختانی را مشاهده کنید.
 
-![Example-image of the set representation with trees](DSU_example.png)
 
-In the beginning, every element starts as a single set, therefore each vertex is its own tree.
-Then we combine the set containing the element 1 and the set containing the element 2.
-Then we combine the set containing the element 3 and the set containing the element 4.
-And in the last step, we combine the set containing the element 1 and the set containing the element 3.
+![تصویر نمونه‌ای از نمایش مجموعه با درختان](DSU_example.png)
 
-For the implementation this means that we will have to maintain an array `parent` that stores a reference to its immediate ancestor in the tree.
 
-### Naive implementation
+در ابتدا، هر عنصر به عنوان یک مجموعه مجزا شروع می‌شود، بنابراین هر رأس درخت خودش است.
+سپس مجموعه‌ای که عنصر ۱ را در بر دارد و مجموعه‌ای که عنصر ۲ را در بر دارد را ترکیب می‌کنیم.
+سپس مجموعه‌ای که عنصر ۳ را در بر دارد و مجموعه‌ای که عنصر ۴ را در بر دارد را ترکیب می‌کنیم.
+و در مرحله آخر، مجموعه‌ای که عنصر ۱ را در بر دارد و مجموعه‌ای که عنصر ۳ را در بر دارد را ترکیب می‌کنیم.
 
-We can already write the first implementation of the Disjoint Set Union data structure.
-It will be pretty inefficient at first, but later we can improve it using two optimizations, so that it will take nearly constant time for each function call.
+برای پیاده‌سازی، این به این معنی است که ما باید یک آرایه `parent` را نگهداری کنیم که یک ارجاع به والد بلافصل خود در درخت را ذخیره می‌کند.
 
-As we said, all the information about the sets of elements will be kept in an array `parent`.
+### پیاده‌سازی ساده
 
-To create a new set (operation `make_set(v)`), we simply create a tree with root in the vertex `v`, meaning that it is its own ancestor.
+اکنون می‌توانیم اولین پیاده‌سازی ساختمان داده مجموعه‌های مجزا را بنویسیم.
+در ابتدا بسیار ناکارآمد خواهد بود، اما بعداً می‌توانیم با استفاده از دو بهینه‌سازی آن را بهبود بخشیم تا برای هر فراخوانی تابع، تقریباً زمان ثابتی طول بکشد.
 
-To combine two sets (operation `union_sets(a, b)`), we first find the representative of the set in which `a` is located, and the representative of the set in which `b` is located.
-If the representatives are identical, that we have nothing to do, the sets are already merged.
-Otherwise, we can simply specify that one of the representatives is the parent of the other representative - thereby combining the two trees.
+همانطور که گفتیم، تمام اطلاعات مربوط به مجموعه‌های عناصر در یک آرایه `parent` نگهداری می‌شود.
 
-Finally the implementation of the find representative function (operation `find_set(v)`):
-we simply climb the ancestors of the vertex `v` until we reach the root, i.e. a vertex such that the reference to the ancestor leads to itself.
-This operation is easily implemented recursively.
+برای ایجاد یک مجموعه جدید (عملیات `make_set(v)`), به سادگی یک درخت با ریشه در رأس `v` ایجاد می‌کنیم، به این معنی که `v` والد خودش است.
+
+برای ترکیب دو مجموعه (عملیات `union_sets(a, b)`), ابتدا نماینده مجموعه‌ای که `a` در آن قرار دارد و نماینده مجموعه‌ای که `b` در آن قرار دارد را پیدا می‌کنیم.
+اگر نماینده‌ها یکسان باشند، کاری برای انجام دادن نداریم، مجموعه‌ها از قبل ادغام شده‌اند.
+در غیر این صورت، می‌توانیم به سادگی مشخص کنیم که یکی از نماینده‌ها والد نماینده دیگر است - و به این ترتیب دو درخت را با هم ترکیب می‌کنیم.
+
+در نهایت پیاده‌سازی تابع یافتن نماینده (عملیات `find_set(v)`):
+ما به سادگی از والد‌های رأس `v` بالا می‌رویم تا به ریشه برسیم، یعنی رأسی که ارجاع به والدش به خود آن رأس اشاره دارد.
+این عملیات به راحتی به صورت بازگشتی پیاده‌سازی می‌شود.
 
 ```cpp
 void make_set(int v) {
@@ -81,26 +83,28 @@ void union_sets(int a, int b) {
 }
 ```
 
-However this implementation is inefficient.
-It is easy to construct an example, so that the trees degenerate into long chains.
-In that case each call `find_set(v)` can take $O(n)$ time.
+با این حال، این پیاده‌سازی ناکارآمد است.
+ساختن یک مثال که در آن درختان به زنجیره‌های طولانی تبدیل شوند، آسان است.
+در آن صورت هر فراخوانی `find_set(v)` می‌تواند $O(n)$ زمان ببرد.
 
-This is far away from the complexity that we want to have (nearly constant time).
-Therefore we will consider two optimizations that will allow to significantly accelerate the work.
+این از پیچیدگی‌ای که می‌خواهیم داشته باشیم (نزدیک به زمان ثابت) بسیار دور است.
+بنابراین دو بهینه‌سازی را در نظر خواهیم گرفت که به ما امکان می‌دهد کار را به طور قابل توجهی تسریع کنیم.
 
-### Path compression optimization
+### بهینه‌سازی فشرده‌سازی مسیر (Path compression)
 
-This optimization is designed for speeding up `find_set`.
+این بهینه‌سازی برای سرعت بخشیدن به `find_set` طراحی شده است.
 
-If we call `find_set(v)` for some vertex `v`, we actually find the representative `p` for all vertices that we visit on the path between `v` and the actual representative `p`.
-The trick is to make the paths for all those nodes shorter, by setting the parent of each visited vertex directly to `p`.
+اگر ما `find_set(v)` را برای رأسی مانند `v` فراخوانی کنیم، در واقع نماینده `p` را برای تمام رئوسی که در مسیر بین `v` و نماینده واقعی `p` قرار دارند، پیدا می‌کنیم.
+ترفند این است که با قرار دادن مستقیم والد هر رأس بازدید شده به `p`، مسیرها را برای همه آن گره‌ها کوتاه‌تر کنیم.
 
-You can see the operation in the following image.
-On the left there is a tree, and on the right side there is the compressed tree after calling `find_set(7)`, which shortens the paths for the visited nodes 7, 5, 3 and 2.
+شما می‌توانید این عملیات را در تصویر زیر مشاهده کنید.
+در سمت چپ یک درخت وجود دارد، و در سمت راست درخت فشرده‌شده پس از فراخوانی `find_set(7)` قرار دارد که مسیرها را برای گره‌های بازدید شده ۷، ۵، ۳ و ۲ کوتاه می‌کند.
 
-![Path compression of call find_set(7)](DSU_path_compression.png)
 
-The new implementation of `find_set` is as follows:
+![فشرده‌سازی مسیر در فراخوانی find_set(7)
+](DSU_path_compression.png)
+
+پیاده‌سازی جدید `find_set` به شرح زیر است:
 
 ```cpp
 int find_set(int v) {
@@ -110,26 +114,26 @@ int find_set(int v) {
 }
 ```
 
-The simple implementation does what was intended:
-first find the representative of the set (root vertex), and then in the process of stack unwinding the visited nodes are attached directly to the representative.
+این پیاده‌سازی ساده همان کاری را انجام می‌دهد که در نظر داشتیم:
+ابتدا نماینده مجموعه (رأس ریشه) را پیدا می‌کند و سپس در فرآیند بازگشت از پشته (stack unwinding)، گره‌های بازدید شده مستقیماً به نماینده متصل می‌شوند.
 
-This simple modification of the operation already achieves the time complexity $O(\log n)$ per call on average (here without proof).
-There is a second modification, that will make it even faster.
+این تغییر ساده در عملیات، به تنهایی به پیچیدگی زمانی $O(\log n)$ به ازای هر فراخوانی به طور متوسط دست می‌یابد (در اینجا بدون اثبات).
+یک تغییر دوم وجود دارد که آن را حتی سریع‌تر می‌کند.
 
-### Union by size / rank
-In this optimization we will change the `union_set` operation.
-To be precise, we will change which tree gets attached to the other one.
-In the naive implementation the second tree always got attached to the first one.
-In practice that can lead to trees containing chains of length $O(n)$.
-With this optimization we will avoid this by choosing very carefully which tree gets attached.
+### ادغام بر اساس اندازه / رتبه (Union by size / rank)
+در این بهینه‌سازی، ما عملیات `union_set` را تغییر خواهیم داد.
+به طور دقیق، ما تغییر خواهیم داد که کدام درخت به دیگری متصل شود.
+در پیاده‌سازی ساده، درخت دوم همیشه به اولی متصل می‌شد.
+در عمل، این می‌تواند به درختانی منجر شود که شامل زنجیره‌هایی به طول $O(n)$ هستند.
+با این بهینه‌سازی، ما با انتخاب دقیق اینکه کدام درخت متصل شود، از این امر جلوگیری خواهیم کرد.
 
-There are many possible heuristics that can be used.
-Most popular are the following two approaches:
-In the first approach we use the size of the trees as rank, and in the second one we use the depth of the tree (more precisely, the upper bound on the tree depth, because the depth will get smaller when applying path compression).
+روش‌های ممکن زیادی وجود دارد که می‌توان از آنها استفاده کرد.
+محبوب‌ترین آنها دو رویکرد زیر است:
+در رویکرد اول ما از اندازه درختان به عنوان رتبه استفاده می‌کنیم، و در رویکرد دوم از عمق درخت استفاده می‌کنیم (به طور دقیق‌تر، کران بالای عمق درخت، زیرا با اعمال فشرده‌سازی مسیر، عمق کاهش می‌یابد).
 
-In both approaches the essence of the optimization is the same: we attach the tree with the lower rank to the one with the bigger rank.
+در هر دو رویکرد، ماهیت بهینه‌سازی یکسان است: ما درختی با رتبه پایین‌تر را به درختی با رتبه بالاتر متصل می‌کنیم.
 
-Here is the implementation of union by size:
+در اینجا پیاده‌سازی ادغام بر اساس اندازه آمده است:
 
 ```cpp
 void make_set(int v) {
@@ -149,7 +153,7 @@ void union_sets(int a, int b) {
 }
 ```
 
-And here is the implementation of union by rank based on the depth of the trees:
+و در اینجا پیاده‌سازی ادغام بر اساس رتبه بر مبنای عمق درختان آمده است:
 
 ```cpp
 void make_set(int v) {
@@ -169,33 +173,33 @@ void union_sets(int a, int b) {
     }
 }
 ```
-Both optimizations are equivalent in terms of time and space complexity. So in practice you can use any of them.
+هر دو بهینه‌سازی از نظر پیچیدگی زمانی و فضایی معادل هستند. بنابراین در عمل می‌توانید از هر یک از آنها استفاده کنید.
 
-### Time complexity
+### پیچیدگی زمانی
 
-As mentioned before, if we combine both optimizations - path compression with union by size / rank - we will reach nearly constant time queries.
-It turns out, that the final amortized time complexity is $O(\alpha(n))$, where $\alpha(n)$ is the inverse Ackermann function, which grows very slowly.
-In fact it grows so slowly, that it doesn't exceed $4$ for all reasonable $n$ (approximately $n < 10^{600}$).
+همانطور که قبلاً ذکر شد، اگر هر دو بهینه‌سازی - فشرده‌سازی مسیر با ادغام بر اساس اندازه / رتبه - را ترکیب کنیم، به پرس‌وجوهایی با زمان تقریباً ثابت خواهیم رسید.
+معلوم می‌شود که پیچیدگی زمانی سرشکن شده نهایی $O(\alpha(n))$ است، که در آن $\alpha(n)$ معکوس تابع آکرمن است که بسیار آهسته رشد می‌کند.
+در واقع آنقدر آهسته رشد می‌کند که برای تمام مقادیر منطقی $n$ (تقریباً $n < 10^{600}$) از $4$ تجاوز نمی‌کند.
 
-Amortized complexity is the total time per operation, evaluated over a sequence of multiple operations.
-The idea is to guarantee the total time of the entire sequence, while allowing single operations to be much slower then the amortized time.
-E.g. in our case a single call might take $O(\log n)$ in the worst case, but if we do $m$ such calls back to back we will end up with an average time of $O(\alpha(n))$.
+پیچیدگی سرشکن شده، زمان کل به ازای هر عملیات است که در یک دنباله از چندین عملیات ارزیابی می‌شود.
+ایده این است که زمان کل کل دنباله را تضمین کنیم، در حالی که اجازه می‌دهیم عملیات‌های منفرد بسیار کندتر از زمان سرشکن شده باشند.
+به عنوان مثال، در مورد ما، یک فراخوانی ممکن است در بدترین حالت $O(\log n)$ طول بکشد، اما اگر $m$ فراخوانی از این دست را پشت سر هم انجام دهیم، به طور متوسط به زمان $O(\alpha(n))$ خواهیم رسید.
 
-We will also not present a proof for this time complexity, since it is quite long and complicated.
+ما همچنین اثباتی برای این پیچیدگی زمانی ارائه نخواهیم کرد، زیرا بسیار طولانی و پیچیده است.
 
-Also, it's worth mentioning that DSU with union by size / rank, but without path compression works in $O(\log n)$ time per query.
+همچنین، شایان ذکر است که DSU با ادغام بر اساس اندازه / رتبه، اما بدون فشرده‌سازی مسیر، در زمان $O(\log n)$ به ازای هر پرس‌وجو کار می‌کند.
 
-### Linking by index / coin-flip linking
+### اتصال بر اساس اندیس / اتصال با شیر یا خط (Linking by index / coin-flip linking)
 
-Both union by rank and union by size require that you store additional data for each set, and maintain these values during each union operation.
-There exist also a randomized algorithm, that simplifies the union operation a little bit: linking by index.
+هم ادغام بر اساس رتبه و هم ادغام بر اساس اندازه، نیازمند ذخیره داده‌های اضافی برای هر مجموعه و نگهداری این مقادیر در هر عملیات ادغام هستند.
+یک الگوریتم تصادفی نیز وجود دارد که عملیات ادغام را کمی ساده‌تر می‌کند: اتصال بر اساس اندیس.
 
-We assign each set a random value called the index, and we attach the set with the smaller index to the one with the larger one.
-It is likely that a bigger set will have a bigger index than the smaller set, therefore this operation is closely related to union by size.
-In fact it can be proven, that this operation has the same time complexity as union by size.
-However in practice it is slightly slower than union by size.
+ما به هر مجموعه یک مقدار تصادفی به نام اندیس اختصاص می‌دهیم و مجموعه‌ای با اندیس کوچکتر را به مجموعه‌ای با اندیس بزرگتر متصل می‌کنیم.
+احتمال دارد که یک مجموعه بزرگتر، اندیس بزرگتری نسبت به مجموعه کوچکتر داشته باشد، بنابراین این عملیات به ادغام بر اساس اندازه بسیار نزدیک است.
+در واقع می‌توان ثابت کرد که این عملیات دارای پیچیدگی زمانی مشابهی با ادغام بر اساس اندازه است.
+با این حال، در عمل کمی کندتر از ادغام بر اساس اندازه است.
 
-You can find a proof of the complexity and even more union techniques [here](http://www.cis.upenn.edu/~sanjeev/papers/soda14_disjoint_set_union.pdf).
+شما می‌توانید اثبات پیچیدگی و حتی تکنیک‌های ادغام بیشتری را [اینجا](http://www.cis.upenn.edu/~sanjeev/papers/soda14_disjoint_set_union.pdf) بیابید.
 
 ```cpp
 void make_set(int v) {
@@ -214,10 +218,10 @@ void union_sets(int a, int b) {
 }
 ```
 
-It's a common misconception that just flipping a coin, to decide which set we attach to the other, has the same complexity.
-However that's not true.
-The paper linked above conjectures that coin-flip linking combined with path compression has complexity $\Omega\left(n \frac{\log n}{\log \log n}\right)$.
-And in benchmarks it performs a lot worse than union by size/rank or linking by index.
+این یک تصور غلط رایج است که فقط انداختن یک سکه برای تصمیم‌گیری در مورد اینکه کدام مجموعه را به دیگری متصل کنیم، پیچیدگی یکسانی دارد.
+با این حال، این درست نیست.
+مقاله‌ای که در بالا به آن لینک داده شد، حدس می‌زند که اتصال با شیر یا خط همراه با فشرده‌سازی مسیر دارای پیچیدگی $\Omega\left(n \frac{\log n}{\log \log n}\right)$ است.
+و در بنچمارک‌ها، عملکرد آن بسیار بدتر از ادغام بر اساس اندازه/رتبه یا اتصال بر اساس اندیس است.
 
 ```cpp
 void union_sets(int a, int b) {
@@ -231,72 +235,72 @@ void union_sets(int a, int b) {
 }
 ```
 
-## Applications and various improvements
+## کاربردها و بهبودهای مختلف
 
-In this section we consider several applications of the data structure, both the trivial uses and some improvements to the data structure.
+در این بخش، چندین کاربرد از این ساختمان داده، هم استفاده‌های بدیهی و هم برخی بهبودها در ساختمان داده را بررسی می‌کنیم.
 
-### Connected components in a graph
+### مؤلفه‌های همبندی در یک گراف
 
-This is one of the obvious applications of DSU.
+این یکی از کاربردهای واضح DSU است.
 
-Formally the problem is defined in the following way:
-Initially we have an empty graph.
-We have to add vertices and undirected edges, and answer queries of the form $(a, b)$ - "are the vertices $a$ and $b$ in the same connected component of the graph?"
+به طور رسمی، مسئله به شرح زیر تعریف می‌شود:
+در ابتدا ما یک گراف خالی داریم.
+باید رأس‌ها و یال‌های غیرجهت‌دار را اضافه کنیم و به پرس‌وجوهایی به شکل $(a, b)$ - "آیا رأس‌های $a$ و $b$ در یک مؤلفه همبندی از گراف قرار دارند؟" پاسخ دهیم.
 
-Here we can directly apply the data structure, and get a solution that handles an addition of a vertex or an edge and a query in nearly constant time on average.
+در اینجا می‌توانیم مستقیماً از ساختمان داده استفاده کنیم و به راه‌حلی دست یابیم که اضافه کردن یک رأس یا یال و یک پرس‌وجو را به طور متوسط در زمان تقریباً ثابت انجام می‌دهد.
 
-This application is quite important, because nearly the same problem appears in [Kruskal's algorithm for finding a minimum spanning tree](../graph/mst_kruskal.md).
-Using DSU we can [improve](../graph/mst_kruskal_with_dsu.md) the $O(m \log n + n^2)$ complexity to $O(m \log n)$.
+این کاربرد بسیار مهم است، زیرا تقریباً همین مسئله در [الگوریتم کراسکال برای یافتن درخت پوشای کمینه](../graph/mst_kruskal.md) ظاهر می‌شود.
+با استفاده از DSU می‌توانیم پیچیدگی $O(m \log n + n^2)$ را به $O(m \log n)$ [بهبود بخشیم](../graph/mst_kruskal_with_dsu.md).
 
-### Search for connected components in an image
+### جستجو برای مؤلفه‌های همبندی در یک تصویر
 
-One of the applications of DSU is the following task:
-there is an image of $n \times m$ pixels.
-Originally all are white, but then a few black pixels are drawn.
-You want to determine the size of each white connected component in the final image.
+یکی از کاربردهای DSU وظیفه زیر است:
+یک تصویر با $n \times m$ پیکسل وجود دارد.
+در ابتدا همه پیکسل‌ها سفید هستند، اما سپس چند پیکسل سیاه کشیده می‌شود.
+شما می‌خواهید اندازه هر مؤلفه همبندی سفید در تصویر نهایی را تعیین کنید.
 
-For the solution we simply iterate over all white pixels in the image, for each cell iterate over its four neighbors, and if the neighbor is white call `union_sets`.
-Thus we will have a DSU with $n m$ nodes corresponding to image pixels.
-The resulting trees in the DSU are the desired connected components.
+برای حل، ما به سادگی روی تمام پیکسل‌های سفید تصویر پیمایش می‌کنیم، برای هر سلول چهار همسایه آن را بررسی می‌کنیم، و اگر همسایه سفید بود، `union_sets` را فراخوانی می‌کنیم.
+بنابراین ما یک DSU با $n m$ گره متناظر با پیکسل‌های تصویر خواهیم داشت.
+درختان حاصل در DSU همان مؤلفه‌های همبندی مورد نظر هستند.
 
-The problem can also be solved by [DFS](../graph/depth-first-search.md) or [BFS](../graph/breadth-first-search.md), but the method described here has an advantage:
-it can process the matrix row by row (i.e. to process a row we only need the previous and the current row, and only need a DSU built for the elements of one row) in $O(\min(n, m))$ memory.
+این مسئله را می‌توان با [DFS](../graph/depth-first-search.md) یا [BFS](../graph/breadth-first-search.md) نیز حل کرد، اما روش توصیف شده در اینجا یک مزیت دارد:
+می‌تواند ماتریس را ردیف به ردیف پردازش کند (یعنی برای پردازش یک ردیف فقط به ردیف قبلی و ردیف فعلی نیاز داریم، و فقط به یک DSU که برای عناصر یک ردیف ساخته شده است نیاز داریم) با حافظه $O(\min(n, m))$.
 
-### Store additional information for each set
+### ذخیره اطلاعات اضافی برای هر مجموعه
 
-DSU allows you to easily store additional information in the sets.
+DSU به شما امکان می‌دهد به راحتی اطلاعات اضافی را در مجموعه‌ها ذخیره کنید.
 
-A simple example is the size of the sets:
-storing the sizes was already described in the Union by size section (the information was stored by the current representative of the set).
+یک مثال ساده، اندازه مجموعه‌ها است:
+ذخیره اندازه در بخش ادغام بر اساس اندازه قبلاً توضیح داده شد (اطلاعات توسط نماینده فعلی مجموعه ذخیره می‌شد).
 
-In the same way - by storing it at the representative nodes - you can also store any other information about the sets.
+به همین ترتیب - با ذخیره آن در گره‌های نماینده - می‌توانید هر اطلاعات دیگری را در مورد مجموعه‌ها ذخیره کنید.
 
-### Compress jumps along a segment / Painting subarrays offline
+### فشرده‌سازی پرش‌ها در طول یک قطعه / رنگ‌آمیزی زیرآرایه‌ها به صورت آفلاین
 
-One common application of the DSU is the following:
-There is a set of vertices, and each vertex has an outgoing edge to another vertex.
-With DSU you can find the end point, to which we get after following all edges from a given starting point, in almost constant time.
+یکی از کاربردهای رایج DSU به شرح زیر است:
+مجموعه‌ای از رأس‌ها وجود دارد و هر رأس یک یال خروجی به رأس دیگری دارد.
+با DSU می‌توانید نقطه پایانی را که پس از دنبال کردن تمام یال‌ها از یک نقطه شروع معین به آن می‌رسیم، در زمان تقریباً ثابت پیدا کنید.
 
-A good example of this application is the **problem of painting subarrays**.
-We have a segment of length $L$, each element initially has the color 0.
-We have to repaint the subarray $[l, r]$ with the color $c$ for each query $(l, r, c)$.
-At the end we want to find the final color of each cell.
-We assume that we know all the queries in advance, i.e. the task is offline.
+یک مثال خوب از این کاربرد، **مسئله رنگ‌آمیزی زیرآرایه‌ها** است.
+ما یک قطعه به طول $L$ داریم، هر عنصر در ابتدا رنگ ۰ دارد.
+باید زیرآرایه $[l, r]$ را با رنگ $c$ برای هر پرس‌وجو $(l, r, c)$ دوباره رنگ‌آمیزی کنیم.
+در پایان می‌خواهیم رنگ نهایی هر سلول را پیدا کنیم.
+فرض می‌کنیم که همه پرس‌وجوها را از قبل می‌دانیم، یعنی وظیفه به صورت آفلاین است.
 
-For the solution we can make a DSU, which for each cell stores a link to the next unpainted cell.
-Thus initially each cell points to itself.
-After painting one requested repaint of a segment, all cells from that segment will point to the cell after the segment.
+برای حل، می‌توانیم یک DSU بسازیم که برای هر سلول، یک لینک به سلول رنگ‌نشده بعدی را ذخیره کند.
+بنابراین در ابتدا هر سلول به خودش اشاره می‌کند.
+پس از رنگ‌آمیزی یک درخواست رنگ‌آمیزی مجدد یک قطعه، تمام سلول‌های آن قطعه به سلول بعد از آن قطعه اشاره خواهند کرد.
 
-Now to solve this problem, we consider the queries **in the reverse order**: from last to first.
-This way when we execute a query, we only have to paint exactly the unpainted cells in the subarray $[l, r]$.
-All other cells already contain their final color.
-To quickly iterate over all unpainted cells, we use the DSU.
-We find the left-most unpainted cell inside of a segment, repaint it, and with the pointer we move to the next empty cell to the right.
+حال برای حل این مسئله، پرس‌وجوها را **به ترتیب معکوس** در نظر می‌گیریم: از آخر به اول.
+به این ترتیب وقتی یک پرس‌وجو را اجرا می‌کنیم، فقط باید دقیقاً سلول‌های رنگ‌نشده در زیرآرایه $[l, r]$ را رنگ کنیم.
+همه سلول‌های دیگر از قبل رنگ نهایی خود را دارند.
+برای پیمایش سریع روی تمام سلول‌های رنگ‌نشده، از DSU استفاده می‌کنیم.
+ما چپ‌ترین سلول رنگ‌نشده درون یک قطعه را پیدا می‌کنیم، آن را دوباره رنگ می‌کنیم و با اشاره‌گر به سلول خالی بعدی در سمت راست حرکت می‌کنیم.
 
-Here we can use the DSU with path compression, but we cannot use union by rank / size (because it is important who becomes the leader after the merge).
-Therefore the complexity will be $O(\log n)$ per union (which is also quite fast).
+در اینجا می‌توانیم از DSU با فشرده‌سازی مسیر استفاده کنیم، اما نمی‌توانیم از ادغام بر اساس رتبه / اندازه استفاده کنیم (زیرا مهم است که چه کسی پس از ادغام، رهبر می‌شود).
+بنابراین پیچیدگی به ازای هر ادغام $O(\log n)$ خواهد بود (که آن هم بسیار سریع است).
 
-Implementation:
+پیاده‌سازی:
 
 ```cpp
 for (int i = 0; i <= L; i++) {
@@ -314,20 +318,20 @@ for (int i = m-1; i >= 0; i--) {
 }
 ```
 
-There is one optimization:
-We can use **union by rank**, if we store the next unpainted cell in an additional array `end[]`.
-Then we can merge two sets into one ranked according to their heuristics, and we obtain the solution in $O(\alpha(n))$.
+یک بهینه‌سازی وجود دارد:
+می‌توانیم از **ادغام بر اساس رتبه** استفاده کنیم، اگر سلول رنگ‌نشده بعدی را در یک آرایه اضافی `end[]` ذخیره کنیم.
+سپس می‌توانیم دو مجموعه را بر اساس روش‌های اکتشافی آنها ادغام کنیم و به راه‌حلی با پیچیدگی $O(\alpha(n))$ برسیم.
 
-### Support distances up to representative
+### پشتیبانی از فاصله تا نماینده
 
-Sometimes in specific applications of the DSU you need to maintain the distance between a vertex and the representative of its set (i.e. the path length in the tree from the current node to the root of the tree).
+گاهی اوقات در کاربردهای خاص DSU، شما نیاز به نگهداری فاصله بین یک رأس و نماینده مجموعه‌اش دارید (یعنی طول مسیر در درخت از گره فعلی تا ریشه درخت).
 
-If we don't use path compression, the distance is just the number of recursive calls.
-But this will be inefficient.
+اگر از فشرده‌سازی مسیر استفاده نکنیم، فاصله فقط تعداد فراخوانی‌های بازگشتی است.
+اما این ناکارآمد خواهد بود.
 
-However it is possible to do path compression, if we store the **distance to the parent** as additional information for each node.
+با این حال، امکان انجام فشرده‌سازی مسیر وجود دارد، اگر ما **فاصله تا والد** را به عنوان اطلاعات اضافی برای هر گره ذخیره کنیم.
 
-In the implementation it is convenient to use an array of pairs for `parent[]` and the function `find_set` now returns two numbers: the representative of the set, and the distance to it.
+در پیاده‌سازی، استفاده از یک آرایه از زوج‌ها برای `parent[]` راحت است و تابع `find_set` اکنون دو عدد را برمی‌گرداند: نماینده مجموعه و فاصله تا آن.
 
 ```cpp
 void make_set(int v) {
@@ -357,33 +361,33 @@ void union_sets(int a, int b) {
 }
 ```
 
-### Support the parity of the path length / Checking bipartiteness online
+### پشتیبانی از زوجیت طول مسیر / بررسی دو بخشی بودن به صورت آنلاین
 
-In the same way as computing the path length to the leader, it is possible to maintain the parity of the length of the path before him.
-Why is this application in a separate paragraph?
+همانند محاسبه طول مسیر تا رهبر، می‌توان زوجیت طول مسیر تا آن را نیز نگهداری کرد.
+چرا این کاربرد در یک پاراگراف جداگانه آمده است؟
 
-The unusual requirement of storing the parity of the path comes up in the following task:
-initially we are given an empty graph, it can be added edges, and we have to answer queries of the form "is the connected component containing this vertex **bipartite**?".
+نیاز غیرمعمول به ذخیره زوجیت مسیر در وظیفه زیر مطرح می‌شود:
+در ابتدا به ما یک گراف خالی داده می‌شود، می‌توان به آن یال اضافه کرد، و ما باید به پرس‌وجوهایی به این شکل پاسخ دهیم: "آیا مؤلفه همبندی حاوی این رأس **دو بخشی** است؟".
 
-To solve this problem, we make a DSU for storing of the components and store the parity of the path up to the representative for each vertex.
-Thus we can quickly check if adding an edge leads to a violation of the bipartiteness or not:
-namely if the ends of the edge lie in the same connected component and have the same parity length to the leader, then adding this edge will produce a cycle of odd length, and the component will lose the bipartiteness property.
+برای حل این مسئله، ما یک DSU برای ذخیره مؤلفه‌ها می‌سازیم و زوجیت مسیر تا نماینده را برای هر رأس ذخیره می‌کنیم.
+بنابراین می‌توانیم به سرعت بررسی کنیم که آیا اضافه کردن یک یال منجر به نقض خاصیت دو بخشی بودن می‌شود یا خیر:
+یعنی اگر دو سر یال در یک مؤلفه همبندی قرار داشته باشند و طول مسیر با زوجیت یکسان تا رهبر داشته باشند، اضافه کردن این یال یک دور به طول فرد ایجاد می‌کند و مؤلفه خاصیت دو بخشی بودن را از دست می‌دهد.
 
-The only difficulty that we face is to compute the parity in the `union_find` method.
+تنها مشکلی که با آن روبرو هستیم، محاسبه زوجیت در متد `union_find` است.
 
-If we add an edge $(a, b)$ that connects two connected components into one, then when you attach one tree to another we need to adjust the parity.
+اگر یال $(a, b)$ را اضافه کنیم که دو مؤلفه همبندی را به هم متصل می‌کند، آنگاه هنگام اتصال یک درخت به دیگری باید زوجیت را تنظیم کنیم.
 
-Let's derive a formula, which computes the parity issued to the leader of the set that will get attached to another set.
-Let $x$ be the parity of the path length from vertex $a$ up to its leader $A$, and $y$ as the parity of the path length from vertex $b$ up to its leader $B$, and $t$ the desired parity that we have to assign to $B$ after the merge.
-The path consists of the three parts:
-from $B$ to $b$, from $b$ to $a$, which is connected by one edge and therefore has parity $1$, and from $a$ to $A$.
-Therefore we receive the formula ($\oplus$ denotes the XOR operation):
+بیایید فرمولی را استخراج کنیم که زوجیت اختصاص داده شده به رهبر مجموعه‌ای که به مجموعه دیگر متصل می‌شود را محاسبه می‌کند.
+فرض کنید $x$ زوجیت طول مسیر از رأس $a$ تا رهبرش $A$ باشد، و $y$ زوجیت طول مسیر از رأس $b$ تا رهبرش $B$ باشد، و $t$ زوجیت مورد نظری باشد که باید پس از ادغام به $B$ اختصاص دهیم.
+مسیر از سه بخش تشکیل شده است:
+از $B$ به $b$، از $b$ به $a$ که توسط یک یال متصل شده و بنابراین زوجیت $1$ دارد، و از $a$ به $A$.
+بنابراین فرمول زیر را به دست می‌آوریم (علامت $\oplus$ نشان‌دهنده عملیات XOR است):
 
 $$t = x \oplus y \oplus 1$$
 
-Thus regardless of how many joins we perform, the parity of the edges is carried from one leader to another.
+بنابراین صرف نظر از اینکه چند ادغام انجام می‌دهیم، زوجیت یال‌ها از یک رهبر به دیگری منتقل می‌شود.
 
-We give the implementation of the DSU that supports parity. As in the previous section we use a pair to store the ancestor and the parity. In addition for each set we store in the array `bipartite[]` whether it is still bipartite or not.
+ما پیاده‌سازی DSU که از زوجیت پشتیبانی می‌کند را ارائه می‌دهیم. همانند بخش قبل، از یک زوج برای ذخیره والد و زوجیت استفاده می‌کنیم. علاوه بر این، برای هر مجموعه در آرایه `bipartite[]` ذخیره می‌کنیم که آیا هنوز دو بخشی است یا خیر.
 
 ```cpp
 void make_set(int v) {
@@ -428,19 +432,19 @@ bool is_bipartite(int v) {
 }
 ```
 
-### Offline RMQ (range minimum query) in $O(\alpha(n))$ on average / Arpa's trick { #arpa data-toc-label="Offline RMQ / Arpa's trick"}
+### پرسش کمینه بازه (RMQ) به صورت آفلاین در $O(\alpha(n))$ به طور متوسط / ترفند آرپا { #arpa data-toc-label="آفلاین RMQ / ترفند آرپا"}
 
-We are given an array `a[]` and we have to compute some minima in given segments of the array.
+به ما یک آرایه `a[]` داده شده و باید کمینه‌ها را در بازه‌های مشخصی از آرایه محاسبه کنیم.
 
-The idea to solve this problem with DSU is the following:
-We will iterate over the array and when we are at the `i`th element we will answer all queries `(L, R)` with `R == i`.
-To do this efficiently we will keep a DSU using the first `i` elements with the following structure: the parent of an element is the next smaller element to the right of it.
-Then using this structure the answer to a query will be the `a[find_set(L)]`, the smallest number to the right of `L`.
+ایده حل این مسئله با DSU به شرح زیر است:
+ما روی آرایه پیمایش می‌کنیم و وقتی در عنصر `i`-ام هستیم، به تمام پرس‌وجوهای `(L, R)` با `R == i` پاسخ خواهیم داد.
+برای انجام این کار به طور کارآمد، یک DSU با استفاده از `i` عنصر اول با ساختار زیر نگهداری می‌کنیم: والد یک عنصر، عنصر کوچکتر بعدی در سمت راست آن است.
+سپس با استفاده از این ساختار، پاسخ به یک پرس‌وجو `a[find_set(L)]` خواهد بود، یعنی کوچکترین عدد در سمت راست `L`.
 
-This approach obviously only works offline, i.e. if we know all queries beforehand.
+این رویکرد به وضوح فقط به صورت آفلاین کار می‌کند، یعنی اگر همه پرس‌وجوها را از قبل بدانیم.
 
-It is easy to see that we can apply path compression.
-And we can also use Union by rank, if we store the actual leader in an separate array.
+به راحتی می‌توان دید که می‌توانیم از فشرده‌سازی مسیر استفاده کنیم.
+و همچنین می‌توانیم از ادغام بر اساس رتبه استفاده کنیم، اگر رهبر واقعی را در یک آرایه جداگانه ذخیره کنیم.
 
 ```cpp
 struct Query {
@@ -451,7 +455,7 @@ vector<int> answer;
 vector<vector<Query>> container;
 ```
 
-`container[i]` contains all queries with `R == i`.
+`container[i]` شامل تمام پرس‌وجوهایی است که `R == i` دارند.
 
 ```cpp
 stack<int> s;
@@ -467,39 +471,39 @@ for (int i = 0; i < n; i++) {
 }
 ```
 
-Nowadays this algorithm is known as Arpa's trick.
-It is named after AmirReza Poorakhavan, who independently discovered and popularized this technique.
-Although this algorithm existed already before his discovery.
+امروزه این الگوریتم به عنوان ترفند آرپا شناخته می‌شود.
+این نام از امیررضا پورآخوان گرفته شده است که به طور مستقل این تکنیک را کشف و محبوب کرد.
+هرچند این الگوریتم قبل از کشف او نیز وجود داشته است.
 
-### Offline LCA (lowest common ancestor in a tree) in $O(\alpha(n))$ on average {data-toc-label="Offline LCA"}
+### کوچکترین جد مشترک (LCA) به صورت آفلاین در $O(\alpha(n))$ به طور متوسط {data-toc-label="آفلاین LCA"}
 
-The algorithm for finding the LCA is discussed in the article [Lowest Common Ancestor - Tarjan's off-line algorithm](../graph/lca_tarjan.md).
-This algorithm compares favorable with other algorithms for finding the LCA due to its simplicity (especially compared to an optimal algorithm like the one from [Farach-Colton and Bender](../graph/lca_farachcoltonbender.md)).
+الگوریتم یافتن LCA در مقاله [کوچکترین جد مشترک - الگوریتم آفلاین تارجان](../graph/lca_tarjan.md) مورد بحث قرار گرفته است.
+این الگوریتم به دلیل سادگی‌اش (به ویژه در مقایسه با یک الگوریتم بهینه مانند الگوریتم [Farach-Colton و Bender](../graph/lca_farachcoltonbender.md)) با سایر الگوریتم‌های یافتن LCA مقایسه مطلوبی دارد.
 
-### Storing the DSU explicitly in a set list / Applications of this idea when merging various data structures
+### ذخیره DSU به طور صریح در یک لیست مجموعه / کاربردهای این ایده هنگام ادغام ساختمان داده‌های مختلف
 
-One of the alternative ways of storing the DSU is the preservation of each set in the form of an **explicitly stored list of its elements**.
-At the same time each element also stores the reference to the representative of his set.
+یکی از راه‌های جایگزین برای ذخیره DSU، حفظ هر مجموعه به شکل یک **لیست صریح از عناصر آن** است.
+همزمان، هر عنصر نیز ارجاعی به نماینده مجموعه خود را ذخیره می‌کند.
 
-At first glance this looks like an inefficient data structure:
-by combining two sets we will have to add one list to the end of another and have to update the leadership in all elements of one of the lists.
+در نگاه اول این یک ساختمان داده ناکارآمد به نظر می‌رسد:
+با ترکیب دو مجموعه، باید یک لیست را به انتهای لیست دیگر اضافه کنیم و رهبری را در تمام عناصر یکی از لیست‌ها به‌روز کنیم.
 
-However it turns out, the use of a **weighting heuristic** (similar to Union by size) can significantly reduce the asymptotic complexity:
-$O(m + n \log n)$ to perform $m$ queries on the $n$ elements.
+با این حال، معلوم می‌شود که استفاده از یک **روش اکتشافی وزنی** (مشابه ادغام بر اساس اندازه) می‌تواند به طور قابل توجهی پیچیدگی مجانبی را کاهش دهد:
+$O(m + n \log n)$ برای انجام $m$ پرس‌وجو روی $n$ عنصر.
 
-Under weighting heuristic we mean, that we will always **add the smaller of the two sets to the bigger set**.
-Adding one set to another is easy to implement in `union_sets` and will take time proportional to the size of the added set.
-And the search for the leader in `find_set` will take $O(1)$ with this method of storing.
+منظور از روش اکتشافی وزنی این است که ما همیشه **مجموعه کوچکتر را به مجموعه بزرگتر اضافه خواهیم کرد**.
+اضافه کردن یک مجموعه به دیگری به راحتی در `union_sets` قابل پیاده‌سازی است و زمانی متناسب با اندازه مجموعه اضافه شده خواهد برد.
+و جستجوی رهبر در `find_set` با این روش ذخیره‌سازی، $O(1)$ طول خواهد کشید.
 
-Let us prove the **time complexity** $O(m + n \log n)$ for the execution of $m$ queries.
-We will fix an arbitrary element $x$ and count how often it was touched in the merge operation `union_sets`.
-When the element $x$ gets touched the first time, the size of the new set will be at least $2$.
-When it gets touched the second time, the resulting set will have size of at least $4$, because the smaller set gets added to the bigger one.
-And so on.
-This means, that $x$ can only be moved in at most $\log n$ merge operations.
-Thus the sum over all vertices gives $O(n \log n)$ plus $O(1)$ for each request.
+بیایید **پیچیدگی زمانی** $O(m + n \log n)$ را برای اجرای $m$ پرس‌وجو اثبات کنیم.
+ما یک عنصر دلخواه $x$ را ثابت می‌کنیم و تعداد دفعاتی که در عملیات ادغام `union_sets` لمس شده است را می‌شماریم.
+هنگامی که عنصر $x$ برای اولین بار لمس می‌شود، اندازه مجموعه جدید حداقل $2$ خواهد بود.
+هنگامی که برای دومین بار لمس می‌شود، مجموعه حاصل اندازه‌ای حداقل $4$ خواهد داشت، زیرا مجموعه کوچکتر به بزرگتر اضافه می‌شود.
+و به همین ترتیب.
+این بدان معناست که $x$ فقط می‌تواند در حداکثر $\log n$ عملیات ادغام جابجا شود.
+بنابراین، مجموع روی تمام رأس‌ها $O(n \log n)$ به علاوه $O(1)$ برای هر درخواست را به ما می‌دهد.
 
-Here is an implementation:
+در اینجا یک پیاده‌سازی آمده است:
 
 ```cpp
 vector<int> lst[MAXN];
@@ -530,55 +534,55 @@ void union_sets(int a, int b) {
 }
 ```
 
-This idea of adding the smaller part to a bigger part can also be used in a lot of solutions that have nothing to do with DSU.
+این ایده اضافه کردن بخش کوچکتر به بخش بزرگتر می‌تواند در بسیاری از راه‌حل‌هایی که هیچ ارتباطی با DSU ندارند نیز استفاده شود.
 
-For example consider the following **problem**:
-we are given a tree, each leaf has a number assigned (same number can appear multiple times on different leaves).
-We want to compute the number of different numbers in the subtree for every node of the tree.
+برای مثال، **مسئله** زیر را در نظر بگیرید:
+به ما یک درخت داده شده است، هر برگ یک عدد به آن اختصاص داده شده است (یک عدد ممکن است چندین بار در برگ‌های مختلف ظاهر شود).
+ما می‌خواهیم تعداد اعداد مختلف در زیردرخت را برای هر گره درخت محاسبه کنیم.
 
-Applying to this task the same idea it is possible to obtain this solution:
-we can implement a [DFS](../graph/depth-first-search.md), which will return a pointer to a set of integers - the list of numbers in that subtree.
-Then to get the answer for the current node (unless of course it is a leaf), we call DFS for all children of that node, and merge all the received sets together.
-The size of the resulting set will be the answer for the current node.
-To efficiently combine multiple sets we just apply the above-described recipe:
-we merge the sets by simply adding smaller ones to larger.
-In the end we get a $O(n \log^2 n)$ solution, because one number will only added to a set at most $O(\log n)$ times.
+با اعمال همین ایده به این وظیفه، می‌توان به این راه‌حل دست یافت:
+می‌توانیم یک [DFS](../graph/depth-first-search.md) پیاده‌سازی کنیم که یک اشاره‌گر به مجموعه‌ای از اعداد صحیح - لیست اعداد در آن زیردرخت - را برمی‌گرداند.
+سپس برای به دست آوردن پاسخ برای گره فعلی (مگر اینکه البته برگ باشد)، DFS را برای همه فرزندان آن گره فراخوانی می‌کنیم و همه مجموعه‌های دریافتی را با هم ادغام می‌کنیم.
+اندازه مجموعه حاصل، پاسخ برای گره فعلی خواهد بود.
+برای ترکیب کارآمد چندین مجموعه، ما فقط دستورالعمل توصیف شده در بالا را اعمال می‌کنیم:
+ما مجموعه‌ها را با اضافه کردن مجموعه‌های کوچکتر به بزرگترها ادغام می‌کنیم.
+در پایان، به یک راه‌حل $O(n \log^2 n)$ می‌رسیم، زیرا یک عدد فقط حداکثر $O(\log n)$ بار به یک مجموعه اضافه خواهد شد.
 
-### Storing the DSU by maintaining a clear tree structure / Online bridge finding in $O(\alpha(n))$ on average  {data-toc-label="Storing the DSU by maintaining a clear tree structure / Online bridge finding"}
+### ذخیره DSU با نگهداری یک ساختار درختی واضح / یافتن پل به صورت آنلاین در $O(\alpha(n))$ به طور متوسط {data-toc-label="ذخیره DSU با نگهداری ساختار درختی واضح / یافتن پل آنلاین"}
 
-One of the most powerful applications of DSU is that it allows you to store both as **compressed and uncompressed trees**.
-The compressed form can be used for merging of trees and for the verification if two vertices are in the same tree, and the uncompressed form can be used - for example - to search for paths between two given vertices, or other traversals of the tree structure.
+یکی از قدرتمندترین کاربردهای DSU این است که به شما امکان می‌دهد آن را هم به صورت **درختان فشرده و هم غیرفشرده** ذخیره کنید.
+فرم فشرده می‌تواند برای ادغام درختان و برای تأیید اینکه آیا دو رأس در یک درخت هستند استفاده شود، و فرم غیرفشرده می‌تواند - برای مثال - برای جستجوی مسیر بین دو رأس داده شده یا سایر پیمایش‌های ساختار درخت استفاده شود.
 
-In the implementation this means that in addition to the compressed ancestor array `parent[]` we will need to keep the array of uncompressed ancestors `real_parent[]`.
-It is trivial that maintaining this additional array will not worsen the complexity:
-changes in it only occur when we merge two trees, and only in one element.
+در پیاده‌سازی، این به این معنی است که علاوه بر آرایه والد فشرده `parent[]`، ما باید آرایه والد غیرفشرده `real_parent[]` را نیز نگهداری کنیم.
+بدیهی است که نگهداری این آرایه اضافی، پیچیدگی را بدتر نخواهد کرد:
+تغییرات در آن فقط زمانی رخ می‌دهد که دو درخت را ادغام می‌کنیم، و فقط در یک عنصر.
 
-On the other hand when applied in practice, we often need to connect trees using a specified edge other that using the two root nodes.
-This means that we have no other choice but to re-root one of the trees (make the ends of the edge the new root of the tree).
+از سوی دیگر، در کاربردهای عملی، ما اغلب نیاز به اتصال درختان با استفاده از یک یال مشخص داریم، نه با استفاده از دو گره ریشه.
+این بدان معناست که ما چاره‌ای جز ریشه‌دار کردن مجدد یکی از درختان نداریم (قرار دادن انتهای یال به عنوان ریشه جدید درخت).
 
-At first glance it seems that this re-rooting is very costly and will greatly worsen the time complexity.
-Indeed, for rooting a tree at vertex $v$ we must go from the vertex to the old root and change directions in `parent[]` and `real_parent[]` for all nodes on that path.
+در نگاه اول به نظر می‌رسد که این ریشه‌دار کردن مجدد بسیار پرهزینه است و پیچیدگی زمانی را به شدت بدتر می‌کند.
+در واقع، برای ریشه‌دار کردن یک درخت در رأس $v$، باید از آن رأس به ریشه قدیمی برویم و جهت‌ها را در `parent[]` و `real_parent[]` برای همه گره‌های آن مسیر تغییر دهیم.
 
-However in reality it isn't so bad, we can just re-root the smaller of the two trees similar to the ideas in the previous sections, and get $O(\log n)$ on average.
+با این حال، در واقعیت آنقدرها هم بد نیست، ما می‌توانیم مشابه ایده‌های بخش‌های قبلی، درخت کوچکتر از دو درخت را ریشه‌دار کنیم و به طور متوسط به پیچیدگی $O(\log n)$ برسیم.
 
-More details (including proof of the time complexity) can be found in the article [Finding Bridges Online](../graph/bridge-searching-online.md).
+جزئیات بیشتر (شامل اثبات پیچیدگی زمانی) را می‌توان در مقاله [یافتن پل‌ها به صورت آنلاین](../graph/bridge-searching-online.md) یافت.
 
-## Historical retrospective
+## نگاهی به تاریخچه
 
-The data structure DSU has been known for a long time.
+ساختمان داده DSU از دیرباز شناخته شده است.
 
-This way of storing this structure in the form **of a forest of trees** was apparently first described by Galler and Fisher in 1964 (Galler, Fisher, "An Improved Equivalence Algorithm), however the complete analysis of the time complexity was conducted much later.
+این روش ذخیره‌سازی این ساختار به شکل **جنگلی از درختان** ظاهراً برای اولین بار توسط گالر و فیشر در سال ۱۹۶۴ توصیف شد (Galler, Fisher, "An Improved Equivalence Algorithm)، با این حال تحلیل کامل پیچیدگی زمانی آن بسیار دیرتر انجام شد.
 
-The optimizations path compression and Union by rank has been developed by McIlroy and Morris, and independently of them also by Tritter.
+بهینه‌سازی‌های فشرده‌سازی مسیر و ادغام بر اساس رتبه توسط مک‌ایلروی و موریس و به طور مستقل از آنها توسط تریتر توسعه یافت.
 
-Hopcroft and Ullman showed in 1973 the time complexity $O(\log^\star n)$ (Hopcroft, Ullman "Set-merging algorithms") - here $\log^\star$ is the **iterated logarithm** (this is a slow-growing function, but still not as slow as the inverse Ackermann function).
+هاپکرافت و اولمن در سال ۱۹۷۳ پیچیدگی زمانی $O(\log^\star n)$ را نشان دادند (Hopcroft, Ullman "Set-merging algorithms") - در اینجا $\log^\star$ **لگاریتم مکرر** است (این یک تابع با رشد کند است، اما هنوز به کندی معکوس تابع آکرمن نیست).
 
-For the first time the evaluation of $O(\alpha(n))$ was shown in 1975 (Tarjan "Efficiency of a Good But Not Linear Set Union Algorithm").
-Later in 1985 he, along with Leeuwen, published multiple complexity analyses for several different rank heuristics and ways of compressing the path (Tarjan, Leeuwen "Worst-case Analysis of Set Union Algorithms").
+برای اولین بار، ارزیابی $O(\alpha(n))$ در سال ۱۹۷۵ نشان داده شد (Tarjan "Efficiency of a Good But Not Linear Set Union Algorithm").
+بعدها در سال ۱۹۸۵، او به همراه لیوون، تحلیل‌های پیچیدگی متعددی را برای چندین روش رتبه‌بندی مختلف و راه‌های فشرده‌سازی مسیر منتشر کرد (Tarjan, Leeuwen "Worst-case Analysis of Set Union Algorithms").
 
-Finally in 1989 Fredman and Sachs proved that in the adopted model of computation **any** algorithm for the disjoint set union problem has to work in at least $O(\alpha(n))$ time on average (Fredman, Saks, "The cell probe complexity of dynamic data structures").
+سرانجام در سال ۱۹۸۹، فردمن و ساکس ثابت کردند که در مدل محاسباتی پذیرفته شده، **هر** الگوریتمی برای مسئله مجموعه‌های مجزا باید به طور متوسط حداقل در زمان $O(\alpha(n))$ کار کند (Fredman, Saks, "The cell probe complexity of dynamic data structures").
 
-## Problems
+## مسائل
 
 * [TIMUS - Anansi's Cobweb](http://acm.timus.ru/problem.aspx?space=1&num=1671)
 * [Codeforces - Roads not only in Berland](http://codeforces.com/contest/25/problem/D)
@@ -589,4 +593,3 @@ Finally in 1989 Fredman and Sachs proved that in the adopted model of computatio
 * [Toph - Unbelievable Array](https://toph.co/p/unbelievable-array)
 * [HackerEarth - Lexicographically minimal string](https://www.hackerearth.com/practice/data-structures/disjoint-data-strutures/basics-of-disjoint-data-structures/practice-problems/algorithm/lexicographically-minimal-string-6edc1406/description/)
 * [HackerEarth - Fight in Ninja World](https://www.hackerearth.com/practice/algorithms/graphs/breadth-first-search/practice-problems/algorithm/containers-of-choclates-1/)
-

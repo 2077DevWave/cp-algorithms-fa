@@ -1,94 +1,92 @@
 ---
 tags:
-  
-e_maxx_link: fenwick_tree
+  - AI Translated
+e_maxx_link: fenwick
 ---
 
-# Fenwick Tree
+# درخت فنویک
 
-Let $f$ be some group operation (a binary associative function over a set with an identity element and inverse elements) and $A$ be an array of integers of length $N$.
-Denote $f$'s infix notation as $*$; that is, $f(x,y) = x*y$ for arbitrary integers $x,y$.
-(Since this is associative, we will omit parentheses for order of application of $f$ when using infix notation.)
+فرض کنید $f$ یک عملگر گروهی باشد (یک تابع دودویی شرکت‌پذیر روی مجموعه‌ای با یک عضو خنثی و اعضای وارون) و $A$ آرایه‌ای از اعداد صحیح به طول $N$ باشد.
+نماد میانوندی $f$ را با $*$ نشان می‌دهیم؛ یعنی $f(x,y) = x*y$ برای اعداد صحیح دلخواه $x,y$.
+(از آنجایی که این عمل شرکت‌پذیر است، هنگام استفاده از نماد میانوندی، از پرانتز برای ترتیب اجرای $f$ صرف‌نظر می‌کنیم.)
 
-The Fenwick tree is a data structure which:
+درخت فنویک یک ساختمان داده است که:
 
-* calculates the value of function $f$ in the given range $[l, r]$ (i.e. $A_l * A_{l+1} * \dots * A_r$) in $O(\log N)$ time
-* updates the value of an element of $A$ in $O(\log N)$ time
-* requires $O(N)$ memory (the same amount required for $A$)
-* is easy to use and code, especially in the case of multidimensional arrays
+*   مقدار تابع $f$ را در بازه مشخص $[l, r]$ (یعنی $A_l * A_{l+1} * \dots * A_r$) در زمان $O(\log N)$ محاسبه می‌کند.
+*   مقدار یک عنصر از $A$ را در زمان $O(\log N)$ به‌روزرسانی می‌کند.
+*   به حافظه $O(N)$ نیاز دارد (همان مقداری که برای $A$ لازم است).
+*   استفاده و پیاده‌سازی آن آسان است، به خصوص در مورد آرایه‌های چند بعدی.
 
-The most common application of a Fenwick tree is _calculating the sum of a range_.
-For example, using addition over the set of integers as the group operation, i.e. $f(x,y) = x + y$: the binary operation, $*$, is $+$ in this case, so $A_l * A_{l+1} * \dots * A_r = A_l + A_{l+1} + \dots + A_{r}$.
+رایج‌ترین کاربرد درخت فنویک، _محاسبه مجموع یک بازه_ است.
+برای مثال، با استفاده از عمل جمع روی مجموعه اعداد صحیح به عنوان عملگر گروهی، یعنی $f(x,y) = x + y$: عملگر دودویی $*$ در این حالت $+$ است، بنابراین $A_l * A_{l+1} * \dots * A_r = A_l + A_{l+1} + \dots + A_{r}$.
 
-The Fenwick tree is also called a **Binary Indexed Tree** (BIT).
-It was first described in a paper titled "A new data structure for cumulative frequency tables" (Peter M. Fenwick, 1994).
+درخت فنویک با نام **درخت اندیس‌گذاری شده دودویی** (Binary Indexed Tree یا BIT) نیز شناخته می‌شود.
+این ساختار داده برای اولین بار در مقاله‌ای با عنوان «یک ساختار داده جدید برای جداول فراوانی تجمعی» (Peter M. Fenwick، 1994) توصیف شد.
 
-## Description
+## توضیحات
 
-### Overview
+### نمای کلی
 
-For the sake of simplicity, we will assume that function $f$ is defined as $f(x,y) = x + y$ over the integers.
+برای سادگی، فرض می‌کنیم که تابع $f$ به صورت $f(x,y) = x + y$ روی اعداد صحیح تعریف شده است.
 
-Suppose we are given an array of integers, $A[0 \dots N-1]$.
-(Note that we are using zero-based indexing.)
-A Fenwick tree is just an array, $T[0 \dots N-1]$, where each element is equal to the sum of elements of $A$ in some range, $[g(i), i]$:
+فرض کنید یک آرایه از اعداد صحیح $A[0 \dots N-1]$ به ما داده شده است.
+(توجه داشته باشید که از اندیس‌گذاری از صفر استفاده می‌کنیم.)
+درخت فنویک تنها یک آرایه $T[0 \dots N-1]$ است که در آن هر عنصر برابر با مجموع عناصر $A$ در یک بازه مشخص $[g(i), i]$ است:
 
 $$T_i = \sum_{j = g(i)}^{i}{A_j}$$
 
-where $g$ is some function that satisfies $0 \le g(i) \le i$.
-We will define $g$ in the next few paragraphs.
+که در آن $g$ تابعی است که در شرط $0 \le g(i) \le i$ صدق می‌کند. ما $g$ را در چند پاراگراف بعدی تعریف خواهیم کرد.
 
-The data structure is called a tree because there is a nice representation of it in the form of a tree, although we don't need to model an actual tree with nodes and edges.
-We only need to maintain the array $T$ to handle all queries.
+این ساختار داده به این دلیل درخت نامیده می‌شود که نمایش زیبایی از آن به شکل یک درخت وجود دارد، هرچند نیازی به مدل‌سازی یک درخت واقعی با گره‌ها و یال‌ها نداریم. ما فقط باید آرایه $T$ را برای پاسخ به تمام پرس‌وجوها نگهداری کنیم.
 
-**Note:** The Fenwick tree presented here uses zero-based indexing.
-Many people use a version of the Fenwick tree that uses one-based indexing.
-As such, you will also find an alternative implementation which uses one-based indexing in the implementation section.
-Both versions are equivalent in terms of time and memory complexity.
+**نکته:** درخت فنویک ارائه‌شده در اینجا از اندیس‌گذاری از صفر استفاده می‌کند.
+بسیاری از افراد از نسخه‌ای از درخت فنویک استفاده می‌کنند که بر پایه اندیس‌گذاری از یک است.
+به همین دلیل، در بخش پیاده‌سازی، یک پیاده‌سازی جایگزین که از اندیس‌گذاری از یک استفاده می‌کند نیز خواهید یافت.
+هر دو نسخه از نظر پیچیدگی زمانی و حافظه معادل هستند.
 
-Now we can write some pseudo-code for the two operations mentioned above.
-Below, we get the sum of elements of $A$ in the range $[0, r]$ and update (increase) some element $A_i$:
+اکنون می‌توانیم شبه‌کدی برای دو عملیات ذکر شده بنویسیم.
+در زیر، ما مجموع عناصر $A$ در بازه $[0, r]$ را به دست می‌آوریم و یک عنصر $A_i$ را به‌روزرسانی (افزایش) می‌کنیم:
 
 ```python
-def sum(int r):
-    res = 0
-    while (r >= 0):
-        res += t[r]
+تابع sum(عدد صحیح r):
+    نتیجه = 0
+    تا زمانی که (r >= 0):
+        نتیجه += t[r]
         r = g(r) - 1
-    return res
+    بازگرداندن نتیجه
 
-def increase(int i, int delta):
-    for all j with g(j) <= i <= j:
+تابع increase(عدد صحیح i, عدد صحیح delta):
+    برای تمام j هایی که g(j) <= i <= j:
         t[j] += delta
 ```
 
-The function `sum` works as follows:
+تابع `sum` به این صورت کار می‌کند:
 
-1. First, it adds the sum of the range $[g(r), r]$ (i.e. $T[r]$) to the `result`.
-2. Then, it "jumps" to the range $[g(g(r)-1), g(r)-1]$ and adds this range's sum to the `result`.
-3. This continues until it "jumps" from $[0, g(g( \dots g(r)-1 \dots -1)-1)]$ to $[g(-1), -1]$; this is where the `sum` function stops jumping.
+1.  ابتدا، مجموع بازه $[g(r), r]$ (یعنی $T[r]$) را به `result` اضافه می‌کند.
+2.  سپس به بازه $[g(g(r)-1), g(r)-1]$ «پرش» می‌کند و مجموع این بازه را به `result` اضافه می‌کند.
+3.  این کار تا زمانی ادامه می‌یابد که از بازه $[0, g(g( \dots g(r)-1 \dots -1)-1)]$ به بازه $[g(-1), -1]$ «پرش» کند؛ اینجا جایی است که تابع `sum` متوقف می‌شود.
 
-The function `increase` works with the same analogy, but it "jumps" in the direction of increasing indices:
+تابع `increase` با منطق مشابهی کار می‌کند، اما در جهت افزایش اندیس‌ها «پرش» می‌کند:
 
-1. The sum for each range of the form $[g(j), j]$ which satisfies the condition $g(j) \le i \le j$ is increased by `delta`; that is, `t[j] += delta`.
-Therefore, it updates all elements in $T$ that correspond to ranges in which $A_i$ lies.
+1.  مجموع برای هر بازه به شکل $[g(j), j]$ که در شرط $g(j) \le i \le j$ صدق کند، به اندازه `delta` افزایش می‌یابد؛ یعنی `t[j] += delta`.
+    بنابراین، این تابع تمام عناصری از $T$ را که متناظر با بازه‌هایی هستند که $A_i$ در آن‌ها قرار دارد، به‌روزرسانی می‌کند.
 
-The complexity of both `sum` and `increase` depend on the function $g$.
-There are many ways to choose the function $g$ such that $0 \le g(i) \le i$ for all $i$.
-For instance, the function $g(i) = i$ works, which yields $T = A$ (in which case, the summation queries are slow).
-We could also take the function $g(i) = 0$.
-This would correspond to prefix sum arrays (in which case, finding the sum of the range $[0, i]$ will only take constant time; however, updates are slow).
-The clever part of the algorithm for Fenwick trees is how it uses a special definition of the function $g$ which can handle both operations in $O(\log N)$ time.
+پیچیدگی هر دو تابع `sum` و `increase` به تابع $g$ بستگی دارد.
+راه‌های زیادی برای انتخاب تابع $g$ وجود دارد به طوری که برای تمام $i$ها، $0 \le g(i) \le i$ باشد.
+برای مثال، تابع $g(i) = i$ کار می‌کند که نتیجه آن $T = A$ خواهد بود (در این حالت، پرس‌وجوهای جمع کند هستند).
+همچنین می‌توانیم تابع $g(i) = 0$ را در نظر بگیریم.
+این معادل آرایه‌های مجموع پیشوندی خواهد بود (در این حالت، یافتن مجموع بازه $[0, i]$ فقط زمان ثابت می‌برد؛ اما به‌روزرسانی‌ها کند هستند).
+بخش هوشمندانه الگوریتم درخت فنویک در نحوه استفاده از یک تعریف خاص برای تابع $g$ است که می‌تواند هر دو عملیات را در زمان $O(\log N)$ انجام دهد.
 
-### Definition of $g(i)$ { data-toc-label='Definition of <script type="math/tex">g(i)</script>' }
+### تعریف <script type="math/tex">g(i)</script> { data-toc-label='تعریف <script type="math/tex">g(i)</script>' }
 
-The computation of $g(i)$ is defined using the following simple operation:
-we replace all trailing $1$ bits in the binary representation of $i$ with $0$ bits.
+محاسبه $g(i)$ با استفاده از یک عملیات ساده تعریف می‌شود:
+ما تمام بیت‌های ۱ انتهایی در نمایش دودویی $i$ را با بیت‌های ۰ جایگزین می‌کنیم.
 
-In other words, if the least significant digit of $i$ in binary is $0$, then $g(i) = i$.
-And otherwise the least significant digit is a $1$, and we take this $1$ and all other trailing $1$s and flip them.
+به عبارت دیگر، اگر کم‌ارزش‌ترین بیت $i$ در مبنای دو، ۰ باشد، آنگاه $g(i) = i$ است.
+در غیر این صورت، کم‌ارزش‌ترین بیت ۱ است و ما این ۱ و تمام بیت‌های ۱ انتهایی دیگر را برعکس می‌کنیم.
 
-For instance we get
+برای مثال داریم:
 
 $$\begin{align}
 g(11) = g(1011_2) = 1000_2 &= 8 \\\\
@@ -98,17 +96,17 @@ g(14) = g(1110_2) = 1110_2 &= 14 \\\\
 g(15) = g(1111_2) = 0000_2 &= 0 \\\\
 \end{align}$$
 
-There exists a simple implementation using bitwise operations for the non-trivial operation described above:
+یک پیاده‌سازی ساده با استفاده از عملیات بیتی برای عملیات غیربدیهی توصیف شده در بالا وجود دارد:
 
 $$g(i) = i ~\&~ (i+1),$$
 
-where $\&$ is the bitwise AND operator. It is not hard to convince yourself that this solution does the same thing as the operation described above.
+که در آن $\&$ عملگر AND بیتی است. متقاعد کردن خودتان مبنی بر اینکه این راه‌حل همان کار عملیات توصیف شده در بالا را انجام می‌دهد، دشوار نیست.
 
-Now, we just need to find a way to iterate over all $j$'s, such that $g(j) \le i \le j$.
+اکنون، فقط باید راهی برای پیمایش تمام $j$هایی پیدا کنیم که $g(j) \le i \le j$ باشد.
 
-It is easy to see that we can find all such $j$'s by starting with $i$ and flipping the last unset bit.
-We will call this operation $h(j)$.
-For example, for $i = 10$ we have:
+به راحتی می‌توان دید که با شروع از $i$ و برعکس کردن آخرین بیت تنظیم‌نشده (unset)، می‌توانیم تمام این $j$ها را پیدا کنیم.
+ما این عملیات را $h(j)$ می‌نامیم.
+برای مثال، برای $i = 10$ داریم:
 
 $$\begin{align}
 10 &= 0001010_2 \\\\
@@ -119,35 +117,34 @@ h(31) = 63 &= 0111111_2 \\\\
 \vdots &
 \end{align}$$
 
-Unsurprisingly, there also exists a simple way to perform $h$ using bitwise operations:
+جای تعجب نیست که یک راه ساده برای انجام $h$ با استفاده از عملیات بیتی نیز وجود دارد:
 
 $$h(j) = j ~|~ (j+1),$$
 
-where $|$ is the bitwise OR operator.
+که در آن $|$ عملگر OR بیتی است.
 
-The following image shows a possible interpretation of the Fenwick tree as tree.
-The nodes of the tree show the ranges they cover.
+تصویر زیر یک تفسیر ممکن از درخت فنویک به عنوان یک درخت را نشان می‌دهد.
+گره‌های درخت، بازه‌هایی را که پوشش می‌دهند، نمایش می‌دهند.
 
 <div style="text-align: center;">
   <img src="binary_indexed_tree.png" alt="Binary Indexed Tree">
 </div>
 
-## Implementation
+## پیاده‌سازی
 
-### Finding sum in one-dimensional array
+### پیدا کردن مجموع در آرایه یک‌بعدی
 
-Here we present an implementation of the Fenwick tree for sum queries and single updates.
+در اینجا پیاده‌سازی درخت فنویک برای پرس‌وجوهای مجموع و به‌روزرسانی‌های تکی را ارائه می‌دهیم.
 
-The normal Fenwick tree can only answer sum queries of the type $[0, r]$ using `sum(int r)`, however we can also answer other queries of the type $[l, r]$ by computing two sums $[0, r]$ and $[0, l-1]$ and subtract them.
-This is handled in the `sum(int l, int r)` method.
+درخت فنویک معمولی فقط می‌تواند به پرس‌وجوهای مجموع از نوع $[0, r]$ با استفاده از `sum(int r)` پاسخ دهد، اما ما می‌توانیم با محاسبه دو مجموع $[0, r]$ و $[0, l-1]$ و کم کردن آن‌ها از یکدیگر، به پرس‌وجوهای نوع $[l, r]$ نیز پاسخ دهیم.
+این کار در متد `sum(int l, int r)` انجام می‌شود.
 
-Also this implementation supports two constructors.
-You can create a Fenwick tree initialized with zeros, or you can convert an existing array into the Fenwick form.
-
+همچنین این پیاده‌سازی از دو سازنده (constructor) پشتیبانی می‌کند.
+می‌توانید یک درخت فنویک که با صفر مقداردهی اولیه شده است بسازید، یا یک آرایه موجود را به فرم فنویک تبدیل کنید.
 
 ```{.cpp file=fenwick_sum}
 struct FenwickTree {
-    vector<int> bit;  // binary indexed tree
+    vector<int> bit;  // درخت اندیس‌گذاری شده دودویی
     int n;
 
     FenwickTree(int n) {
@@ -178,13 +175,13 @@ struct FenwickTree {
 };
 ```
 
-### Linear construction
+### ساخت خطی
 
-The above implementation requires $O(N \log N)$ time.
-It's possible to improve that to $O(N)$ time.
+پیاده‌سازی بالا به زمان $O(N \log N)$ نیاز دارد.
+امکان بهبود آن به زمان $O(N)$ وجود دارد.
 
-The idea is, that the number $a[i]$ at index $i$ will contribute to the range stored in $bit[i]$, and to all ranges that the index $i | (i + 1)$ contributes to.
-So by adding the numbers in order, you only have to push the current sum further to the next range, where it will then get pushed further to the next range, and so on.
+ایده این است که عدد $a[i]$ در اندیس $i$ به بازه ذخیره شده در $bit[i]$ و به تمام بازه‌هایی که اندیس $i | (i + 1)$ به آن‌ها کمک می‌کند، اضافه خواهد شد.
+بنابراین با اضافه کردن اعداد به ترتیب، فقط کافی است مجموع فعلی را به بازه بعدی منتقل کنید، که در آنجا دوباره به بازه بعدی منتقل می‌شود و به همین ترتیب ادامه می‌یابد.
 
 ```cpp
 FenwickTree(vector<int> const &a) : FenwickTree(a.size()){
@@ -196,11 +193,11 @@ FenwickTree(vector<int> const &a) : FenwickTree(a.size()){
 }
 ```
 
-### Finding minimum of $[0, r]$ in one-dimensional array { data-toc-label='Finding minimum of <script type="math/tex">[0, r]</script> in one-dimensional array' }
+### پیدا کردن کمینه بازه <script type="math/tex">[0, r]</script> در آرایه یک‌بعدی { data-toc-label='پیدا کردن کمینه بازه <script type="math/tex">[0, r]</script> در آرایه یک‌بعدی' }
 
-It is obvious that there is no easy way of finding minimum of range $[l, r]$ using Fenwick tree, as Fenwick tree can only answer queries of type $[0, r]$.
-Additionally, each time a value is `update`'d, the new value has to be smaller than the current value.
-Both significant limitations are because the $min$ operation together with the set of integers doesn't form a group, as there are no inverse elements.
+واضح است که راه آسانی برای پیدا کردن کمینه بازه $[l, r]$ با استفاده از درخت فنویک وجود ندارد، زیرا درخت فنویک فقط می‌تواند به پرس‌وجوهای نوع $[0, r]$ پاسخ دهد.
+علاوه بر این، هر بار که یک مقدار `update` می‌شود، مقدار جدید باید کوچکتر از مقدار فعلی باشد.
+هر دوی این محدودیت‌های قابل توجه به این دلیل است که عملگر $min$ به همراه مجموعه اعداد صحیح، یک گروه را تشکیل نمی‌دهد، زیرا عناصر وارون وجود ندارند.
 
 ```{.cpp file=fenwick_min}
 struct FenwickTreeMin {
@@ -232,14 +229,14 @@ struct FenwickTreeMin {
 };
 ```
 
-Note: it is possible to implement a Fenwick tree that can handle arbitrary minimum range queries and arbitrary updates.
-The paper [Efficient Range Minimum Queries using Binary Indexed Trees](http://ioinformatics.org/oi/pdf/v9_2015_39_44.pdf) describes such an approach.
-However with that approach you need to maintain a second binary indexed tree over the data, with a slightly different structure, since one tree is not enough to store the values of all elements in the array.
-The implementation is also a lot harder compared to the normal implementation for sums.
+توجه: امکان پیاده‌سازی یک درخت فنویک وجود دارد که بتواند پرس‌وجوهای کمینه بازه‌ای دلخواه و به‌روزرسانی‌های دلخواه را مدیریت کند.
+مقاله [Efficient Range Minimum Queries using Binary Indexed Trees](http://ioinformatics.org/oi/pdf/v9_2015_39_44.pdf) چنین رویکردی را توصیف می‌کند.
+با این حال، در آن رویکرد شما نیاز به نگهداری یک درخت اندیس‌گذاری شده دودویی دوم روی داده‌ها با ساختاری کمی متفاوت دارید، زیرا یک درخت برای ذخیره مقادیر تمام عناصر آرایه کافی نیست.
+پیاده‌سازی آن نیز در مقایسه با پیاده‌سازی معمولی برای مجموع، بسیار دشوارتر است.
 
-### Finding sum in two-dimensional array
+### پیدا کردن مجموع در آرایه دوبعدی
 
-As claimed before, it is very easy to implement Fenwick Tree for multidimensional array.
+همانطور که قبلاً ادعا شد، پیاده‌سازی درخت فنویک برای آرایه چند بعدی بسیار آسان است.
 
 ```cpp
 struct FenwickTree2D {
@@ -264,27 +261,27 @@ struct FenwickTree2D {
 };
 ```
 
-### One-based indexing approach
+### رویکرد اندیس‌گذاری از یک
 
-For this approach we change the requirements and definition for $T[]$ and $g()$ a little bit.
-We want $T[i]$ to store the sum of $[g(i)+1; i]$.
-This changes the implementation a little bit, and allows for a similar nice definition for $g(i)$:
+برای این رویکرد، ما نیازمندی‌ها و تعریف $T[]$ و $g()$ را کمی تغییر می‌دهیم.
+ما می‌خواهیم $T[i]$ مجموع بازه $[g(i)+1, i]$ را ذخیره کند.
+این موضوع پیاده‌سازی را کمی تغییر می‌دهد و امکان تعریف مشابه و زیبایی را برای $g(i)$ فراهم می‌کند:
 
 ```python
-def sum(int r):
-    res = 0
-    while (r > 0):
-        res += t[r]
+تابع sum(عدد صحیح r):
+    نتیجه = 0
+    تا زمانی که (r > 0):
+        نتیجه += t[r]
         r = g(r)
-    return res
+    بازگرداندن نتیجه
 
-def increase(int i, int delta):
-    for all j with g(j) < i <= j:
+تابع increase(عدد صحیح i, عدد صحیح delta):
+    برای تمام j هایی که g(j) < i <= j:
         t[j] += delta
 ```
 
-The computation of $g(i)$ is defined as:
-toggling of the last set $1$ bit in the binary representation of $i$.
+محاسبه $g(i)$ به این صورت تعریف می‌شود:
+برعکس کردن (toggle) آخرین بیت ۱ تنظیم‌شده در نمایش دودویی $i$.
 
 $$\begin{align}
 g(7) = g(111_2) = 110_2 &= 6 \\\\
@@ -292,21 +289,21 @@ g(6) = g(110_2) = 100_2 &= 4 \\\\
 g(4) = g(100_2) = 000_2 &= 0 \\\\
 \end{align}$$
 
-The last set bit can be extracted using $i ~\&~ (-i)$, so the operation can be expressed as:
+آخرین بیت تنظیم‌شده را می‌توان با استفاده از $i ~\&~ (-i)$ استخراج کرد، بنابراین عملیات را می‌توان به این صورت بیان کرد:
 
 $$g(i) = i - (i ~\&~ (-i)).$$
 
-And it's not hard to see, that you need to change all values $T[j]$ in the sequence $i,~ h(i),~ h(h(i)),~ \dots$ when you want to update $A[j]$, where $h(i)$ is defined as:
+و دیدن این نکته دشوار نیست که وقتی می‌خواهید $A[j]$ را به‌روزرسانی کنید، باید تمام مقادیر $T[j]$ را در دنباله $i,~ h(i),~ h(h(i)),~ \dots$ تغییر دهید، که در آن $h(i)$ به صورت زیر تعریف می‌شود:
 
 $$h(i) = i + (i ~\&~ (-i)).$$
 
-As you can see, the main benefit of this approach is that the binary operations complement each other very nicely.
+همانطور که می‌بینید، مزیت اصلی این رویکرد این است که عملیات بیتی به خوبی یکدیگر را تکمیل می‌کنند.
 
-The following implementation can be used like the other implementations, however it uses one-based indexing internally.
+پیاده‌سازی زیر را می‌توان مانند سایر پیاده‌سازی‌ها استفاده کرد، اما در داخل از اندیس‌گذاری از یک استفاده می‌کند.
 
 ```{.cpp file=fenwick_sum_onebased}
 struct FenwickTreeOneBasedIndexing {
-    vector<int> bit;  // binary indexed tree
+    vector<int> bit;  // درخت اندیس‌گذاری شده دودویی
     int n;
 
     FenwickTreeOneBasedIndexing(int n) {
@@ -338,33 +335,33 @@ struct FenwickTreeOneBasedIndexing {
 };
 ```
 
-## Range operations
+## عملیات روی بازه‌ها
 
-A Fenwick tree can support the following range operations:
+یک درخت فنویک می‌تواند از عملیات بازه‌ای زیر پشتیبانی کند:
 
-1. Point Update and Range Query
-2. Range Update and Point Query
-3. Range Update and Range Query
+1.  به‌روزرسانی نقطه‌ای و پرس‌وجوی بازه‌ای
+2.  به‌روزرسانی بازه‌ای و پرس‌وجوی نقطه‌ای
+3.  به‌روزرسانی بازه‌ای و پرس‌وجوی بازه‌ای
 
-### 1. Point Update and Range Query
+### ۱. به‌روزرسانی نقطه‌ای و پرس‌وجوی بازه‌ای
 
-This is just the ordinary Fenwick tree as explained above.
+این همان درخت فنویک معمولی است که در بالا توضیح داده شد.
 
-### 2. Range Update and Point Query
+### ۲. به‌روزرسانی بازه‌ای و پرس‌وجوی نقطه‌ای
 
-Using simple tricks we can also do the reverse operations: increasing ranges and querying for single values.
+با استفاده از ترفندهای ساده، می‌توانیم عملیات معکوس را نیز انجام دهیم: افزایش بازه‌ها و پرس‌وجو برای مقادیر تکی.
 
-Let the Fenwick tree be initialized with zeros.
-Suppose that we want to increment the interval $[l, r]$ by $x$.
-We make two point update operations on Fenwick tree which are `add(l, x)` and `add(r+1, -x)`.
+فرض کنید درخت فنویک با صفرها مقداردهی اولیه شده است.
+فرض کنید می‌خواهیم بازه $[l, r]$ را به اندازه $x$ افزایش دهیم.
+ما دو عملیات به‌روزرسانی نقطه‌ای روی درخت فنویک انجام می‌دهیم که عبارتند از `add(l, x)` و `add(r+1, -x)`.
 
-If we want to get the value of $A[i]$, we just need to take the prefix sum using the ordinary range sum method.
-To see why this is true, we can just focus on the previous increment operation again.
-If $i < l$, then the two update operations have no effect on the query and we get the sum $0$.
-If $i \in [l, r]$, then we get the answer $x$ because of the first update operation.
-And if $i > r$, then the second update operation will cancel the effect of first one.
+اگر بخواهیم مقدار $A[i]$ را به دست آوریم، کافی است با استفاده از متد معمولی مجموع بازه‌ای، مجموع پیشوندی را بگیریم.
+برای اینکه ببینیم چرا این درست است، می‌توانیم دوباره روی عملیات افزایش قبلی تمرکز کنیم.
+اگر $i < l$ باشد، دو عملیات به‌روزرسانی تأثیری بر پرس‌وجو ندارند و مجموع ۰ را به دست می‌آوریم.
+اگر $i \in [l, r]$ باشد، به دلیل اولین عملیات به‌روزرسانی، پاسخ $x$ را می‌گیریم.
+و اگر $i > r$ باشد، دومین عملیات به‌روزرسانی اثر اولین عملیات را خنثی می‌کند.
 
-The following implementation uses one-based indexing.
+پیاده‌سازی زیر از اندیس‌گذاری از یک استفاده می‌کند.
 
 ```cpp
 void add(int idx, int val) {
@@ -385,15 +382,15 @@ int point_query(int idx) {
 }
 ```
 
-Note: of course it is also possible to increase a single point $A[i]$ with `range_add(i, i, val)`.
+توجه: البته افزایش یک نقطه تکی $A[i]$ نیز با `range_add(i, i, val)` امکان‌پذیر است.
 
-### 3. Range Update and Range Query
+### ۳. به‌روزرسانی بازه‌ای و پرس‌وجوی بازه‌ای
 
-To support both range updates and range queries we will use two BITs namely $B_1[]$ and $B_2[]$, initialized with zeros.
+برای پشتیبانی از هر دو نوع به‌روزرسانی بازه‌ای و پرس‌وجوی بازه‌ای، از دو BIT به نام‌های $B_1[]$ و $B_2[]$ که با صفر مقداردهی اولیه شده‌اند، استفاده خواهیم کرد.
 
-Suppose that we want to increment the interval $[l, r]$ by the value $x$.
-Similarly as in the previous method, we perform two point updates on $B_1$: `add(B1, l, x)` and `add(B1, r+1, -x)`.
-And we also update $B_2$. The details will be explained later.
+فرض کنید می‌خواهیم بازه $[l, r]$ را به اندازه مقدار $x$ افزایش دهیم.
+مشابه روش قبلی، دو به‌روزرسانی نقطه‌ای روی $B_1$ انجام می‌دهیم: `add(B1, l, x)` و `add(B1, r+1, -x)`.
+و همچنین $B_2$ را نیز به‌روزرسانی می‌کنیم. جزئیات بعداً توضیح داده خواهد شد.
 
 ```python
 def range_add(l, r, x):
@@ -402,7 +399,8 @@ def range_add(l, r, x):
     add(B2, l, x*(l-1))
     add(B2, r+1, -x*r))
 ```
-After the range update $(l, r, x)$ the range sum query should return the following values:
+
+پس از به‌روزرسانی بازه $(l, r, x)$، پرس‌وجوی مجموع بازه‌ای باید مقادیر زیر را برگرداند:
 
 $$
 sum[0, i]=
@@ -413,8 +411,8 @@ x \cdot (r-l+1) & i > r \\\\
 \end{cases}
 $$
 
-We can write the range sum as difference of two terms, where we use $B_1$ for first term and $B_2$ for second term.
-The difference of the queries will give us prefix sum over $[0, i]$.
+می‌توانیم مجموع بازه را به صورت تفاضل دو عبارت بنویسیم، که در آن از $B_1$ برای عبارت اول و از $B_2$ برای عبارت دوم استفاده می‌کنیم.
+تفاضل این پرس‌وجوها، مجموع پیشوندی روی بازه $[0, i]$ را به ما می‌دهد.
 
 $$\begin{align}
 sum[0, i] &= sum(B_1, i) \cdot i - sum(B_2, i) \\\\
@@ -426,10 +424,10 @@ x \cdot i - x \cdot (l-1) & l \le i \le r \\\\
 \end{align}
 $$
 
-The last expression is exactly equal to the required terms.
-Thus we can use $B_2$ for shaving off extra terms when we multiply $B_1[i]\times i$.
+عبارت آخر دقیقاً برابر با عبارات مورد نیاز است.
+بنابراین می‌توانیم از $B_2$ برای حذف جملات اضافی هنگام ضرب $B_1[i]\times i$ استفاده کنیم.
 
-We can find arbitrary range sums by computing the prefix sums for $l-1$ and $r$ and taking the difference of them again.
+ما می‌توانیم با محاسبه مجموع‌های پیشوندی برای $l-1$ و $r$ و گرفتن تفاضل آنها، مجموع بازه‌های دلخواه را پیدا کنیم.
 
 ```python
 def add(b, idx, x):
@@ -457,7 +455,7 @@ def range_sum(l, r):
     return prefix_sum(r) - prefix_sum(l-1)
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
 * [UVA 12086 - Potentiometers](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=24&page=show_problem&problem=3238)
 * [LOJ 1112 - Curious Robin Hood](http://www.lightoj.com/volume_showproblem.php?problem=1112)
@@ -496,7 +494,7 @@ def range_sum(l, r):
 * [CSES - Forest Queries II](https://cses.fi/problemset/task/1739/)
 * [Latin American Regionals 2017 - Fundraising](http://matcomgrader.com/problem/9346/fundraising/)
 
-## Other sources
+## منابع دیگر
 
 * [Fenwick tree on Wikipedia](http://en.wikipedia.org/wiki/Fenwick_tree)
 * [Binary indexed trees tutorial on TopCoder](https://www.topcoder.com/community/data-science/data-science-tutorials/binary-indexed-trees/)

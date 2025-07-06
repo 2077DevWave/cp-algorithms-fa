@@ -1,33 +1,32 @@
 ---
 tags:
-  
-e_maxx_link: johnson_problem_1
+  - AI Translated
+e_maxx_link: schedule_one_machine
 ---
 
-# Scheduling jobs on one machine
+# زمان‌بندی کارها روی یک ماشین
 
-This task is about finding an optimal schedule for $n$ jobs on a single machine, if the job $i$ can be processed in $t_i$ time, but for the $t$ seconds waiting before processing the job a penalty of $f_i(t)$ has to be paid.
+این مسئله در مورد یافتن یک زمان‌بندی بهینه برای $n$ کار روی یک ماشین واحد است، اگر کار $i$ در زمان $t_i$ قابل پردازش باشد، اما به ازای $t$ ثانیه انتظار قبل از پردازش کار، جریمه‌ای معادل $f_i(t)$ باید پرداخت شود.
 
-Thus the task asks to find such an permutation of the jobs, so that the total penalty is minimal.
-If we denote by $\pi$ the permutation of the jobs ($\pi_1$ is the first processed item, $\pi_2$ the second, etc.), then the total penalty is equal to:
+بنابراین، مسئله به دنبال یافتن جایگشتی از کارها است که جریمه کل را کمینه کند.
+اگر $\pi$ را جایگشت کارها در نظر بگیریم (که در آن $\pi_1$ اولین کار پردازش شده، $\pi_2$ دومین کار و الی آخر است)، آنگاه جریمه کل برابر است با:
 
 $$F(\pi) = f_{\pi_1}(0) + f_{\pi_2}(t_{\pi_1}) + f_{\pi_3}(t_{\pi_1} + t_{\pi_2}) + \dots + f_{\pi_n}\left(\sum_{i=1}^{n-1} t_{\pi_i}\right)$$
 
-## Solutions for special cases
+## راه حل برای موارد خاص
 
-### Linear penalty functions
+### توابع جریمه خطی
 
-First we will solve the problem in the case that all penalty functions $f_i(t)$ are linear, i.e. they have the form $f_i(t) = c_i \cdot t$, where $c_i$ is a non-negative number.
-Note that these functions don't have a constant term.
-Otherwise we can sum up all constant term, and resolve the problem without them.
+ابتدا مسئله را برای حالتی حل می‌کنیم که تمام توابع جریمه $f_i(t)$ خطی باشند، یعنی به شکل $f_i(t) = c_i \cdot t$ باشند که در آن $c_i$ یک عدد نامنفی است.
+توجه داشته باشید که این توابع جمله ثابت ندارند. در غیر این صورت، می‌توانیم تمام جملات ثابت را با هم جمع کرده و مسئله را بدون آن‌ها حل کنیم.
 
-Let us fixate some permutation $\pi$, and take an index $i = 1 \dots n-1$.
-Let the permutation $\pi'$ be equal to the permutation $\pi$ with the elements $i$ and $i+1$ switched.
-Let's see how much the penalty changed.
+یک جایگشت $\pi$ را ثابت در نظر می‌گیریم و اندیس $i = 1 \dots n-1$ را انتخاب می‌کنیم.
+فرض کنید جایگشت $\pi'$ همان جایگشت $\pi$ است با این تفاوت که عناصر $i$ و $i+1$ جابجا شده‌اند.
+بیایید ببینیم جریمه چقدر تغییر کرده است.
 
 $$F(\pi') - F(\pi) =$$
 
-It is easy to see that the changes only occur in the $i$-th and $(i+1)$-th summands:
+به راحتی می‌توان دید که تغییرات فقط در جملات $i$-ام و $(i+1)$-ام رخ می‌دهند:
 
 $$\begin{align}
 &= c_{\pi_i'} \cdot \sum_{k = 1}^{i-1} t_{\pi_k'} + c_{\pi_{i+1}'} \cdot \sum_{k = 1}^i t_{\pi_k'} - c_{\pi_i} \cdot \sum_{k = 1}^{i-1} t_{\pi_k} - c_{\pi_{i+1}} \cdot \sum_{k = 1}^i t_{\pi_k} \\
@@ -35,47 +34,47 @@ $$\begin{align}
 &= c_{\pi_i} \cdot t_{\pi_{i+1}} - c_{\pi_{i+1}} \cdot t_{\pi_i}
 \end{align}$$
 
-It is easy to see, that if the schedule $\pi$ is optimal, than any change in it leads to an increased penalty (or to the identical penalty), therefore for the optimal schedule we can write down the following condition:
+به راحتی می‌توان دریافت که اگر زمان‌بندی $\pi$ بهینه باشد، هر تغییری در آن منجر به افزایش جریمه (یا جریمه یکسان) می‌شود. بنابراین، برای زمان‌بندی بهینه می‌توانیم شرط زیر را بنویسیم:
 
 $$c_{\pi_{i}} \cdot t_{\pi_{i+1}} - c_{\pi_{i+1}} \cdot t_{\pi_i} \ge 0 \quad \forall i = 1 \dots n-1$$
 
-And after rearranging we get:
+و پس از بازآرایی به دست می‌آوریم:
 
 $$\frac{c_{\pi_i}}{t_{\pi_i}} \ge \frac{c_{\pi_{i+1}}}{t_{\pi_{i+1}}} \quad \forall i = 1 \dots n-1$$
 
-Thus we obtain the **optimal schedule** by simply **sorting** the jobs by the fraction $\frac{c_i}{t_i}$ in non-ascending order.
+بنابراین، **زمان‌بندی بهینه** با **مرتب‌سازی** ساده کارها بر اساس کسر $\frac{c_i}{t_i}$ به ترتیب غیرصعودی به دست می‌آید.
 
-It should be noted, that we constructed this algorithm by the so-called **permutation method**:
-we tried to swap two adjacent elements, calculated how much the penalty changed, and then derived the algorithm for finding the optimal method.
+لازم به ذکر است که ما این الگوریتم را با استفاده از روشی به نام **روش جایگشتی** ساختیم:
+دو عنصر مجاور را جابجا کردیم، میزان تغییر جریمه را محاسبه کردیم و سپس الگوریتمی برای یافتن روش بهینه استخراج کردیم.
 
-### Exponential penalty function
+### تابع جریمه نمایی
 
-Let the penalty function look like this:
+فرض کنید تابع جریمه به شکل زیر باشد:
 
 $$f_i(t) = c_i \cdot e^{\alpha \cdot t},$$
 
-where all numbers $c_i$ are non-negative and the constant $\alpha$ is positive.
+که در آن تمام اعداد $c_i$ نامنفی و ثابت $\alpha$ مثبت است.
 
-By applying the permutation method, it is easy to determine that the jobs must be sorted in non-ascending order of the value:
+با به کار بردن روش جایگشتی، به راحتی می‌توان تشخیص داد که کارها باید بر اساس مقدار زیر به ترتیب غیرصعودی مرتب شوند:
 
 $$v_i = \frac{1 - e^{\alpha \cdot t_i}}{c_i}$$
 
-### Identical monotone penalty function
+### تابع جریمه یکنواخت یکسان
 
-In this case we consider the case that all $f_i(t)$ are equal, and this function is monotone increasing.
+در این حالت، موردی را در نظر می‌گیریم که تمام توابع $f_i(t)$ با هم برابر بوده و این تابع یکنواخت صعودی باشد.
 
-It is obvious that in this case the optimal permutation is to arrange the jobs by non-descending processing time $t_i$.
+واضح است که در این حالت، جایگشت بهینه، چیدن کارها بر اساس زمان پردازش $t_i$ به ترتیب غیرنزولی است.
 
-## The Livshits-Kladov theorem
+## قضیه لیوشیتس-کلادوف
 
-The Livshits-Kladov theorem establishes that the permutation method is only applicable for the above mentioned three cases, i.e.:
+قضیه لیوشیتس-کلادوف بیان می‌کند که روش جایگشتی تنها برای سه حالت ذکر شده در بالا قابل استفاده است، یعنی:
 
-- Linear case: $f_i(t) = c_i(t) + d_i$, where $c_i$ are non-negative constants,
-- Exponential case: $f_i(t) = c_i \cdot e_{\alpha \cdot t} + d_i$, where $c_i$ and $\alpha$ are positive constants,
-- Identical case: $f_i(t) = \phi(t)$, where $\phi$ is a monotone increasing function.
+-   حالت خطی: $f_i(t) = c_i \cdot t + d_i$، که در آن $c_i$ ثابت‌های نامنفی هستند،
+-   حالت نمایی: $f_i(t) = c_i \cdot e^{\alpha \cdot t} + d_i$، که در آن $c_i$ و $\alpha$ ثابت‌های مثبت هستند،
+-   حالت یکسان: $f_i(t) = \phi(t)$، که در آن $\phi$ یک تابع یکنواخت صعودی است.
 
-In all other cases the method cannot be applied.
+در تمام موارد دیگر، این روش قابل استفاده نیست.
 
-The theorem is proven under the assumption that the penalty functions are sufficiently smooth (the third derivatives exists).
+این قضیه تحت این فرض اثبات شده است که توابع جریمه به اندازه کافی هموار باشند (مشتقات سوم آن‌ها موجود باشد).
 
-In all three case we apply the permutation method, through which the desired optimal schedule can be found by sorting, hence in $O(n \log n)$ time.
+در هر سه حالت، ما از روش جایگشتی استفاده می‌کنیم که از طریق آن می‌توان زمان‌بندی بهینه مورد نظر را با مرتب‌سازی پیدا کرد، بنابراین در زمان $O(n \log n)$ قابل حل است.

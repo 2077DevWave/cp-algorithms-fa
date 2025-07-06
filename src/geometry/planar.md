@@ -1,67 +1,67 @@
 ---
-title: Finding faces of a planar graph
 tags:
-  
-e_maxx_link: facets
+  - AI Translated
+e_maxx_link: planar
 ---
-# Finding faces of a planar graph
 
-Consider a graph $G$ with $n$ vertices and $m$ edges, which can be drawn on a plane in such a way that two edges intersect only at a common vertex (if it exists).
-Such graphs are called **planar**. Now suppose that we are given a planar graph together with its straight-line embedding, which means that for each vertex $v$ we have a corresponding point $(x, y)$ and all edges are drawn as line segments between these points without intersection (such embedding always exists). These line segments split the plane into several regions, which are called faces. Exactly one of the faces is unbounded. This face is called **outer**, while the other faces are called **inner**.
+# پیدا کردن وجوه یک گراف مسطح
 
-In this article we will deal with finding both inner and outer faces of a planar graph. We will assume that the graph is connected.
+گراف $G$ با $n$ رأس و $m$ یال را در نظر بگیرید که می‌توان آن را روی یک صفحه به طوری رسم کرد که دو یال فقط در رأس مشترکشان (در صورت وجود) یکدیگر را قطع کنند.
+چنین گراف‌هایی **مسطح** نامیده می‌شوند. حال فرض کنید یک گراف مسطح به همراه جایگذاری با خطوط مستقیم (straight-line embedding) آن به ما داده شده است، به این معنی که برای هر رأس $v$ یک نقطه متناظر $(x, y)$ داریم و تمام یال‌ها به صورت پاره‌خط بین این نقاط بدون تقاطع رسم شده‌اند (چنین جایگذاری‌ای همیشه وجود دارد). این پاره‌خط‌ها صفحه را به چندین ناحیه تقسیم می‌کنند که «وجه» (face) نامیده می‌شوند. دقیقاً یکی از این وجوه نامحدود است. این وجه، وجه **بیرونی** (outer) نامیده می‌شود، در حالی که سایر وجوه، **درونی** (inner) نامیده می‌شوند.
 
-## Some facts about planar graphs
+در این مقاله به پیدا کردن هر دو نوع وجه درونی و بیرونی یک گراف مسطح می‌پردازیم. فرض می‌کنیم که گراف همبند است.
 
-In this section we present several facts about planar graphs without proof. Readers who are interested in proofs should refer to [Graph Theory by R. Diestel](https://www.math.uni-hamburg.de/home/diestel/books/graph.theory/preview/Ch4.pdf) (see also [video lectures on planarity](https://www.youtube.com/@DiestelGraphTheory) based on this book) or some other book.
+## چند حقیقت در مورد گراف‌های مسطح
 
-### Euler's theorem
-Euler's theorem states that any correct embedding of a connected planar graph with $n$ vertices, $m$ edges and $f$ faces satisfies:
+در این بخش چندین حقیقت در مورد گراف‌های مسطح را بدون اثبات ارائه می‌دهیم. خوانندگانی که به اثبات‌ها علاقه‌مند هستند می‌توانند به کتاب [Graph Theory by R. Diestel](https://www.math.uni-hamburg.de/home/diestel/books/graph.theory/preview/Ch4.pdf) (همچنین [سخنرانی‌های ویدیویی در مورد مسطح بودن](https://www.youtube.com/@DiestelGraphTheory) بر اساس این کتاب را ببینید) یا کتاب دیگری مراجعه کنند.
+
+### قضیه اویلر
+قضیه اویلر بیان می‌کند که هر جایگذاری صحیح از یک گراف مسطح همبند با $n$ رأس، $m$ یال و $f$ وجه، در رابطه‌ی زیر صدق می‌کند:
 
 $$n - m + f = 2$$
 
-And more generally, every planar graph with $k$ connected components satisfies:
+و به طور کلی‌تر، هر گراف مسطح با $k$ مؤلفه همبندی در رابطه‌ی زیر صدق می‌کند:
 
 $$n - m + f = 1 + k$$
 
-### Number of edges of a planar graph.
-If $n \ge 3$ then the maximum number of edges of a planar graph with $n$ vertices is $3n - 6$. This number is achieved by any connected planar graph where each face is bounded by a triangle. In terms of complexity this fact means that $m = O(n)$ for any planar graph.
+### تعداد یال‌های یک گراف مسطح
+اگر $n \ge 3$ باشد، آنگاه بیشترین تعداد یال‌ها در یک گراف مسطح با $n$ رأس برابر با $3n - 6$ است. این تعداد توسط هر گراف مسطح همبندی که در آن هر وجه توسط یک مثلث محدود شده باشد، به دست می‌آید. از نظر پیچیدگی این حقیقت به این معناست که برای هر گراف مسطح $m = O(n)$ است.
 
-### Number of faces of a planar graph.
-As a direct consequence of the above fact, if $n \ge 3$ then the maximum number of faces of a planar graph with $n$ vertices is $2n - 4$.
+### تعداد وجوه یک گراف مسطح
+به عنوان یک نتیجه مستقیم از حقیقت بالا، اگر $n \ge 3$ باشد، آنگاه بیشترین تعداد وجوه در یک گراف مسطح با $n$ رأس برابر با $2n-4$ است.
 
-### Minimum vertex degree in a planar graph.
-Every planar graph has a vertex of degree 5 or less.
+### حداقل درجه رأس در یک گراف مسطح
+هر گراف مسطح دارای یک رأس با درجه ۵ یا کمتر است.
 
-## The algorithm
+## الگوریتم
 
-Firstly, sort the adjacent edges for each vertex by polar angle.
-Now let's traverse the graph in the following way. Suppose that we entered vertex $u$ through the edge $(v, u)$ and $(u, w)$ is the next edge after $(v, u)$ in the sorted adjacency list of $u$. Then the next vertex will be $w$. It turns out that if we start this traversal at some edge $(v, u)$, we will traverse exactly one of the faces adjacent to $(v, u)$, the exact face depending on whether our first step is from $u$ to $v$ or from $v$ to $u$.
+ابتدا، یال‌های مجاور برای هر رأس را بر اساس زاویه قطبی مرتب کنید.
+حال بیایید گراف را به روش زیر پیمایش کنیم. فرض کنید از طریق یال $(v, u)$ وارد رأس $u$ شده‌ایم و $(u, w)$ یال بعدی پس از $(v, u)$ در لیست مجاورت مرتب‌شده‌ی $u$ است. آنگاه رأس بعدی $w$ خواهد بود. مشخص می‌شود که اگر این پیمایش را از یک یال $(v, u)$ شروع کنیم، دقیقاً یکی از وجوه مجاور با $(v, u)$ را پیمایش خواهیم کرد. اینکه کدام وجه پیمایش شود، بستگی به این دارد که گام اول ما از $u$ به $v$ باشد یا از $v$ به $u$.
 
-Now the algorithm is quite obvious. We must iterate over all edges of the graph and start the traversal for each edge that wasn't visited by one of the previous traversals. This way we will find each face exactly once, and each edge will be traversed twice (once in each direction).
+حال، الگوریتم کاملاً واضح است. باید روی تمام یال‌های گراف تکرار کنیم و پیمایش را برای هر یالی که در پیمایش‌های قبلی بازدید نشده باشد، شروع کنیم. به این روش، هر وجه را دقیقاً یک بار پیدا خواهیم کرد و هر یال دو بار (یک بار در هر جهت) پیمایش خواهد شد.
 
-### Finding the next edge
-During the traversal we have to find the next edge in counter-clockwise order. The most obvious way to find the next edge is binary search by angle. However, given the counter-clockwise order of adjacent edges for each vertex, we can precompute the next edges and store them in a hash table. If the edges are already sorted by angle, the complexity of finding all faces in this case becomes linear.
+### پیدا کردن یال بعدی
+در طول پیمایش باید یال بعدی را در جهت پادساعتگرد پیدا کنیم. واضح‌ترین راه برای پیدا کردن یال بعدی، جستجوی دودویی بر اساس زاویه است. با این حال، با داشتن ترتیب پادساعتگرد یال‌های مجاور برای هر رأس، می‌توانیم یال‌های بعدی را پیش‌محاسبه کرده و آن‌ها را در یک جدول درهم‌سازی (hash table) ذخیره کنیم. اگر یال‌ها از قبل بر اساس زاویه مرتب شده باشند، پیچیدگی پیدا کردن تمام وجوه در این حالت خطی می‌شود.
 
-### Finding the outer face
-It's not hard to see that the algorithm traverses each inner face in a clockwise order and the outer face in the counter-clockwise order, so the outer face can be found by checking the order of each face.
+### پیدا کردن وجه بیرونی
+دیدن این موضوع سخت نیست که الگوریتم هر وجه درونی را در جهت ساعتگرد و وجه بیرونی را در جهت پادساعتگرد پیمایش می‌کند، بنابراین وجه بیرونی را می‌توان با بررسی جهت پیمایش هر وجه پیدا کرد.
 
-### Complexity
-It's quite clear that the complexity of the algorithm is $O(m \log m)$ because of sorting, and since $m = O(n)$, it's actually $O(n \log n)$. As mentioned before, without sorting the complexity becomes $O(n)$.
+### پیچیدگی
+کاملاً واضح است که پیچیدگی الگوریتم به دلیل مرتب‌سازی $O(m \log m)$ است و از آنجایی که $m = O(n)$ است، در واقع $O(n \log n)$ می‌باشد. همانطور که قبلاً ذکر شد، بدون مرتب‌سازی، پیچیدگی $O(n)$ می‌شود.
 
-## What if the graph isn't connected?
+## اگر گراف همبند نباشد چه؟
 
-At the first glance it may seem that finding faces of a disconnected graph is not much harder because we can run the same algorithm for each connected component. However, the components may be drawn in a nested way, forming **holes** (see the image below). In this case the inner face of some component becomes the outer face of some other components and has a complex disconnected border. Dealing with such cases is quite hard, one possible approach is to identify nested components with [point location](point-location.md) algorithms. 
+در نگاه اول ممکن است به نظر برسد که پیدا کردن وجوه یک گراف ناهمبند خیلی سخت‌تر نیست، زیرا می‌توانیم همین الگوریتم را برای هر مؤلفه همبندی اجرا کنیم. با این حال، مؤلفه‌ها ممکن است به صورت تودرتو رسم شوند و **حفره** (hole) تشکیل دهند (تصویر زیر را ببینید). در این حالت وجه درونی یک مؤلفه، به وجه بیرونی مؤلفه‌های دیگر تبدیل می‌شود و یک مرز پیچیده و ناهمبند دارد. مدیریت چنین مواردی بسیار دشوار است؛ یک رویکرد ممکن، شناسایی مؤلفه‌های تودرتو با الگوریتم‌های [مکان‌یابی نقطه (point location)](point-location.md) است.
 
 <div style="text-align: center;">
-  <img src="planar_hole.png" alt="Planar graph with holes">
+  <img src="planar_hole.png" alt="گراف مسطح با حفره">
 </div>
 
-## Implementation
-The following implementation returns a vector of vertices for each face, outer face goes first.
-Inner faces are returned in counter-clockwise orders and the outer face is returned in clockwise order.
+## پیاده‌سازی
+پیاده‌سازی زیر برای هر وجه، یک بردار از رأس‌ها را برمی‌گرداند که وجه بیرونی در ابتدای آن قرار دارد.
+وجوه درونی در جهت پادساعتگرد و وجه بیرونی در جهت ساعتگرد برگردانده می‌شوند.
 
-For simplicity we find the next edge by doing binary search by angle.
+برای سادگی، یال بعدی را با انجام جستجوی دودویی بر اساس زاویه پیدا می‌کنیم.
 ```{.cpp file=planar}
 struct Point {
     int64_t x, y;
@@ -145,15 +145,15 @@ std::vector<std::vector<size_t>> find_faces(std::vector<Point> vertices, std::ve
 }
 ```
 
-## Building planar graph from line segments
+## ساختن گراف مسطح از پاره‌خط‌ها
 
-Sometimes you are not given a graph explicitly, but rather as a set of line segments on a plane, and the actual graph is formed by intersecting those segments, as shown in the picture below. In this case you have to build the graph manually. The easiest way to do so is as follows. Fix a segment and intersect it with all other segments. Then sort all intersection points together with the two endpoints of the segment lexicographically and add them to the graph as vertices. Also link each two adjacent vertices in lexicographical order by an edge. After doing this procedure for all edges we will obtain the graph. Of course, we should ensure that two equal intersection points will always correspond to the same vertex. The easiest way to do this is to store the points in a map by their coordinates, regarding points whose coordinates differ by a small number (say, less than $10^{-9}$) as equal. This algorithm works in $O(n^2 \log n)$.
+گاهی اوقات گراف به صورت صریح به شما داده نمی‌شود، بلکه به صورت مجموعه‌ای از پاره‌خط‌ها روی یک صفحه داده می‌شود و گراف واقعی با تقاطع دادن آن پاره‌خط‌ها تشکیل می‌شود، همانطور که در تصویر زیر نشان داده شده است. در این حالت باید گراف را به صورت دستی بسازید. ساده‌ترین راه برای انجام این کار به شرح زیر است. یک پاره‌خط را ثابت در نظر بگیرید و آن را با تمام پاره‌خط‌های دیگر تقاطع دهید. سپس تمام نقاط تقاطع را به همراه دو نقطه انتهایی پاره‌خط به صورت کتابی (lexicographically) مرتب کرده و آن‌ها را به عنوان رأس به گراف اضافه کنید. همچنین هر دو رأس مجاور در ترتیب کتابی را با یک یال به هم متصل کنید. پس از انجام این فرآیند برای تمام پاره‌خط‌ها، گراف را به دست خواهیم آورد. البته، باید اطمینان حاصل کنیم که دو نقطه تقاطع یکسان همیشه به یک رأس یکسان متناظر باشند. ساده‌ترین راه برای این کار این است که نقاط را بر اساس مختصاتشان در یک `map` ذخیره کنیم و نقاطی که مختصاتشان به اندازه یک عدد کوچک (مثلاً کمتر از $10^{-9}$) تفاوت دارد را مساوی در نظر بگیریم. این الگوریتم در $O(n^2 \log n)$ کار می‌کند.
 
 <div style="text-align: center;">
-  <img src="planar_implicit.png" alt="Implicitly defined graph">
+  <img src="planar_implicit.png" alt="گراف تعریف شده به صورت ضمنی">
 </div>
 
-## Implementation
+## پیاده‌سازی
 ```{.cpp file=planar_implicit}
 using dbl = long double;
 
@@ -344,6 +344,6 @@ std::pair<std::vector<Point>, std::vector<std::vector<size_t>>> build_graph(std:
 }
 ```
 
-## Problems
+## مسائل
  * [TIMUS 1664 Pipeline Transportation](https://acm.timus.ru/problem.aspx?space=1&num=1664)
  * [TIMUS 1681 Brother Bear's Garden](https://acm.timus.ru/problem.aspx?space=1&num=1681)

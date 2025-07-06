@@ -1,42 +1,40 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: aho_corasick
 ---
 
-# Aho-Corasick algorithm
+# الگوریتم آهو-کوراسیک
 
-The Aho-Corasick algorithm allows us to quickly search for multiple patterns in a text.
-The set of pattern strings is also called a _dictionary_.
-We will denote the total length of its constituent strings by $m$ and the size of the alphabet by $k$.
-The algorithm constructs a finite state automaton based on a trie in $O(m k)$ time and then uses it to process the text.
+الگوریتم آهو-کوراسیک به ما امکان جستجوی سریع چندین الگو را در یک متن می‌دهد.
+مجموعه‌ی رشته‌های الگو، _دیکشنری_ نیز نامیده می‌شود.
+طول کل رشته‌های تشکیل‌دهنده آن را با $m$ و اندازه‌ی الفبا را با $k$ نشان خواهیم داد.
+این الگوریتم یک ماشین حالت متناهی را بر اساس یک ترای (trie) در زمان $O(m k)$ می‌سازد و سپس از آن برای پردازش متن استفاده می‌کند.
 
-The algorithm was proposed by Alfred Aho and Margaret Corasick in 1975.
+این الگوریتم در سال ۱۹۷۵ توسط آلفرد آهو و مارگارت کوراسیک ارائه شد.
 
-## Construction of the trie
+## ساخت ترای
 
 <center>
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Trie.svg" width="400px">
 <br>
-<i>A trie based on words "Java", "Rad", "Rand", "Rau", "Raum" and "Rose".</i>
+<i>یک ترای بر اساس کلمات "Java"، "Rad"، "Rand"، "Rau"، "Raum" و "Rose".</i>
 <br>
-<i>The <a href="https://commons.wikimedia.org/wiki/File:Trie.svg">image</a> by [nd](https://de.wikipedia.org/wiki/Benutzer:Nd) is distributed under <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en">CC BY-SA 3.0</a> license.</i>
+<i>این <a href="https://commons.wikimedia.org/wiki/File:Trie.svg">تصویر</a> توسط [nd](https://de.wikipedia.org/wiki/Benutzer:Nd) تحت مجوز <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en">CC BY-SA 3.0</a> منتشر شده است.</i>
 </center>
 
-Formally, a trie is a rooted tree, where each edge of the tree is labeled with some letter
-and outgoing edges of a vertex have distinct labels.
+به طور رسمی، ترای (trie) یک درخت ریشه‌دار است که در آن هر یال درخت با یک حرف برچسب‌گذاری شده و یال‌های خروجی از یک رأس، برچسب‌های متمایزی دارند.
 
-We will identify each vertex in the trie with the string formed by the labels on the path from the root to that vertex.
+ما هر رأس در ترای را با رشته‌ای که از برچسب‌های روی مسیر از ریشه تا آن رأس تشکیل شده است، شناسایی می‌کنیم.
 
-Each vertex will also have a flag $\text{output}$ which will be set
-if the vertex corresponds to a pattern in the dictionary.
+هر رأس همچنین یک پرچم (flag) به نام $\text{output}$ خواهد داشت که اگر رأس مربوط به یک الگو در دیکشنری باشد، این پرچم تنظیم (set) می‌شود.
 
-Accordingly, a trie for a set of strings is a trie such that each $\text{output}$ vertex corresponds to one string from the set, and conversely, each string of the set corresponds to one $\text{output}$ vertex.
+بر این اساس، یک ترای برای مجموعه‌ای از رشته‌ها، ترای‌ای است که در آن هر رأس $\text{output}$ به یکی از رشته‌های مجموعه متناظر است و بالعکس، هر رشته از مجموعه به یک رأس $\text{output}$ متناظر است.
 
-We now describe how to construct a trie for a given set of strings in linear time with respect to their total length.
+اکنون نحوه‌ی ساخت یک ترای برای مجموعه‌ای از رشته‌ها را در زمان خطی نسبت به طول کل آن‌ها شرح می‌دهیم.
 
-We introduce a structure for the vertices of the tree:
-```{.cpp file=aho_corasick_trie_definition}
+ما یک ساختار (structure) برای رأس‌های درخت معرفی می‌کنیم:
+```cpp {.cpp file=aho_corasick_trie_definition}
 const int K = 26;
 
 struct Vertex {
@@ -51,17 +49,17 @@ struct Vertex {
 vector<Vertex> trie(1);
 ```
 
-Here, we store the trie as an array of $\text{Vertex}$.
-Each $\text{Vertex}$ contains the flag $\text{output}$ and the edges in the form of an array $\text{next}[]$, where $\text{next}[i]$ is the index of the vertex that we reach by following the character $i$, or $-1$ if there is no such edge.
-Initially, the trie consists of only one vertex - the root - with the index $0$.
+در اینجا، ما ترای را به صورت آرایه‌ای از `Vertex` ذخیره می‌کنیم.
+هر `Vertex` شامل پرچم `output` و یال‌ها به شکل یک آرایه `next[]` است، که در آن `next[i]` اندیس رأسی است که با دنبال کردن کاراکتر $i$ به آن می‌رسیم، یا اگر چنین یالی وجود نداشته باشد، مقدار آن $-1$ است.
+در ابتدا، ترای فقط از یک رأس - ریشه - با اندیس $0$ تشکیل شده است.
 
-Now we implement a function that will add a string $s$ to the trie.
-The implementation is simple:
-we start at the root node, and as long as there are edges corresponding to the characters of $s$ we follow them.
-If there is no edge for one character, we generate a new vertex and connect it with an edge.
-At the end of the process we mark the last vertex with the flag $\text{output}$.
+حالا تابعی را پیاده‌سازی می‌کنیم که رشته $s$ را به ترای اضافه می‌کند.
+پیاده‌سازی ساده است:
+ما از گره ریشه شروع می‌کنیم و تا زمانی که یال‌های متناظر با کاراکترهای $s$ وجود دارند، آن‌ها را دنبال می‌کنیم.
+اگر برای یک کاراکتر یالی وجود نداشته باشد، یک رأس جدید ایجاد کرده و آن را با یک یال متصل می‌کنیم.
+در پایان فرآیند، آخرین رأس را با پرچم `output` علامت‌گذاری می‌کنیم.
 
-```{.cpp file=aho_corasick_trie_add}
+```cpp {.cpp file=aho_corasick_trie_add}
 void add_string(string const& s) {
     int v = 0;
     for (char ch : s) {
@@ -76,64 +74,63 @@ void add_string(string const& s) {
 }
 ```
 
-This implementation obviously runs in linear time,
-and since every vertex stores $k$ links, it will use $O(m k)$ memory.
+این پیاده‌سازی به وضوح در زمان خطی اجرا می‌شود،
+و از آنجایی که هر رأس $k$ پیوند (link) ذخیره می‌کند، از حافظه‌ی $O(m k)$ استفاده خواهد کرد.
 
-It is possible to decrease the memory consumption to $O(m)$ by using a map instead of an array in each vertex.
-However, this will increase the time complexity to $O(m \log k)$.
+می‌توان با استفاده از یک `map` به جای آرایه در هر رأس، مصرف حافظه را به $O(m)$ کاهش داد.
+با این حال، این کار پیچیدگی زمانی را به $O(m \log k)$ افزایش می‌دهد.
 
-## Construction of an automaton
+## ساخت یک ماشین (automaton)
 
-Suppose we have built a trie for the given set of strings.
-Now let's look at it from a different side.
-If we look at any vertex,
-the string that corresponds to it is a prefix of one or more strings in the set, thus each vertex of the trie can be interpreted as a position in one or more strings from the set.
+فرض کنید برای مجموعه‌ی داده شده از رشته‌ها، یک ترای ساخته‌ایم.
+حالا بیایید از زاویه‌ی دیگری به آن نگاه کنیم.
+اگر به هر رأسی نگاه کنیم، رشته‌ای که به آن متناظر است، یک پیشوند از یک یا چند رشته در مجموعه است، بنابراین هر رأس ترای را می‌توان به عنوان یک موقعیت در یک یا چند رشته از مجموعه تفسیر کرد.
 
-In fact, the trie vertices can be interpreted as states in a **finite deterministic automaton**.
-From any state we can transition - using some input letter - to other states, i.e., to another position in the set of strings.
-For example, if there is only one string $abc$ in the dictionary, and we are standing at vertex $ab$, then using the letter $c$ we can go to the vertex $abc$.
+در واقع، رأس‌های ترای را می‌توان به عنوان حالت‌هایی در یک **ماشین قطعی متناهی (finite deterministic automaton)** تفسیر کرد.
+از هر حالت می‌توانیم - با استفاده از یک حرف ورودی - به حالت‌های دیگر، یعنی به موقعیت دیگری در مجموعه‌ی رشته‌ها، انتقال پیدا کنیم.
+برای مثال، اگر تنها یک رشته $abc$ در دیکشنری وجود داشته باشد و ما در رأس $ab$ ایستاده باشیم، با استفاده از حرف $c$ می‌توانیم به رأس $abc$ برویم.
 
-Thus we can understand the edges of the trie as transitions in an automaton according to the corresponding letter.
-However, in an automaton we need to have transitions for each combination of a state and a letter.
-If we try to perform a transition using a letter, and there is no corresponding edge in the trie, then we nevertheless must go into some state.
+بنابراین می‌توانیم یال‌های ترای را به عنوان انتقال‌هایی در یک ماشین بر اساس حرف متناظر درک کنیم.
+با این حال، در یک ماشین، باید برای هر ترکیب از یک حالت و یک حرف، انتقال داشته باشیم.
+اگر سعی کنیم با استفاده از یک حرف انتقالی انجام دهیم و یال متناظری در ترای وجود نداشته باشد، با این وجود باید به حالتی برویم.
 
-More precisely, suppose we are in a state corresponding to a string $t$, and we want to transition to a different state using the character $c$.
-If there is an edge labeled with this letter $c$, then we can simply go over this edge, and get the vertex corresponding to $t + c$.
-If there is no such edge, since we want to maintain the invariant that the current state is the longest partial match in the processed string, we must find the longest string in the trie that's a proper suffix of the string $t$, and try to perform a transition from there.
+دقیق‌تر بگوییم، فرض کنید در حالتی متناظر با رشته‌ی $t$ هستیم و می‌خواهیم با استفاده از کاراکتر $c$ به حالت دیگری انتقال پیدا کنیم.
+اگر یالی با برچسب این حرف $c$ وجود داشته باشد، می‌توانیم به سادگی از این یال عبور کنیم و به رأس متناظر با $t + c$ برسیم.
+اگر چنین یالی وجود نداشته باشد، از آنجا که می‌خواهیم این ناوردا را حفظ کنیم که حالت فعلی طولانی‌ترین تطابق جزئی در رشته‌ی پردازش شده است، باید طولانی‌ترین رشته در ترای را که پسوند مناسبی (proper suffix) از رشته $t$ است پیدا کنیم و سعی کنیم از آنجا انتقال را انجام دهیم.
 
-For example, let the trie be constructed by the strings $ab$ and $bc$, and we are currently at the vertex corresponding to $ab$, which is also an $\text{output}$ vertex.
-To transition with the letter $c$, we are forced to go to the state corresponding to the string $b$, and from there follow the edge with the letter $c$.
+برای مثال، فرض کنید ترای با رشته‌های $ab$ و $bc$ ساخته شده است، و ما در حال حاضر در رأس متناظر با $ab$ هستیم که یک رأس $\text{output}$ نیز هست.
+برای انتقال با حرف $c$، مجبوریم به حالت متناظر با رشته $b$ برویم و از آنجا یال با حرف $c$ را دنبال کنیم.
 
 <center>
 <img src="https://upload.wikimedia.org/wikipedia/commons/9/90/A_diagram_of_the_Aho-Corasick_string_search_algorithm.svg" width="300px">
 <br>
-<i>An Aho-Corasick automaton based on words "a", "ab", "bc", "bca", "c" and "caa".</i>
+<i>یک ماشین آهو-کوراسیک بر اساس کلمات "a"، "ab"، "bc"، "bca"، "c" و "caa".</i>
 <br>
-<i>Blue arrows are suffix links, green arrows are terminal links.</i>
+<i>فلش‌های آبی پیوندهای پسوندی (suffix links) و فلش‌های سبز پیوندهای پایانی (terminal links) هستند.</i>
 </center>
 
-A **suffix link** for a vertex $p$ is an edge that points to the longest proper suffix of the string corresponding to the vertex $p$.
-The only special case is the root of the trie, whose suffix link will point to itself.
-Now we can reformulate the statement about the transitions in the automaton like this:
-while there is no transition from the current vertex of the trie using the current letter (or until we reach the root), we follow the suffix link.
+یک **پیوند پسوندی (suffix link)** برای یک رأس $p$ یالی است که به طولانی‌ترین پسوند مناسب (proper suffix) از رشته‌ی متناظر با رأس $p$ اشاره می‌کند.
+تنها حالت خاص، ریشه‌ی ترای است که پیوند پسوندی آن به خودش اشاره خواهد کرد.
+اکنون می‌توانیم عبارت مربوط به انتقال‌ها در ماشین را اینگونه بازنویسی کنیم:
+تا زمانی که انتقالی از رأس فعلی ترای با استفاده از حرف فعلی وجود ندارد (یا تا زمانی که به ریشه برسیم)، پیوند پسوندی را دنبال می‌کنیم.
 
-Thus we reduced the problem of constructing an automaton to the problem of finding suffix links for all vertices of the trie.
-However, we will build these suffix links, oddly enough, using the transitions constructed in the automaton.
+بنابراین ما مسئله‌ی ساخت یک ماشین را به مسئله‌ی یافتن پیوندهای پسوندی برای تمام رأس‌های ترای تقلیل دادیم.
+با این حال، ما این پیوندهای پسوندی را، به طرز عجیبی، با استفاده از انتقال‌های ساخته شده در ماشین خواهیم ساخت.
 
-The suffix links of the root vertex and all its immediate children point to the root vertex.
-For any vertex $v$ deeper in the tree, we can calculate the suffix link as follows:
-if $p$ is the ancestor of $v$ with $c$ being the letter labeling the edge from $p$ to $v$,
-go to $p$,
-then follow its suffix link, and perform the transition with the letter $c$ from there.
+پیوندهای پسوندی رأس ریشه و تمام فرزندان مستقیم آن به رأس ریشه اشاره می‌کنند.
+برای هر رأس $v$ در عمق بیشتر درخت، می‌توانیم پیوند پسوندی را به صورت زیر محاسبه کنیم:
+اگر $p$ جد $v$ باشد و $c$ حرف برچسب‌گذاری شده روی یال از $p$ به $v$ باشد،
+به $p$ بروید،
+سپس پیوند پسوندی آن را دنبال کنید و از آنجا انتقال با حرف $c$ را انجام دهید.
 
-Thus, the problem of finding the transitions has been reduced to the problem of finding suffix links, and the problem of finding suffix links has been reduced to the problem of finding a suffix link and a transition, except for vertices closer to the root.
-So we have a recursive dependence that we can resolve in linear time.
+بنابراین، مسئله‌ی یافتن انتقال‌ها به مسئله‌ی یافتن پیوندهای پسوندی، و مسئله‌ی یافتن پیوندهای پسوندی به مسئله‌ی یافتن یک پیوند پسوندی و یک انتقال، به جز برای رأس‌های نزدیک‌تر به ریشه، تقلیل یافته است.
+پس ما یک وابستگی بازگشتی داریم که می‌توانیم آن را در زمان خطی حل کنیم.
 
-Let's move to the implementation.
-Note that we now will store the ancestor $p$ and the character $pch$ of the edge from $p$ to $v$ for each vertex $v$.
-Also, at each vertex we will store the suffix link $\text{link}$ (or $-1$ if it hasn't been calculated yet), and in the array $\text{go}[k]$ the transitions in the machine for each symbol (again $-1$ if it hasn't been calculated yet).
+به سراغ پیاده‌سازی برویم.
+توجه داشته باشید که اکنون برای هر رأس $v$، جد $p$ و کاراکتر $pch$ یال از $p$ به $v$ را ذخیره خواهیم کرد.
+همچنین، در هر رأس پیوند پسوندی `link` (یا $-1$ اگر هنوز محاسبه نشده باشد) و در آرایه `go[k]` انتقال‌های ماشین برای هر نماد (باز هم $-1$ اگر هنوز محاسبه نشده باشد) را ذخیره خواهیم کرد.
 
-```{.cpp file=aho_corasick_automaton}
+```cpp {.cpp file=aho_corasick_automaton}
 const int K = 26;
 
 struct Vertex {
@@ -189,85 +186,84 @@ int go(int v, char ch) {
 } 
 ```
 
-It is easy to see that thanks to memoization of the suffix links and transitions,
-the total time for finding all suffix links and transitions will be linear.
+به راحتی می‌توان دید که به لطف بهینه‌سازی با به خاطرسپاری (memoization) پیوندهای پسوندی و انتقال‌ها،
+زمان کل برای یافتن تمام پیوندهای پسوندی و انتقال‌ها خطی خواهد بود.
 
-For an illustration of the concept refer to slide number 103 of the [Stanford slides](http://web.stanford.edu/class/archive/cs/cs166/cs166.1166/lectures/02/Slides02.pdf).
+برای تصویری از این مفهوم به اسلاید شماره ۱۰۳ از [اسلایدهای استنفورد](http://web.stanford.edu/class/archive/cs/cs166/cs166.1166/lectures/02/Slides02.pdf) مراجعه کنید.
 
-### BFS-based construction
+### ساخت مبتنی بر BFS
 
-Instead of computing transitions and suffix links with recursive calls to `go` and `get_link`, it is possible to compute them bottom-up starting from the root.
-(In fact, when the dictionary consists of only one string, we obtain the familiar Knuth-Morris-Pratt algorithm.)
+به جای محاسبه‌ی انتقال‌ها و پیوندهای پسوندی با فراخوانی‌های بازگشتی به `go` و `get_link`، می‌توان آنها را به صورت پایین به بالا (bottom-up) از ریشه محاسبه کرد.
+(در واقع، زمانی که دیکشنری فقط از یک رشته تشکیل شده باشد، الگوریتم آشنای Knuth-Morris-Pratt را به دست می‌آوریم.)
 
-This approach will have some advantages over the one described above as, instead of the total length $m$, its running time depends only on the number of vertices $n$ in the trie. Moreover, it is possible to adapt it for large alphabets using a persistent array data structure, thus making the construction time $O(n \log k)$ instead of $O(mk)$, which is a significant improvement granted that $m$ may go up to $n^2$.
+این رویکرد نسبت به روشی که در بالا توضیح داده شد، مزایایی خواهد داشت، زیرا زمان اجرای آن به جای طول کل $m$، تنها به تعداد رأس‌های $n$ در ترای بستگی دارد. علاوه بر این، می‌توان آن را برای الفباهای بزرگ با استفاده از یک ساختمان داده آرایه پایا (persistent array) تطبیق داد، و در نتیجه زمان ساخت را به جای $O(mk)$ به $O(n \log k)$ رساند، که با توجه به اینکه $m$ ممکن است تا $n^2$ برسد، بهبود قابل توجهی است.
 
-We can reason inductively using the fact that BFS from the root traverses vertices in order of increasing length.
-We may assume that when we're in a vertex $v$, its suffix link $u = link[v]$ is already successfully computed, and for all vertices with shorter length transitions from them are also fully computed.
+می‌توانیم به صورت استقرایی با استفاده از این واقعیت استدلال کنیم که BFS از ریشه، رأس‌ها را به ترتیب طول افزایشی پیمایش می‌کند.
+می‌توانیم فرض کنیم که وقتی در یک رأس $v$ هستیم، پیوند پسوندی آن $u = link[v]$ قبلاً با موفقیت محاسبه شده است، و برای تمام رأس‌های با طول کوتاه‌تر، انتقال‌ها از آنها نیز به طور کامل محاسبه شده‌اند.
 
-Assume that at the moment we stand in a vertex $v$ and consider a character $c$. We essentially have two cases:
+فرض کنید در حال حاضر در یک رأس $v$ ایستاده‌ایم و کاراکتر $c$ را در نظر می‌گیریم. ما اساساً دو حالت داریم:
 
-1. $go[v][c] = -1$. In this case, we may assign $go[v][c] = go[u][c]$, which is already known by the induction hypothesis;
-2. $go[v][c] = w \neq -1$. In this case, we may assign $link[w] = go[u][c]$.
+1. $go[v][c] = -1$. در این حالت، می‌توانیم $go[v][c] = go[u][c]$ را اختصاص دهیم که طبق فرض استقرا از قبل مشخص است؛
+2. $go[v][c] = w \neq -1$. در این حالت، می‌توانیم $link[w] = go[u][c]$ را اختصاص دهیم.
 
-In this way, we spend $O(1)$ time per each pair of a vertex and a character, making the running time $O(nk)$. The major overhead here is that we copy a lot of transitions from $u$ in the first case, while the transitions of the second case form the trie and sum up to $n$ over all vertices. To avoid the copying of $go[u][c]$, we may use a persistent array data structure, using which we initially copy $go[u]$ into $go[v]$ and then only update values for characters in which the transition would differ. This leads to the $O(n \log k)$ algorithm.
+به این ترتیب، ما برای هر جفت رأس و کاراکتر، زمان $O(1)$ صرف می‌کنیم که زمان اجرا را $O(nk)$ می‌کند. سربار اصلی در اینجا این است که در حالت اول، ما تعداد زیادی از انتقال‌ها را از $u$ کپی می‌کنیم، در حالی که انتقال‌های حالت دوم، ترای را تشکیل می‌ده دهند و در مجموع روی تمام رأس‌ها به $n$ می‌رسند. برای جلوگیری از کپی کردن $go[u][c]$، می‌توانیم از یک ساختمان داده آرایه پایا استفاده کنیم که با استفاده از آن، ابتدا $go[u]$ را در $go[v]$ کپی می‌کنیم و سپس فقط مقادیر را برای کاراکترهایی که انتقال در آنها متفاوت است، به‌روزرسانی می‌کنیم. این منجر به الگوریتم $O(n \log k)$ می‌شود.
 
-## Applications
+## کاربردها
 
-### Find all strings from a given set in a text
+### یافتن تمام رشته‌های یک مجموعه در یک متن
 
-We are given a set of strings and a text.
-We have to print all occurrences of all strings from the set in the given text in $O(\text{len} + \text{ans})$, where $\text{len}$ is the length of the text and $\text{ans}$ is the size of the answer.
+به ما مجموعه‌ای از رشته‌ها و یک متن داده شده است.
+باید تمام رخدادهای تمام رشته‌های مجموعه را در متن داده شده در زمان $O(\text{len} + \text{ans})$ چاپ کنیم، که در آن $\text{len}$ طول متن و $\text{ans}$ اندازه پاسخ است.
 
-We construct an automaton for this set of strings.
-We will now process the text letter by letter using the automaton,
-starting at the root of the trie.
-If we are at any time at state $v$, and the next letter is $c$, then we transition to the next state with $\text{go}(v, c)$, thereby either increasing the length of the current match substring by $1$, or decreasing it by following a suffix link.
+ما برای این مجموعه‌ی رشته‌ها یک ماشین می‌سازیم.
+اکنون متن را حرف به حرف با استفاده از ماشین، با شروع از ریشه ترای، پردازش خواهیم کرد.
+اگر در هر زمان در حالت $v$ باشیم و حرف بعدی $c$ باشد، با $\text{go}(v, c)$ به حالت بعدی انتقال می‌یابیم، و بدین ترتیب یا طول زیررشته تطابق فعلی را ۱ واحد افزایش می‌دهیم یا با دنبال کردن یک پیوند پسوندی آن را کاهش می‌دهیم.
 
-How can we find out for a state $v$, if there are any matches with strings for the set?
-First, it is clear that if we stand on a $\text{output}$ vertex, then the string corresponding to the vertex ends at this position in the text.
-However this is by no means the only possible case of achieving a match:
-if we can reach one or more  $\text{output}$ vertices by moving along the suffix links, then there will be also a match corresponding to each found $\text{output}$ vertex.
-A simple example demonstrating this situation can be created using the set of strings $\{dabce, abc, bc\}$ and the text $dabc$.
+چگونه می‌توانیم برای یک حالت $v$ بفهمیم که آیا تطابقی با رشته‌های مجموعه وجود دارد؟
+اول، واضح است که اگر روی یک رأس $\text{output}$ بایستیم، رشته متناظر با آن رأس در این موقعیت از متن به پایان می‌رسد.
+با این حال، این به هیچ وجه تنها حالت ممکن برای رسیدن به یک تطابق نیست:
+اگر بتوانیم با حرکت در امتداد پیوندهای پسوندی به یک یا چند رأس $\text{output}$ برسیم، آنگاه به ازای هر رأس $\text{output}$ پیدا شده، یک تطابق نیز وجود خواهد داشت.
+یک مثال ساده که این وضعیت را نشان می‌دهد را می‌توان با استفاده از مجموعه رشته‌های $\{dabce, abc, bc\}$ و متن $dabc$ ایجاد کرد.
 
-Thus if we store in each $\text{output}$ vertex the index of the string corresponding to it (or the list of indices if duplicate strings appear in the set), then we can find in $O(n)$ time the indices of all strings which match the current state, by simply following the suffix links from the current vertex to the root.
-This is not the most efficient solution, since this results in $O(n ~ \text{len})$ complexity overall.
-However, this can be optimized by computing and storing the nearest $\text{output}$ vertex that is reachable using suffix links (this is sometimes called the **exit link**).
-This value we can compute lazily in linear time.
-Thus for each vertex we can advance in $O(1)$ time to the next marked vertex in the suffix link path, i.e. to the next match.
-Thus for each match we spend $O(1)$ time, and therefore we reach the complexity $O(\text{len} + \text{ans})$.
+بنابراین اگر در هر رأس $\text{output}$ اندیس رشته متناظر با آن را ذخیره کنیم (یا لیست اندیس‌ها در صورتی که رشته‌های تکراری در مجموعه وجود داشته باشند)، آنگاه می‌توانیم در زمان $O(n)$ اندیس‌های تمام رشته‌هایی را که با حالت فعلی تطابق دارند، با دنبال کردن ساده پیوندهای پسوندی از رأس فعلی به ریشه، پیدا کنیم.
+این کارآمدترین راه‌حل نیست، زیرا در کل منجر به پیچیدگی $O(n \cdot \text{len})$ می‌شود.
+با این حال، این را می‌توان با محاسبه و ذخیره‌ی نزدیک‌ترین رأس $\text{output}$ که با استفاده از پیوندهای پسوندی قابل دسترسی است (که گاهی اوقات **پیوند خروجی (exit link)** نامیده می‌شود) بهینه کرد.
+این مقدار را می‌توانیم به صورت تنبل (lazily) در زمان خطی محاسبه کنیم.
+بنابراین برای هر رأس می‌توانیم در زمان $O(1)$ به رأس علامت‌گذاری شده بعدی در مسیر پیوند پسوندی، یعنی به تطابق بعدی، پیش برویم.
+در نتیجه برای هر تطابق زمان $O(1)$ صرف می‌کنیم و به پیچیدگی $O(\text{len} + \text{ans})$ می‌رسیم.
 
-If you only want to count the occurrences and not find the indices themselves, you can calculate the number of marked vertices in the suffix link path for each vertex $v$.
-This can be calculated in $O(n)$ time in total.
-Thus we can sum up all matches in $O(\text{len})$.
+اگر فقط بخواهید تعداد رخدادها را بشمارید و خود اندیس‌ها را پیدا نکنید، می‌توانید تعداد رأس‌های علامت‌گذاری شده در مسیر پیوند پسوندی را برای هر رأس $v$ محاسبه کنید.
+این کار را می‌توان در کل در زمان $O(n)$ محاسبه کرد.
+بنابراین می‌توانیم تمام تطابق‌ها را در زمان $O(\text{len})$ جمع بزنیم.
 
-### Finding the lexicographically smallest string of a given length that doesn't match any given strings
+### یافتن کوچکترین رشته از نظر لغوی با طول معین که با هیچ یک از رشته‌های داده شده تطابق ندارد
 
-A set of strings and a length $L$ is given.
-We have to find a string of length $L$, which does not contain any of the strings, and derive the lexicographically smallest of such strings.
+یک مجموعه از رشته‌ها و یک طول $L$ داده شده است.
+باید یک رشته به طول $L$ پیدا کنیم که شامل هیچ یک از رشته‌ها نباشد و کوچکترین رشته از نظر لغوی با این ویژگی را بیابیم.
 
-We can construct the automaton for the set of strings.
-Recall that $\text{output}$ vertices are the states where we have a match with a string from the set.
-Since in this task we have to avoid matches, we are not allowed to enter such states.
-On the other hand we can enter all other vertices.
-Thus we delete all "bad" vertices from the machine, and in the remaining graph of the automaton we find the lexicographically smallest path of length $L$.
-This task can be solved in $O(L)$ for example by [depth first search](../graph/depth-first-search.md).
+ما می‌توانیم ماشین را برای این مجموعه از رشته‌ها بسازیم.
+به یاد بیاورید که رأس‌های `output` حالت‌هایی هستند که در آنها با یک رشته از مجموعه تطابق داریم.
+از آنجایی که در این مسئله باید از تطابق‌ها اجتناب کنیم، مجاز به ورود به چنین حالت‌هایی نیستیم.
+از طرف دیگر می‌توانیم وارد تمام رأس‌های دیگر شویم.
+بنابراین تمام رأس‌های «بد» را از ماشین حذف می‌کنیم و در گراف باقی‌مانده ماشین، کوچکترین مسیر از نظر لغوی به طول $L$ را پیدا می‌کنیم.
+این مسئله را می‌توان برای مثال با [جستجوی عمق-اول](../graph/depth-first-search.md) در زمان $O(L)$ حل کرد.
 
-### Finding the shortest string containing all given strings
+### یافتن کوتاه‌ترین رشته‌ای که شامل تمام رشته‌های داده شده باشد
 
-Here we use the same ideas.
-For each vertex we store a mask that denotes the strings which match at this state.
-Then the problem can be reformulated as follows:
-initially being in the state $(v = \text{root},~ \text{mask} = 0)$, we want to reach the state $(v,~ \text{mask} = 2^n - 1)$, where $n$ is the number of strings in the set.
-When we transition from one state to another using a letter, we update the mask accordingly.
-By running a [breadth first search](../graph/breadth-first-search.md) we can find a path to the state $(v,~ \text{mask} = 2^n - 1)$ with the smallest length.
+در اینجا از ایده‌های مشابهی استفاده می‌کنیم.
+برای هر رأس یک ماسک (mask) ذخیره می‌کنیم که رشته‌هایی را که در این حالت تطابق دارند، مشخص می‌کند.
+سپس مسئله را می‌توان به صورت زیر بازنویسی کرد:
+در ابتدا در حالت $(v = \text{root},~ \text{mask} = 0)$ هستیم و می‌خواهیم به حالت $(v,~ \text{mask} = 2^n - 1)$ برسیم، که در آن $n$ تعداد رشته‌ها در مجموعه است.
+وقتی با استفاده از یک حرف از یک حالت به حالت دیگر منتقل می‌شویم، ماسک را متناسب با آن به‌روز می‌کنیم.
+با اجرای یک [جستجوی سطح-اول](../graph/breadth-first-search.md) می‌توانیم مسیری به حالت $(v,~ \text{mask} = 2^n - 1)$ با کوتاه‌ترین طول پیدا کنیم.
 
-### Finding the lexicographically smallest string of length $L$ containing $k$ strings {data-toc-label="Finding the lexicographically smallest string of length L containing k strings"}
+### یافتن کوچکترین رشته از نظر لغوی به طول $L$ که شامل $k$ رشته باشد {data-toc-label="یافتن کوچکترین رشته از نظر لغوی به طول L که شامل k رشته باشد"}
 
-As in the previous problem, we calculate for each vertex the number of matches that correspond to it (that is the number of marked vertices reachable using suffix links).
-We reformulate the problem: the current state is determined by a triple of numbers $(v,~ \text{len},~ \text{cnt})$, and we want to reach from the state $(\text{root},~ 0,~ 0)$ the state $(v,~ L,~ k)$, where $v$ can be any vertex.
-Thus we can find such a path  using depth first search (and if the search looks at the edges in their natural order, then the found path will automatically be the lexicographically smallest).
+مانند مسئله قبل، برای هر رأس تعداد تطابق‌هایی را که به آن متناظر است محاسبه می‌کنیم (یعنی تعداد رأس‌های علامت‌گذاری شده که با استفاده از پیوندهای پسوندی قابل دسترسی هستند).
+مسئله را بازنویسی می‌کنیم: حالت فعلی با یک سه‌تایی از اعداد $(v,~ \text{len},~ \text{cnt})$ تعیین می‌شود و می‌خواهیم از حالت $(\text{root},~ 0,~ 0)$ به حالت $(v,~ L,~ k)$ برسیم، که در آن $v$ می‌تواند هر رأسی باشد.
+بنابراین می‌توانیم چنین مسیری را با استفاده از جستجوی عمق-اول پیدا کنیم (و اگر جستجو یال‌ها را به ترتیب طبیعی آنها بررسی کند، مسیر یافت شده به طور خودکار کوچکترین از نظر لغوی خواهد بود).
 
-## Problems
+## مسائل
 
 - [UVA #11590 - Prefix Lookup](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2637)
 - [UVA #11171 - SMS](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2112)
@@ -276,5 +272,5 @@ Thus we can find such a path  using depth first search (and if the search looks 
 - [Codeforces - Frequency of String](http://codeforces.com/problemset/problem/963/D)
 - [CodeChef - TWOSTRS](https://www.codechef.com/MAY20A/problems/TWOSTRS)
 
-## References
+## منابع
 - [Stanford's CS166 - Aho-Corasick Automata](http://web.stanford.edu/class/archive/cs/cs166/cs166.1166/lectures/02/Slides02.pdf) ([Condensed](http://web.stanford.edu/class/archive/cs/cs166/cs166.1166/lectures/02/Small02.pdf))

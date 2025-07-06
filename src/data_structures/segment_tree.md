@@ -1,190 +1,196 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: segment_tree
 ---
 
-# Segment Tree
+# درخت بازه (Segment Tree)
 
-A Segment Tree is a data structure that stores information about array intervals as a tree. This allows answering range queries over an array efficiently, while still being flexible enough to allow quick modification of the array.
-This includes finding the sum of consecutive array elements $a[l \dots r]$, or finding the minimum element in a such a range in $O(\log n)$ time. 
-Between answering such queries, the Segment Tree allows modifying the array by replacing one element, or even changing the elements of a whole subsegment (e.g. assigning all elements $a[l \dots r]$ to any value, or adding a value to all element in the subsegment). 
+درخت بازه یک ساختمان داده است که اطلاعات مربوط به بازه‌های یک آرایه را به صورت درختی ذخیره می‌کند. این ساختار داده امکان پاسخ‌گویی بهینه به پرس‌وجوهای بازه‌ای روی یک آرایه را فراهم می‌کند و در عین حال به اندازه کافی انعطاف‌پذیر است تا امکان تغییر سریع آرایه را نیز بدهد.
+این قابلیت‌ها شامل یافتن مجموع عناصر متوالی آرایه $a[l \dots r]$ یا یافتن عنصر کمینه در چنین بازه‌ای در زمان $O(\log n)$ است.
+بین پاسخ به چنین پرس‌وجوهایی، درخت بازه امکان تغییر آرایه را با جایگزینی یک عنصر یا حتی تغییر عناصر یک زیربازه کامل فراهم می‌کند (مثلاً تخصیص یک مقدار به تمام عناصر $a[l \dots r]$ یا افزودن مقداری به تمام عناصر در آن زیربازه).
 
-In general, a Segment Tree is a very flexible data structure, and a huge number of problems can be solved with it. 
-Additionally, it is also possible to apply more complex operations and answer more complex queries (see [Advanced versions of Segment Trees](segment_tree.md#advanced-versions-of-segment-trees)).
-In particular the Segment Tree can be easily generalized to larger dimensions. 
-For instance, with a two-dimensional Segment Tree you can answer sum or minimum queries over some subrectangle of a given matrix in only $O(\log^2 n)$ time. 
+به طور کلی، درخت بازه یک ساختمان داده بسیار انعطاف‌پذیر است و تعداد زیادی از مسائل را می‌توان با آن حل کرد.
+علاوه بر این، امکان اعمال عملیات پیچیده‌تر و پاسخ به پرس‌وجوهای پیچیده‌تر نیز وجود دارد (بخش [نسخه‌های پیشرفته درخت بازه](segment_tree.md#advanced-versions-of-segment-trees) را ببینید).
+به‌ویژه، درخت بازه را می‌توان به راحتی به ابعاد بالاتر تعمیم داد.
+برای مثال، با یک درخت بازه دو‌بعدی می‌توانید به پرس‌وجوهای مجموع یا کمینه روی یک زیرمستطیل از یک ماتریس در زمان $O(\log^2 n)$ پاسخ دهید.
 
-One important property of Segment Trees is that they require only a linear amount of memory.
-The standard Segment Tree requires $4n$ vertices for working on an array of size $n$. 
+یکی از ویژگی‌های مهم درخت بازه این است که تنها به مقدار حافظه خطی نیاز دارد.
+درخت بازه استاندارد برای کار بر روی آرایه‌ای به اندازه $n$ به $4n$ رأس نیاز دارد.
 
-## Simplest form of a Segment Tree
+## ساده‌ترین شکل یک درخت بازه
 
-To start easy, we consider the simplest form of a Segment Tree. 
-We want to answer sum queries efficiently. 
-The formal definition of our task is:
-Given an array $a[0 \dots n-1]$, the Segment Tree must be able to find the sum of elements between the indices $l$ and $r$ (i.e. computing the sum $\sum_{i=l}^r a[i]$), and also handle changing values of the elements in the array (i.e. perform assignments of the form $a[i] = x$).
-The Segment Tree should be able to process **both** queries in $O(\log n)$ time.
+برای شروع، ساده‌ترین شکل یک درخت بازه را در نظر می‌گیریم.
+می‌خواهیم به پرس‌وجوهای مجموع به صورت بهینه پاسخ دهیم.
+تعریف رسمی وظیفه ما به این صورت است:
+با داشتن آرایه $a[0 \dots n-1]$، درخت بازه باید قادر به یافتن مجموع عناصر بین اندیس‌های $l$ و $r$ (یعنی محاسبه مجموع $\sum_{i=l}^r a[i]$) و همچنین مدیریت تغییر مقادیر عناصر آرایه (یعنی انجام انتساب‌هایی به شکل $a[i] = x$) باشد.
+درخت بازه باید بتواند **هر دو** پرس‌وجو را در زمان $O(\log n)$ پردازش کند.
 
-This is an improvement over the simpler approaches.
-A naive array implementation - just using a simple array - can update elements in $O(1)$, but requires $O(n)$ to compute each sum query.
-And precomputed prefix sums can compute sum queries in $O(1)$, but updating an array element requires $O(n)$ changes to the prefix sums.
+این یک بهبود نسبت به رویکردهای ساده‌تر است.
+یک پیاده‌سازی ساده با آرایه - فقط با استفاده از یک آرایه معمولی - می‌تواند عناصر را در زمان $O(1)$ به‌روزرسانی کند، اما برای محاسبه هر پرس‌وجوی مجموع به زمان $O(n)$ نیاز دارد.
+و مجموع‌های پیشوندی از پیش محاسبه‌شده می‌توانند پرس‌وجوهای مجموع را در زمان $O(1)$ محاسبه کنند، اما به‌روزرسانی یک عنصر آرایه به $O(n)$ تغییر در مجموع‌های پیشوندی نیاز دارد.
 
-### Structure of the Segment Tree
+### ساختار درخت بازه
 
-We can take a divide-and-conquer approach when it comes to array segments. 
-We compute and store the sum of the elements of the whole array, i.e. the sum of the segment $a[0 \dots n-1]$. 
-We then split the array into two halves $a[0 \dots n/2-1]$ and $a[n/2 \dots n-1]$ and compute the sum of each halve and store them. 
-Each of these two halves in turn are split in half, and so on until all segments reach size $1$. 
+می‌توانیم در مورد بازه‌های آرایه از رویکرد تقسیم و غلبه استفاده کنیم.
+ما مجموع عناصر کل آرایه، یعنی مجموع بازه $a[0 \dots n-1]$ را محاسبه و ذخیره می‌کنیم.
+سپس آرایه را به دو نیمه $a[0 \dots n/2-1]$ و $a[n/2 \dots n-1]$ تقسیم کرده و مجموع هر نیمه را محاسبه و ذخیره می‌کنیم.
+هر یک از این دو نیمه به نوبه خود به دو نیمه تقسیم می‌شوند و این کار تا زمانی ادامه می‌یابد که همه بازه‌ها به اندازه $۱$ برسند.
 
-We can view these segments as forming a binary tree: 
-the root of this tree is the segment $a[0 \dots n-1]$, and each vertex (except leaf vertices) has exactly two child vertices. 
-This is why the data structure is called "Segment Tree", even though in most implementations the tree is not constructed explicitly (see [Implementation](segment_tree.md#implementation)).
+می‌توانیم این بازه‌ها را به صورت یک درخت دودویی در نظر بگیریم:
+ریشه این درخت بازه $a[0 \dots n-1]$ است و هر رأس (به جز رأس‌های برگ) دقیقاً دو فرزند دارد.
+به همین دلیل این ساختمان داده «درخت بازه» نامیده می‌شود، هرچند در بیشتر پیاده‌سازی‌ها، درخت به صراحت ساخته نمی‌شود (بخش [پیاده‌سازی](segment_tree.md#implementation) را ببینید).
 
-Here is a visual representation of such a Segment Tree over the array $a = [1, 3, -2, 8, -7]$:
+در اینجا یک نمایش تصویری از چنین درخت بازه‌ای روی آرایه $a = [1, 3, -2, 8, -7]$ آمده است:
 
-!["Sum Segment Tree"](sum-segment-tree.png)
 
-From this short description of the data structure, we can already conclude that a Segment Tree only requires a linear number of vertices. 
-The first level of the tree contains a single node (the root), the second level will contain two vertices, in the third it will contain four vertices, until the number of vertices reaches $n$. 
-Thus the number of vertices in the worst case can be estimated by the sum $1 + 2 + 4 + \dots + 2^{\lceil\log_2 n\rceil} \lt 2^{\lceil\log_2 n\rceil + 1} \lt 4n$.
+!["درخت بازه برای مجموع"](sum-segment-tree.png)
 
-It is worth noting that whenever $n$ is not a power of two, not all levels of the Segment Tree will be completely filled. 
-We can see that behavior in the image.
-For now we can forget about this fact, but it will become important later during the implementation.
 
-The height of the Segment Tree is $O(\log n)$, because when going down from the root to the leaves the size of the segments decreases approximately by half. 
+از این توصیف کوتاه از ساختمان داده، می‌توانیم نتیجه بگیریم که یک درخت بازه تنها به تعداد خطی رأس نیاز دارد.
+سطح اول درخت شامل یک گره (ریشه) است، سطح دوم شامل دو رأس، در سطح سوم شامل چهار رأس خواهد بود، تا زمانی که تعداد رأس‌ها به $n$ برسد.
+بنابراین تعداد رأس‌ها در بدترین حالت را می‌توان با مجموع $1 + 2 + 4 + \dots + 2^{\lceil\log_2 n\rceil} \lt 2^{\lceil\log_2 n\rceil + 1} \lt 4n$ تخمین زد.
 
-### Construction
+شایان ذکر است که هرگاه $n$ توانی از دو نباشد، تمام سطوح درخت بازه به طور کامل پر نخواهند شد.
+می‌توانیم این رفتار را در تصویر مشاهده کنیم.
+فعلاً می‌توانیم این واقعیت را فراموش کنیم، اما بعداً در حین پیاده‌سازی اهمیت پیدا می‌کند.
 
-Before constructing the segment tree, we need to decide:
+ارتفاع درخت بازه $O(\log n)$ است، زیرا هنگام پایین رفتن از ریشه به سمت برگ‌ها، اندازه بازه‌ها تقریباً نصف می‌شود.
 
-1. the *value* that gets stored at each node of the segment tree.
-   For example, in a sum segment tree, a node would store the sum of the elements in its range $[l, r]$.
-2. the *merge* operation that merges two siblings in a segment tree.
-   For example, in a sum segment tree, the two nodes corresponding to the ranges $a[l_1 \dots r_1]$ and $a[l_2 \dots r_2]$ would be merged into a node corresponding to the range $a[l_1 \dots r_2]$ by adding the values of the two nodes.
+### ساختن درخت
 
-Note that a vertex is a "leaf vertex", if its corresponding segment covers only one value in the original array. It is present at the lowermost level of a segment tree. Its value would be equal to the (corresponding) element $a[i]$. 
+قبل از ساختن درخت بازه، باید تصمیم بگیریم:
 
-Now, for construction of the segment tree, we start at the bottom level (the leaf vertices) and assign them their respective values. On the basis of these values, we can compute the values of the previous level, using the `merge` function.
-And on the basis of those, we can compute the values of the previous, and repeat the procedure until we reach the root vertex. 
+۱. *مقدار*ی که در هر گره درخت بازه ذخیره می‌شود.
+   برای مثال، در یک درخت بازه برای مجموع، یک گره مجموع عناصر در بازه خود $[l, r]$ را ذخیره می‌کند.
+۲. عملیات *ادغام* که دو گره خواهر و برادر را در یک درخت بازه ادغام می‌کند.
+   برای مثال، در یک درخت بازه برای مجموع، دو گره مربوط به بازه‌های $a[l_1 \dots r_1]$ و $a[l_2 \dots r_2]$ با جمع کردن مقادیرشان در یک گره مربوط به بازه $a[l_1 \dots r_2]$ ادغام می‌شوند.
 
-It is convenient to describe this operation recursively in the other direction, i.e., from the root vertex to the leaf vertices. The construction procedure, if called on a non-leaf vertex, does the following:
+توجه داشته باشید که یک رأس، «رأس برگ» است اگر بازه مربوط به آن فقط یک مقدار از آرایه اصلی را پوشش دهد. این رأس در پایین‌ترین سطح درخت بازه قرار دارد. مقدار آن برابر با عنصر (مربوطه) $a[i]$ خواهد بود.
 
-1. recursively construct the values of the two child vertices
-2. merge the computed values of these children.
+حال، برای ساخت درخت بازه، از سطح پایین (رأس‌های برگ) شروع کرده و مقادیر مربوط به آن‌ها را تخصیص می‌دهیم. بر اساس این مقادیر، می‌توانیم مقادیر سطح بالاتر را با استفاده از تابع `merge` محاسبه کنیم.
+و بر اساس آن‌ها، می‌توانیم مقادیر سطح بالاتر را محاسبه کرده و این روند را تا رسیدن به رأس ریشه تکرار کنیم.
 
-We start the construction at the root vertex, and hence, we are able to compute the entire segment tree.
+توصیف این عملیات به صورت بازگشتی در جهت دیگر، یعنی از رأس ریشه به رأس‌های برگ، راحت‌تر است. رویه ساخت، اگر روی یک رأس غیربرگ فراخوانی شود، کارهای زیر را انجام می‌دهد:
 
-The time complexity of this construction is $O(n)$, assuming that the merge operation is constant time (the merge operation gets called $n$ times, which is equal to the number of internal nodes in the segment tree).
+۱. به صورت بازگشتی مقادیر دو رأس فرزند را می‌سازد
+۲. مقادیر محاسبه‌شده این فرزندان را ادغام می‌کند.
 
-### Sum queries
+ما ساخت را از رأس ریشه شروع می‌کنیم، و بنابراین، می‌توانیم کل درخت بازه را محاسبه کنیم.
 
-For now we are going to answer sum queries. As an input we receive two integers $l$ and $r$, and we have to compute the sum of the segment $a[l \dots r]$ in $O(\log n)$ time. 
+پیچیدگی زمانی این ساخت $O(n)$ است، با فرض اینکه عملیات ادغام زمان ثابتی داشته باشد (عملیات ادغام $n$ بار فراخوانی می‌شود، که برابر با تعداد گره‌های داخلی در درخت بازه است).
 
-To do this, we will traverse the Segment Tree and use the precomputed sums of the segments.
-Let's assume that we are currently at the vertex that covers the segment $a[tl \dots tr]$.
-There are three possible cases. 
+### پرس‌وجوهای مجموع
 
-The easiest case is when the segment $a[l \dots r]$ is equal to the corresponding segment of the current vertex (i.e. $a[l \dots r] = a[tl \dots tr]$), then we are finished and can return the precomputed sum that is stored in the vertex.
+فعلاً می‌خواهیم به پرس‌وجوهای مجموع پاسخ دهیم. به عنوان ورودی، دو عدد صحیح $l$ و $r$ دریافت می‌کنیم و باید مجموع بازه $a[l \dots r]$ را در زمان $O(\log n)$ محاسبه کنیم.
 
-Alternatively the segment of the query can fall completely into the domain of either the left or the right child.
-Recall that the left child covers the segment $a[tl \dots tm]$ and the right vertex covers the segment $a[tm + 1 \dots tr]$ with $tm = (tl + tr) / 2$. 
-In this case we can simply go to the child vertex, which corresponding segment covers the query segment, and execute the algorithm described here with that vertex. 
+برای انجام این کار، درخت بازه را پیمایش کرده و از مجموع‌های از پیش محاسبه‌شده بازه‌ها استفاده می‌کنیم.
+فرض کنیم در حال حاضر در رأسی هستیم که بازه $a[tl \dots tr]$ را پوشش می‌دهد.
+سه حالت ممکن وجود دارد.
 
-And then there is the last case, the query segment intersects with both children. 
-In this case we have no other option as to make two recursive calls, one for each child.
-First we go to the left child, compute a partial answer for this vertex (i.e. the sum of values of the intersection between the segment of the query and the segment of the left child), then go to the right child, compute the partial answer using that vertex, and then combine the answers by adding them. 
-In other words, since the left child represents the segment $a[tl \dots tm]$ and the right child the segment $a[tm+1 \dots tr]$, we compute the sum query $a[l \dots tm]$ using the left child, and the sum query $a[tm+1 \dots r]$ using the right child. 
+ساده‌ترین حالت زمانی است که بازه $a[l \dots r]$ با بازه مربوط به رأس فعلی برابر باشد (یعنی $a[l \dots r] = a[tl \dots tr]$)، در این صورت کار تمام است و می‌توانیم مجموع از پیش محاسبه‌شده‌ای که در رأس ذخیره شده است را برگردانیم.
 
-So processing a sum query is a function that recursively calls itself once with either the left or the right child (without changing the query boundaries), or twice, once for the left and once for the right child (by splitting the query into two subqueries). 
-And the recursion ends, whenever the boundaries of the current query segment coincides with the boundaries of the segment of the current vertex. 
-In that case the answer will be the precomputed value of the sum of this segment, which is stored in the tree.
+حالت دیگر این است که بازه پرس‌وجو به طور کامل در دامنه فرزند چپ یا راست قرار گیرد.
+به یاد بیاورید که فرزند چپ بازه $a[tl \dots tm]$ و فرزند راست بازه $a[tm + 1 \dots tr]$ را با $tm = (tl + tr) / 2$ پوشش می‌دهد.
+در این حالت می‌توانیم به سادگی به رأس فرزندی برویم که بازه‌اش، بازه پرس‌وجو را پوشش می‌دهد و الگوریتم توصیف‌شده را با آن رأس اجرا کنیم.
 
-In other words, the calculation of the query is a traversal of the tree, which spreads through all necessary branches of the tree, and uses the precomputed sum values of the segments in the tree. 
+و در نهایت حالت آخر، بازه پرس‌وجو با هر دو فرزند تلاقی دارد.
+در این حالت چاره‌ای جز انجام دو فراخوانی بازگشتی، یکی برای هر فرزند، نداریم.
+ابتدا به فرزند چپ می‌رویم، یک پاسخ جزئی برای این رأس محاسبه می‌کنیم (یعنی مجموع مقادیر تلاقی بین بازه پرس‌وجو و بازه فرزند چپ)، سپس به فرزند راست می‌رویم، پاسخ جزئی را با استفاده از آن رأس محاسبه می‌کنیم و سپس پاسخ‌ها را با جمع کردنشان ترکیب می‌کنیم.
+به عبارت دیگر، از آنجا که فرزند چپ بازه $a[tl \dots tm]$ و فرزند راست بازه $a[tm+1 \dots tr]$ را نشان می‌دهد، پرس‌وجوی مجموع $a[l \dots tm]$ را با استفاده از فرزند چپ و پرس‌وجوی مجموع $a[tm+1 \dots r]$ را با استفاده از فرزند راست محاسبه می‌کنیم.
 
-Obviously we will start the traversal from the root vertex of the Segment Tree.
+بنابراین پردازش یک پرس‌وجوی مجموع، یک تابع است که به صورت بازگشتی خود را یک بار با فرزند چپ یا راست (بدون تغییر مرزهای پرس‌وجو) یا دو بار، یک بار برای چپ و یک بار برای راست (با تقسیم پرس‌وجو به دو زیرپرس‌وجو) فراخوانی می‌کند.
+و بازگشت زمانی پایان می‌یابد که مرزهای بازه پرس‌وجوی فعلی با مرزهای بازه رأس فعلی منطبق شوند.
+در آن حالت، پاسخ، مقدار از پیش محاسبه‌شده مجموع این بازه خواهد بود که در درخت ذخیره شده است.
 
-The procedure is illustrated in the following image.
-Again the array $a = [1, 3, -2, 8, -7]$ is used, and here we want to compute the sum $\sum_{i=2}^4 a[i]$.
-The colored vertices will be visited, and we will use the precomputed values of the green vertices.
-This gives us the result $-2 + 1 = -1$.
+به عبارت دیگر، محاسبه پرس‌وجو یک پیمایش از درخت است که در تمام شاخه‌های لازم درخت پخش می‌شود و از مقادیر مجموع از پیش محاسبه‌شده بازه‌ها در درخت استفاده می‌کند.
 
-!["Sum Segment Tree Query"](sum-segment-tree-query.png)
+بدیهی است که پیمایش را از رأس ریشه درخت بازه شروع خواهیم کرد.
 
-Why is the complexity of this algorithm $O(\log n)$?
-To show this complexity we look at each level of the tree. 
-It turns out, that for each level we only visit not more than four vertices. 
-And since the height of the tree is $O(\log n)$, we receive the desired running time. 
+این رویه در تصویر زیر نشان داده شده است.
+دوباره از آرایه $a = [1, 3, -2, 8, -7]$ استفاده شده و اینجا می‌خواهیم مجموع $\sum_{i=2}^4 a[i]$ را محاسبه کنیم.
+رأس‌های رنگی بازدید می‌شوند و ما از مقادیر از پیش محاسبه‌شده رأس‌های سبز استفاده خواهیم کرد.
+این کار نتیجه $ -2 + 1 = -1$ را به ما می‌دهد.
 
-We can show that this proposition (at most four vertices each level) is true by induction.
-At the first level, we only visit one vertex, the root vertex, so here we visit less than four vertices. 
-Now let's look at an arbitrary level.
-By induction hypothesis, we visit at most four vertices. 
-If we only visit at most two vertices, the next level has at most four vertices. That is trivial, because each vertex can only cause at most two recursive calls. 
-So let's assume that we visit three or four vertices in the current level. 
-From those vertices, we will analyze the vertices in the middle more carefully. 
-Since the sum query asks for the sum of a continuous subarray, we know that segments corresponding to the visited vertices in the middle will be completely covered by the segment of the sum query. 
-Therefore these vertices will not make any recursive calls. 
-So only the most left, and the most right vertex will have the potential to make recursive calls. 
-And those will only create at most four recursive calls, so also the next level will satisfy the assertion.
-We can say that one branch approaches the left boundary of the query, and the second branch approaches the right one. 
 
-Therefore we visit at most $4 \log n$ vertices in total, and that is equal to a running time of $O(\log n)$. 
+!["پرس‌وجوی درخت بازه برای مجموع"](sum-segment-tree-query.png)
 
-In conclusion the query works by dividing the input segment into several sub-segments for which all the sums are already precomputed and stored in the tree. 
-And if we stop partitioning whenever the query segment coincides with the vertex segment, then we only need $O(\log n)$ such segments, which gives the effectiveness of the Segment Tree. 
 
-### Update queries
+چرا پیچیدگی این الگوریتم $O(\log n)$ است؟
+برای نشان دادن این پیچیدگی، به هر سطح از درخت نگاه می‌کنیم.
+معلوم می‌شود که برای هر سطح، ما بیش از چهار رأس را بازدید نمی‌کنیم.
+و از آنجایی که ارتفاع درخت $O(\log n)$ است، به زمان اجرای مطلوب می‌رسیم.
 
-Now we want to modify a specific element in the array, let's say we want to do the assignment $a[i] = x$. 
-And we have to rebuild the Segment Tree, such that it corresponds to the new, modified array. 
+می‌توانیم با استقرا نشان دهیم که این گزاره (حداکثر چهار رأس در هر سطح) درست است.
+در سطح اول، فقط یک رأس، یعنی رأس ریشه، را بازدید می‌کنیم، بنابراین در اینجا کمتر از چهار رأس بازدید می‌شود.
+حال به یک سطح دلخواه نگاه می‌کنیم.
+طبق فرض استقرا، حداکثر چهار رأس را بازدید می‌کنیم.
+اگر حداکثر دو رأس را بازدید کنیم، سطح بعدی حداکثر چهار رأس خواهد داشت. این بدیهی است، زیرا هر رأس حداکثر می‌تواند دو فراخوانی بازگشتی ایجاد کند.
+بنابراین فرض کنیم که سه یا چهار رأس را در سطح فعلی بازدید می‌کنیم.
+از این رأس‌ها، رأس‌های میانی را با دقت بیشتری تحلیل می‌کنیم.
+از آنجایی که پرس‌وجوی مجموع، مجموع یک زیرآرایه پیوسته را می‌خواهد، می‌دانیم که بازه‌های مربوط به رأس‌های بازدید شده در وسط، به طور کامل توسط بازه پرس‌وجوی مجموع پوشش داده خواهند شد.
+بنابراین این رأس‌ها هیچ فراخوانی بازگشتی انجام نخواهند داد.
+پس فقط چپ‌ترین و راست‌ترین رأس‌ها پتانسیل انجام فراخوانی‌های بازگشتی را دارند.
+و آنها حداکثر چهار فراخوانی بازگشتی ایجاد خواهند کرد، بنابراین سطح بعدی نیز این گزاره را برآورده خواهد کرد.
+می‌توانیم بگوییم یک شاخه به مرز چپ پرس‌وجو نزدیک می‌شود و شاخه دوم به مرز راست آن.
 
-This query is easier than the sum query. 
-Each level of a Segment Tree forms a partition of the array. 
-Therefore an element $a[i]$ only contributes to one segment from each level. 
-Thus only $O(\log n)$ vertices need to be updated. 
+بنابراین در مجموع حداکثر $4 \log n$ رأس بازدید می‌کنیم و این برابر با زمان اجرای $O(\log n)$ است.
 
-It is easy to see, that the update request can be implemented using a recursive function. 
-The function gets passed the current tree vertex, and it recursively calls itself with one of the two child vertices (the one that contains $a[i]$ in its segment), and after that recomputes its sum value, similar how it is done in the build method (that is as the sum of its two children). 
+در نتیجه، پرس‌وجو با تقسیم بازه ورودی به چندین زیربازه که مجموع‌هایشان قبلاً در درخت محاسبه و ذخیره شده‌اند، کار می‌کند.
+و اگر هر زمان که بازه پرس‌وجو با بازه رأس منطبق شد، تقسیم‌بندی را متوقف کنیم، تنها به $O(\log n)$ چنین بازه‌ای نیاز خواهیم داشت که این کارایی درخت بازه را نشان می‌دهد.
 
-Again here is a visualization using the same array.
-Here we perform the update $a[2] = 3$.
-The green vertices are the vertices that we visit and update.
+### پرس‌وجوهای به‌روزرسانی
 
-!["Sum Segment Tree Update"](sum-segment-tree-update.png)
+حالا می‌خواهیم یک عنصر خاص در آرایه را تغییر دهیم، فرض کنید می‌خواهیم انتساب $a[i] = x$ را انجام دهیم.
+و باید درخت بازه را بازسازی کنیم تا با آرایه جدید و اصلاح‌شده مطابقت داشته باشد.
 
-### Implementation ### { #implementation}
+این پرس‌وجو از پرس‌وجوی مجموع ساده‌تر است.
+هر سطح از یک درخت بازه یک افراز از آرایه را تشکیل می‌دهد.
+بنابراین یک عنصر $a[i]$ فقط به یک بازه از هر سطح کمک می‌کند.
+در نتیجه، تنها $O(\log n)$ رأس نیاز به به‌روزرسانی دارند.
 
-The main consideration is how to store the Segment Tree.
-Of course we can define a $\text{Vertex}$ struct and create objects, that store the boundaries of the segment, its sum and additionally also pointers to its child vertices.
-However, this requires storing a lot of redundant information in the form of pointers.
-We will use a simple trick to make this a lot more efficient by using an _implicit data structure_: Only storing the sums in an array.
-(A similar method is used for binary heaps).
-The sum of the root vertex at index 1, the sums of its two child vertices at indices 2 and 3, the sums of the children of those two vertices at indices 4 to 7, and so on. 
-With 1-indexing, conveniently the left child of a vertex at index $i$ is stored at index $2i$, and the right one at index $2i + 1$. 
-Equivalently, the parent of a vertex at index $i$ is stored at $i/2$ (integer division).
+به راحتی می‌توان دید که درخواست به‌روزرسانی را می‌توان با یک تابع بازگشتی پیاده‌سازی کرد.
+این تابع رأس فعلی درخت را به عنوان پارامتر دریافت می‌کند و به صورت بازگشتی خود را با یکی از دو رأس فرزند (آنکه $a[i]$ را در بازه‌اش دارد) فراخوانی می‌کند و پس از آن مقدار مجموع خود را، مشابه آنچه در متد ساخت انجام می‌شود، دوباره محاسبه می‌کند (یعنی به عنوان مجموع دو فرزندش).
 
-This simplifies the implementation a lot. 
-We don't need to store the structure of the tree in memory. 
-It is defined implicitly. 
-We only need one array which contains the sums of all segments. 
+باز هم در اینجا یک تصویرسازی با استفاده از همان آرایه آمده است.
+در اینجا ما به‌روزرسانی $a[2] = 3$ را انجام می‌دهیم.
+رأس‌های سبز، رأس‌هایی هستند که ما بازدید و به‌روزرسانی می‌کنیم.
 
-As noted before, we need to store at most $4n$ vertices.
-It might be less, but for convenience we always allocate an array of size $4n$.
-There will be some elements in the sum array, that will not correspond to any vertices in the actual tree, but this doesn't complicate the implementation.
 
-So, we store the Segment Tree simply as an array $t[]$ with a size of four times the input size $n$:
+!["به‌روزرسانی درخت بازه برای مجموع"](sum-segment-tree-update.png)
 
-```{.cpp file=segment_tree_implementation_definition}
+
+### پیاده‌سازی ### { #implementation}
+
+ملاحظه اصلی این است که چگونه درخت بازه را ذخیره کنیم.
+البته می‌توانیم یک ساختار `Vertex` تعریف کرده و اشیایی بسازیم که مرزهای بازه، مجموع آن و علاوه بر آن اشاره‌گرهایی به رأس‌های فرزندش را ذخیره کنند.
+با این حال، این کار نیاز به ذخیره اطلاعات اضافی زیادی در قالب اشاره‌گرها دارد.
+ما از یک ترفند ساده برای کارآمدتر کردن این کار با استفاده از یک *ساختار داده ضمنی* استفاده خواهیم کرد: فقط ذخیره مجموع‌ها در یک آرایه.
+(یک روش مشابه برای هیپ‌های دودویی استفاده می‌شود).
+مجموع رأس ریشه در اندیس ۱، مجموع دو رأس فرزندش در اندیس‌های ۲ و ۳، مجموع فرزندان آن دو رأس در اندیس‌های ۴ تا ۷ و به همین ترتیب.
+با اندیس‌گذاری از ۱، به راحتی فرزند چپ یک رأس در اندیس $i$ در اندیس $2i$ و فرزند راست آن در اندیس $2i + 1$ ذخیره می‌شود.
+به طور معادل، والد یک رأس در اندیس $i$ در $i/2$ (تقسیم صحیح) ذخیره می‌شود.
+
+این کار پیاده‌سازی را بسیار ساده می‌کند.
+نیازی به ذخیره ساختار درخت در حافظه نداریم.
+این ساختار به صورت ضمنی تعریف شده است.
+ما فقط به یک آرایه نیاز داریم که شامل مجموع تمام بازه‌ها باشد.
+
+همانطور که قبلاً ذکر شد، حداکثر $4n$ رأس باید ذخیره کنیم.
+ممکن است کمتر باشد، اما برای راحتی همیشه یک آرایه به اندازه $4n$ اختصاص می‌دهیم.
+برخی از عناصر در آرایه مجموع وجود خواهند داشت که با هیچ رأسی در درخت واقعی مطابقت ندارند، اما این موضوع پیاده‌سازی را پیچیده نمی‌کند.
+
+بنابراین، ما درخت بازه را به سادگی به عنوان یک آرایه $t[]$ با اندازه چهار برابر اندازه ورودی $n$ ذخیره می‌کنیم:
+
+```cpp {.cpp file=segment_tree_implementation_definition}
 int n, t[4*MAXN];
 ```
 
-The procedure for constructing the Segment Tree from a given array $a[]$ looks like this: 
-it is a recursive function with the parameters $a[]$ (the input array), $v$ (the index of the current vertex), and the boundaries $tl$ and $tr$ of the current segment. 
-In the main program this function will be called with the parameters of the root vertex: $v = 1$, $tl = 0$, and $tr = n - 1$. 
+رویه ساخت درخت بازه از یک آرایه داده شده $a[]$ به این صورت است:
+این یک تابع بازگشتی با پارامترهای $a[]$ (آرایه ورودی)، $v$ (اندیس رأس فعلی) و مرزهای $tl$ و $tr$ بازه فعلی است.
+در برنامه اصلی این تابع با پارامترهای رأس ریشه فراخوانی می‌شود: $v = 1$، $tl = 0$ و $tr = n - 1$.
 
-```{.cpp file=segment_tree_implementation_build}
+```cpp {.cpp file=segment_tree_implementation_build}
 void build(int a[], int v, int tl, int tr) {
     if (tl == tr) {
         t[v] = a[tl];
@@ -197,10 +203,10 @@ void build(int a[], int v, int tl, int tr) {
 }
 ```
 
-Further the function for answering sum queries is also a recursive function, which receives as parameters information about the current vertex/segment (i.e. the index $v$ and the boundaries $tl$ and $tr$) and also the information about the boundaries of the query, $l$ and $r$. 
-In order to simplify the code, this function always does two recursive calls, even if only one is necessary - in that case the superfluous recursive call will have $l > r$, and this can easily be caught using an additional check at the beginning of the function.
+علاوه بر این، تابع پاسخ به پرس‌وجوهای مجموع نیز یک تابع بازگشتی است که به عنوان پارامتر اطلاعات مربوط به رأس/بازه فعلی (یعنی اندیس $v$ و مرزهای $tl$ و $tr$) و همچنین اطلاعات مربوط به مرزهای پرس‌وجو، $l$ و $r$ را دریافت می‌کند.
+برای ساده‌سازی کد، این تابع همیشه دو فراخوانی بازگشتی انجام می‌دهد، حتی اگر فقط یکی لازم باشد - در آن صورت فراخوانی بازگشتی اضافی $l > r$ خواهد داشت، و این به راحتی با یک بررسی اضافی در ابتدای تابع قابل تشخیص است.
 
-```{.cpp file=segment_tree_implementation_sum}
+```cpp {.cpp file=segment_tree_implementation_sum}
 int sum(int v, int tl, int tr, int l, int r) {
     if (l > r) 
         return 0;
@@ -213,9 +219,9 @@ int sum(int v, int tl, int tr, int l, int r) {
 }
 ```
 
-Finally the update query. The function will also receive information about the current vertex/segment, and additionally also the parameter of the update query (i.e. the position of the element and its new value).
+در نهایت پرس‌وجوی به‌روزرسانی. این تابع نیز اطلاعات مربوط به رأس/بازه فعلی و علاوه بر آن پارامتر پرس‌وجوی به‌روزرسانی (یعنی موقعیت عنصر و مقدار جدید آن) را دریافت می‌کند.
 
-```{.cpp file=segment_tree_implementation_update}
+```cpp {.cpp file=segment_tree_implementation_update}
 void update(int v, int tl, int tr, int pos, int new_val) {
     if (tl == tr) {
         t[v] = new_val;
@@ -230,56 +236,56 @@ void update(int v, int tl, int tr, int pos, int new_val) {
 }
 ```
 
-### Memory efficient implementation
+### پیاده‌سازی با حافظه بهینه
 
-Most people use the implementation from the previous section. If you look at the array `t` you can see that it follows the numbering of the tree nodes in the order of a BFS traversal (level-order traversal). 
-Using this traversal the children of vertex $v$ are $2v$ and $2v + 1$ respectively.
-However if $n$ is not a power of two, this method will skip some indices and leave some parts of the array `t` unused.
-The memory consumption is limited by $4n$, even though a Segment Tree of an array of $n$ elements requires only $2n - 1$ vertices.
+بیشتر افراد از پیاده‌سازی بخش قبل استفاده می‌کنند. اگر به آرایه `t` نگاه کنید، می‌بینید که شماره‌گذاری گره‌های درخت را به ترتیب پیمایش BFS (پیمایش سطح به سطح) دنبال می‌کند.
+با استفاده از این پیمایش، فرزندان رأس $v$ به ترتیب $2v$ و $2v + 1$ هستند.
+اما اگر $n$ توانی از دو نباشد، این روش برخی از اندیس‌ها را نادیده گرفته و بخش‌هایی از آرایه `t` را بدون استفاده باقی می‌گذارد.
+مصرف حافظه به $4n$ محدود می‌شود، در حالی که یک درخت بازه از آرایه‌ای با $n$ عنصر تنها به $2n - 1$ رأس نیاز دارد.
 
-However it can be reduced. 
-We renumber the vertices of the tree in the order of an Euler tour traversal (pre-order traversal), and we write all these vertices next to each other.
+با این حال، می‌توان آن را کاهش داد.
+ما رأس‌های درخت را به ترتیب پیمایش تور اویلر (پیمایش پیش‌ترتیب) دوباره شماره‌گذاری می‌کنیم و همه این رأس‌ها را کنار هم می‌نویسیم.
 
-Let's look at a vertex at index $v$, and let it be responsible for the segment $[l, r]$, and let $mid = \dfrac{l + r}{2}$.
-It is obvious that the left child will have the index $v + 1$.
-The left child is responsible for the segment $[l, mid]$, i.e. in total there will be $2 * (mid - l + 1) - 1$ vertices in the left child's subtree.
-Thus we can compute the index of the right child of $v$. The index will be $v + 2 * (mid - l + 1)$.
-By this numbering we achieve a reduction of the necessary memory to $2n$.
+بیایید به رأسی در اندیس $v$ نگاه کنیم، و فرض کنیم مسئول بازه $[l, r]$ است و $mid = \dfrac{l + r}{2}$.
+واضح است که فرزند چپ اندیس $v + 1$ را خواهد داشت.
+فرزند چپ مسئول بازه $[l, mid]$ است، یعنی در مجموع $2 * (mid - l + 1) - 1$ رأس در زیردرخت فرزند چپ وجود خواهد داشت.
+بنابراین می‌توانیم اندیس فرزند راست $v$ را محاسبه کنیم. اندیس آن $v + 2 * (mid - l + 1)$ خواهد بود.
+با این شماره‌گذاری به کاهشی در حافظه مورد نیاز به $2n$ دست می‌یابیم.
 
-## <a name="advanced-versions-of-segment-trees"></a>Advanced versions of Segment Trees
+## <a name="advanced-versions-of-segment-trees"></a>نسخه‌های پیشرفته درخت بازه
 
 
-A Segment Tree is a very flexible data structure, and allows variations and extensions in many different directions. 
-Let's try to categorize them below. 
+یک درخت بازه ساختار داده بسیار انعطاف‌پذیری است و امکان تغییرات و توسعه‌ها در جهات مختلف را فراهم می‌کند.
+بیایید سعی کنیم آنها را در زیر دسته‌بندی کنیم.
 
-### More complex queries
+### پرس‌وجوهای پیچیده‌تر
 
-It can be quite easy to change the Segment Tree in a direction, such that it computes different queries (e.g. computing the minimum / maximum instead of the sum), but it also can be very nontrivial. 
+تغییر درخت بازه در جهتی که پرس‌وجوهای مختلفی را محاسبه کند (مثلاً محاسبه کمینه / بیشینه به جای مجموع) می‌تواند کاملاً آسان باشد، اما همچنین می‌تواند بسیار غیربدیهی باشد.
 
-#### Finding the maximum
+#### یافتن بیشینه
 
-Let us slightly change the condition of the problem described above: instead of querying the sum, we will now make maximum queries.
+بیایید شرط مسئله توصیف شده در بالا را کمی تغییر دهیم: به جای پرس‌وجوی مجموع، اکنون پرس‌وجوهای بیشینه را انجام خواهیم داد.
 
-The tree will have exactly the same structure as the tree described above. 
-We only need to change the way $t[v]$ is computed in the $\text{build}$ and $\text{update}$ functions.
-$t[v]$ will now store the maximum of the corresponding segment. 
-And we also need to change the calculation of the returned value of the $\text{sum}$ function (replacing the summation by the maximum).
+درخت دقیقاً همان ساختاری را خواهد داشت که در بالا توصیف شد.
+ما فقط باید نحوه محاسبه $t[v]$ را در توابع $\text{build}$ و $\text{update}$ تغییر دهیم.
+$t[v]$ اکنون بیشینه بازه مربوطه را ذخیره خواهد کرد.
+و همچنین باید محاسبه مقدار بازگشتی تابع $\text{sum}$ را تغییر دهیم (جایگزین کردن جمع با بیشینه).
 
-Of course this problem can be easily changed into computing the minimum instead of the maximum.
+البته این مسئله را می‌توان به راحتی به محاسبه کمینه به جای بیشینه تغییر داد.
 
-Instead of showing an implementation to this problem, the implementation will be given to a more complex version of this problem in the next section.
+به جای نشان دادن پیاده‌سازی این مسئله، پیاده‌سازی نسخه پیچیده‌تری از این مسئله در بخش بعدی ارائه خواهد شد.
 
-#### Finding the maximum and the number of times it appears 
+#### یافتن بیشینه و تعداد دفعات ظهور آن
 
-This task is very similar to the previous one.
-In addition of finding the maximum, we also have to find the number of occurrences of the maximum. 
+این وظیفه بسیار شبیه به وظیفه قبلی است.
+علاوه بر یافتن بیشینه، باید تعداد رخدادهای آن را نیز پیدا کنیم.
 
-To solve this problem, we store a pair of numbers at each vertex in the tree: 
-In addition to the maximum we also store the number of occurrences of it in the corresponding segment. 
-Determining the correct pair to store at $t[v]$ can still be done in constant time using the information of the pairs stored at the child vertices. 
-Combining two such pairs should be done in a separate function, since this will be an operation that we will do while building the tree, while answering maximum queries and while performing modifications.
+برای حل این مسئله، یک جفت عدد در هر رأس درخت ذخیره می‌کنیم:
+علاوه بر بیشینه، تعداد رخدادهای آن را نیز در بازه مربوطه ذخیره می‌کنیم.
+تعیین جفت صحیح برای ذخیره در $t[v]$ هنوز هم می‌تواند در زمان ثابت با استفاده از اطلاعات جفت‌های ذخیره شده در رأس‌های فرزند انجام شود.
+ترکیب دو چنین جفتی باید در یک تابع جداگانه انجام شود، زیرا این عملیاتی است که ما هنگام ساخت درخت، هنگام پاسخ به پرس‌وجوهای بیشینه و هنگام انجام تغییرات انجام خواهیم داد.
 
-```{.cpp file=segment_tree_maximum_and_count}
+```cpp {.cpp file=segment_tree_maximum_and_count}
 pair<int, int> t[4*MAXN];
 
 pair<int, int> combine(pair<int, int> a, pair<int, int> b) {
@@ -324,32 +330,32 @@ void update(int v, int tl, int tr, int pos, int new_val) {
     }
 }
 ```
-#### Compute the greatest common divisor / least common multiple
+#### محاسبه بزرگترین مقسوم‌علیه مشترک / کوچکترین مضرب مشترک
 
-In this problem we want to compute the GCD / LCM of all numbers of given ranges of the array. 
+در این مسئله می‌خواهیم ب.م.م / ک.م.م تمام اعداد بازه‌های داده شده از آرایه را محاسبه کنیم.
 
-This interesting variation of the Segment Tree can be solved in exactly the same way as the Segment Trees we derived for sum / minimum / maximum queries:
-it is enough to store the GCD / LCM of the corresponding vertex in each vertex of the tree. 
-Combining two vertices can be done by computing the GCD / LCM of both vertices.
+این نوع جالب از درخت بازه را می‌توان دقیقاً به همان روشی که درختان بازه برای پرس‌وجوهای مجموع / کمینه / بیشینه استخراج کردیم، حل کرد:
+کافی است ب.م.م / ک.م.م رأس مربوطه را در هر رأس درخت ذخیره کنیم.
+ترکیب دو رأس را می‌توان با محاسبه ب.م.م / ک.م.م هر دو رأس انجام داد.
 
-#### Counting the number of zeros, searching for the $k$-th zero { #counting-zero-search-kth data-toc-label="Counting the number of zeros, searching for the k-th zero"}
+#### شمارش تعداد صفرها، جستجو برای $k$-امین صفر { #counting-zero-search-kth data-toc-label="شمارش تعداد صفرها، جستجو برای k-امین صفر"}
 
-In this problem we want to find the number of zeros in a given range, and additionally find the index of the $k$-th zero using a second function.
+در این مسئله می‌خواهیم تعداد صفرها را در یک بازه مشخص پیدا کنیم و علاوه بر آن، با استفاده از یک تابع دوم، اندیس $k$-امین صفر را پیدا کنیم.
 
-Again we have to change the store values of the tree a bit:
-This time we will store the number of zeros in each segment in $t[]$. 
-It is pretty clear, how to implement the $\text{build}$, $\text{update}$ and $\text{count_zero}$ functions, we can simply use the ideas from the sum query problem.
-Thus we solved the first part of the problem.
+باز هم باید مقادیر ذخیره شده در درخت را کمی تغییر دهیم:
+این بار تعداد صفرها را در هر بازه در $t[]$ ذخیره خواهیم کرد.
+کاملاً واضح است که چگونه توابع $\text{build}$، $\text{update}$ و $\text{count_zero}$ را پیاده‌سازی کنیم، می‌توانیم به سادگی از ایده‌های مسئله پرس‌وجوی مجموع استفاده کنیم.
+بنابراین بخش اول مسئله را حل کردیم.
 
-Now we learn how to solve the problem of finding the $k$-th zero in the array $a[]$. 
-To do this task, we will descend the Segment Tree, starting at the root vertex, and moving each time to either the left or the right child, depending on which segment contains the $k$-th zero.
-In order to decide to which child we need to go, it is enough to look at the number of zeros appearing in the segment corresponding to the left vertex.
-If this precomputed count is greater or equal to $k$, it is necessary to descend to the left child, and otherwise descent to the right child.
-Notice, if we chose the right child, we have to subtract the number of zeros of the left child from $k$.
+اکنون یاد می‌گیریم چگونه مسئله یافتن $k$-امین صفر در آرایه $a[]$ را حل کنیم.
+برای انجام این کار، از درخت بازه پایین می‌رویم، از رأس ریشه شروع می‌کنیم و هر بار به فرزند چپ یا راست حرکت می‌کنیم، بسته به اینکه کدام بازه شامل $k$-امین صفر است.
+برای تصمیم‌گیری در مورد اینکه به کدام فرزند برویم، کافی است به تعداد صفرهای موجود در بازه مربوط به رأس چپ نگاه کنیم.
+اگر این تعداد از پیش محاسبه‌شده بزرگتر یا مساوی $k$ باشد، لازم است به فرزند چپ برویم و در غیر این صورت به فرزند راست.
+توجه داشته باشید، اگر فرزند راست را انتخاب کنیم، باید تعداد صفرهای فرزند چپ را از $k$ کم کنیم.
 
-In the implementation we can handle the special case, $a[]$ containing less than $k$ zeros, by returning -1.
+در پیاده‌سازی می‌توانیم حالت خاصی که $a[]$ کمتر از $k$ صفر دارد را با بازگرداندن -1 مدیریت کنیم.
 
-```{.cpp file=segment_tree_kth_zero}
+```cpp {.cpp file=segment_tree_kth_zero}
 int find_kth(int v, int tl, int tr, int k) {
     if (k > t[v])
         return -1;
@@ -363,31 +369,31 @@ int find_kth(int v, int tl, int tr, int k) {
 }
 ```
 
-#### Searching for an array prefix with a given amount
+#### جستجوی پیشوندی از آرایه با یک مقدار معین
 
-The task is as follows: 
-for a given value $x$ we have to quickly find smallest index $i$ such that the sum of the first $i$ elements of the array $a[]$ is greater or equal to $x$ (assuming that the array $a[]$ only contains non-negative values).
+وظیفه به شرح زیر است:
+برای یک مقدار داده شده $x$، باید به سرعت کوچکترین اندیس $i$ را پیدا کنیم به طوری که مجموع $i$ عنصر اول آرایه $a[]$ بزرگتر یا مساوی $x$ باشد (با فرض اینکه آرایه $a[]$ فقط شامل مقادیر غیرمنفی است).
 
-This task can be solved using binary search, computing the sum of the prefixes with the Segment Tree.
-However this will lead to a $O(\log^2 n)$ solution.
+این وظیفه را می‌توان با استفاده از جستجوی دودویی و محاسبه مجموع پیشوندها با درخت بازه حل کرد.
+اما این کار به یک راه حل $O(\log^2 n)$ منجر می‌شود.
 
-Instead we can use the same idea as in the previous section, and find the position by descending the tree:
-by moving each time to the left or the right, depending on the sum of the left child.
-Thus finding the answer in $O(\log n)$ time.
+در عوض می‌توانیم از همان ایده بخش قبلی استفاده کنیم و موقعیت را با پایین رفتن در درخت پیدا کنیم:
+با حرکت هر بار به چپ یا راست، بسته به مجموع فرزند چپ.
+بنابراین پاسخ را در زمان $O(\log n)$ پیدا می‌کنیم.
 
-#### Searching for the first element greater than a given amount
+#### جستجو برای اولین عنصر بزرگتر از یک مقدار معین
 
-The task is as follows: 
-for a given value $x$ and a range $a[l \dots r]$ find the smallest $i$  in the range $a[l \dots r]$, such that $a[i]$ is greater than $x$.
+وظیفه به شرح زیر است:
+برای یک مقدار داده شده $x$ و یک بازه $a[l \dots r]$، کوچکترین $i$ را در بازه $a[l \dots r]$ پیدا کنید، به طوری که $a[i]$ بزرگتر از $x$ باشد.
 
-This task can be solved using binary search over max prefix queries with the Segment Tree.
-However, this will lead to a $O(\log^2 n)$ solution.
+این وظیفه را می‌توان با استفاده از جستجوی دودویی روی پرس‌وجوهای بیشینه پیشوند با درخت بازه حل کرد.
+اما این کار به یک راه حل $O(\log^2 n)$ منجر می‌شود.
 
-Instead, we can use the same idea as in the previous sections, and find the position by descending the tree:
-by moving each time to the left or the right, depending on the maximum value of the left child.
-Thus finding the answer in $O(\log n)$ time. 
+در عوض، می‌توانیم از همان ایده بخش‌های قبلی استفاده کنیم و موقعیت را با پایین رفتن در درخت پیدا کنیم:
+با حرکت هر بار به چپ یا راست، بسته به مقدار بیشینه فرزند چپ.
+بنابراین پاسخ را در زمان $O(\log n)$ پیدا می‌کنیم.
 
-```{.cpp file=segment_tree_first_greater}
+```cpp {.cpp file=segment_tree_first_greater}
 int get_first(int v, int tl, int tr, int l, int r, int x) {
     if(tl > r || tr < l) return -1;
     if(t[v] <= x) return -1;
@@ -401,31 +407,31 @@ int get_first(int v, int tl, int tr, int l, int r, int x) {
 }
 ```
 
-#### Finding subsegments with the maximal sum
+#### یافتن زیربازه‌ها با بیشترین مجموع
 
-Here again we receive a range $a[l \dots r]$ for each query, this time we have to find a subsegment $a[l^\prime \dots r^\prime]$ such that $l \le l^\prime$ and $r^\prime \le r$ and the sum of the elements of this segment is maximal. 
-As before we also want to be able to modify individual elements of the array. 
-The elements of the array can be negative, and the optimal subsegment can be empty (e.g. if all elements are negative).
+در اینجا باز هم برای هر پرس‌وجو یک بازه $a[l \dots r]$ دریافت می‌کنیم، این بار باید یک زیربازه $a[l^\prime \dots r^\prime]$ پیدا کنیم به طوری که $l \le l^\prime$ و $r^\prime \le r$ و مجموع عناصر این بازه بیشینه باشد.
+همانند قبل، می‌خواهیم بتوانیم عناصر جداگانه آرایه را نیز تغییر دهیم.
+عناصر آرایه می‌توانند منفی باشند و زیربازه بهینه می‌تواند خالی باشد (مثلاً اگر همه عناصر منفی باشند).
 
-This problem is a non-trivial usage of a Segment Tree.
-This time we will store four values for each vertex: 
-the sum of the segment, the maximum prefix sum, the maximum suffix sum, and the sum of the maximal subsegment in it.
-In other words for each segment of the Segment Tree the answer is already precomputed as well as the answers for segments touching the left and the right boundaries of the segment.
+این مسئله یک استفاده غیربدیهی از درخت بازه است.
+این بار چهار مقدار برای هر رأس ذخیره خواهیم کرد:
+مجموع بازه، بیشترین مجموع پیشوندی، بیشترین مجموع پسوندی، و مجموع زیربازه بیشینه در آن.
+به عبارت دیگر، برای هر بازه از درخت بازه، پاسخ از قبل محاسبه شده است و همچنین پاسخ‌ها برای بازه‌هایی که با مرزهای چپ و راست بازه تماس دارند.
 
-How to build a tree with such data?
-Again we compute it in a recursive fashion: 
-we first compute all four values for the left and the right child, and then combine those to archive the four values for the current vertex.
-Note the answer for the current vertex is either:
+چگونه درختی با چنین داده‌هایی بسازیم؟
+باز هم آن را به صورت بازگشتی محاسبه می‌کنیم:
+ابتدا هر چهار مقدار را برای فرزندان چپ و راست محاسبه می‌کنیم، و سپس آنها را ترکیب می‌کنیم تا چهار مقدار برای رأس فعلی به دست آید.
+توجه داشته باشید که پاسخ برای رأس فعلی یکی از موارد زیر است:
 
- * the answer of the left child, which means that the optimal subsegment is entirely placed in the segment of the left child
- * the answer of the right child, which means that the optimal subsegment is entirely placed in the segment of the right child
- * the sum of the maximum suffix sum of the left child and the maximum prefix sum of the right child, which means that the optimal subsegment intersects with both children.
+ *  پاسخ فرزند چپ، که به این معنی است که زیربازه بهینه کاملاً در بازه فرزند چپ قرار دارد.
+ *  پاسخ فرزند راست، که به این معنی است که زیربازه بهینه کاملاً در بازه فرزند راست قرار دارد.
+ *  مجموع بیشترین مجموع پسوندی فرزند چپ و بیشترین مجموع پیشوندی فرزند راست، که به این معنی است که زیربازه بهینه با هر دو فرزند تلاقی دارد.
 
-Hence the answer to the current vertex is the maximum of these three values. 
-Computing the maximum prefix / suffix sum is even easier. 
-Here is the implementation of the $\text{combine}$ function, which receives only data from the left and right child, and returns the data of the current vertex. 
+بنابراین پاسخ برای رأس فعلی، بیشینه این سه مقدار است.
+محاسبه بیشترین مجموع پیشوندی / پسوندی حتی ساده‌تر است.
+در اینجا پیاده‌سازی تابع $\text{combine}$ آمده است، که فقط داده‌ها را از فرزند چپ و راست دریافت می‌کند و داده‌های رأس فعلی را برمی‌گرداند.
 
-```{.cpp file=segment_tree_maximal_sum_subsegments1}
+```cpp {.cpp file=segment_tree_maximal_sum_subsegments1}
 struct data {
     int sum, pref, suff, ans;
 };
@@ -440,11 +446,11 @@ data combine(data l, data r) {
 }
 ```
 
-Using the $\text{combine}$ function it is easy to build the Segment Tree. 
-We can implement it in exactly the same way as in the previous implementations.
-To initialize the leaf vertices, we additionally create the auxiliary function $\text{make_data}$, which will return a $\text{data}$ object holding the information of a single value.
+با استفاده از تابع $\text{combine}$، ساختن درخت بازه آسان است.
+می‌توانیم آن را دقیقاً به همان روشی که در پیاده‌سازی‌های قبلی انجام دادیم، پیاده‌سازی کنیم.
+برای مقداردهی اولیه به رأس‌های برگ، علاوه بر این، تابع کمکی $\text{make_data}$ را ایجاد می‌کنیم که یک شیء $\text{data}$ حاوی اطلاعات یک مقدار واحد را برمی‌گرداند.
 
-```{.cpp file=segment_tree_maximal_sum_subsegments2}
+```cpp {.cpp file=segment_tree_maximal_sum_subsegments2}
 data make_data(int val) {
     data res;
     res.sum = val;
@@ -477,11 +483,11 @@ void update(int v, int tl, int tr, int pos, int new_val) {
 }
 ```
 
-It only remains, how to compute the answer to a query. 
-To answer it, we go down the tree as before, breaking the query into several subsegments that coincide with the segments of the Segment Tree, and combine the answers in them into a single answer for the query.
-Then it should be clear, that the work is exactly the same as in the simple Segment Tree, but instead of summing / minimizing / maximizing the values, we use the $\text{combine}$ function.
+فقط باقی می‌ماند که چگونه به یک پرس‌وجو پاسخ دهیم.
+برای پاسخ به آن، همانند قبل در درخت پایین می‌رویم، پرس‌وجو را به چندین زیربازه که با بازه‌های درخت بازه منطبق هستند، می‌شکنیم و پاسخ‌ها را در آنها به یک پاسخ واحد برای پرس‌وجو ترکیب می‌کنیم.
+پس باید واضح باشد که کار دقیقاً مانند درخت بازه ساده است، اما به جای جمع / کمینه‌سازی / بیشینه‌سازی مقادیر، از تابع $\text{combine}$ استفاده می‌کنیم.
 
-```{.cpp file=segment_tree_maximal_sum_subsegments3}
+```cpp {.cpp file=segment_tree_maximal_sum_subsegments3}
 data query(int v, int tl, int tr, int l, int r) {
     if (l > r) 
         return make_data(0);
@@ -493,41 +499,41 @@ data query(int v, int tl, int tr, int l, int r) {
 }
 ```
 
-### <a name="saving-the-entire-subarrays-in-each-vertex"></a>Saving the entire subarrays in each vertex
+### <a name="saving-the-entire-subarrays-in-each-vertex"></a>ذخیره کل زیرآرایه‌ها در هر رأس
 
-This is a separate subsection that stands apart from the others, because at each vertex of the Segment Tree we don't store information about the corresponding segment in compressed form (sum, minimum, maximum, ...), but store all elements of the segment.
-Thus the root of the Segment Tree will store all elements of the array, the left child vertex will store the first half of the array, the right vertex the second half, and so on.
+این یک زیربخش جداگانه است که از بقیه متمایز است، زیرا در هر رأس از درخت بازه ما اطلاعات مربوط به بازه را به صورت فشرده ذخیره نمی‌کنیم (مجموع، کمینه، بیشینه، ...)، بلکه تمام عناصر بازه را ذخیره می‌کنیم.
+بنابراین ریشه درخت بازه تمام عناصر آرایه را ذخیره خواهد کرد، رأس فرزند چپ نیمه اول آرایه را، رأس راست نیمه دوم را، و به همین ترتیب.
 
-In its simplest application of this technique we store the elements in sorted order.
-In more complex versions the elements are not stored in lists, but more advanced data structures (sets, maps, ...). 
-But all these methods have the common factor, that each vertex requires linear memory (i.e. proportional to the length of the corresponding segment).
+در ساده‌ترین کاربرد این تکنیک، ما عناصر را به ترتیب مرتب شده ذخیره می‌کنیم.
+در نسخه‌های پیچیده‌تر، عناصر در لیست‌ها ذخیره نمی‌شوند، بلکه در ساختارهای داده پیشرفته‌تر (مجموعه‌ها، نقشه‌ها، ...) ذخیره می‌شوند.
+اما همه این روش‌ها عامل مشترکی دارند، که هر رأس به حافظه خطی (یعنی متناسب با طول بازه مربوطه) نیاز دارد.
 
-The first natural question, when considering these Segment Trees, is about memory consumption.
-Intuitively this might look like $O(n^2)$ memory, but it turns out that the complete tree will only need $O(n \log n)$ memory.
-Why is this so?
-Quite simply, because each element of the array falls into $O(\log n)$ segments (remember the height of the tree is $O(\log n)$). 
+اولین سوال طبیعی هنگام در نظر گرفتن این درختان بازه، در مورد مصرف حافظه است.
+به طور شهودی این ممکن است به نظر حافظه $O(n^2)$ برسد، اما معلوم می‌شود که کل درخت فقط به حافظه $O(n \log n)$ نیاز خواهد داشت.
+چرا اینطور است؟
+خیلی ساده، زیرا هر عنصر از آرایه در $O(\log n)$ بازه قرار می‌گیرد (به یاد داشته باشید ارتفاع درخت $O(\log n)$ است).
 
-So in spite of the apparent extravagance of such a Segment Tree, it consumes only slightly more memory than the usual Segment Tree. 
+بنابراین با وجود اسراف ظاهری چنین درخت بازه‌ای، آن تنها کمی بیشتر از درخت بازه معمول حافظه مصرف می‌کند.
 
-Several typical applications of this data structure are described below.
-It is worth noting the similarity of these Segment Trees with 2D data structures (in fact this is a 2D data structure, but with rather limited capabilities).
+چندین کاربرد معمول این ساختار داده در زیر شرح داده شده است.
+شایان ذکر است شباهت این درختان بازه با ساختارهای داده دو بعدی (در واقع این یک ساختار داده دو بعدی است، اما با قابلیت‌های نسبتاً محدود).
 
-#### Find the smallest number greater or equal to a specified number. No modification queries.
+#### یافتن کوچکترین عدد بزرگتر یا مساوی با یک عدد مشخص. بدون پرس‌وجوی تغییر.
 
-We want to answer queries of the following form: 
-for three given numbers $(l, r, x)$ we have to find the minimal number in the segment $a[l \dots r]$ which is greater than or equal to $x$.
+می‌خواهیم به پرس‌وجوهایی از فرم زیر پاسخ دهیم:
+برای سه عدد داده شده $(l, r, x)$ باید کمترین عدد در بازه $a[l \dots r]$ را که بزرگتر یا مساوی $x$ است، پیدا کنیم.
 
-We construct a Segment Tree. 
-In each vertex we store a sorted list of all numbers occurring in the corresponding segment, like described above. 
-How to build such a Segment Tree as effectively as possible?
-As always we approach this problem recursively: let the lists of the left and right children already be constructed, and we want to build the list for the current vertex.
-From this view the operation is now trivial and can be accomplished in linear time:
-We only need to combine the two sorted lists into one, which can be done by iterating over them using two pointers. 
-The C++ STL already has an implementation of this algorithm.
+یک درخت بازه می‌سازیم.
+در هر رأس، یک لیست مرتب شده از تمام اعدادی که در بازه مربوطه ظاهر می‌شوند را ذخیره می‌کنیم، همانطور که در بالا توضیح داده شد.
+چگونه چنین درخت بازه‌ای را تا حد امکان به طور موثر بسازیم؟
+مثل همیشه به این مسئله به صورت بازگشتی نزدیک می‌شویم: فرض کنید لیست‌های فرزندان چپ و راست از قبل ساخته شده‌اند و ما می‌خواهیم لیست را برای رأس فعلی بسازیم.
+از این دیدگاه، عملیات اکنون بدیهی است و می‌تواند در زمان خطی انجام شود:
+ما فقط باید دو لیست مرتب شده را در یک لیست ترکیب کنیم، که این کار را می‌توان با پیمایش آنها با استفاده از دو اشاره‌گر انجام داد.
+STL سی‌پلاس‌پلاس از قبل یک پیاده‌سازی از این الگوریتم دارد.
 
-Because this structure of the Segment Tree and the similarities to the merge sort algorithm, the data structure is also often called "Merge Sort Tree".
+به دلیل این ساختار درخت بازه و شباهت‌ها به الگوریتم مرتب‌سازی ادغامی، این ساختار داده اغلب "درخت مرتب‌سازی ادغامی" نیز نامیده می‌شود.
 
-```{.cpp file=segment_tree_smallest_number_greater1}
+```cpp {.cpp file=segment_tree_smallest_number_greater1}
 vector<int> t[4*MAXN];
 
 void build(int a[], int v, int tl, int tr) {
@@ -543,20 +549,20 @@ void build(int a[], int v, int tl, int tr) {
 }
 ```
 
-We already know that the Segment Tree constructed in this way will require $O(n \log n)$ memory.
-And thanks to this implementation its construction also takes $O(n \log n)$ time, after all each list is constructed in linear time in respect to its size. 
+ما از قبل می‌دانیم که درخت بازه ساخته شده به این روش به حافظه $O(n \log n)$ نیاز خواهد داشت.
+و به لطف این پیاده‌سازی، ساخت آن نیز $O(n \log n)$ زمان می‌برد، زیرا هر لیست در زمان خطی نسبت به اندازه‌اش ساخته می‌شود.
 
-Now consider the answer to the query. 
-We will go down the tree, like in the regular Segment Tree, breaking our segment $a[l \dots r]$ into several subsegments (into at most $O(\log n)$ pieces). 
-It is clear that the answer of the whole answer is the minimum of each of the subqueries.
-So now we only need to understand, how to respond to a query on one such subsegment that corresponds with some vertex of the tree.
+اکنون پاسخ به پرس‌وجو را در نظر بگیرید.
+ما مانند درخت بازه معمولی در درخت پایین می‌رویم و بازه خود $a[l \dots r]$ را به چندین زیربازه می‌شکنیم (حداکثر به $O(\log n)$ قطعه).
+واضح است که پاسخ کل، کمینه هر یک از زیرپرس‌وجوها است.
+بنابراین اکنون فقط باید بفهمیم که چگونه به یک پرس‌وجو در یکی از این زیربازه‌ها که با برخی از رأس‌های درخت مطابقت دارد، پاسخ دهیم.
 
-We are at some vertex of the Segment Tree and we want to compute the answer to the query, i.e. find the minimum number greater that or equal to a given number $x$. 
-Since the vertex contains the list of elements in sorted order, we can simply perform a binary search on this list and return the first number, greater than or equal to $x$.
+ما در برخی از رأس‌های درخت بازه هستیم و می‌خواهیم پاسخ به پرس‌وجو را محاسبه کنیم، یعنی کمترین عدد بزرگتر یا مساوی با عدد داده شده $x$ را پیدا کنیم.
+از آنجایی که رأس شامل لیست عناصر به ترتیب مرتب شده است، می‌توانیم به سادگی یک جستجوی دودویی در این لیست انجام دهیم و اولین عدد بزرگتر یا مساوی $x$ را برگردانیم.
 
-Thus the answer to the query in one segment of the tree takes $O(\log n)$ time, and the entire query is processed in $O(\log^2 n)$.
+بنابراین پاسخ به پرس‌وجو در یک بازه از درخت $O(\log n)$ زمان می‌برد، و کل پرس‌وجو در $O(\log^2 n)$ پردازش می‌شود.
 
-```{.cpp file=segment_tree_smallest_number_greater2}
+```cpp {.cpp file=segment_tree_smallest_number_greater2}
 int query(int v, int tl, int tr, int l, int r, int x) {
     if (l > r)
         return INF;
@@ -572,27 +578,27 @@ int query(int v, int tl, int tr, int l, int r, int x) {
 }
 ```
 
-The constant $\text{INF}$ is equal to some large number that is bigger than all numbers in the array. 
-Its usage means, that there is no number greater than or equal to $x$ in the segment. 
-It has the meaning of "there is no answer in the given interval".
+ثابت $\text{INF}$ برابر با یک عدد بزرگ است که از تمام اعداد آرایه بزرگتر است.
+استفاده از آن به این معنی است که هیچ عدد بزرگتر یا مساوی $x$ در بازه وجود ندارد.
+معنای آن "هیچ پاسخی در بازه داده شده وجود ندارد" است.
 
-#### Find the smallest number greater or equal to a specified number. With modification queries.
+#### یافتن کوچکترین عدد بزرگتر یا مساوی یک عدد مشخص. با پرس‌وجوهای تغییر.
 
-This task is similar to the previous.
-The last approach has a disadvantage, it was not possible to modify the array between answering queries.
-Now we want to do exactly this: a modification query will do the assignment $a[i] = y$.
+این وظیفه شبیه به قبلی است.
+رویکرد قبلی یک نقطه ضعف داشت، امکان تغییر آرایه بین پاسخ به پرس‌وجوها وجود نداشت.
+اکنون می‌خواهیم دقیقاً همین کار را انجام دهیم: یک پرس‌وجوی تغییر، انتساب $a[i] = y$ را انجام خواهد داد.
 
-The solution is similar to the solution of the previous problem, but instead of lists at each vertex of the Segment Tree, we will store a balanced list that allows you to quickly search for numbers, delete numbers, and insert new numbers. 
-Since the array can contain a number repeated, the optimal choice is the data structure $\text{multiset}$. 
+راه حل شبیه به راه حل مسئله قبلی است، اما به جای لیست‌ها در هر رأس درخت بازه، یک لیست متعادل ذخیره خواهیم کرد که به شما امکان می‌دهد به سرعت اعداد را جستجو کنید، اعداد را حذف کنید و اعداد جدید را درج کنید.
+از آنجایی که آرایه می‌تواند یک عدد را به صورت مکرر داشته باشد، انتخاب بهینه ساختار داده $\text{multiset}$ است.
 
-The construction of such a Segment Tree is done in pretty much the same way as in the previous problem, only now we need to combine $\text{multiset}$s and not sorted lists.
-This leads to a construction time of $O(n \log^2 n)$ (in general merging two red-black trees can be done in linear time, but the C++ STL doesn't guarantee this time complexity).
+ساخت چنین درخت بازه‌ای تقریباً به همان روشی که در مسئله قبلی انجام شد، انجام می‌شود، فقط اکنون باید $\text{multiset}$ها را ترکیب کنیم و نه لیست‌های مرتب شده.
+این منجر به زمان ساخت $O(n \log^2 n)$ می‌شود (به طور کلی ادغام دو درخت قرمز-سیاه را می‌توان در زمان خطی انجام داد، اما STL سی‌پلاس‌پلاس این پیچیدگی زمانی را تضمین نمی‌کند).
 
-The $\text{query}$ function is also almost equivalent, only now the $\text{lower_bound}$ function of the $\text{multiset}$ function should be called instead ($\text{std::lower_bound}$ only works in $O(\log n)$ time if used with random-access iterators).
+تابع $\text{query}$ نیز تقریباً معادل است، فقط اکنون باید تابع $\text{lower_bound}$ از $\text{multiset}$ فراخوانی شود (تابع $\text{std::lower_bound}$ فقط در زمان $O(\log n)$ کار می‌کند اگر با تکرارگرهای با دسترسی تصادفی استفاده شود).
 
-Finally the modification request. 
-To process it, we must go down the tree, and modify all $\text{multiset}$ from the corresponding segments that contain the affected element.
-We simply delete the old value of this element (but only one occurrence), and insert the new value.
+در نهایت درخواست تغییر.
+برای پردازش آن، باید در درخت پایین برویم و تمام $\text{multiset}$های بازه‌های مربوطه که حاوی عنصر تحت تأثیر هستند را تغییر دهیم.
+ما به سادگی مقدار قدیمی این عنصر را حذف می‌کنیم (اما فقط یک رخداد) و مقدار جدید را درج می‌کنیم.
 
 ```cpp
 void update(int v, int tl, int tr, int pos, int new_val) {
@@ -610,81 +616,81 @@ void update(int v, int tl, int tr, int pos, int new_val) {
 }
 ```
 
-Processing of this modification query also takes $O(\log^2 n)$ time.
+پردازش این درخواست تغییر نیز $O(\log^2 n)$ زمان می‌برد.
 
-#### Find the smallest number greater or equal to a specified number. Acceleration with "fractional cascading".
+#### یافتن کوچکترین عدد بزرگتر یا مساوی یک عدد مشخص. شتاب‌دهی با "آبشار کسری" (fractional cascading).
 
-We have the same problem statement, we want to find the minimal number greater than or equal to $x$ in a segment, but this time in $O(\log n)$ time.
-We will improve the time complexity using the technique "fractional cascading".
+ما همان صورت مسئله را داریم، می‌خواهیم کمترین عدد بزرگتر یا مساوی $x$ را در یک بازه پیدا کنیم، اما این بار در زمان $O(\log n)$.
+ما پیچیدگی زمانی را با استفاده از تکنیک "آبشار کسری" بهبود خواهیم داد.
 
-Fractional cascading is a simple technique that allows you to improve the running time of multiple binary searches, which are conducted at the same time. 
-Our previous approach to the search query was, that we divide the task into several subtasks, each of which is solved with a binary search. 
-Fractional cascading allows you to replace all of these binary searches with a single one.
+آبشار کسری یک تکنیک ساده است که به شما امکان می‌دهد زمان اجرای چندین جستجوی دودویی که به طور همزمان انجام می‌شوند را بهبود بخشید.
+رویکرد قبلی ما برای پرس‌وجوی جستجو این بود که وظیفه را به چندین زیروظیفه تقسیم می‌کردیم که هر کدام با یک جستجوی دودویی حل می‌شدند.
+آبشار کسری به شما امکان می‌دهد همه این جستجوهای دودویی را با یک جستجوی واحد جایگزین کنید.
 
-The simplest and most obvious example of fractional cascading is the following problem:
-there are $k$ sorted lists of numbers, and we must find in each list the first number greater than or equal to the given number.
+ساده‌ترین و واضح‌ترین مثال از آبشار کسری مسئله زیر است:
+$k$ لیست مرتب شده از اعداد وجود دارد و ما باید در هر لیست اولین عدد بزرگتر یا مساوی با عدد داده شده را پیدا کنیم.
 
-Instead of performing a binary search for each list, we could merge all lists into one big sorted list.
-Additionally for each element $y$ we store a list of results of searching for $y$ in each of the $k$ lists.
-Therefore if we want to find the smallest number greater than or equal to $x$, we just need to perform one single binary search, and from the list of indices we can determine the smallest number in each list.
-This approach however requires $O(n \cdot k)$ ($n$ is the length of the combined lists), which can be quite inefficient. 
+به جای انجام یک جستجوی دودویی برای هر لیست، می‌توانیم همه لیست‌ها را در یک لیست بزرگ مرتب شده ادغام کنیم.
+علاوه بر این برای هر عنصر $y$ یک لیست از نتایج جستجوی $y$ در هر یک از $k$ لیست را ذخیره می‌کنیم.
+بنابراین اگر بخواهیم کوچکترین عدد بزرگتر یا مساوی $x$ را پیدا کنیم، فقط باید یک جستجوی دودویی واحد انجام دهیم و از لیست اندیس‌ها می‌توانیم کوچکترین عدد را در هر لیست تعیین کنیم.
+این رویکرد اما به $O(n \cdot k)$ حافظه نیاز دارد ($n$ طول لیست‌های ترکیبی است)، که می‌تواند کاملاً ناکارآمد باشد.
 
-Fractional cascading reduces this memory complexity to $O(n)$ memory, by creating from the $k$ input lists $k$ new lists, in which each list contains the corresponding list and additionally also every second element of the following new list.
-Using this structure it is only necessary to store two indices, the index of the element in the original list, and the index of the element in the following new list.
-So this approach only uses $O(n)$ memory, and still can answer the queries using a single binary search. 
+آبشار کسری این پیچیدگی حافظه را با ایجاد $k$ لیست جدید از $k$ لیست ورودی به حافظه $O(n)$ کاهش می‌دهد، که در آن هر لیست شامل لیست مربوطه و علاوه بر آن هر عنصر دوم از لیست جدید بعدی است.
+با استفاده از این ساختار، فقط لازم است دو اندیس ذخیره شود، اندیس عنصر در لیست اصلی و اندیس عنصر در لیست جدید بعدی.
+بنابراین این رویکرد فقط از حافظه $O(n)$ استفاده می‌کند و هنوز هم می‌تواند به پرس‌وجوها با استفاده از یک جستجوی دودویی واحد پاسخ دهد.
 
-But for our application we do not need the full power of fractional cascading.
-In our Segment Tree a vertex will contain the sorted list of all elements that occur in either the left or the right subtrees (like in the Merge Sort Tree). 
-Additionally to this sorted list, we store two positions for each element.
-For an element $y$ we store the smallest index $i$, such that the $i$th element in the sorted list of the left child is greater or equal to $y$.
-And we store the smallest index $j$, such that the $j$th element in the sorted list of the right child is greater or equal to $y$.
-These values can be computed in parallel to the merging step when we build the tree.
+اما برای کاربرد ما، به قدرت کامل آبشار کسری نیازی نداریم.
+در درخت بازه ما، یک رأس شامل لیست مرتب شده از تمام عناصری است که در زیردرخت‌های چپ یا راست وجود دارند (مانند درخت مرتب‌سازی ادغامی).
+علاوه بر این لیست مرتب شده، برای هر عنصر دو موقعیت ذخیره می‌کنیم.
+برای یک عنصر $y$، کوچکترین اندیس $i$ را ذخیره می‌کنیم، به طوری که عنصر $i$-ام در لیست مرتب شده فرزند چپ بزرگتر یا مساوی $y$ باشد.
+و کوچکترین اندیس $j$ را ذخیره می‌کنیم، به طوری که عنصر $j$-ام در لیست مرتب شده فرزند راست بزرگتر یا مساوی $y$ باشد.
+این مقادیر را می‌توان به صورت موازی با مرحله ادغام هنگام ساخت درخت محاسبه کرد.
 
-How does this speed up the queries?
+این چگونه پرس‌وجوها را سرعت می‌بخشد؟
 
-Remember, in the normal solution we did a binary search in every node.
-But with this modification, we can avoid all except one.
+به یاد بیاورید، در راه حل عادی ما در هر گره یک جستجوی دودویی انجام می‌دادیم.
+اما با این تغییر، می‌توانیم از همه آنها به جز یکی اجتناب کنیم.
 
-To answer a query, we simply do a binary search in the root node.
-This gives us the smallest element $y \ge x$ in the complete array, but it also gives us two positions.
-The index of the smallest element greater or equal $x$ in the left subtree, and the index of the smallest element $y$ in the right subtree. Notice that $\ge y$ is the same as $\ge x$, since our array doesn't contain any elements between $x$ and $y$.
-In the normal Merge Sort Tree solution we would compute these indices via binary search, but with the help of the precomputed values we can just look them up in $O(1)$.
-And we can repeat that until we visited all nodes that cover our query interval.
+برای پاسخ به یک پرس‌وجو، ما به سادگی یک جستجوی دودویی در گره ریشه انجام می‌دهیم.
+این به ما کوچکترین عنصر $y \ge x$ را در کل آرایه می‌دهد، اما همچنین دو موقعیت به ما می‌دهد.
+اندیس کوچکترین عنصر بزرگتر یا مساوی $x$ در زیردرخت چپ، و اندیس کوچکترین عنصر $y$ در زیردرخت راست. توجه داشته باشید که $\ge y$ همان $\ge x$ است، زیرا آرایه ما هیچ عنصری بین $x$ و $y$ ندارد.
+در راه حل عادی درخت مرتب‌سازی ادغامی، ما این اندیس‌ها را از طریق جستجوی دودویی محاسبه می‌کردیم، اما با کمک مقادیر از پیش محاسبه شده می‌توانیم آنها را در $O(1)$ پیدا کنیم.
+و می‌توانیم این کار را تکرار کنیم تا زمانی که همه گره‌هایی که بازه پرس‌وجوی ما را پوشش می‌دهند، بازدید کنیم.
 
-To summarize, as usual we touch $O(\log n)$ nodes during a query. In the root node we do a binary search, and in all other nodes we only do constant work.
-This means the complexity for answering a query is $O(\log n)$.
+به طور خلاصه، مانند معمول در طول یک پرس‌وجو $O(\log n)$ گره را لمس می‌کنیم. در گره ریشه یک جستجوی دودویی انجام می‌دهیم، و در همه گره‌های دیگر فقط کار ثابت انجام می‌دهیم.
+این بدان معناست که پیچیدگی پاسخ به یک پرس‌وجو $O(\log n)$ است.
 
-But notice, that this uses three times more memory than a normal Merge Sort Tree, which already uses a lot of memory ($O(n \log n)$).
+اما توجه داشته باشید که این سه برابر بیشتر از یک درخت مرتب‌سازی ادغامی عادی حافظه مصرف می‌کند، که خود از قبل حافظه زیادی ($O(n \log n)$) مصرف می‌کند.
 
-It is straightforward to apply this technique to a problem, that doesn't require any modification queries.
-The two positions are just integers and can easily be computed by counting when merging the two sorted sequences.
+اعمال این تکنیک به مسئله‌ای که به هیچ پرس‌وجوی تغییری نیاز ندارد، ساده است.
+دو موقعیت فقط اعداد صحیح هستند و به راحتی با شمارش هنگام ادغام دو دنباله مرتب شده قابل محاسبه هستند.
 
-It it still possible to also allow modification queries, but that complicates the entire code.
-Instead of integers, you need to store the sorted array as `multiset`, and instead of indices you need to store iterators.
-And you need to work very carefully, so that you increment or decrement the correct iterators during a modification query.
+هنوز هم امکان اجازه دادن به پرس‌وجوهای تغییر وجود دارد، اما این کل کد را پیچیده می‌کند.
+به جای اعداد صحیح، باید آرایه مرتب شده را به صورت `multiset` ذخیره کنید، و به جای اندیس‌ها باید تکرارگرها را ذخیره کنید.
+و باید با دقت بسیار کار کنید تا در طول یک پرس‌وجوی تغییر، تکرارگرهای صحیح را افزایش یا کاهش دهید.
 
-#### Other possible variations
+#### سایر تغییرات ممکن
 
-This technique implies a whole new class of possible applications. 
-Instead of storing a $\text{vector}$ or a $\text{multiset}$ in each vertex, other data structures can be used:
-other Segment Trees (somewhat discussed in [Generalization to higher dimensions](segment_tree.md#generalization-to-higher-dimensions)), Fenwick Trees, Cartesian trees, etc.
+این تکنیک یک کلاس کاملاً جدید از کاربردهای ممکن را نشان می‌دهد.
+به جای ذخیره یک $\text{vector}$ یا یک $\text{multiset}$ در هر رأس، می‌توان از ساختارهای داده دیگری استفاده کرد:
+درختان بازه دیگر (تا حدودی در [تعمیم به ابعاد بالاتر](segment_tree.md#generalization-to-higher-dimensions) بحث شده است)، درختان فن‌ویک، درختان کارتزین و غیره.
 
-### Range updates (Lazy Propagation)
+### به‌روزرسانی‌های بازه‌ای (انتشار با تأخیر یا Lazy Propagation)
 
-All problems in the above sections discussed modification queries that only affected a single element of the array each.
-However the Segment Tree allows applying modification queries to an entire segment of contiguous elements, and perform the query in the same time $O(\log n)$. 
+تمام مسائل در بخش‌های بالا پرس‌وجوهای تغییری را مورد بحث قرار دادند که هر بار فقط یک عنصر از آرایه را تحت تأثیر قرار می‌دادند.
+اما درخت بازه امکان اعمال پرس‌وجوهای تغییر را به یک بازه کامل از عناصر متوالی می‌دهد و پرس‌وجو را در همان زمان $O(\log n)$ انجام می‌دهد.
 
-#### Addition on segments
+#### افزودن در بازه‌ها
 
-We begin by considering problems of the simplest form: the modification query should add a number $x$ to all numbers in the segment $a[l \dots r]$.
-The second query, that we are supposed to answer, asked simply for the value of $a[i]$.
+با در نظر گرفتن مسائل به ساده‌ترین شکل شروع می‌کنیم: پرس‌وجوی تغییر باید عدد $x$ را به تمام اعداد در بازه $a[l \dots r]$ اضافه کند.
+پرس‌وجوی دومی که قرار است به آن پاسخ دهیم، به سادگی مقدار $a[i]$ را می‌پرسد.
 
-To make the addition query efficient, we store at each vertex in the Segment Tree how many we should add to all numbers in the corresponding segment. 
-For example, if the query "add 3 to the whole array $a[0 \dots n-1]$" comes, then we place the number 3 in the root of the tree.
-In general we have to place this number to multiple segments, which form a partition of the query segment. 
-Thus we don't have to change all $O(n)$ values, but only $O(\log n)$ many.
+برای کارآمد کردن پرس‌وجوی افزودن، در هر رأس در درخت بازه ذخیره می‌کنیم که چقدر باید به تمام اعداد در بازه مربوطه اضافه کنیم.
+برای مثال، اگر پرس‌وجوی "افزودن 3 به کل آرایه $a[0 \dots n-1]$" بیاید، آنگاه عدد 3 را در ریشه درخت قرار می‌دهیم.
+به طور کلی باید این عدد را در چندین بازه قرار دهیم که یک افراز از بازه پرس‌وجو را تشکیل می‌دهند.
+بنابراین نیازی به تغییر تمام $O(n)$ مقادیر نداریم، بلکه فقط $O(\log n)$ مقدار.
 
-If now there comes a query that asks the current value of a particular array entry, it is enough to go down the tree and add up all values found along the way.
+اگر اکنون پرس‌وجویی بیاید که مقدار فعلی یک ورودی خاص آرایه را بپرسد، کافی است در درخت پایین برویم و تمام مقادیر یافت شده در طول مسیر را جمع کنیم.
 
 ```cpp
 void build(int a[], int v, int tl, int tr) {
@@ -721,37 +727,37 @@ int get(int v, int tl, int tr, int pos) {
 }
 ```
 
-#### Assignment on segments
+#### انتساب در بازه‌ها
 
-Suppose now that the modification query asks to assign each element of a certain segment $a[l \dots r]$ to some value $p$.
-As a second query we will again consider reading the value of the array $a[i]$.
+حال فرض کنید که پرس‌وجوی تغییر می‌خواهد هر عنصر از یک بازه مشخص $a[l \dots r]$ را به مقداری $p$ اختصاص دهد.
+به عنوان پرس‌وجوی دوم، باز هم خواندن مقدار آرایه $a[i]$ را در نظر خواهیم گرفت.
 
-To perform this modification query on a whole segment, you have to store at each vertex of the Segment Tree whether the corresponding segment is covered entirely with the same value or not.
-This allows us to make a "lazy" update: 
-instead of changing all segments in the tree that cover the query segment, we only change some, and leave others unchanged.
-A marked vertex will mean, that every element of the corresponding segment is assigned to that value, and actually also the complete subtree should only contain this value.
-In a sense we are lazy and delay writing the new value to all those vertices.
-We can do this tedious task later, if this is necessary.
+برای انجام این پرس‌وجوی تغییر در یک بازه کامل، باید در هر رأس از درخت بازه ذخیره کنیم که آیا بازه مربوطه به طور کامل با یک مقدار یکسان پوشانده شده است یا نه.
+این به ما امکان می‌دهد یک به‌روزرسانی "تنبل" (lazy) انجام دهیم:
+به جای تغییر تمام بازه‌هایی در درخت که بازه پرس‌وجو را پوشش می‌دهند، ما فقط برخی را تغییر می‌دهیم و بقیه را بدون تغییر باقی می‌گذاریم.
+یک رأس علامت‌گذاری شده به این معنی است که هر عنصر از بازه مربوطه به آن مقدار اختصاص داده شده است، و در واقع کل زیردرخت نیز باید فقط شامل این مقدار باشد.
+به نوعی ما تنبلی می‌کنیم و نوشتن مقدار جدید را به همه آن رأس‌ها به تعویق می‌اندازیم.
+می‌توانیم این کار خسته‌کننده را بعداً، اگر لازم شد، انجام دهیم.
 
-So after the modification query is executed, some parts of the tree become irrelevant - some modifications remain unfulfilled in it.
+بنابراین پس از اجرای پرس‌وجوی تغییر، برخی از بخش‌های درخت نامربوط می‌شوند - برخی از تغییرات در آن انجام نشده باقی می‌مانند.
 
-For example if a modification query "assign a number to the whole array $a[0 \dots n-1]$" gets executed, in the Segment Tree only a single change is made - the number is placed in the root of the tree and this vertex gets marked.
-The remaining segments remain unchanged, although in fact the number should be placed in the whole tree.
+برای مثال اگر یک پرس‌وجوی تغییر "اختصاص یک عدد به کل آرایه $a[0 \dots n-1]$" اجرا شود، در درخت بازه فقط یک تغییر ایجاد می‌شود - عدد در ریشه درخت قرار می‌گیرد و این رأس علامت‌گذاری می‌شود.
+بازه های باقیمانده بدون تغییر باقی می‌مانند، اگرچه در واقع عدد باید در کل درخت قرار گیرد.
 
-Suppose now that the second modification query says, that the first half of the array $a[0 \dots n/2]$ should be assigned with some other number. 
-To process this query we must assign each element in the whole left child of the root vertex with that number. 
-But before we do this, we must first sort out the root vertex first. 
-The subtlety here is that the right half of the array should still be assigned to the value of the first query, and at the moment there is no information for the right half stored.
+حال فرض کنید که پرس‌وجوی تغییر دوم می‌گوید که نیمه اول آرایه $a[0 \dots n/2]$ باید با عدد دیگری اختصاص داده شود.
+برای پردازش این پرس‌وجو باید هر عنصر در کل فرزند چپ رأس ریشه را با آن عدد اختصاص دهیم.
+اما قبل از اینکه این کار را انجام دهیم، باید ابتدا رأس ریشه را مرتب کنیم.
+نکته ظریف در اینجا این است که نیمه راست آرایه هنوز باید به مقدار پرس‌وجوی اول اختصاص داده شود، و در حال حاضر هیچ اطلاعاتی برای نیمه راست ذخیره نشده است.
 
-The way to solve this is to push the information of the root to its children, i.e. if the root of the tree was assigned with any number, then we assign the left and the right child vertices with this number and remove the mark of the root.
-After that, we can assign the left child with the new value, without losing any necessary information.
+راه حل این است که اطلاعات ریشه را به فرزندانش منتقل (push) کنیم، یعنی اگر ریشه درخت با هر عددی اختصاص داده شده بود، آنگاه رأس‌های فرزند چپ و راست را با این عدد اختصاص می‌دهیم و علامت ریشه را حذف می‌کنیم.
+پس از آن، می‌توانیم فرزند چپ را با مقدار جدید اختصاص دهیم، بدون اینکه اطلاعات ضروری را از دست بدهیم.
 
-Summarizing we get:
-for any queries (a modification or reading query) during the descent along the tree we should always push information from the current vertex into both of its children. 
-We can understand this in such a way, that when we descent the tree we apply delayed modifications, but exactly as much as necessary (so not to degrade the complexity of $O(\log n)$). 
+به طور خلاصه:
+برای هر پرس‌وجو (یک پرس‌وجوی تغییر یا خواندن) در حین پایین رفتن در درخت، باید همیشه اطلاعات را از رأس فعلی به هر دو فرزندش منتقل کنیم.
+می‌توانیم این را به این صورت درک کنیم که وقتی در درخت پایین می‌رویم، تغییرات تأخیری را اعمال می‌کنیم، اما دقیقاً به اندازه‌ای که لازم است (تا پیچیدگی $O(\log n)$ را کاهش ندهیم).
 
-For the implementation we need to make a $\text{push}$ function, which will receive the current vertex, and it will push the information for its vertex to both its children. 
-We will call this function at the beginning of the query functions (but we will not call it from the leaves, because there is no need to push information from them any further).
+برای پیاده‌سازی، باید یک تابع $\text{push}$ بسازیم، که رأس فعلی را دریافت می‌کند و اطلاعات رأس خود را به هر دو فرزندش منتقل می‌کند.
+ما این تابع را در ابتدای توابع پرس‌وجو فراخوانی خواهیم کرد (اما آن را از برگ‌ها فراخوانی نخواهیم کرد، زیرا نیازی به انتقال اطلاعات از آنها به پایین‌تر نیست).
 
 ```cpp
 void push(int v) {
@@ -789,20 +795,20 @@ int get(int v, int tl, int tr, int pos) {
 }
 ```
 
-Notice: the function $\text{get}$ can also be implemented in a different way: 
-do not make delayed updates, but immediately return the value $t[v]$ if $marked[v]$ is true.
+توجه: تابع $\text{get}$ را می‌توان به روش دیگری نیز پیاده‌سازی کرد:
+به‌روزرسانی‌های تأخیری را انجام ندهید، بلکه اگر $marked[v]$ درست بود، بلافاصله مقدار $t[v]$ را برگردانید.
 
-#### Adding on segments, querying for maximum
+#### افزودن در بازه‌ها، پرس‌وجوی بیشینه
 
-Now the modification query is to add a number to all elements in a range, and the reading query is to find the maximum in a range.
+اکنون پرس‌وجوی تغییر، افزودن یک عدد به تمام عناصر در یک بازه است، و پرس‌وجوی خواندن، یافتن بیشینه در یک بازه است.
 
-So for each vertex of the Segment Tree we have to store the maximum of the corresponding subsegment. 
-The interesting part is how to recompute these values during a modification request.
+بنابراین برای هر رأس از درخت بازه، باید بیشینه زیربازه مربوطه را ذخیره کنیم.
+بخش جالب این است که چگونه این مقادیر را در حین یک درخواست تغییر دوباره محاسبه کنیم.
 
-For this purpose we keep store an additional value for each vertex. 
-In this value we store the addends we haven't propagated to the child vertices.
-Before traversing to a child vertex, we call $\text{push}$ and propagate the value to both children.
-We have to do this in both the $\text{update}$ function and the $\text{query}$ function.
+برای این منظور، یک مقدار اضافی برای هر رأس نگه می‌داریم.
+در این مقدار، مقادیر افزودنی را که به رأس‌های فرزند منتقل نکرده‌ایم، ذخیره می‌کنیم.
+قبل از پیمایش به یک رأس فرزند، تابع $\text{push}$ را فراخوانی کرده و مقدار را به هر دو فرزند منتقل می‌کنیم.
+باید این کار را هم در تابع $\text{update}$ و هم در تابع $\text{query}$ انجام دهیم.
 
 ```cpp
 void build(int a[], int v, int tl, int tr) {
@@ -851,27 +857,27 @@ int query(int v, int tl, int tr, int l, int r) {
 }
 ```
 
-### <a name="generalization-to-higher-dimensions"></a>Generalization to higher dimensions
+### <a name="generalization-to-higher-dimensions"></a>تعمیم به ابعاد بالاتر
 
-A Segment Tree can be generalized quite natural to higher dimensions.
-If in the one-dimensional case we split the indices of the array into segments, then in the two-dimensional we make an ordinary Segment Tree with respect to the first indices, and for each segment we build an ordinary Segment Tree with respect to the second indices.
+یک درخت بازه را می‌توان به طور کاملاً طبیعی به ابعاد بالاتر تعمیم داد.
+اگر در حالت یک‌بعدی اندیس‌های آرایه را به بازه‌هایی تقسیم می‌کنیم، در حالت دوبعدی یک درخت بازه معمولی نسبت به اندیس‌های اول می‌سازیم، و برای هر بازه یک درخت بازه معمولی نسبت به اندیس‌های دوم می‌سازیم.
 
-#### Simple 2D Segment Tree
+#### درخت بازه ساده دوبعدی
 
-A matrix $a[0 \dots n-1, 0 \dots m-1]$ is given, and we have to find the sum (or minimum/maximum) on some submatrix $a[x_1 \dots x_2, y_1 \dots y_2]$, as well as perform modifications of individual matrix elements (i.e. queries of the form $a[x][y] = p$).
+یک ماتریس $a[0 \dots n-1, 0 \dots m-1]$ داده شده است، و ما باید مجموع (یا کمینه/بیشینه) را در یک زیرماتریس $a[x_1 \dots x_2, y_1 \dots y_2]$ پیدا کنیم، و همچنین تغییرات عناصر جداگانه ماتریس را انجام دهیم (یعنی پرس‌وجوهایی از نوع $a[x][y] = p$).
 
-So we build a 2D Segment Tree: first the Segment Tree using the first coordinate ($x$), then the second ($y$).
+بنابراین یک درخت بازه دوبعدی می‌سازیم: ابتدا درخت بازه با استفاده از مختصات اول ($x$)، سپس دوم ($y$).
 
-To make the construction process more understandable, you can forget for a while that the matrix is two-dimensional, and only leave the first coordinate.
-We will construct an ordinary one-dimensional Segment Tree using only the first coordinate.
-But instead of storing a number in a segment, we store an entire Segment Tree: 
-i.e. at this moment we remember that we also have a second coordinate; but because at this moment the first coordinate is already fixed to some interval $[l \dots r]$, we actually work with such a strip $a[l \dots r, 0 \dots m-1]$ and for it we build a Segment Tree.
+برای قابل فهم‌تر کردن فرآیند ساخت، می‌توانید برای مدتی فراموش کنید که ماتریس دوبعدی است و فقط مختصات اول را در نظر بگیرید.
+ما یک درخت بازه یک‌بعدی معمولی با استفاده از فقط مختصات اول خواهیم ساخت.
+اما به جای ذخیره یک عدد در یک بازه، ما یک درخت بازه کامل را ذخیره می‌کنیم:
+یعنی در این لحظه به یاد می‌آوریم که یک مختصات دوم نیز داریم؛ اما چون در این لحظه مختصات اول به یک بازه $[l \dots r]$ ثابت شده است، ما در واقع با چنین نواری $a[l \dots r, 0 \dots m-1]$ کار می‌کنیم و برای آن یک درخت بازه می‌سازیم.
 
-Here is the implementation of the construction of a 2D Segment Tree.
-It actually represents two separate blocks: 
-the construction of a Segment Tree along the $x$ coordinate ($\text{build}_x$), and the $y$ coordinate ($\text{build}_y$).
-For the leaf nodes in $\text{build}_y$ we have to separate two cases: 
-when the current segment of the first coordinate $[tlx \dots trx]$ has length 1, and when it has a length greater than one. In the first case, we just take the corresponding value from the matrix, and in the second case we can combine the values of two Segment Trees from the left and the right son in the coordinate $x$.
+در اینجا پیاده‌سازی ساخت یک درخت بازه دوبعدی آمده است.
+این در واقع دو بلوک جداگانه را نشان می‌دهد:
+ساخت یک درخت بازه در امتداد مختصات $x$ ($\text{build}_x$)، و مختصات $y$ ($\text{build}_y$).
+برای گره‌های برگ در $\text{build}_y$ باید دو حالت را جدا کنیم:
+وقتی بازه فعلی مختصات اول $[tlx \dots trx]$ طول ۱ دارد، و وقتی طول آن بیشتر از یک است. در حالت اول، ما فقط مقدار مربوطه را از ماتریس می‌گیریم، و در حالت دوم می‌توانیم مقادیر دو درخت بازه از پسر چپ و راست در مختصات $x$ را ترکیب کنیم.
 
 ```cpp
 void build_y(int vx, int lx, int rx, int vy, int ly, int ry) {
@@ -898,11 +904,11 @@ void build_x(int vx, int lx, int rx) {
 }
 ```
 
-Such a Segment Tree still uses a linear amount of memory, but with a larger constant: $16 n m$.
-It is clear that the described procedure $\text{build}_x$ also works in linear time. 
+چنین درخت بازه‌ای هنوز از مقدار حافظه خطی استفاده می‌کند، اما با یک ثابت بزرگتر: $16 n m$.
+واضح است که رویه توصیف شده $\text{build}_x$ نیز در زمان خطی کار می‌کند.
 
-Now we turn to processing of queries. We will answer to the two-dimensional query using the same principle: 
-first break the query on the first coordinate, and then for every reached vertex, we call the corresponding Segment Tree of the second coordinate.
+اکنون به پردازش پرس‌وجوها می‌پردازیم. ما به پرس‌وجوی دوبعدی با همان اصل پاسخ خواهیم داد:
+ابتدا پرس‌وجو را بر روی مختصات اول می‌شکنیم، و سپس برای هر رأس رسیده، درخت بازه مربوطه از مختصات دوم را فراخوانی می‌کنیم.
 
 ```cpp
 int sum_y(int vx, int vy, int tly, int try_, int ly, int ry) {
@@ -926,12 +932,12 @@ int sum_x(int vx, int tlx, int trx, int lx, int rx, int ly, int ry) {
 }
 ```
 
-This function works in $O(\log n \log m)$ time, since it first descends the tree in the first coordinate, and for each traversed vertex in the tree it makes a query in the corresponding Segment Tree along the second coordinate.
+این تابع در زمان $O(\log n \log m)$ کار می‌کند، زیرا ابتدا در درخت در مختصات اول پایین می‌رود، و برای هر رأس پیمایش شده در درخت، یک پرس‌وجو در درخت بازه مربوطه در امتداد مختصات دوم انجام می‌دهد.
 
-Finally we consider the modification query. 
-We want to learn how to modify the Segment Tree in accordance with the change in the value of some element $a[x][y] = p$.
-It is clear, that the changes will occur only in those vertices of the first Segment Tree that cover the coordinate $x$ (and such will be $O(\log n)$), and for Segment Trees corresponding to them the changes will only occurs at those vertices that covers the coordinate $y$ (and such will be $O(\log m)$).
-Therefore the implementation will be not very different form the one-dimensional case, only now we first descend the first coordinate, and then the second.
+در نهایت پرس‌وجوی تغییر را در نظر می‌گیریم.
+ما می‌خواهیم یاد بگیریم چگونه درخت بازه را مطابق با تغییر در مقدار یک عنصر $a[x][y] = p$ تغییر دهیم.
+واضح است که تغییرات فقط در آن رأس‌های درخت بازه اول که مختصات $x$ را پوشش می‌دهند رخ می‌دهد (و چنین رأس‌هایی $O(\log n)$ خواهند بود)، و برای درختان بازه مربوط به آنها تغییرات فقط در آن رأس‌هایی رخ می‌دهد که مختصات $y$ را پوشش می‌دهند (و چنین رأس‌هایی $O(\log m)$ خواهند بود).
+بنابراین پیاده‌سازی تفاوت چندانی با حالت یک‌بعدی نخواهد داشت، فقط اکنون ابتدا در مختصات اول پایین می‌رویم، و سپس در مختصات دوم.
 
 ```cpp
 void update_y(int vx, int lx, int rx, int vy, int ly, int ry, int x, int y, int new_val) {
@@ -962,41 +968,41 @@ void update_x(int vx, int lx, int rx, int x, int y, int new_val) {
 }
 ```
 
-#### Compression of 2D Segment Tree
+#### فشرده‌سازی درخت بازه دوبعدی
 
-Let the problem be the following: there are $n$ points on the plane given by their coordinates $(x_i, y_i)$ and queries of the form "count the number of points lying in the rectangle $((x_1, y_1), (x_2, y_2))$".
-It is clear that in the case of such a problem it becomes unreasonably wasteful to construct a two-dimensional Segment Tree with $O(n^2)$ elements.
-Most on this memory will be wasted, since each single point can only get into $O(\log n)$ segments of the tree along the first coordinate, and therefore the total "useful" size of all tree segments on the second coordinate is $O(n \log n)$.
+فرض کنید مسئله به این صورت است: $n$ نقطه در صفحه با مختصاتشان $(x_i, y_i)$ داده شده‌اند و پرس‌وجوهایی از نوع "تعداد نقاطی که در مستطیل $((x_1, y_1), (x_2, y_2))$ قرار دارند را بشمار" وجود دارد.
+واضح است که در چنین مسئله‌ای ساخت یک درخت بازه دوبعدی با $O(n^2)$ عنصر به طور غیر منطقی پرهزینه است.
+بیشتر این حافظه هدر خواهد رفت، زیرا هر نقطه تنها می‌تواند در $O(\log n)$ بازه از درخت در امتداد مختصات اول قرار گیرد، و بنابراین اندازه "مفید" کل تمام بازه‌های درخت در مختصات دوم $O(n \log n)$ است.
 
-So we proceed as follows:
-at each vertex of the Segment Tree with respect to the first coordinate we store a Segment Tree constructed only by those second coordinates that occur in the current segment of the first coordinates. 
-In other words, when constructing a Segment Tree inside some vertex with index $vx$ and the boundaries $tlx$ and $trx$, we only consider those points that fall into this interval $x \in [tlx, trx]$, and build a Segment Tree just using them.
+بنابراین به صورت زیر عمل می‌کنیم:
+در هر رأس از درخت بازه نسبت به مختصات اول، یک درخت بازه ساخته شده فقط با آن مختصات دومی که در بازه فعلی مختصات اول وجود دارند، ذخیره می‌کنیم.
+به عبارت دیگر، هنگام ساخت یک درخت بازه در داخل یک رأس با اندیس $vx$ و مرزهای $tlx$ و $trx$، ما فقط آن نقاطی را در نظر می‌گیریم که در این بازه $x \in [tlx, trx]$ قرار می‌گیرند، و یک درخت بازه فقط با استفاده از آنها می‌سازیم.
 
-Thus we will achieve that each Segment Tree on the second coordinate will occupy exactly as much memory as it should.
-As a result, the total amount of memory will decrease to $O(n \log n)$.
-We still can answer the queries in $O(\log^2 n)$ time, we just have to make a binary search on the second coordinate, but this will not worsen the complexity.
+بنابراین ما به این دست می‌یابیم که هر درخت بازه در مختصات دوم دقیقاً به اندازه‌ای حافظه اشغال خواهد کرد که باید.
+در نتیجه، کل حافظه به $O(n \log n)$ کاهش می‌یابد.
+ما هنوز می‌توانیم به پرس‌وجوها در زمان $O(\log^2 n)$ پاسخ دهیم، فقط باید یک جستجوی دودویی در مختصات دوم انجام دهیم، اما این پیچیدگی را بدتر نخواهد کرد.
 
-But modification queries will be impossible with this structure:
-in fact if a new point appears, we have to add a new element in the middle of some Segment Tree along the second coordinate, which cannot be effectively done.
+اما پرس‌وجوهای تغییر با این ساختار غیرممکن خواهند بود:
+در واقع اگر یک نقطه جدید ظاهر شود، ما باید یک عنصر جدید را در وسط یک درخت بازه در امتداد مختصات دوم اضافه کنیم، که به طور موثر قابل انجام نیست.
 
-In conclusion we note that the two-dimensional Segment Tree contracted in the described way becomes practically equivalent to the modification of the one-dimensional Segment Tree (see [Saving the entire subarrays in each vertex](segment_tree.md#saving-the-entire-subarrays-in-each-vertex)).
-In particular the two-dimensional Segment Tree is just a special case of storing a subarray in each vertex of the tree.
-It follows, that if you gave to abandon a two-dimensional Segment Tree due to the impossibility of executing a query, it makes sense to try to replace the nested Segment Tree with some more powerful data structure, for example a Cartesian tree.
+در پایان اشاره می‌کنیم که درخت بازه دوبعدی که به روش توصیف شده فشرده شده است، عملاً معادل تغییر درخت بازه یک‌بعدی می‌شود (بخش [ذخیره کل زیرآرایه‌ها در هر رأس](segment_tree.md#saving-the-entire-subarrays-in-each-vertex) را ببینید).
+به طور خاص، درخت بازه دوبعدی فقط یک مورد خاص از ذخیره یک زیرآرایه در هر رأس از درخت است.
+از این رو، اگر مجبور به رها کردن یک درخت بازه دوبعدی به دلیل عدم امکان اجرای یک پرس‌وجو شدید، منطقی است که سعی کنید درخت بازه تودرتو را با یک ساختار داده قدرتمندتر، به عنوان مثال یک درخت کارتزین، جایگزین کنید.
 
-### Preserving the history of its values (Persistent Segment Tree)
+### حفظ تاریخچه مقادیر (درخت بازه پایدار)
 
-A persistent data structure is a data structure that remembers it previous state for each modification.
-This allows to access any version of this data structure that interest us and execute a query on it.
+یک ساختمان داده پایدار، ساختمانی داده‌ای است که حالت قبلی خود را برای هر تغییر به یاد می‌آورد.
+این امکان دسترسی به هر نسخه‌ای از این ساختمان داده که مورد علاقه ماست و اجرای پرس‌وجو بر روی آن را فراهم می‌کند.
 
-Segment Tree is a data structure that can be turned into a persistent data structure efficiently (both in time and memory consumption).
-We want to avoid copying the complete tree before each modification, and we don't want to loose the $O(\log n)$ time behavior for answering range queries.
+درخت بازه ساختمانی داده‌ای است که می‌تواند به طور بهینه (هم از نظر زمان و هم از نظر مصرف حافظه) به یک ساختمان داده پایدار تبدیل شود.
+ما می‌خواهیم از کپی کردن کل درخت قبل از هر تغییر اجتناب کنیم، و نمی‌خواهیم رفتار زمانی $O(\log n)$ را برای پاسخ به پرس‌وجوهای بازه‌ای از دست بدهیم.
 
-In fact, any change request in the Segment Tree leads to a change in the data of only $O(\log n)$ vertices along the path starting from the root. 
-So if we store the Segment Tree using pointers (i.e. a vertex stores pointers to the left and the right child vertices), then when performing the modification query, we simply need to create new vertices instead of changing the available vertices.
-Vertices that are not affected by the modification query can still be used by pointing the pointers to the old vertices.
-Thus for a modification query $O(\log n)$ new vertices will be created, including a new root vertex of the Segment Tree, and the entire previous version of the tree rooted at the old root vertex will remain unchanged.
+در واقع، هر درخواست تغییر در درخت بازه منجر به تغییر در داده‌های تنها $O(\log n)$ رأس در طول مسیر از ریشه می‌شود.
+بنابراین اگر درخت بازه را با استفاده از اشاره‌گرها ذخیره کنیم (یعنی یک رأس اشاره‌گرهایی به رأس‌های فرزند چپ و راست را ذخیره کند)، آنگاه هنگام انجام پرس‌وجوی تغییر، به سادگی باید رأس‌های جدیدی ایجاد کنیم به جای تغییر رأس‌های موجود.
+رأس‌هایی که تحت تأثیر پرس‌وجوی تغییر قرار نمی‌گیرند، هنوز هم می‌توانند با اشاره کردن اشاره‌گرها به رأس‌های قدیمی استفاده شوند.
+بنابراین برای یک پرس‌وجوی تغییر $O(\log n)$ رأس جدید ایجاد می‌شود، از جمله یک رأس ریشه جدید برای درخت بازه، و کل نسخه قبلی درخت با ریشه قدیمی بدون تغییر باقی می‌ماند.
 
-Let's give an example implementation for the simplest Segment Tree: when there is only a query asking for sums, and modification queries of single elements. 
+بیایید یک مثال پیاده‌سازی برای ساده‌ترین درخت بازه ارائه دهیم: وقتی فقط یک پرس‌وجوی مجموع و پرس‌وجوهای تغییر عناصر تکی وجود دارد.
 
 ```cpp
 struct Vertex {
@@ -1038,45 +1044,45 @@ Vertex* update(Vertex* v, int tl, int tr, int pos, int new_val) {
 }
 ```
 
-For each modification of the Segment Tree we will receive a new root vertex.
-To quickly jump between two different versions of the Segment Tree, we need to store this roots in an array.
-To use a specific version of the Segment Tree we simply call the query using the appropriate root vertex.
+برای هر تغییر در درخت بازه، یک رأس ریشه جدید دریافت خواهیم کرد.
+برای پرش سریع بین دو نسخه مختلف از درخت بازه، باید این ریشه‌ها را در یک آرایه ذخیره کنیم.
+برای استفاده از یک نسخه خاص از درخت بازه، به سادگی پرس‌وجو را با استفاده از رأس ریشه مناسب فراخوانی می‌کنیم.
 
-With the approach described above almost any Segment Tree can be turned into a persistent data structure.
+با رویکرد توصیف شده در بالا، تقریباً هر درخت بازه‌ای را می‌توان به یک ساختمان داده پایدار تبدیل کرد.
 
-#### Finding the $k$-th smallest number in a range {data-toc-label="Finding the k-th smallest number in a range"}
+#### یافتن $k$-امین کوچکترین عدد در یک بازه {data-toc-label="یافتن k-امین کوچکترین عدد در یک بازه"}
 
-This time we have to answer queries of the form "What is the $k$-th smallest element in the range $a[l \dots r]$. 
-This query can be answered using a binary search and a Merge Sort Tree, but the time complexity for a single query would be $O(\log^3 n)$.
-We will accomplish the same task using a persistent Segment Tree in $O(\log n)$.
+این بار باید به پرس‌وجوهایی از نوع "k-امین کوچکترین عنصر در بازه $a[l \dots r]$ چیست؟" پاسخ دهیم.
+این پرس‌وجو را می‌توان با استفاده از جستجوی دودویی و یک درخت مرتب‌سازی ادغامی پاسخ داد، اما پیچیدگی زمانی برای یک پرس‌وجوی واحد $O(\log^3 n)$ خواهد بود.
+ما همین کار را با استفاده از یک درخت بازه پایدار در $O(\log n)$ انجام خواهیم داد.
 
-First we will discuss a solution for a simpler problem:
-We will only consider arrays in which the elements are bound by $0 \le a[i] \lt n$.
-And we only want to find the $k$-th smallest element in some prefix of the array $a$.
-It will be very easy to extent the developed ideas later for not restricted arrays and not restricted range queries.
-Note that we will be using 1 based indexing for $a$.
+ابتدا یک راه حل برای یک مسئله ساده‌تر را بحث خواهیم کرد:
+ما فقط آرایه‌هایی را در نظر خواهیم گرفت که عناصر آنها در محدوده $0 \le a[i] \lt n$ قرار دارند.
+و ما فقط می‌خواهیم $k$-امین کوچکترین عنصر را در یک پیشوند از آرایه $a$ پیدا کنیم.
+گسترش ایده‌های توسعه یافته بعداً برای آرایه‌های بدون محدودیت و پرس‌وجوهای بازه‌ای بدون محدودیت بسیار آسان خواهد بود.
+توجه داشته باشید که ما از اندیس‌گذاری مبتنی بر ۱ برای $a$ استفاده خواهیم کرد.
 
-We will use a Segment Tree that counts all appearing numbers, i.e. in the Segment Tree we will store the histogram of the array.
-So the leaf vertices will store how often the values $0$, $1$, $\dots$, $n-1$ will appear in the array, and the other vertices store how many numbers in some range are in the array. 
-In other words we create a regular Segment Tree with sum queries over the histogram of the array.
-But instead of creating all $n$ Segment Trees for every possible prefix, we will create one persistent one, that will contain the same information.
-We will start with an empty Segment Tree (all counts will be $0$) pointed to by $root_0$, and add the elements $a[1]$, $a[2]$, $\dots$, $a[n]$ one after another.
-For each modification we will receive a new root vertex, let's call $root_i$ the root of the Segment Tree after inserting the first $i$ elements of the array $a$.
-The Segment Tree rooted at $root_i$ will contain the histogram of the prefix $a[1 \dots i]$.
-Using this Segment Tree we can find in $O(\log n)$ time the position of the $k$-th element using the same technique discussed in [Counting the number of zeros, searching for the $k$-th zero](segment_tree.md#counting-zero-search-kth).
+ما از یک درخت بازه استفاده خواهیم کرد که تمام اعداد ظاهر شده را می‌شمارد، یعنی در درخت بازه ما هیستوگرام آرایه را ذخیره خواهیم کرد.
+بنابراین رأس‌های برگ ذخیره می‌کنند که مقادیر $0$، $1$، $\dots$، $n-1$ چند بار در آرایه ظاهر می‌شوند، و رأس‌های دیگر ذخیره می‌کنند که چند عدد در یک بازه مشخص در آرایه وجود دارند.
+به عبارت دیگر ما یک درخت بازه معمولی با پرس‌وجوهای مجموع روی هیستوگرام آرایه ایجاد می‌کنیم.
+اما به جای ایجاد همه $n$ درخت بازه برای هر پیشوند ممکن، ما یک درخت پایدار ایجاد خواهیم کرد که همان اطلاعات را در بر خواهد داشت.
+ما با یک درخت بازه خالی (تمام شمارش‌ها $0$ خواهند بود) که توسط $root_0$ اشاره می‌شود، شروع خواهیم کرد و عناصر $a[1]$، $a[2]$، $\dots$، $a[n]$ را یکی پس از دیگری اضافه خواهیم کرد.
+برای هر تغییر، یک رأس ریشه جدید دریافت خواهیم کرد، بیایید $root_i$ را ریشه درخت بازه پس از درج $i$ عنصر اول آرایه $a$ بنامیم.
+درخت بازه با ریشه $root_i$ حاوی هیستوگرام پیشوند $a[1 \dots i]$ خواهد بود.
+با استفاده از این درخت بازه می‌توانیم در زمان $O(\log n)$ موقعیت $k$-امین عنصر را با استفاده از همان تکنیک مورد بحث در [شمارش تعداد صفرها، جستجو برای $k$-امین صفر](segment_tree.md#counting-zero-search-kth) پیدا کنیم.
 
-Now to the not-restricted version of the problem.
+اکنون به نسخه بدون محدودیت مسئله می‌پردازیم.
 
-First for the restriction on the queries: 
-Instead of only performing these queries over a prefix of $a$, we want to use any arbitrary segments $a[l \dots r]$.
-Here we need a Segment Tree that represents the histogram of the elements in the range $a[l \dots r]$. 
-It is easy to see that such a Segment Tree is just the difference between the Segment Tree rooted at $root_{r}$ and the Segment Tree rooted at $root_{l-1}$, i.e. every vertex in the $[l \dots r]$ Segment Tree can be computed with the vertex of the $root_{r}$ tree minus the vertex of the $root_{l-1}$ tree.
+ابتدا برای محدودیت روی پرس‌وجوها:
+به جای انجام این پرس‌وجوها فقط روی یک پیشوند از $a$، می‌خواهیم از هر بازه دلخواه $a[l \dots r]$ استفاده کنیم.
+در اینجا ما به یک درخت بازه نیاز داریم که هیستوگرام عناصر در بازه $a[l \dots r]$ را نشان دهد.
+به راحتی می‌توان دید که چنین درخت بازه‌ای فقط تفاوت بین درخت بازه با ریشه $root_{r}$ و درخت بازه با ریشه $root_{l-1}$ است، یعنی هر رأس در درخت بازه $[l \dots r]$ را می‌توان با رأس درخت $root_{r}$ منهای رأس درخت $root_{l-1}$ محاسبه کرد.
 
-In the implementation of the $\text{find_kth}$ function this can be handled by passing two vertex pointer and computing the count/sum of the current segment as difference of the two counts/sums of the vertices.
+در پیاده‌سازی تابع $\text{find_kth}$ این را می‌توان با پاس دادن دو اشاره‌گر رأس و محاسبه شمارش/مجموع بازه فعلی به عنوان تفاوت دو شمارش/مجموع رأس‌ها مدیریت کرد.
 
-Here are the modified $\text{build}$, $\text{update}$  and $\text{find_kth}$ functions
+در اینجا توابع اصلاح شده $\text{build}$، $\text{update}$ و $\text{find_kth}$ آمده است.
 
-```{.cpp file=kth_smallest_persistent_segment_tree}
+```cpp {.cpp file=kth_smallest_persistent_segment_tree}
 Vertex* build(int tl, int tr) {
     if (tl == tr)
         return new Vertex(0);
@@ -1104,10 +1110,10 @@ int find_kth(Vertex* vl, Vertex *vr, int tl, int tr, int k) {
 }
 ```
 
-As already written above, we need to store the root of the initial Segment Tree, and also all the roots after each update.
-Here is the code for building a persistent Segment Tree over an vector `a` with elements in the range `[0, MAX_VALUE]`.
+همانطور که قبلاً نوشته شد، باید ریشه درخت بازه اولیه و همچنین تمام ریشه‌ها پس از هر به‌روزرسانی را ذخیره کنیم.
+در اینجا کد ساخت یک درخت بازه پایدار روی یک وکتور `a` با عناصر در بازه `[0, MAX_VALUE]` آمده است.
 
-```{.cpp file=kth_smallest_persistent_segment_tree_build}
+```cpp {.cpp file=kth_smallest_persistent_segment_tree_build}
 int tl = 0, tr = MAX_VALUE + 1;
 std::vector<Vertex*> roots;
 roots.push_back(build(tl, tr));
@@ -1115,30 +1121,28 @@ for (int i = 0; i < a.size(); i++) {
     roots.push_back(update(roots.back(), tl, tr, a[i]));
 }
 
-// find the 5th smallest number from the subarray [a[2], a[3], ..., a[19]]
+// یافتن پنجمین کوچکترین عدد از زیرآرایه [a[2], a[3], ..., a[19]]
 int result = find_kth(roots[2], roots[20], tl, tr, 5);
 ```
 
-Now to the restrictions on the array elements:
-We can actually transform any array to such an array by index compression.
-The smallest element in the array will gets assigned the value 0, the second smallest the value 1, and so forth.
-It is easy to generate lookup tables (e.g. using $\text{map}$), that convert a value to its index and vice versa in $O(\log n)$ time.
+اکنون به محدودیت‌ها روی عناصر آرایه:
+ما در واقع می‌توانیم هر آرایه‌ای را با فشرده‌سازی اندیس به چنین آرایه‌ای تبدیل کنیم.
+کوچکترین عنصر در آرایه مقدار 0، دومین کوچکترین مقدار 1 و به همین ترتیب تخصیص داده می‌شود.
+تولید جداول جستجو (مثلاً با استفاده از $\text{map}$) که یک مقدار را به اندیس آن و بالعکس در زمان $O(\log n)$ تبدیل می‌کنند، آسان است.
 
+### درخت بازه پویا
 
+(به این دلیل اینطور نامیده می‌شود که شکل آن پویاست و گره‌ها معمولاً به صورت پویا تخصیص داده می‌شوند.
+همچنین به عنوان *درخت بازه ضمنی* یا *درخت بازه پراکنده* نیز شناخته می‌شود.)
 
-### Dynamic segment tree
+قبلاً، مواردی را در نظر گرفتیم که توانایی ساخت درخت بازه اصلی را داشتیم. اما چه باید کرد اگر اندازه اصلی با یک عنصر پیش‌فرض پر شده باشد، اما اندازه‌اش اجازه ندهد که از قبل به طور کامل آن را بسازیم؟
 
-(Called so because its shape is dynamic and the nodes are usually dynamically allocated.
-Also known as _implicit segment tree_ or _sparse segment tree_.)
+ما می‌توانیم این مشکل را با ایجاد یک درخت بازه به صورت تنبل (افزایشی) حل کنیم. در ابتدا، ما فقط ریشه را ایجاد خواهیم کرد و گره‌های دیگر را فقط زمانی که به آنها نیاز داریم ایجاد خواهیم کرد.
+در این حالت، از پیاده‌سازی بر روی اشاره‌گرها استفاده خواهیم کرد (قبل از رفتن به فرزندان گره، بررسی کنید که آیا ایجاد شده‌اند و اگر نه، آنها را ایجاد کنید).
+هر پرس‌وجو هنوز فقط پیچیدگی $O(\log n)$ را دارد، که برای اکثر موارد استفاده به اندازه کافی کوچک است (مثلاً $\log_2 10^9 \approx 30$).
 
-Previously, we considered cases when we have the ability to build the original segment tree. But what to do if the original size is filled with some default element, but its size does not allow you to completely build up to it in advance?
-
-We can solve this problem by creating a segment tree lazily (incrementally). Initially, we will create only the root, and we will create the other vertexes only when we need them.
-In this case, we will use the implementation on pointers(before going to the vertex children, check whether they are created, and if not, create them).
-Each query has still only the complexity $O(\log n)$, which is small enough for most use-cases (e.g. $\log_2 10^9 \approx 30$).
-
-In this implementation we have two queries, adding a value to a position (initially all values  are $0$), and computing the sum of all values in a range.
-`Vertex(0, n)` will be the root vertex of the implicit tree.
+در این پیاده‌سازی ما دو پرس‌وجو داریم، اضافه کردن یک مقدار به یک موقعیت (در ابتدا تمام مقادیر $0$ هستند)، و محاسبه مجموع تمام مقادیر در یک بازه.
+`Vertex(0, n)` رأس ریشه درخت ضمنی خواهد بود.
 
 ```cpp
 struct Vertex {
@@ -1181,32 +1185,31 @@ struct Vertex {
 };
 ```
 
-Obviously this idea can be extended in lots of different ways. E.g. by adding support for range updates via lazy propagation.
+بدیهی است که این ایده را می‌توان به روش‌های مختلفی گسترش داد. به عنوان مثال، با افزودن پشتیبانی از به‌روزرسانی‌های بازه‌ای از طریق انتشار با تأخیر.
 
-## Practice Problems
+## مسائل تمرینی
 
-* [SPOJ - KQUERY](http://www.spoj.com/problems/KQUERY/) [Persistent segment tree / Merge sort tree]
+* [SPOJ - KQUERY](http://www.spoj.com/problems/KQUERY/) [درخت بازه‌ی پایدار / درخت مرتب‌سازی ادغامی]
 * [Codeforces - Xenia and Bit Operations](https://codeforces.com/problemset/problem/339/D)
 * [UVA 11402 - Ahoy, Pirates!](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2397)
 * [SPOJ - GSS3](http://www.spoj.com/problems/GSS3/)
 * [Codeforces - Distinct Characters Queries](https://codeforces.com/problemset/problem/1234/D)
-* [Codeforces - Knight Tournament](https://codeforces.com/contest/356/problem/A) [For beginners]
+* [Codeforces - Knight Tournament](https://codeforces.com/contest/356/problem/A) [برای مبتدیان]
 * [Codeforces - Ant colony](https://codeforces.com/contest/474/problem/F)
 * [Codeforces - Drazil and Park](https://codeforces.com/contest/515/problem/E)
 * [Codeforces - Circular RMQ](https://codeforces.com/problemset/problem/52/C)
 * [Codeforces - Lucky Array](https://codeforces.com/contest/121/problem/E)
 * [Codeforces - The Child and Sequence](https://codeforces.com/contest/438/problem/D)
-* [Codeforces - DZY Loves Fibonacci Numbers](https://codeforces.com/contest/446/problem/C) [Lazy propagation]
+* [Codeforces - DZY Loves Fibonacci Numbers](https://codeforces.com/contest/446/problem/C) [انتشار با تأخیر]
 * [Codeforces - Alphabet Permutations](https://codeforces.com/problemset/problem/610/E)
 * [Codeforces - Eyes Closed](https://codeforces.com/problemset/problem/895/E)
 * [Codeforces - Kefa and Watch](https://codeforces.com/problemset/problem/580/E)
 * [Codeforces - A Simple Task](https://codeforces.com/problemset/problem/558/E)
 * [Codeforces - SUM and REPLACE](https://codeforces.com/problemset/problem/920/F)
-* [Codeforces - XOR on Segment](https://codeforces.com/problemset/problem/242/E) [Lazy propagation]
-* [Codeforces - Please, another Queries on Array?](https://codeforces.com/problemset/problem/1114/F) [Lazy propagation]
-* [COCI - Deda](https://oj.uz/problem/view/COCI17_deda) [Last element smaller or equal to x / Binary search]
-* [Codeforces - The Untended Antiquity](https://codeforces.com/problemset/problem/869/E) [2D]
+* [Codeforces - XOR on Segment](https://codeforces.com/problemset/problem/242/E) [انتشار با تأخیر]
+* [Codeforces - Please, another Queries on Array?](https://codeforces.com/problemset/problem/1114/F) [انتشار با تأخیر]
+* [COCI - Deda](https://oj.uz/problem/view/COCI17_deda) [آخرین عنصر کوچکتر یا مساوی x / جستجوی دودویی]
+* [Codeforces - The Untended Antiquity](https://codeforces.com/problemset/problem/869/E) [دوبعدی]
 * [CSES - Hotel Queries](https://cses.fi/problemset/task/1143)
 * [CSES - Polynomial Queries](https://cses.fi/problemset/task/1736)
 * [CSES - Range Updates and Sums](https://cses.fi/problemset/task/1735)
-

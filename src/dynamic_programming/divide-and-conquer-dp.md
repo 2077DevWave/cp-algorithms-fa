@@ -1,53 +1,37 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: divide-and-conquer-dp
 ---
 
-# Divide and Conquer DP
+# DP تقسیم و حل
 
-Divide and Conquer is a dynamic programming optimization.
+تقسیم و حل یک بهینه‌سازی برای برنامه‌نویسی پویا است.
 
-### Preconditions
-Some dynamic programming problems have a recurrence of this form: 
+### پیش‌شرط‌ها
+بعضی از مسائل برنامه‌نویسی پویا یک رابطه‌ی بازگشتی به این شکل دارند:
 
 $$
 dp(i, j) = \min_{0 \leq k \leq j} \\{ dp(i - 1, k - 1) + C(k, j) \\}
 $$
 
-where $C(k, j)$ is a cost function and $dp(i, j) = 0$ when $j \lt 0$. 
+که در آن $C(k, j)$ یک تابع هزینه است و $dp(i, j) = 0$ وقتی $j \lt 0$ باشد.
 
-Say $0 \leq i \lt m$ and $0 \leq j \lt n$, and evaluating $C$ takes $O(1)$
-time. Then the straightforward evaluation of the above recurrence is $O(m n^2)$. There
-are $m \times n$ states, and $n$ transitions for each state.
+فرض کنید $0 \leq i \lt m$ و $0 \leq j \lt n$ و محاسبه‌ی $C$ زمان $O(1)$ می‌برد. در این صورت، محاسبه‌ی مستقیم رابطه‌ی بازگشتی بالا $O(m n^2)$ خواهد بود. تعداد $m \times n$ حالت وجود دارد و برای هر حالت، $n$ انتقال داریم.
 
-Let $opt(i, j)$ be the value of $k$ that minimizes the above expression. Assuming that the 
-cost function satisfies the quadrangle inequality, we can show that 
-$opt(i, j) \leq opt(i, j + 1)$ for all $i, j$. This is known as the _monotonicity condition_. 
-Then, we can apply divide and conquer DP. The optimal
-"splitting point" for a fixed $i$ increases as $j$ increases.
+فرض کنید $opt(i, j)$ مقداری از $k$ باشد که عبارت بالا را کمینه می‌کند. با فرض اینکه تابع هزینه در نامساوی چهارضلعی صدق کند، می‌توانیم نشان دهیم که به ازای تمام $i$ و $j$ ها، $opt(i, j) \leq opt(i, j + 1)$ برقرار است. این شرط به عنوان _شرط یکنوایی_ (monotonicity condition) شناخته می‌شود. در این صورت، می‌توانیم از DP تقسیم و حل استفاده کنیم. نقطه‌ی شکست بهینه برای یک $i$ ثابت، با افزایش $j$ افزایش می‌یابد.
 
-This lets us solve for all states more efficiently. Say we compute $opt(i, j)$
-for some fixed $i$ and $j$. Then for any $j' < j$ we know that $opt(i, j') \leq opt(i, j)$.
-This means when computing $opt(i, j')$, we don't have to consider as many
-splitting points!
+این ویژگی به ما اجازه می‌دهد تا تمام حالت‌ها را به شکل بهینه‌تری حل کنیم. فرض کنید $opt(i, j)$ را برای یک $i$ و $j$ ثابت محاسبه می‌کنیم. در این صورت برای هر $j' < j$ می‌دانیم که $opt(i, j') \leq opt(i, j)$. این یعنی هنگام محاسبه‌ی $opt(i, j')$، نیازی نیست تعداد زیادی نقطه‌ی شکست را بررسی کنیم!
 
-To minimize the runtime, we apply the idea behind divide and conquer. First,
-compute $opt(i, n / 2)$. Then, compute $opt(i, n / 4)$, knowing that it is less
-than or equal to $opt(i, n / 2)$ and $opt(i, 3 n / 4)$ knowing that it is
-greater than or equal to $opt(i, n / 2)$. By recursively keeping track of the
-lower and upper bounds on $opt$, we reach a $O(m n \log n)$ runtime. Each
-possible value of $opt(i, j)$ only appears in $\log n$ different nodes.
+برای کمینه کردن زمان اجرا، از ایده‌ی پشت تقسیم و حل استفاده می‌کنیم. ابتدا $opt(i, n / 2)$ را محاسبه می‌کنیم. سپس، $opt(i, n / 4)$ را با دانستن اینکه از $opt(i, n / 2)$ کوچکتر یا مساوی است و $opt(i, 3 n / 4)$ را با دانستن اینکه از $opt(i, n / 2)$ بزرگتر یا مساوی است، محاسبه می‌کنیم. با پیگیری بازگشتی کران‌های بالا و پایین برای $opt$، به زمان اجرای $O(m n \log n)$ می‌رسیم. هر مقدار ممکن برای $opt(i, j)$ تنها در $\log n$ گره متفاوت ظاهر می‌شود.
 
-Note that it doesn't matter how "balanced" $opt(i, j)$ is. Across a fixed
-level, each value of $k$ is used at most twice, and there are at most $\log n$
-levels.
+توجه داشته باشید که مهم نیست $opt(i, j)$ چقدر «متوازن» باشد. در یک سطح ثابت، هر مقدار $k$ حداکثر دو بار استفاده می‌شود، و حداکثر $\log n$ سطح وجود دارد.
 
-## Generic implementation
+## پیاده‌سازی کلی
 
-Even though implementation varies based on problem, here's a fairly generic
-template.
-The function `compute` computes one row $i$ of states `dp_cur`, given the previous row $i-1$ of states `dp_before`.
-It has to be called with `compute(0, n-1, 0, n-1)`. The function `solve` computes `m` rows and returns the result.
+اگرچه پیاده‌سازی بسته به مسئله متفاوت است، در اینجا یک قالب نسبتاً کلی ارائه شده است.
+تابع `compute` یک سطر $i$ از حالت‌های `dp_cur` را با داشتن سطر قبلی $i-1$ یعنی `dp_before` محاسبه می‌کند.
+این تابع باید با `compute(0, n-1, 0, n-1)` فراخوانی شود. تابع `solve` تعداد `m` سطر را محاسبه کرده و نتیجه را برمی‌گرداند.
 
 ```{.cpp file=divide_and_conquer_dp}
 int m, n;
@@ -55,7 +39,7 @@ vector<long long> dp_before, dp_cur;
 
 long long C(int i, int j);
 
-// compute dp_cur[l], ... dp_cur[r] (inclusive)
+// محاسبه‌ی dp_cur[l] تا dp_cur[r] (شامل خودشان)
 void compute(int l, int r, int optl, int optr) {
     if (l > r)
         return;
@@ -90,22 +74,20 @@ long long solve() {
 }
 ```
 
-### Things to look out for
+### نکات قابل توجه
 
-The greatest difficulty with Divide and Conquer DP problems is proving the
-monotonicity of $opt$. One special case where this is true is when the cost function satisfies the quadrangle inequality, i.e., $C(a, c) + C(b, d) \leq C(a, d) + C(b, c)$ for all $a \leq b \leq c \leq d$. 
-Many Divide and Conquer DP problems can also be solved with the Convex Hull trick or vice-versa. It is useful to know and understand
-both! 
+بزرگترین چالش در مسائل DP تقسیم و حل، اثبات یکنوایی (monotonicity) $opt$ است. یک حالت خاص که این شرط در آن برقرار است، زمانی است که تابع هزینه در نامساوی چهارضلعی صدق کند، یعنی $C(a, c) + C(b, d) \leq C(a, d) + C(b, c)$ به ازای تمام $a \leq b \leq c \leq d$.
+بسیاری از مسائل DP تقسیم و حل را می‌توان با ترفند «پوسته‌ی محدب» (Convex Hull trick) نیز حل کرد و بالعکس. دانستن و درک هر دو روش مفید است!
 
-## Practice Problems
+## مسائل تمرینی
 - [AtCoder - Yakiniku Restaurants](https://atcoder.jp/contests/arc067/tasks/arc067_d)
-- [CodeForces - Ciel and Gondolas](https://codeforces.com/contest/321/problem/E) (Be careful with I/O!)
+- [CodeForces - Ciel and Gondolas](https://codeforces.com/contest/321/problem/E) (مراقب ورودی/خروجی باشید!)
 - [CodeForces - Levels And Regions](https://codeforces.com/problemset/problem/673/E)
 - [CodeForces - Partition Game](https://codeforces.com/contest/1527/problem/E)
 - [CodeForces - The Bakery](https://codeforces.com/problemset/problem/834/D)
 - [CodeForces - Yet Another Minimization Problem](https://codeforces.com/contest/868/problem/F)
 - [Codechef - CHEFAOR](https://www.codechef.com/problems/CHEFAOR)
-- [CodeForces - GUARDS](https://codeforces.com/gym/103536/problem/A) (This is the exact problem in this article.)
+- [CodeForces - GUARDS](https://codeforces.com/gym/103536/problem/A) (این دقیقاً مسئله‌ی توضیح داده شده در این مقاله است.)
 - [Hackerrank - Guardians of the Lunatics](https://www.hackerrank.com/contests/ioi-2014-practice-contest-2/challenges/guardians-lunatics-ioi14)
 - [Hackerrank - Mining](https://www.hackerrank.com/contests/world-codesprint-5/challenges/mining)
 - [Kattis - Money (ACM ICPC World Finals 2017)](https://open.kattis.com/problems/money)
@@ -119,6 +101,6 @@ both!
 
 
 
-## References
+## منابع
 - [Quora Answer by Michael Levin](https://www.quora.com/What-is-divide-and-conquer-optimization-in-dynamic-programming)
 - [Video Tutorial by "Sothe" the Algorithm Wolf](https://www.youtube.com/watch?v=wLXEWuDWnzI)

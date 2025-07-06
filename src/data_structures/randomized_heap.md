@@ -1,33 +1,33 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: randomized_heap
 ---
 
-# Randomized Heap
+# هیپ تصادفی (Randomized Heap)
 
-A randomized heap is a heap that, through using randomization, allows to perform all operations in expected logarithmic time.
+هیپ تصادفی یک هیپ است که با استفاده از تصادفی‌سازی، امکان انجام تمام عملیات را در زمان لگاریتمی مورد انتظار فراهم می‌کند.
 
-A **min heap** is a binary tree in which the value of each vertex is less than or equal to the values of its children.
-Thus the minimum of the tree is always in the root vertex.
+یک **هیپ کمینه** (min heap) یک درخت دودویی است که در آن مقدار هر رأس کمتر یا مساوی مقادیر فرزندانش است.
+بنابراین، کمترین مقدار درخت همیشه در رأس ریشه قرار دارد.
 
-A max heap can be defined in a similar way: by replacing less with greater.
+یک هیپ بیشینه (max heap) را نیز می‌توان به روشی مشابه تعریف کرد: با جایگزین کردن «کمتر» با «بیشتر».
 
-The default operations of a heap are:
+عملیات پیش‌فرض یک هیپ عبارتند از:
 
-- Adding a value
-- Extracting the minimum
-- Removing the minimum
-- Merging two heaps (without deleting duplicates)
-- Removing an arbitrary element (if its position in the tree is known)
+- افزودن یک مقدار
+- پیدا کردن کمینه
+- حذف کمینه
+- ادغام دو هیپ (بدون حذف موارد تکراری)
+- حذف یک عنصر دلخواه (اگر موقعیت آن در درخت مشخص باشد)
 
-A randomized heap can perform all these operations in expected $O(\log n)$ time with a very simple implementation.
+یک هیپ تصادفی می‌تواند تمام این عملیات را در زمان مورد انتظار $O(\log n)$ با یک پیاده‌سازی بسیار ساده انجام دهد.
 
-## Data structure
+## ساختار داده
 
-We can immediately describe the structure of the binary heap:
+می‌توانیم بلافاصله ساختار هیپ دودویی را توصیف کنیم:
 
-```{.cpp file=randomized_heap_structure}
+```cpp file=randomized_heap_structure
 struct Tree {
     int value;
     Tree * l = nullptr;
@@ -35,35 +35,35 @@ struct Tree {
 };
 ```
 
-In the vertex we store a value.
-In addition we have pointers to the left and right children, which are point to null if the corresponding child doesn't exist.
+در هر رأس یک مقدار ذخیره می‌کنیم.
+علاوه بر آن، اشاره‌گرهایی به فرزندان چپ و راست داریم که اگر فرزند مربوطه وجود نداشته باشد، به `null` اشاره می‌کنند.
 
-## Operations
+## عملیات
 
-It is not difficult to see, that all operations can be reduced to a single one: **merging** two heaps into one.
-Indeed, adding a new value to the heap is equivalent to merging the heap with a heap consisting of a single vertex with that value. 
-Finding a minimum doesn't require any operation at all - the minimum is simply the value at the root.
-Removing the minimum is equivalent to the result of merging the left and right children of the root vertex.
-And removing an arbitrary element is similar.
-We merge the children of the vertex and replace the vertex with the result of the merge.
+به‌راحتی می‌توان دید که تمام عملیات را می‌توان به یک عملیات واحد کاهش داد: **ادغام** دو هیپ در یک هیپ.
+در واقع، افزودن یک مقدار جدید به هیپ معادل ادغام آن هیپ با هیپی است که تنها از یک رأس با همان مقدار تشکیل شده است.
+پیدا کردن کمینه به هیچ عملیاتی نیاز ندارد - کمینه به سادگی مقدار موجود در ریشه است.
+حذف کمینه معادل نتیجه‌ی ادغام فرزندان چپ و راست رأس ریشه است.
+و حذف یک عنصر دلخواه نیز مشابه است.
+فرزندان آن رأس را با هم ادغام کرده و رأس را با نتیجه‌ی ادغام جایگزین می‌کنیم.
 
-So we actually only need to implement the operation of merging two heaps.
-All other operations are trivially reduced to this operation.
+بنابراین، در واقع فقط لازم است عملیات ادغام دو هیپ را پیاده‌سازی کنیم.
+سایر عملیات به سادگی به این عملیات کاهش می‌یابند.
 
-Let two heaps $T_1$ and $T_2$ be given.
-It is clear that the root of each of these heaps contains its minimum.
-So the root of the resulting heap will be the minimum of these two values.
-So we compare both values, and use the smaller one as the new root.
-Now we have to combine the children of the selected vertex with the remaining heap.
-For this we select one of the children, and merge it with the remaining heap.
-Thus we again have the operation of merging two heaps.
-Sooner of later this process will end (the number of such steps is limited by the sum of the heights of the two heaps)
+فرض کنید دو هیپ $T_1$ و $T_2$ داده شده‌اند.
+واضح است که ریشه‌ی هر یک از این هیپ‌ها، کمینه‌ی آن را در خود دارد.
+بنابراین، ریشه‌ی هیپ حاصل، کمینه‌ی این دو مقدار خواهد بود.
+پس هر دو مقدار را مقایسه کرده و مقدار کوچکتر را به عنوان ریشه‌ی جدید استفاده می‌کنیم.
+اکنون باید فرزندان رأس انتخاب‌شده را با هیپ باقیمانده ترکیب کنیم.
+برای این کار، یکی از فرزندان را انتخاب کرده و آن را با هیپ باقیمانده ادغام می‌کنیم.
+به این ترتیب، دوباره با عملیات ادغام دو هیپ مواجه می‌شویم.
+این فرآیند دیر یا زود به پایان می‌رسد (تعداد این مراحل با مجموع ارتفاع دو هیپ محدود می‌شود).
 
-To achieve logarithmic complexity on average, we need to specify a method for choosing one of the two children so that the average path length is logarithmic.
-It is not difficult to guess, that we will make this decision **randomly**.
-Thus the implementation of the merging operation is as follows:
+برای رسیدن به پیچیدگی لگاریتمی به طور متوسط، باید روشی برای انتخاب یکی از دو فرزند مشخص کنیم تا متوسط طول مسیر لگاریتمی باشد.
+حدس زدن اینکه این تصمیم را به صورت **تصادفی** خواهیم گرفت، دشوار نیست.
+بنابراین، پیاده‌سازی عملیات ادغام به شرح زیر است:
 
-```{.cpp file=randomized_heap_merge}
+```cpp file=randomized_heap_merge
 Tree* merge(Tree* t1, Tree* t2) {
     if (!t1 || !t2)
         return t1 ? t1 : t2;
@@ -76,26 +76,26 @@ Tree* merge(Tree* t1, Tree* t2) {
 }
 ```
 
-Here first we check if one of the heaps is empty, then we don't need to perform any merge action at all.
-Otherwise we make the heap `t1` the one with the smaller value (by swapping `t1` and `t2` if necessary).
-We want to merge the left child of `t1` with `t2`, therefore we randomly swap the children of `t1`, and then perform the merge.
+در اینجا ابتدا بررسی می‌کنیم که آیا یکی از هیپ‌ها خالی است یا خیر؛ در این صورت، اصلاً نیازی به انجام عمل ادغام نیست.
+در غیر این صورت، هیپ `t1` را هیپی قرار می‌دهیم که مقدار کمتری دارد (در صورت لزوم با جابجا کردن `t1` و `t2`).
+می‌خواهیم فرزند چپ `t1` را با `t2` ادغام کنیم، بنابراین به طور تصادفی فرزندان `t1` را جابجا کرده و سپس عمل ادغام را انجام می‌دهیم.
 
-## Complexity
+## پیچیدگی
 
-We introduce the random variable $h(T)$ which will denote the **length of the random path** from the root to the leaf (the length in the number of edges).
-It is clear that the algorithm `merge` performs $O(h(T_1) + h(T_2))$ steps.
-Therefore to understand the complexity of the operations, we must look into the random variable $h(T)$.
+متغیر تصادفی $h(T)$ را معرفی می‌کنیم که نشان‌دهنده‌ی **طول مسیر تصادفی** از ریشه تا برگ است (طول بر حسب تعداد یال‌ها).
+واضح است که الگوریتم `merge` به تعداد $O(h(T_1) + h(T_2))$ مرحله انجام می‌شود.
+بنابراین، برای درک پیچیدگی عملیات، باید متغیر تصادفی $h(T)$ را بررسی کنیم.
 
-### Expected value
+### مقدار مورد انتظار
 
-We assume that the expectation $h(T)$ can be estimated from above by the logarithm of the number of vertices in the heap:
+فرض می‌کنیم که مقدار مورد انتظار $h(T)$ را می‌توان با لگاریتم تعداد رئوس در هیپ از بالا تخمین زد:
 
 $$\mathbf{E} h(T) \le \log(n+1)$$
 
-This can be easily proven by induction.
-Let $L$ and $R$ be the left and the right subtrees of the root $T$, and $n_L$ and $n_R$ the number of vertices in them ($n = n_L + n_R + 1$).
+این موضوع را می‌توان به راحتی با استقرا اثبات کرد.
+فرض کنید $L$ و $R$ زیردرخت‌های چپ و راست ریشه‌ی $T$ باشند و $n_L$ و $n_R$ تعداد رئوس در آنها باشند ($n = n_L + n_R + 1$).
 
-The following shows the induction step:
+ادامه‌ی مطلب، گام استقرا را نشان می‌دهد:
 
 $$\begin{align}
 \mathbf{E} h(T) &= 1 + \frac{\mathbf{E} h(L) + \mathbf{E} h(R)}{2} 
@@ -104,26 +104,26 @@ $$\begin{align}
 &\le \log \frac{2\left((n_L + 1) + (n_R + 1)\right)}{2} = \log(n_L + n_R + 2) = \log(n+1)
 \end{align}$$
 
-### Exceeding the expected value
+### فراتر رفتن از مقدار مورد انتظار
 
-Of course we are still not happy.
-The expected value of $h(T)$ doesn't say anything about the worst case.
-It is still possible that the paths from the root to the vertices is on average much greater than $\log(n + 1)$ for a specific tree.
+البته ما هنوز راضی نیستیم.
+مقدار مورد انتظار $h(T)$ چیزی در مورد بدترین حالت نمی‌گوید.
+هنوز ممکن است برای یک درخت خاص، مسیرها از ریشه به رئوس به طور متوسط بسیار بیشتر از $\log(n + 1)$ باشند.
 
-Let us prove that exceeding the expected value is indeed very small:
+بیایید ثابت کنیم که احتمال فراتر رفتن از مقدار مورد انتظار در واقع بسیار کم است:
 
 $$P\{h(T) > (c+1) \log n\} < \frac{1}{n^c}$$
 
-for any positive constant $c$.
+برای هر ثابت مثبت $c$.
 
-Here we denote by $P$ the set of paths from the root of the heap to the leaves where the length exceeds $(c+1) \log n$.
-Note that for any path $p$ of length $|p|$ the probability that it will be chosen as random path is $2^{-|p|}$.
-Therefore we get:
+در اینجا $P$ را مجموعه‌ی مسیرهایی از ریشه‌ی هیپ به برگ‌ها در نظر می‌گیریم که طول آنها از $(c+1) \log n$ بیشتر است.
+توجه داشته باشید که برای هر مسیر $p$ به طول $|p|$، احتمال اینکه به عنوان مسیر تصادفی انتخاب شود $2^{-|p|}$ است.
+بنابراین به دست می‌آوریم:
 
 $$P\{h(T) > (c+1) \log n\} = \sum_{p \in P} 2^{-|p|} < \sum_{p \in P} 2^{-(c+1) \log n} = |P| n^{-(c+1)} \le n^{-c}$$
 
-### Complexity of the algorithm
+### پیچیدگی الگوریتم
 
-Thus the algorithm `merge`, and hence all other operations expressed with it, can be performed in $O(\log n)$ on average.
+بنابراین، الگوریتم `merge` و در نتیجه تمام عملیات دیگری که با آن بیان می‌شوند، می‌توانند به طور متوسط در زمان $O(\log n)$ انجام شوند.
 
-Moreover for any positive constant $\epsilon$ there is a positive constant $c$, such that the probability that the operation will require more than $c \log n$ steps is less than $n^{-\epsilon}$ (in some sense this describes the worst case behavior of the algorithm).
+علاوه بر این، برای هر ثابت مثبت $\epsilon$، یک ثابت مثبت $c$ وجود دارد، به طوری که احتمال اینکه عملیات به بیش از $c \log n$ مرحله نیاز داشته باشد، کمتر از $n^{-\epsilon}$ است (این موضوع به نوعی رفتار الگوریتم در بدترین حالت را توصیف می‌کند).

@@ -1,40 +1,41 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: convex_hull_trick
 ---
 
-# Convex hull trick and Li Chao tree
+# ترفند پوسته محدب و درخت لی چائو
 
-Consider the following problem. There are $n$ cities. You want to travel from city $1$ to city $n$ by car. To do this you have to buy some gasoline. It is known that a liter of gasoline costs $cost_k$ in the $k^{th}$ city. Initially your fuel tank is empty and you spend one liter of gasoline per kilometer. Cities are located on the same line in ascending order with $k^{th}$ city having coordinate $x_k$. Also you have to pay $toll_k$ to enter $k^{th}$ city. Your task is to make the trip with minimum possible cost. It's obvious that the solution can be calculated via dynamic programming:
+مسئله زیر را در نظر بگیرید. تعداد $n$ شهر وجود دارد. شما می‌خواهید با ماشین از شهر ۱ به شهر $n$ سفر کنید. برای این کار باید مقداری بنزین بخرید. می‌دانیم که هزینه یک لیتر بنزین در شهر $k$-ام برابر $cost_k$ است. در ابتدا باک بنزین شما خالی است و در هر کیلومتر یک لیتر بنزین مصرف می‌کنید. شهرها به ترتیب صعودی روی یک خط قرار دارند و شهر $k$-ام دارای مختصات $x_k$ است. همچنین برای ورود به شهر $k$-ام باید $toll_k$ عوارض بپردازید. وظیفه شما این است که این سفر را با کمترین هزینه ممکن انجام دهید. واضح است که راه‌حل را می‌توان از طریق برنامه‌نویسی پویا محاسبه کرد:
 
 $$dp_i = toll_i+\min\limits_{j<i}(cost_j \cdot (x_i - x_j)+dp_j)$$
 
-Naive approach will give you $O(n^2)$ complexity which can be improved to $O(n \log n)$ or $O(n \log [C \varepsilon^{-1}])$ where $C$ is largest possible $|x_i|$ and $\varepsilon$ is precision with which $x_i$ is considered ($\varepsilon = 1$ for integers which is usually the case). To do this one should note that the problem can be reduced to adding linear functions $k \cdot x + b$ to the set and finding minimum value of the functions in some particular point $x$. There are two main approaches one can use here.
+رویکرد ساده پیچیدگی $O(n^2)$ خواهد داشت که می‌توان آن را به $O(n \log n)$ یا $O(n \log [C \varepsilon^{-1}])$ بهبود داد، که در آن $C$ بزرگترین مقدار ممکن برای $|x_i|$ و $\varepsilon$ دقتی است که $x_i$ با آن در نظر گرفته می‌شود (برای اعداد صحیح که معمولاً همین‌طور است، $\varepsilon = 1$ است). برای این کار، باید توجه داشت که مسئله را می‌توان به افزودن توابع خطی $k \cdot x + b$ به یک مجموعه و پیدا کردن کمترین مقدار این توابع در یک نقطه خاص $x$ کاهش داد. دو رویکرد اصلی برای این کار وجود دارد.
 
-## Convex hull trick
+## ترفند پوسته محدب (Convex hull trick)
 
-The idea of this approach is to maintain a lower convex hull of linear functions.
-Actually it would be a bit more convenient to consider them not as linear functions, but as points $(k;b)$ on the plane such that we will have to find the point which has the least dot product with a given point $(x;1)$, that is, for this point $kx+b$ is minimized which is the same as initial problem.
-Such minimum will necessarily be on lower convex envelope of these points as can be seen below:
+ایده این رویکرد، نگهداری پوسته محدب پایینی توابع خطی است.
+در واقع، کمی راحت‌تر است که آن‌ها را نه به عنوان توابع خطی، بلکه به عنوان نقاط $(k;b)$ روی صفحه در نظر بگیریم به طوری که باید نقطه‌ای را پیدا کنیم که کمترین حاصل‌ضرب داخلی را با نقطه داده‌شده $(x;1)$ داشته باشد، یعنی برای آن نقطه، مقدار $kx+b$ کمینه شود که همان مسئله اولیه است.
+چنین کمینه‌ای لزوماً روی پوش محدب پایینی این نقاط قرار خواهد گرفت، همانطور که در زیر مشاهده می‌شود:
 
 <div style="text-align: center;">
-  <img src="convex_hull_trick.png" alt="lower convex hull">
+  <img src="convex_hull_trick.png" alt="پوسته محدب پایینی">
 </div>
 
-One has to keep points on the convex hull and normal vectors of the hull's edges.
-When you have a $(x;1)$ query you'll have to find the normal vector closest to it in terms of angles between them, then the optimum linear function will correspond to one of its endpoints.
-To see that, one should note that points having a constant dot product with $(x;1)$ lie on a line which is orthogonal to $(x;1)$, so the optimum linear function will be the one in which tangent to convex hull which is collinear with normal to $(x;1)$ touches the hull.
-This point is the one such that normals of edges lying to the left and to the right of it are headed in different sides of $(x;1)$.
+باید نقاط روی پوسته محدب و بردارهای نرمال یال‌های پوسته را نگهداری کرد.
+وقتی یک پرسش $(x;1)$ دارید، باید بردار نرمالی را پیدا کنید که از نظر زاویه به آن نزدیک‌ترین باشد، سپس تابع خطی بهینه به یکی از نقاط انتهایی آن یال متناظر خواهد بود.
+برای درک این موضوع، باید توجه داشت که نقاطی که حاصل‌ضرب داخلی ثابتی با $(x;1)$ دارند، روی خطی قرار می‌گیرند که بر $(x;1)$ عمود است، بنابراین تابع خطی بهینه، آنی خواهد بود که در آن، خط مماس بر پوسته محدب که با بردار عمود بر $(x;1)$ هم‌خط است، پوسته را لمس کند.
+این نقطه، نقطه‌ای است که بردارهای نرمال یال‌های سمت چپ و راست آن، در دو جهت مخالف نسبت به $(x;1)$ قرار دارند.
 
-This approach is useful when queries of adding linear functions are monotone in terms of $k$ or if we work offline, i.e. we may firstly add all linear functions and answer queries afterwards.
-So we cannot solve the cities/gasoline problems using this way.
-That would require handling online queries.
-When it comes to deal with online queries however, things will go tough and one will have to use some kind of set data structure to implement a proper convex hull.
-Online approach will however not be considered in this article due to its hardness and because second approach (which is Li Chao tree) allows to solve the problem way more simply.
-Worth mentioning that one can still use this approach online without complications by square-root-decomposition.
-That is, rebuild convex hull from scratch each $\sqrt n$ new lines. 
+این رویکرد زمانی مفید است که پرسش‌های افزودن توابع خطی از نظر $k$ یکنوا باشند یا اگر به صورت آفلاین کار کنیم، یعنی می‌توانیم ابتدا تمام توابع خطی را اضافه کرده و سپس به پرسش‌ها پاسخ دهیم.
+بنابراین، نمی‌توانیم مسئله شهرها/بنزین را با این روش حل کنیم.
+این کار نیازمند مدیریت پرسش‌های آنلاین است.
+اما وقتی نوبت به مدیریت پرسش‌های آنلاین می‌رسد، کار سخت می‌شود و باید از نوعی ساختمان داده `set` برای پیاده‌سازی یک پوسته محدب مناسب استفاده کرد.
+با این حال، رویکرد آنلاین به دلیل سختی آن و اینکه رویکرد دوم (یعنی درخت لی چائو) اجازه می‌دهد مسئله به روشی بسیار ساده‌تر حل شود، در این مقاله بررسی نخواهد شد.
+شایان ذکر است که همچنان می‌توان از این رویکرد به صورت آنلاین و بدون پیچیدگی با استفاده از `square-root-decomposition` استفاده کرد.
+یعنی، هر $\sqrt n$ خط جدید، پوسته محدب را از ابتدا بازسازی کنیم.
 
-To implement this approach one should begin with some geometric utility functions, here we suggest to use the C++ complex number type.
+برای پیاده‌سازی این رویکرد باید با چند تابع کمکی هندسی شروع کرد، در اینجا پیشنهاد می‌کنیم از نوع داده اعداد مختلط C++ استفاده کنید.
 
 ```cpp
 typedef int ftype;
@@ -51,11 +52,11 @@ ftype cross(point a, point b) {
 }
 ```
 
-Here we will assume that when linear functions are added, their $k$ only increases and we want to find minimum values.
-We will keep points in vector $hull$ and normal vectors in vector $vecs$.
-When we add a new point, we have to look at the angle formed between last edge in convex hull and vector from last point in convex hull to new point.
-This angle has to be directed counter-clockwise, that is the dot product of the last normal vector in the hull (directed inside hull) and the vector from the last point to the new one has to be non-negative.
-As long as this isn't true, we should erase the last point in the convex hull alongside with the corresponding edge.
+در اینجا فرض می‌کنیم که هنگام افزودن توابع خطی، $k$ آن‌ها فقط افزایش می‌یابد و ما می‌خواهیم مقادیر کمینه را پیدا کنیم.
+ما نقاط را در یک وکتور `hull` و بردارهای نرمال را در وکتور `vecs` نگهداری می‌کنیم.
+وقتی یک نقطه جدید اضافه می‌کنیم، باید به زاویه‌ای که بین آخرین یال در پوسته محدب و بردار از آخرین نقطه در پوسته به نقطه جدید تشکیل می‌شود، نگاه کنیم.
+این زاویه باید در جهت پادساعتگرد باشد، یعنی حاصل‌ضرب داخلی آخرین بردار نرمال در پوسته (که به سمت داخل پوسته جهت‌دهی شده) و بردار از آخرین نقطه به نقطه جدید باید نامنفی باشد.
+تا زمانی که این شرط برقرار نباشد، باید آخرین نقطه در پوسته محدب را به همراه یال مربوطه حذف کنیم.
 
 ```cpp
 vector<point> hull, vecs;
@@ -73,7 +74,7 @@ void add_line(ftype k, ftype b) {
 }
  
 ```
-Now to get the minimum value in some point we will find the first normal vector in the convex hull that is directed counter-clockwise from $(x;1)$. The left endpoint of such edge will be the answer. To check if vector $a$ is not directed counter-clockwise of vector $b$, we should check if their cross product $[a,b]$ is positive.
+حال برای به دست آوردن کمترین مقدار در یک نقطه، با استفاده از جستجوی دودویی، اولین بردار نرمال در پوسته محدب را پیدا می‌کنیم که بردار پرسش `(x;1)` نسبت به آن در جهت پادساعتگرد نباشد. نقطه شروع این یال، پاسخ بهینه خواهد بود. برای بررسی اینکه آیا بردار `b` نسبت به بردار `a` در جهت پادساعتگرد قرار دارد، باید مثبت بودن حاصل‌ضرب خارجی `[a,b]` را بررسی کنیم.
 ```cpp
 int get(ftype x) {
     point query = {x, 1};
@@ -84,19 +85,19 @@ int get(ftype x) {
 }
 ```
 
-## Li Chao tree
+## درخت لی چائو (Li Chao tree)
 
-Assume you're given a set of functions such that each two can intersect at most once. Let's keep in each vertex of a segment tree some function in such way, that if we go from root to the leaf it will be guaranteed that one of the functions we met on the path will be the one giving the minimum value in that leaf. Let's see how to construct it.
+فرض کنید مجموعه‌ای از توابع به شما داده شده است که هر دو تابع حداکثر یک بار یکدیگر را قطع می‌کنند. بیایید در هر رأس از یک درخت بازه‌ای یک تابع را به گونه‌ای نگهداری کنیم که اگر از ریشه به سمت یک برگ حرکت کنیم، تضمین شود که یکی از توابعی که در مسیر با آن روبرو شده‌ایم، تابعی باشد که کمترین مقدار را در آن برگ ایجاد می‌کند. بیایید ببینیم چگونه آن را بسازیم.
 
-Assume we're in some vertex corresponding to half-segment $[l,r)$ and the function $f_{old}$ is kept there and we add the function $f_{new}$. Then the intersection point will be either in $[l;m)$ or in $[m;r)$ where $m=\left\lfloor\tfrac{l+r}{2}\right\rfloor$. We can efficiently find that out by comparing the values of the functions in points $l$ and $m$. If the dominating function changes, then it is in $[l;m)$ otherwise it is in $[m;r)$. Now for the half of the segment with no intersection we will pick the lower function and write it in the current vertex. You can see that it will always be the one which is lower in point $m$. After that we recursively go to the other half of the segment with the function which was the upper one. As you can see this will keep correctness on the first half of segment and in the other one correctness will be maintained during the recursive call. Thus we can add functions and check the minimum value in the point in $O(\log [C\varepsilon^{-1}])$.
+فرض کنید در رأسی هستیم که متناظر با نیم‌بازه $[l,r)$ است و تابع $f_{old}$ در آن نگهداری می‌شود و ما تابع $f_{new}$ را اضافه می‌کنیم. در این صورت، نقطه تقاطع یا در $[l,m)$ یا در $[m,r)$ خواهد بود که $m=\left\lfloor\tfrac{l+r}{2}\right\rfloor$ است. می‌توانیم با مقایسه مقادیر توابع در نقاط $l$ و $m$ به طور کارآمد این موضوع را بفهمیم. اگر تابع غالب تغییر کند، نقطه تقاطع در $[l,m)$ است، در غیر این صورت در $[m,r)$ قرار دارد. حال، برای نیمی از بازه که تقاطعی در آن نیست، تابع پایینی را انتخاب کرده و آن را در رأس فعلی می‌نویسیم. می‌توانید ببینید که این تابع همیشه همانی است که در نقطه $m$ پایین‌تر قرار دارد. پس از آن، به صورت بازگشتی با تابعی که بالاتر بود، به نیمه دیگر بازه می‌رویم. همانطور که می‌بینید، این کار درستی را در نیمه اول بازه حفظ می‌کند و در نیمه دیگر، درستی در طول فراخوانی بازگشتی حفظ خواهد شد. بنابراین می‌توانیم توابع را اضافه کرده و کمترین مقدار را در یک نقطه در زمان $O(\log [C\varepsilon^{-1}])$ بررسی کنیم.
 
-Here is the illustration of what is going on in the vertex when we add new function:
+در اینجا تصویری از آنچه در هنگام افزودن تابع جدید در یک رأس اتفاق می‌افتد، آمده است:
 
 <div style="text-align: center;">
-  <img src="li_chao_vertex.png" alt="Li Chao Tree vertex">
+  <img src="li_chao_vertex.png" alt="گره درخت لی چائو">
 </div>
 
-Let's go to implementation now. Once again we will use complex numbers to keep linear functions.
+حال به سراغ پیاده‌سازی برویم. یک بار دیگر از اعداد مختلط برای نگهداری توابع خطی استفاده خواهیم کرد.
 
 ```{.cpp file=lichaotree_line_definition}
 typedef long long ftype;
@@ -112,8 +113,8 @@ ftype f(point a,  ftype x) {
     return dot(a, {x, 1});
 }
 ```
-We will keep functions in the array $line$ and use binary indexing of the segment tree. If you want to use it on large numbers or doubles, you should use a dynamic segment tree. 
-The segment tree should be initialized with default values, e.g. with lines $0x + \infty$.
+ما توابع را در آرایه $line$ نگهداری می‌کنیم و از اندیس‌گذاری باینری برای درخت بازه‌ای استفاده می‌کنیم. اگر می‌خواهید از آن برای اعداد بزرگ یا اعداد اعشاری (double) استفاده کنید، باید از یک درخت بازه‌ای پویا (dynamic segment tree) استفاده کنید.
+درخت بازه‌ای باید با مقادیر پیش‌فرض مقداردهی اولیه شود، به عنوان مثال با خطوط $0x + \infty$.
 
 ```{.cpp file=lichaotree_addline}
 const int maxn = 2e5;
@@ -136,7 +137,7 @@ void add_line(point nw, int v = 1, int l = 0, int r = maxn) {
     }
 }
 ```
-Now to get the minimum in some point $x$ we simply choose the minimum value along the path to the point.
+حال برای به دست آوردن کمترین مقدار در یک نقطه $x$، به سادگی کمترین مقدار را در طول مسیر به سمت آن نقطه انتخاب می‌کنیم.
 ```{.cpp file=lichaotree_getminimum}
 ftype get(int x, int v = 1, int l = 0, int r = maxn) {
     int m = (l + r) / 2;
@@ -150,9 +151,9 @@ ftype get(int x, int v = 1, int l = 0, int r = maxn) {
 }
 ```
 
-## Problems
+## مسائل
 
-* [Codebreaker - TROUBLES](https://codeforces.com/gym/103536/problem/B) (simple application of Convex Hull Trick after a couple of observations)
+* [Codebreaker - TROUBLES](https://codeforces.com/gym/103536/problem/B) (کاربرد ساده ترفند پوسته محدب پس از چند مشاهده)
 * [CS Academy - Squared Ends](https://csacademy.com/contest/archive/task/squared-ends)
 * [Codeforces - Escape Through Leaf](http://codeforces.com/contest/932/problem/F)
 * [CodeChef - Polynomials](https://www.codechef.com/NOV17/problems/POLY)

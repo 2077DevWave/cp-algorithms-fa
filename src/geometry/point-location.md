@@ -1,80 +1,81 @@
 ---
-title: Point location in O(log n)
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: point-location
 ---
-# Point location in $O(log n)$
 
-Consider the following problem: you are given a [planar subdivision](https://en.wikipedia.org/wiki/Planar_straight-line_graph) without any vertices of degree one and zero, and a lot of queries.
-Each query is a point, for which we should determine the face of the subdivision it belongs to.
-We will answer each query in $O(\log n)$ offline.<br>
-This problem may arise when you need to locate some points in a Voronoi diagram or in some simple polygon.
+# مکان‌یابی نقطه در $O(log n)$
 
-## Algorithm
+مسئله زیر را در نظر بگیرید: به شما یک [planar subdivision](https://en.wikipedia.org/wiki/Planar_straight-line_graph) (افراز صفحه‌ای) بدون هیچ رأسی با درجه یک و صفر و تعداد زیادی پرس‌وجو (query) داده شده است.
+هر پرس‌وجو یک نقطه است که برای آن باید مشخص کنیم به کدام وجه (face) از افراز تعلق دارد.
+ما به هر پرس‌وجو به صورت آفلاین (offline) و در زمان $O(\log n)$ پاسخ خواهیم داد.<br>
+این مسئله ممکن است زمانی پیش بیاید که شما نیاز به مکان‌یابی چند نقطه در یک دیاگرام ورونوی (Voronoi diagram) یا در یک چندضلعی ساده داشته باشید.
 
-Firstly, for each query point $p\ (x_0, y_0)$ we want to find such an edge that if the point belongs to any edge, the point lies on the edge we found, otherwise this edge must intersect the line $x = x_0$ at some unique point $(x_0, y)$ where $y < y_0$ and this $y$ is maximum among all such edges.
-The following image shows both cases.
+## الگوریتم
 
-<div style="text-align: center;">
-  <img src="point_location_goal.png" alt="Image of Goal">
-</div>
-
-We will solve this problem offline using the sweep line algorithm. Let's iterate over x-coordinates of query points and edges' endpoints in increasing order and keep a set of edges $s$. For each x-coordinate we will add some events beforehand.
-
-The events will be of four types: _add_, _remove_, _vertical_, _get_.
-For each vertical edge (both endpoints have the same x-coordinate) we will add one _vertical_ event for the corresponding x-coordinate.
-For every other edge we will add one _add_ event for the minimum of x-coordinates of the endpoints and one _remove_ event for the maximum of x-coordinates of the endpoints.
-Finally, for each query point we will add one _get_ event for its x-coordinate.
-
-For each x-coordinate we will sort the events by their types in order (_vertical_, _get_, _remove_, _add_).
-The following image shows all events in sorted order for each x-coordinate.
+ابتدا، برای هر نقطه پرس‌وجوی $p\ (x_0, y_0)$، می‌خواهیم یالی را پیدا کنیم که اگر نقطه به یالی تعلق داشته باشد، نقطه روی همان یال پیدا شده قرار گیرد. در غیر این صورت، این یال باید خط $x = x_0$ را در نقطه‌ای یکتای $(x_0, y)$ قطع کند، به طوری که $y < y_0$ باشد و این $y$ در میان تمام چنین یال‌هایی بیشینه باشد.
+تصویر زیر هر دو حالت را نشان می‌دهد.
 
 <div style="text-align: center;">
-  <img src="point_location_events.png" alt="Image of Events">
+  <img src="point_location_goal.png" alt="تصویر هدف">
 </div>
 
-We will keep two sets during the sweep-line process.
-A set $t$ for all non-vertical edges, and one set $vert$ especially for the vertical ones.
-We will clear the set $vert$ at the beginning of processing each x-coordinate.
+ما این مسئله را به صورت آفلاین (offline) با استفاده از الگوریتم خط جاروب (sweep line) حل خواهیم کرد. بیایید روی مختصات x نقاط پرس‌وجو و نقاط پایانی یال‌ها به ترتیب صعودی پیمایش کنیم و یک مجموعه از یال‌ها به نام $s$ را نگهداری کنیم. برای هر مختصات x، از قبل چند رویداد (event) اضافه خواهیم کرد.
 
-Now let's process the events for a fixed x-coordinate.
+رویدادها از چهار نوع خواهند بود: _add_ (افزودن)، _remove_ (حذف)، _vertical_ (عمودی) و _get_ (دریافت).
+برای هر یال عمودی (که هر دو نقطه انتهایی آن مختصات x یکسانی دارند)، یک رویداد _vertical_ برای مختصات x مربوطه اضافه می‌کنیم.
+برای هر یال دیگر، یک رویداد _add_ برای کمینه مختصات x نقاط انتهایی و یک رویداد _remove_ برای بیشینه مختصات x نقاط انتهایی اضافه می‌کنیم.
+در نهایت، برای هر نقطه پرس‌وجو، یک رویداد _get_ برای مختصات x آن اضافه می‌کنیم.
 
- - If we got a _vertical_ event, we will simply insert the minimum y-coordinate of the corresponding edge's endpoints to $vert$.
- - If we got a _remove_ or _add_ event, we will remove the corresponding edge from $t$ or add it to $t$.
- - Finally, for each _get_ event we must check if the point lies on some vertical edge by performing a binary search in $vert$.
-If the point doesn't lie on any vertical edge, we must find the answer for this query in $t$.
-To do this, we again make a binary search.
-In order to handle some degenerate cases (e.g. in case of the triangle $(0,~0)$, $(0,~2)$, $(1, 1)$ when we query the point $(0,~0)$), we must answer all _get_ events again after we processed all the events for this x-coordinate and choose the best of two answers.
+برای هر مختصات x، رویدادها را بر اساس نوعشان به ترتیب (_vertical_، _get_، _remove_، _add_) مرتب می‌کنیم.
+تصویر زیر تمام رویدادها را به ترتیب مرتب‌شده برای هر مختصات x نشان می‌دهد.
 
-Now let's choose a comparator for the set $t$.
-This comparator should check if one edge doesn't lie above other for every x-coordinate they both cover. Suppose that we have two edges $(a, b)$ and $(c, d)$. Then the comparator is (in pseudocode):<br>
+<div style="text-align: center;">
+  <img src="point_location_events.png" alt="تصویر رویدادها">
+</div>
+
+در طول فرآیند خط جاروب، دو مجموعه را نگهداری خواهیم کرد.
+یک مجموعه $t$ برای تمام یال‌های غیرعمودی، و یک مجموعه $vert$ مخصوص یال‌های عمودی.
+مجموعه $vert$ را در ابتدای پردازش هر مختصات x خالی خواهیم کرد.
+
+اکنون رویدادها را برای یک مختصات x ثابت پردازش می‌کنیم.
+
+ - اگر با یک رویداد _vertical_ مواجه شدیم، به سادگی کمینه مختصات y نقاط پایانی یال مربوطه را در $vert$ درج می‌کنیم.
+ - اگر با یک رویداد _remove_ یا _add_ مواجه شدیم، یال مربوطه را از $t$ حذف یا به آن اضافه می‌کنیم.
+ - در نهایت، برای هر رویداد _get_، باید با انجام یک جستجوی دودویی در $vert$ بررسی کنیم که آیا نقطه روی یک یال عمودی قرار دارد یا خیر.
+اگر نقطه روی هیچ یال عمودی قرار نداشت، باید پاسخ این پرس‌وجو را در $t$ پیدا کنیم.
+برای این کار، مجدداً یک جستجوی دودویی انجام می‌دهیم.
+برای مدیریت برخی موارد خاص (degenerate cases) (مثلاً در مورد مثلث $(0,~0)$، $(0,~2)$، $(1, 1)$ هنگامی که از نقطه $(0,~0)$ پرس‌وجو می‌کنیم)، باید پس از پردازش تمام رویدادهای مربوط به این مختصات x، دوباره به تمام رویدادهای _get_ پاسخ دهیم و بهترین گزینه را از بین دو پاسخ انتخاب کنیم.
+
+اکنون یک مقایسه‌گر (comparator) برای مجموعه $t$ انتخاب می‌کنیم.
+این مقایسه‌گر ترتیب عمودی دو یال را تعیین می‌کند. فرض کنید دو یال $(a, b)$ و $(c, d)$ داریم. آنگاه مقایسه‌گر (در شبه‌کد) به صورت زیر است:<br>
 
 $val = sgn((b - a)\times(c - a)) + sgn((b - a)\times(d - a))$<br>
-<b>if</b> $val \neq 0$<br>
-<b>then return</b> $val > 0$<br>
+<b>اگر</b> $val \neq 0$<br>
+<b>آنگاه برگردان</b> $val > 0$<br>
 $val = sgn((d - c)\times(a - c)) + sgn((d - c)\times(b - c))$<br>
-<b>return</b> $val < 0$<br>
+<b>برگردان</b> $val < 0$<br>
 
-Now for every query we have the corresponding edge.
-How to find the face?
-If we couldn't find the edge it means that the point is in the outer face.
-If the point belongs to the edge we found, the face is not unique.
-Otherwise, there are two candidates - the faces that are bounded by this edge.
-How to check which one is the answer? Note that the edge is not vertical.
-Then the answer is the face that is above this edge.
-Let's find such a face for each non-vertical edge.
-Consider a counter-clockwise traversal of each face.
-If during this traversal we increased x-coordinate while passing through the edge, then this face is the face we need to find for this edge.
+اکنون برای هر پرس‌وجو، یال متناظر آن را در اختیار داریم.
+چگونه وجه را پیدا کنیم؟
+اگر نتوانستیم یالی پیدا کنیم، به این معنی است که نقطه در وجه بیرونی قرار دارد.
+اگر نقطه به یال پیدا شده تعلق داشته باشد، وجه یکتا نیست.
+در غیر این صورت، دو گزینه وجود دارد - وجه‌هایی که توسط این یال محدود شده‌اند.
+چگونه بررسی کنیم کدام یک پاسخ است؟ توجه داشته باشید که این یال عمودی نیست.
+در این صورت، پاسخ، وجهی است که بالای این یال قرار دارد.
+بیایید برای هر یال غیرعمودی چنین وجهی را پیدا کنیم.
+یک پیمایش پادساعتگرد روی هر وجه را در نظر بگیرید.
+اگر در طول این پیمایش، هنگام عبور از یک یال، مختصات x افزایش یابد، آنگاه آن وجه، همان وجهی است که برای آن یال به دنبالش هستیم.
 
-## Notes
+## نکات
 
-Actually, with persistent trees this approach can be used to answer the queries online.
+در واقع، با استفاده از درخت‌های پایا (persistent trees)، این رویکرد را می‌توان برای پاسخ به پرس‌وجوها به صورت آنلاین (online) نیز به کار برد.
 
-## Implementation
+## پیاده‌سازی
 
-The following code is implemented for integers, but it can be easily modified to work with doubles (by changing the compare methods and the point type).
-This implementation assumes that the subdivision is correctly stored inside a [DCEL](https://en.wikipedia.org/wiki/Doubly_connected_edge_list) and the outer face is numbered $-1$.<br>
-For each query a pair $(1, i)$ is returned if the point lies strictly inside the face number $i$, and a pair $(0, i)$ is returned if the point lies on the edge number $i$.
+کد زیر برای اعداد صحیح پیاده‌سازی شده است، اما با تغییر متدهای مقایسه و نوع نقطه، می‌توان آن را به راحتی برای کار با اعداد اعشاری (doubles) نیز تغییر داد.
+این پیاده‌سازی فرض می‌کند که افراز به درستی در یک ساختار [DCEL](https://en.wikipedia.org/wiki/Doubly_connected_edge_list) (لیست یال‌های با اتصال دوگانه) ذخیره شده و وجه بیرونی با شماره ۱- مشخص شده است.<br>
+برای هر پرس‌وجو، اگر نقطه کاملاً داخل وجه شماره $i$ قرار داشته باشد، یک زوج $(1, i)$ برگردانده می‌شود، و اگر نقطه روی یال شماره $i$ قرار داشته باشد، یک زوج $(0, i)$ برگردانده می‌شود.
 
 ```{.cpp file=point-location}
 typedef long long ll;
@@ -125,7 +126,7 @@ vector<Edge*> sweepline(vector<Edge*> planar, vector<pt> queries)
 {
     using pt_type = decltype(pt::x);
 
-    // collect all x-coordinates
+    // جمع‌آوری تمام مختصات x
     auto s =
         set<pt_type, std::function<bool(const pt_type&, const pt_type&)>>(lt);
     for (pt p : queries)
@@ -135,7 +136,7 @@ vector<Edge*> sweepline(vector<Edge*> planar, vector<pt> queries)
         s.insert(e->r.x);
     }
 
-    // map all x-coordinates to ids
+    // نگاشت تمام مختصات x به شناسه‌ها
     int cid = 0;
     auto id =
         map<pt_type, int, std::function<bool(const pt_type&, const pt_type&)>>(
@@ -143,7 +144,7 @@ vector<Edge*> sweepline(vector<Edge*> planar, vector<pt> queries)
     for (auto x : s)
         id[x] = cid++;
 
-    // create events
+    // ایجاد رویدادها
     auto t = set<Edge*, decltype(*edge_cmp)>(edge_cmp);
     auto vert_cmp = [](const pair<pt_type, int>& l,
                        const pair<pt_type, int>& r) {
@@ -171,7 +172,7 @@ vector<Edge*> sweepline(vector<Edge*> planar, vector<pt> queries)
         }
     }
 
-    // perform sweep line algorithm
+    // اجرای الگوریتم خط جاروب
     vector<Edge*> ans(queries.size(), nullptr);
     for (int x = 0; x < cid; x++) {
         sort(events[x].begin(), events[x].end());
@@ -295,6 +296,6 @@ vector<pair<int, int>> point_location(DCEL planar, vector<pt> queries)
 }
 ```
 
-## Problems
+## مسائل
  * [TIMUS 1848 Fly Hunt](http://acm.timus.ru/problem.aspx?space=1&num=1848&locale=en)
  * [UVA 12310 Point Location](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=297&page=show_problem&problem=3732)

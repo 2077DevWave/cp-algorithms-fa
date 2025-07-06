@@ -1,61 +1,61 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: games_on_graphs
 ---
 
-# Games on arbitrary graphs
+# بازی‌ها روی گراف‌های دلخواه
 
-Let a game be played by two players on an arbitrary graph $G$.
-I.e. the current state of the game is a certain vertex.
-The players perform moves by turns, and move from the current vertex to an adjacent vertex using a connecting edge.
-Depending on the game, the person that is unable to move will either lose or win the game.
+فرض کنید یک بازی توسط دو بازیکن روی یک گراف دلخواه $G$ انجام می‌شود.
+یعنی، وضعیت فعلی بازی یک رأس مشخص است.
+بازیکنان به نوبت حرکت می‌کنند و از رأس فعلی به یک رأس مجاور با استفاده از یک یال متصل‌کننده حرکت می‌کنند.
+بسته به بازی، شخصی که قادر به حرکت نباشد، یا بازی را می‌برد یا می‌بازد.
 
-We consider the most general case, the case of an arbitrary directed graph with cycles.
-It is our task to determine, given an initial state, who will win the game if both players play with optimal strategies or determine that the result of the game will be a draw.
+ما عمومی‌ترین حالت، یعنی حالت یک گراف جهت‌دار دلخواه با دور را در نظر می‌گیریم.
+وظیفه ما این است که با توجه به یک وضعیت اولیه، مشخص کنیم که اگر هر دو بازیکن با استراتژی‌های بهینه بازی کنند چه کسی برنده می‌شود یا تعیین کنیم که نتیجه بازی مساوی خواهد بود.
 
-We will solve this problem very efficiently.
-We will find the solution for all possible starting vertices of the graph in linear time with respect to the number of edges: $O(m)$.
+ما این مسئله را به صورت بسیار کارآمد حل خواهیم کرد.
+ما راه حل را برای تمام رئوس شروع ممکن گراف در زمان خطی نسبت به تعداد یال‌ها پیدا خواهیم کرد: $O(m)$.
 
-## Description of the algorithm
+## توضیح الگوریتم
 
-We will call a vertex a winning vertex, if the player starting at this state will win the game, if they play optimally (regardless of what turns the other player makes).
-Similarly, we will call a vertex a losing vertex, if the player starting at this vertex will lose the game, if the opponent plays optimally.
+یک رأس را رأس برنده می‌نامیم، اگر بازیکنی که از این وضعیت شروع می‌کند، در صورت بازی بهینه (صرف نظر از حرکات بازیکن دیگر)، بازی را ببرد.
+به طور مشابه، یک رأس را رأس بازنده می‌نامیم، اگر بازیکنی که از این رأس شروع می‌کند، در صورت بازی بهینه حریف، بازی را ببازد.
 
-For some of the vertices of the graph, we already know in advance that they are winning or losing vertices: namely all vertices that have no outgoing edges.
+برای برخی از رئوس گراف، از قبل می‌دانیم که آن‌ها رئوس برنده یا بازنده هستند: یعنی تمام رئوسی که هیچ یال خروجی ندارند.
 
-Also we have the following **rules**:
+همچنین **قوانین** زیر را داریم:
 
-- if a vertex has an outgoing edge that leads to a losing vertex, then the vertex itself is a winning vertex.
-- if all outgoing edges of a certain vertex lead to winning vertices, then the vertex itself is a losing vertex.
-- if at some point there are still undefined vertices, and neither will fit the first or the second rule, then each of these vertices, when used as a starting vertex, will lead to a draw if both player play optimally.
+- اگر یک رأس، یال خروجی‌ای داشته باشد که به یک رأس بازنده منتهی شود، آنگاه خود رأس یک رأس برنده است.
+- اگر تمام یال‌های خروجی یک رأس مشخص به رئوس برنده منتهی شوند، آنگاه خود رأس یک رأس بازنده است.
+- اگر در مرحله‌ای، هنوز رئوس تعریف‌نشده‌ای وجود داشته باشند که هیچ‌کدام از قوانین اول و دوم برایشان صدق نکند، آنگاه بازی از هر یک از این رئوس، در صورت بازی بهینه هر دو بازیکن، به تساوی ختم خواهد شد.
 
-Thus, we can define an algorithm which runs in $O(n m)$ time immediately.
-We go through all vertices and try to apply the first or second rule, and repeat.
+بنابراین، می‌توانیم فوراً الگوریتمی تعریف کنیم که در زمان $O(n m)$ اجرا می‌شود.
+ما تمام رئوس را پیمایش می‌کنیم و سعی می‌کنیم قانون اول یا دوم را اعمال کنیم و این کار را تکرار می‌کنیم.
 
-However, we can accelerate this procedure, and get the complexity down to $O(m)$.
+با این حال، می‌توانیم این فرآیند را تسریع کرده و پیچیدگی را به $O(m)$ کاهش دهیم.
 
-We will go over all the vertices, for which we initially know if they are winning or losing states.
-For each of them, we start a [depth first search](../graph/depth-first-search.md).
-This DFS will move back over the reversed edges.
-First of all, it will not enter vertices which already are defined as winning or losing vertices.
-And further, if the search goes from a losing vertex to an undefined vertex, then we mark this one as a winning vertex, and continue the DFS using this new vertex.
-If we go from a winning vertex to an undefined vertex, then we must check whether all edges from this one leads to winning vertices.
-We can perform this test in $O(1)$ by storing the number of edges that lead to a winning vertex for each vertex.
-So if we go from a winning vertex to an undefined one, then we increase the counter, and check if this number is equal to the number of outgoing edges.
-If this is the case, we can mark this vertex as a losing vertex, and continue the DFS from this vertex.
-Otherwise we don't know yet, if this vertex is a winning or losing vertex, and therefore it doesn't make sense to keep continuing the DFS using it.
+ما تمام رئوسی را که در ابتدا می‌دانیم وضعیت برنده یا بازنده دارند، پیمایش می‌کنیم.
+برای هر یک از آنها، یک [جستجوی اول عمق (DFS)](../graph/depth-first-search.md) را شروع می‌کنیم.
+این DFS روی یال‌های معکوس به عقب حرکت خواهد کرد.
+اول از همه، وارد رئوسی که قبلاً به عنوان برنده یا بازنده تعریف شده‌اند، نمی‌شود.
+علاوه بر این، اگر جستجو از یک رأس بازنده به یک رأس تعریف‌نشده برود، آنگاه آن را به عنوان یک رأس برنده علامت‌گذاری می‌کنیم و DFS را با استفاده از این رأس جدید ادامه می‌دهیم.
+اگر از یک رأس برنده به یک رأس تعریف‌نشده برویم، باید بررسی کنیم که آیا تمام یال‌های خروجی از آن به رئوس برنده منتهی می‌شوند یا خیر.
+می‌توانیم این بررسی را با ذخیره کردن تعداد یال‌هایی که به یک رأس برنده منتهی می‌شوند برای هر رأس، در زمان $O(1)$ انجام دهیم.
+بنابراین اگر از یک رأس برنده به یک رأس تعریف‌نشده برویم، شمارنده را افزایش می‌دهیم و بررسی می‌کنیم که آیا این عدد برابر با تعداد یال‌های خروجی است یا خیر.
+اگر چنین باشد، می‌توانیم این رأس را به عنوان یک رأس بازنده علامت‌گذاری کرده و DFS را از این رأس ادامه دهیم.
+در غیر این صورت، هنوز نمی‌دانیم که این رأس، یک رأس برنده است یا بازنده، و بنابراین ادامه دادن DFS با استفاده از آن منطقی نیست.
 
-In total we visit every winning and every losing vertex exactly once (undefined vertices are not visited), and we go over each edge also at most one time.
-Hence the complexity is $O(m)$.
+در مجموع، ما هر رأس برنده و هر رأس بازنده را دقیقاً یک بار بازدید می‌کنیم (رئوس تعریف‌نشده بازدید نمی‌شوند)، و هر یال را نیز حداکثر یک بار پیمایش می‌کنیم.
+از این رو، پیچیدگی $O(m)$ است.
 
-## Implementation
+## پیاده‌سازی
 
-Here is the implementation of such a DFS.
-We assume that the variable `adj_rev` stores the adjacency list for the graph in **reversed** form, i.e. instead of storing the edge $(i, j)$ of the graph, we store $(j, i)$.
-Also for each vertex we assume that the outgoing degree is already computed.
+در اینجا پیاده‌سازی چنین DFS آمده است.
+ما فرض می‌کنیم که متغیر `adj_rev` لیست مجاورت گراف را به صورت **معکوس** ذخیره می‌کند، یعنی به جای ذخیره یال $(i, j)$ از گراف، ما $(j, i)$ را ذخیره می‌کنیم.
+همچنین برای هر رأس فرض می‌کنیم که درجه خروجی آن از قبل محاسبه شده است.
 
-```cpp 
+```cpp
 vector<vector<int>> adj_rev;
 
 vector<bool> winning;
@@ -79,38 +79,38 @@ void dfs(int v) {
 }
 ```
 
-## Example: "Policeman and thief"
+## مثال: «پلیس و دزد»
 
-Here is a concrete example of such a game.
+در اینجا یک مثال عینی از چنین بازی‌ای آورده شده است.
 
-There is $m \times n$ board.
-Some of the cells cannot be entered.
-The initial coordinates of the police officer and of the thief are known.
-One of the cells is the exit.
-If the policeman and the thief are located at the same cell at any moment, the policeman wins.
-If the thief is at the exit cell (without the policeman also being on the cell), then the thief wins.
-The policeman can walk in all 8 directions, the thief only in 4 (along the coordinate axis).
-Both the policeman and the thief will take turns moving.
-However they also can skip a turn if they want to.
-The first move is made by the policeman.
+یک صفحه $m \times n$ وجود دارد.
+ورود به برخی از خانه‌ها ممکن نیست.
+مختصات اولیه افسر پلیس و دزد مشخص است.
+یکی از خانه‌ها خروجی است.
+اگر پلیس و دزد در هر لحظه در یک خانه قرار بگیرند، پلیس برنده می‌شود.
+اگر دزد در خانه خروجی باشد (بدون اینکه پلیس نیز در آن خانه باشد)، دزد برنده می‌شود.
+پلیس می‌تواند در هر ۸ جهت حرکت کند، دزد فقط در ۴ جهت (در امتداد محورهای مختصات).
+هم پلیس و هم دزد به نوبت حرکت خواهند کرد.
+با این حال، آنها می‌توانند در صورت تمایل یک نوبت را رد کنند.
+اولین حرکت توسط پلیس انجام می‌شود.
 
-We will now **construct the graph**.
-For this we must formalize the rules of the game.
-The current state of the game is determined by the coordinates of the police offices $P$, the coordinates of the thief $T$, and also by whose turn it is, let's call this variable $P_{\text{turn}}$ (which is true when it is the policeman's turn).
-Therefore a vertex of the graph is determined by the triple $(P, T, P_{\text{turn}})$
-The graph then can be easily constructed, simply by following the rules of the game.
+اکنون **گراف را می‌سازیم**.
+برای این کار باید قوانین بازی را رسمی‌سازی کنیم.
+وضعیت فعلی بازی با مختصات افسر پلیس $P$، مختصات دزد $T$ و همچنین اینکه نوبت چه کسی است، تعیین می‌شود، بیایید این متغیر را $P_{\text{turn}}$ بنامیم (که وقتی نوبت پلیس است، مقدارش true است).
+بنابراین یک رأس از گراف با سه‌تایی $(P, T, P_{\text{turn}})$ تعیین می‌شود.
+سپس گراف را می‌توان به راحتی، تنها با پیروی از قوانین بازی، ساخت.
 
-Next we need to determine which vertices are winning and which are losing ones initially.
-There is a **subtle point** here.
-The winning / losing vertices depend, in addition to the coordinates, also on $P_{\text{turn}}$ - whose turn it.
-If it is the policeman's turn, then the vertex is a winning vertex, if the coordinates of the policeman and the thief coincide, and the vertex is a losing one if it is not a winning one and the thief is on the exit vertex.
-If it is the thief's turn, then a vertex is a losing vertex, if the coordinates of the two players coincide, and it is a winning vertex if it is not a losing one, and the thief is at the exit vertex.
+در مرحله بعد باید تعیین کنیم که کدام رئوس در ابتدا برنده و کدام بازنده هستند.
+اینجا یک **نکته ظریف** وجود دارد.
+رئوس برنده/بازنده علاوه بر مختصات، به $P_{\text{turn}}$ - یعنی نوبت چه کسی است - نیز بستگی دارند.
+اگر نوبت پلیس باشد، آنگاه رأس یک رأس برنده است اگر مختصات پلیس و دزد منطبق باشد، و رأس یک رأس بازنده است اگر برنده نباشد و دزد در رأس خروجی باشد.
+اگر نوبت دزد باشد، آنگاه رأس یک رأس بازنده است اگر مختصات دو بازیکن منطبق باشد، و یک رأس برنده است اگر بازنده نباشد و دزد در رأس خروجی باشد.
 
-The only point before implementing is not, that you need to decide if you want to build the graph **explicitly** or just construct it **on the fly**.
-On one hand, building the graph explicitly will be a lot easier and there is less chance of making mistakes.
-On the other hand, it will increase the amount of code and the running time will be slower than if you build the graph on the fly.
+تنها نکته قبل از پیاده‌سازی این است که باید تصمیم بگیرید که آیا می‌خواهید گراف را **به صراحت** بسازید یا آن را **در لحظه (on the fly)** ایجاد کنید.
+از یک طرف، ساختن صریح گراف بسیار آسان‌تر است و احتمال اشتباه کمتر است.
+از طرف دیگر، این کار میزان کد را افزایش می‌دهد و زمان اجرا کندتر از زمانی خواهد بود که گراف را در لحظه بسازید.
 
-The following implementation will construct the graph explicitly:
+پیاده‌سازی زیر گراف را به صراحت می‌سازد:
 
 ```cpp
 struct State {
@@ -118,7 +118,8 @@ struct State {
     bool Pstep;
 };
 
-vector<State> adj_rev[100][100][2]; // [P][T][Pstep]
+// [موقعیت پلیس][موقعیت دزد][نوبت پلیس]
+vector<State> adj_rev[100][100][2]; 
 bool winning[100][100][2];
 bool losing[100][100][2];
 bool visited[100][100][2];
@@ -213,11 +214,11 @@ int main() {
     }
 
     if (winning[P_st][T_st][true]) {
-        cout << "Police catches the thief"  << endl;
+        cout << "پلیس دزد را می‌گیرد"  << endl;
     } else if (losing[P_st][T_st][true]) {
-        cout << "The thief escapes" << endl;
+        cout << "دزد فرار می‌کند" << endl;
     } else {
-        cout << "Draw" << endl;
+        cout << "مساوی" << endl;
     }
 }
 ```

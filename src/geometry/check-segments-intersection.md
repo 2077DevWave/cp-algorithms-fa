@@ -1,26 +1,25 @@
 ---
 tags:
-  
-e_maxx_link: segments_intersection_checking
+  - AI Translated
+e_maxx_link: check-segments-intersection
 ---
 
-# Check if two segments intersect
+# بررسی تقاطع دو پاره‌خط
 
-You are given two segments $(a, b)$ and $(c, d)$.
-You have to check if they intersect.
-Of course, you may find their intersection and check if it isn't empty, but this can't be done in integers for segments with integer coordinates.
-The approach described here can work in integers.
+دو پاره‌خط $(a, b)$ و $(c, d)$ به شما داده شده است. شما باید بررسی کنید که آیا این دو یکدیگر را قطع می‌کنند یا خیر.
+البته، می‌توان نقطه‌ی تقاطع آن‌ها را پیدا کرد و بررسی نمود که تهی نباشد، اما برای پاره‌خط‌هایی با مختصات صحیح، این کار را نمی‌توان صرفاً با استفاده از اعداد صحیح انجام داد.
+رویکردی که در اینجا شرح داده شده است، می‌تواند با اعداد صحیح کار کند.
 
-## Algorithm
+## الگوریتم
 
-Firstly, consider the case when the segments are part of the same line.
-In this case it is sufficient to check if their projections on $Ox$ and $Oy$ intersect.
-In the other case $a$ and $b$ must not lie on the same side of line $(c, d)$, and $c$ and $d$ must not lie on the same side of line $(a, b)$.
-It can be checked with a couple of cross products.
+ابتدا، حالتی را در نظر بگیرید که پاره‌خط‌ها روی یک خط راست قرار داشته باشند.
+در این حالت، کافی است بررسی کنیم که آیا تصویر آن‌ها بر روی محورهای $Ox$ و $Oy$ با یکدیگر تقاطع دارند یا خیر.
+در غیر این صورت، نقاط $a$ و $b$ نباید در یک سمتِ خط $(c, d)$ قرار گیرند، و نقاط $c$ و $d$ نیز نباید در یک سمتِ خط $(a, b)$ قرار گیرند.
+این موضوع را می‌توان با چند ضرب خارجی (cross product) بررسی کرد.
 
-## Implementation
+## پیاده‌سازی
 
-The given algorithm is implemented for integer points. Of course, it can be easily modified to work with doubles.
+الگوریتم ارائه شده برای نقاط با مختصات صحیح پیاده‌سازی شده است. البته، به راحتی می‌توان آن را برای کار با اعداد double نیز تغییر داد.
 
 ```{.cpp file=check-segments-inter}
 struct pt {

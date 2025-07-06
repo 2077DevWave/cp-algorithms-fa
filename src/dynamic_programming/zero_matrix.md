@@ -1,21 +1,21 @@
 ---
 tags:
-  
-e_maxx_link: maximum_zero_submatrix
+  - AI Translated
+e_maxx_link: zero_matrix
 ---
 
-# Finding the largest zero submatrix
+# پیدا کردن بزرگترین زیرماتریس صفر
 
-You are given a matrix with `n` rows and `m` columns. Find the largest submatrix consisting of only zeros (a submatrix is a rectangular area of the matrix).
+ماتریسی با `n` سطر و `m` ستون به شما داده می‌شود. بزرگترین زیرماتریس متشکل از فقط صفر را پیدا کنید (یک زیرماتریس، ناحیه‌ای مستطیلی از ماتریس است).
 
-## Algorithm
+## الگوریتم
 
-Elements of the matrix will be `a[i][j]`, where `i = 0...n - 1`, `j = 0... m - 1`. For simplicity, we will consider all non-zero elements equal to 1.
+عناصر ماتریس `a[i][j]` خواهند بود، که در آن `i = 0...n - 1` و `j = 0... m - 1` است. برای سادگی، تمام عناصر غیرصفر را برابر با ۱ در نظر می‌گیریم.
 
-### Step 1: Auxiliary dynamic
+### مرحله ۱: دینامیک کمکی
 
-First, we calculate the following auxiliary matrix: `d[i][j]`, nearest row that has a 1 above `a[i][j]`. Formally speaking, `d[i][j]` is the largest row number (from `0` to `i - 1`), in which there is a element equal to `1` in the `j`-th column. 
-While iterating from top-left to bottom-right, when we stand in row `i`, we know the values from the previous row, so, it is enough to update just the elements with value `1`. We can save the values in a simple array `d[i]`, `i = 1...m - 1`, because in the further algorithm we will process the matrix one row at a time and only need the values of the current row.
+ابتدا، ماتریس کمکی زیر را محاسبه می‌کنیم: `d[i][j]`، که شماره سطر نزدیک‌ترین `۱` بالای `a[i][j]` است. به بیان رسمی، `d[i][j]` بزرگترین شماره سطر (از `0` تا `i - 1`) است که در ستون `j`-ام آن، عنصری برابر با `۱` وجود دارد.
+هنگام پیمایش از بالا-چپ به پایین-راست، وقتی در سطر `i` هستیم، مقادیر سطر قبلی را می‌دانیم، بنابراین کافی است فقط عناصری را که مقدار `۱` دارند به‌روزرسانی کنیم. می‌توانیم این مقادیر را در یک آرایه ساده `d` به طول `m` ذخیره کنیم، زیرا در ادامه الگوریتم، ماتریس را سطر به سطر پردازش خواهیم کرد و فقط به مقادیر مربوط به سطر فعلی نیاز داریم.
 
 ```cpp
 vector<int> d(m, -1);
@@ -28,31 +28,31 @@ for (int i = 0; i < n; ++i) {
 }
 ```
 
-### Step 2: Problem solving
+### مرحله ۲: حل مسئله
 
-We can solve the problem in $O(n m^2)$ iterating through rows, considering every possible left and right columns for a submatrix. The bottom of the rectangle will be the current row, and using `d[i][j]` we can find the top row. However, it is possible to go further and significantly improve the complexity of the solution.
+می‌توانیم مسئله را با پیمایش سطرها و در نظر گرفتن تمام ستون‌های چپ و راست ممکن برای یک زیرماتریس، در زمان $O(n m^2)$ حل کنیم. پایین مستطیل، سطر فعلی خواهد بود و با استفاده از `d[i][j]` می‌توانیم سطر بالایی را پیدا کنیم. با این حال، می‌توان پا را فراتر گذاشت و پیچیدگی راه‌حل را به طور قابل توجهی بهبود بخشید.
 
-It is clear that the desired zero submatrix is bounded on all four sides by some ones, which prevent it from increasing in size and improving the answer. Therefore,  we will not miss the answer if we act as follows: for every cell `j` in row `i` (the bottom row of a potential zero submatrix) we will have `d[i][j]` as the top row of the current zero submatrix. It now remains to determine the optimal left and right boundaries of the zero submatrix, i.e. maximally push this submatrix to the left and right of the `j`-th column. 
+واضح است که زیرماتریس صفر مورد نظر از هر چهار طرف توسط تعدادی عدد یک محدود شده است که از افزایش اندازه و بهبود پاسخ جلوگیری می‌کنند. بنابراین، اگر به صورت زیر عمل کنیم، پاسخ را از دست نخواهیم داد: برای هر سلول `j` در سطر `i` (سطر پایینی یک زیرماتریس صفر بالقوه)، `d[i][j]` را به عنوان سطر بالایی زیرماتریس صفر فعلی در نظر می‌گیریم. اکنون باید مرزهای چپ و راست بهینه زیرماتریس صفر را تعیین کنیم، یعنی این زیرماتریس را تا حد امکان به سمت چپ و راست ستون `j`-ام گسترش دهیم.
 
-What does it mean to push the maximum to the left? It means to find an index `k1` for which `d[i][k1] > d[i][j]`, and at the same time `k1` - the closest one to the left of the index `j`. It is clear that then `k1 + 1` gives the number of the left column of the required zero submatrix. If there is no such index at all, then put `k1` = `-1`(this means that we were able to extend the current zero submatrix to the left all the way to the border of matrix `a`).
+گسترش حداکثری به سمت چپ به چه معناست؟ یعنی پیدا کردن اندیس `k1` که برای آن `d[i][k1] > d[i][j]` باشد و همزمان `k1` نزدیک‌ترین اندیس در سمت چپ `j` باشد. واضح است که در این صورت، `k1 + 1` شماره ستون چپ زیرماتریس صفر مورد نظر را می‌دهد. اگر چنین اندیسی اصلاً وجود نداشته باشد، `k1` را برابر با `-1` قرار می‌دهیم (این به این معنی است که توانسته‌ایم زیرماتریس صفر فعلی را از سمت چپ تا مرز ماتریس `a` گسترش دهیم).
 
-Symmetrically, you can define an index `k2` for the right border: this is the closest index to the right of `j` such that `d[i][k2] > d[i][j]` (or `m`, if there is no such index).
+به طور متقارن، می‌توان اندیس `k2` را برای مرز راست تعریف کرد: این نزدیک‌ترین اندیس در سمت راست `j` است که `d[i][k2] > d[i][j]` باشد (یا `m`، اگر چنین اندیسی وجود نداشته باشد).
 
-So, the indices `k1` and `k2`, if we learn to search for them effectively, will give us all the necessary information about the current zero submatrix. In particular, its area will be equal to `(i - d[i][j]) * (k2 - k1 - 1)`.
+بنابراین، اندیس‌های `k1` و `k2`، اگر یاد بگیریم آن‌ها را به طور مؤثر جستجو کنیم، تمام اطلاعات لازم را در مورد زیرماتریس صفر فعلی به ما می‌دهند. به طور خاص، مساحت آن برابر با `(i - d[i][j]) * (k2 - k1 - 1)` خواهد بود.
 
-How to look for these indexes `k1` and `k2` effectively with fixed `i` and `j`? We can do that in $O(1)$ on average.
+چگونه می‌توان این اندیس‌های `k1` و `k2` را با `i` و `j` ثابت، به طور مؤثر جستجو کرد؟ می‌توانیم این کار را به طور متوسط در زمان $O(1)$ انجام دهیم.
 
-To achieve such complexity, you can use the stack as follows. Let's first learn how to search for an index `k1`, and save its value for each index `j` within the current row `i` in matrix `d1[i][j]`. To do this, we will look through all the columns `j` from left to right, and we will store in the stack only those columns that have `d[][]` strictly greater than `d[i][j]`. It is clear that when moving from a column `j` to the next column, it is necessary to update the content of the stack. When there is an inappropriate element at the top of the stack (i.e. `d[][] <= d[i][j]`) pop it. It is easy to understand that it is enough to remove from the stack only from its top, and from none of its other places (because the stack will contain an increasing `d` sequence of columns).
+برای رسیدن به چنین پیچیدگی‌ای، می‌توان از پشته (stack) به صورت زیر استفاده کرد. ابتدا یاد می‌گیریم که چگونه اندیس `k1` را پیدا کنیم و مقدار آن را برای هر اندیس `j` در سطر فعلی `i` در آرایه `d1[i][j]` ذخیره کنیم. برای این کار، تمام ستون‌های `j` را از چپ به راست مرور می‌کنیم و پشته‌ای از اندیس‌ها را نگهداری می‌کنیم. هنگام حرکت از یک ستون `j` به ستون بعدی، لازم است محتوای پشته را به‌روزرسانی کنیم. وقتی یک عنصر نامناسب در بالای پشته وجود دارد (یعنی مقدار `d` آن `<=` مقدار `d[i][j]` است)، آن را pop می‌کنیم. به راحتی می‌توان فهمید که کافی است عناصر را فقط از بالای پشته حذف کنیم و نه از جای دیگر (زیرا پشته شامل دنباله‌ای از ستون‌ها با مقادیر `d` صعودی خواهد بود).
 
-The value `d1[i][j]` for each `j` will be equal to the value lying at that moment on top of the stack.
+مقدار `d1[i][j]` برای هر `j` برابر با مقداری خواهد بود که در آن لحظه در بالای پشته قرار دارد.
 
-The dynamics `d2[i][j]` for finding the indices `k2` is considered similar, only you need to view the columns from right to left.
+دینامیک `d2[i][j]` برای پیدا کردن اندیس‌های `k2` مشابه در نظر گرفته می‌شود، فقط باید ستون‌ها را از راست به چپ مرور کنید.
 
-It is clear that since there are exactly `m` pieces added to the stack on each line, there could not be more deletions either, the sum of complexities will be linear, so the final complexity of the algorithm is $O(nm)$.
+واضح است از آنجایی که در هر سطر دقیقاً `m` عنصر به پشته اضافه می‌شود، نمی‌تواند تعداد حذف‌ها بیشتر از آن باشد. بنابراین، مجموع پیچیدگی‌ها خطی خواهد بود، و در نتیجه پیچیدگی نهایی الگوریتم $O(nm)$ است.
 
-It should also be noted that this algorithm consumes $O(m)$ memory (not counting the input data - the matrix `a[][]`).
+همچنین باید توجه داشت که این الگوریتم (بدون در نظر گرفتن داده‌های ورودی - ماتریس `a[][]`) از حافظه $O(m)$ استفاده می‌کند.
 
-### Implementation
+### پیاده‌سازی
 
 ```cpp
 int zero_matrix(vector<vector<int>> a) {

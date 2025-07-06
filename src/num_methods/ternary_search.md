@@ -1,100 +1,100 @@
 ---
 tags:
-  
+  - AI Translated
 e_maxx_link: ternary_search
----	
+---
 
-# Ternary Search
+# جستجوی سه‌سه‌ای
 
-We are given a function $f(x)$ which is unimodal on an interval $[l, r]$. By unimodal function, we mean one of two behaviors of the function: 
+تابعی مانند $f(x)$ به ما داده شده است که در بازه $[l, r]$ تک‌قله‌ای (unimodal) است. منظور از تابع تک‌قله‌ای، یکی از دو رفتار زیر برای تابع است:
 
-1. The function strictly increases first, reaches a maximum (at a single point or over an interval), and then strictly decreases.
+1. تابع ابتدا اکیداً صعودی است، به یک ماکزیمم (در یک نقطه یا یک بازه) می‌رسد و سپس اکیداً نزولی می‌شود.
 
-2. The function strictly decreases first, reaches a minimum, and then strictly increases.
+2. تابع ابتدا اکیداً نزولی است، به یک مینیمم می‌رسد و سپس اکیداً صعودی می‌شود.
 
-In this article, we will assume the first scenario.
-The second scenario is completely symmetrical to the first.
+در این مقاله، ما سناریوی اول را فرض می‌کنیم.
+سناریوی دوم کاملاً متقارن با سناریوی اول است.
 
-The task is to find the maximum of function $f(x)$ on the interval $[l, r]$.
+هدف، پیدا کردن ماکزیمم تابع $f(x)$ در بازه $[l, r]$ است.
 
-## Algorithm
+## الگوریتم
 
-Consider any 2 points $m_1$, and $m_2$ in this interval: $l < m_1 < m_2 < r$. We evaluate the function at $m_1$ and $m_2$, i.e. find the values of $f(m_1)$ and $f(m_2)$. Now, we get one of three options:
+دو نقطه دلخواه $m_1$ و $m_2$ را در این بازه در نظر بگیرید: $l < m_1 < m_2 < r$. مقدار تابع را در $m_1$ و $m_2$ ارزیابی می‌کنیم، یعنی مقادیر $f(m_1)$ و $f(m_2)$ را پیدا می‌کنیم. حال، با یکی از سه حالت زیر روبرو می‌شویم:
 
 -   $f(m_1) < f(m_2)$
 
-    The desired maximum can not be located on the left side of $m_1$, i.e. on the interval $[l, m_1]$, since either both points $m_1$ and $m_2$ or just $m_1$ belong to the area where the function increases. In either case, this means that we have to search for the maximum in the segment $[m_1, r]$.
+    ماکزیمم مورد نظر نمی‌تواند در سمت چپ $m_1$، یعنی در بازه $[l, m_1]$ قرار داشته باشد، زیرا یا هر دو نقطه $m_1$ و $m_2$ و یا حداقل $m_1$ در ناحیه‌ای قرار دارند که تابع در حال افزایش است. در هر دو حالت، این بدان معناست که باید ماکزیمم را در بازه $[m_1, r]$ جستجو کنیم.
 
 -   $f(m_1) > f(m_2)$
 
-    This situation is symmetrical to the previous one: the maximum can not be located on the right side of $m_2$, i.e. on the interval $[m_2, r]$, and the search space is reduced to the segment $[l, m_2]$.
+    این حالت متقارن با حالت قبلی است: ماکزیمم نمی‌تواند در سمت راست $m_2$، یعنی در بازه $[m_2, r]$ قرار داشته باشد و فضای جستجو به بازه $[l, m_2]$ کاهش می‌یابد.
 
 -   $f(m_1) = f(m_2)$
 
-    We can see that either both of these points belong to the area where the value of the function is maximized, or $m_1$ is in the area of increasing values and $m_2$ is in the area of descending values (here we used the strictness of function increasing/decreasing). Thus, the search space is reduced to $[m_1, m_2]$. To simplify the code, this case can be combined with any of the previous cases.
+    می‌توان دید که یا هر دو این نقاط در ناحیه‌ای قرار دارند که مقدار تابع ماکزیمم است، یا $m_1$ در ناحیه صعودی و $m_2$ در ناحیه نزولی قرار دارد (اینجا از اکیداً صعودی/نزولی بودن تابع استفاده کردیم). بنابراین، فضای جستجو به $[m_1, m_2]$ کاهش می‌یابد. برای ساده‌سازی کد، می‌توان این حالت را با یکی از حالت‌های قبلی ترکیب کرد.
 
-Thus, based on the comparison of the values in the two inner points, we can replace the current interval $[l, r]$ with a new, shorter interval $[l^\prime, r^\prime]$. Repeatedly applying the described procedure to the interval, we can get an arbitrarily short interval. Eventually, its length will be less than a certain pre-defined constant (accuracy), and the process can be stopped. This is a numerical method, so we can assume that after that the function reaches its maximum at all points of the last interval $[l, r]$. Without loss of generality, we can take $f(l)$ as the return value.
+بنابراین، بر اساس مقایسه مقادیر در دو نقطه داخلی، می‌توانیم بازه فعلی $[l, r]$ را با یک بازه جدید و کوتاه‌تر $[l^\prime, r^\prime]$ جایگزین کنیم. با تکرار این فرآیند، می‌توانیم بازه را به طور دلخواه کوچک کنیم. در نهایت، طول بازه از یک ثابت از پیش تعریف شده (دقت) کمتر خواهد شد و فرآیند متوقف می‌شود. این یک روش عددی است، بنابراین می‌توانیم فرض کنیم که پس از توقف، تابع در تمام نقاط بازه نهایی $[l, r]$ به ماکزیمم خود می‌رسد. بدون از دست دادن کلیت مسئله، می‌توانیم $f(l)$ را به عنوان مقدار بازگشتی در نظر بگیریم.
 
-We didn't impose any restrictions on the choice of points $m_1$ and $m_2$. This choice will define the convergence rate and the accuracy of the implementation. The most common way is to choose the points so that they divide the interval $[l, r]$ into three equal parts. Thus, we have
+ما هیچ محدودیتی برای انتخاب نقاط $m_1$ و $m_2$ قائل نشدیم. این انتخاب، نرخ همگرایی و دقت پیاده‌سازی را تعیین می‌کند. رایج‌ترین روش این است که نقاط را طوری انتخاب کنیم که بازه $[l, r]$ را به سه قسمت مساوی تقسیم کنند. بنابراین، داریم:
 
 $$m_1 = l + \frac{(r - l)}{3}$$
 
 $$m_2 = r - \frac{(r - l)}{3}$$ 
 
-If $m_1$ and $m_2$ are chosen to be closer to each other, the convergence rate will increase slightly.
+اگر $m_1$ و $m_2$ نزدیک‌تر به هم انتخاب شوند، نرخ همگرایی کمی افزایش می‌یابد.
 
-### Run time analysis
+### تحلیل زمان اجرا
 
 $$T(n) = T({2n}/{3}) + O(1) = \Theta(\log n)$$
 
-It can be visualized as follows: every time after evaluating the function at points $m_1$ and $m_2$, we are essentially ignoring about one third of the interval, either the left or right one. Thus the size of the search space is ${2n}/{3}$ of the original one. 
+می‌توان آن را به این صورت تصور کرد: هر بار پس از ارزیابی تابع در نقاط $m_1$ و $m_2$، ما تقریباً یک‌سوم از بازه را (چه از سمت چپ و چه از سمت راست) نادیده می‌گیریم. بنابراین، اندازه فضای جستجو به ${2n}/{3}$ اندازه اصلی کاهش می‌یابد.
 
-Applying [Master's Theorem](https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)), we get the desired complexity estimate.
+با اعمال [Master's Theorem](https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms))، به تخمین پیچیدگی مطلوب می‌رسیم.
 
-### The case of the integer arguments
+### حالت آرگومان‌های صحیح
 
-If $f(x)$ takes integer parameter, the interval $[l, r]$ becomes discrete. Since we did not impose any restrictions on the choice of points $m_1$ and $m_2$, the correctness of the algorithm is not affected. $m_1$ and $m_2$ can still be chosen to divide $[l, r]$ into 3 approximately equal parts.
+اگر $f(x)$ پارامتر صحیح بگیرد، بازه $[l, r]$ گسسته می‌شود. از آنجا که ما هیچ محدودیتی برای انتخاب نقاط $m_1$ و $m_2$ قائل نشدیم، صحت الگوریتم تحت تأثیر قرار نمی‌گیرد. $m_1$ و $m_2$ همچنان می‌توانند طوری انتخاب شوند که بازه $[l, r]$ را به ۳ قسمت تقریباً مساوی تقسیم کنند.
 
-The difference occurs in the stopping criterion of the algorithm. Ternary search will have to stop when $(r - l) < 3$, because in that case we can no longer select $m_1$ and $m_2$ to be different from each other as well as from $l$ and $r$, and this can cause an infinite loop. Once $(r - l) < 3$, the remaining pool of candidate points $(l, l + 1, \ldots, r)$ needs to be checked to find the point which produces the maximum value $f(x)$.
+تفاوت در شرط توقف الگوریتم رخ می‌دهد. جستجوی سه‌سه‌ای باید زمانی که $(r - l) < 3$ است متوقف شود، زیرا در این حالت دیگر نمی‌توانیم $m_1$ و $m_2$ را طوری انتخاب کنیم که از یکدیگر و همچنین از $l$ و $r$ متمایز باشند و این می‌تواند باعث ایجاد یک حلقه بی‌نهایت شود. هنگامی که $(r - l) < 3$ شد، باید مجموعه نقاط باقیمانده $(l, l + 1, \ldots, r)$ را بررسی کرد تا نقطه‌ای که بیشترین مقدار $f(x)$ را تولید می‌کند، پیدا شود.
 
-### Golden section search
+### جستجوی نسبت طلایی
 
-In some cases computing $f(x)$ may be quite slow, but reducing the number of iterations is infeasible due to precision issues. Fortunately, it is possible to compute $f(x)$ only once at each iteration (except the first one).
+در برخی موارد، محاسبه $f(x)$ ممکن است بسیار کند باشد، اما کاهش تعداد تکرارها به دلیل مسائل مربوط به دقت، امکان‌پذیر نیست. خوشبختانه، می‌توان در هر تکرار (به جز تکرار اول) فقط یک بار $f(x)$ را محاسبه کرد.
 
-To see how to do this, let's revisit the selection method for $m_1$ and $m_2$. Suppose that we select $m_1$ and $m_2$ on $[l, r]$ in such a way that $\frac{r - l}{r - m_1} = \frac{r - l}{m_2 - l} = \varphi$ where $\varphi$ is some constant. In order to reduce the amount of computations, we want to select such $\varphi$ that on the next iteration one of the new evaluation points $m_1'$, $m_2'$ will coincide with either $m_1$ or $m_2$, so that we can reuse the already computed function value.
+برای دیدن چگونگی انجام این کار، بیایید به روش انتخاب $m_1$ و $m_2$ بازگردیم. فرض کنید $m_1$ و $m_2$ را در بازه $[l, r]$ به گونه‌ای انتخاب می‌کنیم که $\frac{r - l}{r - m_1} = \frac{r - l}{m_2 - l} = \varphi$ که در آن $\varphi$ یک ثابت است. برای کاهش میزان محاسبات، ما می‌خواهیم $\varphi$ را طوری انتخاب کنیم که در تکرار بعدی، یکی از نقاط ارزیابی جدید، $m_1'$ یا $m_2'$، با یکی از نقاط $m_1$ یا $m_2$ منطبق شود تا بتوانیم از مقدار تابع که قبلاً محاسبه شده، دوباره استفاده کنیم.
 
-Now suppose that after the current iteration we set $l = m_1$. Then the point $m_1'$ will satisfy $\frac{r - m_1}{r - m_1'} = \varphi$. We want this point to coincide with $m_2$, meaning that $\frac{r - m_1}{r - m_2} = \varphi$.
+حال فرض کنید پس از تکرار فعلی، $l = m_1$ قرار دهیم. آنگاه نقطه $m_1'$ در رابطه $\frac{r - m_1}{r - m_1'} = \varphi$ صدق خواهد کرد. ما می‌خواهیم این نقطه با $m_2$ منطبق شود، به این معنی که $\frac{r - m_1}{r - m_2} = \varphi$.
 
-Multiplying both sides of $\frac{r - m_1}{r - m_2} = \varphi$ by $\frac{r - m_2}{r - l}$ we obtain $\frac{r - m_1}{r - l} = \varphi\frac{r - m_2}{r - l}$. Note that $\frac{r - m_1}{r - l} = \frac{1}{\varphi}$ and $\frac{r - m_2}{r - l} = \frac{r - l + l - m_2}{r - l} = 1 - \frac{1}{\varphi}$. Substituting that and multiplying by $\varphi$, we obtain the following equation:
+با ضرب طرفین $\frac{r - m_1}{r - m_2} = \varphi$ در $\frac{r - m_2}{r - l}$ به $\frac{r - m_1}{r - l} = \varphi\frac{r - m_2}{r - l}$ می‌رسیم. توجه داشته باشید که $\frac{r - m_1}{r - l} = \frac{1}{\varphi}$ و $\frac{r - m_2}{r - l} = \frac{r - l + l - m_2}{r - l} = 1 - \frac{1}{\varphi}$. با جایگذاری این مقادیر و ضرب در $\varphi$ به معادله زیر می‌رسیم:
 
 $\varphi^2 - \varphi - 1 = 0$
 
-This is a well-known golden section equation. Solving it yields $\frac{1 \pm \sqrt{5}}{2}$. Since $\varphi$ must be positive, we obtain $\varphi = \frac{1 + \sqrt{5}}{2}$. By applying the same logic to the case when we set $r = m_2$ and want $m_2'$ to coincide with $m_1$, we obtain the same value of $\varphi$ as well. So, if we choose $m_1 = l + \frac{r - l}{1 + \varphi}$ and $m_2 = r - \frac{r - l}{1 + \varphi}$, on each iteration we can re-use one of the values $f(x)$ computed on the previous iteration.
+این معادله معروف نسبت طلایی است. با حل آن $\frac{1 \pm \sqrt{5}}{2}$ به دست می‌آید. از آنجایی که $\varphi$ باید مثبت باشد، به $\varphi = \frac{1 + \sqrt{5}}{2}$ می‌رسیم. با اعمال منطق مشابه برای حالتی که $r = m_2$ قرار می‌دهیم و می‌خواهیم $m_2'$ با $m_1$ منطبق شود، به همین مقدار برای $\varphi$ می‌رسیم. بنابراین، اگر $m_1 = l + \frac{r - l}{1 + \varphi}$ و $m_2 = r - \frac{r - l}{1 + \varphi}$ را انتخاب کنیم، در هر تکرار می‌توانیم از یکی از مقادیر $f(x)$ که در تکرار قبلی محاسبه شده، دوباره استفاده کنیم.
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
 double ternary_search(double l, double r) {
-	double eps = 1e-9;				//set the error limit here
+	double eps = 1e-9;				//حد خطا را اینجا تنظیم کنید
 	while (r - l > eps) {
 		double m1 = l + (r - l) / 3;
 		double m2 = r - (r - l) / 3;
-		double f1 = f(m1);		//evaluates the function at m1
-		double f2 = f(m2);		//evaluates the function at m2
+		double f1 = f(m1);		//تابع را در m1 ارزیابی می‌کند
+		double f2 = f(m2);		//تابع را در m2 ارزیابی می‌کند
 		if (f1 < f2)
 			l = m1;
 		else
 			r = m2;
 	}
-	return f(l);					//return the maximum of f(x) in [l, r]
+	return f(l);					//ماکزیمم f(x) در بازه [l, r] را برمی‌گرداند
 }
 ```
 
-Here `eps` is in fact the absolute error (not taking into account errors due to the inaccurate calculation of the function).
+در اینجا `eps` در واقع خطای مطلق است (بدون در نظر گرفتن خطاهای ناشی از محاسبه نادقیق تابع).
 
-Instead of the criterion `r - l > eps`, we can select a constant number of iterations as a stopping criterion. The number of iterations should be chosen to ensure the required accuracy. Typically, in most programming challenges the error limit is ${10}^{-6}$ and thus 200 - 300 iterations are sufficient. Also, the number of iterations doesn't depend on the values of $l$ and $r$, so the number of iterations corresponds to the required relative error.
+به جای شرط `r - l > eps`، می‌توانیم تعداد ثابتی از تکرارها را به عنوان شرط توقف انتخاب کنیم. تعداد تکرارها باید طوری انتخاب شود که دقت مورد نیاز را تضمین کند. به طور معمول، در اکثر مسابقات برنامه‌نویسی حد خطا ${10}^{-6}$ است و بنابراین ۲۰۰ تا ۳۰۰ تکرار کافی است. همچنین، تعداد تکرارها به مقادیر $l$ و $r$ بستگی ندارد، بنابراین تعداد تکرارها با خطای نسبی مورد نیاز متناسب است.
 
-## Practice Problems
+## مسائل تمرینی
 
 - [Codeforces - New Bakery](https://codeforces.com/problemset/problem/1978/B)
 - [Codechef - Race time](https://www.codechef.com/problems/AMCS03)

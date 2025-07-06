@@ -1,71 +1,71 @@
 ---
 tags:
-  
-e_maxx_link: string_hashes
+  - AI Translated
+e_maxx_link: string-hashing
 ---
 
-# String Hashing
+# هَشینگ رشته
 
-Hashing algorithms are helpful in solving a lot of problems.
+الگوریتم‌های هشینگ در حل بسیاری از مسائل مفید هستند.
 
-We want to solve the problem of comparing strings efficiently.
-The brute force way of doing so is just to compare the letters of both strings, which has a time complexity of $O(\min(n_1, n_2))$ if $n_1$ and $n_2$ are the sizes of the two strings.
-We want to do better.
-The idea behind the string hashing is the following: we map each string into an integer and compare those instead of the strings.
-Doing this allows us to reduce the execution time of the string comparison to $O(1)$.
+می‌خواهیم مسئله‌ی مقایسه بهینه‌ی رشته‌ها را حل کنیم.
+روش brute force برای این کار، مقایسه‌ی کاراکتر به کاراکتر دو رشته است که پیچیدگی زمانی آن $O(\min(n_1, n_2))$ است، اگر $n_1$ و $n_2$ طول دو رشته باشند.
+ما می‌خواهیم بهتر از این عمل کنیم.
+ایده‌ی اصلی در هشینگ رشته این است: هر رشته را به یک عدد صحیح نگاشت می‌کنیم و به جای مقایسه‌ی رشته‌ها، این اعداد را با هم مقایسه می‌کنیم.
+این کار به ما اجازه می‌دهد زمان اجرای مقایسه‌ی رشته‌ها را به $O(1)$ کاهش دهیم.
 
-For the conversion, we need a so-called **hash function**.
-The goal of it is to convert a string into an integer, the so-called **hash** of the string.
-The following condition has to hold: if two strings $s$ and $t$ are equal ($s = t$), then their hashes also have to be equal ($\text{hash}(s) = \text{hash}(t)$).
-Otherwise, we will not be able to compare strings.
+برای این تبدیل، به چیزی به نام **تابع هَش (hash function)** نیاز داریم.
+هدف این تابع، تبدیل یک رشته به یک عدد صحیح است که به آن **هَش (hash)** رشته می‌گویند.
+شرط زیر باید برقرار باشد: اگر دو رشته‌ی $s$ و $t$ برابر باشند ($s = t$)، آنگاه هَش‌های آن‌ها نیز باید برابر باشند ($\text{hash}(s) = \text{hash}(t)$).
+در غیر این صورت، قادر به مقایسه‌ی رشته‌ها نخواهیم بود.
 
-Notice, the opposite direction doesn't have to hold.
-If the hashes are equal ($\text{hash}(s) = \text{hash}(t)$), then the strings do not necessarily have to be equal.
-E.g. a valid hash function would be simply $\text{hash}(s) = 0$ for each $s$.
-Now, this is just a stupid example, because this function will be completely useless, but it is a valid hash function.
-The reason why the opposite direction doesn't have to hold, is because there are exponentially many strings.
-If we only want this hash function to distinguish between all strings consisting of lowercase characters of length smaller than 15, then already the hash wouldn't fit into a 64-bit integer (e.g. unsigned long long) any more, because there are so many of them.
-And of course, we don't want to compare arbitrary long integers, because this will also have the complexity $O(n)$.
+توجه کنید که عکس این موضوع لزوماً برقرار نیست.
+اگر هَش‌ها برابر باشند ($\text{hash}(s) = \text{hash}(t)$)، رشته‌ها لزوماً برابر نیستند.
+مثلاً، یک تابع هَش معتبر می‌تواند به سادگی $\text{hash}(s) = 0$ برای هر رشته‌ی $s$ باشد.
+البته این یک مثال احمقانه است، چون این تابع کاملاً بی‌فایده است، اما یک تابع هَش معتبر محسوب می‌شود.
+دلیل اینکه عکس این موضوع لزوماً برقرار نیست این است که تعداد رشته‌ها به صورت نمایی زیاد است.
+اگر بخواهیم این تابع هَش تمام رشته‌های متشکل از حروف کوچک انگلیسی با طول کمتر از ۱۵ را از هم متمایز کند، دیگر مقدار هَش در یک عدد صحیح ۶۴ بیتی (مثلاً `unsigned long long`) جا نمی‌شود، چون تعداد این رشته‌ها بسیار زیاد است.
+و البته، ما نمی‌خواهیم اعداد صحیح با طول دلخواه را مقایسه کنیم، زیرا این کار نیز پیچیدگی $O(n)$ خواهد داشت.
 
-So usually we want the hash function to map strings onto numbers of a fixed range $[0, m)$, then comparing strings is just a comparison of two integers with a fixed length.
-And of course, we want $\text{hash}(s) \neq \text{hash}(t)$ to be very likely if $s \neq t$.
+بنابراین، معمولاً می‌خواهیم تابع هَش، رشته‌ها را به اعدادی در یک بازه‌ی ثابت $[0, m)$ نگاشت کند. در این صورت، مقایسه‌ی رشته‌ها تنها مقایسه‌ی دو عدد صحیح با طول ثابت خواهد بود.
+و البته، می‌خواهیم اگر $s \neq t$ باشد، به احتمال خیلی زیاد $\text{hash}(s) \neq \text{hash}(t)$ نیز برقرار باشد.
 
-That's the important part that you have to keep in mind.
-Using hashing will not be 100% deterministically correct, because two complete different strings might have the same hash (the hashes collide).
-However, in a wide majority of tasks, this can be safely ignored as the probability of the hashes of two different strings colliding is still very small.
-And we will discuss some techniques in this article how to keep the probability of collisions very low.
+این بخش مهمی است که باید به خاطر داشته باشید.
+استفاده از هشینگ ۱۰۰٪ قطعی و درست نخواهد بود، زیرا ممکن است دو رشته‌ی کاملاً متفاوت، هَش یکسانی داشته باشند (که به آن برخورد یا collision می‌گویند).
+با این حال، در اکثر قریب به اتفاق مسائل، می‌توان این موضوع را با خیال راحت نادیده گرفت، زیرا احتمال برخورد هَش دو رشته‌ی متفاوت بسیار کم است.
+و در این مقاله، تکنیک‌هایی را برای پایین نگه داشتن احتمال برخوردها بررسی خواهیم کرد.
 
-## Calculation of the hash of a string
+## محاسبه هَش یک رشته
 
-The good and widely used way to define the hash of a string $s$ of length $n$ is
+روش خوب و پراستفاده برای تعریف هَش یک رشته $s$ به طول $n$ به صورت زیر است:
 
 $$\begin{align}
 \text{hash}(s) &= s[0] + s[1] \cdot p + s[2] \cdot p^2 + ... + s[n-1] \cdot p^{n-1} \mod m \\
 &= \sum_{i=0}^{n-1} s[i] \cdot p^i \mod m,
 \end{align}$$
 
-where $p$ and $m$ are some chosen, positive numbers.
-It is called a **polynomial rolling hash function**.
+که در آن $p$ و $m$ اعدادی مثبت و منتخب هستند.
+این تابع، **تابع هَش غلتان چندجمله‌ای (polynomial rolling hash function)** نامیده می‌شود.
 
-It is reasonable to make $p$ a prime number roughly equal to the number of characters in the input alphabet.
-For example, if the input is composed of only lowercase letters of the English alphabet, $p = 31$ is a good choice.
-If the input may contain both uppercase and lowercase letters, then $p = 53$ is a possible choice.
-The code in this article will use $p = 31$.
+معقول است که $p$ را یک عدد اول، تقریباً برابر با تعداد کاراکترهای الفبای ورودی انتخاب کنیم.
+برای مثال، اگر ورودی فقط از حروف کوچک الفبای انگلیسی تشکیل شده باشد، $p = 31$ انتخاب خوبی است.
+اگر ورودی ممکن است شامل حروف بزرگ و کوچک باشد، $p = 53$ یک انتخاب ممکن است.
+کد موجود در این مقاله از $p = 31$ استفاده خواهد کرد.
 
-Obviously $m$ should be a large number since the probability of two random strings colliding is about $\approx \frac{1}{m}$.
-Sometimes $m = 2^{64}$ is chosen, since then the integer overflows of 64-bit integers work exactly like the modulo operation.
-However, there exists a method, which generates colliding strings (which work independently from the choice of $p$).
-So in practice, $m = 2^{64}$ is not recommended.
-A good choice for $m$ is some large prime number.
-The code in this article will just use $m = 10^9+9$.
-This is a large number, but still small enough so that we can perform multiplication of two values using 64-bit integers.
+بدیهی است که $m$ باید عدد بزرگی باشد، زیرا احتمال برخورد دو رشته‌ی تصادفی تقریباً برابر با $\frac{1}{m}$ است.
+گاهی اوقات $m = 2^{64}$ انتخاب می‌شود، زیرا در این صورت سرریز (overflow) اعداد صحیح ۶۴ بیتی دقیقاً مانند عملیات باقی‌مانده (modulo) عمل می‌کند.
+با این حال، روشی وجود دارد که رشته‌های دارای برخورد تولید می‌کند (و این روش مستقل از انتخاب $p$ عمل می‌کند).
+بنابراین در عمل، $m = 2^{64}$ توصیه نمی‌شود.
+یک انتخاب خوب برای $m$، یک عدد اول بزرگ است.
+کد موجود در این مقاله از $m = 10^9+9$ استفاده می‌کند.
+این عدد بزرگی است، اما همچنان به اندازه‌ای کوچک است که بتوانیم ضرب دو مقدار را با استفاده از اعداد صحیح ۶۴ بیتی انجام دهیم.
 
-Here is an example of calculating the hash of a string $s$, which contains only lowercase letters.
-We convert each character of $s$ to an integer.
-Here we use the conversion $a \rightarrow 1$, $b \rightarrow 2$, $\dots$, $z \rightarrow 26$.
-Converting $a \rightarrow 0$ is not a good idea, because then the hashes of the strings $a$, $aa$, $aaa$, $\dots$ all evaluate to $0$.
+در اینجا مثالی از محاسبه‌ی هَش رشته‌ی $s$ که فقط شامل حروف کوچک است، آورده شده است.
+ما هر کاراکتر از $s$ را به یک عدد صحیح تبدیل می‌کنیم.
+در اینجا از تبدیل $a \rightarrow 1$، $b \rightarrow 2$، ...، $z \rightarrow 26$ استفاده می‌کنیم.
+تبدیل $a \rightarrow 0$ ایده‌ی خوبی نیست، زیرا در این صورت هَش رشته‌های $a$، $aa$، $aaa$ و ... همگی برابر با $0$ خواهد شد.
 
-```{.cpp file=hashing_function}
+```cpp {.cpp file=hashing_function}
 long long compute_hash(string const& s) {
     const int p = 31;
     const int m = 1e9 + 9;
@@ -79,20 +79,20 @@ long long compute_hash(string const& s) {
 }
 ```
 
-Precomputing the powers of $p$ might give a performance boost.
+پیش‌محاسبه‌ی توان‌های $p$ می‌تواند باعث افزایش عملکرد شود.
 
-## Example tasks
+## مسائل نمونه
 
-### Search for duplicate strings in an array of strings
+### جستجوی رشته‌های تکراری در آرایه‌ای از رشته‌ها
 
-Problem: Given a list of $n$ strings $s_i$, each no longer than $m$ characters, find all the duplicate strings and divide them into groups.
+مسئله: با داشتن لیستی از $n$ رشته‌ی $s_i$ که طول هیچ‌کدام بیشتر از $m$ کاراکتر نیست، تمام رشته‌های تکراری را پیدا کرده و آن‌ها را گروه‌بندی کنید.
 
-From the obvious algorithm involving sorting the strings, we would get a time complexity of $O(n m \log n)$ where the sorting requires $O(n \log n)$ comparisons and each comparison take $O(m)$ time.
-However, by using hashes, we reduce the comparison time to $O(1)$, giving us an algorithm that runs in $O(n m + n \log n)$ time.
+با الگوریتم بدیهی که شامل مرتب‌سازی رشته‌هاست، به پیچیدگی زمانی $O(n m \log n)$ می‌رسیم، که در آن مرتب‌سازی به $O(n \log n)$ مقایسه نیاز دارد و هر مقایسه $O(m)$ زمان می‌برد.
+اما با استفاده از هَش، زمان مقایسه را به $O(1)$ کاهش می‌دهیم و به الگوریتمی با زمان اجرای $O(n m + n \log n)$ می‌رسیم.
 
-We calculate the hash for each string, sort the hashes together with the indices, and then group the indices by identical hashes.
+ما هَش هر رشته را محاسبه می‌کنیم، هَش‌ها را به همراه اندیس‌هایشان مرتب می‌کنیم و سپس اندیس‌ها را بر اساس هَش‌های یکسان گروه‌بندی می‌کنیم.
 
-```{.cpp file=hashing_group_identical_strings}
+```cpp {.cpp file=hashing_group_identical_strings}
 vector<vector<int>> group_identical_strings(vector<string> const& s) {
     int n = s.size();
     vector<pair<long long, int>> hashes(n);
@@ -111,52 +111,52 @@ vector<vector<int>> group_identical_strings(vector<string> const& s) {
 }
 ```
 
-### Fast hash calculation of substrings of given string
+### محاسبه سریع هَش زیررشته‌های یک رشته
 
-Problem: Given a string $s$ and indices $i$ and $j$, find the hash of the substring $s [i \dots j]$.
+مسئله: با داشتن یک رشته $s$ و اندیس‌های $i$ و $j$، هَش زیررشته‌ی $s[i \dots j]$ را پیدا کنید.
 
-By definition, we have:
+طبق تعریف داریم:
 
 $$\text{hash}(s[i \dots j]) = \sum_{k = i}^j s[k] \cdot p^{k-i} \mod m$$
 
-Multiplying by $p^i$ gives:
+با ضرب کردن در $p^i$ داریم:
 
 $$\begin{align}
 \text{hash}(s[i \dots j]) \cdot p^i &= \sum_{k = i}^j s[k] \cdot p^k \mod m \\
 &= \text{hash}(s[0 \dots j]) - \text{hash}(s[0 \dots i-1]) \mod m
 \end{align}$$
 
-So by knowing the hash value of each prefix of the string $s$, we can compute the hash of any substring directly using this formula.
-The only problem that we face in calculating it is that we must be able to divide $\text{hash}(s[0 \dots j]) - \text{hash}(s[0 \dots i-1])$ by $p^i$.
-Therefore we need to find the [modular multiplicative inverse](../algebra/module-inverse.md) of $p^i$ and then perform multiplication with this inverse.
-We can precompute the inverse of every $p^i$, which allows computing the hash of any substring of $s$ in $O(1)$ time.
+بنابراین با دانستن مقدار هَش هر پیشوند از رشته‌ی $s$، می‌توانیم هَش هر زیررشته‌ای را مستقیماً با استفاده از این فرمول محاسبه کنیم.
+تنها مشکلی که در محاسبه‌ی آن با آن روبرو هستیم این است که باید بتوانیم $\text{hash}(s[0 \dots j]) - \text{hash}(s[0 \dots i-1])$ را بر $p^i$ تقسیم کنیم.
+بنابراین، باید [وارون ضربی پیمانه‌ای](../algebra/module-inverse.md) $p^i$ را پیدا کرده و سپس در این وارون ضرب کنیم.
+می‌توانیم وارون هر $p^i$ را پیش‌محاسبه کنیم که این کار امکان محاسبه‌ی هَش هر زیررشته از $s$ را در زمان $O(1)$ فراهم می‌کند.
 
-However, there does exist an easier way.
-In most cases, rather than calculating the hashes of substring exactly, it is enough to compute the hash multiplied by some power of $p$.
-Suppose we have two hashes of two substrings, one multiplied by $p^i$ and the other by $p^j$.
-If $i < j$ then we multiply the first hash by $p^{j-i}$, otherwise, we multiply the second hash by $p^{i-j}$.
-By doing this, we get both the hashes multiplied by the same power of $p$ (which is the maximum of $i$ and $j$) and now these hashes can be compared easily with no need for any division.
+با این حال، یک راه آسان‌تر نیز وجود دارد.
+در بیشتر موارد، به جای محاسبه‌ی دقیق هَش زیررشته‌ها، کافی است هَش را در توانی از $p$ ضرب کنیم.
+فرض کنید هَش دو زیررشته را داریم، یکی ضرب شده در $p^i$ و دیگری در $p^j$.
+اگر $i < j$ باشد، هَش اول را در $p^{j-i}$ ضرب می‌کنیم، در غیر این صورت، هَش دوم را در $p^{i-j}$ ضرب می‌کنیم.
+با این کار، هر دو هَش در توان یکسانی از $p$ (که برابر با بیشینه‌ی $i$ و $j$ است) ضرب می‌شوند و اکنون این هَش‌ها را می‌توان به راحتی و بدون نیاز به هیچ تقسیمی مقایسه کرد.
 
-## Applications of Hashing
+## کاربردهای هشینگ
 
-Here are some typical applications of Hashing:
+در اینجا چند کاربرد متداول هشینگ آورده شده است:
 
-* [Rabin-Karp algorithm](rabin-karp.md) for pattern matching in a string in $O(n)$ time
-* Calculating the number of different substrings of a string in $O(n^2)$ (see below)
-* Calculating the number of palindromic substrings in a string.
+* [الگوریتم Rabin-Karp](rabin-karp.md) برای تطبیق الگو در یک رشته در زمان $O(n)$
+* محاسبه‌ی تعداد زیررشته‌های متمایز یک رشته در $O(n^2)$ (در ادامه توضیح داده شده است)
+* محاسبه‌ی تعداد زیررشته‌های پالیندروم (palindrome) در یک رشته.
 
-### Determine the number of different substrings in a string
+### تعیین تعداد زیررشته‌های متمایز در یک رشته
 
-Problem: Given a string $s$ of length $n$, consisting only of lowercase English letters, find the number of different substrings in this string.
+مسئله: با داشتن یک رشته $s$ به طول $n$ که فقط از حروف کوچک انگلیسی تشکیل شده است، تعداد زیررشته‌های متمایز این رشته را پیدا کنید.
 
-To solve this problem, we iterate over all substring lengths $l = 1 \dots n$.
-For every substring length $l$ we construct an array of hashes of all substrings of length $l$ multiplied by the same power of $p$.
-The number of different elements in the array is equal to the number of distinct substrings of length $l$ in the string.
-This number is added to the final answer.
+برای حل این مسئله، روی تمام طول‌های ممکن برای زیررشته، یعنی $l = 1 \dots n$، پیمایش می‌کنیم.
+به ازای هر طول $l$، آرایه‌ای از هَش‌های تمام زیررشته‌های به طول $l$ را که همگی در توان یکسانی از $p$ ضرب شده‌اند، می‌سازیم.
+تعداد عناصر متمایز در این آرایه برابر با تعداد زیررشته‌های متمایز به طول $l$ در رشته است.
+این عدد به پاسخ نهایی اضافه می‌شود.
 
-For convenience, we will use $h[i]$ as the hash of the prefix with $i$ characters, and define $h[0] = 0$.
+برای راحتی، از $h[i]$ به عنوان هَش پیشوندی با $i$ کاراکتر استفاده می‌کنیم و $h[0] = 0$ را تعریف می‌کنیم.
 
-```{.cpp file=hashing_count_unique_substrings}
+```cpp {.cpp file=hashing_count_unique_substrings}
 int count_unique_substrings(string const& s) {
     int n = s.size();
     
@@ -185,26 +185,26 @@ int count_unique_substrings(string const& s) {
 }
 ```
 
-Notice, that $O(n^2)$ is not the best possible time complexity for this problem.
-A solution with $O(n \log n)$ is described in the article about [Suffix Arrays](suffix-array.md), and it's even possible to compute it in $O(n)$ using a [Suffix Tree](./suffix-tree-ukkonen.md) or a [Suffix Automaton](./suffix-automaton.md).
+توجه داشته باشید که $O(n^2)$ بهترین پیچیدگی زمانی ممکن برای این مسئله نیست.
+یک راه‌حل با پیچیدگی $O(n \log n)$ در مقاله‌ی مربوط به [آرایه‌های پسوندی](suffix-array.md) توضیح داده شده است، و حتی می‌توان آن را با استفاده از [درخت پسوندی](./suffix-tree-ukkonen.md) یا [اتوماتون پسوندی](./suffix-automaton.md) در زمان $O(n)$ محاسبه کرد.
 
-## Improve no-collision probability
+## بهبود احتمال عدم برخورد
 
-Quite often the above mentioned polynomial hash is good enough, and no collisions will happen during tests.
-Remember, the probability that collision happens is only $\approx \frac{1}{m}$.
-For $m = 10^9 + 9$ the probability is $\approx 10^{-9}$ which is quite low.
-But notice, that we only did one comparison.
-What if we compared a string $s$ with $10^6$ different strings.
-The probability that at least one collision happens is now $\approx 10^{-3}$.
-And if we want to compare $10^6$ different strings with each other (e.g. by counting how many unique strings exists), then the probability of at least one collision happening is already $\approx 1$.
-It is pretty much guaranteed that this task will end with a collision and returns the wrong result.
+اغلب اوقات، هَش چندجمله‌ای که در بالا ذکر شد به اندازه‌ی کافی خوب است و در حین تست‌ها هیچ برخوردی رخ نخواهد داد.
+به یاد داشته باشید، احتمال وقوع برخورد تنها $\approx \frac{1}{m}$ است.
+برای $m = 10^9 + 9$ این احتمال تقریباً $10^{-9}$ است که بسیار کم است.
+اما توجه کنید که ما فقط یک مقایسه انجام دادیم.
+چه اتفاقی می‌افتد اگر یک رشته $s$ را با $10^6$ رشته‌ی مختلف مقایسه کنیم؟
+احتمال وقوع حداقل یک برخورد اکنون تقریباً $10^{-3}$ است.
+و اگر بخواهیم $10^6$ رشته‌ی مختلف را با یکدیگر مقایسه کنیم (مثلاً با شمردن تعداد رشته‌های یکتا)، احتمال وقوع حداقل یک برخورد تقریباً برابر با ۱ خواهد بود.
+تقریباً تضمین شده است که این مسئله با یک برخورد مواجه شده و نتیجه‌ی اشتباهی برمی‌گرداند.
 
-There is a really easy trick to get better probabilities.
-We can just compute two different hashes for each string (by using two different $p$, and/or different $m$, and compare these pairs instead.
-If $m$ is about $10^9$ for each of the two hash functions than this is more or less equivalent as having one hash function with $m \approx 10^{18}$.
-When comparing $10^6$ strings with each other, the probability that at least one collision happens is now reduced to $\approx 10^{-6}$.
+یک ترفند بسیار ساده برای به دست آوردن احتمال بهتر وجود دارد.
+می‌توانیم برای هر رشته دو هَش متفاوت محاسبه کنیم (با استفاده از دو مقدار متفاوت برای $p$ و/یا دو مقدار متفاوت برای $m$) و به جای یک هَش، این زوج‌ها را مقایسه کنیم.
+اگر $m$ برای هر دو تابع هَش حدود $10^9$ باشد، این کار کم و بیش معادل داشتن یک تابع هَش با $m \approx 10^{18}$ است.
+هنگام مقایسه‌ی $10^6$ رشته با یکدیگر، احتمال وقوع حداقل یک برخورد اکنون به حدود $10^{-6}$ کاهش می‌یابد.
 
-## Practice Problems
+## مسائل تمرینی
 * [Good Substrings - Codeforces](https://codeforces.com/contest/271/problem/D)
 * [A Needle in the Haystack - SPOJ](http://www.spoj.com/problems/NHAY/)
 * [String Hashing - Kattis](https://open.kattis.com/problems/hashing)
@@ -224,5 +224,3 @@ When comparing $10^6$ strings with each other, the probability that at least one
 * [Codeforces - Palindrome Degree](http://codeforces.com/contest/7/problem/D)
 * [Codeforces - Deletion of Repeats](http://codeforces.com/contest/19/problem/C)
 * [HackerRank - Gift Boxes](https://www.hackerrank.com/contests/womens-codesprint-5/challenges/gift-boxes)
-
-

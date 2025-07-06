@@ -1,96 +1,103 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: halfplane-intersection
 ---
 
-# Half-plane intersection
+# اشتراک نیم‌صفحه‌ها
 
-In this article we will discuss the problem of computing the intersection of a set of half-planes. Such an intersection can be conveniently represented as a convex region/polygon, where every point inside of it is also inside all of the half-planes, and it is this polygon that we're trying to find or construct. We give some initial intuition for the problem, describe a $O(N \log N)$ approach known as the Sort-and-Incremental algorithm and give some sample applications of this technique.
+در این مقاله به بررسی مسئله‌ی محاسبه‌ی اشتراک مجموعه‌ای از نیم‌صفحه‌ها خواهیم پرداخت. چنین اشتراکی را می‌توان به راحتی به صورت یک ناحیه/چندضلعی محدب نمایش داد، که در آن هر نقطه در داخل آن، در داخل تمام نیم‌صفحه‌ها نیز قرار دارد و این همان چندضلعی است که ما در تلاش برای یافتن یا ساختن آن هستیم. ما ابتدا درکی کلی از مسئله ارائه می‌دهیم، سپس یک رویکرد با پیچیدگی زمانی $O(N \log N)$ معروف به الگوریتم مرتب‌سازی و افزایشی (Sort-and-Incremental) را شرح می‌دهیم و چند نمونه از کاربردهای این تکنیک را معرفی می‌کنیم.
 
-It is strongly recommended for the reader to be familiar with basic geometrical primitives and operations (points, vectors, intersection of lines). Additionally, knowledge about [Convex Hulls](../geometry/convex-hull.md) or the [Convex Hull Trick](../geometry/convex_hull_trick.md) may help to better understand the concepts in this article, but they are not a prerequisite by any means.
+به شدت توصیه می‌شود که خواننده با اولیات و عملیات هندسی پایه (نقاط، بردارها، تقاطع خطوط) آشنا باشد. علاوه بر این، دانش در مورد [پوسته محدب (Convex Hulls)](../geometry/convex-hull.md) یا [ترفند پوسته محدب (Convex Hull Trick)](../geometry/convex_hull_trick.md) ممکن است به درک بهتر مفاهیم این مقاله کمک کند، اما به هیچ وجه پیش‌نیاز نیستند.
 
-## Initial clarifications and definitions
+## توضیحات و تعاریف اولیه
 
-For the entire article, we will make some assumptions (unless specified otherwise):
+در تمام این مقاله، ما چند فرض را در نظر می‌گیریم (مگر اینکه خلاف آن ذکر شود):
 
-1. We define $N$ to be the quantity of half-planes in the given set.
-2. We will represent lines and half-planes by one point and one vector (any point that lies on the given line, and the direction vector of the line). In the case of half-planes, we assume that every half-plane allows the region to the left side of its direction vector. Additionally, we define the angle of a half-plane to be the polar angle of its direction vector. See image below for example.
-3. We will assume that the resulting intersection is always either bounded or empty. If we need to handle the unbounded case, we can simply add 4 half-planes that define a large-enough bounding box. 
-4. We will assume, for simplicity, that there are no parallel half-planes in the given set. Towards the end of the article we will discuss how to deal with such cases.
+1.  ما $N$ را به عنوان تعداد نیم‌صفحه‌ها در مجموعه داده شده تعریف می‌کنیم.
+2.  ما خطوط و نیم‌صفحه‌ها را با یک نقطه و یک بردار (هر نقطه‌ای که روی خط داده شده قرار دارد و بردار جهت آن خط) نمایش خواهیم داد. در مورد نیم‌صفحه‌ها، فرض می‌کنیم که هر نیم‌صفحه، ناحیه‌ی سمت چپ بردار جهت خود را مجاز می‌داند. علاوه بر این، زاویه یک نیم‌صفحه را به عنوان زاویه قطبی بردار جهت آن تعریف می‌کنیم. برای مثال تصویر زیر را ببینید.
+3.  فرض می‌کنیم که اشتراک حاصل همیشه یا کران‌دار است یا تهی. اگر نیاز به مدیریت حالت بیکران داشته باشیم، می‌توانیم به سادگی ۴ نیم‌صفحه اضافه کنیم که یک جعبه مرزی (bounding box) به اندازه کافی بزرگ را تعریف می‌کنند.
+4.  برای سادگی، فرض می‌کنیم که هیچ نیم‌صفحه موازی در مجموعه داده شده وجود ندارد. در انتهای مقاله به چگونگی برخورد با چنین مواردی خواهیم پرداخت.
 
-![](halfplanes_rep.png) 
 
-The half-plane $y \geq 2x - 2$ can be represented as the point $P = (1, 0)$ with direction vector $PQ = Q - P = (1, 2)$
+![](halfplanes_rep.png)
 
-## Brute force approach - $O(N^3)$ {data-toc-label="Brute force approach - O(N^3)"}
 
-One of the most straightforward and obvious solutions would be to compute the intersection point of the lines of all pairs of half-planes and, for each point, check if it is inside all of the other half-planes. Since there are $O(N^2)$ intersection points, and for each of them we have to check $O(N)$ half-planes, the total time complexity is $O(N^3)$. The actual region of the intersection can then be reconstructed using, for example, a Convex Hull algorithm on the set of intersection points that were included in all the half-planes. 
+نیم‌صفحه $y \geq 2x - 2$ را می‌توان با نقطه $P = (1, 0)$ و بردار جهت $PQ = Q - P = (1, 2)$ نمایش داد.
 
-It is fairly easy to see why this works: the vertices of the resulting convex polygon are all intersection points of the half-plane lines, and each of those vertices is obviously part of all the half-planes. The main advantage of this method is that its easy to understand, remember and code on-the-fly if you just need to check if the intersection is empty or not. However, it is awfully slow and unfit for most problems, so we need something faster.
+## روش Brute Force - $O(N^3)$ {data-toc-label="Brute force approach - O(N^3)"}
 
-## Incremental approach - $O(N^2)$ {data-toc-label="Incremental approach - O(N^2)"}
+یکی از سرراست‌ترین و واضح‌ترین راه‌حل‌ها این است که نقطه تقاطع خطوط تمام زوج‌های نیم‌صفحه‌ها را محاسبه کنیم و برای هر نقطه بررسی کنیم که آیا داخل تمام نیم‌صفحه‌های دیگر قرار دارد یا خیر. از آنجایی که $O(N^2)$ نقطه تقاطع وجود دارد و برای هر یک از آنها باید $O(N)$ نیم‌صفحه را بررسی کنیم، پیچیدگی زمانی کل $O(N^3)$ خواهد بود. ناحیه واقعی اشتراک را می‌توان با استفاده از، به عنوان مثال، یک الگوریتم پوسته محدب (Convex Hull) روی مجموعه نقاط تقاطعی که در تمام نیم‌صفحه‌ها قرار داشتند، بازسازی کرد.
 
-Another fairly straightforward approach is to incrementally construct the intersection of the half-planes, one at a time. This method is basically equivalent to cutting a convex polygon by a line $N$ times, and removing the redundant half-planes at every step. To do this, we can represent the convex polygon as a list of line segments, and to cut it with a half-plane we simply find the intersection points of the segments with the half-plane line (there will only be two intersection points if the line properly intersects the polygon), and replace all the line segments in-between with the new segment corresponding to the half-plane. Since such procedure can be implemented in linear time, we can simply start with a big bounding box and cut it down with each one of the half-planes, obtaining a total time complexity of $O(N^2)$.
+به راحتی می‌توان فهمید چرا این روش کار می‌کند: رئوس چندضلعی محدب حاصل، همگی نقاط تقاطع خطوط نیم‌صفحه‌ها هستند و هر یک از این رئوس به وضوح بخشی از تمام نیم‌صفحه‌ها هستند. مزیت اصلی این روش این است که درک، به خاطر سپردن و پیاده‌سازی آن در لحظه آسان است، اگر فقط نیاز به بررسی تهی بودن یا نبودن اشتراک داشته باشید. با این حال، این روش بسیار کند و برای اکثر مسائل نامناسب است، بنابراین به چیزی سریع‌تر نیاز داریم.
 
-This method is a big step in the right direction, but it does feel wasteful to have to iterate over $O(N)$ half-planes at every step. We will see next that, by making some clever observations, the ideas behind this incremental approach can be recycled to create a $O(N \log N)$ algorithm.
+## روش افزایشی - $O(N^2)$ {data-toc-label="Incremental approach - O(N^2)"}
 
-## Sort-and-Incremental algorithm - $O(N \log N)$ {data-toc-label="Sort-and-Incremental algorithm - O(N log N)"}
+یک رویکرد نسبتاً سرراست دیگر این است که اشتراک نیم‌صفحه‌ها را به صورت افزایشی، یکی یکی، بسازیم. این روش اساساً معادل برش یک چندضلعی محدب با یک خط به تعداد $N$ بار و حذف نیم‌صفحه‌های زائد در هر مرحله است. برای انجام این کار، می‌توانیم چندضلعی محدب را به صورت لیستی از پاره‌خط‌ها نمایش دهیم و برای برش آن با یک نیم‌صفحه، به سادگی نقاط تقاطع پاره‌خط‌ها با خط نیم‌صفحه را پیدا می‌کنیم (اگر خط به درستی چندضلعی را قطع کند، تنها دو نقطه تقاطع وجود خواهد داشت)، و تمام پاره‌خط‌های بین این دو نقطه را با پاره‌خط جدید مربوط به نیم‌صفحه جایگزین می‌کنیم. از آنجایی که چنین رویه‌ای را می‌توان در زمان خطی پیاده‌سازی کرد، می‌توانیم به سادگی با یک جعبه مرزی بزرگ شروع کرده و آن را با هر یک از نیم‌صفحه‌ها برش دهیم و در نهایت به پیچیدگی زمانی کل $O(N^2)$ برسیم.
 
-The first properly-documented source of this algorithm we could find was Zeyuan Zhu's thesis for Chinese Team Selecting Contest titled [New Algorithm for Half-plane Intersection and its Practical Value](http://people.csail.mit.edu/zeyuan/publications.htm), from the year 2006. The approach we'll describe next is based on this same algorithm, but instead of computing two separate intersections for the lower and upper halves of the intersections, we'll construct it all at once in one pass with a deque (double-ended queue).
+این روش گام بزرگی در جهت درست است، اما به نظر می‌رسد که پیمایش $O(N)$ نیم‌صفحه در هر مرحله، کاری بیهوده است. در ادامه خواهیم دید که با انجام چند مشاهده هوشمندانه، ایده‌های پشت این رویکرد افزایشی را می‌توان برای ایجاد یک الگوریتم با پیچیدگی $O(N \log N)$ بازیافت کرد.
 
-The algorithm itself, as the name may spoil, takes advantage of the fact that the resulting region from the intersection of half-planes is convex, and thus it will consist of some segments of half-planes in order sorted by their angles. This leads to a crucial observation: if we incrementally intersect the half-planes in their order sorted by angle (as they would appear in the final, resulting shape of the intersection) and store them in a double-ended queue, then we will only ever need to remove half-planes from the front and the back of the deque.
+## الگوریتم مرتب‌سازی و افزایشی - $O(N \log N)$ {data-toc-label="Sort-and-Incremental algorithm - O(N log N)"}
 
-To better visualize this fact, suppose we're performing the incremental approach described previously on a set of half-planes that is sorted by angle (in this case, we'll assume they're sorted from $-\pi$ to $\pi$), and suppose that we're about to start some arbitrary $k$'th step. This means we have already constructed the intersection of the first $k-1$ half-planes. Now, because the half-planes are sorted by angle, whatever the $k$'th half-plane is, we can be sure that it will form a convex turn with the $(K-1)$'th half-plane. For that reason, a few things may happen:
+اولین منبعی که به طور رسمی این الگوریتم را مستند کرده و ما توانستیم پیدا کنیم، پایان‌نامه Zeyuan Zhu برای مسابقه انتخابی تیم چین با عنوان [«الگوریتم جدید برای اشتراک نیم‌صفحه‌ها و ارزش عملی آن»](http://people.csail.mit.edu/zeyuan/publications.htm) از سال ۲۰۰۶ بود. رویکردی که در ادامه شرح خواهیم داد بر اساس همین الگوریتم است، اما به جای محاسبه دو اشتراک جداگانه برای نیمه‌های پایینی و بالایی اشتراک، ما همه آن را به یکباره در یک گذر با یک deque (صف دوطرفه) خواهیم ساخت.
 
-1. Some (possibly none) of the half-planes in the back of the intersection may become *redundant*. In this case, we need to pop these now-useless half-planes from the back of the deque. 
-2. Some (possibly none) of the half-planes at the front may become *redundant*. Analogous to case 1, we just pop them from the front of the deque.
-3. The intersection may become empty (after handling cases 1 and/or 2). In this case, we just report the intersection is empty and terminate the algorithm.
+خود الگوریتم، همانطور که از نامش پیداست، از این واقعیت بهره می‌برد که ناحیه حاصل از اشتراک نیم‌صفحه‌ها محدب است و بنابراین از تعدادی پاره‌خط از نیم‌صفحه‌ها تشکیل شده که بر اساس زاویه‌شان مرتب شده‌اند. این به یک مشاهده حیاتی منجر می‌شود: اگر ما نیم‌صفحه‌ها را به ترتیبی که بر اساس زاویه مرتب شده‌اند (همانطور که در شکل نهایی اشتراک ظاهر می‌شوند) به صورت افزایشی قطع دهیم و آنها را در یک صف دوطرفه ذخیره کنیم، آنگاه فقط نیاز به حذف نیم‌صفحه‌ها از ابتدا و انتهای deque خواهیم داشت.
 
-*We say a half-plane is "redundant" if it does not contribute anything to the intersection. Such a half-plane could be removed and the resulting intersection would not change at all.*
+برای تجسم بهتر این واقعیت، فرض کنید در حال اجرای رویکرد افزایشی که قبلاً توضیح داده شد بر روی مجموعه‌ای از نیم‌صفحه‌های مرتب شده بر اساس زاویه هستیم (در این حالت، فرض می‌کنیم آنها از $-\pi$ تا $\pi$ مرتب شده‌اند) و فرض کنید که در آستانه شروع مرحله دلخواه $k$ هستیم. این بدان معناست که ما قبلاً اشتراک $k-1$ نیم‌صفحه اول را ساخته‌ایم. حال، چون نیم‌صفحه‌ها بر اساس زاویه مرتب شده‌اند، نیم‌صفحه $k$-ام هر چه که باشد، می‌توانیم مطمئن باشیم که با نیم‌صفحه $(k-1)$-ام یک پیچ محدب تشکیل می‌دهد. به همین دلیل، چند اتفاق ممکن است رخ دهد:
 
-Here's a small example with an illustration:
+1.  برخی (احتمالاً هیچ‌کدام) از نیم‌صفحه‌های انتهای اشتراک ممکن است *زائد* شوند. در این حالت، باید این نیم‌صفحه‌های بی‌فایده را از انتهای deque حذف کنیم.
+2.  برخی (احتمالاً هیچ‌کدام) از نیم‌صفحه‌های ابتدای اشتراک ممکن است *زائد* شوند. مشابه حالت ۱، ما فقط آنها را از ابتدای deque حذف می‌کنیم.
+3.  اشتراک ممکن است تهی شود (پس از رسیدگی به موارد ۱ و/یا ۲). در این حالت، ما فقط گزارش می‌دهیم که اشتراک تهی است و الگوریتم را خاتمه می‌دهیم.
 
-Let $H = \{ A, B, C, D, E \}$ be the set of half-planes currently present in the intersection. Additionally, let $P = \{ p, q, r, s \}$ be the set of intersection points of adjacent half-planes in H. Now, suppose we wish to intersect it with the half-plane $F$, as seen in the illustration below:
+*ما می‌گوییم یک نیم‌صفحه "زائد" است اگر هیچ کمکی به اشتراک نکند. چنین نیم‌صفحه‌ای را می‌توان حذف کرد و اشتراک حاصل به هیچ وجه تغییر نخواهد کرد.*
+
+در اینجا یک مثال کوچک با یک تصویر آورده شده است:
+
+فرض کنید $H = \{ A, B, C, D, E \}$ مجموعه نیم‌صفحه‌هایی باشد که در حال حاضر در اشتراک وجود دارند. علاوه بر این، فرض کنید $P = \{ p, q, r, s \}$ مجموعه نقاط تقاطع نیم‌صفحه‌های مجاور در H باشد. حال، فرض کنید می‌خواهیم آن را با نیم‌صفحه $F$ قطع دهیم، همانطور که در تصویر زیر دیده می‌شود:
+
 
 ![](halfplanes_hp1.png)
 
-Notice the half-plane $F$ makes $A$ and $E$ redundant in the intersection. So we remove both $A$ and $E$ from the front and back of the intersection, respectively, and add $F$ at the end. And we finally obtain the new intersection $H = \{ B, C, D, F\}$ with $P = \{ q, r, t, u \}$.
+
+توجه کنید که نیم‌صفحه $F$ باعث می‌شود $A$ و $E$ در اشتراک زائد شوند. بنابراین ما هم $A$ و هم $E$ را به ترتیب از ابتدا و انتهای اشتراک حذف کرده و $F$ را در انتها اضافه می‌کنیم. و در نهایت اشتراک جدید $H = \{ B, C, D, F\}$ با $P = \{ q, r, t, u \}$ را به دست می‌آوریم.
+
 
 ![](halfplanes_hp2.png)
 
-With all of this in mind, we have almost everything we need to actually implement the algorithm, but we still need to talk about some special cases. At the beginning of the article we said we would add a bounding box to take care of the cases where the intersection could be unbounded, so the only tricky case we actually need to handle is parallel half-planes. We can have two sub-cases: two half-planes can be parallel with the same direction or with opposite direction. The reason this case needs to be handled separately is because we will need to compute intersection points of half-plane lines to be able to check if a half-plane is redundant or not, and two parallel lines have no intersection point, so we need a special way to deal with them.
 
-For the case of parallel half-planes of opposite orientation: Notice that, because we're adding the bounding box to deal with the unbounded case, this also deals with the case where we have two adjacent parallel half-planes with opposite directions after sorting, since there will have to be at least one of the bounding-box half-planes in between these two (remember they are sorted by angle). 
+با در نظر گرفتن همه اینها، تقریباً همه چیزهایی را که برای پیاده‌سازی واقعی الگوریتم نیاز داریم در اختیار داریم، اما هنوز باید در مورد برخی موارد خاص صحبت کنیم. در ابتدای مقاله گفتیم که یک جعبه مرزی اضافه می‌کنیم تا مواردی که اشتراک ممکن است بیکران باشد را مدیریت کنیم، بنابراین تنها مورد پیچیده‌ای که واقعاً باید به آن رسیدگی کنیم، نیم‌صفحه‌های موازی است. می‌توانیم دو زیرحالت داشته باشیم: دو نیم‌صفحه می‌توانند با جهت یکسان یا با جهت مخالف موازی باشند. دلیل اینکه این مورد باید به طور جداگانه مدیریت شود این است که برای بررسی زائد بودن یا نبودن یک نیم‌صفحه، نیاز به محاسبه نقاط تقاطع خطوط نیم‌صفحه‌ها خواهیم داشت و دو خط موازی نقطه تقاطع ندارند، بنابراین به روشی خاص برای برخورد با آنها نیاز داریم.
 
- * However, it is possible that, after removing some half-planes from the back of the deque, two parallel half-planes of opposite direction end up together. This case only happens, specifically, when these two half-planes form an empty intersection, as this last half-plane will cause everything to be removed from the deque. To avoid this problem, we have to manually check for parallel half-planes, and if they have opposite direction, we just instantly stop the algorithm and return an empty intersection.
+برای مورد نیم‌صفحه‌های موازی با جهت مخالف: توجه داشته باشید که چون ما جعبه مرزی را برای مدیریت حالت بیکران اضافه می‌کنیم، این حالت همچنین موردی را که پس از مرتب‌سازی دو نیم‌صفحه موازی مجاور با جهت‌های مخالف داریم، مدیریت می‌کند، زیرا باید حداقل یکی از نیم‌صفحه‌های جعبه مرزی بین این دو وجود داشته باشد (به یاد داشته باشید که آنها بر اساس زاویه مرتب شده‌اند).
+
+ * با این حال، ممکن است پس از حذف برخی نیم‌صفحه‌ها از انتهای deque، دو نیم‌صفحه موازی با جهت مخالف در کنار هم قرار گیرند. این حالت به طور خاص تنها زمانی رخ می‌دهد که این دو نیم‌صفحه یک اشتراک تهی تشکیل دهند، زیرا این نیم‌صفحه آخر باعث حذف همه چیز از deque خواهد شد. برای جلوگیری از این مشکل، باید به صورت دستی نیم‌صفحه‌های موازی را بررسی کنیم و اگر جهت مخالف داشتند، فوراً الگوریتم را متوقف کرده و یک اشتراک تهی برگردانیم.
 
 
-Thus the only case we actually need to handle is having multiple half-planes with the same angle, and it turns out this case is fairly easy to handle: we only have keep the leftmost half-plane and erase the rest, since they will be completely redundant anyways.
-To sum up, the full algorithm will roughly look as follows:
+بنابراین تنها موردی که واقعاً باید مدیریت کنیم، داشتن چندین نیم‌صفحه با زاویه یکسان است، و معلوم می‌شود که این مورد به راحتی قابل مدیریت است: ما فقط باید چپ‌ترین نیم‌صفحه را نگه داریم و بقیه را حذف کنیم، زیرا آنها به هر حال کاملاً زائد خواهند بود.
+به طور خلاصه، الگوریتم کامل تقریباً به شکل زیر خواهد بود:
 
-1. We begin by sorting the set of half-planes by angle, which takes $O(N \log N)$ time.
-2. We will iterate over the set of half-planes, and for each one, we will perform the incremental procedure, popping from the front and the back of the double-ended queue as necessary. This will take linear time in total, as every half-plane can only be added or removed once.
-3. At the end, the convex polygon resulting from the intersection can be simply obtained by computing the intersection points of adjacent half-planes in the deque at the end of the procedure. This will take linear time as well. It is also possible to store such points during step 2 and skip this step entirely, but we believe it is slightly easier (in terms of implementation) to compute them on-the-fly.
+1.  با مرتب‌سازی مجموعه نیم‌صفحه‌ها بر اساس زاویه شروع می‌کنیم که $O(N \log N)$ زمان می‌برد.
+2.  مجموعه نیم‌صفحه‌ها را پیمایش می‌کنیم و برای هر کدام، رویه افزایشی را انجام می‌دهیم و در صورت لزوم از ابتدا و انتهای صف دوطرفه حذف می‌کنیم. این کار در مجموع زمان خطی خواهد برد، زیرا هر نیم‌صفحه فقط یک بار می‌تواند اضافه یا حذف شود.
+3.  در پایان، چندضلعی محدب حاصل از اشتراک را می‌توان به سادگی با محاسبه نقاط تقاطع نیم‌صفحه‌های مجاور در deque در انتهای رویه به دست آورد. این کار نیز زمان خطی خواهد برد. همچنین می‌توان چنین نقاطی را در طول مرحله ۲ ذخیره کرد و این مرحله را به طور کامل نادیده گرفت، اما ما معتقدیم که محاسبه آنها در لحظه (از نظر پیاده‌سازی) کمی آسان‌تر است.
 
-In total, we have achieved a time complexity of $O(N \log N)$. Since sorting is clearly the bottleneck, the algorithm can be made to run in linear time in the special case where we are given half-planes sorted in advance by their angles (an example of such a case would be obtaining the half-planes that define a convex polygon). 
+در مجموع، ما به پیچیدگی زمانی $O(N \log N)$ دست یافتیم. از آنجایی که مرتب‌سازی به وضوح گلوگاه الگوریتم است، می‌توان الگوریتم را در حالت خاصی که نیم‌صفحه‌ها از قبل بر اساس زاویه‌شان مرتب شده‌اند، در زمان خطی اجرا کرد (نمونه‌ای از چنین حالتی، به دست آوردن نیم‌صفحه‌هایی است که یک چندضلعی محدب را تعریف می‌کنند).
 
-### Direct implementation
+### پیاده‌سازی مستقیم
 
-Here is a sample, direct implementation of the algorithm, with comments explaining most parts: 
+در اینجا یک نمونه پیاده‌سازی مستقیم از الگوریتم، با توضیحاتی برای اکثر بخش‌ها آورده شده است:
 
-Simple point/vector and half-plane structs:
+ساختارهای ساده برای نقطه/بردار و نیم‌صفحه:
 
 ```cpp
-// Redefine epsilon and infinity as necessary. Be mindful of precision errors.
+// در صورت نیاز، اپسیلون و بی‌نهایت را بازتعریف کنید. مراقب خطاهای دقت باشید.
 const long double eps = 1e-9, inf = 1e9; 
 
-// Basic point/vector struct.
+// ساختار پایه برای نقطه/بردار.
 struct Point { 
 
     long double x, y;
     explicit Point(long double x = 0, long double y = 0) : x(x), y(y) {}
 
-    // Addition, substraction, multiply by constant, dot product, cross product.
+    // جمع، تفریق، ضرب در ثابت، ضرب داخلی، ضرب خارجی.
 
     friend Point operator + (const Point& p, const Point& q) {
         return Point(p.x + q.x, p.y + q.y); 
@@ -113,10 +120,10 @@ struct Point {
     }
 };
 
-// Basic half-plane struct.
+// ساختار پایه برای نیم‌صفحه.
 struct Halfplane { 
 
-    // 'p' is a passing point of the line and 'pq' is the direction vector of the line.
+    // 'p' یک نقطه از خط و 'pq' بردار جهت خط است.
     Point p, pq; 
     long double angle;
 
@@ -125,18 +132,18 @@ struct Halfplane {
         angle = atan2l(pq.y, pq.x);    
     }
 
-    // Check if point 'r' is outside this half-plane. 
-    // Every half-plane allows the region to the LEFT of its line.
+    // بررسی می‌کند که آیا نقطه 'r' خارج از این نیم‌صفحه است یا خیر.
+    // هر نیم‌صفحه ناحیه سمت چپ خط خود را مجاز می‌داند.
     bool out(const Point& r) { 
         return cross(pq, r - p) < -eps; 
     }
 
-    // Comparator for sorting. 
+    // مقایسه‌گر برای مرتب‌سازی.
     bool operator < (const Halfplane& e) const { 
         return angle < e.angle;
     } 
 
-    // Intersection point of the lines of two half-planes. It is assumed they're never parallel.
+    // نقطه تقاطع خطوط دو نیم‌صفحه. فرض بر این است که هرگز موازی نیستند.
     friend Point inter(const Halfplane& s, const Halfplane& t) {
         long double alpha = cross((t.p - s.p), t.pq) / cross(s.pq, t.pq);
         return s.p + (s.pq * alpha);
@@ -144,49 +151,49 @@ struct Halfplane {
 };
 ```
 
-Algorithm: 
+الگوریتم:
 
 ```cpp
-// Actual algorithm
+// الگوریتم اصلی
 vector<Point> hp_intersect(vector<Halfplane>& H) { 
 
-    Point box[4] = {  // Bounding box in CCW order
+    Point box[4] = {  // جعبه مرزی به ترتیب پادساعتگرد
         Point(inf, inf), 
         Point(-inf, inf), 
         Point(-inf, -inf), 
         Point(inf, -inf) 
     };
 
-    for(int i = 0; i<4; i++) { // Add bounding box half-planes.
+    for(int i = 0; i<4; i++) { // افزودن نیم‌صفحه‌های جعبه مرزی.
         Halfplane aux(box[i], box[(i+1) % 4]);
         H.push_back(aux);
     }
 
-    // Sort by angle and start algorithm
+    // مرتب‌سازی بر اساس زاویه و شروع الگوریتم
     sort(H.begin(), H.end());
     deque<Halfplane> dq;
     int len = 0;
     for(int i = 0; i < int(H.size()); i++) {
 
-        // Remove from the back of the deque while last half-plane is redundant
+        // حذف از انتهای deque تا زمانی که آخرین نیم‌صفحه زائد باشد
         while (len > 1 && H[i].out(inter(dq[len-1], dq[len-2]))) {
             dq.pop_back();
             --len;
         }
 
-        // Remove from the front of the deque while first half-plane is redundant
+        // حذف از ابتدای deque تا زمانی که اولین نیم‌صفحه زائد باشد
         while (len > 1 && H[i].out(inter(dq[0], dq[1]))) {
             dq.pop_front();
             --len;
         }
         
-        // Special case check: Parallel half-planes
+        // بررسی حالت خاص: نیم‌صفحه‌های موازی
         if (len > 0 && fabsl(cross(H[i].pq, dq[len-1].pq)) < eps) {
-        	// Opposite parallel half-planes that ended up checked against each other.
+        	// نیم‌صفحه‌های موازی با جهت مخالف که در نهایت در مقابل هم قرار گرفته‌اند.
         	if (dot(H[i].pq, dq[len-1].pq) < 0.0)
         		return vector<Point>();
         	
-        	// Same direction half-plane: keep only the leftmost half-plane.
+        	// نیم‌صفحه با جهت یکسان: فقط چپ‌ترین نیم‌صفحه را نگه دار.
         	if (H[i].out(dq[len-1].p)) {
         		dq.pop_back();
         		--len;
@@ -194,12 +201,12 @@ vector<Point> hp_intersect(vector<Halfplane>& H) {
         	else continue;
         }
         
-        // Add new half-plane
+        // افزودن نیم‌صفحه جدید
         dq.push_back(H[i]);
         ++len;
     }
 
-    // Final cleanup: Check half-planes at the front against the back and vice-versa
+    // پاک‌سازی نهایی: بررسی نیم‌صفحه‌های ابتدا در برابر انتها و برعکس
     while (len > 2 && dq[0].out(inter(dq[len-1], dq[len-2]))) {
         dq.pop_back();
         --len;
@@ -210,10 +217,10 @@ vector<Point> hp_intersect(vector<Halfplane>& H) {
         --len;
     }
 
-    // Report empty intersection if necessary
+    // در صورت لزوم، اشتراک تهی را گزارش کن
     if (len < 3) return vector<Point>();
 
-    // Reconstruct the convex polygon from the remaining half-planes.
+    // بازسازی چندضلعی محدب از نیم‌صفحه‌های باقی‌مانده.
     vector<Point> ret(len);
     for(int i = 0; i+1 < len; i++) {
         ret[i] = inter(dq[i], dq[i+1]);
@@ -223,87 +230,86 @@ vector<Point> hp_intersect(vector<Halfplane>& H) {
 }
 ```
 
+### بحث در مورد پیاده‌سازی
 
-### Implementation discussion
+نکته ویژه ای که باید به آن توجه داشت این است که در صورت وجود چندین نیم‌صفحه که در یک نقطه مشترک تقاطع دارند، این الگوریتم می‌تواند نقاط مجاور تکراری را در چندضلعی نهایی برگرداند. با این حال، این نباید تأثیری در قضاوت صحیح در مورد تهی بودن یا نبودن اشتراک داشته باشد و همچنین به هیچ وجه بر مساحت چندضلعی تأثیر نمی‌گذارد. بسته به کارهایی که باید بعداً انجام دهید، ممکن است بخواهید این موارد تکراری را حذف کنید. این کار را می‌توانید به راحتی با `std::unique` انجام دهید. ما می‌خواهیم نقاط تکراری را در طول اجرای الگوریتم نگه داریم تا اشتراک‌هایی با مساحت صفر (به عنوان مثال، اشتراک‌هایی که از یک نقطه، خط یا پاره‌خط تشکیل شده‌اند) به درستی محاسبه شوند. خواننده را تشویق می‌کنم تا چند مورد کوچک دست‌ساز را که در آن اشتراک به یک نقطه یا خط منجر می‌شود، آزمایش کند.
 
-A special thing to note is that, in case there multiple half-planes that intersect at the same point, then this algorithm could return repeated adjacent points in the final polygon. However, this should not have any impact on judging correctly whether the intersection is empty or not, and it does not affect the polygon area at all either. You may want to remove these duplicates depending on what tasks you need to do after. You can do this very easily with std::unique. We want to keep the repeat points during the execution of the algorithm so that the intersections with area equal to zero can be computed correctly (for example, intersections that consist of a single point, line or line-segment). I encourage the reader to test some small hand-made cases where the intersection results in a single point or line.
+یک نکته دیگر که باید در مورد آن صحبت شود این است که اگر نیم‌صفحه‌ها به شکل یک قید خطی (مثلاً $ax + by + c \leq 0$) به ما داده شوند، چه باید کرد. در چنین حالتی، دو گزینه وجود دارد. یا می‌توانید الگوریتم را با تغییرات مربوطه برای کار با چنین نمایشی پیاده‌سازی کنید (اساساً ساختار نیم‌صفحه خود را ایجاد کنید، که اگر با ترفند پوسته محدب آشنا باشید باید نسبتاً سرراست باشد)، یا می‌توانید با گرفتن هر ۲ نقطه از هر خط، خطوط را به نمایشی که در این مقاله استفاده کردیم تبدیل کنید. به طور کلی، توصیه می‌شود برای جلوگیری از مشکلات دقت اضافی، با نمایشی که در مسئله به شما داده شده است کار کنید.
 
-One more thing that should be talked about is what to do if we are given half-planes in the form of a linear constraint (for example, $ax + by + c \leq 0$). In such case, there are two options. You can either implement the algorithm with the corresponding modifications to work with such representation (essentially create your own half-plane struct, should be fairly straightforward if you're familiar with the convex hull trick), or you can transform the lines into the representation we used in this article by taking any 2 points of each line. In general, it is recommended to work with the representation that you're given in the problem to avoid additional precision issues.
+## مسائل، وظایف و کاربردها
 
-## Problems, tasks and applications
+بسیاری از مسائلی که می‌توان با اشتراک نیم‌صفحه‌ها حل کرد، بدون آن نیز قابل حل هستند، اما با رویکردهایی (معمولاً) پیچیده‌تر یا غیرمعمول‌تر. به طور کلی، اشتراک نیم‌صفحه‌ها می‌تواند هنگام برخورد با مسائل مربوط به چندضلعی‌ها (عمدتاً محدب)، رویت‌پذیری در صفحه و برنامه‌ریزی خطی دو بعدی ظاهر شود. در اینجا چند نمونه از وظایفی که می‌توان با این تکنیک حل کرد آورده شده است:
 
-Many problems that can be solved with half-plane intersection can also be solved without it, but with (usually) more complicated or uncommon approaches. Generally, half-plane intersection can appear when dealing with problems related to polygons (mostly convex), visibility in the plane and two-dimensional linear programming. Here are some sample tasks that can be solved with this technique: 
+### اشتراک چندضلعی محدب
 
-### Convex polygon intersection 
+یکی از کاربردهای کلاسیک اشتراک نیم‌صفحه‌ها: با داشتن $N$ چندضلعی، ناحیه‌ای را که در داخل همه چندضلعی‌ها قرار دارد، محاسبه کنید.
 
-One of the classical applications of half-plane intersection: Given $N$ polygons, compute the region that is included inside all of the polygons. 
+از آنجایی که اشتراک مجموعه‌ای از نیم‌صفحه‌ها یک چندضلعی محدب است، ما همچنین می‌توانیم یک چندضلعی محدب را به عنوان مجموعه‌ای از نیم‌صفحه‌ها نمایش دهیم (هر ضلع چندضلعی، پاره‌خطی از یک نیم‌صفحه است). این نیم‌صفحه‌ها را برای هر چندضلعی تولید کرده و اشتراک کل مجموعه را محاسبه کنید. پیچیدگی زمانی کل $O(S \log S)$ است، که در آن S تعداد کل اضلاع همه چندضلعی‌ها است. این مسئله همچنین به لحاظ نظری می‌تواند در $O(S \log N)$ با ادغام $N$ مجموعه از نیم‌صفحه‌ها با استفاده از یک heap و سپس اجرای الگوریتم بدون مرحله مرتب‌سازی حل شود، اما چنین راه‌حلی ضریب ثابت بسیار بدتری نسبت به مرتب‌سازی مستقیم دارد و فقط برای $N$ بسیار کوچک، بهبودهای جزئی در سرعت ایجاد می‌کند.
 
-Since the intersection of a set of half-planes is a convex polygon, we can also represent a convex polygon as a set of half-planes (every edge of the polygon is a segment of a half-plane). Generate these half-planes for every polygon and compute the intersection of the whole set. The total time complexity is $O(S \log S)$, where S is the total number of sides of all the polygons. The problem can also theoretically be solved in $O(S \log N)$ by merging the $N$ sets of half-planes using a heap and then running the algorithm without the sorting step, but such solution has much worse constant factor than straightforward sorting and only provides minor speed gains for very small $N$.
+### رویت‌پذیری در صفحه
 
-### Visibility in the plane
+مسائلی که به چیزی در راستای "تعیین اینکه آیا برخی از پاره‌خط‌ها از برخی نقاط در صفحه قابل مشاهده هستند" نیاز دارند، معمولاً می‌توانند به عنوان مسائل اشتراک نیم‌صفحه‌ها فرمول‌بندی شوند. به عنوان مثال، وظیفه زیر را در نظر بگیرید: با داشتن یک چندضلعی ساده (نه لزوماً محدب)، تعیین کنید که آیا نقطه‌ای در داخل چندضلعی وجود دارد که کل مرز چندضلعی از آن نقطه قابل مشاهده باشد. این مسئله همچنین به عنوان یافتن [هسته یک چندضلعی](https://en.wikipedia.org/wiki/Star-shaped_polygon) شناخته می‌شود و می‌تواند با اشتراک ساده نیم‌صفحه‌ها حل شود، به این صورت که هر ضلع چندضلعی را به عنوان یک نیم‌صفحه در نظر گرفته و سپس اشتراک آنها را محاسبه کنیم.
 
-Problems that require something among the lines of "determine if some line segments are visible from some point(s) in the plane" can usually be formulated as half-plane intersection problems. Take, for example, the following task: Given some simple polygon (not necessarily convex), determine if there's any point inside the polygon such that the whole boundary of the polygon can be observed from that point. This is also known as finding the [kernel of a polygon](https://en.wikipedia.org/wiki/Star-shaped_polygon) and can be solved by simple half-plane intersection, taking each edge of the polygon as a half-plane and then computing its intersection.
+در اینجا یک مسئله مرتبط و جالب‌تر وجود دارد که توسط آرتم واسیلیف در یکی از [سخنرانی‌های مدرسه تابستانی ICPC برزیل](https://youtu.be/WKyZSitpm6M?t=6463) ارائه شد:
+با داشتن مجموعه‌ای از نقاط $p_1, p_2, \dots, p_n$ در صفحه، تعیین کنید که آیا نقطه‌ای $q$ وجود دارد که بتوانید در آن بایستید و تمام نقاط $p$ را از چپ به راست به ترتیب صعودی اندیس آنها ببینید.
 
-Here's a related, more interesting problem that was presented by Artem Vasilyev in one of his [Brazilian ICPC Summer School lectures](https://youtu.be/WKyZSitpm6M?t=6463): 
-Given a set $p$ of points $p_1, p_2\ \dots \ p_n$ in the plane, determine if there's any point $q$ you can stand at such that you can see all the points of $p$ from left to right in increasing order of their index.
+چنین مسئله‌ای را می‌توان با توجه به این نکته حل کرد که دیدن یک نقطه $p_i$ در سمت چپ $p_j$ همان دیدن سمت راست پاره‌خط از $p_i$ به $p_j$ است (یا به طور معادل، دیدن سمت چپ پاره‌خط از $p_j$ به $p_i$). با در نظر گرفتن این موضوع، می‌توانیم به سادگی برای هر پاره‌خط $p_i p_{i+1}$ (یا $p_{i+1} p_i$ بسته به جهتی که انتخاب می‌کنید) یک نیم‌صفحه ایجاد کرده و بررسی کنیم که آیا اشتراک کل مجموعه تهی است یا خیر.
 
-Such problem can be solved by noticing that being able to see some point $p_i$ to the left of $p_j$ is the same as being able to see the right side of the line segment from $p_i$ to $p_j$ (or equivalently, being able to see the left side of the segment from $p_j$ to $p_i$). With that in mind, we can simply create a half-plane for every line segment $p_i p_{i+1}$ (or $p_{i+1} p_i$ depending on the orientation you choose) and check if the intersection of the whole set is empty or not.
+### اشتراک نیم‌صفحه با جستجوی دودویی
 
-### Half-plane intersection with binary search
+یک کاربرد رایج دیگر، استفاده از اشتراک نیم‌صفحه‌ها به عنوان ابزاری برای اعتبارسنجی گزاره یک رویه جستجوی دودویی (binary search) است. در اینجا نمونه‌ای از چنین مسئله‌ای، که توسط آرتم واسیلیف در همان سخنرانی که قبلاً ذکر شد ارائه شده است: با داشتن یک چندضلعی **محدب** $P$، بزرگترین دایره‌ای را که می‌توان در داخل آن محاط کرد، پیدا کنید.
 
-Another common application is utilizing half-plane intersection as a tool to validate the predicate of a binary search procedure. Here's an example of such a problem, also presented by Artem Vasilyev in the same lecture that was previously mentioned: Given a **convex** polygon $P$, find the biggest circumference that can be inscribed inside of it.
+به جای جستجوی نوعی راه‌حل فرم بسته، فرمول‌های آزاردهنده یا راه‌حل‌های الگوریتمی مبهم، بیایید سعی کنیم روی پاسخ، جستجوی دودویی انجام دهیم. توجه داشته باشید که برای یک $r$ ثابت، یک دایره با شعاع $r$ تنها در صورتی می‌تواند در داخل $P$ محاط شود که نقطه‌ای در داخل $P$ وجود داشته باشد که فاصله آن از تمام نقاط مرزی $P$ بزرگتر یا مساوی $r$ باشد. این شرط را می‌توان با "کوچک کردن" چندضلعی به سمت داخل به اندازه فاصله $r$ و بررسی اینکه چندضلعی غیر تبهگن باقی می‌ماند (یا خود یک نقطه/پاره‌خط است) اعتبارسنجی کرد. چنین رویه‌ای را می‌توان با در نظر گرفتن نیم‌صفحه‌های اضلاع چندضلعی به ترتیب پادساعتگرد، انتقال هر یک از آنها به اندازه فاصله $r$ در جهت ناحیه‌ای که مجاز می‌دانند (یعنی عمود بر بردار جهت نیم‌صفحه) و بررسی تهی نبودن اشتراک، شبیه‌سازی کرد.
 
-Instead of looking for some sort of closed-form solution, annoying formulas or obscure algorithmic solutions, lets instead try to binary search on the answer. Notice that, for some fixed $r$, a circle with radius $r$ can be inscribed inside $P$ only if there exists some point inside $P$ that has distance greater or equal than $r$ to all the points of the boundary of $P$. This condition can be validated by "shrinking" the polygon inwards by a distance of $r$ and checking that the polygon remains non-degenerate (or is a point/segment itself). Such procedure can be simulated by taking the half-planes of the polygon sides in counter-clockwise order, translating each of them by a distance of $r$ in the direction of the region they allow (that is, orthogonal to the direction vector of the half-plane), and checking if the intersection is not empty.
+واضح است که اگر بتوانیم دایره‌ای با شعاع $r$ را محاط کنیم، می‌توانیم هر دایره دیگری با شعاع کوچکتر از $r$ را نیز محاط کنیم. بنابراین می‌توانیم یک جستجوی دودویی روی شعاع $r$ انجام دهیم و هر مرحله را با استفاده از اشتراک نیم‌صفحه‌ها اعتبارسنجی کنیم. همچنین، توجه داشته باشید که نیم‌صفحه‌های یک چندضلعی محدب از قبل بر اساس زاویه مرتب شده‌اند، بنابراین می‌توان از مرحله مرتب‌سازی در الگوریتم صرف‌نظر کرد. بنابراین به پیچیدگی زمانی کل $O(NK)$ می‌رسیم، که در آن $N$ تعداد رئوس چندضلعی و $K$ تعداد تکرارهای جستجوی دودویی است (مقدار واقعی به دامنه پاسخ‌های ممکن و دقت مورد نظر بستگی خواهد داشت).
 
-Clearly, if we can inscribe a circle of radius $r$, we can also inscribe any other circle of radius smaller than $r$. So we can perform a binary search on the radius $r$ and validate every step using half-plane intersection. Also, note that the half-planes of a convex polygon are already sorted by angle, so the sorting step can be skipped in the algorithm. Thus we obtain a total time complexity of $O(NK)$, where $N$ is the number of polygon vertices and $K$ is the number of iterations of the binary search (the actual value will depend on the range of possible answers and the desired precision).
+### برنامه‌ریزی خطی دو بعدی
 
-### Two-dimensional linear programming
+یک کاربرد دیگر اشتراک نیم‌صفحه‌ها، برنامه‌ریزی خطی در دو متغیر است. تمام قیود خطی برای دو متغیر را می‌توان به شکل $Ax + By + C \leq 0$ بیان کرد (عملگر نابرابری ممکن است متفاوت باشد). واضح است که اینها فقط نیم‌صفحه‌ها هستند، بنابراین بررسی وجود یک جواب ممکن برای مجموعه‌ای از قیود خطی را می‌توان با اشتراک نیم‌صفحه‌ها انجام داد. علاوه بر این، برای یک مجموعه معین از قیود خطی، می‌توان ناحیه جواب‌های ممکن را محاسبه کرد (یعنی اشتراک نیم‌صفحه‌ها) و سپس به چندین پرس‌وجو برای بیشینه‌سازی/کمینه‌سازی یک تابع خطی $f(x, y)$ تحت این قیود در $O(\log N)$ برای هر پرس‌وجو با استفاده از جستجوی دودویی پاسخ داد (بسیار شبیه به ترفند پوسته محدب).
 
-One more application of half-plane intersection is linear programming in two variables. All linear constraints for two variables can be expressed in the form of $Ax + By + C \leq 0$ (inequality comparator may vary). Clearly, these are just half-planes, so checking if a feasible solution exists for a set of linear constraints can be done with half-plane intersection. Additionally, for a given set of linear constraints, it is possible to compute the region of feasible solutions (i.e. the intersection of the half-planes) and then answer multiple queries of maximizing/minimizing some linear function $f(x, y)$ subject to the constraints in $O(\log N)$ per query using binary search (very similar to the convex hull trick).
+شایان ذکر است که یک الگوریتم تصادفی نسبتاً ساده نیز وجود دارد که می‌تواند بررسی کند آیا مجموعه‌ای از قیود خطی دارای جواب ممکن است یا خیر، و یک تابع خطی را تحت قیود داده شده بیشینه/کمینه کند. این الگوریتم تصادفی نیز به خوبی توسط آرتم واسیلیف در سخنرانی ذکر شده توضیح داده شده است. در اینجا چند منبع اضافی در مورد آن برای خواننده علاقه‌مند آورده شده است: [CG - Lecture 4, parts 4 and 5](https://youtu.be/5dfc355t2y4) و [وبلاگ Petr Mitrichev (که شامل راه‌حل سخت‌ترین مسئله در لیست مسائل تمرینی زیر است)](https://petr-mitrichev.blogspot.com/2016/07/a-half-plane-week.html).
 
-It is worth mentioning that there also exists a fairly simple randomized algorithm that can check whether a set of linear constraints has a feasible solution or not, and maximize/minimize some linear function subject to the given constraints. This randomized algorithm was also explained nicely by Artem Vasilyev in the lecture mentioned earlier. Here are some additional resources on it, should the reader be interested: [CG - Lecture 4, parts 4 and 5](https://youtu.be/5dfc355t2y4) and [Petr Mitrichev's blog (which includes the solution to the hardest problem in the practice problems list below)](https://petr-mitrichev.blogspot.com/2016/07/a-half-plane-week.html).
+## مسائل تمرینی
 
-## Practice problems
+### مسائل کلاسیک، کاربرد مستقیم
 
-### Classic problems, direct application
+*   [Codechef - انیمش تصمیم می‌گیرد ساکن شود (Animesh decides to settle down)](https://www.codechef.com/problems/CHN02)
+*   [POJ - چگونه منِ ریاضی‌دان در شگفتم که تو چیستی! (!How I mathematician Wonder What You Are)](http://poj.org/problem?id=3130)
+*   [POJ - تابلوی امتیازات چرخان (Rotating Scoreboard)](http://poj.org/problem?id=3335)
+*   [POJ - نظارت تصویری (Video Surveillance)](http://poj.org/problem?id=1474)
+*   [POJ - گالری هنر (Art Gallery)](http://poj.org/problem?id=1279)
+*   [POJ - کنسرت اویو (Uyuw's Concert)](http://poj.org/problem?id=2451)
 
-* [Codechef - Animesh decides to settle down](https://www.codechef.com/problems/CHN02)
-* [POJ - How I mathematician Wonder What You Are!](http://poj.org/problem?id=3130)
-* [POJ - Rotating Scoreboard](http://poj.org/problem?id=3335)
-* [POJ - Video Surveillance](http://poj.org/problem?id=1474)
-* [POJ - Art Gallery](http://poj.org/problem?id=1279)
-* [POJ - Uyuw's Concert](http://poj.org/problem?id=2451)
+### مسائل دشوارتر
 
-### Harder problems
+*   [POJ - دورترین نقطه از دریا (Most Distant Point from the Sea) - متوسط](http://poj.org/problem?id=3525)
+*   [Baekjoon - جزیره ججو (Jeju's Island) - مشابه بالایی اما با تست‌کیس‌های ظاهراً قوی‌تر](https://www.acmicpc.net/problem/3903)
+*   [POJ - فنگ شویی (Feng Shui) - متوسط](http://poj.org/problem?id=3384)
+*   [POJ - سه‌گانه (Triathlon) - متوسط/سخت](http://poj.org/problem?id=1755)
+*   [DMOJ - پیکان (Arrow) - متوسط/سخت](https://dmoj.ca/problem/ccoprep3p3)
+*   [POJ - پاسگاه جنگلی (Jungle Outpost) - سخت](http://poj.org/problem?id=3968)
+*   [Codeforces - پاسگاه جنگلی (Jungle Outpost) (لینک جایگزین، مسئله J) - سخت](https://codeforces.com/gym/101309/attachments?mobile=false)
+*   [Yandex - مقدار عدم تقارن (Asymmetry Value) (برای مشاهده نیاز به مسابقه مجازی است، مسئله F) - بسیار سخت](https://contest.yandex.com/contest/2540/enter/)
 
-* [POJ - Most Distant Point from the Sea - Medium](http://poj.org/problem?id=3525)
-* [Baekjoon - Jeju's Island - Same as above but seemingly stronger test cases](https://www.acmicpc.net/problem/3903)
-* [POJ - Feng Shui - Medium](http://poj.org/problem?id=3384)
-* [POJ - Triathlon - Medium/hard](http://poj.org/problem?id=1755)
-* [DMOJ - Arrow - Medium/hard](https://dmoj.ca/problem/ccoprep3p3)
-* [POJ - Jungle Outpost - Hard](http://poj.org/problem?id=3968)
-* [Codeforces - Jungle Outpost (alternative link, problem J) - Hard](https://codeforces.com/gym/101309/attachments?mobile=false) 
-* [Yandex - Asymmetry Value (need virtual contest to see, problem F) - Very Hard](https://contest.yandex.com/contest/2540/enter/)
+### مسائل اضافی
 
-### Additional problems
+*   چهلمین کمپ برنامه‌نویسی پتروزاودسک، زمستان ۲۰۲۱ - روز ۱: مسابقه دانشگاه یاگیلونیا، جایزه بزرگ کراکوف - مسئله B: (تقریباً) برش عادلانه کیک. در زمان نگارش این مقاله، این مسئله خصوصی بود و فقط برای شرکت‌کنندگان کمپ برنامه‌نویسی قابل دسترسی بود.
 
-* 40th Petrozavodsk Programming Camp, Winter 2021 - Day 1: Jagiellonian U Contest, Grand Prix of Krakow - Problem B: (Almost) Fair Cake-Cutting. At the time of writing the article, this problem was private and only accessible by participants of the Programming Camp.
+## منابع، کتاب‌شناسی و دیگر مآخذ
 
-## References, bibliography and other sources
+### منابع اصلی
 
-### Main sources
+*   [الگوریتم جدید برای اشتراک نیم‌صفحه‌ها و ارزش عملی آن. (New Algorithm for Half-plane Intersection and its Practical Value)](http://people.csail.mit.edu/zeyuan/publications.htm) مقاله اصلی الگوریتم.
+*   [سخنرانی آرتم واسیلیف در مدرسه تابستانی ICPC برزیل ۲۰۲۰.](https://youtu.be/WKyZSitpm6M?t=6463) سخنرانی فوق‌العاده در مورد اشتراک نیم‌صفحه‌ها. موضوعات هندسی دیگر را نیز پوشش می‌دهد.
 
-* [New Algorithm for Half-plane Intersection and its Practical Value.](http://people.csail.mit.edu/zeyuan/publications.htm) Original paper of the algorithm.
-* [Artem Vasilyev's Brazilian ICPC Summer School 2020 lecture.](https://youtu.be/WKyZSitpm6M?t=6463) Amazing lecture on half-plane intersection. Also covers other geometry topics.
+### وبلاگ‌های خوب (چینی)
 
-### Good blogs (Chinese)
+*   [مبانی هندسه محاسباتی - اشتراک نیم‌صفحه‌ها. (Fundamentals of Computational Geometry - Intersection of Half-planes)](https://zhuanlan.zhihu.com/p/83499723)
+*   [معرفی دقیق الگوریتم اشتراک نیم‌صفحه‌ها. (Detailed introduction to the half-plane intersection algorithm)](https://blog.csdn.net/qq_40861916/article/details/83541403)
+*   [خلاصه مسائل اشتراک نیم‌صفحه‌ها. (Summary of Half-plane intersection problems)](https://blog.csdn.net/qq_40482358/article/details/87921815)
+*   [روش افزایشی مرتب‌سازی اشتراک نیم‌صفحه‌ها. (Sorting incremental method of half-plane intersection)](https://blog.csdn.net/u012061345/article/details/23872929)
 
-* [Fundamentals of Computational Geometry - Intersection of Half-planes.](https://zhuanlan.zhihu.com/p/83499723)
-* [Detailed introduction to the half-plane intersection algorithm.](https://blog.csdn.net/qq_40861916/article/details/83541403)
-* [Summary of Half-plane intersection problems.](https://blog.csdn.net/qq_40482358/article/details/87921815)
-* [Sorting incremental method of half-plane intersection.](https://blog.csdn.net/u012061345/article/details/23872929)
+### الگوریتم تصادفی
 
-### Randomized algorithm
-
-* [Linear Programming and Half-Plane intersection - Parts 4 and 5.](https://youtu.be/5dfc355t2y4)
-* [Petr Mitrichev's Blog: A half-plane week.](https://petr-mitrichev.blogspot.com/2016/07/a-half-plane-week.html)
+*   [برنامه‌ریزی خطی و اشتراک نیم‌صفحه‌ها - بخش‌های ۴ و ۵. (Linear Programming and Half-Plane intersection - Parts 4 and 5)](https://youtu.be/5dfc355t2y4)
+*   [وبلاگ Petr Mitrichev: یک هفته با نیم‌صفحه‌ها. (Petr Mitrichev's Blog: A half-plane week)](https://petr-mitrichev.blogspot.com/2016/07/a-half-plane-week.html)

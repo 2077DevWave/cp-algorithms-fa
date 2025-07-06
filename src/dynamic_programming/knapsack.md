@@ -1,50 +1,49 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: knapsack
 ---
 
-# Knapsack Problem
-Prerequisite knowledge: [Introduction to Dynamic Programming](https://cp-algorithms.com/dynamic_programming/intro-to-dp.html)
+# مسئله کوله‌پشتی
+پیش‌نیاز: [مقدمه‌ای بر برنامه‌نویسی پویا](https://cp-algorithms.com/dynamic_programming/intro-to-dp.html)
 
-## Introduction
-Consider the following example:
+## مقدمه
+مثال زیر را در نظر بگیرید:
 
-### [[USACO07 Dec] Charm Bracelet](https://www.acmicpc.net/problem/6144) 
-There are $n$ distinct items and a knapsack of capacity $W$. Each item has 2 attributes, weight ($w_{i}$) and value ($v_{i}$). 
-You have to select a subset of items to put into the knapsack such that the total weight does not exceed the capacity $W$ and the total value is maximized.
+### [[USACO07 Dec] Charm Bracelet](https://www.acmicpc.net/problem/6144)
+$n$ آیتم مجزا و یک کوله‌پشتی با ظرفیت $W$ وجود دارد. هر آیتم ۲ ویژگی دارد: وزن ($w_{i}$) و ارزش ($v_{i}$).
+شما باید زیرمجموعه‌ای از آیتم‌ها را برای قرار دادن در کوله‌پشتی انتخاب کنید به طوری که وزن کل از ظرفیت $W$ بیشتر نشود و ارزش کل بیشینه گردد.
 
-In the example above, each object has only two possible states (taken or not taken),
-corresponding to binary 0 and 1. Thus, this type of problem is called "0-1 knapsack problem".
+در مثال بالا، هر آیتم تنها دو حالت ممکن دارد (برداشته شود یا نشود)، که متناظر با مقادیر باینری ۰ و ۱ است. به همین دلیل، این نوع مسئله «مسئله کوله‌پشتی ۰-۱» نامیده می‌شود.
 
-## 0-1 Knapsack
+## کوله‌پشتی ۰-۱
 
-### Explanation
+### توضیح
 
-In the example above, the input to the problem is the following: the weight of $i^{th}$ item $w_{i}$, the value of $i^{th}$ item $v_{i}$, and the total capacity of the knapsack $W$.
+در مثال بالا، ورودی‌های مسئله به شرح زیر است: وزن آیتم $i$-ام $w_{i}$، ارزش آیتم $i$-ام $v_{i}$ و ظرفیت کل کوله‌پشتی $W$.
 
-Let $f_{i, j}$ be the dynamic programming state holding the maximum total value the knapsack can carry with capacity $j$, when only the first $i$ items are considered.
+فرض کنید $f_{i, j}$ حالت برنامه‌نویسی پویا باشد که نشان‌دهنده بیشترین ارزش کلی است که کوله‌پشتی با ظرفیت $j$ می‌تواند حمل کند، در حالی که تنها $i$ آیتم اول در نظر گرفته شده‌اند.
 
-Assuming that all states of the first $i-1$ items have been processed, what are the options for the $i^{th}$ item?
+با فرض اینکه تمام حالت‌های مربوط به $i-1$ آیتم اول پردازش شده‌اند، برای آیتم $i$-ام چه گزینه‌هایی وجود دارد؟
 
-- When it is not put into the knapsack, the remaining capacity remains unchanged and total value does not change. Therefore, the maximum value in this case is $f_{i-1, j}$
-- When it is put into the knapsack, the remaining capacity decreases by $w_{i}$ and the total value increases by $v_{i}$,
-so the maximum value in this case is $f_{i-1, j-w_i} + v_i$
+- وقتی در کوله‌پشتی قرار داده نمی‌شود، ظرفیت باقیمانده بدون تغییر باقی می‌ماند و ارزش کل نیز تغییر نمی‌کند. بنابراین، بیشترین ارزش در این حالت $f_{i-1, j}$ است.
+- وقتی در کوله‌پشتی قرار داده می‌شود، ظرفیت باقیمانده به اندازه $w_{i}$ کاهش و ارزش کل به اندازه $v_{i}$ افزایش می‌یابد، بنابراین بیشترین ارزش در این حالت $f_{i-1, j-w_i} + v_i$ است.
 
-From this we can derive the dp transition equation:
+از این رو می‌توانیم معادله انتقال DP را استخراج کنیم:
 
 $$f_{i, j} = \max(f_{i-1, j}, f_{i-1, j-w_i} + v_i)$$
 
-Further, as $f_{i}$ is only dependent on $f_{i-1}$, we can remove the first dimension. We obtain the transition rule
+علاوه بر این، از آنجا که $f_{i}$ تنها به $f_{i-1}$ وابسته است، می‌توانیم بعد اول را حذف کنیم. به این ترتیب به رابطه انتقال زیر می‌رسیم:
 
 $$f_j \gets \max(f_j, f_{j-w_i}+v_i)$$
 
-that should be executed in the **decreasing** order of $j$ (so that $f_{j-w_i}$ implicitly corresponds to $f_{i-1,j-w_i}$ and not $f_{i,j-w_i}$).
+که باید به ترتیب **نزولی** $j$ اجرا شود (تا $f_{j-w_i}$ به طور ضمنی به $f_{i-1,j-w_i}$ اشاره کند و نه $f_{i,j-w_i}$).
 
-**It is important to understand this transition rule, because most of the transitions for knapsack problems are derived in a similar way.**
+**درک این رابطه انتقال بسیار مهم است، زیرا اکثر روابط انتقال برای مسائل کوله‌پشتی به روشی مشابه استخراج می‌شوند.**
 
-### Implementation
+### پیاده‌سازی
 
-The algorithm described can be implemented in $O(nW)$ as:
+الگوریتم توصیف‌شده را می‌توان با پیچیدگی زمانی $O(nW)$ به صورت زیر پیاده‌سازی کرد:
 
 ```.c++
 for (int i = 1; i <= n; i++)
@@ -52,37 +51,37 @@ for (int i = 1; i <= n; i++)
     f[j] = max(f[j], f[j - w[i]] + v[i]);
 ```
 
-Again, note the order of execution. It should be strictly followed to ensure the following invariant: Right before the pair $(i, j)$ is processed, $f_k$ corresponds to $f_{i,k}$ for $k > j$, but to $f_{i-1,k}$ for $k < j$. This ensures that $f_{j-w_i}$ is taken from the $(i-1)$-th step, rather than from the $i$-th one.
+مجدداً به ترتیب اجرا توجه کنید. این ترتیب باید به دقت رعایت شود تا این شرط ثابت تضمین گردد: درست قبل از پردازش زوج $(i, j)$، مقدار $f_k$ برای $k > j$ متناظر با $f_{i,k}$ است، اما برای $k < j$ متناظر با $f_{i-1,k}$ است. این امر تضمین می‌کند که مقدار $f_{j-w_i}$ از مرحله $(i-1)$-ام گرفته می‌شود، نه از مرحله $i$-ام.
 
-## Complete Knapsack
+## کوله‌پشتی کامل
 
-The complete knapsack model is similar to the 0-1 knapsack, the only difference from the 0-1 knapsack is that an item can be selected an unlimited number of times instead of only once.
+مدل کوله‌پشتی کامل شبیه به کوله‌پشتی ۰-۱ است، با این تفاوت که در اینجا هر آیتم می‌تواند به تعداد نامحدود انتخاب شود، نه فقط یک بار.
 
-We can refer to the idea of 0-1 knapsack to define the state: $f_{i, j}$, the maximum value the knapsack can obtain using the first $i$ items with maximum capacity $j$.
+می‌توانیم با الهام از ایده کوله‌پشتی ۰-۱، حالت را تعریف کنیم: $f_{i, j}$، بیشترین ارزشی که کوله‌پشتی با ظرفیت حداکثر $j$ می‌تواند با استفاده از $i$ آیتم اول به دست آورد.
 
-It should be noted that although the state definition is similar to that of a 0-1 knapsack, its transition rule is different from that of a 0-1 knapsack.
+باید توجه داشت که اگرچه تعریف حالت مشابه کوله‌پشتی ۰-۱ است، اما رابطه انتقال آن با کوله‌پشتی ۰-۱ متفاوت است.
 
-### Explanation
+### توضیح
 
-The trivial approach is, for the first $i$ items, enumerate how many times each item is to be taken. The time complexity of this is $O(n^2W)$.
+رویکرد ساده این است که برای $i$ آیتم اول، تعداد دفعات برداشتن هر آیتم را شمارش کنیم. پیچیدگی زمانی این روش $O(n^2W)$ است.
 
-This yields the following transition equation:
+این روش به معادله انتقال زیر منجر می‌شود:
 
 $$f_{i, j} = \max\limits_{k=0}^{\infty}(f_{i-1, j-k\cdot w_i} + k\cdot v_i)$$
 
-At the same time, it simplifies into a "flat" equation:
+همزمان، این رابطه به یک معادله «مسطح» ساده‌تر تبدیل می‌شود:
 
 $$f_{i, j} = \max(f_{i-1, j},f_{i, j-w_i} + v_i)$$
 
-The reason this works is that $f_{i, j-w_i}$ has already been updated by $f_{i, j-2\cdot w_i}$ and so on.
+دلیل کارکرد این رابطه این است که $f_{i, j-w_i}$ خود قبلاً توسط $f_{i, j-2\cdot w_i}$ و به همین ترتیب به‌روزرسانی شده است.
 
-Similar to the 0-1 knapsack, we can remove the first dimension to optimize the space complexity. This gives us the same transition rule as 0-1 knapsack.
+مشابه کوله‌پشتی ۰-۱، می‌توانیم برای بهینه‌سازی پیچیدگی فضا، بعد اول را حذف کنیم. این کار همان رابطه انتقال کوله‌پشتی ۰-۱ را به ما می‌دهد.
 
 $$f_j \gets \max(f_j, f_{j-w_i}+v_i)$$
 
-### Implementation
+### پیاده‌سازی
 
-The algorithm described can be implemented in $O(nW)$ as:
+الگوریتم توصیف‌شده را می‌توان با پیچیدگی زمانی $O(nW)$ به صورت زیر پیاده‌سازی کرد:
 
 ```.c++
 for (int i = 1; i <= n; i++)
@@ -90,39 +89,37 @@ for (int i = 1; i <= n; i++)
     f[j] = max(f[j], f[j - w[i]] + v[i]);
 ```
 
-Despite having the same transition rule, the code above is incorrect for 0-1 knapsack.
+با وجود داشتن رابطه انتقال یکسان، کد بالا برای کوله‌پشتی ۰-۱ نادرست است.
 
-Observing the code carefully, we see that for the currently processed item $i$ and the current state $f_{i,j}$, 
-when $j\geqslant w_{i}$, $f_{i,j}$ will be affected by $f_{i,j-w_{i}}$. 
-This is equivalent to being able to put item $i$ into the backpack multiple times, which is consistent with the complete knapsack problem and not the 0-1 knapsack problem.
+با مشاهده دقیق کد، می‌بینیم که برای آیتم $i$ که در حال پردازش است و حالت فعلی $f_{i,j}$، زمانی که $j\geqslant w_{i}$ باشد، $f_{i,j}$ تحت تأثیر $f_{i,j-w_{i}}$ قرار می‌گیرد. این معادل آن است که بتوانیم آیتم $i$ را چندین بار در کوله‌پشتی قرار دهیم، که با مسئله کوله‌پشتی کامل سازگار است و نه با مسئله کوله‌پشتی ۰-۱.
 
-## Multiple Knapsack
+## کوله‌پشتی چندگانه
 
-Multiple knapsack is also a variant of 0-1 knapsack. The main difference is that there are $k_i$ of each item instead of just $1$.
+کوله‌پشتی چندگانه نیز نوعی از کوله‌پشتی ۰-۱ است. تفاوت اصلی این است که از هر آیتم، به جای ۱ عدد، $k_i$ عدد وجود دارد.
 
-### Explanation
+### توضیح
 
-A very simple idea is: "choose each item $k_i$ times" is equivalent to "$k_i$ of the same item is selected one by one". Thus converting it to a 0-1 knapsack model, which can be described by the transition function:
+یک ایده بسیار ساده این است: «انتخاب هر آیتم به تعداد $k_i$ بار» معادل است با «$k_i$ عدد از همان آیتم به صورت تک به تک انتخاب شوند». بدین ترتیب مسئله به مدل کوله‌پشتی ۰-۱ تبدیل می‌شود، که می‌توان آن را با تابع انتقال زیر توصیف کرد:
 
 $$f_{i, j} = \max_{k=0}^{k_i}(f_{i-1,j-k\cdot w_i} + k\cdot v_i)$$
 
-The time complexity of this process is $O(W\sum\limits_{i=1}^{n}k_i)$
+پیچیدگی زمانی این فرآیند $O(W\sum\limits_{i=1}^{n}k_i)$ است.
 
-### Binary Grouping Optimization
+### بهینه‌سازی با گروه‌بندی دودویی
 
-We still consider converting the multiple knapsack model into a 0-1 knapsack model for optimization. The time complexity $O(Wn)$ can not be further optimized with the approach above, so we focus on $O(\sum k_i)$ component.
+برای بهینه‌سازی، همچنان تبدیل مدل کوله‌پشتی چندگانه به مدل کوله‌پشتی ۰-۱ را در نظر می‌گیریم. پیچیدگی زمانی $O(Wn)$ را نمی‌توان با رویکرد بالا بیشتر بهینه کرد، بنابراین بر روی جزء $O(\sum k_i)$ تمرکز می‌کنیم.
 
-Let $A_{i, j}$ denote the $j^{th}$ item split from the $i^{th}$ item. In the trivial approach discussed above, $A_{i, j}$ represents the same item for all $j \leq k_i$. The main reason for our low efficiency is that we are doing a lot of repetetive work. For example, consider selecting $\{A_{i, 1},A_{i, 2}\}$, and selecting $\{A_{i, 2}, A_{i, 3}\}$. These two situations are completely equivalent. Thus optimizing the splitting method will greatly reduce the time complexity.
+فرض کنید $A_{i, j}$ نشان‌دهنده $j$-امین آیتم جدا شده از آیتم $i$-ام باشد. در رویکرد ساده‌ای که در بالا بحث شد، $A_{i, j}$ برای تمام $j \leq k_i$ نشان‌دهنده یک آیتم یکسان است. دلیل اصلی کارایی پایین ما این است که کارهای تکراری زیادی انجام می‌دهیم. برای مثال، انتخاب $\{A_{i, 1},A_{i, 2}\}$ و انتخاب $\{A_{i, 2}, A_{i, 3}\}$ را در نظر بگیرید. این دو وضعیت کاملاً معادل هستند. بنابراین، بهینه‌سازی روش تقسیم‌بندی، پیچیدگی زمانی را به شدت کاهش خواهد داد.
 
-The grouping is made more efficient by using binary grouping.
+با استفاده از گروه‌بندی دودویی، این فرآیند کارآمدتر می‌شود.
 
-Specifically, $A_{i, j}$ holds $2^j$ individual items ($j\in[0,\lfloor \log_2(k_i+1)\rfloor-1]$).If $k_i + 1$ is not an integer power of $2$, another bundle of size $k_i-(2^{\lfloor \log_2(k_i+1)\rfloor}-1)$ is used to make up for it.
+به طور خاص، $A_{i, j}$ شامل $2^j$ آیتم مجزا است ($j\in[0,\lfloor \log_2(k_i+1)\rfloor-1]$). اگر $k_i + 1$ یک توان صحیح از ۲ نباشد، یک بسته دیگر به اندازه $k_i-(2^{\lfloor \log_2(k_i+1)\rfloor}-1)$ برای جبران باقیمانده استفاده می‌شود.
 
-Through the above splitting method, it is possible to obtain any sum of $\leq k_i$ items by selecting a few $A_{i, j}$'s. After splitting each item in the described way, it is sufficient to use 0-1 knapsack method to solve the new formulation of the problem.
+از طریق روش تقسیم‌بندی بالا، می‌توان با انتخاب چند $A_{i, j}$، به هر ترکیبی با تعداد $\leq k_i$ آیتم دست یافت. پس از تقسیم هر آیتم به روش توصیف شده، کافی است از روش کوله‌پشتی ۰-۱ برای حل فرمول‌بندی جدید مسئله استفاده کنیم.
 
-This optimization gives us a time complexity of $O(W\sum\limits_{i=1}^{n}\log k_i)$.
+این بهینه‌سازی پیچیدگی زمانی $O(W\sum\limits_{i=1}^{n}\log k_i)$ را به ما می‌دهد.
 
-### Implementation
+### پیاده‌سازی
 
 ```c++
 index = 0;
@@ -140,40 +137,38 @@ for (int i = 1; i <= n; i++) {
 }
 ```
 
-### Monotone Queue Optimization
+### بهینه‌سازی با Monotone Queue
 
-In this optimization, we aim to convert the knapsack problem into a [maximum queue](https://cp-algorithms.com/data_structures/stack_queue_modification.html) one.
+در این بهینه‌سازی، هدف ما تبدیل مسئله کوله‌پشتی به یک مسئله [maximum queue](https://cp-algorithms.com/data_structures/stack_queue_modification.html) است.
 
-For convenience of description, let $g_{x, y} = f_{i, x \cdot w_i + y} ,\space g'_{x, y} = f_{i-1, x \cdot w_i + y}$. Then the transition rule can be written as:
+برای سهولت در توصیف، فرض کنید $g_{x, y} = f_{i, x \cdot w_i + y}$ و $g'_{x, y} = f_{i-1, x \cdot w_i + y}$ باشد. در این صورت، رابطه انتقال را می‌توان به صورت زیر نوشت:
 
 $$g_{x, y} = \max_{k=0}^{k_i}(g'_{x-k, y} + v_i \cdot k)$$
 
-Further, let $G_{x, y} = g'_{x, y} - v_i \cdot x$. Then the transition rule can be expressed as:
+علاوه بر این، فرض کنید $G_{x, y} = g'_{x, y} - v_i \cdot x$ باشد. در این صورت، رابطه انتقال را می‌توان به صورت زیر بیان کرد:
 
 $$g_{x, y} \gets \max_{k=0}^{k_i}(G_{x-k, y}) + v_i \cdot x$$
 
-This transforms into a classic monotone queue optimization form. $G_{x, y}$ can be calculated in $O(1)$, so for a fixed $y$, we can calculate $g_{x, y}$ in $O(\lfloor \frac{W}{w_i} \rfloor)$ time.
-Therefore, the complexity of finding all $g_{x, y}$ is $O(\lfloor \frac{W}{w_i} \rfloor) \times O(w_i) = O(W)$.
-In this way, the total complexity of the algorithm is reduced to $O(nW)$. 
+این رابطه به فرم کلاسیک بهینه‌سازی با `monotone queue` تبدیل می‌شود. مقدار $G_{x, y}$ را می‌توان در زمان $O(1)$ محاسبه کرد، بنابراین برای یک $y$ ثابت، می‌توانیم $g_{x, y}$ را در زمان $O(\lfloor \frac{W}{w_i} \rfloor)$ محاسبه کنیم. در نتیجه، پیچیدگی یافتن تمام مقادیر $g_{x, y}$ برابر $O(\lfloor \frac{W}{w_i} \rfloor) \times O(w_i) = O(W)$ است. به این ترتیب، پیچیدگی کل الگوریتم به $O(nW)$ کاهش می‌یابد.
 
-## Mixed Knapsack
+## کوله‌پشتی ترکیبی
 
-The mixed knapsack problem involves a combination of the three problems described above. That is, some items can only be taken once, some can be taken infinitely, and some can be taken atmost $k$ times.
+مسئله کوله‌پشتی ترکیبی شامل ترکیبی از سه مسئله توصیف‌شده در بالا است. یعنی، برخی آیتم‌ها فقط یک بار قابل برداشتن هستند، برخی به تعداد نامحدود و برخی دیگر حداکثر $k$ بار.
 
-The problem may seem daunting, but as long as you understand the core ideas of the previous knapsack problems and combine them together, you can do it. The pseudo code for the solution is as:
+این مسئله ممکن است در نگاه اول ترسناک به نظر برسد، اما تا زمانی که ایده‌های اصلی مسائل کوله‌پشتی قبلی را درک کرده و آن‌ها را با هم ترکیب کنید، می‌توانید آن را حل کنید. شبه‌کد راه‌حل به صورت زیر است:
 
 ```c++
-for (each item) {
-  if (0-1 knapsack)
-    Apply 0-1 knapsack code;
-  else if (complete knapsack)
-    Apply complete knapsack code;
-  else if (multiple knapsack)
-    Apply multiple knapsack code;
+for (هر آیتم) {
+  if (از نوع کوله‌پشتی ۰-۱ است)
+    کد کوله‌پشتی ۰-۱ را اعمال کن;
+  else if (از نوع کوله‌پشتی کامل است)
+    کد کوله‌پشتی کامل را اعمال کن;
+  else if (از نوع کوله‌پشتی چندگانه است)
+    کد کوله‌پشتی چندگانه را اعمال کن;
 }
 ```
 
-## Practise Problems
+## مسائل تمرینی
 
 - [Atcoder: Knapsack-1](https://atcoder.jp/contests/dp/tasks/dp_d)
 - [Atcoder: Knapsack-2](https://atcoder.jp/contests/dp/tasks/dp_e)

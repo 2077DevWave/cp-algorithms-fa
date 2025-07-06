@@ -1,57 +1,57 @@
 ---
 tags:
-  
-e_maxx_link: expressions_parsing
+  - AI Translated
+e_maxx_link: expression_parsing
 ---
 
-# Expression parsing
+# تجزیه عبارت
 
-A string containing a mathematical expression containing numbers and various operators is given.
-We have to compute the value of it in $O(n)$, where $n$ is the length of the string.
+رشته‌ای حاوی یک عبارت ریاضی شامل اعداد و عملگرهای مختلف داده شده است.
+باید مقدار آن را در زمان $O(n)$ محاسبه کنیم، که در آن $n$ طول رشته است.
 
-The algorithm discussed here translates an expression into the so-called **reverse Polish notation** (explicitly or implicitly), and evaluates this expression.
+الگوریتمی که در اینجا بحث می‌شود، یک عبارت را به اصطلاح به **نشانه گذاری لهستانی معکوس** (به صورت صریح یا ضمنی) ترجمه کرده و سپس این عبارت را ارزیابی می‌کند.
 
-## Reverse Polish notation
+## نشانه گذاری لهستانی معکوس
 
-The reverse Polish notation is a form of writing mathematical expressions, in which the operators are located after their operands.
-For example the following expression
+نشانه گذاری لهستانی معکوس، شکلی از نوشتن عبارات ریاضی است که در آن، عملگرها بعد از عملوندهای خود قرار می‌گیرند.
+برای مثال، عبارت زیر
 
 $$a + b * c * d + (e - f) * (g * h + i)$$
 
-can be written in reverse Polish notation in the following way:
+می‌تواند به صورت زیر در نشانه گذاری لهستانی معکوس نوشته شود:
 
 $$a b c * d * + e f - g h * i + * +$$
 
-The reverse Polish notation was developed by the Australian philosopher and computer science specialist Charles Hamblin in the mid 1950s on the basis of the Polish notation, which was proposed in 1920 by the Polish mathematician Jan Łukasiewicz.
+نشانه گذاری لهستانی معکوس توسط فیلسوف و متخصص علوم کامپیوتر استرالیایی، چارلز همبلین، در اواسط دهه ۱۹۵۰ بر اساس نشانه گذاری لهستانی توسعه یافت که در سال ۱۹۲۰ توسط ریاضیدان لهستانی، یان ووکاشویچ، پیشنهاد شده بود.
 
-The convenience of the reverse Polish notation is, that expressions in this form are very **easy to evaluate** in linear time.
-We use a stack, which is initially empty.
-We will iterate over the operands and operators of the expression in reverse Polish notation.
-If the current element is a number, then we put the value on top of the stack, if the current element is an operator, then we get the top two elements from the stack, perform the operation, and put the result back on top of the stack.
-In the end there will be exactly one element left in the stack, which will be the value of the expression.
+راحتی نشانه گذاری لهستانی معکوس در این است که عبارات در این شکل، بسیار **آسان ارزیابی** می‌شوند و این کار در زمان خطی انجام‌پذیر است.
+ما از یک پشته استفاده می‌کنیم که در ابتدا خالی است.
+ما روی عملوندها و عملگرهای عبارت در نشانه گذاری لهستانی معکوس پیمایش می‌کنیم.
+اگر عنصر فعلی یک عدد باشد، مقدار آن را بالای پشته قرار می‌دهیم. اگر عنصر فعلی یک عملگر باشد، دو عنصر بالای پشته را برداشته، عملیات را انجام می‌دهیم و نتیجه را دوباره به بالای پشته برمی‌گردانیم.
+در پایان، دقیقاً یک عنصر در پشته باقی می‌ماند که همان مقدار عبارت خواهد بود.
 
-Obviously this simple evaluation runs in $O(n)$ time.
+بدیهی است که این ارزیابی ساده در زمان $O(n)$ اجرا می‌شود.
 
-## Parsing of simple expressions
+## تجزیه عبارات ساده
 
-For the time being we only consider a simplified problem:
-we assume that all operators are **binary** (i.e. they take two arguments), and all are **left-associative** (if the priorities are equal, they get executed from left to right).
-Parentheses are allowed.
+در حال حاضر ما فقط یک مسئله ساده شده را در نظر می‌گیریم:
+فرض می‌کنیم که همه عملگرها **دودویی** هستند (یعنی دو آرگومان می‌گیرند)، و همه **چپ-شرکت‌پذیر** هستند (اگر اولویت‌ها برابر باشند، از چپ به راست اجرا می‌شوند).
+استفاده از پرانتز مجاز است.
 
-We will set up two stacks: one for numbers, and one for operators and parentheses.
-Initially both stacks are empty.
-For the second stack we will maintain the condition that all operations are ordered by strict descending priority.
-If there are parenthesis on the stack, than each block of operators (corresponding to one pair of parenthesis) is ordered, and the entire stack is not necessarily ordered.
+ما دو پشته راه‌اندازی می‌کنیم: یکی برای اعداد، و دیگری برای عملگرها و پرانتزها.
+در ابتدا هر دو پشته خالی هستند.
+برای پشته دوم، این شرط را حفظ می‌کنیم که تمام عملیات‌ها بر اساس اولویت اکیداً نزولی مرتب شده باشند.
+اگر پرانتزی روی پشته باشد، آنگاه هر بلوک از عملگرها (متناظر با یک جفت پرانتز) مرتب است، اما کل پشته لزوماً مرتب نیست.
 
-We will iterate over the characters of the expression from left to right.
-If the current character is a digit, then we put the value of this number on the stack.
-If the current character is an opening parenthesis, then we put it on the stack.
-If the current character is a closing parenthesis, the we execute all operators on the stack until we reach the opening bracket (in other words we perform all operations inside the parenthesis).
-Finally if the current character is an operator, then while the top of the stack has an operator with the same or higher priority, we will execute this operation, and put the new operation on the stack.
+ما روی کاراکترهای عبارت از چپ به راست پیمایش می‌کنیم.
+اگر کاراکتر فعلی یک رقم باشد، مقدار این عدد را روی پشته قرار می‌دهیم.
+اگر کاراکتر فعلی یک پرانتز باز باشد، آن را روی پشته قرار می‌دهیم.
+اگر کاراکتر فعلی یک پرانتز بسته باشد، تمام عملگرهای روی پشته را تا رسیدن به پرانتز باز اجرا می‌کنیم (به عبارت دیگر، تمام عملیات داخل پرانتز را انجام می‌دهیم).
+در نهایت، اگر کاراکتر فعلی یک عملگر باشد، تا زمانی که بالای پشته عملگری با اولویت برابر یا بالاتر داشته باشد، آن عملیات را اجرا کرده و سپس عملگر جدید را روی پشته قرار می‌دهیم.
 
-After we processed the entire string, some operators might still be in the stack, so we execute them.
+پس از پردازش کل رشته، ممکن است هنوز برخی عملگرها در پشته باقی مانده باشند، بنابراین آنها را اجرا می‌کنیم.
 
-Here is the implementation of this method for the four operators $+$ $-$ $*$ $/$:
+در اینجا پیاده‌سازی این روش برای چهار عملگر $+$ $-$ $*$ $/$ آمده است:
 
 ```{.cpp file=expression_parsing_simple}
 bool delim(char c) {
@@ -120,50 +120,50 @@ int evaluate(string& s) {
 }
 ```
 
-Thus we learned how to calculate the value of an expression in $O(n)$, at the same time we implicitly used the reverse Polish notation.
-By slightly modifying the above implementation it is also possible to obtain the expression in reverse Polish notation in an explicit form.
+بنابراین یاد گرفتیم چگونه مقدار یک عبارت را در زمان $O(n)$ محاسبه کنیم و همزمان به طور ضمنی از نشانه گذاری لهستانی معکوس استفاده کردیم.
+با اندکی تغییر در پیاده‌سازی بالا، می‌توان عبارت را به شکل صریح در نشانه گذاری لهستانی معکوس نیز به دست آورد.
 
-## Unary operators
+## عملگرهای یگانی
 
-Now suppose that the expression also contains **unary** operators (operators that take one argument).
-The unary plus and unary minus are common examples of such operators.
+حالا فرض کنید که عبارت حاوی عملگرهای **یگانی** نیز باشد (عملگرهایی که یک آرگومان می‌گیرند).
+مثبت یگانی و منفی یگانی نمونه‌های رایجی از این نوع عملگرها هستند.
 
-One of the differences in this case, is that we need to determine whether the current operator is a unary or a binary one.
+یکی از تفاوت‌ها در این حالت این است که باید تشخیص دهیم آیا عملگر فعلی یگانی است یا دودویی.
 
-You can notice, that before an unary operator, there always is another operator or an opening parenthesis, or nothing at all (if it is at the very beginning of the expression).
-On the contrary before a binary operator there will always be an operand (number) or a closing parenthesis.
-Thus it is easy to flag whether the next operator can be unary or not. 
+می‌توانید توجه کنید که قبل از یک عملگر یگانی، همیشه یک عملگر دیگر یا یک پرانتز باز، یا هیچ چیز (اگر در ابتدای عبارت باشد) وجود دارد.
+برعکس، قبل از یک عملگر دودویی، همیشه یک عملوند (عدد) یا یک پرانتز بسته وجود خواهد داشت.
+بنابراین، به راحتی می‌توان تشخیص داد که آیا عملگر بعدی می‌تواند یگانی باشد یا نه.
 
-Additionally we need to execute a unary and a binary operator differently.
-And we need to chose the priority of a unary operator higher than all of the binary operators.
+علاوه بر این، باید یک عملگر یگانی و یک عملگر دودویی را به طور متفاوتی اجرا کنیم.
+و باید اولویت یک عملگر یگانی را بالاتر از تمام عملگرهای دودویی انتخاب کنیم.
 
-In addition it should be noted, that some unary operators (e.g. unary plus and unary minus) are actually **right-associative**.
+همچنین باید توجه داشت که برخی از عملگرهای یگانی (مانند مثبت یگانی و منفی یگانی) در واقع **راست-شرکت‌پذیر** هستند.
 
-## Right-associativity
+## راست-شرکت‌پذیری
 
-Right-associative means, that whenever the priorities are equal, the operators must be evaluated from right to left.
+راست-شرکت‌پذیری به این معناست که هرگاه اولویت‌ها برابر باشند، عملگرها باید از راست به چپ ارزیابی شوند.
 
-As noted above, unary operators are usually right-associative.
-Another example for an right-associative operator is the exponentiation operator ($a \wedge b \wedge c$ is usually perceived as $a^{b^c}$ and not as $(a^b)^c$).
+همانطور که در بالا ذکر شد، عملگرهای یگانی معمولاً راست-شرکت‌پذیر هستند.
+مثال دیگر برای یک عملگر راست-شرکت‌پذیر، عملگر توان است ($a \wedge b \wedge c$ معمولاً به صورت $a^{b^c}$ درک می‌شود و نه به صورت $(a^b)^c$).
 
-What difference do we need to make in order to correctly handle right-associative operators?
-It turns out that the changes are very minimal.
-The only difference will be, if the priorities are equal we will postpone the execution of the right-associative operation.
+چه تغییری باید ایجاد کنیم تا عملگرهای راست-شرکت‌پذیر را به درستی مدیریت کنیم؟
+معلوم می‌شود که تغییرات بسیار جزئی هستند.
+تنها تفاوت این خواهد بود که اگر اولویت‌ها برابر باشند، اجرای عملیات راست-شرکت‌پذیر را به تعویق می‌اندازیم.
 
-The only line that needs to be replaced is
+تنها خطی که باید جایگزین شود این است:
 ```cpp
 while (!op.empty() && priority(op.top()) >= priority(cur_op))
 ```
-with
+با
 ```cpp
 while (!op.empty() && (
         (left_assoc(cur_op) && priority(op.top()) >= priority(cur_op)) ||
         (!left_assoc(cur_op) && priority(op.top()) > priority(cur_op))
     ))
 ```
-where `left_assoc` is a function that decides if an operator is left_associative or not.
+که در آن `left_assoc` تابعی است که تصمیم می‌گیرد آیا یک عملگر چپ-شرکت‌پذیر است یا خیر.
 
-Here is an implementation for the binary operators $+$ $-$ $*$ $/$ and the unary  operators $+$ and $-$.
+در اینجا یک پیاده‌سازی برای عملگرهای دودویی $+$ $-$ $*$ $/$ و عملگرهای یگانی $+$ و $-$ آمده است.
 
 ```{.cpp file=expression_parsing_unary}
 bool delim(char c) {
@@ -255,4 +255,3 @@ int evaluate(string& s) {
     return st.top();
 }
 ```
-

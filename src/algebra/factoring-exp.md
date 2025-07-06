@@ -1,42 +1,43 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: factoring-exp
 ---
 
-# Binary Exponentiation by Factoring
+# توان رسانی دودویی از طریق تجزیه
 
-Consider a problem of computing $ax^y \pmod{2^d}$, given integers $a$, $x$, $y$ and $d \geq 3$, where $x$ is odd.
+مسئله محاسبه $ax^y \pmod{2^d}$ را به ازای اعداد صحیح $a$، $x$، $y$ و $d \geq 3$ در نظر بگیرید، که در آن $x$ فرد است.
 
-The algorithm below allows to solve this problem with $O(d)$ additions and binary operations and a single multiplication by $y$.
+الگوریتم زیر امکان حل این مسئله را با $O(d)$ عمل جمع و عملیات دودویی و تنها یک عمل ضرب در $y$ فراهم می‌کند.
 
-Due to the structure of the multiplicative group modulo $2^d$, any number $x$ such that $x \equiv 1 \pmod 4$ can be represented as
+به دلیل ساختار گروه ضربی به پیمانه $2^d$، هر عدد $x$ که در شرط $x \equiv 1 \pmod 4$ صدق کند، می‌تواند به صورت زیر نمایش داده شود:
 
 $$
 x \equiv b^{L(x)} \pmod{2^d},
 $$
 
-where $b \equiv 5 \pmod 8$. Without loss of generality we assume that $x \equiv 1 \pmod 4$, as we can reduce $x \equiv 3 \pmod 4$ to $x \equiv 1 \pmod 4$ by substituting $x \mapsto -x$ and $a \mapsto (-1)^{y} a$. In this notion, $ax^y$ is represented as
+که در آن $b \equiv 5 \pmod 8$ است. بدون از دست دادن کلیت مسئله، فرض می‌کنیم که $x \equiv 1 \pmod 4$ است، زیرا می‌توانیم حالت $x \equiv 3 \pmod 4$ را با جایگزینی $x \mapsto -x$ و $a \mapsto (-1)^{y} a$ به حالت $x \equiv 1 \pmod 4$ کاهش دهیم. با این تعریف، $ax^y$ به صورت زیر نمایش داده می‌شود:
 
 $$
 a x^y \equiv a b^{yL(x)} \pmod{2^d}.
 $$
 
-The core idea of the algorithm is to simplify the computation of $L(x)$ and $b^{y L(x)}$ using the fact that we're working modulo $2^d$. For reasons that will be apparent later on, we'll be working with $4L(x)$ rather than $L(x)$, but taken modulo $2^d$ instead of $2^{d-2}$.
+ایده اصلی الگوریتم، ساده‌سازی محاسبه $L(x)$ و $b^{y L(x)}$ با استفاده از این واقعیت است که ما در پیمانه $2^d$ کار می‌کنیم. به دلایلی که بعداً مشخص خواهد شد، ما به جای $L(x)$ با $4L(x)$ کار خواهیم کرد، اما این مقدار به پیمانه $2^d$ به جای $2^{d-2}$ گرفته می‌شود.
 
-In this article, we will cover the implementation for $32$-bit integers. Let
+در این مقاله، پیاده‌سازی برای اعداد صحیح $32$ بیتی را بررسی می‌کنیم. فرض کنید:
 
-* `mbin_log_32(r, x)` be a function that computes $r+4L(x) \pmod{2^d}$;
-* `mbin_exp_32(r, x)` be a function that computes $r b^{\frac{x}{4}} \pmod{2^d}$;
-* `mbin_power_odd_32(a, x, y)` be a function that computes $ax^y \pmod{2^d}$.
+*   `mbin_log_32(r, x)` تابعی باشد که $r+4L(x) \pmod{2^d}$ را محاسبه می‌کند؛
+*   `mbin_exp_32(r, x)` تابعی باشد که $r b^{\frac{x}{4}} \pmod{2^d}$ را محاسبه می‌کند؛
+*   `mbin_power_odd_32(a, x, y)` تابعی باشد که $ax^y \pmod{2^d}$ را محاسبه می‌کند.
 
-Then `mbin_power_odd_32` is implemented as follows:
+در این صورت، `mbin_power_odd_32` به صورت زیر پیاده‌سازی می‌شود:
 
 ```cpp
 uint32_t mbin_power_odd_32(uint32_t rem, uint32_t base, uint32_t exp) {
     if (base & 2) {
-        /* divider is considered negative */
+        /* مقسوم علیه منفی در نظر گرفته می‌شود */
         base = -base;
-        /* check if result should be negative */
+        /* بررسی اینکه آیا نتیجه باید منفی باشد */
         if (exp & 1) {
             rem = -rem;
         }
@@ -45,23 +46,23 @@ uint32_t mbin_power_odd_32(uint32_t rem, uint32_t base, uint32_t exp) {
 }
 ```
 
-## Computing 4L(x) from x
+## محاسبه 4L(x) از روی x
 
-Let $x$ be an odd number such that $x \equiv 1 \pmod 4$. It can be represented as 
+فرض کنید $x$ یک عدد فرد باشد به طوری که $x \equiv 1 \pmod 4$. می‌توان آن را به صورت زیر نمایش داد:
 
 $$
 x \equiv (2^{a_1}+1)\dots(2^{a_k}+1) \pmod{2^d},
 $$
 
-where $1 < a_1 < \dots < a_k < d$. Here $L(\cdot)$ is well-defined for each multiplier, as they're equal to $1$ modulo $4$. Hence,
+که در آن $1 < a_1 < \dots < a_k < d$ است. در اینجا $L(\cdot)$ برای هر ضریب خوش‌تعریف است، زیرا همگی به پیمانه $4$ برابر با $1$ هستند. بنابراین،
 
 $$
 4L(x) \equiv 4L(2^{a_1}+1)+\dots+4L(2^{a_k}+1) \pmod{2^{d}}.
 $$
 
-So, if we precompute $t_k = 4L(2^n+1)$ for all $1 < k < d$, we will be able to compute $4L(x)$ for any number $x$.
+بنابراین، اگر ما $t_n = 4L(2^n+1)$ را برای تمام $n$هایی که در شرط $1 < n < d$ صدق می‌کنند از پیش محاسبه کنیم، قادر خواهیم بود $4L(x)$ را برای هر عدد $x$ محاسبه کنیم.
 
-For 32-bit integers, we can use the following table:
+برای اعداد صحیح ۳۲ بیتی، می‌توانیم از جدول زیر استفاده کنیم:
 
 ```cpp
 const uint32_t mbin_log_32_table[32] = {
@@ -76,15 +77,15 @@ const uint32_t mbin_log_32_table[32] = {
 };
 ```
 
-On practice, a slightly different approach is used than described above. Rather than finding the factorization for $x$, we will consequently multiply $x$ with $2^n+1$ until we turn it into $1$ modulo $2^d$. In this way, we will find the representation of $x^{-1}$, that is
+در عمل، رویکردی کمی متفاوت از آنچه در بالا توضیح داده شد استفاده می‌شود. به جای یافتن تجزیه برای $x$، ما به طور متوالی $x$ را در $2^n+1$ ضرب می‌کنیم تا زمانی که آن را به $1$ به پیمانه $2^d$ تبدیل کنیم. به این ترتیب، ما نمایش $x^{-1}$ را پیدا خواهیم کرد، یعنی:
 
 $$
 x (2^{a_1}+1)\dots(2^{a_k}+1) \equiv 1 \pmod {2^d}.
 $$
 
-To do this, we iterate over $n$ such that $1 < n < d$. If the current $x$ has $n$-th bit set, we multiply $x$ with $2^n+1$, which is conveniently done in C++ as `x = x + (x << n)`. This won't change bits lower than $n$, but will turn the $n$-th bit to zero, because $x$ is odd.
+برای انجام این کار، ما روی $n$ به طوری که $1 < n < d$ است، تکرار می‌کنیم. اگر بیت $n$-امِ $x$ فعلی یک باشد، ما $x$ را در $2^n+1$ ضرب می‌کنیم، که این کار در C++ به راحتی با `x = x + (x << n)` انجام می‌شود. این کار بیت‌های کمتر از $n$ را تغییر نمی‌دهد، اما بیت $n$-ام را صفر می‌کند، زیرا $x$ فرد است.
 
-With all this in mind, the function `mbin_log_32(r, x)` is implemented as follows:
+با در نظر گرفتن همه این موارد، تابع `mbin_log_32(r, x)` به صورت زیر پیاده‌سازی می‌شود:
 
 ```cpp
 uint32_t mbin_log_32(uint32_t r, uint32_t x) {
@@ -101,33 +102,33 @@ uint32_t mbin_log_32(uint32_t r, uint32_t x) {
 }
 ```
 
-Note that $4L(x) = -4L(x^{-1})$, so instead of adding $4L(2^n+1)$, we subtract it from $r$, which initially equates to $0$.
+توجه داشته باشید که $4L(x) = -4L(x^{-1})$، بنابراین به جای جمع کردن $4L(2^n+1)$، آن را از $r$ که در ابتدا برابر با $0$ است، کم می‌کنیم.
 
-## Computing x from 4L(x)
+## محاسبه x از روی 4L(x)
 
-Note that for $k \geq 1$ it holds that
+توجه داشته باشید که برای $k \geq 1$ رابطه زیر برقرار است:
 
 $$
 (a 2^{k}+1)^2 = a^2 2^{2k} +a 2^{k+1}+1 = b2^{k+1}+1,
 $$
 
-from which (by repeated squaring) we can deduce that
+که از آن (با به توان رساندن مکرر) می‌توان نتیجه گرفت که
 
 $$
 (2^a+1)^{2^b} \equiv 1 \pmod{2^{a+b}}.
 $$
 
-Applying this result to $a=2^n+1$ and $b=d-k$ we deduce that the multiplicative order of $2^n+1$ is a divisor of $2^{d-n}$.
+با اعمال این نتیجه، می‌توان نتیجه گرفت که مرتبه ضربی $2^n+1$ مقسوم‌علیهی از $2^{d-n}$ است.
 
-This, in turn, means that $L(2^n+1)$ must be divisible by $2^{n}$, as the order of $b$ is $2^{d-2}$ and the order of $b^y$ is $2^{d-2-v}$, where $2^v$ is the highest power of $2$ that divides $y$, so we need
+این به نوبه خود به این معناست که $L(2^n+1)$ باید بر $2^{n}$ بخش‌پذیر باشد، زیرا مرتبه $b$ برابر $2^{d-2}$ است و مرتبه $b^y$ برابر $2^{d-2-v}$ است، که در آن $2^v$ بزرگترین توان ۲ است که $y$ را عاد می‌کند، بنابراین لازم است که:
 
 $$
 2^{d-k} \equiv 0 \pmod{2^{d-2-v}},
 $$
 
-thus $v$ must be greater or equal than $k-2$. This is a bit ugly and to mitigate this we said in the beginning that we multiply $L(x)$ by $4$. Now if we know $4L(x)$, we can uniquely decomposing it into a sum of $4L(2^n+1)$ by consequentially checking bits in $4L(x)$. If the $n$-th bit is set to $1$, we will multiply the result with $2^n+1$ and reduce the current $4L(x)$ by $4L(2^n+1)$.
+بنابراین $v$ باید بزرگتر یا مساوی $k-2$ باشد. این موضوع کمی ناخوشایند است و برای رفع این مشکل، در ابتدا گفتیم که $L(x)$ را در $4$ ضرب می‌کنیم. اکنون اگر $4L(x)$ را بدانیم، می‌توانیم با بررسی متوالی بیت‌های آن، آن را به طور یکتا به مجموعی از جملات $4L(2^n+1)$ تجزیه کنیم. اگر بیت $n$-ام برابر $1$ باشد، نتیجه را در $2^n+1$ ضرب خواهیم کرد و $4L(x)$ فعلی را به اندازه $4L(2^n+1)$ کاهش می‌دهیم.
 
-Thus, `mbin_exp_32` is implemented as follows:
+بنابراین، `mbin_exp_32` به صورت زیر پیاده‌سازی می‌شود:
 
 ```cpp
 uint32_t mbin_exp_32(uint32_t r, uint32_t x) {
@@ -144,15 +145,15 @@ uint32_t mbin_exp_32(uint32_t r, uint32_t x) {
 }
 ```
 
-## Further optimizations
+## بهینه‌سازی‌های بیشتر
 
-It is possible to halve the number of iterations if you note that $4L(2^{d-1}+1)=2^{d-1}$ and that for $2k \geq d$ it holds that
+اگر توجه داشته باشید که $4L(2^{d-1}+1)=2^{d-1}$ و اینکه برای $2n \geq d$ رابطه زیر برقرار است، می‌توان تعداد تکرارها را به نصف کاهش داد:
 
 $$
 (2^n+1)^2 \equiv 2^{2n} + 2^{n+1}+1 \equiv 2^{n+1}+1 \pmod{2^d},
 $$
 
-which allows to deduce that $4L(2^n+1)=2^n$ for $2n \geq d$. So, you could simplify the algorithm by only going up to $\frac{d}{2}$ and then use the fact above to compute the remaining part with bitwise operations:
+که به ما اجازه می‌دهد نتیجه بگیریم که برای $2n \geq d$ رابطه $4L(2^n+1)=2^n$ برقرار است. بنابراین، می‌توانید الگوریتم را با اجرای حلقه تنها تا $\frac{d}{2}$ ساده کرده و سپس با استفاده از واقعیت فوق، بخش باقی‌مانده را با عملیات بیتی محاسبه کنید:
 
 ```cpp
 uint32_t mbin_log_32(uint32_t r, uint32_t x) {
@@ -186,32 +187,32 @@ uint32_t mbin_exp_32(uint32_t r, uint32_t x) {
 }
 ```
 
-## Computing logarithm table
+## محاسبه جدول لگاریتم
 
-To compute log-table, one could modify the [Pohlig–Hellman algorithm](https://en.wikipedia.org/wiki/Pohlig–Hellman_algorithm) for the case when modulo is a power of $2$.
+برای محاسبه جدول لگاریتم، می‌توان [الگوریتم Pohlig–Hellman](https://en.wikipedia.org/wiki/Pohlig–Hellman_algorithm) را برای حالتی که پیمانه توانی از ۲ است، تغییر داد.
 
-Our main task here is to compute $x$ such that $g^x \equiv y \pmod{2^d}$, where $g=5$ and $y$ is a number of kind $2^n+1$. 
+وظیفه اصلی ما در اینجا محاسبه $x$ به طوری است که $g^x \equiv y \pmod{2^d}$، که در آن $g=5$ و $y$ عددی از نوع $2^n+1$ است.
 
-Squaring both parts $k$ times we arrive to
+با $k$ بار به توان دو رساندن طرفین، به رابطه زیر می‌رسیم:
 
 $$
 g^{2^k x} \equiv y^{2^k} \pmod{2^d}.
 $$
 
-Note that the order of $g$ is not greater than $2^{d}$ (in fact, than $2^{d-2}$, but we will stick to $2^d$ for convenience), hence using $k=d-1$ we will have either $g^1$ or $g^0$ on the left hand side which allows us to determine the smallest bit of $x$ by comparing $y^{2^k}$ to $g$. Now assume that $x=x_0 + 2^k x_1$, where $x_0$ is a known part and $x_1$ is not yet known. Then
+توجه داشته باشید که مرتبه $g$ بزرگتر از $2^d$ نیست (در واقع، بزرگتر از $2^{d-2}$ نیست، اما برای راحتی کار با $2^d$ ادامه می‌دهیم)، بنابراین با استفاده از $k=d-1$ در سمت چپ یا $g^1$ یا $g^0$ را خواهیم داشت که به ما امکان می‌دهد کم‌ارزش‌ترین بیت $x$ را با مقایسه $y^{2^k}$ با $g$ تعیین کنیم. حال فرض کنید $x=x_0 + 2^k x_1$، که در آن $x_0$ بخش معلوم و $x_1$ بخش نامعلوم است. آنگاه:
 
 $$
 g^{x_0+2^k x_1} \equiv y \pmod{2^d}.
 $$
 
-Multiplying both parts with $g^{-x_0}$, we get
+با ضرب طرفین در $g^{-x_0}$، خواهیم داشت:
 
 $$
 g^{2^k x_1} \equiv (g^{-x_0} y) \pmod{2^d}.
 $$
 
-Now, squaring both sides $d-k-1$ times we can obtain the next bit of $x$, eventually recovering all its bits.
+اکنون، با $d-k-1$ بار به توان دو رساندن طرفین، می‌توانیم بیت بعدی $x$ را به دست آوریم و در نهایت تمام بیت‌های آن را بازیابی کنیم.
 
-## References
+## مراجع
 
 * [M30, Hans Petter Selasky, 2009](https://ia601602.us.archive.org/29/items/B-001-001-251/B-001-001-251.pdf#page=640)

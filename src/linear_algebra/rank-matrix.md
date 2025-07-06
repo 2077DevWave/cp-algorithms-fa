@@ -1,28 +1,28 @@
 ---
 tags:
-  
-e_maxx_link: matrix_rank
+  - AI Translated
+e_maxx_link: rank-matrix
 ---
 
-# Finding the rank of a matrix
+# یافتن رتبه یک ماتریس
 
-**The rank of a matrix** is the largest number of linearly independent rows/columns of the matrix. The rank is not only defined  for square matrices.
+**رتبه یک ماتریس**، بزرگترین تعداد سطرهای/ستون‌های مستقل خطی آن ماتریس است. رتبه تنها برای ماتریس‌های مربعی تعریف نمی‌شود.
 
-The rank of a matrix can also be defined as the largest order of any non-zero minor in the matrix.
+رتبه یک ماتریس را می‌توان به عنوان بزرگترین مرتبه‌ی هر کهاد (minor) غیرصفر در ماتریس نیز تعریف کرد.
 
-Let the matrix be rectangular and have size $N \times M$.
-Note that if the matrix is square and its determinant is non-zero, then the rank is $N$ ($=M$); otherwise it will be less. Generally, the rank of a matrix does not exceed $\min (N, M)$.
+فرض کنید ماتریس مستطیلی و در ابعاد $N \times M$ باشد.
+توجه داشته باشید که اگر ماتریس مربعی باشد و دترمینان آن غیرصفر باشد، رتبه آن برابر با $N$ ($=M$) خواهد بود؛ در غیر این صورت، رتبه کمتر از آن است. به طور کلی، رتبه یک ماتریس از $\min (N, M)$ تجاوز نمی‌کند.
 
-## Algorithm
+## الگوریتم
 
-You can search for the rank using [Gaussian elimination](linear-system-gauss.md). We will perform the same operations as when solving the system or finding its determinant. But if at any step in the $i$-th column there are no rows with an non-empty entry among those that we didn't selected already, then we skip this step.
-Otherwise, if we have found a row with a non-zero element in the $i$-th column during the $i$-th step, then we mark this row as a selected one, increase the rank by one (initially the rank is set equal to $0$), and perform the usual operations of taking this row away from the rest.
+می‌توانید رتبه را با استفاده از [حذف گاوسی](linear-system-gauss.md) پیدا کنید. ما همان عملیاتی را انجام خواهیم داد که هنگام حل یک دستگاه معادلات یا یافتن دترمینان آن انجام می‌دهیم. اما اگر در هر مرحله، در ستون $i$-ام، در بین سطرهایی که هنوز انتخاب نکرده‌ایم، هیچ سطری با درایه غیرصفر وجود نداشته باشد، از این مرحله صرف نظر می‌کنیم.
+در غیر این صورت، اگر در مرحله $i$-ام، سطری با یک درایه غیرصفر در ستون $i$-ام پیدا کردیم، آن سطر را به عنوان انتخاب‌شده علامت‌گذاری می‌کنیم، رتبه را یکی افزایش می‌دهیم (در ابتدا رتبه برابر با $0$ است) و عملیات معمول کم کردن این سطر از سایر سطرها را انجام می‌دهیم.
 
-## Complexity
+## پیچیدگی
 
-This algorithm runs in $\mathcal{O}(n^3)$.
+این الگوریتم در زمان $\mathcal{O}(n^3)$ اجرا می‌شود.
 
-## Implementation
+## پیاده‌سازی
 
 ```{.cpp file=matrix-rank}
 const double EPS = 1E-9;
@@ -56,5 +56,5 @@ int compute_rank(vector<vector<double>> A) {
     return rank;
 }
 ```
-## Problems
+## مسائل
  * [TIMUS1041 Nikifor](http://acm.timus.ru/problem.aspx?space=1&num=1041)

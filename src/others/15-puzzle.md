@@ -1,42 +1,42 @@
 ---
 tags:
-  
-e_maxx_link: 15_puzzle
+  - AI Translated
+e_maxx_link: 15-puzzle
 ---
 
-# 15 Puzzle Game: Existence Of The Solution
+# بازی پازل ۱۵: وجود راه‌حل
 
-This game is played on a $4 \times 4$ board. On this board there are $15$ playing tiles numbered from 1 to 15. One cell is left empty (denoted by 0). You need to get the board to the position presented below by repeatedly moving one of the tiles to the free space:
+این بازی روی یک صفحه‌ی $4 \times 4$ انجام می‌شود. روی این صفحه ۱۵ کاشی بازی شماره‌گذاری شده از ۱ تا ۱۵ وجود دارد. یک خانه خالی باقی می‌ماند (که با 0 نشان داده می‌شود). شما باید با حرکت دادن مکرر یکی از کاشی‌ها به خانه‌ی خالی، صفحه را به حالت زیر برسانید:
 
 $$\begin{matrix} 1 & 2 & 3 & 4 \\ 5 & 6 & 7 & 8 \\ 9 & 10 & 11 & 12 \\ 13 & 14 & 15 & 0 \end{matrix}$$
 
-The game "15 Puzzle” was created by Noyes Chapman in 1880.
+بازی «پازل ۱۵» توسط Noyes Chapman در سال ۱۸۸۰ ساخته شد.
 
-## Existence Of The Solution
+## وجود راه‌حل
 
-Let's consider this problem: given a position on the board, determine whether a sequence of moves which leads to a solution exists.
+این مسئله را در نظر بگیریم: با داشتن یک حالت از صفحه، مشخص کنید که آیا دنباله‌ای از حرکات که به راه‌حل منجر شود وجود دارد یا خیر.
 
-Suppose we have some position on the board:
+فرض کنید حالتی از صفحه به شکل زیر داریم:
 
 $$\begin{matrix} a_1 & a_2 & a_3 & a_4 \\ a_5 & a_6 & a_7 & a_8 \\ a_9 & a_{10} & a_{11} & a_{12} \\ a_{13} & a_{14} & a_{15} & a_{16} \end{matrix}$$
 
-where one of the elements equals zero and indicates an empty cell $a_z  = 0$
+که در آن یکی از عناصر برابر با صفر است و خانه‌ی خالی را نشان می‌دهد ($a_z = 0$).
 
-Let’s consider the permutation:
+جایگشت زیر را در نظر بگیرید:
 
 $$a_1 a_2 ... a_{z-1} a_{z+1} ... a_{15} a_{16}$$
 
-i.e. the permutation of numbers corresponding to the position on the board without a zero element
+یعنی جایگشت اعداد متناظر با حالت صفحه بدون در نظر گرفتن عنصر صفر.
 
-Let $N$ be the number of inversions in this permutation (i.e. the number of such elements $a_i$  and $a_j$  that $i < j$, but $a_i  > a_j$).
+فرض کنید $N$ تعداد وارونگی‌ها در این جایگشت باشد (یعنی تعداد عناصری مانند $a_i$ و $a_j$ که $i < j$ است، اما $a_i > a_j$).
 
-Suppose $K$ is an index of a row where the empty element is located (i.e. using our convention, $K = (z - 1) \div \ 4 + 1$).
+فرض کنید $K$ شماره‌ی سطری باشد که عنصر خالی در آن قرار دارد (یعنی با قرارداد ما، $K = (z - 1) \div \ 4 + 1$).
 
-Then, **the solution exists iff $N + K$ is even**.
+در این صورت، **راه‌حل وجود دارد اگر و تنها اگر $N + K$ زوج باشد**.
 
-## Implementation
+## پیاده‌سازی
 
-The algorithm above can be illustrated with the following program code:
+الگوریتم بالا را می‌توان با کد برنامه‌ی زیر نشان داد:
 
 ```cpp
 int a[16];
@@ -56,14 +56,14 @@ for (int i=0; i<16; ++i)
 puts ((inv & 1) ? "No Solution" : "Solution Exists");
 ```
 
-## Proof
+## اثبات
 
-In 1879 Johnson proved that if $N + K$ is odd, then the solution doesn’t exist, and in the same year Story proved that all positions when $N + K$ is even have a solution.
+در سال ۱۸۷۹، Johnson ثابت کرد که اگر $N + K$ فرد باشد، راه‌حلی وجود ندارد و در همان سال Story ثابت کرد که تمام حالت‌هایی که در آن‌ها $N + K$ زوج است، دارای راه‌حل هستند.
 
-However, all these proofs were quite complex.
+با این حال، تمام این اثبات‌ها بسیار پیچیده بودند.
 
-In 1999 Archer proposed a much simpler proof (you can download his article [here](http://www.cs.cmu.edu/afs/cs/academic/class/15859-f01/www/notes/15-puzzle.pdf)).
+در سال ۱۹۹۹، Archer اثبات بسیار ساده‌تری ارائه داد (می‌توانید مقاله‌ی او را از [اینجا](http://www.cs.cmu.edu/afs/cs/academic/class/15859-f01/www/notes/15-puzzle.pdf) دانلود کنید).
 
-## Practice Problems
+## مسائل تمرینی
 
 * [Hackerrank - N-puzzle](https://www.hackerrank.com/challenges/n-puzzle)

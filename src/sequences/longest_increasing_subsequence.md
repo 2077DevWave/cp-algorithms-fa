@@ -1,32 +1,32 @@
 ---
 tags:
-  
-e_maxx_link: longest_increasing_subseq_log
+  - AI Translated
+e_maxx_link: longest_increasing_subsequence
 ---
 
-# Longest increasing subsequence
+# بلندترین زیررشتهٔ صعودی
 
-We are given an array with $n$ numbers: $a[0 \dots n-1]$.
-The task is to find the longest, strictly increasing, subsequence in $a$.
+آرایه‌ای با $n$ عدد به ما داده شده است: $a[0 \dots n-1]$.
+مسئله، یافتن بلندترین زیررشتهٔ اکیداً صعودی در $a$ است.
 
-Formally we look for the longest sequence of indices $i_1, \dots i_k$ such that
+به طور رسمی، ما به دنبال بلندترین دنباله از اندیس‌های $i_1, \dots i_k$ هستیم به طوری که:
 
 $$i_1 < i_2 < \dots < i_k,\quad
 a[i_1] < a[i_2] < \dots < a[i_k]$$
 
-In this article we discuss multiple algorithms for solving this task.
-Also we will discuss some other problems, that can be reduced to this problem.
+در این مقاله چندین الگوریتم برای حل این مسئله را بررسی می‌کنیم.
+همچنین مسائل دیگری را که می‌توان به این مسئله کاهش داد، مورد بحث قرار خواهیم داد.
 
-## Solution in $O(n^2)$ with dynamic programming {data-toc-label="Solution in O(n^2) with dynamic programming"}
+## راه حل $O(n^2)$ با برنامه‌نویسی پویا {data-toc-label="راه حل $O(n^2)$ با برنامه‌نویسی پویا"}
 
-Dynamic programming is a very general technique that allows to solve a huge class of problems.
-Here we apply the technique for our specific task.
+برنامه‌نویسی پویا (Dynamic programming) یک تکنیک بسیار کلی است که امکان حل دستهٔ بزرگی از مسائل را فراهم می‌کند.
+در اینجا ما این تکنیک را برای مسئلهٔ خاص خودمان به کار می‌بریم.
 
-First we will search only for the **length** of the longest increasing subsequence, and only later learn how to restore the subsequence itself.
+ابتدا تنها به دنبال **طول** بلندترین زیررشتهٔ صعودی خواهیم بود و بعداً یاد می‌گیریم که چگونه خود زیررشته را بازیابی کنیم.
 
-### Finding the length
+### پیدا کردن طول
 
-To accomplish this task, we define an array $d[0 \dots n-1]$, where $d[i]$ is the length of the longest increasing subsequence that ends in the element at index $i$.
+برای انجام این کار، آرایهٔ $d[0 \dots n-1]$ را تعریف می‌کنیم که در آن $d[i]$ طول بلندترین زیررشتهٔ صعودی است که به عنصر با اندیس $i$ ختم می‌شود.
 
 !!! example
 
@@ -35,34 +35,34 @@ To accomplish this task, we define an array $d[0 \dots n-1]$, where $d[i]$ is th
     d &= \{1, 1, 2, 3, 3, 1, 1, 4, 5, 2\}
     \end{array}$$
 
-    The longest increasing subsequence that ends at index 4 is $\{3, 4, 5\}$ with a length of 3, the longest ending at index 8 is either $\{3, 4, 5, 7, 9\}$ or $\{3, 4, 6, 7, 9\}$, both having length 5, and the longest ending at index 9 is $\{0, 1\}$ having length 2.
+    بلندترین زیررشتهٔ صعودی که به اندیس ۴ ختم می‌شود، $\{3, 4, 5\}$ با طول ۳ است، بلندترین زیررشته که به اندیس ۸ ختم می‌شود یا $\{3, 4, 5, 7, 9\}$ یا $\{3, 4, 6, 7, 9\}$ است که هر دو طول ۵ دارند و بلندترین زیررشته که به اندیس ۹ ختم می‌شود $\{0, 1\}$ با طول ۲ است.
 
-We will compute this array gradually: first $d[0]$, then $d[1]$, and so on.
-After this array is computed, the answer to the problem will be the maximum value in the array $d[]$.
+ما این آرایه را به تدریج محاسبه می‌کنیم: ابتدا $d[0]$، سپس $d[1]$ و به همین ترتیب.
+پس از محاسبهٔ این آرایه، پاسخ مسئله، بیشترین مقدار در آرایهٔ $d[]$ خواهد بود.
 
-So let the current index be $i$.
-I.e. we want to compute the value $d[i]$ and all previous values $d[0], \dots, d[i-1]$ are already known.
-Then there are two options:
+بنابراین، فرض کنید اندیس کنونی $i$ باشد.
+یعنی، ما می‌خواهیم مقدار $d[i]$ را محاسبه کنیم و تمام مقادیر قبلی $d[0], \dots, d[i-1]$ از قبل مشخص هستند.
+در این صورت دو گزینه وجود دارد:
 
--   $d[i] = 1$: the required subsequence consists only of the element $a[i]$.
+-   $d[i] = 1$: زیررشتهٔ مورد نظر تنها از عنصر $a[i]$ تشکیل شده است.
 
--   $d[i] > 1$: The subsequence will end at $a[i]$, and right before it will be some number $a[j]$ with $j < i$ and $a[j] < a[i]$.
+-   $d[i] > 1$: زیررشته به $a[i]$ ختم می‌شود و درست قبل از آن، عددی مانند $a[j]$ با شرایط $j < i$ و $a[j] < a[i]$ قرار دارد.
 
-    It's easy to see, that the subsequence ending in $a[j]$ will itself be one of the longest increasing subsequences that ends in $a[j]$.
-    The number $a[i]$ just extends that longest increasing subsequence by one number.
+    به راحتی می‌توان دید که زیررشتهٔ منتهی به $a[j]$ خود یکی از بلندترین زیررشته‌های صعودی است که به $a[j]$ ختم می‌شود.
+    عدد $a[i]$ فقط آن بلندترین زیررشتهٔ صعودی را با یک عدد گسترش می‌دهد.
 
-    Therefore, we can just iterate over all $j < i$ with $a[j] < a[i]$, and take the longest sequence that we get by appending $a[i]$ to the longest increasing subsequence ending in $a[j]$.
-    The longest increasing subsequence ending in $a[j]$ has length $d[j]$, extending it by one gives the length $d[j] + 1$.
+    بنابراین، می‌توانیم روی تمام $j < i$ با شرط $a[j] < a[i]$ پیمایش کنیم و بلندترین دنباله‌ای را که با اضافه کردن $a[i]$ به بلندترین زیررشتهٔ صعودی منتهی به $a[j]$ به دست می‌آید، در نظر بگیریم.
+    بلندترین زیررشتهٔ صعودی منتهی به $a[j]$ طولی برابر $d[j]$ دارد، گسترش آن با یک عنصر، طولی برابر $d[j] + 1$ می‌دهد.
   
     $$d[i] = \max_{\substack{j < i \\\\ a[j] < a[i]}} \left(d[j] + 1\right)$$
 
-If we combine these two cases we get the final answer for $d[i]$:
+اگر این دو حالت را ترکیب کنیم، به پاسخ نهایی برای $d[i]$ می‌رسیم:
 
 $$d[i] = \max\left(1, \max_{\substack{j < i \\\\ a[j] < a[i]}} \left(d[j] + 1\right)\right)$$
 
-### Implementation
+### پیاده‌سازی
 
-Here is an implementation of the algorithm described above, which computes the length of the longest increasing subsequence.
+در اینجا پیاده‌سازی الگوریتم توصیف‌شده در بالا آمده است که طول بلندترین زیررشتهٔ صعودی را محاسبه می‌کند.
 
 ```{.cpp file=lis_n2}
 int lis(vector<int> const& a) {
@@ -83,24 +83,24 @@ int lis(vector<int> const& a) {
 }
 ```
 
-### Restoring the subsequence
+### بازیابی زیررشته
 
-So far we only learned how to find the length of the subsequence, but not how to find the subsequence itself.
+تا اینجا فقط یاد گرفتیم چگونه طول زیررشته را پیدا کنیم، اما نه اینکه چگونه خود زیررشته را بیابیم.
 
-To be able to restore the subsequence we generate an additional auxiliary array $p[0 \dots n-1]$ that we will compute alongside the array $d[]$.
-$p[i]$ will be the index $j$ of the second last element in the longest increasing subsequence ending in $i$.
-In other words the index $p[i]$ is the same index $j$ at which the highest value $d[i]$ was obtained.
-This auxiliary array $p[]$ points in some sense to the ancestors.
+برای اینکه بتوانیم زیررشته را بازیابی کنیم، یک آرایهٔ کمکی اضافی $p[0 \dots n-1]$ ایجاد می‌کنیم که آن را در کنار آرایهٔ $d[]$ محاسبه خواهیم کرد.
+$p[i]$ اندیس $j$ یعنی عنصر یکی مانده به آخر در بلندترین زیررشتهٔ صعودی منتهی به $i$ خواهد بود.
+به عبارت دیگر، اندیس $p[i]$ همان اندیس $j$ است که در آن بیشترین مقدار $d[i]$ به دست آمده است.
+این آرایه کمکی $p[]$ به نوعی به "اجداد" (ancestors) اشاره می‌کند.
 
-Then to derive the subsequence, we just start at the index $i$ with the maximal $d[i]$, and follow the ancestors until we deduced the entire subsequence, i.e. until we reach the element with $d[i] = 1$.
+سپس برای به دست آوردن زیررشته، فقط از اندیس $i$ با $d[i]$ ماکسیمم شروع می‌کنیم و اجداد را دنبال می‌کنیم تا کل زیررشته را استنتاج کنیم، یعنی تا زمانی که به عنصری با $d[i]=1$ برسیم.
 
-### Implementation of restoring
+### پیاده‌سازی بازیابی
 
-We will change the code from the previous sections a little bit.
-We will compute the array $p[]$ alongside $d[]$, and afterwards compute the subsequence.
+کد بخش‌های قبلی را کمی تغییر خواهیم داد.
+آرایهٔ $p[]$ را در کنار $d[]$ محاسبه می‌کنیم و پس از آن زیررشته را به دست می‌آوریم.
 
-For convenience we originally assign the ancestors with $p[i] = -1$.
-For elements with $d[i] = 1$, the ancestors value will remain $-1$, which will be slightly more convenient for restoring the subsequence.
+برای راحتی، در ابتدا به اجداد مقدار $p[i] = -1$ را اختصاص می‌دهیم.
+برای عناصری با $d[i]=1$ مقدار اجداد $-1$ باقی می‌ماند که برای بازیابی زیررشته کمی راحت‌تر خواهد بود.
 
 ```{.cpp file=lis_n2_restore}
 vector<int> lis(vector<int> const& a) {
@@ -133,29 +133,29 @@ vector<int> lis(vector<int> const& a) {
 }
 ```
 
-### Alternative way of restoring the subsequence
+### روش جایگزین برای بازیابی زیررشته
 
-It is also possible to restore the subsequence without the auxiliary array $p[]$.
-We can simply recalculate the current value of $d[i]$ and also see how the maximum was reached.
+همچنین امکان بازیابی زیررشته بدون آرایهٔ کمکی $p[]$ نیز وجود دارد.
+می‌توانیم به سادگی مقدار فعلی $d[i]$ را دوباره محاسبه کنیم و همچنین ببینیم که چگونه به ماکسیمم رسیده‌ایم.
 
-This method leads to a slightly longer code, but in return we save some memory.
+این روش منجر به کدی کمی طولانی‌تر می‌شود، اما در عوض مقداری حافظه صرفه‌جویی می‌کنیم.
 
-## Solution in $O(n \log n)$ with dynamic programming and binary search {data-toc-label="Solution in O(n log n) with dynamic programming and binary search"}
+## راه حل $O(n \log n)$ با برنامه‌نویسی پویا و جستجوی دودویی {data-toc-label="راه حل $O(n \log n)$ با برنامه‌نویسی پویا و جستجوی دودویی"}
 
-In order to obtain a faster solution for the problem, we construct a different dynamic programming solution that runs in $O(n^2)$, and then later improve it to $O(n \log n)$.
+برای به دست آوردن راه حل سریع‌تر برای مسئله، یک راه حل برنامه‌نویسی پویای متفاوت می‌سازیم که در $O(n^2)$ اجرا می‌شود و سپس آن را به $O(n \log n)$ بهبود می‌بخشیم.
 
-We will use the dynamic programming array $d[0 \dots n]$.
-This time $d[l]$ doesn't corresponds to the element $a[i]$ or to an prefix of the array. 
-$d[l]$ will be the smallest element at which an increasing subsequence of length $l$ ends.
+از آرایهٔ برنامه‌نویسی پویای $d[0 \dots n]$ استفاده خواهیم کرد.
+این بار $d[l]$ به عنصر $a[i]$ یا به پیشوندی از آرایه مرتبط نیست.
+$d[l]$ کوچکترین عنصری خواهد بود که یک زیررشتهٔ صعودی به طول $l$ به آن ختم می‌شود.
 
-Initially we assume $d[0] = -\infty$ and for all other lengths $d[l] = \infty$.
+در ابتدا فرض می‌کنیم $d[0] = -\infty$ و برای تمام طول‌های دیگر $d[l] = \infty$ است.
 
-We will again gradually process the numbers, first $a[0]$, then $a[1]$, etc, and in each step maintain the array $d[]$ so that it is up to date.
+ما دوباره اعداد را به تدریج پردازش می‌کنیم، ابتدا $a[0]$، سپس $a[1]$ و غیره، و در هر مرحله آرایهٔ $d[]$ را به گونه‌ای حفظ می‌کنیم که به‌روز باشد.
 
 !!! example
 
-    Given the array $a = \{8, 3, 4, 6, 5, 2, 0, 7, 9, 1\}$, here are all their prefixes and their dynamic programming array.
-    Notice, that the values of the array don't always change at the end.
+    با توجه به آرایهٔ $a = \{8, 3, 4, 6, 5, 2, 0, 7, 9, 1\}$، در اینجا تمام پیشوندهای آن و آرایهٔ برنامه‌نویسی پویای مربوطه آمده است.
+    توجه داشته باشید که مقادیر آرایه همیشه در انتها تغییر نمی‌کنند.
 
     $$
     \begin{array}{ll}
@@ -173,20 +173,19 @@ We will again gradually process the numbers, first $a[0]$, then $a[1]$, etc, and
     \end{array}
     $$
 
-When we process $a[i]$, we can ask ourselves.
-Under what conditions should we write the current number $a[i]$ into the $d[0 \dots n]$ array?
+هنگامی که $a[i]$ را پردازش می‌کنیم، می‌توانیم از خود بپرسیم. تحت چه شرایطی باید عدد فعلی $a[i]$ را در آرایهٔ $d[0 \dots n]$ بنویسیم؟
 
-We set $d[l] = a[i]$, if there is a longest increasing sequence of length $l$ that ends in $a[i]$, and there is no longest increasing sequence of length $l$ that ends in a smaller number.
-Similar to the previous approach, if we remove the number $a[i]$ from the longest increasing sequence of length $l$, we get another longest increasing sequence of length $l -1$.
-So we want to extend a longest increasing sequence of length $l - 1$ by the number $a[i]$, and obviously the longest increasing sequence of length $l - 1$ that ends with the smallest element will work the best, in other words the sequence of length $l-1$ that ends in element $d[l-1]$.
+ما $d[l] = a[i]$ قرار می‌دهیم، اگر یک زیررشتهٔ صعودی به طول $l$ وجود داشته باشد که به $a[i]$ ختم شود، و هیچ زیررشتهٔ صعودی دیگری به طول $l$ نباشد که به عنصری کوچکتر ختم شود.
+مشابه رویکرد قبلی، اگر عدد $a[i]$ را از زیررشتهٔ صعودی به طول $l$ حذف کنیم، یک زیررشتهٔ صعودی دیگر به طول $l-1$ به دست می‌آوریم.
+بنابراین ما می‌خواهیم یک زیررشتهٔ صعودی به طول $l-1$ را با عدد $a[i]$ گسترش دهیم، و بدیهی است که زیررشتهٔ صعودی به طول $l-1$ که با کوچکترین عنصر پایان می‌یابد بهترین عملکرد را خواهد داشت، به عبارت دیگر دنباله‌ای به طول $l-1$ که به عنصر $d[l-1]$ ختم می‌شود.
 
-There is a longest increasing sequence of length $l - 1$ that we can extend with the number $a[i]$, exactly if $d[l-1] < a[i]$.
-So we can just iterate over each length $l$, and check if we can extend a longest increasing sequence of length $l - 1$ by checking the criteria.
+یک زیررشتهٔ صعودی به طول $l - 1$ وجود دارد که می‌توانیم آن را با عدد $a[i]$ گسترش دهیم، دقیقاً اگر $d[l-1] < a[i]$ باشد.
+بنابراین می‌توانیم روی هر طول $l$ پیمایش کنیم و با بررسی معیار، ببینیم آیا می‌توانیم یک زیررشتهٔ صعودی به طول $l - 1$ را گسترش دهیم.
 
-Additionally we also need to check, if we maybe have already found a longest increasing sequence of length $l$ with a smaller number at the end.
-So we only update if $a[i] < d[l]$.
+علاوه بر این، باید بررسی کنیم که آیا قبلاً یک زیررشتهٔ صعودی به طول $l$ با عددی کوچکتر در انتها پیدا کرده‌ایم یا نه.
+بنابراین تنها در صورتی به‌روزرسانی می‌کنیم که $a[i] < d[l]$ باشد.
 
-After processing all the elements of $a[]$ the length of the desired subsequence is the largest $l$ with $d[l] < \infty$.
+پس از پردازش تمام عناصر $a[]$، طول زیررشتهٔ مورد نظر، بزرگترین $l$ است که $d[l] < \infty$ باشد.
 
 ```{.cpp file=lis_method2_n2}
 int lis(vector<int> const& a) {
@@ -211,24 +210,23 @@ int lis(vector<int> const& a) {
 }
 ```
 
-We now make two important observations.
+اکنون دو مشاهدهٔ مهم را بیان می‌کنیم.
 
-1.  The array $d$ will always be sorted: 
-    $d[l-1] < d[l]$ for all $i = 1 \dots n$.
+1.  آرایهٔ $d$ همیشه مرتب خواهد بود: 
+    $d[l-1] < d[l]$ برای تمام $i = 1 \dots n$.
 
-    This is trivial, as you can just remove the last element from the increasing subsequence of length $l$, and you get a increasing subsequence of length $l-1$ with a smaller ending number.
+    این موضوع بدیهی است، زیرا می‌توانید فقط آخرین عنصر را از زیررشتهٔ صعودی به طول $l$ حذف کنید و یک زیررشتهٔ صعودی به طول $l-1$ با عدد پایانی کوچکتر به دست آورید.
 
-2.  The element $a[i]$ will only update at most one value $d[l]$.
+2.  عنصر $a[i]$ حداکثر یک مقدار $d[l]$ را به‌روزرسانی خواهد کرد.
 
-    This follows immediately from the above implementation.
-    There can only be one place in the array with $d[l-1] < a[i] < d[l]$.
+    این موضوع مستقیماً از پیاده‌سازی بالا نتیجه می‌شود. فقط یک مکان در آرایه می‌تواند با شرط $d[l-1] < a[i] < d[l]$ وجود داشته باشد.
 
-Thus we can find this element in the array $d[]$ using [binary search](../num_methods/binary_search.md) in $O(\log n)$.
-In fact we can simply look in the array $d[]$ for the first number that is strictly greater than $a[i]$, and we try to update this element in the same way as the above implementation.
+بنابراین می‌توانیم این عنصر را در آرایهٔ $d[]$ با استفاده از [جستجوی دودویی (binary search)](../num_methods/binary_search.md) در زمان $O(\log n)$ پیدا کنیم.
+در واقع، می‌توانیم به سادگی در آرایهٔ $d[]$ به دنبال اولین عددی بگردیم که اکیداً بزرگتر از $a[i]$ است و سعی کنیم این عنصر را به همان روش پیاده‌سازی بالا به‌روزرسانی کنیم.
 
-### Implementation
+### پیاده‌سازی
 
-This gives us the improved $O(n \log n)$ implementation:
+این کار پیاده‌سازی بهبودیافتهٔ $O(n \log n)$ را به ما می‌دهد:
 
 ```{.cpp file=lis_method2_nlogn}
 int lis(vector<int> const& a) {
@@ -252,98 +250,90 @@ int lis(vector<int> const& a) {
 }
 ```
 
-### Restoring the subsequence
+### بازیابی زیررشته
 
-It is also possible to restore the subsequence using this approach.
-This time we have to maintain two auxiliary arrays.
-One that tells us the index of the elements in $d[]$.
-And again we have to create an array of "ancestors" $p[i]$.
-$p[i]$ will be the index of the previous element for the optimal subsequence ending in element $i$.
+بازیابی زیررشته با استفاده از این رویکرد نیز امکان‌پذیر است.
+این بار باید دو آرایهٔ کمکی را نگهداری کنیم.
+یکی که اندیس عناصر در $d[]$ را به ما می‌گوید.
+و دوباره باید آرایه‌ای از "اجداد" $p[i]$ ایجاد کنیم.
+$p[i]$ اندیس عنصر قبلی برای زیررشتهٔ بهینهٔ منتهی به عنصر $i$ خواهد بود.
 
-It's easy to maintain these two arrays in the course of iteration over the array $a[]$ alongside the computations of $d[]$.
-And at the end it is not difficult to restore the desired subsequence using these arrays.
+نگهداری این دو آرایه در حین پیمایش آرایهٔ $a[]$ و در کنار محاسبات $d[]$ آسان است.
+و در پایان، بازیابی زیررشتهٔ مورد نظر با استفاده از این آرایه‌ها دشوار نیست.
 
-## Solution in $O(n \log n)$ with data structures {data-toc-label="Solution in O(n log n) with data structures"}
+## راه حل $O(n \log n)$ با ساختمان داده‌ها {data-toc-label="راه حل $O(n \log n)$ با ساختمان داده‌ها"}
 
-Instead of the above method for computing the longest increasing subsequence in $O(n \log n)$ we can also solve the problem in a different way: using some simple data structures.
+به جای روش بالا برای محاسبهٔ بلندترین زیررشتهٔ صعودی در $O(n \log n)$، می‌توانیم مسئله را به روش دیگری نیز حل کنیم: با استفاده از چند ساختمان داده ساده.
 
-Let's go back to the first method.
-Remember that $d[i]$ is the value $d[j] + 1$ with $j < i$ and $a[j] < a[i]$.
+بیایید به روش اول بازگردیم.
+به یاد بیاورید که برای محاسبهٔ $d[i]$، به دنبال ماکسیمم مقدار $d[j] + 1$ در میان تمام $j$هایی هستیم که $j < i$ و $a[j] < a[i]$ است.
 
-Thus if we define an additional array $t[]$ such that
+بنابراین، اگر یک آرایهٔ اضافی $t[]$ را به گونه‌ای تعریف کنیم که
 
 $$t[a[i]] = d[i],$$
 
-then the problem of computing the value $d[i]$ is equivalent to finding the **maximum value in a prefix** of the array $t[]$:
+آنگاه مسئلهٔ محاسبهٔ مقدار $d[i]$ معادل یافتن **بیشترین مقدار در یک پیشوند** از آرایهٔ $t[]$ است:
 
-$$d[i] = \max\left(t[0 \dots a[i] - 1] + 1\right)$$
+$$d[i] = \max\left(t[0 \dots a[i] - 1]\right) + 1$$
 
-The problem of finding the maximum of a prefix of an array (which changes) is a standard problem that can be solved by many different data structures. 
-For instance we can use a [Segment tree](../data_structures/segment_tree.md) or a [Fenwick tree](../data_structures/fenwick.md).
+مسئلهٔ یافتن ماکسیمم یک پیشوند از آرایه‌ای (که تغییر می‌کند) یک مسئلهٔ استاندارد است که می‌تواند با ساختمان داده‌های مختلفی حل شود.
+به عنوان مثال، می‌توانیم از [درخت بازه‌ای (Segment tree)](../data_structures/segment_tree.md) یا [درخت فنویک (Fenwick tree)](../data_structures/fenwick.md) استفاده کنیم.
 
-This method has obviously some **shortcomings**:
-in terms of length and complexity of the implementation this approach will be worse than the method using binary search.
-In addition if the input numbers $a[i]$ are especially large, then we would have to use some tricks, like compressing the numbers (i.e. renumber them from $0$ to $n-1$), or use a dynamic segment tree (only generate the branches of the tree that are important).
-Otherwise the memory consumption will be too high.
+این روش به وضوح **کاستی‌هایی** دارد:
+از نظر طول و پیچیدگی پیاده‌سازی، این رویکرد بدتر از روشی است که از جستجوی دودویی استفاده می‌کند.
+علاوه بر این، اگر اعداد ورودی $a[i]$ به خصوص بزرگ باشند، باید از ترفندهایی مانند فشرده‌سازی اعداد (یعنی شماره‌گذاری مجدد آنها از $0$ تا $n-1$) یا استفاده از یک درخت بازه‌ای پویا (dynamic segment tree) (فقط شاخه‌هایی از درخت را که مهم هستند ایجاد کنیم) استفاده کنیم.
+در غیر این صورت، مصرف حافظه بسیار بالا خواهد بود.
 
-On the other hand this method has also some **advantages**:
-with this method you don't have to think about any tricky properties in the dynamic programming solution.
-And this approach allows us to generalize the problem very easily (see below).
+از سوی دیگر، این روش **مزایایی** نیز دارد:
+با این روش نیازی نیست به هیچ‌یک از ویژگی‌های پیچیده در راه حل برنامه‌نویسی پویا فکر کنید.
+و این رویکرد به ما امکان می‌دهد که مسئله را به راحتی تعمیم دهیم (به ادامه مطلب مراجعه کنید).
 
-## Related tasks
+## مسائل مرتبط
 
-Here are several problems that are closely related to the problem of finding the longest increasing subsequence.
+در اینجا چندین مسئله وجود دارد که ارتباط نزدیکی با مسئلهٔ یافتن بلندترین زیررشتهٔ صعودی دارند.
 
-### Longest non-decreasing subsequence
+### بلندترین زیررشتهٔ غیر نزولی
 
-This is in fact nearly the same problem.
-Only now it is allowed to use identical numbers in the subsequence.
+این در واقع تقریباً همان مسئله است.
+فقط حالا مجاز است که از اعداد یکسان در زیررشته استفاده شود.
 
-The solution is essentially also nearly the same.
-We just have to change the inequality signs, and make a slight modification to the binary search.
+راه حل نیز در اصل تقریباً یکسان است.
+فقط باید علامت‌های نامساوی را تغییر دهیم و اصلاح جزئی در جستجوی دودویی انجام دهیم.
 
-### Number of longest increasing subsequences
+### تعداد بلندترین زیررشته‌های صعودی
 
-We can use the first discussed method, either the $O(n^2)$ version or the version using data structures.
-We only have to additionally store in how many ways we can obtain longest increasing subsequences ending in the values $d[i]$.
+می‌توانیم از اولین روش مورد بحث، یا نسخهٔ $O(n^2)$ یا نسخهٔ با استفاده از ساختمان داده‌ها، استفاده کنیم.
+فقط باید به طور اضافی ذخیره کنیم که به چند طریق می‌توان به بلندترین زیررشتهٔ صعودی منتهی به اندیس $i$ (با طول $d[i]$) رسید.
 
-The number of ways to form a longest increasing subsequences ending in $a[i]$ is the sum of all ways for all longest increasing subsequences ending in $j$ where $d[j]$ is maximal.
-There can be multiple such $j$, so we need to sum all of them.
+تعداد راه‌های تشکیل یک بلندترین زیررشتهٔ صعودی که به $a[i]$ ختم می‌شود، برابر است با مجموع تعداد راه‌های تمام زیررشته‌های منتهی به $j$ (با $j<i$ و $a[j]<a[i]$) که طول آن‌ها یعنی $d[j]$، ماکسیمم ممکن ($d[i]-1$) است. ممکن است چندین چنین $j$ وجود داشته باشد، بنابراین باید تعداد راه‌های همه آنها را با هم جمع کنیم.
 
-Using a Segment tree this approach can also be implemented in $O(n \log n)$.
+با استفاده از درخت بازه‌ای (Segment tree) این رویکرد نیز می‌تواند در $O(n \log n)$ پیاده‌سازی شود.
 
-It is not possible to use the binary search approach for this task.
+استفاده از رویکرد جستجوی دودویی برای این کار ممکن نیست.
 
-### Smallest number of non-increasing subsequences covering a sequence
+### کوچکترین تعداد زیررشته‌های غیر صعودی برای پوشش یک دنباله
 
-For a given array with $n$ numbers $a[0 \dots n - 1]$ we have to colorize the numbers in the smallest number of colors, so that each color forms a non-increasing subsequence.
+برای یک آرایهٔ داده شده با $n$ عدد $a[0 \dots n - 1]$، باید اعداد را با کمترین تعداد رنگ، رنگ‌آمیزی کنیم، به طوری که هر رنگ یک زیررشتهٔ غیر صعودی تشکیل دهد.
 
-To solve this, we notice that the minimum number of required colors is equal to the length of the longest increasing subsequence.
+برای حل این مسئله، متوجه می‌شویم که حداقل تعداد رنگ‌های مورد نیاز برابر با طول بلندترین زیررشتهٔ صعودی است.
 
-**Proof**:
-We need to prove the **duality** of these two problems.
+**اثبات**:
+باید **دوگانگی (duality)** این دو مسئله را اثبات کنیم.
 
-Let's denote by $x$ the length of the longest increasing subsequence and by $y$ the least number of non-increasing subsequences that form a cover.
-We need to prove that $x = y$.
+فرض کنید $x$ طول بلندترین زیررشتهٔ صعودی باشد و $y$ کمترین تعداد زیررشته‌های غیر صعودی باشد که یک پوشش را تشکیل می‌دهند. باید ثابت کنیم که $x = y$.
 
-It is clear that $y < x$ is not possible, because if we have $x$ strictly increasing elements, than no two can be part of the same non-increasing subsequence.
-Therefore we have $y \ge x$.
+واضح است که $y < x$ ممکن نیست، زیرا اگر $x$ عنصر اکیداً صعودی داشته باشیم، هیچ دوتای آنها نمی‌توانند بخشی از یک زیررشتهٔ غیر صعودی باشند. بنابراین $y \ge x$ است.
 
-We now show that $y > x$ is not possible by contradiction.
-Suppose that $y > x$.
-Then we consider any optimal set of $y$ non-increasing subsequences.
-We transform this in set in the following way:
-as long as there are two such subsequences such that the first begins before the second subsequence, and the first sequence start with a number greater than or equal to the second, then we unhook this starting number and attach it to the beginning of second.
-After a finite number of steps we have $y$ subsequences, and their starting numbers will form an increasing subsequence of length $y$.
-Since we assumed that $y > x$ we reached a contradiction.
+اکنون با برهان خلف نشان می‌دهیم که $y > x$ ممکن نیست.
+فرض کنید $y > x$ باشد. سپس هر مجموعه بهینه از $y$ زیررشتهٔ غیر صعودی را در نظر می‌گیریم. ما این مجموعه را به روش زیر تبدیل می‌کنیم: تا زمانی که دو زیررشته وجود داشته باشند که اولی قبل از دومی شروع شود و دنبالهٔ اول با عددی بزرگتر یا مساوی با عدد شروع دنباله دوم آغاز شود، آنگاه این عدد شروع را جدا کرده و به ابتدای دنباله دوم متصل می‌کنیم. پس از تعداد متناهی مرحله، $y$ زیررشته خواهیم داشت و اعداد شروع آنها یک زیررشتهٔ صعودی به طول $y$ تشکیل خواهند داد. از آنجا که فرض کردیم $y > x$، به تناقض رسیده‌ایم.
 
-Thus it follows that $y = x$.
+بنابراین نتیجه می‌شود که $y = x$.
 
-**Restoring the sequences**:
-The desired partition of the sequence into subsequences can be done greedily.
-I.e. go from left to right and assign the current number or that subsequence ending with the minimal number which is greater than or equal to the current one.
+**بازیابی دنباله‌ها**:
+پارتیشن‌بندی مورد نظر دنباله به زیررشته‌ها را می‌توان به صورت حریصانه انجام داد.
+یعنی، از چپ به راست حرکت کرده و عدد فعلی را به آن زیررشته‌ای اختصاص دهید که با کوچکترین عددی که بزرگتر یا مساوی عدد فعلی است، پایان می‌یابد.
 
-## Practice Problems
+## مسائل تمرینی
 
 - [ACMSGURU - "North-East"](http://codeforces.com/problemsets/acmsguru/problem/99999/521)
 - [Codeforces - LCIS](http://codeforces.com/problemset/problem/10/D)

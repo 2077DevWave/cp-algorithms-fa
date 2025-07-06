@@ -1,66 +1,66 @@
 ---
 tags:
-  
-e_maxx_link: primitive_root
+  - AI Translated
+e_maxx_link: primitive-root
 ---
 
-# Primitive Root
+# ریشه اولیه
 
-## Definition
+## تعریف
 
-In modular arithmetic, a number $g$ is called a `primitive root modulo n` if every number coprime to $n$ is congruent to a power of $g$ modulo $n$. Mathematically, $g$ is a `primitive root modulo n` if and only if for any integer $a$ such that $\gcd(a, n) = 1$, there exists an integer $k$ such that:
+در حساب پیمانه‌ای، یک عدد $g$ را «ریشه اولیه به پیمانه n» می‌نامند اگر هر عدد متباین (نسبت به هم اول) با $n$ با توانی از $g$ به پیمانه $n$ همنهشت باشد. به زبان ریاضی، $g$ یک «ریشه اولیه به پیمانه n» است اگر و تنها اگر برای هر عدد صحیح $a$ که $\gcd(a, n) = 1$ باشد، یک عدد صحیح $k$ وجود داشته باشد به طوری که:
 
 $g^k \equiv a \pmod n$.
 
-$k$ is then called the `index` or `discrete logarithm` of $a$ to the base $g$ modulo $n$. $g$ is also called the `generator` of the multiplicative group of integers modulo $n$.
+در این صورت، $k$ «اندیس» یا «لگاریتم گسسته» $a$ در پایه $g$ به پیمانه $n$ نامیده می‌شود. $g$ همچنین «مولد» گروه ضربی اعداد صحیح به پیمانه $n$ نامیده می‌شود.
 
-In particular, for the case where $n$ is a prime, the powers of primitive root runs through all numbers from $1$ to $n-1$.
+به طور خاص، در حالتی که $n$ یک عدد اول باشد، توان‌های ریشه اولیه تمام اعداد از $1$ تا $n-1$ را تولید می‌کنند.
 
-## Existence
+## وجود
 
-Primitive root modulo $n$ exists if and only if:
+ریشه اولیه به پیمانه $n$ وجود دارد اگر و تنها اگر:
 
-* $n$ is 1, 2, 4, or
-* $n$ is power of an odd prime number $(n = p^k)$, or
-* $n$ is twice power of an odd prime number $(n = 2 \cdot p^k)$.
+*   $n$ برابر با ۱، ۲، ۴ باشد، یا
+*   $n$ توانی از یک عدد اول فرد باشد $(n = p^k)$، یا
+*   $n$ دو برابر توانی از یک عدد اول فرد باشد $(n = 2 \cdot p^k)$.
 
-This theorem was proved by Gauss in 1801.
+این قضیه توسط گاوس در سال ۱۸۰۱ اثبات شد.
 
-## Relation with the Euler function
+## ارتباط با تابع فی اویلر
 
-Let $g$ be a primitive root modulo $n$. Then we can show that the smallest number $k$ for which $g^k \equiv 1 \pmod n$ is equal $\phi (n)$. Moreover, the reverse is also true, and this fact will be used in this article to find a primitive root.
+فرض کنید $g$ یک ریشه اولیه به پیمانه $n$ باشد. آنگاه می‌توان نشان داد که کوچکترین عدد $k$ که در رابطه $g^k \equiv 1 \pmod n$ صدق می‌کند، برابر با $\phi (n)$ است. علاوه بر این، عکس این قضیه نیز درست است، و از این واقعیت در این مقاله برای یافتن ریشه اولیه استفاده خواهیم کرد.
 
-Furthermore, the number of primitive roots modulo $n$, if there are any, is equal to $\phi (\phi (n) )$.
+همچنین، تعداد ریشه‌های اولیه به پیمانه $n$، در صورت وجود، برابر با $\phi (\phi (n) )$ است.
 
-## Algorithm for finding a primitive root
+## الگوریتم یافتن ریشه اولیه
 
-A naive algorithm is to consider all numbers in range $[1, n-1]$. And then check if each one is a primitive root, by calculating all its power to see if they are all different. This algorithm has complexity $O(g \cdot n)$, which would be too slow. In this section, we propose a faster algorithm using several well-known theorems.
+یک الگوریتم ساده این است که تمام اعداد در بازه $[1, n-1]$ را در نظر بگیریم. سپس برای هر کدام بررسی کنیم که آیا ریشه اولیه است یا نه، این کار با محاسبه تمام توان‌های آن و بررسی اینکه آیا همگی متفاوت هستند، انجام می‌شود. این الگوریتم پیچیدگی زمانی $O(g \cdot n)$ دارد که بسیار کند خواهد بود. در این بخش، یک الگوریتم سریع‌تر با استفاده از چند قضیه شناخته‌شده پیشنهاد می‌کنیم.
 
-From previous section, we know that if the smallest number $k$ for which $g^k \equiv 1 \pmod n$ is $\phi (n)$, then $g$ is a primitive root. Since for any number $a$ relative prime to $n$, we know from Euler's theorem that $a ^ { \phi (n) } \equiv 1 \pmod n$, then to check if $g$ is primitive root, it is enough to check that for all $d$ less than $\phi (n)$, $g^d \not \equiv 1 \pmod n$. However, this algorithm is still too slow.
+از بخش قبل می‌دانیم که اگر کوچکترین عدد $k$ که در رابطه $g^k \equiv 1 \pmod n$ صدق می‌کند برابر با $\phi (n)$ باشد، آنگاه $g$ یک ریشه اولیه است. از آنجایی که برای هر عدد $a$ متباین با $n$ از قضیه اویلر می‌دانیم که $a ^ { \phi (n) } \equiv 1 \pmod n$ است، برای بررسی اینکه آیا $g$ ریشه اولیه است یا نه، کافی است بررسی کنیم که برای تمام $d$ های کوچکتر از $\phi (n)$، رابطه $g^d \not \equiv 1 \pmod n$ برقرار باشد. با این حال، این الگوریتم هنوز هم بسیار کند است.
 
-From Lagrange's theorem, we know that the index of 1 of any number modulo $n$ must be a divisor of $\phi (n)$. Thus, it is sufficient to verify for all proper divisor $d \mid \phi (n)$ that $g^d \not \equiv 1 \pmod n$. This is already a much faster algorithm, but we can still do better.
+بر اساس قضیه لاگرانژ، می‌دانیم که مرتبه هر عدد به پیمانه $n$ باید مقسوم‌علیهی از $\phi (n)$ باشد. بنابراین، کافی است بررسی کنیم که برای تمام مقسوم‌علیه‌های سره $d \mid \phi (n)$، رابطه $g^d \not \equiv 1 \pmod n$ برقرار باشد. این الگوریتم به مراتب سریع‌تر است، اما هنوز هم می‌توانیم آن را بهبود ببخشیم.
 
-Factorize $\phi (n) = p_1 ^ {a_1} \cdots p_s ^ {a_s}$. We prove that in the previous algorithm, it is sufficient to consider only the values of $d$ which have the form $\frac { \phi (n) } {p_j}$. Indeed, let $d$ be any proper divisor of $\phi (n)$. Then, obviously, there exists such $j$ that $d \mid \frac { \phi (n) } {p_j}$, i.e. $d \cdot k = \frac { \phi (n) } {p_j}$. However, if $g^d \equiv 1 \pmod n$, we would get:
+مقدار $\phi (n)$ را به عوامل اول تجزیه می‌کنیم: $\phi (n) = p_1 ^ {a_1} \cdots p_s ^ {a_s}$. اثبات می‌کنیم که در الگوریتم قبلی، کافی است فقط مقادیر $d$ را در نظر بگیریم که به شکل $\frac { \phi (n) } {p_j}$ هستند. در واقع، فرض کنید $d$ یک مقسوم‌علیه سره دلخواه از $\phi (n)$ باشد. آنگاه، بدیهی است که یک $j$ وجود دارد به طوری که $d \mid \frac { \phi (n) } {p_j}$، یعنی $d \cdot k = \frac { \phi (n) } {p_j}$. با این حال، اگر $g^d \equiv 1 \pmod n$ باشد، خواهیم داشت:
 
 $g ^ { \frac { \phi (n)} {p_j} } \equiv g ^ {d \cdot k} \equiv (g^d) ^k \equiv 1^k \equiv 1 \pmod n$.
 
-i.e. among the numbers of the form $\frac {\phi (n)} {p_i}$, there would be at least one such that the conditions were not met.
+یعنی در میان اعداد به شکل $\frac {\phi (n)} {p_i}$، حداقل یکی وجود خواهد داشت که شرایط را برآورده نمی‌کند.
 
-Now we have a complete algorithm for finding the primitive root:
+اکنون یک الگوریتم کامل برای یافتن ریشه اولیه داریم:
 
-* First, find $\phi (n)$ and factorize it.
-* Then iterate through all numbers $g \in [1, n]$, and for each number, to check if it is primitive root, we do the following:
+*   ابتدا $\phi (n)$ را پیدا کرده و آن را تجزیه می‌کنیم.
+*   سپس روی تمام اعداد $g \in [1, n]$ پیمایش می‌کنیم و برای هر عدد، جهت بررسی اینکه آیا ریشه اولیه است یا نه، کارهای زیر را انجام می‌دهیم:
 
-    * Calculate all $g ^ { \frac {\phi (n)} {p_i}} \pmod n$.
-    * If all the calculated values are different from $1$, then $g$ is a primitive root.
+    *   تمام مقادیر $g ^ { \frac {\phi (n)} {p_i}} \pmod n$ را محاسبه می‌کنیم.
+    *   اگر تمام مقادیر محاسبه‌شده مخالف $1$ باشند، آنگاه $g$ یک ریشه اولیه است.
 
-    Running time of this algorithm is $O(Ans \cdot \log \phi (n) \cdot \log n)$ (assume that $\phi (n)$ has $\log \phi (n)$ divisors).
+    زمان اجرای این الگوریتم $O(Ans \cdot \log \phi (n) \cdot \log n)$ است (با فرض اینکه $\phi (n)$ دارای $\log \phi (n)$ مقسوم‌علیه است).
 
-Shoup (1990, 1992) proved, assuming the [generalized Riemann hypothesis](http://en.wikipedia.org/wiki/Generalized_Riemann_hypothesis), that $g$ is $O(\log^6 p)$.
+شوپ (Shoup) (۱۹۹۰، ۱۹۹۲) با فرض [فرضیه ریمان تعمیم‌یافته](http://en.wikipedia.org/wiki/Generalized_Riemann_hypothesis)، ثابت کرد که $g$ از مرتبه $O(\log^6 p)$ است.
 
-## Implementation
+## پیاده‌سازی
 
-The following code assumes that the modulo `p` is a prime number. To make it works for any value of `p`, we must add calculation of $\phi (p)$. 
+کد زیر فرض می‌کند که پیمانه `p` یک عدد اول است. برای اینکه کد برای هر مقدار `p` کار کند، باید محاسبه $\phi (p)$ را به آن اضافه کنیم.
 
 ```cpp
 int powmod (int a, int b, int p) {

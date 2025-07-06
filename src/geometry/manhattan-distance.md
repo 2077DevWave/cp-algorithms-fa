@@ -1,44 +1,45 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: manhattan-distance
 ---
 
-# Manhattan Distance
+# فاصله منهتن
 	
-## Definition
-For points $p$ and $q$ on a plane, we can define the distance between them as the sum of the differences between their $x$ and $y$ coordinates: 
+## تعریف
+برای نقاط $p$ و $q$ روی یک صفحه، می‌توانیم فاصله بین آن‌ها را به عنوان مجموع اختلاف مؤلفه‌های $x$ و $y$ آن‌ها تعریف کنیم: 
 
 $$d(p,q) = |x_p - x_q| + |y_p - y_q|$$
 
-Defined this way, the distance corresponds to the so-called [Manhattan (taxicab) geometry](https://en.wikipedia.org/wiki/Taxicab_geometry), in which the points are considered intersections in a well designed city, like Manhattan, where you can only move on the streets horizontally or vertically, as shown in the image below:
+فاصله تعریف‌شده به این روش، متناظر با هندسه‌ای است که [هندسه منهتن (تاکسی)](https://en.wikipedia.org/wiki/Taxicab_geometry) نامیده می‌شود. در این هندسه، نقاط به عنوان تقاطع‌هایی در یک شهر خوش‌طرح، مانند منهتن، در نظر گرفته می‌شوند که در آن فقط می‌توان به صورت افقی یا عمودی در خیابان‌ها حرکت کرد، همانطور که در تصویر زیر نشان داده شده است:
 
 <div style="text-align: center;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Manhattan_distance.svg/220px-Manhattan_distance.svg.png" alt="Manhattan Distance">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Manhattan_distance.svg/220px-Manhattan_distance.svg.png" alt="فاصله منهتن">
 </div>
 
-This images show some of the smallest paths from one black point to the other, all of them with length $12$.
+این تصویر برخی از کوتاه‌ترین مسیرها از یک نقطه سیاه به نقطه دیگر را نشان می‌دهد که همگی طولی برابر با $12$ دارند.
 
-There are some interesting tricks and algorithms that can be done with this distance, and we will show some of them here.
+ترفندها و الگوریتم‌های جالبی وجود دارند که می‌توان با این فاصله انجام داد و ما در اینجا برخی از آن‌ها را نشان خواهیم داد.
 
-## Farthest pair of points in Manhattan distance
+## دورترین جفت نقاط در فاصله منهتن
 
-Given $n$ points $P$, we want to find the pair of points $p,q$ that are farther apart, that is, maximize $|x_p - x_q| + |y_p - y_q|$.
+با داشتن $n$ نقطه $P$، می‌خواهیم جفت نقطه $p,q$ را پیدا کنیم که بیشترین فاصله را از هم دارند، یعنی $|x_p - x_q| + |y_p - y_q|$ را بیشینه کنیم.
 
-Let's think first in one dimension, so $y=0$. The main observation is that we can bruteforce if $|x_p - x_q|$ is equal to $x_p - x_q$ or $-x_p + x_q$, because if we "miss the sign" of the absolute value, we will get only a smaller value, so it can't affect the answer. More formally, it holds that:
+ابتدا حالت یک‌بعدی را در نظر بگیریم، یعنی $y=0$. نکته اصلی این است که می‌توانیم برای عبارت $|x_p - x_q|$ هر دو حالت $x_p - x_q$ و $-x_p + x_q$ را امتحان کنیم، زیرا اگر "علامت" قدر مطلق را اشتباه در نظر بگیریم، تنها یک مقدار کوچکتر به دست می‌آوریم که نمی‌تواند بر پاسخ تأثیر بگذارد. به طور رسمی‌تر، داریم:
 
 $$|x_p - x_q| = \max(x_p - x_q, -x_p + x_q)$$
 
-So, for example, we can try to have $p$ such that $x_p$ has the plus sign, and then $q$ must have the negative sign. This way we want to find:
+بنابراین، برای مثال، می‌توانیم سعی کنیم $p$ را طوری انتخاب کنیم که $x_p$ علامت مثبت داشته باشد و در نتیجه $x_q$ باید علامت منفی داشته باشد. به این ترتیب می‌خواهیم عبارت زیر را پیدا کنیم:
 
 $$\max\limits_{p, q \in P}(x_p + (-x_q)) = \max\limits_{p \in P}(x_p) + \max\limits_{q \in P}( - x_q ).$$
 
-Notice that we can extend this idea further for 2 (or more!) dimensions. For $d$ dimensions, we must bruteforce $2^d$ possible values of the signs. For example, if we are in $2$ dimensions and bruteforce that $p$ has both the plus signs we want to find: 
+توجه کنید که می‌توانیم این ایده را برای ۲ (یا بیشتر!) بعد نیز گسترش دهیم. برای $d$ بعد، باید $2^d$ حالت ممکن برای علامت‌ها را به روش brute-force امتحان کنیم. برای مثال، اگر در ۲ بعد باشیم و حالتی را امتحان کنیم که هر دو مؤلفه $p$ علامت مثبت دارند، می‌خواهیم عبارت زیر را پیدا کنیم:
 
 $$\max\limits_{p, q \in P} [(x_p + (-x_q)) + (y_p + (-y_q))] = \max\limits_{p \in P}(x_p + y_p) + \max\limits_{q \in P}(-x_q - y_q).$$
 
-As we made $p$ and $q$ independent, it is now easy to find the $p$ and $q$ that maximize the expression.
+از آنجایی که $p$ و $q$ را از هم مستقل کردیم، اکنون پیدا کردن $p$ و $q$ که عبارت را بیشینه می‌کنند، آسان است.
 
-The code below generalizes this to $d$ dimensions and runs in $O(n \cdot 2^d \cdot d)$.
+کد زیر این ایده را برای $d$ بعد تعمیم می‌دهد و در زمان $O(n \cdot 2^d \cdot d)$ اجرا می‌شود.
 
 ```cpp
 long long ans = 0;
@@ -57,106 +58,106 @@ for (int msk = 0; msk < (1 << d); msk++) {
 }
 ```
 
-## Rotating the points and Chebyshev distance
+## چرخش نقاط و فاصله چبیشف
 
-It's well known that, for all $m, n \in \mathbb{R}$,
+به خوبی می‌دانیم که برای تمام $m, n \in \mathbb{R}$،
 
 $$|m| + |n| = \text{max}(|m + n|, |m - n|).$$
 
-To prove this, we just need to analyze the signs of $m$ and $n$. And it's left as an exercise.
+برای اثبات این موضوع، فقط کافی است علامت‌های $m$ و $n$ را تحلیل کنیم. این کار به عنوان یک تمرین واگذار می‌شود.
 
-We may apply this equation to the Manhattan distance formula to find out that
+می‌توانیم این معادله را در فرمول فاصله منهتن به کار ببریم تا به این نتیجه برسیم که
 
 $$d((x_1, y_1), (x_2, y_2)) = |x_1 - x_2| + |y_1 - y_2| = \text{max}(|(x_1 + y_1) - (x_2 + y_2)|, |(x_1 - y_1) - (x_2 - y_2)|).$$
 
-The last expression in the previous equation is the [Chebyshev distance](https://en.wikipedia.org/wiki/Chebyshev_distance) of the points $(x_1 + y_1, x_1 - y_1)$ and $(x_2 + y_2, x_2 - y_2)$. This means that, after applying the transformation
+عبارت آخر در معادله قبل، همان [فاصله چبیشف](https://en.wikipedia.org/wiki/Chebyshev_distance) بین نقاط $(x_1 + y_1, x_1 - y_1)$ و $(x_2 + y_2, x_2 - y_2)$ است. این به این معنی است که پس از اعمال تبدیل
 
 $$\alpha : (x, y) \to (x + y, x - y),$$
 
-the Manhattan distance between the points $p$ and $q$ turns into the Chebyshev distance between $\alpha(p)$ and $\alpha(q)$.
+فاصله منهتن بین نقاط $p$ و $q$ به فاصله چبیشف بین $\alpha(p)$ و $\alpha(q)$ تبدیل می‌شود.
 
-Also, we may realize that $\alpha$ is a [spiral similarity](https://en.wikipedia.org/wiki/Spiral_similarity) (rotation of the plane followed by a dilation about a center $O$) with center $(0, 0)$, rotation angle of $45^{\circ}$ in clockwise direction and dilation by $\sqrt{2}$.
+همچنین، می‌توانیم متوجه شویم که $\alpha$ یک [تشابه مارپیچی](https://en.wikipedia.org/wiki/Spiral_similarity) (یک چرخش صفحه و به دنبال آن یک تجانس حول مرکز $O$) با مرکز $(0, 0)$، زاویه چرخش $45^{\circ}$ در جهت عقربه‌های ساعت و ضریب تجانس $\sqrt{2}$ است.
 
-Here's an image to help visualizing the transformation:
-
-<div style="text-align: center;">
-  <img src="chebyshev-transformation.png" alt="Chebyshev transformation">
-</div>
-
-## Manhattan Minimum Spanning Tree
-
-The Manhattan MST problem consists of, given some points in the plane, find the edges that connect all the points and have a minimum total sum of weights. The weight of an edge that connects two points is their Manhattan distance. For simplicity, we assume that all points have different locations.
-Here we show a way of finding the MST in $O(n \log{n})$ by finding for each point its nearest neighbor in each octant, as represented by the image below. This will give us $O(n)$ candidate edges, which, as we show below, will guarantee that they contain the MST. The final step is then using some standard MST, for example, [Kruskal algorithm using disjoint set union](https://cp-algorithms.com/graph/mst_kruskal_with_dsu.html).
+در اینجا تصویری برای کمک به تجسم این تبدیل آورده شده است:
 
 <div style="text-align: center;">
-  <img src="manhattan-mst-octants.png" alt="8 octants picture">
-  *The 8 octants relative to a point S*
+  <img src="chebyshev-transformation.png" alt="تبدیل چبیشف">
 </div>
 
-The algorithm shown here was first presented in a paper from [H. Zhou, N. Shenoy, and W. Nichollos (2002)](https://ieeexplore.ieee.org/document/913303). There is also another know algorithm that uses a Divide and conquer approach by [J. Stolfi](https://www.academia.edu/15667173/On_computing_all_north_east_nearest_neighbors_in_the_L1_metric), which is also very interesting and only differ in the way they find the nearest neighbor in each octant. They both have the same complexity, but the one presented here is easier to implement and has a lower constant factor.
+## درخت پوشای کمینه منهتن
 
-First, let's understand why it is enough to consider only the nearest neighbor in each octant. The idea is to show that for a point $s$ and any two other points $p$ and $q$ in the same octant, $d(p, q) < \max(d(s, p), d(s, q))$. This is important, because it shows that if there was a MST where $s$ is connected to both $p$ and $q$, we could erase one of these edges and add the edge $(p,q)$, which would decrease the total cost. To prove this, we assume without loss of generality that $p$ and $q$ are in the octanct $R_1$, which is defined by: $x_s \leq x$ and $x_s - y_s > x -  y$, and then do some casework. The image below give some intuition on why this is true.
+مسئله درخت پوشای کمینه منهتن (Manhattan MST) عبارت است از: با داشتن تعدادی نقطه در صفحه، یال‌هایی را پیدا کنید که همه نقاط را به هم متصل کرده و مجموع وزن‌هایشان کمینه باشد. وزن هر یال که دو نقطه را به هم متصل می‌کند، فاصله منهتن بین آن دو نقطه است. برای سادگی، فرض می‌کنیم که همه نقاط مکان‌های متفاوتی دارند.
+در اینجا روشی برای یافتن MST در زمان $O(n \log{n})$ ارائه می‌دهیم. در این روش برای هر نقطه، نزدیک‌ترین همسایه آن در هر هشت ناحیه (octant) را پیدا می‌کنیم، همانطور که در تصویر زیر نشان داده شده است. این کار به ما $O(n)$ یال کاندید می‌دهد که همانطور که در ادامه نشان خواهیم داد، تضمین می‌کند که MST را در بر دارند. گام نهایی استفاده از یک الگوریتم استاندارد MST است، برای مثال، [الگوریتم کروسکال با استفاده از disjoint set union](https://cp-algorithms.com/graph/mst_kruskal_with_dsu.html).
 
 <div style="text-align: center;">
-  <img src="manhattan-mst-uniqueness.png" alt="unique nearest neighbor">
-  *Intuitively, the limitation of the octant makes it impossible that $p$ and $q$ are both closer to $s$ than to each other*
+  <img src="manhattan-mst-octants.png" alt="تصویر ۸ ناحیه">
+  *۸ ناحیه (octant) نسبت به نقطه S*
 </div>
 
+الگوریتمی که در اینجا نشان داده شده است اولین بار در مقاله‌ای از [H. Zhou، N. Shenoy، و W. Nichollos (2002)](https://ieeexplore.ieee.org/document/913303) ارائه شد. الگوریتم شناخته‌شده دیگری نیز وجود دارد که از رویکرد تقسیم و حل (Divide and conquer) توسط [J. Stolfi](https://www.academia.edu/15667173/On_computing_all_north_east_nearest_neighbors_in_the_L1_metric) استفاده می‌کند که آن هم بسیار جالب است و تنها در روش پیدا کردن نزدیک‌ترین همسایه در هر octant تفاوت دارد. هر دو الگوریتم پیچیدگی زمانی یکسانی دارند، اما الگوریتمی که در اینجا ارائه شده پیاده‌سازی ساده‌تری دارد و ضریب ثابت آن کمتر است.
 
-Therefore, the main question is how to find the nearest neighbor in each octant for every single of the $n$ points.
-
-## Nearest Neighbor in each Octant in O(n log n)
-
-For simplicity we focus on the NNE octant ($R_1$ in the image above). All other directions can be found with the same algorithm by rotating the input.
-
-We will use a sweep-line approach. We process the points from south-west to north-east, that is, by non-decreasing $x + y$. We also keep a set of points which don't have their nearest neighbor yet, which we call "active set". We add the images below to help visualize the algorithm.
+ابتدا، بیایید بفهمیم چرا کافی است فقط نزدیک‌ترین همسایه در هر octant را در نظر بگیریم. ایده این است که نشان دهیم برای یک نقطه $s$ و هر دو نقطه دیگر $p$ و $q$ در همان octant، داریم $d(p, q) < \max(d(s, p), d(s, q))$. این موضوع مهم است، زیرا نشان می‌دهد که اگر یک MST وجود داشته باشد که در آن $s$ به هر دو نقطه $p$ و $q$ متصل باشد، می‌توانیم یکی از این یال‌ها را حذف کرده و یال $(p,q)$ را اضافه کنیم که هزینه کل را کاهش می‌دهد. برای اثبات این موضوع، بدون از دست دادن کلیت فرض می‌کنیم که $p$ و $q$ در octant $R_1$ قرار دارند که با شرایط $x_s \leq x$ و $x_s - y_s > x - y$ تعریف می‌شود و سپس با بررسی چند حالت، اثبات را کامل می‌کنیم. تصویر زیر شهودی از چرایی درست بودن این موضوع ارائه می‌دهد.
 
 <div style="text-align: center;">
-  <img src="manhattan-mst-sweep-line-1.png" alt="manhattan-mst-sweep">
-  *In black with an arrow you can see the direction of the line-sweep. All the points below this lines are in the active set, and the points above are still not processed. In green we see the points which are in the octant of the processed point. In red the points that are not in the searched octant.*
+  <img src="manhattan-mst-uniqueness.png" alt="نزدیک‌ترین همسایه یکتا">
+  *به طور شهودی، محدودیت octant باعث می‌شود غیرممکن باشد که $p$ و $q$ هر دو به $s$ نزدیک‌تر از فاصله خودشان با یکدیگر باشند*
+</div>
+
+
+بنابراین، سؤال اصلی این است که چگونه نزدیک‌ترین همسایه را در هر octant برای تک‌تک $n$ نقطه پیدا کنیم.
+
+## یافتن نزدیک‌ترین همسایه در هر Octant در $O(n \log n)$
+
+برای سادگی، روی octant شمال-شمال-شرق (NNE) (همان $R_1$ در تصویر بالا) تمرکز می‌کنیم. تمام جهات دیگر را می‌توان با همین الگوریتم و با چرخاندن ورودی پیدا کرد.
+
+ما از رویکرد خط جاروب (sweep-line) استفاده خواهیم کرد. نقاط را از جنوب-غربی به شمال-شرقی، یعنی بر اساس ترتیب غیر نزولی $x + y$ پردازش می‌کنیم. همچنین مجموعه‌ای از نقاط را که هنوز نزدیک‌ترین همسایه خود را پیدا نکرده‌اند، نگه می‌داریم که آن را "مجموعه فعال" می‌نامیم. تصاویر زیر را برای کمک به تجسم الگوریتم اضافه کرده‌ایم.
+
+<div style="text-align: center;">
+  <img src="manhattan-mst-sweep-line-1.png" alt="خط جاروب mst منهتن">
+  *با رنگ سیاه و یک فلش، جهت خط جاروب نشان داده شده است. تمام نقاط زیر این خط در مجموعه فعال قرار دارند و نقاط بالای آن هنوز پردازش نشده‌اند. با رنگ سبز نقاطی را می‌بینیم که در octant نقطه پردازش‌شده قرار دارند. با رنگ قرمز نقاطی که در octant مورد نظر نیستند، مشخص شده‌اند.*
 </div>
 
 <div style="text-align: center;">
-  <img src="manhattan-mst-sweep-line-2.png" alt="manhattan-mst-sweep">
-  *In this image we see the active set after processing the point $p$. Note that the $2$ green points of the previous image had $p$ in its north-north-east octant and are not in the active set anymore, because they already found their nearest neighbor.*
+  <img src="manhattan-mst-sweep-line-2.png" alt="خط جاروب mst منهتن">
+  *در این تصویر، مجموعه فعال را پس از پردازش نقطه $p$ مشاهده می‌کنیم. توجه کنید که ۲ نقطه سبز تصویر قبل، نقطه $p$ را در octant شمال-شمال-شرق خود داشتند و دیگر در مجموعه فعال نیستند، زیرا نزدیک‌ترین همسایه خود را پیدا کرده‌اند.*
 </div>
 
-When we add a new point point $p$, for every point $s$ that has it in its octant we can safely assign $p$ as the nearest neighbor. This is true because their distance is $d(p,s) = |x_p - x_s| + |y_p - y_s| = (x_p + y_p) - (x_s + y_s)$, because $p$ is in the north-north-east octant. As all the next points will not have a smaller value of $x + y$ because of the sorting step, $p$ is guaranteed to have the smaller distance. We can then remove all such points from the active set, and finally add $p$ to the active set.
+هنگامی که یک نقطه جدید $p$ را اضافه می‌کنیم، برای هر نقطه $s$ که $p$ در octant آن قرار دارد، می‌توانیم با خیال راحت $p$ را به عنوان نزدیک‌ترین همسایه آن تعیین کنیم. این امر به این دلیل درست است که فاصله آنها $d(p,s) = |x_p - x_s| + |y_p - y_s| = (x_p + y_p) - (x_s + y_s)$ است، زیرا $p$ در octant شمال-شمال-شرق قرار دارد. از آنجایی که به دلیل مرحله مرتب‌سازی، هیچ یک از نقاط بعدی مقدار $x+y$ کوچکتری نخواهند داشت، تضمین می‌شود که $p$ کمترین فاصله را دارد. سپس می‌توانیم تمام این نقاط را از مجموعه فعال حذف کرده و در نهایت $p$ را به مجموعه فعال اضافه کنیم.
 
-The next question is how to efficiently find which points $s$ have $p$ in the north-north-east octant. That is, which points $s$ satisfy:
+سوال بعدی این است که چگونه به طور کارآمد نقاط $s$ را پیدا کنیم که $p$ در octant شمال-شمال-شرق آنها قرار دارد. یعنی، کدام نقاط $s$ در شرایط زیر صدق می‌کنند:
 
 - $x_s \leq x_p$
 - $x_p - y_p < x_s - y_s$
 
-Because no points in the active set are in the $R_1$ region of another, we also have that for two points $q_1$ and $q_2$ in the active set, $x_{q_1} \neq x_{q_2}$ and their ordering implies $x_{q_1} < x_{q_2} \implies x_{q_1} - y_{q_1} \leq x_{q_2} - y_{q_2}$.
+از آنجایی که هیچ نقطه‌ای در مجموعه فعال در ناحیه $R_1$ نقطه دیگری قرار ندارد، همچنین داریم که برای دو نقطه $q_1$ و $q_2$ در مجموعه فعال، $x_{q_1} \neq x_{q_2}$ و ترتیب آنها ایجاب می‌کند که $x_{q_1} < x_{q_2} \implies x_{q_1} - y_{q_1} \leq x_{q_2} - y_{q_2}$.
 
-You can try to visualize this on the images above by thinking of the ordering of $x - y$ as a "sweep-line" that goes from the north-west to the south-east, so perpendicular to the one that is drawn.
+می‌توانید این موضوع را در تصاویر بالا با تصور کردن ترتیب $x - y$ به عنوان یک "خط جاروب" که از شمال-غربی به جنوب-شرقی می‌رود، یعنی عمود بر خطی که رسم شده است، تجسم کنید.
 
-This means that if we keep the active set ordered by $x$ the candidates $s$ are consecutively placed. We can then find the largest $x_s \leq x_p$ and process the points in decreasing order of $x$ until the second condition $x_p - y_p < x_s - y_s$ breaks (we can actually allow that $x_p - y_p = x_s - y_s$ and that deals with the case of points with equal coordinates). Notice that because we remove from the set right after processing, this will have an amortized complexity of $O(n \log(n))$.
-	Now that we have the nearest point in the north-east direction, we rotate the points and repeat. It is possible to show that actually we also find this way the nearest point in the south-west direction, so we can repeat only 4 times, instead of 8.
+این به این معنی است که اگر مجموعه فعال را بر اساس $x$ مرتب نگه داریم، کاندیدهای $s$ به صورت متوالی قرار می‌گیرند. سپس می‌توانیم بزرگترین $x_s \leq x_p$ را پیدا کرده و نقاط را به ترتیب نزولی $x$ پردازش کنیم تا زمانی که شرط دوم $x_p - y_p < x_s - y_s$ نقض شود (در واقع می‌توانیم اجازه دهیم $x_p - y_p = x_s - y_s$ باشد که حالت نقاط با مؤلفه‌های برابر را نیز پوشش می‌دهد). توجه کنید که چون بلافاصله پس از پردازش، نقاط را از مجموعه حذف می‌کنیم، این کار دارای پیچیدگی سرشکن (amortized) $O(n \log(n))$ خواهد بود.
+	حالا که نزدیک‌ترین نقطه در جهت شمال-شرق را داریم، نقاط را می‌چرخانیم و تکرار می‌کنیم. می‌توان نشان داد که در واقع به این روش نزدیک‌ترین نقطه در جهت جنوب-غرب را نیز پیدا می‌کنیم، بنابراین می‌توانیم فقط ۴ بار تکرار کنیم، به جای ۸ بار.
 
-In summary we:
+به طور خلاصه:
 
-- Sort the points by $x + y$ in non-decreasing order;
-- For every point, we iterate over the active set starting with the point with the largest $x$ such that $x \leq x_p$, and we break the loop if  $x_p - y_p \geq x_s - y_s$. For every valid point $s$ we add the edge $(s,p, d(s,p))$ in our list;
-- We add the point $p$ to the active set;
-- Rotate the points and repeat until we iterate over all the octants.
-- Apply Kruskal algorithm in the list of edges to get the MST. 
+- نقاط را بر اساس $x+y$ به ترتیب غیر نزولی مرتب می‌کنیم؛
+- برای هر نقطه، مجموعه فعال را از نقطه‌ای با بزرگترین $x$ که $x \leq x_p$ است، پیمایش می‌کنیم و اگر $x_p - y_p \geq x_s - y_s$ باشد، حلقه را متوقف می‌کنیم. برای هر نقطه معتبر $s$، یال $(s,p, d(s,p))$ را به لیست خود اضافه می‌کنیم؛
+- نقطه $p$ را به مجموعه فعال اضافه می‌کنیم؛
+- نقاط را می‌چرخانیم و تکرار می‌کنیم تا زمانی که تمام octantها را پیمایش کنیم.
+- الگوریتم کروسکال را روی لیست یال‌ها اجرا می‌کنیم تا MST را به دست آوریم.
 
-Below you can find a implementation, based on the one from [KACTL](https://github.com/kth-competitive-programming/kactl/blob/main/content/geometry/ManhattanMST.h).
+در زیر می‌توانید یک پیاده‌سازی را مشاهده کنید که بر اساس پیاده‌سازی موجود در [KACTL](https://github.com/kth-competitive-programming/kactl/blob/main/content/geometry/ManhattanMST.h) است.
 
 ```{.cpp file=manhattan_mst}
 struct point {
     long long x, y;
 };
 
-// Returns a list of edges in the format (weight, u, v). 
-// Passing this list to Kruskal algorithm will give the Manhattan MST.
+// لیستی از یال‌ها با فرمت (وزن، u، v) برمی‌گرداند.
+// ارسال این لیست به الگوریتم کروسکال، MST منهتن را به دست می‌دهد.
 vector<tuple<long long, int, int>> manhattan_mst_edges(vector<point> ps) {
     vector<int> ids(ps.size());
     iota(ids.begin(), ids.end(), 0);
     vector<tuple<long long, int, int>> edges;
-    for (int rot = 0; rot < 4; rot++) { // for every rotation
+    for (int rot = 0; rot < 4; rot++) { // برای هر چرخش
         sort(ids.begin(), ids.end(), [&](int i, int j){
             return (ps[i].x + ps[i].y) < (ps[j].x + ps[j].y);
         });
@@ -171,7 +172,7 @@ vector<tuple<long long, int, int>> manhattan_mst_edges(vector<point> ps) {
             }
             active[ps[i].x] = i;
         }
-        for (auto &p : ps) { // rotate
+        for (auto &p : ps) { // چرخش
             if (rot & 1) p.x *= -1;
             else swap(p.x, p.y);
         }
@@ -180,7 +181,7 @@ vector<tuple<long long, int, int>> manhattan_mst_edges(vector<point> ps) {
 }
 ```
 
-## Problems
+## مسائل
  * [AtCoder Beginner Contest 178E - Dist Max](https://atcoder.jp/contests/abc178/tasks/abc178_e)
  * [CodeForces 1093G - Multidimensional Queries](https://codeforces.com/contest/1093/problem/G)
  * [CodeForces 944F - Game with Tokens](https://codeforces.com/contest/944/problem/F)

@@ -1,59 +1,55 @@
 ---
 tags:
-  
-e_maxx_link: extended_euclid_algorithm
+  - AI Translated
+e_maxx_link: extended-euclid-algorithm
 ---
 
-# Extended Euclidean Algorithm
+# الگوریتم اقلیدسی تعمیم‌یافته
 
-While the [Euclidean algorithm](euclid-algorithm.md) calculates only the greatest common divisor (GCD) of two integers $a$ and $b$, the extended version also finds a way to represent GCD in terms of $a$ and $b$, i.e. coefficients $x$ and $y$ for which:
+در حالی که [الگوریتم اقلیدسی](euclid-algorithm.md) فقط بزرگترین مقسوم‌علیه مشترک (ب.م.م) دو عدد صحیح $a$ و $b$ را محاسبه می‌کند، نسخه تعمیم‌یافته‌ی آن راهی برای نمایش ب.م.م بر حسب $a$ و $b$ نیز پیدا می‌کند، یعنی ضرایب $x$ و $y$ را طوری می‌یابد که:
 
 $$a \cdot x + b \cdot y = \gcd(a, b)$$
 
-It's important to note that by [Bézout's identity](https://en.wikipedia.org/wiki/B%C3%A9zout%27s_identity) we can always find such a representation. For instance, $\gcd(55, 80) = 5$, therefore we can represent $5$ as a linear combination with the terms $55$ and $80$: $55 \cdot 3 + 80 \cdot (-2) = 5$ 
+توجه به این نکته مهم است که طبق [اتحاد بزو](https://en.wikipedia.org/wiki/B%C3%A9zout%27s_identity) همیشه می‌توان چنین نمایشی را پیدا کرد. به عنوان مثال، $\gcd(55, 80) = 5$، بنابراین می‌توانیم $5$ را به صورت یک ترکیب خطی از $55$ و $80$ نمایش دهیم: $55 \cdot 3 + 80 \cdot (-2) = 5$
 
-A more general form of that problem is discussed in the article about [Linear Diophantine Equations](linear-diophantine-equation.md).
-It will build upon this algorithm.
+شکل کلی‌تری از این مسئله در مقاله [معادلات سیاله خطی](linear-diophantine-equation.md) مورد بحث قرار گرفته است. آن مقاله بر پایه این الگوریتم بنا شده است.
 
-## Algorithm
+## الگوریتم
 
-We will denote the GCD of $a$ and $b$ with $g$ in this section.
+در این بخش، ب.م.م $a$ و $b$ را با $g$ نمایش می‌دهیم.
 
-The changes to the original algorithm are very simple.
-If we recall the algorithm, we can see that the algorithm ends with $b = 0$ and $a = g$.
-For these parameters we can easily find coefficients, namely $g \cdot 1 + 0 \cdot 0 = g$.
+تغییرات نسبت به الگوریتم اصلی بسیار ساده است. اگر الگوریتم را به یاد بیاورید، می‌بینید که الگوریتم با $b = 0$ و $a = g$ به پایان می‌رسد. برای این پارامترها به راحتی می‌توان ضرایب را پیدا کرد، یعنی $g \cdot 1 + 0 \cdot 0 = g$.
 
-Starting from these coefficients $(x, y) = (1, 0)$, we can go backwards up the recursive calls.
-All we need to do is to figure out how the coefficients $x$ and $y$ change during the transition from $(a, b)$ to $(b, a \bmod b)$.
+با شروع از این ضرایب $(x, y) = (1, 0)$، می‌توانیم در فراخوانی‌های بازگشتی به عقب برگردیم. تنها کاری که باید انجام دهیم این است که بفهمیم ضرایب $x$ و $y$ در حین انتقال از $(a, b)$ به $(b, a \bmod b)$ چگونه تغییر می‌کنند.
 
-Let us assume we found the coefficients $(x_1, y_1)$ for $(b, a \bmod b)$:
+فرض کنیم ضرایب $(x_1, y_1)$ را برای $(b, a \bmod b)$ پیدا کرده‌ایم:
 
 $$b \cdot x_1 + (a \bmod b) \cdot y_1 = g$$
 
-and we want to find the pair $(x, y)$ for $(a, b)$:
+و می‌خواهیم زوج $(x, y)$ را برای $(a, b)$ پیدا کنیم:
 
 $$ a \cdot x + b \cdot y = g$$
 
-We can represent $a \bmod b$ as:
+می‌توانیم $a \bmod b$ را به صورت زیر نمایش دهیم:
 
 $$ a \bmod b = a - \left\lfloor \frac{a}{b} \right\rfloor \cdot b$$
 
-Substituting this expression in the coefficient equation of $(x_1, y_1)$ gives:
+با جایگذاری این عبارت در معادله ضرایب $(x_1, y_1)$ خواهیم داشت:
 
 $$ g = b \cdot x_1 + (a \bmod b) \cdot y_1 = b \cdot x_1 + \left(a - \left\lfloor \frac{a}{b} \right\rfloor \cdot b \right) \cdot y_1$$
 
-and after rearranging the terms:
+و پس از مرتب‌سازی جملات:
 
 $$g = a \cdot y_1 + b \cdot \left( x_1 - y_1 \cdot \left\lfloor \frac{a}{b} \right\rfloor \right)$$
 
-We found the values of $x$ and $y$:
+مقادیر $x$ و $y$ را پیدا کردیم:
 
 $$\begin{cases}
 x = y_1 \\
 y = x_1 - y_1 \cdot \left\lfloor \frac{a}{b} \right\rfloor
 \end{cases} $$
 
-## Implementation
+## پیاده‌سازی
 
 ```{.cpp file=extended_gcd}
 int gcd(int a, int b, int& x, int& y) {
@@ -70,14 +66,13 @@ int gcd(int a, int b, int& x, int& y) {
 }
 ```
 
-The recursive function above returns the GCD and the values of coefficients to `x` and `y` (which are passed by reference to the function).
+تابع بازگشتی بالا ب.م.م و مقادیر ضرایب را به `x` و `y` (که با ارجاع به تابع پاس داده شده‌اند) برمی‌گرداند.
 
-This implementation of extended Euclidean algorithm produces correct results for negative integers as well.
+این پیاده‌سازی الگوریتم اقلیدسی تعمیم‌یافته برای اعداد صحیح منفی نیز نتایج صحیحی تولید می‌کند.
 
-## Iterative version
+## نسخه تکراری
 
-It's also possible to write the Extended Euclidean algorithm in an iterative way.
-Because it avoids recursion, the code will run a little bit faster than the recursive one.
+همچنین می‌توان الگوریتم اقلیدسی تعمیم‌یافته را به روش تکراری نوشت. از آنجا که این روش از بازگشت استفاده نمی‌کند، کد کمی سریع‌تر از نسخه بازگشتی اجرا می‌شود.
 
 ```{.cpp file=extended_gcd_iter}
 int gcd(int a, int b, int& x, int& y) {
@@ -93,43 +88,40 @@ int gcd(int a, int b, int& x, int& y) {
 }
 ```
 
-If you look closely at the variables `a1` and `b1`, you can notice that they take exactly the same values as in the iterative version of the normal [Euclidean algorithm](euclid-algorithm.md). So the algorithm will at least compute the correct GCD.
+اگر با دقت به متغیرهای `a1` و `b1` نگاه کنید، متوجه می‌شوید که آنها دقیقاً همان مقادیری را می‌گیرند که در نسخه تکراری [الگوریتم اقلیدسی](euclid-algorithm.md) معمولی وجود دارد. بنابراین، الگوریتم حداقل ب.م.م صحیح را محاسبه خواهد کرد.
 
-To see why the algorithm computes the correct coefficients, consider that the following invariants hold at any given time (before the while loop begins and at the end of each iteration):
+برای اینکه ببینیم چرا الگوریتم ضرایب صحیح را محاسبه می‌کند، در نظر بگیرید که نامتغیرهای (invariants) زیر در هر لحظه (قبل از شروع حلقه while و در پایان هر تکرار) برقرار هستند:
 
 $$x \cdot a + y \cdot b = a_1$$
 
 $$x_1 \cdot a + y_1 \cdot b = b_1$$
 
-Let the values at the end of an iteration be denoted by a prime ($'$), and assume $q = \frac{a_1}{b_1}$. From the [Euclidean algorithm](euclid-algorithm.md), we have:
+فرض کنید مقادیر در انتهای یک تکرار با یک پرایم ($'$) مشخص شوند و فرض کنید $q = \frac{a_1}{b_1}$ باشد. از [الگوریتم اقلیدسی](euclid-algorithm.md) داریم:
 
 $$a_1' = b_1$$
 
 $$b_1' = a_1 - q \cdot b_1$$
 
-For the first invariant to hold, the following should be true:
+برای اینکه نامتغیر اول برقرار بماند، باید موارد زیر درست باشد:
 
 $$x' \cdot a + y' \cdot b = a_1' = b_1$$
 
 $$x' \cdot a + y' \cdot b = x_1 \cdot a + y_1 \cdot b$$
 
-Similarly for the second invariant, the following should hold:
+به طور مشابه برای نامتغیر دوم، باید موارد زیر برقرار باشد:
 
 $$x_1' \cdot a + y_1' \cdot b = a_1 - q \cdot b_1$$
 
 $$x_1' \cdot a + y_1' \cdot b = (x - q \cdot x_1) \cdot a + (y - q \cdot y_1) \cdot b$$
 
-By comparing the coefficients of $a$ and $b$, the update equations for each variable can be derived, ensuring that the invariants are maintained throughout the algorithm.
+با مقایسه ضرایب $a$ و $b$، معادلات به‌روزرسانی برای هر متغیر به دست می‌آید و این تضمین می‌کند که نامتغیرها در طول الگوریتم حفظ می‌شوند.
 
+در پایان می‌دانیم که $a_1$ حاوی ب.م.م است، بنابراین $x \cdot a + y \cdot b = g$. این بدان معناست که ضرایب مورد نیاز را پیدا کرده‌ایم.
 
-At the end we know that $a_1$ contains the GCD, so $x \cdot a + y \cdot b = g$.
-Which means that we have found the required coefficients.
+حتی می‌توانید کد را بیشتر بهینه کنید و متغیرهای $a_1$ و $b_1$ را از کد حذف کرده و فقط از $a$ و $b$ دوباره استفاده کنید. با این حال، اگر این کار را انجام دهید، توانایی استدلال در مورد نامتغیرها را از دست می‌دهید.
 
-You can even optimize the code more, and remove the variable $a_1$ and $b_1$ from the code, and just reuse $a$ and $b$.
-However if you do so, you lose the ability to argue about the invariants.
+## مسائل تمرینی
 
-## Practice Problems
-
-* [UVA - 10104 - Euclid Problem](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1045)
+* [UVA - 10104 - مسئله اقلیدس](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1045)
 * [GYM - (J) Once Upon A Time](http://codeforces.com/gym/100963)
-* [UVA - 12775 - Gift Dilemma](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=4628)
+* [UVA - 12775 - معمای هدیه](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=4628)

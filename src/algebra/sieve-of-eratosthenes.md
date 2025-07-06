@@ -1,34 +1,34 @@
 ---
 tags:
-  
-e_maxx_link: eratosthenes_sieve
+  - AI Translated
+e_maxx_link: sieve-of-eratosthenes
 ---
 
-# Sieve of Eratosthenes
+# غربال اراتوستن
 
-Sieve of Eratosthenes is an algorithm for finding all the prime numbers in a segment $[1;n]$ using $O(n \log \log n)$ operations.
+غربال اراتوستن الگوریتمی برای یافتن تمام اعداد اول در بازه‌ی $[1;n]$ با $O(n \log \log n)$ عملیات است.
 
-The algorithm is very simple:
-at the beginning we write down all numbers between 2 and $n$.
-We mark all proper multiples of 2 (since 2 is the smallest prime number) as composite.
-A proper multiple of a number $x$, is a number greater than $x$ and divisible by $x$.
-Then we find the next number that hasn't been marked as composite, in this case it is 3.
-Which means 3 is prime, and we mark all proper multiples of 3 as composite.
-The next unmarked number is 5, which is the next prime number, and we mark all proper multiples of it.
-And we continue this procedure until we have processed all numbers in the row.
+الگوریتم بسیار ساده است:
+در ابتدا تمام اعداد بین 2 تا $n$ را می‌نویسیم.
+تمام مضرب‌های سره‌ی 2 را (چون 2 کوچکترین عدد اول است) به عنوان مرکب علامت می‌زنیم.
+مضرب سره‌ی یک عدد $x$ عددی بزرگتر از $x$ و بخش‌پذیر بر $x$ است.
+سپس عدد بعدی را که به عنوان مرکب علامت نخورده است پیدا می‌کنیم، که در این مورد 3 است.
+این یعنی 3 اول است، و ما تمام مضرب‌های سره‌ی 3 را به عنوان مرکب علامت می‌زنیم.
+عدد بعدی علامت نخورده 5 است، که عدد اول بعدی است، و ما تمام مضرب‌های سره‌ی آن را علامت می‌زنیم.
+و این روند را تا زمانی که تمام اعداد در این ردیف را پردازش کنیم ادامه می‌دهیم.
 
-In the following image you can see a visualization of the algorithm for computing all prime numbers in the range $[1; 16]$. It can be seen, that quite often we mark numbers as composite multiple times.
+در تصویر زیر می‌توانید یک نمایش تصویری از الگوریتم برای محاسبه‌ی تمام اعداد اول در بازه‌ی $[1; 16]$ را ببینید. می‌توان دید که خیلی وقت‌ها اعداد را چندین بار به عنوان مرکب علامت می‌زنیم.
 
 <div style="text-align: center;">
   <img src="sieve_eratosthenes.png" alt="Sieve of Eratosthenes">
 </div>
 
-The idea behind is this:
-A number is prime, if none of the smaller prime numbers divides it.
-Since we iterate over the prime numbers in order, we already marked all numbers, which are divisible by at least one of the prime numbers, as divisible.
-Hence if we reach a cell and it is not marked, then it isn't divisible by any smaller prime number and therefore has to be prime.
+ایده‌ی پشت این الگوریتم این است:
+یک عدد اول است، اگر هیچ‌یک از اعداد اول کوچکتر از آن بر آن بخش‌پذیر نباشد.
+از آنجایی که ما اعداد اول را به ترتیب پیمایش می‌کنیم، از قبل تمام اعدادی را که بر حداقل یکی از اعداد اول بخش‌پذیر هستند، به عنوان مرکب علامت زده‌ایم.
+بنابراین اگر به خانه‌ای برسیم و علامت نخورده باشد، آنگاه بر هیچ عدد اول کوچکتری بخش‌پذیر نیست و در نتیجه باید اول باشد.
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
 int n;
@@ -42,62 +42,62 @@ for (int i = 2; i <= n; i++) {
 }
 ```
 
-This code first marks all numbers except zero and one as potential prime numbers, then it begins the process of sifting composite numbers.
-For this it iterates over all numbers from $2$ to $n$.
-If the current number $i$ is a prime number, it marks all numbers that are multiples of $i$ as composite numbers, starting from $i^2$.
-This is already an optimization over naive way of implementing it, and is allowed as all smaller numbers that are multiples of $i$ necessary also have a prime factor which is less than $i$, so all of them were already sifted earlier.
-Since $i^2$ can easily overflow the type `int`, the additional verification is done using type `long long` before the second nested loop.
+این کد ابتدا تمام اعداد به جز صفر و یک را به عنوان اعداد اول بالقوه علامت‌گذاری می‌کند، سپس فرآیند غربال کردن اعداد مرکب را آغاز می‌کند.
+برای این کار، روی تمام اعداد از $2$ تا $n$ پیمایش می‌کند.
+اگر عدد فعلی $i$ یک عدد اول باشد، تمام اعدادی را که مضرب $i$ هستند، از $i^2$ شروع کرده و به عنوان اعداد مرکب علامت می‌زند.
+این خود یک بهینه‌سازی نسبت به روش ساده‌ی پیاده‌سازی است و مجاز است زیرا تمام اعداد کوچکتر که مضرب $i$ هستند، لزوماً یک عامل اول کوچکتر از $i$ نیز دارند، بنابراین همه‌ی آنها قبلاً غربال شده‌اند.
+از آنجایی که $i^2$ به راحتی می‌تواند از نوع `int` سرریز (overflow) کند، بررسی اضافی با استفاده از نوع `long long` قبل از حلقه‌ی تو در توی دوم انجام می‌شود.
 
-Using such implementation the algorithm consumes $O(n)$ of the memory (obviously) and performs $O(n \log \log n)$ (see next section).
+با چنین پیاده‌سازی، الگوریتم (بدیهتاً) $O(n)$ حافظه مصرف می‌کند و $O(n \log \log n)$ عملیات انجام می‌دهد (بخش بعدی را ببینید).
 
-## Asymptotic analysis
+## تحلیل مجانبی
 
-It's simple to prove a running time of $O(n \log n)$ without knowing anything about the distribution of primes - ignoring the `is_prime` check, the inner loop runs (at most) $n/i$ times for $i = 2, 3, 4, \dots$, leading the total number of operations in the inner loop to be a harmonic sum like $n(1/2 + 1/3 + 1/4 + \cdots)$, which is bounded by $O(n \log n)$.
+اثبات زمان اجرای $O(n \log n)$ بدون دانستن چیزی در مورد توزیع اعداد اول ساده است - با نادیده گرفتن بررسی `is_prime`، حلقه‌ی داخلی (حداکثر) $n/i$ بار برای $i = 2, 3, 4, \dots$ اجرا می‌شود، که منجر به این می‌شود که تعداد کل عملیات در حلقه‌ی داخلی یک سری هارمونیک مانند $n(1/2 + 1/3 + 1/4 + \cdots)$ باشد که توسط $O(n \log n)$ کران‌دار می‌شود.
 
-Let's prove that algorithm's running time is $O(n \log \log n)$.
-The algorithm will perform $\frac{n}{p}$ operations for every prime $p \le n$ in the inner loop.
-Hence, we need to evaluate the next expression:
+بیایید ثابت کنیم که زمان اجرای الگوریتم $O(n \log \log n)$ است.
+الگوریتم برای هر عدد اول $p \le n$ در حلقه‌ی داخلی، $\frac{n}{p}$ عملیات انجام می‌دهد.
+بنابراین، باید عبارت زیر را ارزیابی کنیم:
 
 $$\sum_{\substack{p \le n, \\\ p \text{ prime}}} \frac n p = n \cdot \sum_{\substack{p \le n, \\\ p \text{ prime}}} \frac 1 p.$$
 
-Let's recall two known facts.
+بیایید دو واقعیت شناخته شده را یادآوری کنیم.
 
-  - The number of prime numbers less than or equal to $n$ is approximately $\frac n {\ln n}$.
-  - The $k$-th prime number approximately equals $k \ln k$ (this follows from the previous fact).
+  - تعداد اعداد اول کوچکتر یا مساوی $n$ تقریباً $\frac n {\ln n}$ است.
+  - $k$-امین عدد اول تقریباً برابر با $k \ln k$ است (این از واقعیت قبلی نتیجه می‌شود).
 
-Thus we can write down the sum in the following way:
+بنابراین می‌توانیم مجموع را به صورت زیر بنویسیم:
 
 $$\sum_{\substack{p \le n, \\\ p \text{ prime}}} \frac 1 p \approx \frac 1 2 + \sum_{k = 2}^{\frac n {\ln n}} \frac 1 {k \ln k}.$$
 
-Here we extracted the first prime number 2 from the sum, because $k = 1$ in approximation $k \ln k$  is $0$ and causes a division by zero.
+در اینجا اولین عدد اول یعنی 2 را از مجموع جدا کردیم، زیرا $k = 1$ در تقریب $k \ln k$ برابر 0 است و باعث تقسیم بر صفر می‌شود.
 
-Now, let's evaluate this sum using the integral of a same function over $k$ from $2$ to $\frac n {\ln n}$ (we can make such approximation because, in fact, the sum is related to the integral as its approximation using the rectangle method):
+حال، بیایید این مجموع را با استفاده از انتگرال همان تابع بر روی $k$ از $2$ تا $\frac n {\ln n}$ ارزیابی کنیم (می‌توانیم چنین تقریبی بزنیم زیرا در واقع، این مجموع به عنوان تقریب انتگرال با استفاده از روش مستطیل‌ها با آن مرتبط است):
 
 $$\sum_{k = 2}^{\frac n {\ln n}} \frac 1 {k \ln k} \approx \int_2^{\frac n {\ln n}} \frac 1 {k \ln k} dk.$$
 
-The antiderivative for the integrand is  $\ln \ln k$. Using a substitution and removing terms of lower order, we'll get the result:
+پادمشتق انتگرال‌ده برابر با $\ln \ln k$ است. با استفاده از یک جایگذاری و حذف جملات با مرتبه‌ی پایین‌تر، به نتیجه‌ی زیر می‌رسیم:
 
 $$\int_2^{\frac n {\ln n}} \frac 1 {k \ln k} dk = \ln \ln \frac n {\ln n} - \ln \ln 2 = \ln(\ln n - \ln \ln n) - \ln \ln 2 \approx \ln \ln n.$$
 
-Now, returning to the original sum, we'll get its approximate evaluation:
+حال، با بازگشت به مجموع اصلی، ارزیابی تقریبی آن را به دست می‌آوریم:
 
 $$\sum_{\substack{p \le n, \\\ p\ is\ prime}} \frac n p \approx n \ln \ln n + o(n).$$
 
-You can find a more strict proof (that gives more precise evaluation which is accurate within constant multipliers) in the book authored by Hardy & Wright "An Introduction to the Theory of Numbers" (p. 349).
+می‌توانید اثبات دقیق‌تری (که ارزیابی دقیق‌تری با دقت در حد ضریب ثابت ارائه می‌دهد) را در کتاب "An Introduction to the Theory of Numbers" نوشته‌ی Hardy & Wright (صفحه 349) پیدا کنید.
 
-## Different optimizations of the Sieve of Eratosthenes
+## بهینه‌سازی‌های مختلف غربال اراتوستن
 
-The biggest weakness of the algorithm is, that it "walks" along the memory multiple times, only manipulating single elements.
-This is not very cache friendly.
-And because of that, the constant which is concealed in $O(n \log \log n)$ is comparably big.
+بزرگترین ضعف الگوریتم این است که چندین بار در حافظه "قدم می‌زند" و فقط عناصر تکی را دستکاری می‌کند.
+این رفتار با حافظه‌ی نهان (cache) سازگار نیست.
+به همین دلیل، ثابت پنهان در $O(n \log \log n)$ نسبتاً بزرگ است.
 
-Besides, the consumed memory is a bottleneck for big $n$.
+علاوه بر این، حافظه‌ی مصرفی برای مقادیر بزرگ $n$ یک گلوگاه (bottleneck) است.
 
-The methods presented below allow us to reduce the quantity of the performed operations, as well as to shorten the consumed memory noticeably.
+روش‌های ارائه شده در زیر به ما اجازه می‌دهند تا تعداد عملیات انجام شده را کاهش دهیم و همچنین حافظه‌ی مصرفی را به طور قابل توجهی کوتاه کنیم.
 
-### Sieving till root
+### غربال کردن تا ریشه
 
-Obviously, to find all the prime numbers until $n$, it will be enough just to perform the sifting only by the prime numbers, which do not exceed the root of $n$.
+بدیهی است که برای یافتن تمام اعداد اول تا $n$، کافی است که غربال کردن را فقط با اعداد اولی انجام دهیم که از ریشه‌ی دوم $n$ تجاوز نمی‌کنند.
 
 ```cpp
 int n;
@@ -111,51 +111,36 @@ for (int i = 2; i * i <= n; i++) {
 }
 ```
 
-Such optimization doesn't affect the complexity (indeed, by repeating the proof presented above we'll get the evaluation $n \ln \ln \sqrt n + o(n)$, which is asymptotically the same according to the properties of logarithms), though the number of operations will reduce noticeably.
+چنین بهینه‌سازی بر روی پیچیدگی تأثیری ندارد (در واقع، با تکرار اثبات ارائه شده در بالا، به ارزیابی $n \ln \ln \sqrt n + o(n)$ می‌رسیم، که طبق خواص لگاریتم‌ها از نظر مجانبی یکسان است)، هرچند تعداد عملیات به طور قابل توجهی کاهش می‌یابد.
 
-### Sieving by the odd numbers only
+### غربال کردن فقط با اعداد فرد
 
-Since all even numbers (except $2$) are composite, we can stop checking even numbers at all. Instead, we need to operate with odd numbers only.
+از آنجایی که تمام اعداد زوج (به جز 2) مرکب هستند، می‌توانیم بررسی اعداد زوج را به کلی متوقف کنیم. به جای آن، فقط باید با اعداد فرد کار کنیم.
 
-First, it will allow us to halve the needed memory. Second, it will reduce the number of operations performed by algorithm approximately in half.
+اولاً، این کار به ما اجازه می‌دهد تا حافظه‌ی مورد نیاز را نصف کنیم. ثانیاً، تعداد عملیات انجام شده توسط الگوریتم را تقریباً به نصف کاهش می‌دهد.
 
-### Memory consumption and speed of operations
+### مصرف حافظه و سرعت عملیات
 
-We should notice, that these two implementations of the Sieve of Eratosthenes use $n$ bits of memory by using the data structure `vector<bool>`.
-`vector<bool>` is not a regular container that stores a series of `bool` (as in most computer architectures a `bool` takes one byte of memory).
-It's a memory-optimization specialization of `vector<T>`, that only consumes $\frac{N}{8}$ bytes of memory.
+باید توجه داشت که این دو پیاده‌سازی از غربال اراتوستن با استفاده از ساختار داده‌ی `vector<bool>`، $n$ بیت حافظه مصرف می‌کنند.
+`vector<bool>` یک کانتینر معمولی نیست که یک سری از `bool` ها را ذخیره کند (چرا که در اکثر معماری‌های کامپیوتری یک `bool` یک بایت از حافظه را اشغال می‌کند). این یک تخصص بهینه‌سازی حافظه از `vector<T>` است که تنها $\frac{N}{8}$ بایت حافظه مصرف می‌کند.
 
-Modern processors architectures work much more efficiently with bytes than with bits as they usually cannot access bits directly.
-So underneath the `vector<bool>` stores the bits in a large continuous memory, accesses the memory in blocks of a few bytes, and extracts/sets the bits with bit operations like bit masking and bit shifting.
+معماری‌های پردازنده‌های مدرن با بایت‌ها بسیار کارآمدتر از بیت‌ها کار می‌کنند، زیرا معمولاً نمی‌توانند مستقیماً به بیت‌ها دسترسی داشته باشند. بنابراین در زیرساخت `vector<bool>`، بیت‌ها در یک حافظه‌ی پیوسته‌ی بزرگ ذخیره می‌شوند، دسترسی به حافظه در بلوک‌های چند بایتی انجام می‌شود، و بیت‌ها با عملیات بیتی مانند bit masking و bit shifting استخراج/تنظیم می‌شوند.
 
-Because of that there is a certain overhead when you read or write bits with a `vector<bool>`, and quite often using a `vector<char>` (which uses 1 byte for each entry, so 8x the amount of memory) is faster.
+به همین دلیل، هنگام خواندن یا نوشتن بیت‌ها با `vector<bool>`، مقداری سربار (overhead) وجود دارد، و خیلی وقت‌ها استفاده از `vector<char>` (که برای هر ورودی ۱ بایت استفاده می‌کند، یعنی ۸ برابر حافظه) سریع‌تر است.
 
-However, for the simple implementations of the Sieve of Eratosthenes using a `vector<bool>` is faster.
-You are limited by how fast you can load the data into the cache, and therefore using less memory gives a big advantage.
-A benchmark ([link](https://gist.github.com/jakobkogler/e6359ea9ced24fe304f1a8af3c9bee0e)) shows, that using a `vector<bool>` is between 1.4x and 1.7x faster than using a `vector<char>`.
+با این حال، برای پیاده‌سازی‌های ساده‌ی غربال اراتوستن، استفاده از `vector<bool>` سریع‌تر است. شما به سرعت بارگذاری داده‌ها در حافظه‌ی نهان (cache) محدود هستید، و بنابراین استفاده از حافظه‌ی کمتر مزیت بزرگی به حساب می‌آید. یک بنچمارک ([لینک](https://gist.github.com/jakobkogler/e6359ea9ced24fe304f1a8af3c9bee0e)) نشان می‌دهد که استفاده از `vector<bool>` بین 1.4 تا 1.7 برابر سریع‌تر از `vector<char>` است.
 
-The same considerations also apply to `bitset`.
-It's also an efficient way of storing bits, similar to `vector<bool>`, so it takes only $\frac{N}{8}$ bytes of memory, but is a bit slower in accessing the elements.
-In the benchmark above `bitset` performs a bit worse than `vector<bool>`.
-Another drawback from `bitset` is that you need to know the size at compile time.
+همین ملاحظات برای `bitset` نیز صادق است. این نیز یک روش کارآمد برای ذخیره‌سازی بیت‌ها، مشابه `vector<bool>` است، بنابراین تنها $\frac{N}{8}$ بایت حافظه می‌گیرد، اما در دسترسی به عناصر کمی کندتر است. در بنچمارک بالا، عملکرد `bitset` کمی بدتر از `vector<bool>` است. یک اشکال دیگر `bitset` این است که باید اندازه را در زمان کامپایل بدانید.
 
-### Segmented Sieve
+### غربال قطعه‌بندی شده
 
-It follows from the optimization "sieving till root" that there is no need to keep the whole array `is_prime[1...n]` at all times.
-For sieving it is enough to just keep the prime numbers until the root of $n$, i.e. `prime[1... sqrt(n)]`, split the complete range into blocks, and sieve each block separately.
+از بهینه‌سازی "غربال کردن تا ریشه" نتیجه می‌شود که نیازی به نگهداری کل آرایه‌ی `is_prime[1...n]` در تمام زمان‌ها نیست. برای غربال کردن کافی است فقط اعداد اول تا ریشه‌ی $n$، یعنی `prime[1... sqrt(n)]` را نگه داریم، کل بازه را به بلوک‌هایی تقسیم کنیم و هر بلوک را به طور جداگانه غربال کنیم.
 
-Let $s$ be a constant which determines the size of the block, then we have $\lceil {\frac n s} \rceil$ blocks altogether, and the block $k$ ($k = 0 ... \lfloor {\frac n s} \rfloor$) contains the numbers in a segment $[ks; ks + s - 1]$.
-We can work on blocks by turns, i.e. for every block $k$ we will go through all the prime numbers (from $1$ to $\sqrt n$) and perform sieving using them.
-It is worth noting, that we have to modify the strategy a little bit when handling the first numbers: first, all the prime numbers from $[1; \sqrt n]$  shouldn't remove themselves; and second, the numbers $0$ and $1$ should be marked as non-prime numbers.
-While working on the last block it should not be forgotten that the last needed number $n$ is not necessarily located at the end of the block.
+فرض کنید $s$ یک ثابت باشد که اندازه‌ی بلوک را تعیین می‌کند، آنگاه در مجموع $\lceil {\frac n s} \rceil$ بلوک داریم، و بلوک $k$ ($k = 0 ... \lfloor {\frac n s} \rfloor$) شامل اعداد در بازه‌ی $[ks; ks + s - 1]$ است. ما می‌توانیم به نوبت روی بلوک‌ها کار کنیم، یعنی برای هر بلوک $k$، تمام اعداد اول (از $1$ تا $\sqrt n$) را پیمایش کرده و با استفاده از آنها غربال را انجام می‌دهیم. شایان ذکر است که هنگام کار با اعداد اولیه باید استراتژی را کمی تغییر دهیم: اول اینکه، تمام اعداد اول از بازه‌ی $[1; \sqrt n]$ نباید خودشان را حذف کنند؛ و دوم اینکه، اعداد $0$ و $1$ باید به عنوان اعداد غیر اول علامت‌گذاری شوند. هنگام کار روی آخرین بلوک، نباید فراموش کرد که آخرین عدد مورد نیاز $n$ لزوماً در انتهای بلوک قرار ندارد.
 
-As discussed previously, the typical implementation of the Sieve of Eratosthenes is limited by the speed how fast you can load data into the CPU caches.
-By splitting the range of potential prime numbers $[1; n]$ into smaller blocks, we never have to keep multiple blocks in memory at the same time, and all operations are much more cache-friendlier.
-As we are now no longer limited by the cache speeds, we can replace the `vector<bool>` with a `vector<char>`, and gain some additional performance as the processors can handle read and writes with bytes directly and don't need to rely on bit operations for extracting individual bits.
-The benchmark ([link](https://gist.github.com/jakobkogler/e6359ea9ced24fe304f1a8af3c9bee0e)) shows, that using a `vector<char>` is about 3x faster in this situation than using a `vector<bool>`.
-A word of caution: those numbers might differ depending on architecture, compiler, and optimization levels.
+همانطور که قبلاً بحث شد، پیاده‌سازی معمول غربال اراتوستن به سرعت بارگذاری داده‌ها در حافظه‌های نهان CPU محدود است. با تقسیم بازه‌ی اعداد اول بالقوه $[1; n]$ به بلوک‌های کوچکتر، هرگز مجبور نیستیم چندین بلوک را همزمان در حافظه نگه داریم و تمام عملیات بسیار سازگارتر با cache می‌شوند. از آنجایی که دیگر به سرعت cache محدود نیستیم، می‌توانیم `vector<bool>` را با `vector<char>` جایگزین کنیم و مقداری عملکرد اضافی به دست آوریم، زیرا پردازنده‌ها می‌توانند خواندن و نوشتن با بایت‌ها را مستقیماً انجام دهند و نیازی به تکیه بر عملیات بیتی برای استخراج بیت‌های جداگانه ندارند. بنچمارک ([لینک](https://gist.github.com/jakobkogler/e6359ea9ced24fe304f1a8af3c9bee0e)) نشان می‌دهد که استفاده از `vector<char>` در این شرایط حدود 3 برابر سریع‌تر از `vector<bool>` است. یک نکته‌ی احتیاطی: این اعداد ممکن است بسته به معماری، کامپایلر و سطوح بهینه‌سازی متفاوت باشند.
 
-Here we have an implementation that counts the number of primes smaller than or equal to $n$ using block sieving.
+در اینجا یک پیاده‌سازی داریم که تعداد اعداد اول کوچکتر یا مساوی $n$ را با استفاده از غربال بلوکی می‌شمارد.
 
 ```cpp
 int count_primes(int n) {
@@ -194,17 +179,13 @@ int count_primes(int n) {
 }
 ```
 
-The running time of block sieving is the same as for regular sieve of Eratosthenes (unless the size of the blocks is very small), but the needed memory will shorten to $O(\sqrt{n} + S)$ and we have better caching results.
-On the other hand, there will be a division for each pair of a block and prime number from $[1; \sqrt{n}]$, and that will be far worse for smaller block sizes.
-Hence, it is necessary to keep balance when selecting the constant $S$.
-We achieved the best results for block sizes between $10^4$ and $10^5$.
+زمان اجرای غربال بلوکی مانند غربال اراتوستن معمولی است (مگر اینکه اندازه‌ی بلوک‌ها بسیار کوچک باشد)، اما حافظه‌ی مورد نیاز به $O(\sqrt{n} + S)$ کاهش می‌یابد و نتایج بهتری از نظر حافظه‌ی نهان (caching) داریم. از سوی دیگر، برای هر جفت بلوک و عدد اول از بازه‌ی $[1; \sqrt{n}]$ یک عمل تقسیم وجود خواهد داشت، و این برای اندازه‌های بلوک کوچکتر بسیار بدتر خواهد بود. بنابراین، لازم است هنگام انتخاب ثابت $S$ تعادل را حفظ کنیم. ما بهترین نتایج را برای اندازه‌های بلوک بین $10^4$ و $10^5$ به دست آوردیم.
 
-## Find primes in range
+## یافتن اعداد اول در یک بازه
 
-Sometimes we need to find all prime numbers in a range $[L,R]$ of small size (e.g. $R - L + 1 \approx 1e7$), where $R$ can be very large (e.g. $1e12$).
+گاهی اوقات لازم است تمام اعداد اول را در یک بازه‌ی $[L,R]$ با اندازه‌ی کوچک (مثلاً $R - L + 1 \approx 10^7$) پیدا کنیم، در حالی که $R$ می‌تواند بسیار بزرگ باشد (مثلاً $10^{12}$).
 
-To solve such a problem, we can use the idea of the Segmented sieve.
-We pre-generate all prime numbers up to $\sqrt R$, and use those primes to mark all composite numbers in the segment $[L, R]$.
+برای حل چنین مسئله‌ای، می‌توانیم از ایده‌ی غربال قطعه‌بندی شده استفاده کنیم. ما تمام اعداد اول تا $\sqrt R$ را از پیش تولید می‌کنیم و از آن اعداد اول برای علامت‌گذاری تمام اعداد مرکب در بازه‌ی $[L, R]$ استفاده می‌کنیم.
 
 ```cpp
 vector<char> segmentedSieve(long long L, long long R) {
@@ -229,9 +210,9 @@ vector<char> segmentedSieve(long long L, long long R) {
     return isPrime;
 }
 ```
-Time complexity of this approach is $O((R - L + 1) \log \log (R) + \sqrt R \log \log \sqrt R)$.
+پیچیدگی زمانی این رویکرد $O((R - L + 1) \log \log (R) + \sqrt R \log \log \sqrt R)$ است.
 
-It's also possible that we don't pre-generate all prime numbers:
+همچنین ممکن است که تمام اعداد اول را از پیش تولید نکنیم:
 
 ```cpp
 vector<char> segmentedSieveNoPreGen(long long L, long long R) {
@@ -246,31 +227,29 @@ vector<char> segmentedSieveNoPreGen(long long L, long long R) {
 }
 ```
 
-Obviously, the complexity is worse, which is $O((R - L + 1) \log (R) + \sqrt R)$. However, it still runs very fast in practice.
+بدیهی است که پیچیدگی بدتر است، که برابر با $O((R - L + 1) \log (R) + \sqrt R)$ می‌باشد. با این حال، در عمل هنوز هم بسیار سریع اجرا می‌شود.
 
-## Linear time modification
+## اصلاح با زمان خطی
 
-We can modify the algorithm in a such a way, that it only has linear time complexity.
-This approach is described in the article [Linear Sieve](prime-sieve-linear.md).
-However, this algorithm also has its own weaknesses.
+ما می‌توانیم الگوریتم را به گونه‌ای تغییر دهیم که فقط پیچیدگی زمانی خطی داشته باشد. این رویکرد در مقاله‌ی [غربال خطی](prime-sieve-linear.md) توضیح داده شده است. با این حال، این الگوریتم نیز نقاط ضعف خود را دارد.
 
-## Practice Problems
+## مسائل تمرینی
 
-* [Leetcode - Four Divisors](https://leetcode.com/problems/four-divisors/)
-* [Leetcode - Count Primes](https://leetcode.com/problems/count-primes/)
-* [SPOJ - Printing Some Primes](http://www.spoj.com/problems/TDPRIMES/)
-* [SPOJ - A Conjecture of Paul Erdos](http://www.spoj.com/problems/HS08PAUL/)
-* [SPOJ - Primal Fear](http://www.spoj.com/problems/VECTAR8/)
-* [SPOJ - Primes Triangle (I)](http://www.spoj.com/problems/PTRI/)
-* [Codeforces - Almost Prime](http://codeforces.com/contest/26/problem/A)
-* [Codeforces - Sherlock And His Girlfriend](http://codeforces.com/contest/776/problem/B)
-* [SPOJ - Namit in Trouble](http://www.spoj.com/problems/NGIRL/)
-* [SPOJ - Bazinga!](http://www.spoj.com/problems/DCEPC505/)
-* [Project Euler - Prime pair connection](https://www.hackerrank.com/contests/projecteuler/challenges/euler134)
-* [SPOJ - N-Factorful](http://www.spoj.com/problems/NFACTOR/)
-* [SPOJ - Binary Sequence of Prime Numbers](http://www.spoj.com/problems/BSPRIME/)
-* [UVA 11353 - A Different Kind of Sorting](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2338)
-* [SPOJ - Prime Generator](http://www.spoj.com/problems/PRIME1/)
-* [SPOJ - Printing some primes (hard)](http://www.spoj.com/problems/PRIMES2/)
-* [Codeforces - Nodbach Problem](https://codeforces.com/problemset/problem/17/A)
-* [Codeforces - Colliders](https://codeforces.com/problemset/problem/154/B)
+* [Leetcode - چهار مقسوم‌علیه](https://leetcode.com/problems/four-divisors/)
+* [Leetcode - شمارش اعداد اول](https://leetcode.com/problems/count-primes/)
+* [SPOJ - چاپ تعدادی عدد اول](http://www.spoj.com/problems/TDPRIMES/)
+* [SPOJ - حدس پل اردوش](http://www.spoj.com/problems/HS08PAUL/)
+* [SPOJ - ترس اولیه](http://www.spoj.com/problems/VECTAR8/)
+* [SPOJ - مثلث اعداد اول (I)](http://www.spoj.com/problems/PTRI/)
+* [Codeforces - تقریباً اول](http://codeforces.com/contest/26/problem/A)
+* [Codeforces - شرلوک و دوست‌دخترش](http://codeforces.com/contest/776/problem/B)
+* [SPOJ - نامیت در دردسر](http://www.spoj.com/problems/NGIRL/)
+* [SPOJ - بازینگا!](http://www.spoj.com/problems/DCEPC505/)
+* [Project Euler - اتصال جفت‌های اول](https://www.hackerrank.com/contests/projecteuler/challenges/euler134)
+* [SPOJ - N-عاملی](http://www.spoj.com/problems/NFACTOR/)
+* [SPOJ - دنباله‌ی باینری اعداد اول](http://www.spoj.com/problems/BSPRIME/)
+* [UVA 11353 - نوعی دیگر از مرتب‌سازی](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2338)
+* [SPOJ - تولیدکننده‌ی اعداد اول](http://www.spoj.com/problems/PRIME1/)
+* [SPOJ - چاپ تعدادی عدد اول (سخت)](http://www.spoj.com/problems/PRIMES2/)
+* [Codeforces - مسئله‌ی نودباخ](https://codeforces.com/problemset/problem/17/A)
+* [Codeforces - برخورددهنده‌ها](https://codeforces.com/problemset/problem/154/B)

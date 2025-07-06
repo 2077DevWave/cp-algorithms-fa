@@ -1,33 +1,33 @@
 ---
 tags:
-  
-e_maxx_link: euclid_algorithm
+  - AI Translated
+e_maxx_link: euclid-algorithm
 ---
 
-# Euclidean algorithm for computing the greatest common divisor
+# الگوریتم اقلیدس برای محاسبه بزرگترین مقسوم‌علیه مشترک
 
-Given two non-negative integers $a$ and $b$, we have to find their **GCD** (greatest common divisor), i.e. the largest number which is a divisor of both $a$ and $b$.
-It's commonly denoted by $\gcd(a, b)$. Mathematically it is defined as:
+با داشتن دو عدد صحیح نامنفی $a$ و $b$، باید **GCD** (بزرگترین مقسوم‌علیه مشترک) آن‌ها را پیدا کنیم، یعنی بزرگترین عددی که مقسوم‌علیه هر دو عدد $a$ و $b$ باشد.
+این مقدار معمولاً با $\gcd(a, b)$ نمایش داده می‌شود. به صورت ریاضی، به شکل زیر تعریف می‌شود:
 
 $$\gcd(a, b) = \max \{k > 0 : (k \mid a) \text{ and } (k \mid b) \}$$
 
-(here the symbol "$\mid$" denotes divisibility, i.e. "$k \mid a$" means "$k$ divides $a$")
+(در اینجا، نماد "$\mid$" به معنای بخش‌پذیری است، یعنی "$k \mid a$" به این معنی است که "$k$ عدد $a$ را می‌شمارد")
 
-When one of the numbers is zero, while the other is non-zero, their greatest common divisor, by definition, is the second number. When both numbers are zero, their greatest common divisor is undefined (it can be any arbitrarily large number), but it is convenient to define it as zero as well to preserve the associativity of $\gcd$. Which gives us a simple rule: if one of the numbers is zero, the greatest common divisor is the other number.
+وقتی یکی از اعداد صفر و دیگری غیر صفر باشد، بزرگترین مقسوم‌علیه مشترک آن‌ها، طبق تعریف، همان عدد غیر صفر است. وقتی هر دو عدد صفر باشند، بزرگترین مقسوم‌علیه مشترک آن‌ها تعریف نشده است (می‌تواند هر عدد بزرگی باشد)، اما برای حفظ خاصیت شرکت‌پذیری $\gcd$، راحت‌تر است که آن را نیز صفر تعریف کنیم. این به ما یک قانون ساده می‌دهد: اگر یکی از اعداد صفر باشد، بزرگترین مقسوم‌علیه مشترک برابر با عدد دیگر است.
 
-The Euclidean algorithm, discussed below, allows to find the greatest common divisor of two numbers $a$ and $b$ in $O(\log \min(a, b))$. Since the function is **associative**, to find the GCD of **more than two numbers**, we can do $\gcd(a, b, c) = \gcd(a, \gcd(b, c))$ and so forth.
+الگوریتم اقلیدس که در ادامه مورد بحث قرار می‌گیرد، به ما اجازه می‌دهد بزرگترین مقسوم‌علیه مشترک دو عدد $a$ و $b$ را در زمان $O(\log \min(a, b))$ پیدا کنیم. از آنجایی که این تابع **شرکت‌پذیر** است، برای پیدا کردن GCD **بیش از دو عدد**، می‌توانیم به این صورت عمل کنیم: $\gcd(a, b, c) = \gcd(a, \gcd(b, c))$ و الی آخر.
 
-The algorithm was first described in Euclid's "Elements" (circa 300 BC), but it is possible that the algorithm has even earlier origins.
+این الگوریتم برای اولین بار در کتاب «اصول» اقلیدس (حدود ۳۰۰ سال قبل از میلاد) توصیف شد، اما ممکن است ریشه‌های قدیمی‌تری نیز داشته باشد.
 
-## Algorithm
+## الگوریتم
 
-Originally, the Euclidean algorithm was formulated as follows: subtract the smaller number from the larger one until one of the numbers is zero. Indeed, if $g$ divides $a$ and $b$, it also divides $a-b$. On the other hand, if $g$ divides $a-b$ and $b$, then it also divides $a = b + (a-b)$, which means that the sets of the common divisors of $\{a, b\}$ and $\{b,a-b\}$ coincide.
+در ابتدا، الگوریتم اقلیدس به این صورت فرمول‌بندی شده بود: عدد کوچکتر را از عدد بزرگتر کم کنید تا زمانی که یکی از اعداد صفر شود. در واقع، اگر $g$ هم $a$ و هم $b$ را بشمارد، $a-b$ را نیز می‌شمارد. از طرف دیگر، اگر $g$ اعداد $a-b$ و $b$ را بشمارد، آنگاه $a = b + (a-b)$ را نیز می‌شمارد، که به این معنی است که مجموعه‌ی مقسوم‌علیه‌های مشترک $\{a, b\}$ و $\{b,a-b\}$ یکسان هستند.
 
-Note that $a$ remains the larger number until $b$ is subtracted from it at least $\left\lfloor\frac{a}{b}\right\rfloor$ times. Therefore, to speed things up, $a-b$ is substituted with $a-\left\lfloor\frac{a}{b}\right\rfloor b = a \bmod b$. Then the algorithm is formulated in an extremely simple way:
+توجه داشته باشید که $a$ تا زمانی که $b$ حداقل $\left\lfloor\frac{a}{b}\right\rfloor$ بار از آن کم شود، عدد بزرگتر باقی می‌ماند. بنابراین، برای سرعت بخشیدن به کار، $a-b$ با $a-\left\lfloor\frac{a}{b}\right\rfloor b = a \bmod b$ جایگزین می‌شود. در این صورت، الگوریتم به روشی بسیار ساده فرمول‌بندی می‌شود:
 
 $$\gcd(a, b) = \begin{cases}a,&\text{if }b = 0 \\ \gcd(b, a \bmod b),&\text{otherwise.}\end{cases}$$
 
-## Implementation
+## پیاده‌سازی
 
 ```cpp
 int gcd (int a, int b) {
@@ -38,7 +38,7 @@ int gcd (int a, int b) {
 }
 ```
 
-Using the ternary operator in C++, we can write it as a one-liner.
+با استفاده از عملگر سه‌تایی در C++، می‌توانیم آن را به صورت یک خطی بنویسیم.
 
 ```cpp
 int gcd (int a, int b) {
@@ -46,7 +46,7 @@ int gcd (int a, int b) {
 }
 ```
 
-And finally, here is a non-recursive implementation:
+و در نهایت، در اینجا یک پیاده‌سازی غیر بازگشتی آورده شده است:
 
 ```cpp
 int gcd (int a, int b) {
@@ -58,29 +58,29 @@ int gcd (int a, int b) {
 }
 ```
 
-Note that since C++17, `gcd` is implemented as a [standard function](https://en.cppreference.com/w/cpp/numeric/gcd) in C++.
+توجه داشته باشید که از C++17 به بعد، `gcd` به عنوان یک [تابع استاندارد](https://en.cppreference.com/w/cpp/numeric/gcd) در C++ پیاده‌سازی شده است.
 
-## Time Complexity
+## پیچیدگی زمانی
 
-The running time of the algorithm is estimated by Lamé's theorem, which establishes a surprising connection between the Euclidean algorithm and the Fibonacci sequence:
+زمان اجرای الگوریتم توسط قضیه Lamé تخمین زده می‌شود، که ارتباط شگفت‌انگیزی بین الگوریتم اقلیدس و دنباله فیبوناچی برقرار می‌کند:
 
-If $a > b \geq 1$ and $b < F_n$ for some $n$, the Euclidean algorithm performs at most $n-2$ recursive calls.
+اگر $a > b \geq 1$ و $b < F_n$ برای یک $n$ برقرار باشد، الگوریتم اقلیدس حداکثر $n-2$ فراخوانی بازگشتی انجام می‌دهد.
 
-Moreover, it is possible to show that the upper bound of this theorem is optimal. When $a = F_n$ and $b = F_{n-1}$, $gcd(a, b)$ will perform exactly $n-2$ recursive calls. In other words, consecutive Fibonacci numbers are the worst case input for Euclid's algorithm.
+علاوه بر این، می‌توان نشان داد که کران بالای این قضیه بهینه است. وقتی $a = F_n$ و $b = F_{n-1}$ باشند، `gcd(a, b)` دقیقاً $n-2$ فراخوانی بازگشتی انجام خواهد داد. به عبارت دیگر، اعداد متوالی فیبوناچی بدترین حالت ورودی برای الگوریتم اقلیدس هستند.
 
-Given that Fibonacci numbers grow exponentially, we get that the Euclidean algorithm works in $O(\log \min(a, b))$.
+با توجه به اینکه اعداد فیبوناچی به صورت نمایی رشد می‌کنند، نتیجه می‌گیریم که الگوریتم اقلیدس در زمان $O(\log \min(a, b))$ کار می‌کند.
 
-Another way to estimate the complexity is to notice that $a \bmod b$ for the case $a \geq b$ is at least $2$ times smaller than $a$, so the larger number is reduced at least in half on each iteration of the algorithm. Applying this reasoning to the case when we compute the GCD of the set of numbers $a_1,\dots,a_n \leq C$, this also allows us to estimate the total runtime as $O(n + \log C)$, rather than $O(n \log C)$, since every non-trivial iteration of the algorithm reduces the current GCD candidate by at least a factor of $2$.
+راه دیگر برای تخمین پیچیدگی این است که توجه کنیم $a \bmod b$ در حالت $a \geq b$ حداقل ۲ برابر کوچکتر از $a$ است، بنابراین عدد بزرگتر در هر تکرار الگوریتم حداقل به نصف کاهش می‌یابد. با به کار بردن این استدلال در موردی که GCD مجموعه‌ای از اعداد $a_1,\dots,a_n \leq C$ را محاسبه می‌کنیم، این امر به ما امکان می‌دهد زمان اجرای کل را به جای $O(n \log C)$ به صورت $O(n + \log C)$ تخمین بزنیم، زیرا هر تکرار غیربدیهی الگوریتم، کاندیدای فعلی GCD را حداقل با ضریب ۲ کاهش می‌دهد.
 
-## Least common multiple
+## کوچکترین مضرب مشترک
 
-Calculating the least common multiple (commonly denoted **LCM**) can be reduced to calculating the GCD with the following simple formula:
+محاسبه کوچکترین مضرب مشترک (که معمولاً با **LCM** نشان داده می‌شود) را می‌توان با استفاده از فرمول ساده زیر به محاسبه GCD کاهش داد:
 
 $$\text{lcm}(a, b) = \frac{a \cdot b}{\gcd(a, b)}$$
 
-Thus, LCM can be calculated using the Euclidean algorithm with the same time complexity:
+بنابراین، LCM را می‌توان با استفاده از الگوریتم اقلیدس با همان پیچیدگی زمانی محاسبه کرد:
 
-A possible implementation, that cleverly avoids integer overflows by first dividing $a$ with the GCD, is given here:
+یک پیاده‌سازی ممکن که با تقسیم اولیه $a$ بر GCD، هوشمندانه از سرریز عدد صحیح (integer overflow) جلوگیری می‌کند، در اینجا آورده شده است:
 
 ```cpp
 int lcm (int a, int b) {
@@ -88,21 +88,21 @@ int lcm (int a, int b) {
 }
 ```
 
-## Binary GCD
+## الگوریتم GCD دودویی (Binary GCD)
 
-The Binary GCD algorithm is an optimization to the normal Euclidean algorithm.
+الگوریتم Binary GCD یک بهینه‌سازی برای الگوریتم اقلیدس معمولی است.
 
-The slow part of the normal algorithm are the modulo operations. Modulo operations, although we see them as $O(1)$, are a lot slower than simpler operations like addition, subtraction or bitwise operations.
-So it would be better to avoid those.
+بخش کند الگوریتم معمولی، عملیات باقیمانده (modulo) است. عملیات باقیمانده، اگرچه ما آن‌ها را با پیچیدگی $O(1)$ در نظر می‌گیریم، بسیار کندتر از عملیات ساده‌تری مانند جمع، تفریق یا عملیات بیتی (bitwise) هستند.
+بنابراین بهتر است از آن‌ها اجتناب کنیم.
 
-It turns out, that you can design a fast GCD algorithm that avoids modulo operations.
-It's based on a few properties:
+مشخص شده است که می‌توان یک الگوریتم GCD سریع طراحی کرد که از عملیات باقیمانده استفاده نمی‌کند.
+این الگوریتم بر اساس چند خاصیت بنا شده است:
 
-  - If both numbers are even, then we can factor out a two of both and compute the GCD of the remaining numbers: $\gcd(2a, 2b) = 2 \gcd(a, b)$.
-  - If one of the numbers is even and the other one is odd, then we can remove the factor 2 from the even one: $\gcd(2a, b) = \gcd(a, b)$ if $b$ is odd.
-  - If both numbers are odd, then subtracting one number of the other one will not change the GCD: $\gcd(a, b) = \gcd(b, a-b)$
+  - اگر هر دو عدد زوج باشند، می‌توانیم یک فاکتور دو را از هر دو خارج کرده و GCD اعداد باقی‌مانده را محاسبه کنیم: $\gcd(2a, 2b) = 2 \gcd(a, b)$.
+  - اگر یکی از اعداد زوج و دیگری فرد باشد، می‌توانیم فاکتور ۲ را از عدد زوج حذف کنیم: $\gcd(2a, b) = \gcd(a, b)$ اگر $b$ فرد باشد.
+  - اگر هر دو عدد فرد باشند، کم کردن یکی از دیگری، GCD را تغییر نمی‌دهد: $\gcd(a, b) = \gcd(b, a-b)$
 
-Using only these properties, and some fast bitwise functions from GCC, we can implement a fast version:
+با استفاده از این خواص و چند تابع بیتی سریع از GCC، می‌توانیم یک نسخه سریع پیاده‌سازی کنیم:
 
 ```cpp
 int gcd(int a, int b) {
@@ -120,10 +120,10 @@ int gcd(int a, int b) {
 }
 ```
 
-Notice, that such an optimization is usually not necessary, and most programming languages already have a GCD function in their standard libraries.
-E.g. C++17 has such a function `std::gcd` in the `numeric` header.
+توجه داشته باشید که چنین بهینه‌سازی‌ای معمولاً ضروری نیست و اکثر زبان‌های برنامه‌نویسی در کتابخانه‌های استاندارد خود تابع GCD دارند.
+به عنوان مثال، C++17 چنین تابعی با نام `std::gcd` در هدر `numeric` دارد.
 
-## Practice Problems
+## مسائل تمرینی
 
 - [CSAcademy - Greatest Common Divisor](https://csacademy.com/contest/archive/task/gcd/)
 - [Codeforces 1916B - Two Divisors](https://codeforces.com/contest/1916/problem/B)

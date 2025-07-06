@@ -1,30 +1,30 @@
 ---
 tags:
-  
-e_maxx_link: circles_intersection
+  - AI Translated
+e_maxx_link: circle-circle-intersection
 ---
 
-# Circle-Circle Intersection
+# تقاطع دو دایره
 
-You are given two circles on a 2D plane, each one described as coordinates of its center and its radius. Find the points of their intersection (possible cases: one or two points, no intersection or circles coincide).
+دو دایره در یک صفحه دوبعدی به شما داده شده است که هر کدام با مختصات مرکز و شعاع آن مشخص شده‌اند. نقاط تقاطع آن‌ها را پیدا کنید (حالات ممکن: یک یا دو نقطه، عدم تقاطع یا انطباق کامل دایره‌ها).
 
-## Solution
+## راه‌حل
 
-Let's reduce this problem to the [circle-line intersection problem](circle-line-intersection.md).
+بیایید این مسئله را به [مسئله تقاطع دایره و خط](circle-line-intersection.md) کاهش دهیم.
 
-Assume without loss of generality that the first circle is centered at the origin (if this is not true, we can move the origin to the center of the first circle and adjust the coordinates of intersection points accordingly at output time). We have a system of two equations:
+بدون از دست دادن کلیت مسئله، فرض کنید دایره اول در مبدأ مختصات قرار دارد (اگر اینطور نباشد، می‌توانیم مبدأ را به مرکز دایره اول منتقل کرده و در زمان خروجی، مختصات نقاط تقاطع را متناسب با آن تنظیم کنیم). در این صورت، یک دستگاه دو معادله‌ای داریم:
 
 $$x^2+y^2=r_1^2$$
 
 $$(x - x_2)^2 + (y - y_2)^2 = r_2^2$$
 
-Subtract the first equation from the second one to get rid of the second powers of variables:
+معادله اول را از دومی کم می‌کنیم تا از توان‌های دوم متغیرها خلاص شویم:
 
 $$x^2+y^2=r_1^2$$
 
 $$x \cdot (-2x_2) + y \cdot (-2y_2) + (x_2^2+y_2^2+r_1^2-r_2^2) = 0$$
 
-Thus, we've reduced the original problem to the problem of finding intersections of the first circle and a line:
+به این ترتیب، مسئله اصلی را به مسئله پیدا کردن تقاطع‌های دایره اول و یک خط کاهش دادیم:
 
 $$Ax + By + C = 0$$
 
@@ -34,11 +34,11 @@ B &= -2y_2 \\
 C &= x_2^2+y_2^2+r_1^2-r_2^2
 \end{align}$$
 
-And this problem can be solved as described in the [corresponding article](circle-line-intersection.md).
+و این مسئله را می‌توان همانطور که در [مقاله مربوطه](circle-line-intersection.md) توضیح داده شده است، حل کرد.
 
-The only degenerate case we need to consider separately is when the centers of the circles coincide. In this case $x_2=y_2=0$, and the line equation will be $C = r_1^2-r_2^2 = 0$. If the radii of the circles are the same, there are infinitely many intersection points, if they differ, there are no intersections.
+تنها حالت خاصی که باید جداگانه در نظر بگیریم، زمانی است که مراکز دایره‌ها بر هم منطبق باشند. در این حالت $x_2=y_2=0$ و معادله خط به صورت $C = r_1^2-r_2^2 = 0$ خواهد بود. اگر شعاع دایره‌ها یکسان باشد، بی‌نهایت نقطه تقاطع وجود دارد و اگر متفاوت باشند، هیچ تقاطعی وجود نخواهد داشت.
 
-## Practice Problems
+## مسائل تمرینی
 
 - [RadarFinder](https://community.topcoder.com/stat?c=problem_statement&pm=7766)
 - [Runaway to a shadow - Codeforces Round #357](http://codeforces.com/problemset/problem/681/E)

@@ -1,41 +1,38 @@
 ---
 tags:
-  
-e_maxx_link: circle_tangents
+  - AI Translated
+e_maxx_link: tangents-to-two-circles
 ---
 
-# Finding common tangents to two circles
+# پیدا کردن مماس‌های مشترک دو دایره
 
-Given two circles. It is required to find all their common tangents, i.e. all such lines that touch both circles simultaneously.
+دو دایره داده شده است. می‌خواهیم تمام مماس‌های مشترک آن‌ها را پیدا کنیم، یعنی تمام خطوطی که هر دو دایره را به طور همزمان لمس می‌کنند.
 
-The described algorithm will also work in the case when one (or both) circles degenerate into points. Thus, this algorithm can also be used to find tangents to a circle passing through a given point.
+الگوریتم توصیف شده در حالتی که یک (یا هر دو) دایره به نقطه تبدیل شوند (حالت تبهگن) نیز کار می‌کند. بنابراین، از این الگوریتم می‌توان برای پیدا کردن مماس‌های یک دایره که از یک نقطه مشخص می‌گذرند نیز استفاده کرد.
 
-
-## The number of common tangents
-The number of common tangents to two circles can be **0,1,2,3,4** and **infinite**.
-Look at the images for different cases.
+## تعداد مماس‌های مشترک
+تعداد مماس‌های مشترک دو دایره می‌تواند **۰، ۱، ۲، ۳، ۴** و **بی‌نهایت** باشد.
+برای دیدن حالت‌های مختلف به تصاویر زیر نگاه کنید.
 <div style="text-align: center;">
-  <img src="tangents-to-two-circles.png" alt=""Different cases of tangents common to two circles"">
+  <img src="tangents-to-two-circles.png" alt="حالت‌های مختلف مماس‌های مشترک دو دایره">
 </div>
 
-Here, we won't be considering **degenerate** cases, i.e *when the circles coincide (in this case they have infinitely many common tangents), or one circle lies inside the other (in this case they have no common tangents, or if the circles are tangent, there is one common tangent).*
+در اینجا، ما حالت‌های **تبهگن** را در نظر نمی‌گیریم، یعنی *زمانی که دایره‌ها بر هم منطبق هستند (در این حالت بی‌نهایت مماس مشترک دارند)، یا یک دایره درون دیگری قرار دارد (در این حالت هیچ مماس مشترکی ندارند، یا اگر دایره‌ها مماس باشند، یک مماس مشترک وجود دارد).*
 
-In most cases, two circles have **four** common tangents.
+در بیشتر موارد، دو دایره **چهار** مماس مشترک دارند.
 
-If the circles **are tangent** , then they will have three common tangents, but this can be understood as a degenerate case: as if the two tangents coincided.
+اگر دایره‌ها **مماس باشند**، آنگاه سه مماس مشترک خواهند داشت، اما این را می‌توان به عنوان یک حالت تبهگن در نظر گرفت: گویی دو مماس بر هم منطبق شده‌اند.
 
-Moreover, the algorithm described below will work in the case when one or both circles have zero radius: in this case there will be, respectively, two or one common tangent.
+علاوه بر این، الگوریتم توصیف شده در ادامه، در حالتی که یک یا هر دو دایره شعاع صفر داشته باشند نیز کار می‌کند: در این حالت به ترتیب دو یا یک مماس مشترک وجود خواهد داشت.
 
-Summing up, we will always look for **four tangents** for all cases except infinite tangents case (The infinite tangents case needs to be handled separately and it is not discussed here). In degenerate cases, some of tangents will coincide, but nevertheless, these cases will also fit into the big picture.
+به طور خلاصه، ما همیشه به دنبال **چهار مماس** برای تمام حالات به جز حالت بی‌نهایت مماس خواهیم بود (حالت بی‌نهایت مماس باید به طور جداگانه بررسی شود و در اینجا مورد بحث قرار نمی‌گیرد). در حالت‌های تبهگن، برخی از مماس‌ها بر هم منطبق خواهند شد، اما با این وجود، این حالت‌ها نیز در چارچوب کلی قرار می‌گیرند.
 
+## الگوریتم
+برای سادگی الگوریتم، بدون از دست دادن کلیت مسئله، فرض می‌کنیم که مرکز دایره اول مختصات $(0, 0)$ را دارد. (اگر اینطور نباشد، می‌توان با انتقال کل تصویر به این حالت رسید و پس از یافتن راه حل، خطوط به دست آمده را به جای اول خود بازگرداند).
 
+$r_1$ و $r_2$ را شعاع‌های دایره اول و دوم، و $(v_x, v_y)$ را مختصات مرکز دایره دوم و نقطه $v$ متفاوت از مبدأ در نظر می‌گیریم. (توجه: حالتی که هر دو دایره یکسان باشند را در نظر نمی‌گیریم).
 
-## Algorithm
-For the sake of simplicity of the algorithm, we will assume, without losing generality, that the center of the first circle has coordinates $(0, 0)$. (If this is not the case, then this can be achieved by simply shifting the whole picture, and after finding a solution, by shifting the obtained straight lines back.)
-
-Denote $r_1$ and $r_2$ the radii of the first and second circles, and by $(v_x,v_y)$ the coordinates of the center of the second circle and point $v$ different from origin. (Note: we are not considering the case in which both the circles are same).
-
-To solve the problem, we approach it purely **algebraically** . We need to find all the lines of the form $ax + by + c = 0$ that lie at a distance $r_1$ from the origin of coordinates, and at a distance $r_2$ from a point $v$. In addition, we impose the condition of normalization of the straight line: the sum of the squares of the coefficients and must be equal to one (this is necessary, otherwise the same straight line will correspond to infinitely many representations of the form $ax + by + c = 0$). Total we get such a system of equations for the desired $a, b, c$:
+برای حل مسئله، رویکردی کاملاً **جبری** در پیش می‌گیریم. ما باید تمام خطوط به شکل $ax + by + c = 0$ را پیدا کنیم که از مبدأ مختصات به فاصله $r_1$ و از نقطه $v$ به فاصله $r_2$ قرار دارند. علاوه بر این، شرط نرمال‌سازی خط راست را اعمال می‌کنیم: مجموع مربعات ضرایب $a$ و $b$ باید برابر با یک باشد (این کار ضروری است، در غیر این صورت، یک خط راست با بی‌نهایت نمایش به شکل $ax + by + c = 0$ مطابقت خواهد داشت). در مجموع، به چنین دستگاه معادلاتی برای $a, b, c$ مورد نظر می‌رسیم:
 
 $$\begin{align}
 a^2 + b^2 &= 1 \\
@@ -43,7 +40,7 @@ a^2 + b^2 &= 1 \\
 \mid a \cdot v_x + b \cdot v_y + c \mid &= r_2
 \end{align}$$
 
-To get rid of the modulus, note that there are only four ways to open the modulus in this system. All these methods can be considered by the general case, if we understand the opening of the modulus as the fact that the coefficient on the right-hand side may be multiplied by -1. In other words, we turn to this system:
+برای خلاص شدن از قدر مطلق، توجه داشته باشید که تنها چهار راه برای باز کردن قدر مطلق‌ها در این دستگاه وجود دارد. اگر باز کردن قدر مطلق را به این صورت درک کنیم که ضریب سمت راست ممکن است در -1 ضرب شود، می‌توان تمام این روش‌ها را با یک حالت کلی در نظر گرفت. به عبارت دیگر، به این دستگاه می‌رسیم:
 
 $$\begin{align}
 a^2 + b^2 &= 1 \\
@@ -52,7 +49,7 @@ a \cdot v_x + b \cdot v_y + c &= \pm r_2
 \end{align}$$
 
 
-Entering the notation $d_1 = \pm r_1$ and $d_2 = \pm r_2$ , we come to the conclusion that the system must have four solutions:
+با وارد کردن نمادگذاری $d_1 = \pm r_1$ و $d_2 = \pm r_2$، به این نتیجه می‌رسیم که دستگاه باید چهار راه حل داشته باشد:
 
 $$\begin{align}
 a^2 + b^2 &= 1 \\
@@ -60,20 +57,20 @@ c &= d_1 \\
 a \cdot v_x + b \cdot v_y + c &= d_2
 \end{align}$$
 
-The solution of this system is reduced to solving a quadratic equation. We will omit all the cumbersome calculations, and immediately give a ready answer:
+حل این دستگاه به حل یک معادله درجه دو کاهش می‌یابد. ما از تمام محاسبات دست و پا گیر صرف نظر می‌کنیم و فوراً پاسخ آماده را ارائه می‌دهیم:
 
 $$\begin{align}
 a &= {( d_2 - d_1 ) v_x \pm v_y \sqrt{v_x^2 + v_y^2-(d_2-d_1)^2} \over {v_x^2 + v_y^2} } \\
-b &= {( d_2 - d_1 ) v_y \pm v_x \sqrt{v_x^2 + v_y^2-(d_2-d_1)^2} \over {v_x^2 + v_y^2} } \\
+b &= {( d_2 - d_1 ) v_y \mp v_x \sqrt{v_x^2 + v_y^2-(d_2-d_1)^2} \over {v_x^2 + v_y^2} } \\
 c &= d_1
 \end{align}$$
 
-Total we got eight solutions instead four. However, it is easy to understand where superfluous decisions arise: in fact, in the latter system, it is enough to take only one solution (for example, the first). In fact, the geometric meaning of what we take $\pm r_1$ and $\pm r_2$ is clear: we are actually sorting out which side of each circle there is a straight line. Therefore, the two methods that arise when solving the latter system are redundant: it is enough to choose one of the two solutions (only, of course, in all four cases, you must choose the same family of solutions).
+در مجموع به جای چهار جواب، هشت جواب به دست آوردیم. با این حال، به راحتی می‌توان فهمید که جواب‌های اضافی از کجا ناشی می‌شوند: در واقع، در دستگاه آخر، کافی است فقط یک جواب را در نظر بگیریم (مثلاً اولی را). در حقیقت، معنای هندسی در نظر گرفتن $\pm r_1$ و $\pm r_2$ روشن است: ما در واقع در حال بررسی این هستیم که خط در کدام سمت هر دایره قرار دارد. بنابراین، دو روشی که هنگام حل دستگاه آخر به وجود می‌آیند، زائد هستند: کافی است یکی از دو جواب را انتخاب کنیم (البته، در هر چهار حالت، باید همان خانواده از جواب‌ها را انتخاب کنید).
 
-The last thing that we have not yet considered is **how to shift the straight lines** in the case when the first circle was not originally located at the origin. However, everything is simple here: it follows from the linearity of the equation of a straight line that the value $a \cdot x_0 + b \cdot y_0$ (where $x_0$ and $y_0$ are the coordinates of the original center of the first circle) must be subtracted from the coefficient $c$.
+آخرین چیزی که هنوز در نظر نگرفته‌ایم این است که در حالتی که دایره اول در ابتدا در مبدأ قرار نداشت، **چگونه خطوط راست را انتقال دهیم**. با این حال، همه چیز در اینجا ساده است: از خطی بودن معادله یک خط راست نتیجه می‌شود که مقدار $a \cdot x_0 + b \cdot y_0$ (که در آن $x_0$ و $y_0$ مختصات مرکز اصلی دایره اول هستند) باید از ضریب $c$ کم شود.
 
-##Implementation
-We first describe all the necessary data structures and other auxiliary definitions:
+## پیاده‌سازی
+ابتدا تمام ساختارهای داده ضروری و سایر تعاریف کمکی را توصیف می‌کنیم:
 
 ```point-line-circle-struct
 struct pt {
@@ -99,7 +96,7 @@ double sqr (double a) {
     return a * a;
 }
 ```
-Then the solution itself can be written this way (where the main function for the call is the second; and the first function is an auxiliary):
+سپس خود راه حل را می‌توان به این صورت نوشت (که در آن تابع اصلی برای فراخوانی، تابع دوم است؛ و تابع اول یک تابع کمکی است):
 
 ```find-tangents-to-two-circles
 void tangents (pt c, double r1, double r2, vector<line> & ans) {
@@ -126,6 +123,6 @@ vector<line> tangents (circle a, circle b) {
 }
 ```
 
-## Problems
+## مسائل
 
 [TIMUS 1163 Chapaev](https://acm.timus.ru/problem.aspx?space=1&num=1163)

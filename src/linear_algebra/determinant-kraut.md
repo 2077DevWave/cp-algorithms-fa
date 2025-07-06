@@ -1,29 +1,30 @@
 ---
-title: Calculating the determinant using Kraut method
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: determinant-kraut
 ---
-# Calculating the determinant using Kraut method in $O(N^3)$
 
-In this article, we'll describe how to find the determinant of the matrix using Kraut method, which works in $O(N^3)$.
+# محاسبه دترمینان به روش Kraut در $O(N^3)$
 
-The Kraut algorithm finds decomposition of matrix $A$ as $A = L U$ where $L$ is lower triangular and $U$ is upper triangular matrix. Without loss of generality, we can assume that all the diagonal elements of $L$ are equal to 1. Once we know these matrices, it is easy to calculate the determinant of $A$: it is equal to the product of all the elements on the main diagonal of the matrix $U$.
+در این مقاله، روش Kraut برای محاسبه دترمینان ماتریس را شرح می‌دهیم که در مرتبه زمانی $O(N^3)$ عمل می‌کند.
 
-There is a theorem stating that any invertible matrix has a LU-decomposition, and it is unique, if and only if all its principle minors are non-zero. We consider only such decomposition in which the diagonal of matrix $L$ consists of ones.
+الگوریتم Kraut، ماتریس $A$ را به صورت $A = LU$ تجزیه می‌کند که در آن $L$ یک ماتریس پایین‌مثلثی و $U$ یک ماتریس بالا‌مثلثی است. بدون از دست دادن کلیت مسئله، می‌توانیم فرض کنیم که تمام درایه‌های روی قطر اصلی ماتریس $L$ برابر با ۱ هستند. پس از یافتن این ماتریس‌ها، محاسبه دترمینان $A$ آسان خواهد بود: دترمینان برابر است با حاصل‌ضرب تمام درایه‌های روی قطر اصلی ماتریس $U$.
 
-Let $A$ be the matrix and $N$ - its size. We will find the elements of the matrices $L$ and $U$ using the following steps:
+قضیه‌ای وجود دارد که بیان می‌کند هر ماتریس معکوس‌پذیری، تجزیه LU دارد و این تجزیه منحصر به فرد است، اگر و تنها اگر تمام کهادهای اصلی آن غیرصفر باشند. ما فقط تجزیه‌ای را در نظر می‌گیریم که در آن قطر اصلی ماتریس $L$ از یک‌ها تشکیل شده باشد.
 
- 1. Let $L_{i i} = 1$ for $i = 1, 2, ..., N$.
- 2. For each $j = 1, 2, ..., N$ perform:
-      - For $i = 1, 2, ..., j$ find values 
+فرض کنید $A$ ماتریس و $N$ ابعاد آن باشد. درایه‌های ماتریس‌های $L$ و $U$ را طی مراحل زیر به دست می‌آوریم:
+
+۱. برای هر $i = 1, 2, ..., N$، قرار دهید $L_{i i} = 1$.
+۲. به ازای هر $j$ از ۱ تا $N$:
+      - برای هر $i$ از ۱ تا $j$:
         
         \[U_{ij} = A_{ij} - \sum_{k=1}^{i-1} L_{ik} \cdot U_{kj}\]
  
-      - Next, for $i = j+1, j+2, ..., N$ find values
+      - سپس، برای هر $i$ از $j+1$ تا $N$:
  
         \[L_{ij} = \frac{1}{U_{jj}} \left(A_{ij} - \sum_{k=1}^{j-1} L_{ik} \cdot U_{kj} \right).\]
 
-## Implementation
+## پیاده‌سازی
 
 ```java
 static BigInteger det (BigDecimal a [][], int n) {

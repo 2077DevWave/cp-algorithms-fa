@@ -1,46 +1,47 @@
 ---
 tags:
-  - Original
+  - AI Translated
+e_maxx_link: sqrt-tree
 ---
 
-# Sqrt Tree
+# درخت رادیکالی (Sqrt Tree)
 
-Given an array $a$ that contains $n$ elements and the operation $\circ$ that satisfies associative property: $(x \circ y) \circ z = x \circ (y \circ z)$ is true for any $x$, $y$, $z$.
+آرایه $a$ با $n$ عنصر و عملگر $\circ$ با خاصیت شرکت‌پذیری داده شده است: برای هر $x$، $y$ و $z$، رابطه $(x \circ y) \circ z = x \circ (y \circ z)$ برقرار است.
 
-So, such operations as $\gcd$, $\min$, $\max$, $+$, $\text{and}$, $\text{or}$, $\text{xor}$, etc. satisfy these conditions.
+بنابراین، عملگرهایی مانند $\gcd$، $\min$، $\max$، $+$، $\text{and}$، $\text{or}$، $\text{xor}$ و غیره این شرایط را برآورده می‌کنند.
 
-Also we have some queries $q(l, r)$. For each query, we need to compute $a_l \circ a_{l+1} \circ \dots \circ a_r$.
+همچنین تعدادی پرس‌وجو به شکل $q(l, r)$ داریم. برای هر پرس‌وجو، باید حاصل $a_l \circ a_{l+1} \circ \dots \circ a_r$ را محاسبه کنیم.
 
-Sqrt Tree can process such queries in $O(1)$ time with $O(n \cdot \log \log n)$ preprocessing time and $O(n \cdot \log \log n)$ memory.
+درخت رادیکالی (Sqrt Tree) می‌تواند چنین پرس‌وجوهایی را در زمان $O(1)$ با پیش‌پردازش و حافظه $O(n \cdot \log \log n)$ پاسخ دهد.
 
-## Description
+## توضیحات
 
-### Building sqrt decomposition
+### ساخت تجزیه رادیکالی (sqrt decomposition)
 
-Let's make a [sqrt decomposition](sqrt_decomposition.md). We divide our array in $\sqrt{n}$ blocks, each block has size $\sqrt{n}$. For each block, we compute:
+بیایید یک [تجزیه رادیکالی](sqrt_decomposition.md) بسازیم. آرایه خود را به $\sqrt{n}$ بلاک تقسیم می‌کنیم که هر بلاک اندازه‌ای برابر با $\sqrt{n}$ دارد. برای هر بلاک، موارد زیر را محاسبه می‌کنیم:
 
-1. Answers to the queries that lie in the block and begin at the beginning of the block ($\text{prefixOp}$)
-2. Answers to the queries that lie in the block and end at the end of the block ($\text{suffixOp}$)
+1. پاسخ پرس‌وجوهایی که در بلاک قرار دارند و از ابتدای بلاک شروع می‌شوند ($\text{prefixOp}$)
+2. پاسخ پرس‌وجوهایی که در بلاک قرار دارند و در انتهای بلاک تمام می‌شوند ($\text{suffixOp}$)
 
-And we'll compute an additional array:
+و یک آرایه اضافی محاسبه می‌کنیم:
 
-3. $\text{between}_{i, j}$ (for $i \le j$) - answer to the query that begins at the start of block $i$ and ends at the end of block $j$. Note that we have $\sqrt{n}$ blocks, so the size of this array will be $O(\sqrt{n}^2) = O(n)$.
+3. $\text{between}_{i, j}$ (برای $i \le j$) - پاسخ پرس‌وجویی که از ابتدای بلاک $i$ شروع شده و در انتهای بلاک $j$ تمام می‌شود. توجه کنید که $\sqrt{n}$ بلاک داریم، پس اندازه این آرایه $O(\sqrt{n}^2) = O(n)$ خواهد بود.
 
-Let's see the example.
+بیایید مثال را ببینیم.
 
-Let $\circ$ be $+$ (we calculate sum on a segment) and we have the following array $a$:
+برای مثال، فرض کنید عملگر $\circ$ همان $+$ باشد (جمع روی یک قطعه را محاسبه می‌کنیم) و آرایه $a$ به صورت زیر باشد:
 
 `{1, 2, 3, 4, 5, 6, 7, 8, 9}`
 
-It will be divided onto three blocks: `{1, 2, 3}`, `{4, 5, 6}` and `{7, 8, 9}`.
+این آرایه به سه بلاک تقسیم می‌شود: `{1, 2, 3}`، `{4, 5, 6}` و `{7, 8, 9}`.
 
-For first block $\text{prefixOp}$ is `{1, 3, 6}` and $\text{suffixOp}$ is `{6, 5, 3}`.
+برای بلاک اول، $\text{prefixOp}$ برابر با `{1, 3, 6}` و $\text{suffixOp}$ برابر با `{6, 5, 3}` است.
 
-For second block $\text{prefixOp}$ is `{4, 9, 15}` and $\text{suffixOp}$ is `{15, 11, 6}`.
+برای بلاک دوم، $\text{prefixOp}$ برابر با `{4, 9, 15}` و $\text{suffixOp}$ برابر با `{15, 11, 6}` است.
 
-For third block $\text{prefixOp}$ is `{7, 15, 24}` and $\text{suffixOp}$ is `{24, 17, 9}`.
+برای بلاک سوم، $\text{prefixOp}$ برابر با `{7, 15, 24}` و $\text{suffixOp}$ برابر با `{24, 17, 9}` است.
 
-$\text{between}$ array is:
+آرایه $\text{between}$ به این صورت است:
 
 ~~~~~
 {
@@ -50,144 +51,144 @@ $\text{between}$ array is:
 }
 ~~~~~
 
-(we assume that invalid elements where $i > j$ are filled with zeroes)
+(فرض می‌کنیم که عناصر نامعتبر که در آن‌ها $i > j$ است با صفر پر شده‌اند)
 
-It's obvious to see that these arrays can be easily calculated in $O(n)$ time and memory.
+واضح است که این آرایه‌ها را می‌توان به راحتی در زمان و حافظه $O(n)$ محاسبه کرد.
 
-We already can answer some queries using these arrays. If the query doesn't fit into one block, we can divide it onto three parts: suffix of a block, then some segment of contiguous blocks and then prefix of some block. We can answer a query by dividing it into three parts and taking our operation of some value from $\text{suffixOp}$, then some value from $\text{between}$, then some value from $\text{prefixOp}$.
+با استفاده از این آرایه‌ها، از هم‌اکنون می‌توانیم به برخی پرس‌وجوها پاسخ دهیم. اگر پرس‌وجو در یک بلاک نگنجد، می‌توانیم آن را به سه بخش تقسیم کنیم: پسوند یک بلاک، سپس یک قطعه از بلاک‌های متوالی و در نهایت پیشوند یک بلاک. می‌توانیم با تقسیم پرس‌وجو به این سه بخش و اعمال عملگرمان روی مقداری از $\text{suffixOp}$، سپس مقداری از $\text{between}$ و در نهایت مقداری از $\text{prefixOp}$، به آن پاسخ دهیم.
 
-But if we have queries that entirely fit into one block, we cannot process them using these three arrays. So, we need to do something.
+اما اگر پرس‌وجوهایی داشته باشیم که به طور کامل در یک بلاک قرار می‌گیرند، نمی‌توانیم با استفاده از این سه آرایه به آنها پاسخ دهیم. بنابراین، باید کار دیگری انجام دهیم.
 
-### Making a tree
+### ساختن یک درخت
 
-We cannot answer only the queries that entirely fit in one block. But what **if we build the same structure as described above for each block?** Yes, we can do it. And we do it recursively, until we reach the block size of $1$ or $2$. Answers for such blocks can be calculated easily in $O(1)$.
+ما فقط نمی‌توانیم به پرس‌وجوهایی که کاملاً در یک بلاک قرار می‌گیرند پاسخ دهیم. اما چه می‌شود **اگر همین ساختار توصیف شده در بالا را برای هر بلاک بسازیم؟** بله، می‌توانیم این کار را انجام دهیم. و این کار را به صورت بازگشتی انجام می‌دهیم تا به بلاک‌هایی با اندازه $1$ یا $۲$ برسیم. پاسخ برای چنین بلاک‌هایی را می‌توان به راحتی در $O(1)$ محاسبه کرد.
 
-So, we get a tree. Each node of the tree represents some segment of the array. Node that represents array segment with size $k$ has $\sqrt{k}$ children -- for each block. Also each node contains the three arrays described above for the segment it contains. The root of the tree represents the entire array. Nodes with segment lengths $1$ or $2$ are leaves.
+بنابراین، یک درخت به دست می‌آوریم. هر گره از این درخت نمایانگر یک قطعه از آرایه است. گره‌ای که یک قطعه از آرایه با اندازه $k$ را نشان می‌دهد، $\sqrt{k}$ فرزند دارد -- برای هر بلاک. همچنین هر گره شامل سه آرایه توصیف شده برای قطعه‌ای است که در بر می‌گیرد. ریشه درخت کل آرایه را نشان می‌دهد. گره‌هایی با طول قطعه $1$ یا $۲$ برگ هستند.
 
-Also it's obvious that the height of this tree is $O(\log \log n)$, because if some vertex of the tree represents an array with length $k$, then its children have length $\sqrt{k}$. $\log(\sqrt{k}) = \frac{\log{k}}{2}$, so $\log k$ decreases two times every layer of the tree and so its height is $O(\log \log n)$. The time for building and memory usage will be $O(n \cdot \log \log n)$, because every element of the array appears exactly once on each layer of the tree.
+همچنین واضح است که ارتفاع این درخت $O(\log \log n)$ است، زیرا اگر یک رأس از درخت آرایه‌ای به طول $k$ را نشان دهد، فرزندان آن طولی برابر با $\sqrt{k}$ خواهند داشت. $\log(\sqrt{k}) = \frac{\log{k}}{2}$، بنابراین $\log k$ در هر لایه از درخت نصف می‌شود و در نتیجه ارتفاع آن $O(\log \log n)$ است. زمان ساخت و حافظه مورد نیاز $O(n \cdot \log \log n)$ خواهد بود، زیرا هر عنصر از آرایه دقیقاً یک بار در هر لایه از درخت ظاهر می‌شود.
 
-Now we can answer the queries in $O(\log \log n)$. We can go down on the tree until we meet a segment with length $1$ or $2$ (answer for it can be calculated in $O(1)$ time) or meet the first segment in which our query doesn't fit entirely into one block. See the first section on how to answer the query in this case.
+اکنون می‌توانیم به پرس‌وجوها در $O(\log \log n)$ پاسخ دهیم. می‌توانیم در درخت به پایین حرکت کنیم تا به قطعه‌ای با طول $1$ یا $۲$ برسیم (پاسخ برای آن در زمان $O(1)$ قابل محاسبه است) یا به اولین قطعه‌ای برسیم که پرس‌وجوی ما به طور کامل در یک بلاک آن قرار نمی‌گیرد. برای نحوه پاسخ به پرس‌وجو در این حالت، به بخش اول مراجعه کنید.
 
-OK, now we can do $O(\log \log n)$ per query. Can it be done faster?
+خوب، اکنون می‌توانیم هر پرس‌وجو را در $O(\log \log n)$ انجام دهیم. آیا می‌توان سریع‌تر این کار را کرد؟
 
-### Optimizing the query complexity
+### بهینه‌سازی پیچیدگی پرس‌وجو
 
-One of the most obvious optimization is to binary search the tree node we need. Using binary search, we can reach the $O(\log \log \log n)$ complexity per query. Can we do it even faster?
+یکی از واضح‌ترین بهینه‌سازی‌ها، جستجوی دودویی برای یافتن گره درختی است که به آن نیاز داریم. با استفاده از جستجوی دودویی، می‌توانیم به پیچیدگی $O(\log \log \log n)$ برای هر پرس‌وجو برسیم. آیا می‌توانیم حتی سریع‌تر عمل کنیم؟
 
-The answer is yes. Let's assume the following two things:
+پاسخ مثبت است. بیایید دو فرض زیر را در نظر بگیریم:
 
-1. Each block size is a power of two.
-2. All the blocks are equal on each layer.
+1. اندازه هر بلاک توانی از دو است.
+2. تمام بلاک‌ها در هر لایه برابر هستند.
 
-To reach this, we can add some zero elements to our array so that its size becomes a power of two.
+برای رسیدن به این هدف، می‌توانیم تعدادی عنصر صفر به آرایه خود اضافه کنیم تا اندازه آن به توانی از دو تبدیل شود.
 
-When we use this, some block sizes may become twice larger to be a power of two, but it still be $O(\sqrt{k})$ in size and we keep linear complexity for building the arrays in a segment.
+وقتی از این روش استفاده می‌کنیم، اندازه برخی بلاک‌ها ممکن است برای تبدیل شدن به توانی از دو، دو برابر بزرگتر شوند، اما همچنان اندازه آنها $O(\sqrt{k})$ باقی می‌ماند و ما پیچیدگی خطی را برای ساخت آرایه‌ها در یک قطعه حفظ می‌کنیم.
 
-Now, we can easily check if the query fits entirely into a block with size $2^k$. Let's write the ranges of the query, $l$ and $r$ (we use 0-indexation) in binary form. For instance, let's assume $k=4, l=39, r=46$. The binary representation of $l$ and $r$ is:
+اکنون، می‌توانیم به راحتی بررسی کنیم که آیا پرس‌وجو به طور کامل در یک بلاک با اندازه $2^k$ قرار می‌گیرد یا خیر. بیایید بازه پرس‌وجو، یعنی $l$ و $r$ (با اندیس‌گذاری از صفر) را به صورت دودویی بنویسیم. برای نمونه، فرض کنید $k=4, l=39, r=46$. نمایش دودویی $l$ و $r$ به این صورت است:
 
 $l = 39_{10} = 100111_2$
 
 $r = 46_{10} = 101110_2$
 
-Remember that one layer contains segments of the equal size, and the block on one layer have also equal size (in our case, their size is $2^k = 2^4 = 16$. The blocks cover the array entirely, so the first block covers elements $(0 - 15)$ ($(000000_2 - 001111_2)$ in binary), the second one covers elements $(16 - 31)$ ($(010000_2 - 011111_2)$ in binary) and so on. We see that the indices of the positions covered by one block may differ only in $k$ (in our case, $4$) last bits. In our case $l$ and $r$ have equal bits except four lowest, so they lie in one block.
+به یاد داشته باشید که یک لایه شامل قطعه‌هایی با اندازه برابر است و بلاک‌ها در یک لایه نیز اندازه برابری دارند (در مثال ما، اندازه آنها $2^k = 2^4 = 16$ است). بلاک‌ها کل آرایه را پوشش می‌دهند، بنابراین بلاک اول عناصر $(0 - 15)$ (در نمایش دودویی $000000_2 - 001111_2$) را پوشش می‌دهد، بلاک دوم عناصر $(16 - 31)$ (در نمایش دودویی $010000_2 - 011111_2$) و به همین ترتیب. می‌بینیم که اندیس‌های موقعیت‌هایی که توسط یک بلاک پوشش داده می‌شوند، ممکن است فقط در $k$ بیت آخر (در مثال ما، ۴ بیت) متفاوت باشند. در مورد ما، $l$ و $r$ به جز چهار بیت کم‌ارزش، بیت‌های برابری دارند، بنابراین در یک بلاک قرار می‌گیرند.
 
-So, we need to check if nothing more that $k$ smallest bits differ (or $l\ \text{xor}\ r$ doesn't exceed $2^k-1$).
+بنابراین، باید بررسی کنیم که آیا تفاوت آنها در بیش از $k$ بیت کم‌ارزش نیست (یا به عبارتی $l\ \text{xor}\ r$ از $2^k-1$ تجاوز نمی‌کند).
 
-Using this observation, we can find a layer that is suitable to answer the query quickly. How to do this:
+با استفاده از این مشاهده، می‌توانیم لایه‌ای را پیدا کنیم که برای پاسخ سریع به پرس‌وجو مناسب باشد. روش انجام این کار به شرح زیر است:
 
-1. For each $i$ that doesn't exceed the array size, we find the highest bit that is equal to $1$. To do this quickly, we use DP and a precalculated array.
+1. برای هر $i$ که از اندازه آرایه بزرگتر نیست، پرارزش‌ترین بیتی که برابر با ۱ است را پیدا می‌کنیم. برای انجام سریع این کار، از DP و یک آرایه پیش‌محاسبه شده استفاده می‌کنیم.
 
-2. Now, for each $q(l, r)$ we find the highest bit of $l\ \text{xor}\ r$ and, using this information, it's easy to choose the layer on which we can process the query easily. We can also use a precalculated array here.
+2. اکنون، برای هر $q(l, r)$، پرارزش‌ترین بیت $l\ \text{xor}\ r$ را پیدا می‌کنیم و با استفاده از این اطلاعات، به راحتی می‌توان لایه‌ای را انتخاب کرد که بتوانیم پرس‌وجو را به سادگی در آن پردازش کنیم. در اینجا نیز می‌توانیم از یک آرایه پیش‌محاسبه شده استفاده کنیم.
 
-For more details, see the code below.
+برای جزئیات بیشتر، کد زیر را ببینید.
 
-So, using this, we can answer the queries in $O(1)$ each. Hooray! :)
+بنابراین، با استفاده از این روش، می‌توانیم به هر پرس‌وجو در زمان $O(1)$ پاسخ دهیم. هورا! :)
 
-## Updating elements
+## به‌روزرسانی عناصر
 
-We can also update elements in Sqrt Tree. Both single element updates and updates on a segment are supported.
+همچنین می‌توانیم عناصر را در درخت رادیکالی به‌روزرسانی کنیم. هم به‌روزرسانی یک عنصر و هم به‌روزرسانی روی یک قطعه پشتیبانی می‌شود.
 
-### Updating a single element
+### به‌روزرسانی یک عنصر
 
-Consider a query $\text{update}(x, val)$ that does the assignment $a_x = val$. We need to perform this query fast enough.
+پرس‌وجوی $\text{update}(x, val)$ را در نظر بگیرید که انتساب $a_x = val$ را انجام می‌دهد. باید این پرس‌وجو را به اندازه کافی سریع انجام دهیم.
 
-#### Naive approach
+#### رویکرد ساده‌لوحانه
 
-First, let's take a look of what is changed in the tree when a single element changes. Consider a tree node with length $l$ and its arrays: $\text{prefixOp}$, $\text{suffixOp}$ and $\text{between}$. It is easy to see that only $O(\sqrt{l})$ elements from $\text{prefixOp}$ and $\text{suffixOp}$ change (only inside the block with the changed element). $O(l)$ elements are changed in $\text{between}$. Therefore, $O(l)$ elements in the tree node are updated.
+ابتدا، بیایید نگاهی بیندازیم که با تغییر یک عنصر، چه چیزهایی در درخت تغییر می‌کند. یک گره درخت با طول $l$ و آرایه‌های آن: $\text{prefixOp}$، $\text{suffixOp}$ و $\text{between}$ را در نظر بگیرید. به راحتی می‌توان دید که فقط $O(\sqrt{l})$ عنصر از $\text{prefixOp}$ و $\text{suffixOp}$ تغییر می‌کنند (فقط درون بلاکی که عنصر تغییر یافته در آن است). $O(l)$ عنصر در $\text{between}$ تغییر می‌کنند. بنابراین، $O(l)$ عنصر در گره درخت به‌روزرسانی می‌شوند.
 
-We remember that any element $x$ is present in exactly one tree node at each layer. Root node (layer $0$) has length $O(n)$, nodes on layer $1$ have length $O(\sqrt{n})$, nodes on layer $2$ have length $O(\sqrt{\sqrt{n}})$, etc. So the time complexity per update is $O(n + \sqrt{n} + \sqrt{\sqrt{n}} + \dots) = O(n)$.
+به یاد داریم که هر عنصر $x$ دقیقاً در یک گره درخت در هر لایه وجود دارد. گره ریشه (لایه $۰$) طولی برابر با $O(n)$ دارد، گره‌های لایه $۱$ طولی برابر با $O(\sqrt{n})$، گره‌های لایه $۲$ طولی برابر با $O(\sqrt{\sqrt{n}})$ و غیره دارند. بنابراین پیچیدگی زمانی برای هر به‌روزرسانی $O(n + \sqrt{n} + \sqrt{\sqrt{n}} + \dots) = O(n)$ است.
 
-But it's too slow. Can it be done faster?
+اما این خیلی کند است. آیا می‌توان سریع‌تر این کار را کرد؟
 
-#### An sqrt-tree inside the sqrt-tree
+#### یک درخت رادیکالی درون درخت رادیکالی
 
-Note that the bottleneck of updating is rebuilding $\text{between}$ of the root node. To optimize the tree, let's get rid of this array! Instead of $\text{between}$ array, we store another sqrt-tree for the root node. Let's call it $\text{index}$. It plays the same role as $\text{between}$&mdash; answers the queries on segments of blocks. Note that the rest of the tree nodes don't have $\text{index}$, they keep their $\text{between}$ arrays.
+توجه داشته باشید که گلوگاه فرآیند به‌روزرسانی، بازسازی آرایه $\text{between}$ در گره ریشه است. برای بهینه‌سازی درخت، بیایید از این آرایه خلاص شویم! به جای آرایه $\text{between}$، یک درخت رادیکالی دیگر برای گره ریشه ذخیره می‌کنیم. بیایید آن را $\text{index}$ بنامیم. این درخت همان نقش $\text{between}$ را ایفا می‌کند—به پرس‌وجوها روی قطعه‌هایی از بلاک‌ها پاسخ می‌دهد. توجه کنید که بقیه گره‌های درخت $\text{index}$ ندارند و آرایه‌های $\text{between}$ خود را حفظ می‌کنند.
 
-A sqrt-tree is _indexed_, if its root node has $\text{index}$. A sqrt-tree with $\text{between}$ array in its root node is _unindexed_. Note that $\text{index}$ **is _unindexed_ itself**.
+یک درخت رادیکالی _شاخص‌دار_ (indexed) است اگر گره ریشه‌اش دارای $\text{index}$ باشد. یک درخت رادیکالی با آرایه $\text{between}$ در گره ریشه‌اش _بدون شاخص_ (unindexed) است. توجه داشته باشید که خود $\text{index}$ **یک درخت _بدون شاخص_ است**.
 
-So, we have the following algorithm for updating an _indexed_ tree:
+بنابراین، الگوریتم زیر را برای به‌روزرسانی یک درخت _شاخص‌دار_ داریم:
 
-* Update $\text{prefixOp}$ and $\text{suffixOp}$ in $O(\sqrt{n})$.
+* به‌روزرسانی $\text{prefixOp}$ و $\text{suffixOp}$ در $O(\sqrt{n})$.
 
-* Update $\text{index}$. It has length $O(\sqrt{n})$ and we need to update only one item in it (that represents the changed block). So, the time complexity for this step is $O(\sqrt{n})$. We can use the algorithm described in the beginning of this section (the "slow" one) to do it.
+* به‌روزرسانی $\text{index}$. این درخت طولی برابر با $O(\sqrt{n})$ دارد و ما فقط باید یک آیتم را در آن به‌روزرسانی کنیم (که نمایانگر بلاک تغییر یافته است). بنابراین، پیچیدگی زمانی برای این مرحله $O(\sqrt{n})$ است. می‌توانیم از الگوریتم توصیف شده در ابتدای این بخش (رویکرد "کند") برای انجام این کار استفاده کنیم.
 
-* Go into the child node that represents the changed block and update it in $O(\sqrt{n})$ with the "slow" algorithm.
+* به گره فرزند که نمایانگر بلاک تغییر یافته است رفته و آن را با الگوریتم "کند" در $O(\sqrt{n})$ به‌روزرسانی می‌کنیم.
 
-Note that the query complexity is still $O(1)$: we need to use $\text{index}$ in query no more than once, and this will take $O(1)$ time.
+توجه داشته باشید که پیچیدگی پرس‌وجو همچنان $O(1)$ است: ما نیاز داریم که از $\text{index}$ در یک پرس‌وجو بیش از یک بار استفاده نکنیم، و این کار $O(1)$ زمان می‌برد.
 
-So, total time complexity for updating a single element is $O(\sqrt{n})$. Hooray! :)
+بنابراین، پیچیدگی زمانی کل برای به‌روزرسانی یک عنصر $O(\sqrt{n})$ است. هورا! :)
 
-### Updating a segment
+### به‌روزرسانی یک قطعه
 
-Sqrt-tree also can do things like assigning an element on a segment. $\text{massUpdate}(x, l, r)$ means $a_i = x$ for all $l \le i \le r$.
+درخت رادیکالی همچنین می‌تواند کارهایی مانند تخصیص یک مقدار به یک قطعه را انجام دهد. $\text{massUpdate}(x, l, r)$ به این معنی است که $a_i = x$ برای تمام $l \le i \le r$.
 
-There are two approaches to do this: one of them does $\text{massUpdate}$ in $O(\sqrt{n}\cdot \log \log n)$, keeping $O(1)$ per query. The second one does $\text{massUpdate}$ in $O(\sqrt{n})$, but the query complexity becomes $O(\log \log n)$.
+دو رویکرد برای انجام این کار وجود دارد: یکی از آنها $\text{massUpdate}$ را در $O(\sqrt{n}\cdot \log \log n)$ انجام می‌دهد و پیچیدگی پرس‌وجو را $O(1)$ نگه می‌دارد. رویکرد دوم $\text{massUpdate}$ را در $O(\sqrt{n})$ انجام می‌دهد، اما پیچیدگی پرس‌وجو به $O(\log \log n)$ تبدیل می‌شود.
 
-We will do lazy propagation in the same way as it is done in segment trees: we mark some nodes as _lazy_, meaning that we'll push them when it's necessary. But one thing is different from segment trees: pushing a node is expensive, so it cannot be done in queries. On the layer $0$, pushing a node takes $O(\sqrt{n})$ time. So, we don't push nodes inside queries, we only look if the current node or its parent are _lazy_, and just take it into account while performing queries.
+ما از انتشار با تأخیر (lazy propagation) به همان روشی که در درخت‌های قطعه‌ای (segment trees) استفاده می‌شود، بهره می‌بریم: برخی گره‌ها را به عنوان _lazy_ (تنبل) علامت‌گذاری می‌کنیم، به این معنی که در صورت لزوم آنها را push خواهیم کرد. اما یک تفاوت با درخت‌های قطعه‌ای وجود دارد: push کردن یک گره پرهزینه است، بنابراین نمی‌توان آن را در حین پرس‌وجوها انجام داد. در لایه ۰، push کردن یک گره $O(\sqrt{n})$ زمان می‌برد. بنابراین، ما در داخل پرس‌وجوها گره‌ها را push نمی‌کنیم، بلکه فقط بررسی می‌کنیم که آیا گره فعلی یا والد آن _lazy_ است یا خیر، و هنگام انجام پرس‌وجوها این موضوع را در نظر می‌گیریم.
 
-#### First approach
+#### رویکرد اول
 
-In the first approach, we say that only nodes on layer $1$ (with length $O(\sqrt{n}$) can be _lazy_. When pushing such node, it updates all its subtree including itself in $O(\sqrt{n}\cdot \log \log n)$. The $\text{massUpdate}$ process is done as follows:
+در رویکرد اول، می‌گوییم که فقط گره‌های لایه ۱ (با طول $O(\sqrt{n})$) می‌توانند _lazy_ باشند. هنگام push کردن چنین گرهی، کل زیردرخت آن شامل خودش در $O(\sqrt{n}\cdot \log \log n)$ به‌روزرسانی می‌شود. فرآیند $\text{massUpdate}$ به شرح زیر انجام می‌شود:
 
-* Consider the nodes on layer $1$ and blocks corresponding to them.
+* گره‌های لایه ۱ و بلاک‌های متناظر با آنها را در نظر بگیرید.
 
-* Some blocks are entirely covered by $\text{massUpdate}$. Mark them as _lazy_ in $O(\sqrt{n})$.
+* برخی بلاک‌ها به طور کامل توسط $\text{massUpdate}$ پوشش داده می‌شوند. آنها را در $O(\sqrt{n})$ به عنوان _lazy_ علامت‌گذاری کنید.
 
-* Some blocks are partially covered. Note there are no more than two blocks of this kind. Rebuild them in $O(\sqrt{n}\cdot \log \log n)$. If they were _lazy_, take it into account.
+* برخی بلاک‌ها به طور جزئی پوشش داده می‌شوند. توجه داشته باشید که حداکثر دو بلاک از این نوع وجود دارد. آنها را در $O(\sqrt{n}\cdot \log \log n)$ بازسازی کنید. اگر _lazy_ بودند، این موضوع را در نظر بگیرید.
 
-* Update $\text{prefixOp}$ and $\text{suffixOp}$ for partially covered blocks in $O(\sqrt{n})$ (because there are only two such blocks).
+* $\text{prefixOp}$ و $\text{suffixOp}$ را برای بلاک‌های پوشش داده شده جزئی در $O(\sqrt{n})$ به‌روزرسانی کنید (زیرا فقط دو بلاک از این نوع وجود دارد).
 
-* Rebuild the $\text{index}$ in $O(\sqrt{n}\cdot \log \log n)$.
+* $\text{index}$ را در $O(\sqrt{n}\cdot \log \log n)$ بازسازی کنید.
 
-So we can do $\text{massUpdate}$ fast. But how lazy propagation affects queries? They will have the following modifications:
+بنابراین می‌توانیم $\text{massUpdate}$ را سریع انجام دهیم. اما انتشار با تأخیر چگونه بر پرس‌وجوها تأثیر می‌گذارد؟ آنها تغییرات زیر را خواهند داشت:
 
-* If our query entirely lies in a _lazy_ block, calculate it and take _lazy_ into account. $O(1)$.
+* اگر پرس‌وجوی ما به طور کامل در یک بلاک _lazy_ قرار گیرد، آن را محاسبه کرده و _lazy_ را در نظر بگیرید. $O(1)$.
 
-* If our query consists of many blocks, some of which are _lazy_, we need to take care of _lazy_ only on the leftmost and the rightmost block. The rest of the blocks are calculated using $\text{index}$, which already knows the answer on _lazy_ block (because it's rebuilt after each modification). $O(1)$.
+* اگر پرس‌وجوی ما از چندین بلاک تشکیل شده باشد که برخی از آنها _lazy_ هستند، فقط باید به _lazy_ در بلاک‌های چپ‌ترین و راست‌ترین توجه کنیم. بقیه بلاک‌ها با استفاده از $\text{index}$ محاسبه می‌شوند، که از قبل پاسخ روی بلاک‌های _lazy_ را می‌داند (چون بعد از هر تغییر بازسازی می‌شود). $O(1)$.
 
-The query complexity still remains $O(1)$.
+پیچیدگی پرس‌وجو همچنان $O(1)$ باقی می‌ماند.
 
-#### Second approach
+#### رویکرد دوم
 
-In this approach, each node can be _lazy_ (except root). Even nodes in $\text{index}$ can be _lazy_. So, while processing a query, we have to look for _lazy_ tags in all the parent nodes, i. e. query complexity will be $O(\log \log n)$.
+در این رویکرد، هر گره (به جز ریشه) می‌تواند _lazy_ باشد. حتی گره‌های درون $\text{index}$ نیز می‌توانند _lazy_ باشند. بنابراین، هنگام پردازش یک پرس‌وجو، باید به دنبال تگ‌های _lazy_ در تمام گره‌های والد بگردیم، یعنی پیچیدگی پرس‌وجو $O(\log \log n)$ خواهد بود.
 
-But $\text{massUpdate}$ becomes faster. It looks in the following way:
+اما $\text{massUpdate}$ سریع‌تر می‌شود. این فرآیند به شکل زیر است:
 
-* Some blocks are fully covered with $\text{massUpdate}$. So, _lazy_ tags are added to them. It is $O(\sqrt{n})$.
+* برخی بلاک‌ها به طور کامل با $\text{massUpdate}$ پوشش داده می‌شوند. بنابراین، تگ‌های _lazy_ به آنها اضافه می‌شود. این کار $O(\sqrt{n})$ است.
 
-* Update $\text{prefixOp}$ and $\text{suffixOp}$ for partially covered blocks in $O(\sqrt{n})$ (because there are only two such blocks).
+* $\text{prefixOp}$ و $\text{suffixOp}$ را برای بلاک‌های پوشش داده شده جزئی در $O(\sqrt{n})$ به‌روزرسانی کنید (زیرا فقط دو بلاک از این نوع وجود دارد).
 
-* Do not forget to update the index. It is $O(\sqrt{n})$ (we use the same $\text{massUpdate}$ algorithm).
+* فراموش نکنید که index را به‌روزرسانی کنید. این کار $O(\sqrt{n})$ است (از همان الگوریتم $\text{massUpdate}$ استفاده می‌کنیم).
 
-* Update $\text{between}$ array for _unindexed_ subtrees. 
+* آرایه $\text{between}$ را برای زیردرخت‌های _بدون شاخص_ به‌روزرسانی کنید.
 
-* Go into the nodes representing partially covered blocks and call $\text{massUpdate}$ recursively.
+* به گره‌های نمایانگر بلاک‌های پوشش داده شده جزئی بروید و $\text{massUpdate}$ را به صورت بازگشتی فراخوانی کنید.
 
-Note that when we do the recursive call, we do prefix or suffix $\text{massUpdate}$. But for prefix and suffix updates we can have no more than one partially covered child. So, we visit one node on layer $1$, two nodes on layer $2$ and two nodes on any deeper level. So, the time complexity is $O(\sqrt{n} + \sqrt{\sqrt{n}} + \dots) = O(\sqrt{n})$. The approach here is similar to the segment tree mass update.
+توجه داشته باشید که وقتی فراخوانی بازگشتی را انجام می‌دهیم، یک $\text{massUpdate}$ پیشوندی یا پسوندی انجام می‌دهیم. اما برای به‌روزرسانی‌های پیشوندی و پسوندی می‌توانیم حداکثر یک فرزند پوشش داده شده جزئی داشته باشیم. بنابراین، یک گره در لایه ۱، دو گره در لایه ۲ و دو گره در هر سطح عمیق‌تر را بازدید می‌کنیم. پس، پیچیدگی زمانی $O(\sqrt{n} + \sqrt{\sqrt{n}} + \dots) = O(\sqrt{n})$ است. رویکرد در اینجا شبیه به به‌روزرسانی گروهی در درخت قطعه‌ای است.
 
-## Implementation
+## پیاده‌سازی
 
-The following implementation of Sqrt Tree can perform the following operations: build in $O(n \cdot \log \log n)$, answer queries in $O(1)$ and update an element in $O(\sqrt{n})$.
+پیاده‌سازی زیر از درخت رادیکالی می‌تواند عملیات زیر را انجام دهد: ساخت در $O(n \cdot \log \log n)$، پاسخ به پرس‌وجوها در $O(1)$ و به‌روزرسانی یک عنصر در $O(\sqrt{n})$.
 
 ~~~~~cpp
 SqrtTreeItem op(const SqrtTreeItem &a, const SqrtTreeItem &b);
@@ -346,6 +347,6 @@ public:
 
 ~~~~~
 
-## Problems
+## مسائل
 
 [CodeChef - SEGPROD](https://www.codechef.com/NOV17/problems/SEGPROD)

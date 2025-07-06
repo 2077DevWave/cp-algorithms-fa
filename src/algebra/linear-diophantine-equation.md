@@ -1,83 +1,83 @@
 ---
 tags:
-  
-e_maxx_link: diofant_2_equation
+  - AI Translated
+e_maxx_link: linear-diophantine-equation
 ---
 
-# Linear Diophantine Equation
+# معادله سیاله خطی
 
-A Linear Diophantine Equation (in two variables) is an equation of the general form:
+یک معادله سیاله خطی (در دو متغیر) معادله‌ای به شکل کلی زیر است:
 
 $$ax + by = c$$
 
-where $a$, $b$, $c$ are given integers, and $x$, $y$ are unknown integers.
+که در آن $a$، $b$ و $c$ اعداد صحیح داده شده و $x$ و $y$ اعداد صحیح مجهول هستند.
 
-In this article, we consider several classical problems on these equations:
+در این مقاله، ما چندین مسئله کلاسیک در مورد این معادلات را بررسی می‌کنیم:
 
-* finding one solution
-* finding all solutions
-* finding the number of solutions and the solutions themselves in a given interval
-* finding a solution with minimum value of $x + y$
+*   پیدا کردن یک جواب
+*   پیدا کردن تمام جواب‌ها
+*   پیدا کردن تعداد جواب‌ها و خود جواب‌ها در یک بازه مشخص
+*   پیدا کردن جوابی با کمترین مقدار $x + y$
 
-## The degenerate case
+## حالت خاص
 
-A degenerate case that need to be taken care of is when $a = b = 0$. It is easy to see that we either have no solutions or infinitely many solutions, depending on whether $c = 0$ or not. In the rest of this article, we will ignore this case.
+یک حالت خاص که باید به آن توجه شود، زمانی است که $a = b = 0$. به راحتی می‌توان دید که بسته به اینکه $c = 0$ باشد یا نه، یا جوابی نداریم یا بی‌نهایت جواب داریم. در ادامه این مقاله، ما این حالت را نادیده می‌گیریم.
 
-## Analytic solution
+## راه حل تحلیلی
 
-When $a \neq 0$ and $b \neq 0$, the equation $ax+by=c$ can be equivalently treated as either of the following:
+وقتی $a \neq 0$ و $b \neq 0$، معادله $ax+by=c$ می‌تواند به طور معادل با هر یک از موارد زیر در نظر گرفته شود:
 
 \begin{align}
 ax &\equiv c \pmod b \\
 by &\equiv c \pmod a
 \end{align}
 
-Without loss of generality, assume that $b \neq 0$ and consider the first equation. When $a$ and $b$ are co-prime, the solution to it is given as
+بدون از دست دادن کلیت مسئله، فرض کنید که $b \neq 0$ و معادله اول را در نظر بگیرید. وقتی $a$ و $b$ نسبت به هم اول باشند، جواب آن به صورت زیر داده می‌شود:
 
 $$x \equiv ca^{-1} \pmod b,$$
 
-where $a^{-1}$ is the [modular inverse](module-inverse.md) of $a$ modulo $b$.
+که در آن $a^{-1}$ [وارون پیمانه‌ای](module-inverse.md) $a$ به پیمانه $b$ است.
 
-When $a$ and $b$ are not co-prime, values of $ax$ modulo $b$ for all integer $x$ are divisible by $g=\gcd(a, b)$, so the solution only exists when $c$ is divisible by $g$. In this case, one of solutions can be found by reducing the equation by $g$:
+وقتی $a$ و $b$ نسبت به هم اول نباشند، مقادیر $ax$ به پیمانه $b$ برای تمام اعداد صحیح $x$ بر $g=\gcd(a, b)$ بخش‌پذیر هستند، بنابراین جواب تنها زمانی وجود دارد که $c$ بر $g$ بخش‌پذیر باشد. در این حالت، یکی از جواب‌ها را می‌توان با تقسیم کردن معادله بر $g$ پیدا کرد:
 
 $$(a/g) x \equiv (c/g) \pmod{b/g}.$$
 
-By the definition of $g$, the numbers $a/g$ and $b/g$ are co-prime, so the solution is given explicitly as
+بنا به تعریف $g$، اعداد $a/g$ و $b/g$ نسبت به هم اول هستند، بنابراین جواب به صراحت به صورت زیر داده می‌شود:
 
 $$\begin{cases}
 x \equiv (c/g)(a/g)^{-1}\pmod{b/g},\\
 y = \frac{c-ax}{b}.
 \end{cases}$$
 
-## Algorithmic solution
+## راه حل الگوریتمی
 
-**Bézout's lemma** (also called Bézout's identity) is a useful result that can be used to understand the following solution. 
+**اتحاد بزو** (که لم بزو نیز نامیده می‌شود) نتیجه مفیدی است که می‌تواند برای درک راه حل زیر استفاده شود.
 
-> Let $g = \gcd(a,b)$. Then there exist integers $x,y$ such that $ax + by = g$.
-> 
-> Moreover, $g$ is the least such positive integer that can be written as $ax + by$; all integers of the form $ax + by$ are multiples of $g$. 
+> فرض کنید $g = \gcd(a,b)$ باشد. آنگاه اعداد صحیح $x,y$ وجود دارند به طوری که $ax + by = g$.
+>
+> علاوه بر این، $g$ کوچکترین عدد صحیح مثبتی است که می‌توان آن را به صورت $ax + by$ نوشت؛ تمام اعداد صحیح به شکل $ax + by$ مضربی از $g$ هستند.
 
-To find one solution of the Diophantine equation with 2 unknowns, you can use the [Extended Euclidean algorithm](extended-euclid-algorithm.md). First, assume that $a$ and $b$ are non-negative. When we apply Extended Euclidean algorithm for $a$ and $b$, we can find their greatest common divisor $g$ and 2 numbers $x_g$ and $y_g$ such that:
+برای پیدا کردن یک جواب از معادله سیاله با ۲ مجهول، می‌توانید از [الگوریتم اقلیدسی تعمیم‌یافته](extended-euclid-algorithm.md) استفاده کنید. ابتدا، فرض کنید که $a$ و $b$ غیرمنفی هستند. وقتی الگوریتم اقلیدسی تعمیم‌یافته را برای $a$ و $b$ به کار می‌بریم، می‌توانیم بزرگترین مقسوم‌علیه مشترک آنها $g$ و ۲ عدد $x_g$ و $y_g$ را پیدا کنیم به طوری که:
 
 $$a x_g + b y_g = g$$
 
-If $c$ is divisible by $g = \gcd(a, b)$, then the given Diophantine equation has a solution, otherwise it does not have any solution. The proof is straight-forward: a linear combination of two numbers is divisible by their common divisor.
+اگر $c$ بر $g = \gcd(a, b)$ بخش‌پذیر باشد، آنگاه معادله سیاله داده شده جواب دارد، در غیر این صورت هیچ جوابی ندارد. اثبات آن ساده است: ترکیب خطی دو عدد بر مقسوم‌علیه مشترک آنها بخش‌پذیر است.
 
-Now supposed that $c$ is divisible by $g$, then we have:
+حال فرض کنید که $c$ بر $g$ بخش‌پذیر است، آنگاه داریم:
 
 $$a \cdot x_g \cdot \frac{c}{g} + b \cdot y_g \cdot \frac{c}{g} = c$$
 
-Therefore one of the solutions of the Diophantine equation is:
+بنابراین یکی از جواب‌های معادله سیاله عبارت است از:
 
 $$x_0 = x_g \cdot \frac{c}{g},$$
 
 $$y_0 = y_g \cdot \frac{c}{g}.$$
 
-The above idea still works when $a$ or $b$ or both of them are negative. We only need to change the sign of $x_0$ and $y_0$ when necessary.
+ایده بالا همچنان زمانی که $a$ یا $b$ یا هر دو منفی باشند، کار می‌کند. فقط لازم است در صورت لزوم علامت $x_0$ و $y_0$ را تغییر دهیم.
 
-Finally, we can implement this idea as follows (note that this code does not consider the case $a = b = 0$):
+در نهایت، می‌توانیم این ایده را به صورت زیر پیاده‌سازی کنیم (توجه داشته باشید که این کد حالت $a = b = 0$ را در نظر نمی‌گیرد):
 
-```{.cpp file=linear_diophantine_any}
+```cpp file=linear_diophantine_any
 int gcd(int a, int b, int& x, int& y) {
     if (b == 0) {
         x = 1;
@@ -105,50 +105,50 @@ bool find_any_solution(int a, int b, int c, int &x0, int &y0, int &g) {
 }
 ```
 
-## Getting all solutions
+## به دست آوردن تمام جواب‌ها
 
-From one solution $(x_0, y_0)$, we can obtain all the solutions of the given equation.
+از یک جواب $(x_0, y_0)$، می‌توانیم تمام جواب‌های معادله داده شده را به دست آوریم.
 
-Let $g = \gcd(a, b)$ and let $x_0, y_0$ be integers which satisfy the following:
+فرض کنید $g = \gcd(a, b)$ و $x_0, y_0$ اعداد صحیحی باشند که در رابطه زیر صدق می‌کنند:
 
 $$a \cdot x_0 + b \cdot y_0 = c$$
 
-Now, we should see that adding $b / g$ to $x_0$, and, at the same time subtracting $a / g$ from $y_0$ will not break the equality:
+حال، باید ببینیم که اضافه کردن $b / g$ به $x_0$ و همزمان کم کردن $a / g$ از $y_0$ تساوی را بر هم نمی‌زند:
 
 $$a \cdot \left(x_0 + \frac{b}{g}\right) + b \cdot \left(y_0 - \frac{a}{g}\right) = a \cdot x_0 + b \cdot y_0 + a \cdot \frac{b}{g} - b \cdot \frac{a}{g} = c$$
 
-Obviously, this process can be repeated again, so all the numbers of the form:
+بدیهی است که این فرآیند را می‌توان دوباره تکرار کرد، بنابراین تمام اعداد به شکل زیر:
 
 $$x = x_0 + k \cdot \frac{b}{g}$$
 
 $$y = y_0 - k \cdot \frac{a}{g}$$
 
-are solutions of the given Diophantine equation.
+جواب‌های معادله سیاله داده شده هستند.
 
-Since the equation is linear, all solutions lie on the same line, and by the definition of $g$ this is the set of all possible solutions of the given Diophantine equation.
+از آنجایی که معادله خطی است، تمام جواب‌ها روی یک خط قرار دارند، و بنا به تعریف $g$، این مجموعه تمام جواب‌های ممکن معادله سیاله داده شده است.
 
-## Finding the number of solutions and the solutions in a given interval
+## پیدا کردن تعداد جواب‌ها و خود جواب‌ها در یک بازه مشخص
 
-From previous section, it should be clear that if we don't impose any restrictions on the solutions, there would be infinite number of them. So in this section, we add some restrictions on the interval of $x$ and $y$, and we will try to count and enumerate all the solutions.
+از بخش قبل، باید مشخص شده باشد که اگر هیچ محدودیتی بر جواب‌ها اعمال نکنیم، تعداد بی‌نهایتی از آنها وجود خواهد داشت. بنابراین در این بخش، ما محدودیت‌هایی را روی بازه $x$ و $y$ اضافه می‌کنیم و سعی خواهیم کرد تمام جواب‌ها را بشماریم و لیست کنیم.
 
-Let there be two intervals: $[min_x; max_x]$ and $[min_y; max_y]$ and let's say we only want to find the solutions in these two intervals.
+فرض کنید دو بازه $[min_x; max_x]$ و $[min_y; max_y]$ وجود داشته باشد و بگوییم که ما فقط می‌خواهیم جواب‌ها را در این دو بازه پیدا کنیم.
 
-Note that if $a$ or $b$ is $0$, then the problem only has one solution. We don't consider this case here.
+توجه داشته باشید که اگر $a$ یا $b$ برابر $0$ باشد، آنگاه مسئله فقط یک جواب دارد. ما این حالت را در اینجا در نظر نمی‌گیریم.
 
-First, we can find a solution which has minimum value of $x$, such that $x \ge min_x$. To do this, we first find any solution of the Diophantine equation. Then, we shift this solution to get $x \ge min_x$ (using what we know about the set of all solutions in previous section). This can be done in $O(1)$.
-Denote this minimum value of $x$ by $l_{x1}$.
+ابتدا، می‌توانیم جوابی را پیدا کنیم که کمترین مقدار $x$ را داشته باشد، به طوری که $x \ge min_x$. برای انجام این کار، ابتدا هر جوابی از معادله سیاله را پیدا می‌کنیم. سپس، این جواب را طوری جابجا (shift) می‌کنیم که $x \ge min_x$ برقرار شود (با استفاده از آنچه در بخش قبل در مورد مجموعه تمام جواب‌ها آموختیم). این کار را می‌توان در $O(1)$ انجام داد.
+این حداقل مقدار $x$ را با $l_{x1}$ نشان می‌دهیم.
 
-Similarly, we can find the maximum value of $x$ which satisfies $x \le max_x$. Denote this maximum value of $x$ by $r_{x1}$.
+به طور مشابه، می‌توانیم حداکثر مقدار $x$ را که در $x \le max_x$ صدق می‌کند، پیدا کنیم. این حداکثر مقدار $x$ را با $r_{x1}$ نشان می‌دهیم.
 
-Similarly, we can find the minimum value of $y$ $(y \ge min_y)$ and maximum value of $y$ $(y \le max_y)$. Denote the corresponding values of $x$ by $l_{x2}$ and $r_{x2}$.
+به طور مشابه، می‌توانیم حداقل مقدار $y$ $(y \ge min_y)$ و حداکثر مقدار $y$ $(y \le max_y)$ را پیدا کنیم. مقادیر متناظر $x$ را با $l_{x2}$ و $r_{x2}$ نشان می‌دهیم.
 
-The final solution is all solutions with x in intersection of $[l_{x1}, r_{x1}]$ and $[l_{x2}, r_{x2}]$. Let denote this intersection by $[l_x, r_x]$.
+جواب نهایی، تمام جواب‌هایی است که x آنها در اشتراک $[l_{x1}, r_{x1}]$ و $[l_{x2}, r_{x2}]$ قرار دارد. این اشتراک را با $[l_x, r_x]$ نشان می‌دهیم.
 
-Following is the code implementing this idea.
-Notice that we divide $a$ and $b$ at the beginning by $g$.
-Since the equation $a x + b y = c$ is equivalent to the equation $\frac{a}{g} x + \frac{b}{g} y = \frac{c}{g}$, we can use this one instead and have $\gcd(\frac{a}{g}, \frac{b}{g}) = 1$, which simplifies the formulas.
+کد زیر این ایده را پیاده‌سازی می‌کند.
+توجه داشته باشید که ما در ابتدا $a$ و $b$ را بر $g$ تقسیم می‌کنیم.
+از آنجایی که معادله $a x + b y = c$ معادل معادله $\frac{a}{g} x + \frac{b}{g} y = \frac{c}{g}$ است، می‌توانیم به جای آن از این معادله استفاده کنیم و در نتیجه $\gcd(\frac{a}{g}, \frac{b}{g}) = 1$ خواهیم داشت، که فرمول‌ها را ساده‌تر می‌کند.
 
-```{.cpp file=linear_diophantine_all}
+```cpp file=linear_diophantine_all
 void shift_solution(int & x, int & y, int a, int b, int cnt) {
     x += cnt * b;
     y -= cnt * a;
@@ -199,31 +199,31 @@ int find_all_solutions(int a, int b, int c, int minx, int maxx, int miny, int ma
 }
 ```
 
-Once we have $l_x$ and $r_x$, it is also simple to enumerate through all the solutions. Just need to iterate through $x = l_x + k \cdot \frac{b}{g}$ for all $k \ge 0$ until $x = r_x$, and find the corresponding $y$ values using the equation $a x + b y = c$.
+هنگامی که $l_x$ و $r_x$ را داریم، لیست کردن تمام جواب‌ها نیز ساده است. کافیست از $x = l_x$ شروع کرده و با گام‌های به اندازه $\text{abs}(b/g)$ تا $x \le r_x$ پیش برویم و برای هر $x$ مقدار متناظر $y$ را با استفاده از معادله $ax+by=c$ محاسبه کنیم.
 
-## Find the solution with minimum value of $x + y$ { data-toc-label='Find the solution with minimum value of <script type="math/tex">x + y</script>' }
+## پیدا کردن جوابی با کمترین مقدار $x + y$ { data-toc-label='پیدا کردن جوابی با کمترین مقدار <script type="math/tex">x + y</script>' }
 
-Here, $x$ and $y$ also need to be given some restriction, otherwise, the answer may become negative infinity.
+در اینجا نیز باید برای $x$ و $y$ محدودیت‌هایی قائل شد، در غیر این صورت، جواب ممکن است منفی بی‌نهایت شود.
 
-The idea is similar to previous section: We find any solution of the Diophantine equation, and then shift the solution to satisfy some conditions.
+ایده مشابه بخش قبل است: یک جواب دلخواه از معادله سیاله را پیدا می‌کنیم و سپس جواب را برای برآورده کردن برخی شرایط، جابجا (shift) می‌کنیم.
 
-Finally, use the knowledge of the set of all solutions to find the minimum:
+در نهایت، با استفاده از دانشی که از مجموعه تمام جواب‌ها داریم، کمترین مقدار را پیدا می‌کنیم:
 
 $$x' = x + k \cdot \frac{b}{g},$$
 
 $$y' = y - k \cdot \frac{a}{g}.$$
 
-Note that $x + y$ change as follows:
+توجه داشته باشید که $x + y$ به صورت زیر تغییر می‌کند:
 
 $$x' + y' = x + y + k \cdot \left(\frac{b}{g} - \frac{a}{g}\right) = x + y + k \cdot \frac{b-a}{g}$$
 
-If $a < b$, we need to select smallest possible value of $k$. If $a > b$, we need to select the largest possible value of $k$. If $a = b$, all solution will have the same sum $x + y$.
+اگر $a < b$ باشد، باید کوچکترین مقدار ممکن $k$ را انتخاب کنیم. اگر $a > b$ باشد، باید بزرگترین مقدار ممکن $k$ را انتخاب کنیم. اگر $a = b$ باشد، تمام جواب‌ها مجموع $x + y$ یکسانی خواهند داشت.
 
-## Practice Problems
+## مسائل تمرینی
 
-* [Spoj - Crucial Equation](http://www.spoj.com/problems/CEQU/)
-* [SGU 106](http://codeforces.com/problemsets/acmsguru/problem/99999/106)
-* [Codeforces - Ebony and Ivory](http://codeforces.com/contest/633/problem/A)
-* [Codechef - Get AC in one go](https://www.codechef.com/problems/COPR16G)
-* [LightOj - Solutions to an equation](http://www.lightoj.com/volume_showproblem.php?problem=1306)
-* [Atcoder - F - S = 1](https://atcoder.jp/contests/abc340/tasks/abc340_f)
+*   [Spoj - Crucial Equation](http://www.spoj.com/problems/CEQU/)
+*   [SGU 106](http://codeforces.com/problemsets/acmsguru/problem/99999/106)
+*   [Codeforces - Ebony and Ivory](http://codeforces.com/contest/633/problem/A)
+*   [Codechef - Get AC in one go](https://www.codechef.com/problems/COPR16G)
+*   [LightOj - Solutions to an equation](http://www.lightoj.com/volume_showproblem.php?problem=1306)
+*   [Atcoder - F - S = 1](https://atcoder.jp/contests/abc340/tasks/abc340_f)

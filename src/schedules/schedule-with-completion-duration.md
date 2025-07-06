@@ -1,27 +1,27 @@
 ---
 tags:
-  
-e_maxx_link: schedule_with_completion_duration
+  - AI Translated
+e_maxx_link: schedule-with-completion-duration
 ---
 
-# Optimal schedule of jobs given their deadlines and durations
+# زمان‌بندی بهینه‌ی کارها با مهلت و مدت زمان معین
 
-Suppose, we have a set of jobs, and we are aware of every job’s deadline and its duration. The execution of a job cannot be interrupted prior to its ending. It is required to create such a schedule to accomplish the biggest number of jobs.
+فرض کنید مجموعه‌ای از کارها را در اختیار داریم و از مهلت (deadline) و مدت زمان انجام هر کار مطلع هستیم. اجرای یک کار نمی‌تواند قبل از پایانش متوقف شود. هدف، ایجاد یک زمان‌بندی است که بیشترین تعداد کارها را به انجام برساند.
 
-## Solving
+## روش حل
 
-The algorithm of the solving is **greedy**. Let’s sort all the jobs by their deadlines and look at them in descending order. Also, let’s create a queue $q$, in which we’ll gradually put the jobs and extract one with the least run-time (for instance, we can use set or priority_queue). Initially, $q$ is empty.
+الگوریتم حل این مسئله **حریصانه** است. بیایید تمام کارها را بر اساس مهلتشان مرتب کرده و به ترتیب نزولی بررسی کنیم. همچنین، یک صف $q$ ایجاد می‌کنیم که کارها را به تدریج در آن قرار داده و کاری را که کمترین زمان اجرا را دارد از آن خارج می‌کنیم (برای مثال، می‌توانیم از `set` یا `priority_queue` استفاده کنیم). در ابتدا، $q$ خالی است.
 
-Suppose, we’re looking at the $i$-th job. First of all, let’s put it into $q$. Let’s consider the period of time between the deadline of $i$-th job and the deadline of $i-1$-th job. That is the segment of some length $T$. We will extract jobs from $q$ (in their left duration ascending order) and execute them until the whole segment $T$ is filled. Important: if at any moment of time the extracted job can only be partly executed until segment $T$ is filled, then we execute this job partly just as far as possible, i.e., during the $T$-time, and we put the remaining part of a job back into $q$.
+فرض کنید در حال بررسی کار $i$-ام هستیم. ابتدا، آن را در $q$ قرار می‌دهیم. بازه زمانی بین مهلت کار $i$-ام و مهلت کار $i-1$-ام را در نظر بگیرید. این یک بازه با طول $T$ است. ما کارها را از $q$ (به ترتیب صعودی مدت زمان باقی‌مانده) خارج کرده و آن‌ها را اجرا می‌کنیم تا زمانی که کل بازه $T$ پر شود. نکته مهم: اگر در هر لحظه، کار خارج‌شده فقط بتواند تا حدی اجرا شود تا بازه $T$ پر شود، آنگاه این کار را تا جای ممکن، یعنی به اندازه زمان $T$، اجرا کرده و بخش باقی‌مانده از کار را دوباره به $q$ برمی‌گردانیم.
 
-On the algorithm’s completion we’ll choose the optimal solution (or, at least, one of several solutions). The running time of algorithm is $O(n \log n)$.
+پس از اتمام الگوریتم، ما به یک راه‌حل بهینه (یا حداقل یکی از چندین راه‌حل ممکن) دست پیدا می‌کنیم. زمان اجرای الگوریتم $O(n \log n)$ است.
 
-## Implementation
+## پیاده‌سازی
 
-The following function takes a vector of jobs (consisting of a deadline, a duration, and the job's index) and computes a vector containing all indices of the used jobs in the optimal schedule.
-Notice that you still need to sort these jobs by their deadline, if you want to write down the plan explicitly.
+تابع زیر یک `vector` از کارها (شامل مهلت، مدت زمان و شماره‌ی کار) را دریافت کرده و یک `vector` حاوی شماره‌ی تمام کارهای استفاده‌شده در زمان‌بندی بهینه را محاسبه می‌کند.
+توجه داشته باشید که اگر می‌خواهید برنامه را به صراحت بنویسید، همچنان باید این کارها را بر اساس مهلتشان مرتب کنید.
 
-```{.cpp file=schedule_deadline_duration}
+```cpp file=schedule_deadline_duration
 struct Job {
     int deadline, duration, idx;
 

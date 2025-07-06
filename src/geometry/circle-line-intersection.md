@@ -1,41 +1,41 @@
 ---
 tags:
-  
-e_maxx_link: circle_line_intersection
+  - AI Translated
+e_maxx_link: circle-line-intersection
 ---
 
-# Circle-Line Intersection
+# تقاطع دایره و خط
 
-Given the coordinates of the center of a circle and its radius, and the equation of a line, you're required to find the points of intersection.
+با داشتن مختصات مرکز دایره، شعاع آن و معادله‌ی یک خط، باید نقاط تقاطع آن‌ها را پیدا کنید.
 
-## Solution
+## راه حل
 
-Instead of solving the system of two equations, we will approach the problem geometrically. This way we get a more accurate solution from the point of view of numerical stability.
+به جای حل دستگاه دو معادله، به صورت هندسی به مسئله نزدیک می‌شویم. به این ترتیب از دیدگاه پایداری عددی به جوابی دقیق‌تر می‌رسیم.
 
-We assume without loss of generality that the circle is centered at the origin. If it's not, we translate it there and correct the $C$ constant in the line equation. So we have a circle centered at $(0,0)$ of radius $r$ and a line with equation $Ax+By+C=0$.
+بدون از دست دادن کلیت مسئله، فرض می‌کنیم که مرکز دایره در مبدأ مختصات قرار دارد. اگر اینطور نباشد، آن را به مبدأ منتقل کرده و ثابت $C$ را در معادله‌ی خط تصحیح می‌کنیم. بنابراین، یک دایره به مرکز $(0,0)$ و شعاع $r$ و یک خط با معادله‌ی $Ax+By+C=0$ داریم.
 
-Let's start by find the point on the line which is closest to the origin $(x_0, y_0)$. First, it has to be at a distance
+ابتدا نقطه‌ای روی خط را پیدا می‌کنیم که به مبدأ مختصات نزدیک‌ترین باشد، یعنی $(x_0, y_0)$. اولاً، این نقطه باید در فاصله‌ی زیر باشد:
 
 $$ d_0 = \frac{|C|}{\sqrt{A^2+B^2}} $$
 
-Second, since the vector $(A, B)$ is perpendicular to the line, the coordinates of the point must be proportional to the coordinates of this vector. Since we know the distance of the point to the origin, we just need to scale the vector $(A, B)$ to this length, and we'll get:
+دوماً، از آنجایی که بردار $(A, B)$ بر خط عمود است، مختصات این نقطه باید با مختصات این بردار متناسب باشد. چون فاصله‌ی نقطه تا مبدأ را می‌دانیم، کافی است بردار $(A, B)$ را به این طول مقیاس‌بندی کنیم تا به نتیجه‌ی زیر برسیم:
 
 $$\begin{align}
 x_0 &= - \frac{AC}{A^2 + B^2} \\
 y_0 &= - \frac{BC}{A^2 + B^2} 
 \end{align}$$
 
-The minus signs are not obvious, but they can be easily verified by substituting $x_0$ and $y_0$ in the equation of the line.
+علامت‌های منفی ممکن است بدیهی نباشند، اما با جایگذاری $x_0$ و $y_0$ در معادله‌ی خط به راحتی قابل تأیید هستند.
 
-At this stage we can determine the number of intersection points, and even find the solution when there is one or zero points. Indeed, if the distance from $(x_0, y_0)$ to the origin $d_0$ is greater than the radius $r$, the answer is **zero points**. If $d_0=r$, the answer is **one point** $(x_0, y_0)$. If $d_0<r$, there are two points of intersection, and now we have to find their coordinates.
+در این مرحله می‌توانیم تعداد نقاط تقاطع را مشخص کنیم و حتی در حالتی که یک یا صفر نقطه وجود دارد، جواب را پیدا کنیم. در واقع، اگر فاصله‌ی $(x_0, y_0)$ تا مبدأ، یعنی $d_0$، از شعاع $r$ بزرگتر باشد، پاسخ **صفر نقطه** است. اگر $d_0=r$ باشد، پاسخ **یک نقطه** یعنی $(x_0, y_0)$ است. اگر $d_0<r$ باشد، دو نقطه‌ی تقاطع وجود دارد و اکنون باید مختصات آنها را پیدا کنیم.
 
-So, we know that the point $(x_0, y_0)$ is inside the circle. The two points of intersection, $(a_x, a_y)$ and $(b_x, b_y)$, must belong to the line $Ax+By+C=0$ and must be at the same distance $d$ from $(x_0, y_0)$, and this distance is easy to find:
+پس می‌دانیم که نقطه‌ی $(x_0, y_0)$ داخل دایره قرار دارد. دو نقطه‌ی تقاطع، یعنی $(a_x, a_y)$ و $(b_x, b_y)$، باید روی خط $Ax+By+C=0$ قرار داشته باشند و باید در فاصله‌ی یکسان $d$ از $(x_0, y_0)$ باشند. این فاصله به راحتی پیدا می‌شود:
 
 $$ d = \sqrt{r^2 - \frac{C^2}{A^2 + B^2}} $$
 
-Note that the vector $(-B, A)$ is collinear to the line, and thus we can find the points in question by adding and subtracting  vector $(-B,A)$, scaled to the length $d$, to the point $(x_0, y_0)$. 
+توجه داشته باشید که بردار $(-B, A)$ با خط هم‌راستا است، و بنابراین می‌توانیم با جمع و تفریق بردار $(-B,A)$ که به طول $d$ مقیاس‌بندی شده، با نقطه‌ی $(x_0, y_0)$، نقاط مورد نظر را پیدا کنیم.
 
-Finally, the equations of the two points of intersection are:
+در نهایت، معادلات دو نقطه‌ی تقاطع عبارتند از:
 
 $$\begin{align}
 m &= \sqrt{\frac{d^2}{A^2 + B^2}} \\
@@ -43,11 +43,11 @@ a_x &= x_0 + B \cdot m, a_y = y_0 - A \cdot m \\
 b_x &= x_0 - B \cdot m, b_y = y_0 + A \cdot m
 \end{align}$$
 
-Had we solved the original system of equations using algebraic methods, we would likely get an answer in a different form with a larger error. The geometric method described here is more graphic and more accurate.
+اگر دستگاه معادلات اصلی را با روش‌های جبری حل می‌کردیم، احتمالاً به جوابی با شکلی متفاوت و خطای بیشتر می‌رسیدیم. روش هندسی که در اینجا شرح داده شد، ملموس‌تر و دقیق‌تر است.
 
-## Implementation
+## پیاده‌سازی
 
-As indicated at the outset, we assume that the circle is centered at the origin, and therefore the input to the program is the radius $r$ of the circle and the parameters $A$, $B$ and $C$ of the equation of the line.
+همانطور که در ابتدا اشاره شد، فرض می‌کنیم که مرکز دایره در مبدأ قرار دارد، و بنابراین ورودی برنامه شعاع دایره $r$ و پارامترهای $A$، $B$ و $C$ از معادله‌ی خط است.
 
 ```cpp
 double r, a, b, c; // given as input
@@ -71,6 +71,6 @@ else {
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
 - [CODECHEF: ANDOOR](https://www.codechef.com/problems/ANDOOR)

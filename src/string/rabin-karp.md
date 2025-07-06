@@ -1,24 +1,24 @@
 ---
 tags:
-  
-e_maxx_link: rabin_karp
+  - AI Translated
+e_maxx_link: rabin-karp
 ---
 
-# Rabin-Karp Algorithm for string matching
+# الگوریتم رابین-کارپ برای تطابق رشته
 
-This algorithm is based on the concept of hashing, so if you are not familiar with string hashing, refer to the [string hashing](string-hashing.md) article.
- 
-This algorithm was authored by Rabin and Karp in 1987.
+این الگوریتم بر پایه مفهوم درهم‌سازی (hashing) است، بنابراین اگر با درهم‌سازی رشته آشنا نیستید، به مقاله [درهم‌سازی رشته](string-hashing.md) مراجعه کنید.
 
-Problem: Given two strings - a pattern $s$ and a text $t$, determine if the pattern appears in the text and if it does, enumerate all its occurrences in $O(|s| + |t|)$ time.
+این الگوریتم در سال ۱۹۸۷ توسط رابین و کارپ ارائه شد.
 
-Algorithm: Calculate the hash for the pattern $s$.
-Calculate hash values for all the prefixes of the text $t$.
-Now, we can compare a substring of length $|s|$ with $s$ in constant time using the calculated hashes.
-So, compare each substring of length $|s|$ with the pattern. This will take a total of $O(|t|)$ time.
-Hence the final complexity of the algorithm is $O(|t| + |s|)$: $O(|s|)$ is required for calculating the hash of the pattern and $O(|t|)$ for comparing each substring of length $|s|$ with the pattern.
+مسئله: با داشتن دو رشته - یک الگوی $s$ و یک متن $t$، بررسی کنید که آیا الگو در متن ظاهر می‌شود یا خیر و اگر ظاهر می‌شود، تمام رخدادهای آن را در زمان $O(|s| + |t|)$ پیدا کنید.
 
-## Implementation
+الگوریتم: مقدار هش را برای الگوی $s$ محاسبه کنید.
+مقادیر هش را برای تمام پیشوندهای متن $t$ محاسبه کنید.
+اکنون، با استفاده از هش‌های محاسبه‌شده، می‌توانیم یک زیررشته به طول $|s|$ را در زمان ثابت با $s$ مقایسه کنیم.
+بنابراین، هر زیررشته به طول $|s|$ را با الگو مقایسه کنید. این کار در مجموع $O(|t|)$ زمان می‌برد.
+در نتیجه، پیچیدگی زمانی نهایی الگوریتم برابر با $O(|t| + |s|)$ است: $O(|s|)$ برای محاسبه هش الگو و $O(|t|)$ برای مقایسه هر زیررشته به طول $|s|$ با الگو نیاز است.
+
+## پیاده‌سازی
 ```{.cpp file=rabin_karp}
 vector<int> rabin_karp(string const& s, string const& t) {
     const int p = 31; 
@@ -47,10 +47,9 @@ vector<int> rabin_karp(string const& s, string const& t) {
 }
 ```
 
-## Practice Problems
+## مسائل تمرینی
 
 * [SPOJ - Pattern Find](http://www.spoj.com/problems/NAJPF/)
 * [Codeforces - Good Substrings](http://codeforces.com/problemset/problem/271/D)
 * [Codeforces - Palindromic characteristics](https://codeforces.com/problemset/problem/835/D)
 * [Leetcode - Longest Duplicate Substring](https://leetcode.com/problems/longest-duplicate-substring/)
-

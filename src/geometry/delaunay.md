@@ -1,68 +1,63 @@
 ---
 tags:
-  
-e_maxx_link: voronoi_diagram_2d_n4
+  - AI Translated
+e_maxx_link: delaunay
 ---
 
-# Delaunay triangulation and Voronoi diagram
+# مثلث‌بندی دلونی و دیاگرام ورونوی
 
-Consider a set $\{p_i\}$ of points on the plane.
-A **Voronoi diagram** $V(\{p_i\})$ of $\{p_i\}$ is a partition of the plane into $n$ regions $V_i$, where $V_i = \{p\in\mathbb{R}^2;\ \rho(p, p_i) = \min\ \rho(p, p_k)\}$.
-The cells of the Voronoi diagram are polygons (possibly infinite).
-A **Delaunay triangulation** $D(\{p_i\})$ of $\{p_i\}$ is a triangulation where every point $p_i$ is outside or on the boundary of the circumcircle of each triangle $T \in D(\{p_i\})$.
+مجموعه‌ای از نقاط $\{p_i\}$ را در صفحه در نظر بگیرید.
+یک **دیاگرام ورونوی** $V(\{p_i\})$ از مجموعه $\{p_i\}$، افرازی از صفحه به $n$ ناحیه $V_i$ است، که در آن $V_i = \{p\in\mathbb{R}^2;\ \rho(p, p_i) = \min\ \rho(p, p_k)\}$ می‌باشد.
+سلول‌های دیاگرام ورونوی چندضلعی (احتمالاً نامحدود) هستند.
+یک **مثلث‌بندی دلونی** $D(\{p_i\})$ از مجموعه $\{p_i\}$، یک مثلث‌بندی است که در آن هر نقطه $p_i$ خارج یا روی مرز دایره محیطی هر مثلث $T \in D(\{p_i\})$ قرار دارد.
 
-There is a nasty degenerated case when the Voronoi diagram isn't connected and Delaunay triangulation doesn't exist. This case is when all points are collinear.
+یک حالت تبهگن ناخوشایند وجود دارد که در آن دیاگرام ورونوی همبند نیست و مثلث‌بندی دلونی وجود ندارد. این حالت زمانی رخ می‌دهد که تمام نقاط هم‌خط باشند.
 
-## Properties
+## ویژگی‌ها
 
-The Delaunay triangulation maximizes the minimum angle among all possible triangulations.
+مثلث‌بندی دلونی، کمینه زاویه را در بین تمام مثلث‌بندی‌های ممکن، بیشینه می‌کند.
 
-The Minimum Euclidean spanning tree of a point set is a subset of edges of its' Delaunay triangulation.
+درخت پوشای کمینه اقلیدسی یک مجموعه نقطه، زیرمجموعه‌ای از یال‌های مثلث‌بندی دلونی آن است.
 
-## Duality
+## دوگانی
 
-Suppose that $\{p_i\}$ is not collinear and among $\{p_i\}$ no four points lie on one circle. Then $V(\{p_i\})$ and $D(\{p_i\})$ are dual, so if we obtain one of them, we may obtain the other in $O(n)$. What to do if it's not the case? The collinear case may be processed easily. Otherwise, $V$ and $D'$ are dual, where $D'$ is obtained from $D$ by removing all the edges such that two triangles on this edge share the circumcircle.
+فرض کنید نقاط $\{p_i\}$ هم‌خط نباشند و در بین $\{p_i\}$ هیچ چهار نقطه‌ای روی یک دایره قرار نگیرند. در این صورت، $V(\{p_i\})$ و $D(\{p_i\})$ دوگان یکدیگرند، بنابراین اگر یکی از آنها را به دست آوریم، می‌توانیم دیگری را در زمان $O(n)$ به دست آوریم. اگر این شرایط برقرار نباشد چه باید کرد؟ حالت هم‌خط را می‌توان به راحتی پردازش کرد. در غیر این صورت، $V$ و $D'$ دوگان هستند، که در آن $D'$ با حذف تمام یال‌هایی از $D$ به دست می‌آید که دو مثلث مجاور به آن یال، دایره محیطی مشترک داشته باشند.
 
-## Building Delaunay and Voronoi
+## ساختن دلونی و ورونوی
 
-Because of the duality, we only need a fast algorithm to compute only one of $V$ and $D$. We will describe how to build $D(\{p_i\})$ in $O(n\log n)$. The triangulation will be built via divide-and-conquer algorithm due to Guibas and Stolfi.
+به دلیل وجود دوگانی، تنها به یک الگوریتم سریع برای محاسبه یکی از $V$ یا $D$ نیاز داریم. ما نحوه ساخت $D(\{p_i\})$ در زمان $O(n\log n)$ را توضیح خواهیم داد. این مثلث‌بندی از طریق الگوریتم تقسیم و حل ارائه شده توسط Guibas و Stolfi ساخته می‌شود.
 
-## Quad-edge data structure
+## ساختمان داده Quad-edge
 
-During the algorithm $D$ will be stored inside the quad-edge data structure. This structure is described in the picture:
+در طول الگوریتم، $D$ درون ساختمان داده quad-edge ذخیره می‌شود. این ساختار در تصویر زیر شرح داده شده است:
 <div style="text-align: center;">
   <img src="quad-edge.png" alt="Quad-Edge">
 </div>
 
-In the algorithm we will use the following functions on edges:
+در الگوریتم از توابع زیر بر روی یال‌ها استفاده خواهیم کرد:
 
   1. `make_edge(a, b)`<br>
-    This function creates an isolated edge from point `a` to point `b` together with its' reverse edge and both dual edges.
+    این تابع یک یال مجزا از نقطه `a` به نقطه `b` به همراه یال معکوس و هر دو یال دوگان آن ایجاد می‌کند.
   2. `splice(a, b)`<br>
-    This is a key function of the algorithm. It swaps `a->Onext` with `b->Onext` and `a->Onext->Rot->Onext` with `b->Onext->Rot->Onext`.
+    این تابع، یک تابع کلیدی در الگوریتم است. این تابع `a->Onext` را با `b->Onext` و `a->Onext->Rot->Onext` را با `b->Onext->Rot->Onext` جابجا می‌کند.
   3. `delete_edge(e)`<br>
-    This function deletes e from the triangulation. To delete `e`, we may simply call `splice(e, e->Oprev)` and `splice(e->Rev, e->Rev->Oprev)`.
+    این تابع یال e را از مثلث‌بندی حذف می‌کند. برای حذف `e`، می‌توانیم به سادگی `splice(e, e->Oprev)` و `splice(e->Rev, e->Rev->Oprev)` را فراخوانی کنیم.
   4. `connect(a, b)`<br>
-    This function creates a new edge `e` from `a->Dest` to `b->Org` in such a way that `a`, `b`, `e` all have the same left face. To do this, we call `e = make_edge(a->Dest, b->Org)`, `splice(e, a->Lnext)` and `splice(e->Rev, b)`.
+    این تابع یک یال جدید `e` از `a->Dest` به `b->Org` به گونه‌ای ایجاد می‌کند که `a`، `b` و `e` همگی وجه چپ یکسانی داشته باشند. برای این کار، `e = make_edge(a->Dest, b->Org)`، `splice(e, a->Lnext)` و `splice(e->Rev, b)` را فراخوانی می‌کنیم.
 
-## Algorithm
+## الگوریتم
 
-The algorithm will compute the triangulation and return two quad-edges: the counterclockwise convex hull edge out of the leftmost vertex and the clockwise convex hull edge out of the rightmost vertex.
+الگوریتم، مثلث‌بندی را محاسبه کرده و دو quad-edge را برمی‌گرداند: یال پوش محدب پادساعتگرد خروجی از چپ‌ترین رأس و یال پوش محدب ساعتگرد خروجی از راست‌ترین رأس.
 
-Let's sort all points by x, and if $x_1 = x_2$ then by y. Let's solve the problem for some segment $(l, r)$ (initially $(l, r) = (0, n - 1)$). If $r - l + 1 = 2$, we will add an edge $(p[l], p[r])$ and return. If $r - l + 1 = 3$, we will firstly add the edges $(p[l], p[l + 1])$ and $(p[l + 1], p[r])$. We must also connect them using `splice(a->Rev, b)`. Now we must close the triangle. Our next action will depend on the orientation of $p[l], p[l + 1], p[r]$. If they are collinear, we can't make a triangle, so we simply return `(a, b->Rev)`. Otherwise, we create a new edge `c` by calling `connect(b, a)`. If the points are oriented counter-clockwise, we return `(a, b->Rev)`. Otherwise we return `(c->Rev, c)`.
+تمام نقاط را بر اساس مولفه x و در صورت تساوی بر اساس مولفه y مرتب می‌کنیم. مسئله را برای یک بازه $(l, r)$ (در ابتدا $(l, r) = (0, n - 1)$) حل می‌کنیم. اگر $r - l + 1 = 2$ باشد، یک یال $(p[l], p[r])$ اضافه کرده و برمی‌گردیم. اگر $r - l + 1 = 3$ باشد، ابتدا یال‌های $(p[l], p[l + 1])$ و $(p[l + 1], p[r])$ را اضافه می‌کنیم. همچنین باید آنها را با استفاده از `splice(a->Rev, b)` به هم متصل کنیم. حالا باید مثلث را ببندیم. اقدام بعدی ما به جهت‌گیری نقاط $p[l]$، $p[l + 1]$ و $p[r]$ بستگی دارد. اگر هم‌خط باشند، نمی‌توانیم مثلث بسازیم، بنابراین به سادگی `(a, b->Rev)` را برمی‌گردانیم. در غیر این صورت، یک یال جدید `c` با فراخوانی `connect(b, a)` ایجاد می‌کنیم. اگر جهت‌گیری نقاط پادساعتگرد باشد، `(a, b->Rev)` را برمی‌گردانیم. در غیر این صورت، `(c->Rev, c)` را برمی‌گردانیم.
 
-Now suppose that $r - l + 1 \ge 4$. Firstly, let's solve $L = (l, \frac{l + r}{2})$ and $R = (\frac{l + r}{2} + 1, r)$ recursively. Now we have to merge these triangulations into one triangulation. Note that our points are sorted, so while merging we will add edges from L to R (so-called _cross_ edges) and remove some edges from L to L and from R to R.
-What is the structure of the cross edges? All these edges must cross a line parallel to the y-axis and placed at the splitting x value. This establishes a linear ordering of the cross edges, so we can talk about successive cross edges, the bottom-most cross edge, etc. The algorithm will add the cross edges in ascending order. Note that any two adjacent cross edges will have a common endpoint, and the third side of the triangle they define goes from L to L or from R to R. Let's call the current cross edge the base. The successor of the base will either go from the left endpoint of the base to one of the R-neighbors of the right endpoint or vice versa.
-Consider the circumcircle of base and the previous cross edge.
-Suppose this circle is transformed into other circles having base as a chord but lying further into the Oy direction.
-Our circle will go up for a while, but unless base is an upper tangent of L and R we will encounter a point belonging either to L or to R giving rise to a new triangle without any points in the circumcircle.
-The new L-R edge of this triangle is the next cross edge added.
-To do this efficiently, we compute two edges `lcand` and `rcand` so that `lcand` points to the first L point encountered in this process, and `rcand` points to the first R point.
-Then we choose the one that would be encountered first. Initially base points to the lower tangent of L and R.
+حال فرض کنید $r - l + 1 \ge 4$ باشد. ابتدا به صورت بازگشتی $L = (l, \frac{l + r}{2})$ و $R = (\frac{l + r}{2} + 1, r)$ را حل می‌کنیم. اکنون باید این دو مثلث‌بندی را در یک مثلث‌بندی واحد ادغام کنیم. توجه داشته باشید که نقاط ما مرتب شده‌اند، بنابراین هنگام ادغام، یال‌هایی از L به R (که _یال‌های عرضی_ نامیده می‌شوند) اضافه کرده و برخی از یال‌های L به L و R به R را حذف خواهیم کرد.
+ساختار یال‌های عرضی چگونه است؟ تمام این یال‌ها باید خطی موازی با محور y را که در مقدار x جداکننده قرار دارد، قطع کنند. این امر یک ترتیب خطی برای یال‌های عرضی ایجاد می‌کند، بنابراین می‌توانیم در مورد یال‌های عرضی متوالی، پایین‌ترین یال عرضی و غیره صحبت کنیم. الگوریتم یال‌های عرضی را به ترتیب صعودی اضافه می‌کند. توجه داشته باشید که هر دو یال عرضی مجاور یک نقطه پایانی مشترک خواهند داشت و ضلع سوم مثلثی که تعریف می‌کنند یا از L به L می‌رود یا از R به R. بیایید یال عرضی فعلی را یال پایه بنامیم. یال بعدیِ یال پایه یا از نقطه پایانی چپ یال پایه به یکی از همسایه‌های R نقطه پایانی راست می‌رود یا برعکس.
+دایره محیطی یال پایه و یال عرضی قبلی را در نظر بگیرید. فرض کنید این دایره به دایره‌های دیگری تبدیل می‌شود که یال پایه را به عنوان وتر دارند اما در جهت محور Oy بالاتر قرار می‌گیرند. دایره ما برای مدتی بالا می‌رود، اما مگر اینکه یال پایه مماس بالایی L و R باشد، به نقطه‌ای برخورد خواهیم کرد که یا به L یا به R تعلق دارد و مثلث جدیدی را به وجود می‌آورد که هیچ نقطه‌ای در دایره محیطی آن نیست. یال L-R جدید این مثلث، یال عرضی بعدی است که اضافه می‌شود. برای انجام این کار به صورت کارآمد، دو یال `lcand` و `rcand` را محاسبه می‌کنیم به طوری که `lcand` به اولین نقطه از L که در این فرآیند با آن مواجه می‌شویم اشاره می‌کند و `rcand` به اولین نقطه از R اشاره می‌کند. سپس آنی را انتخاب می‌کنیم که زودتر با آن مواجه شویم. در ابتدا یال پایه به مماس پایینی L و R اشاره می‌کند.
 
-## Implementation
+## پیاده‌سازی
 
-Note that the implementation of the in_circle function is GCC-specific.
+توجه داشته باشید که پیاده‌سازی تابع in_circle مختص کامپایلر GCC است.
 
 ```{.cpp file=delaunay}
 typedef long long ll;
@@ -177,8 +172,8 @@ T det3(T a1, T a2, T a3, T b1, T b2, T b3, T c1, T c2, T c3) {
 }
 
 bool in_circle(pt a, pt b, pt c, pt d) {
-// If there is __int128, calculate directly.
-// Otherwise, calculate angles.
+// اگر __int128 موجود باشد، مستقیماً محاسبه کنید.
+// در غیر این صورت، زوایا را محاسبه کنید.
 #if defined(__LP64__) || defined(_WIN64)
     __int128 det = -det3<__int128>(b.x, b.y, b.sqrLength(), c.x, c.y,
                                    c.sqrLength(), d.x, d.y, d.sqrLength());
@@ -306,7 +301,7 @@ vector<tuple<pt, pt, pt>> delaunay(vector<pt> p) {
 }
 ```
 
-## Problems
+## مسائل
  * [TIMUS 1504 Good Manners](http://acm.timus.ru/problem.aspx?space=1&num=1504)
  * [TIMUS 1520 Empire Strikes Back](http://acm.timus.ru/problem.aspx?space=1&num=1520)
  * [SGU 383 Caravans](https://codeforces.com/problemsets/acmsguru/problem/99999/383)
