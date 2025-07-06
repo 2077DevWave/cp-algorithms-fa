@@ -5,7 +5,7 @@ e_maxx_link: knapsack
 ---
 
 # مسئله کوله‌پشتی
-پیش‌نیاز: [مقدمه‌ای بر برنامه‌نویسی پویا](https://cp-algorithms.com/dynamic_programming/intro-to-dp.html)
+پیش‌نیاز: [مقدمه‌ای بر برنامه‌نویسی پویا](https://cp-algorithm.sideco.ir/dynamic_programming/intro-to-dp.html)
 
 ## مقدمه
 مثال زیر را در نظر بگیرید:
@@ -139,7 +139,7 @@ for (int i = 1; i <= n; i++) {
 
 ### بهینه‌سازی با Monotone Queue
 
-در این بهینه‌سازی، هدف ما تبدیل مسئله کوله‌پشتی به یک مسئله [maximum queue](https://cp-algorithms.com/data_structures/stack_queue_modification.html) است.
+در این بهینه‌سازی، هدف ما تبدیل مسئله کوله‌پشتی به یک مسئله [maximum queue](https://cp-algorithm.sideco.ir/data_structures/stack_queue_modification.html) است.
 
 برای سهولت در توصیف، فرض کنید $g_{x, y} = f_{i, x \cdot w_i + y}$ و $g'_{x, y} = f_{i-1, x \cdot w_i + y}$ باشد. در این صورت، رابطه انتقال را می‌توان به صورت زیر نوشت:
 
