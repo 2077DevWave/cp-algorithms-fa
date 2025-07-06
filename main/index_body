@@ -16,8 +16,7 @@
 
 صفحات گردآوری‌شده در [http://cp-algorithm.sideco.ir](http://cp-algorithm.sideco.ir) منتشر شده‌اند.
 
-تعداد صفحات با ترجمه کامل: 1 از 166
-
+صفحات ابتدا توسط هوش مصنوعی ترجمه و سپس توسط افراد بازبینی و ویرایش می شوند.
 ## تغییرات
 
 - October, 2024: Welcome new maintainers: [jxu](https://github.com/jxu), [mhayter](https://github.com/mhayter) and [kostero](https://github.com/kostero)!
