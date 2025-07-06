@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://cp-algorithms.com/dynamic_programming/knapsack.html">
+        <link rel="canonical" href="https://cp-algorithm.sideco.ir/dynamic_programming/knapsack.html">
       
       
         <link rel="prev" href="intro-to-dp.html">
@@ -222,7 +222,7 @@
       </div>
     
       <div class="rss icon">
-      <a href="https://cp-algorithms.com/feed_rss_created.xml" title="RSS" class="md-content__button md-icon">
+      <a href="https://cp-algorithm.sideco.ir/feed_rss_created.xml" title="RSS" class="md-content__button md-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M0 64c0-17.7 14.3-32 32-32 229.8 0 416 186.2 416 416 0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96 14.3 96 0 81.7 0 64m0 352a64 64 0 1 1 128 0 64 64 0 1 1-128 0m32-256c159.1 0 288 128.9 288 288 0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224-17.7 0-32-14.3-32-32s14.3-32 32-32"/></svg>
       </a>
       </div>
@@ -6755,7 +6755,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:52:31 UTC">6 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6782,7 +6782,7 @@ Describe the issue of this article in detail.
 
 
 <h1 id="_1">مسئله کوله‌پشتی<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>پیش‌نیاز: <a href="https://cp-algorithms.com/dynamic_programming/intro-to-dp.html">مقدمه‌ای بر برنامه‌نویسی پویا</a></p>
+<p>پیش‌نیاز: <a href="https://cp-algorithm.sideco.ir/dynamic_programming/intro-to-dp.html">مقدمه‌ای بر برنامه‌نویسی پویا</a></p>
 <h2 id="_2">مقدمه<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>مثال زیر را در نظر بگیرید:</p>
 <h3 id="usaco07-dec-charm-bracelet"><a href="https://www.acmicpc.net/problem/6144">[USACO07 Dec] Charm Bracelet</a><a class="headerlink" href="#usaco07-dec-charm-bracelet" title="Permanent link">&para;</a></h3>
@@ -6861,7 +6861,7 @@ Describe the issue of this article in detail.
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="monotone-queue">بهینه‌سازی با Monotone Queue<a class="headerlink" href="#monotone-queue" title="Permanent link">&para;</a></h3>
-<p>در این بهینه‌سازی، هدف ما تبدیل مسئله کوله‌پشتی به یک مسئله <a href="https://cp-algorithms.com/data_structures/stack_queue_modification.html">maximum queue</a> است.</p>
+<p>در این بهینه‌سازی، هدف ما تبدیل مسئله کوله‌پشتی به یک مسئله <a href="https://cp-algorithm.sideco.ir/data_structures/stack_queue_modification.html">maximum queue</a> است.</p>
 <p>برای سهولت در توصیف، فرض کنید <span class="arithmatex">$g_{x, y} = f_{i, x \cdot w_i + y}$</span> و <span class="arithmatex">$g'_{x, y} = f_{i-1, x \cdot w_i + y}$</span> باشد. در این صورت، رابطه انتقال را می‌توان به صورت زیر نوشت:</p>
 <div class="arithmatex">$$g_{x, y} = \max_{k=0}^{k_i}(g'_{x-k, y} + v_i \cdot k)$$</div>
 <p>علاوه بر این، فرض کنید <span class="arithmatex">$G_{x, y} = g'_{x, y} - v_i \cdot x$</span> باشد. در این صورت، رابطه انتقال را می‌توان به صورت زیر بیان کرد:</p>
