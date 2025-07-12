@@ -1587,7 +1587,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      پیاده‌سازی پشته
+      پیاده‌سازی با پشته
     </span>
   </a>
   
@@ -1596,7 +1596,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      پیاده‌سازی صف (روش اول)
+      پیاده‌سازی با صف (روش اول)
     </span>
   </a>
   
@@ -6686,7 +6686,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 ژوئیهٔ 2025 19:17:38 UTC">12 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6698,8 +6698,8 @@ Describe the issue of this article in detail.
 
 
   
-    <a href="../tags.html#tag:ai-translated" class="md-tag">
-      AI Translated
+    <a href="../tags.html#tag:fully-translated" class="md-tag">
+      Fully Translated
     </a>
   
 
@@ -6713,138 +6713,132 @@ Describe the issue of this article in detail.
 
 
 <h1 id="_1">پشته کمینه / صف کمینه<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>در این مقاله به سه مسئله می‌پردازیم:
-ابتدا یک پشته را طوری تغییر می‌دهیم که بتوانیم کوچکترین عنصر آن را در زمان <span class="arithmatex">$O(1)$</span> پیدا کنیم، سپس همین کار را با یک صف انجام می‌دهیم، و در نهایت از این داده‌ساختارها استفاده می‌کنیم تا کمینه را در تمام زیرآرایه‌های یک آرایه با طول ثابت، در زمان <span class="arithmatex">$O(n)$</span> پیدا کنیم.</p>
-<h2 id="_2">پیاده‌سازی پشته<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>می‌خواهیم داده‌ساختار پشته را طوری تغییر دهیم که پیدا کردن کوچکترین عنصر در پشته در زمان <span class="arithmatex">$O(1)$</span> ممکن شود، در حالی که پیچیدگی زمانی اضافه و حذف کردن عناصر از پشته مثل قبل باقی بماند.
-یادآوری: در یک پشته، ما فقط از یک انتها عناصر را اضافه و حذف می‌کنیم.</p>
-<p>برای این کار، ما عناصر را به صورت زوج در پشته ذخیره می‌کنیم: خود عنصر و کمینه تمام عناصر پشته تا آن لحظه.</p>
+<p>توی این مقاله می‌خوایم سه تا مسئله رو با هم ببینیم:</p>
+<p>اول از همه، یه پشته رو جوری دستکاری می‌کنیم که بشه کوچیک‌ترین عضوش رو توی زمان <span class="arithmatex">$O(1)$</span> پیدا کرد. بعدش، همین بلا رو سر یه صف میاریم. آخر سر هم از این داده‌ساختارها استفاده می‌کنیم تا به هدف اصلی‌مون برسیم: <strong>پیدا کردن کوچیک‌ترین عدد توی همه‌ی زیرآرایه‌های یه آرایه که طول ثابتی دارن</strong>، اونم با پیچیدگی خطی <span class="arithmatex">$O(n)$</span>.</p>
+<h2 id="_2">پیاده‌سازی با پشته<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>می‌خوایم داده‌ساختار پشته رو یه جوری دستکاری کنیم که پیدا کردن کوچیک‌ترین عضو توی پشته، زمانش <span class="arithmatex">$O(1)$</span> بشه، ولی زمان اضافه و حذف کردن آیتم‌ها همون قبلی بمونه.</p>
+<p>یادته که؟ توی پشته، ما فقط از یه طرف آیتم‌ها رو اضافه و حذف می‌کنیم. (زمان همه‌ی کارها توی پشته <span class="arithmatex">$O(1)$</span> هست).</p>
+<p>برای این کار، آیتم‌ها رو دوتایی (زوج) توی پشته ذخیره می‌کنیم: خودِ آیتم، و کوچیک‌ترین مقدار بین همه‌ی آیتم‌های توی پشته تا اون لحظه.</p>
 <div class="highlight"><pre><span></span><code><span class="n">stack</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">st</span><span class="p">;</span>
 </code></pre></div>
-<p>واضح است که برای پیدا کردن کمینه در کل پشته، کافی است فقط به مقدار <code>stack.top().second</code> نگاه کنیم.</p>
-<p>همچنین واضح است که اضافه یا حذف کردن یک عنصر جدید به پشته در زمان ثابت انجام می‌شود.</p>
-<p>پیاده‌سازی:</p>
+<p>خب معلومه که برای پیدا کردن کمینه توی کل پشته، فقط کافیه یه نگاهی به <code>stack.top().second</code> بندازیم.</p>
+<p>اینم واضحه که اضافه یا حذف کردن یه آیتم جدید توی پشته، زمانش ثابته.</p>
+<p>پیاده‌سازیش:</p>
 <ul>
-<li>
-<p>اضافه کردن یک عنصر:
+<li>اضافه کردن یک عنصر:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">new_min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">new_elem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">new_elem</span><span class="p">,</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">second</span><span class="p">);</span>
 <span class="n">st</span><span class="p">.</span><span class="n">push</span><span class="p">({</span><span class="n">new_elem</span><span class="p">,</span><span class="w"> </span><span class="n">new_min</span><span class="p">});</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>حذف کردن یک عنصر:
+</code></pre></div>
+<ul>
+<li>حذف کردن یک عنصر:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">removed_element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">first</span><span class="p">;</span>
 <span class="n">st</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>پیدا کردن کمینه:
-<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">second</span><span class="p">;</span>
-</code></pre></div></p>
-</li>
+</code></pre></div>
+<ul>
+<li>پیدا کردن کمینه:</li>
 </ul>
-<h2 id="_3">پیاده‌سازی صف (روش اول)<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>حالا می‌خواهیم همین عملیات‌ها را با یک صف انجام دهیم، یعنی می‌خواهیم عناصر را به انتها اضافه کرده و از ابتدا حذف کنیم.</p>
-<p>در اینجا یک روش ساده برای تغییر دادن صف را بررسی می‌کنیم.
-هرچند، این روش یک عیب بزرگ دارد، زیرا صف تغییریافته در واقع تمام عناصر را ذخیره نمی‌کند.</p>
-<p>ایده اصلی این است که فقط عناصری را در صف ذخیره کنیم که برای تعیین کمینه لازم هستند.
-به طور مشخص، ما صف را به ترتیب غیر نزولی نگه می‌داریم (یعنی کوچکترین مقدار در ابتدای صف ذخیره می‌شود) و البته به طوری که کمینه واقعی همیشه در صف وجود داشته باشد.
-به این ترتیب، کوچکترین عنصر همیشه در ابتدای صف خواهد بود.
-قبل از اضافه کردن یک عنصر جدید به صف، کافی است یک «برش» ایجاد کنیم:
-ما تمام عناصر انتهایی صف را که از عنصر جدید بزرگتر هستند حذف می‌کنیم، و سپس عنصر جدید را به صف اضافه می‌کنیم.
-با این کار، ترتیب صف به هم نمی‌خورد و همچنین مطمئن می‌شویم عنصری که ممکن است در آینده کمینه باشد از دست نمی‌رود.
-تمام عناصری که ما حذف کردیم هرگز نمی‌توانند خودشان کمینه باشند، بنابراین این عملیات مجاز است.
-وقتی می‌خواهیم یک عنصر را از ابتدا خارج کنیم، ممکن است آن عنصر واقعاً آنجا نباشد (چون قبلاً هنگام اضافه کردن یک عنصر کوچکتر، آن را حذف کرده‌ایم).
-بنابراین، هنگام حذف یک عنصر از صف، باید مقدار آن عنصر را بدانیم.
-اگر ابتدای صف همان مقدار را داشت، می‌توانیم با خیال راحت آن را حذف کنیم، در غیر این صورت هیچ کاری انجام نمی‌دهیم.</p>
-<p>پیاده‌سازی عملیات‌های بالا را در نظر بگیرید:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">second</span><span class="p">;</span>
+</code></pre></div>
+<h2 id="_3">پیاده‌سازی با صف (روش اول)<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>حالا می‌خوایم همین کارا رو با یه صف انجام بدیم، یعنی می‌خوایم آیتم‌ها رو به تهش اضافه کنیم و از سرش برداریم.</p>
+<p>اینجا یه روش ساده برای دستکاری کردن صف رو با هم می‌بینیم.</p>
+<p>البته این روش یه ایراد بزرگ داره، چون صفی که دستکاری شده، در واقع همه‌ی آیتم‌ها رو نگه نمی‌داره.</p>
+<p>ایده اصلی اینه که فقط آیتم‌هایی رو توی صف نگه داریم که برای پیدا کردن کمینه لازم‌شون داریم.</p>
+<p>کلا، ما آیتم‌های صف رو به ترتیب صعودی (غیر نزولی) نگه می‌داریم (یعنی کوچیک‌ترین مقدار اول صف می‌شینه) و جوری این کار رو می‌کنیم که کمینه‌ی واقعی همیشه توی صف باشه.</p>
+<p>اینجوری، کوچیک‌ترین آیتم همیشه اول صفه.</p>
+<p>قبل از اینکه یه آیتم جدید به صف اضافه کنیم، کافیه یه «هرس» انجام بدیم:</p>
+<p>ما همه‌ی آیتم‌های ته صف رو که از آیتم جدیده بزرگترن، حذف می‌کنیم و بعدش آیتم جدیده رو به ته صف اضافه می‌کنیم.</p>
+<p>با این کار، ترتیب صف به هم نمی‌ریزه و مطمئن هم می‌شیم آیتمی که شاید در آینده کمینه بشه، از دست نرفته.</p>
+<p>همه‌ی آیتم‌هایی که حذف کردیم، هیچ‌وقت نمی‌تونن خودشون کمینه باشن، پس این کار باعث نمیشه کمینه رو از دست بدیم.</p>
+<p>وقتی می‌خوایم یه آیتم رو از سر صف برداریم، ممکنه اون آیتم واقعاً اونجا نباشه (چون قبلاً وقتی یه آیتم کوچیک‌تر اضافه کردیم، حذفش کردیم).</p>
+<p>پس، موقع حذف کردن یه آیتم از صف، باید بدونیم مقدارش چیه.</p>
+<p>اگه اول صف همون مقدار رو داشت، با خیال راحت حذفش می‌کنیم، وگرنه کاری به کارش نداریم.</p>
+<p>پیاده‌سازی این کارایی که گفتیم اینجوریه:</p>
 <div class="highlight"><pre><span></span><code><span class="n">deque</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">q</span><span class="p">;</span>
 </code></pre></div>
 <ul>
-<li>
-<p>پیدا کردن کمینه:
+<li>پیدا کردن کمینه:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>اضافه کردن یک عنصر:
+</code></pre></div>
+<ul>
+<li>اضافه کردن یک عنصر:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">back</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">new_element</span><span class="p">)</span>
 <span class="w">    </span><span class="n">q</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
 <span class="n">q</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">new_element</span><span class="p">);</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>حذف کردن یک عنصر:
+</code></pre></div>
+<ul>
+<li>حذف کردن یک عنصر:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">remove_element</span><span class="p">)</span>
 <span class="w">    </span><span class="n">q</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
-</code></pre></div></p>
-</li>
-</ul>
-<p>واضح است که به طور متوسط تمام این عملیات‌ها فقط زمان <span class="arithmatex">$O(1)$</span> می‌برند (چون هر عنصر فقط یک بار می‌تواند به صف اضافه و از آن خارج شود).</p>
+</code></pre></div>
+<p>معلومه که تهش که حساب کنی، همه‌ی این کارا فقط زمان <span class="arithmatex">$O(1)$</span> می‌برن (چون هر آیتم فقط یه بار می‌تونه به صف اضافه و ازش خارج بشه).</p>
 <h2 id="_4">پیاده‌سازی صف (روش دوم)<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>این نسخه‌ی اصلاح‌شده‌ی روش ۱ است.
-می‌خواهیم بتوانیم عناصر را بدون دانستن اینکه کدام عنصر باید حذف شود، حذف کنیم.
-برای این کار، اندیس هر عنصر را در صف (queue) ذخیره می‌کنیم.
-همچنین، تعداد عناصری که تاکنون اضافه و حذف کرده‌ایم را نیز به خاطر می‌سپاریم.</p>
+<p>این نسخه‌ی بهتر شده‌ی روش اوله.</p>
+<p>می‌خوایم بتونیم آیتم‌ها رو حذف کنیم، بدون اینکه بدونیم کدوم آیتم قراره حذف بشه.</p>
+<p>برای این کار، شماره (اندیس) هر آیتم رو هم توی صف (queue) ذخیره می‌کنیم.</p>
+<p>تازه، تعداد آیتم‌هایی که تا حالا اضافه و حذف کردیم رو هم یادمون نگه می‌داریم.</p>
 <div class="highlight"><pre><span></span><code><span class="n">deque</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">q</span><span class="p">;</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">cnt_added</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">cnt_removed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 </code></pre></div>
 <ul>
-<li>
-<p>پیدا کردن کمینه:
+<li>پیدا کردن کمینه:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">().</span><span class="n">first</span><span class="p">;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>اضافه کردن یک عنصر:
+</code></pre></div>
+<ul>
+<li>اضافه کردن یک عنصر:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">back</span><span class="p">().</span><span class="n">first</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">new_element</span><span class="p">)</span>
 <span class="w">    </span><span class="n">q</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
 <span class="n">q</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">new_element</span><span class="p">,</span><span class="w"> </span><span class="n">cnt_added</span><span class="p">});</span>
 <span class="n">cnt_added</span><span class="o">++</span><span class="p">;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>حذف کردن یک عنصر:
+</code></pre></div>
+<ul>
+<li>حذف کردن یک عنصر:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">().</span><span class="n">second</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">cnt_removed</span><span class="p">)</span><span class="w"> </span>
 <span class="w">    </span><span class="n">q</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
 <span class="n">cnt_removed</span><span class="o">++</span><span class="p">;</span>
-</code></pre></div></p>
-</li>
-</ul>
+</code></pre></div>
 <h2 id="_5">پیاده‌سازی صف (روش سوم)<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>در اینجا روش دیگری برای تغییر یک صف (queue) را بررسی می‌کنیم تا بتوانیم کمینه را در زمان O(1) پیدا کنیم.
-پیاده‌سازی این روش کمی پیچیده‌تر است، اما این بار تمام عناصر را واقعاً ذخیره می‌کنیم.
-و همچنین می‌توانیم یک عنصر را از ابتدای صف بدون دانستن مقدارش حذف کنیم.</p>
-<p>ایده این است که مسئله را به مسئله‌ی پشته‌ها (stacks) کاهش دهیم، که قبلاً توسط ما حل شده است.
-بنابراین، فقط باید یاد بگیریم که چگونه با استفاده از دو پشته، یک صف را شبیه‌سازی کنیم.</p>
-<p>دو پشته به نام‌های <code>s1</code> و <code>s2</code> می‌سازیم.
-البته این پشته‌ها از نوع اصلاح‌شده خواهند بود، تا بتوانیم کمینه را در زمان O(1) پیدا کنیم.
-عناصر جدید را به پشته‌ی <code>s1</code> اضافه می‌کنیم و عناصر را از پشته‌ی <code>s2</code> حذف می‌کنیم.
-اگر در هر زمانی پشته‌ی <code>s2</code> خالی شد، تمام عناصر را از <code>s1</code> به <code>s2</code> منتقل می‌کنیم (این کار اساساً ترتیب آن عناصر را معکوس می‌کند).
-در نهایت، پیدا کردن کمینه در یک صف، شامل پیدا کردن کمینه‌ی هر دو پشته است.</p>
-<p>بنابراین، همه‌ی عملیات را به طور متوسط در زمان O(1) انجام می‌دهیم (هر عنصر یک بار به پشته‌ی <code>s1</code> اضافه می‌شود، یک بار به <code>s2</code> منتقل می‌شود و یک بار از <code>s2</code> بیرون کشیده می‌شود).</p>
-<p>پیاده‌سازی:</p>
+<p>اینجا یه روش دیگه برای دستکاری صف رو می‌بینیم که بشه باهاش کمینه رو توی زمان O(1) پیدا کرد.</p>
+<p>پیاده‌سازی این یکی یه کم سخت‌تره، ولی این دفعه دیگه واقعاً همه‌ی آیتم‌ها رو نگه می‌داریم.</p>
+<p>و تازه، می‌تونیم یه آیتم رو از اول صف برداریم بدون اینکه مقدارش رو بدونیم.</p>
+<p>ایده اینه که مسئله رو به مسئله‌ی پشته‌ها (stacks) تبدیل کنیم، که قبلاً حلش کردیم.</p>
+<p>پس، فقط باید یاد بگیریم چطوری با دو تا پشته، یه چیزی شبیه صف بسازیم.</p>
+<p>دو تا پشته به اسم <code>s1</code> و <code>s2</code> درست می‌کنیم.</p>
+<p>البته این پشته‌ها از همون نوع دستکاری‌شده هستن تا بتونیم کمینه رو توی زمان O(1) پیدا کنیم.</p>
+<p>آیتم‌های جدید رو به پشته‌ی <code>s1</code> اضافه می‌کنیم و از پشته‌ی <code>s2</code> آیتم‌ها رو برمی‌داریم.</p>
+<p>اگه هر موقع پشته‌ی <code>s2</code> خالی شد، همه‌ی آیتم‌ها رو از <code>s1</code> منتقل می‌کنیم به <code>s2</code> (این کار در واقع ترتیب اون آیتم‌ها رو برعکس می‌کنه).</p>
+<p>آخر سر هم، پیدا کردن کمینه توی صف، یعنی پیدا کردن کمینه‌ی هر دو تا پشته.</p>
+<p>پس، تهش که حساب کنی همه‌ی کارها توی زمان O(1) انجام می‌شه (هر آیتم یه بار به <code>s1</code> اضافه می‌شه، یه بار به <code>s2</code> منتقل می‌شه و یه بار هم از <code>s2</code> کشیده می‌شه بیرون).</p>
+<p>پیاده‌سازیش:</p>
 <div class="highlight"><pre><span></span><code><span class="n">stack</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">;</span>
 </code></pre></div>
 <ul>
-<li>
-<p>پیدا کردن کمینه:
+<li>پیدا کردن کمینه:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">minimum</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">s2</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span>
 <span class="w">    </span><span class="n">minimum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">s2</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">second</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">second</span><span class="p">;</span>
 <span class="k">else</span>
 <span class="w">    </span><span class="n">minimum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">second</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">second</span><span class="p">);</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>اضافه کردن عنصر:
+</code></pre></div>
+<ul>
+<li>اضافه کردن عنصر:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">new_element</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">new_element</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">second</span><span class="p">);</span>
 <span class="n">s1</span><span class="p">.</span><span class="n">push</span><span class="p">({</span><span class="n">new_element</span><span class="p">,</span><span class="w"> </span><span class="n">minimum</span><span class="p">});</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>حذف کردن یک عنصر:
+</code></pre></div>
+<ul>
+<li>حذف کردن یک عنصر:</li>
+</ul>
 <div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s2</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">s1</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">first</span><span class="p">;</span>
@@ -6855,18 +6849,16 @@ Describe the issue of this article in detail.
 <span class="p">}</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">remove_element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s2</span><span class="p">.</span><span class="n">top</span><span class="p">().</span><span class="n">first</span><span class="p">;</span>
 <span class="n">s2</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-</code></pre></div></p>
-</li>
-</ul>
+</code></pre></div>
 <h2 id="_6">پیدا کردن کمینه در تمام زیرآرایه‌ها با طول ثابت<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>فرض کنید آرایه‌ی <span class="arithmatex">$A$</span> به طول <span class="arithmatex">$N$</span> و یک عدد <span class="arithmatex">$M \le N$</span> به ما داده شده است.
-ما باید کمینه‌ی هر زیرآرایه به طول <span class="arithmatex">$M$</span> در این آرایه را پیدا کنیم، یعنی باید مقادیر زیر را بیابیم:</p>
+<p>فرض کن یه آرایه‌ی <span class="arithmatex">$A$</span> به طول <span class="arithmatex">$N$</span> و یه عدد <span class="arithmatex">$M \le N$</span> بهمون دادن.</p>
+<p>ما باید کوچیک‌ترین عدد توی هر زیرآرایه به طول <span class="arithmatex">$M$</span> رو پیدا کنیم، یعنی باید اینا رو پیدا کنیم:</p>
 <div class="arithmatex">$$\min_{0 \le i \le M-1} A[i], \min_{1 \le i \le M} A[i], \min_{2 \le i \le M+1} A[i],~\dots~, \min_{N-M \le i \le N-1} A[i]$$</div>
-<p>باید این مسئله را در زمان خطی، یعنی <span class="arithmatex">$O(n)$</span>، حل کنیم.</p>
-<p>می‌توانیم برای حل این مسئله از هر یک از سه صف (queue) اصلاح‌شده استفاده کنیم.
-راه‌حل واضح است:
-ما <span class="arithmatex">$M$</span> عنصر اول آرایه را به صف اضافه می‌کنیم، کمینه‌ی آن را پیدا و چاپ می‌کنیم، سپس عنصر بعدی را به صف اضافه کرده و قدیمی‌ترین عنصر را از صف حذف می‌کنیم، کمینه‌ی جدید را پیدا و چاپ می‌کنیم، و این روند را ادامه می‌دهیم.
-از آنجایی که تمام عملیات با صف به طور متوسط در زمان ثابت انجام می‌شوند، پیچیدگی کل الگوریتم <span class="arithmatex">$O(n)$</span> خواهد بود.</p>
+<p>باید این مسئله رو توی زمان خطی، یعنی <span class="arithmatex">$O(n)$</span>، حل کنیم.</p>
+<p>برای حل این مسئله می‌تونیم از هر کدوم از اون سه تا صف (queue) دستکاری‌شده استفاده کنیم.</p>
+<p>راه‌حلش خیلی سرراسته:</p>
+<p>ما <span class="arithmatex">$M$</span> تا آیتم اول آرایه رو می‌ریزیم توی صف، کمینه‌ش رو پیدا و چاپ می‌کنیم. بعدش، آیتم بعدی رو به صف اضافه می‌کنیم و قدیمی‌ترین آیتم رو از صف حذف می‌کنیم، کمینه‌ی جدید رو پیدا و چاپ می‌کنیم، و همینجوری ادامه می‌دیم.</p>
+<p>از اونجایی که همه‌ی کارها با صف تهش که حساب کنی توی زمان ثابت انجام می‌شه، پیچیدگی کل الگوریتم می‌شه <span class="arithmatex">$O(n)$</span>.</p>
 <h2 id="_7">سوالات<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://www.hackerrank.com/challenges/queries-with-fixed-length/problem">Queries with Fixed Length</a></li>
@@ -6876,7 +6868,7 @@ Describe the issue of this article in detail.
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (60.42%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (35.42%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (2.08%)</li><li><a href="https://github.com/prashant-raghu" title="prashant-raghu" data-bi-name="contributorprofile" target="_blank">prashant-raghu</a> (1.04%)</li><li><a href="https://github.com/Tushar0009" title="Tushar0009" data-bi-name="contributorprofile" target="_blank">Tushar0009</a> (0.52%)</li><li><a href="https://github.com/r7919" title="r7919" data-bi-name="contributorprofile" target="_blank">r7919</a> (0.52%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (50.22%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (46.32%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.73%)</li><li><a href="https://github.com/prashant-raghu" title="prashant-raghu" data-bi-name="contributorprofile" target="_blank">prashant-raghu</a> (0.87%)</li><li><a href="https://github.com/Tushar0009" title="Tushar0009" data-bi-name="contributorprofile" target="_blank">Tushar0009</a> (0.43%)</li><li><a href="https://github.com/r7919" title="r7919" data-bi-name="contributorprofile" target="_blank">r7919</a> (0.43%)</li></ul>
 </ul>
                 
               </article>

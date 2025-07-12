@@ -1610,7 +1610,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      شهود
+      برداشت کلی (شهود)
     </span>
   </a>
   
@@ -1628,7 +1628,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      پرس‌وجوهای مجموع بازه‌ای
+      سؤال در مورد مجموع یه بازه
     </span>
   </a>
   
@@ -1637,7 +1637,7 @@
         <li class="md-nav__item">
   <a href="#rmq" class="md-nav__link">
     <span class="md-ellipsis">
-      پرس‌وجوهای کمینه بازه‌ای (RMQ)
+      سؤال در مورد کمترین مقدار در بازه (RMQ)
     </span>
   </a>
   
@@ -1646,7 +1646,7 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      ساختمان داده‌های مشابه با پشتیبانی از انواع بیشتری از پرس‌وجوها
+      ساختار داده‌های مشابه با پشتیبانی از سؤالای بیشتر
     </span>
   </a>
   
@@ -6728,7 +6728,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 ژوئیهٔ 2025 19:17:38 UTC">12 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6740,8 +6740,8 @@ Describe the issue of this article in detail.
 
 
   
-    <a href="../tags.html#tag:ai-translated" class="md-tag">
-      AI Translated
+    <a href="../tags.html#tag:fully-translated" class="md-tag">
+      Fully Translated
     </a>
   
 
@@ -6755,45 +6755,45 @@ Describe the issue of this article in detail.
 
 
 <h1 id="sparse-table">Sparse Table<a class="headerlink" href="#sparse-table" title="Permanent link">&para;</a></h1>
-<p>Sparse Table یک ساختمان داده است که امکان پاسخ‌گویی به پرس‌وجوهای بازه‌ای (range queries) را فراهم می‌کند.
-این ساختمان داده می‌تواند به اکثر پرس‌وجوهای بازه‌ای در زمان <span class="arithmatex">$O(\log n)$</span> پاسخ دهد، اما قدرت اصلی آن در پاسخ‌گویی به پرس‌وجوهای کمینه بازه‌ای (range minimum queries) (یا معادل آن، پرس‌وجوهای بیشینه بازه‌ای) است.
-برای این نوع پرس‌وجوها، می‌تواند پاسخ را در زمان <span class="arithmatex">$O(1)$</span> محاسبه کند.</p>
-<p>تنها نقطه ضعف این ساختمان داده این است که فقط می‌توان از آن روی آرایه‌های <em>تغییرناپذیر</em> (immutable) استفاده کرد.
-این یعنی آرایه بین دو پرس‌وجو نباید تغییر کند.
-اگر هر عنصری در آرایه تغییر کند، کل ساختمان داده باید از نو محاسبه شود.</p>
-<h2 id="_1">شهود<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>هر عدد نامنفی را می‌توان به طور منحصربه‌فرد به صورت مجموعی از توان‌های کاهشی از دو نمایش داد.
-این در واقع شکلی دیگر از نمایش دودویی یک عدد است.
+<p>«اسپارس تیبل» (Sparse Table) یه جور ساختمان داده‌ست که بهمون اجازه می‌ده به یه سری سؤالا در مورد یه بازه از اطلاعات (که بهش می‌گن range query) جواب بدیم.
+این ساختار داده می‌تونه به بیشتر این سؤالای بازه‌ای توی زمان <span class="arithmatex">$O(\log n)$</span> جواب بده، اما اصل قدرتش جاییه که پای سؤال در مورد کمترین مقدار توی یه بازه (range minimum query) یا بیشترین مقدار (range maximum query) وسط باشه.
+برای این مدل سؤالا، می‌تونه جواب رو تو چشم به هم زدن، یعنی توی زمان <span class="arithmatex">$O(1)$</span>، حساب کنه.</p>
+<p>تنها نقطه ضعفش اینه که فقط روی آرایه‌هایی کار می‌کنه که <em>عوض نمی‌شن</em> (immutable).
+یعنی بین دو تا سؤالی که ازش می‌پرسی، نباید به آرایه دست بزنی و چیزی رو توش عوض کنی.
+اگه حتی یه دونه از اعضای آرایه تغییر کنه، کل ساختار داده رو باید از اول حساب کتاب کنی.</p>
+<h2 id="_1">برداشت کلی (شهود)<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>هر عدد مثبتی رو می‌شه به شکل یه مجموع منحصربه‌فرد از توان‌های دو (که از بزرگ به کوچیک مرتب شدن) نشون داد.
+این در واقع همون نمایش باینری (دودویی) یه عدده، فقط یه جور دیگه‌ای بهش نگاه می‌کنیم.
 مثلاً <span class="arithmatex">$13 = (1101)_2 = 8 + 4 + 1$</span>.
-برای یک عدد <span class="arithmatex">$x$</span>، حداکثر <span class="arithmatex">$\lceil \log_2 x \rceil$</span> جمله در این مجموع وجود خواهد داشت.</p>
-<p>با همین استدلال، هر بازه را می‌توان به طور منحصربه‌فرد به صورت اجتماعی از بازه‌هایی با طول‌های توانی از دو (به صورت کاهشی) نمایش داد.
-برای مثال، بازه <span class="arithmatex">$[2, 14]$</span> را می‌توان به صورت <span class="arithmatex">$[2, 9] \cup [10, 13] \cup [14, 14]$</span> نوشت، که در آن طول بازه کامل ۱۳ و طول بازه‌های مجزا به ترتیب ۸، ۴ و ۱ است.
-در اینجا نیز، این اجتماع حداکثر از <span class="arithmatex">$\lceil \log_2(\text{طول بازه}) \rceil$</span> بازه تشکیل شده است.</p>
-<p>ایده اصلی پشت Sparse Table، پیش‌محاسبه کردن پاسخ تمام پرس‌وجوهای بازه‌ای است که طول آن‌ها توانی از دو است.
-پس از آن، می‌توان به یک پرس‌وجوی بازه‌ای دلخواه، با شکستن آن بازه به بازه‌هایی با طول توانی از دو، پیدا کردن پاسخ‌های از پیش محاسبه‌شده و ترکیب آن‌ها برای رسیدن به جواب نهایی، پاسخ داد.</p>
+برای هر عدد <span class="arithmatex">$x$</span>، حداکثر <span class="arithmatex">$\lceil \log_2 x \rceil$</span> تا جمله تو این مجموع وجود داره.</p>
+<p>با همین منطق، هر بازه‌ای رو هم می‌شه به صورت یه اجتماع از چند تا بازه که طولشون توان‌های دو هست (و از بزرگ به کوچیک مرتب شدن)، نشون داد.
+مثلاً، بازه‌ی <span class="arithmatex">$[2, 14]$</span> رو می‌شه به صورت <span class="arithmatex">$[2, 9] \cup [10, 13] \cup [14, 14]$</span> نوشت، که طول کل بازه ۱۳ و طول بازه‌های جدا از هم به ترتیب ۸، ۴ و ۱ هست.
+اینجا هم، این اجتماع حداکثر از <span class="arithmatex">$\lceil \log_2(\text{طول بازه}) \rceil$</span> تا بازه تشکیل شده.</p>
+<p>ایده‌ی اصلی پشت اسپارس تیبل اینه که بیایم جواب همه‌ی سؤالا برای بازه‌هایی که طولشون توانی از دو هست رو از قبل حساب کنیم.
+این‌جوری وقتی یه سؤال در مورد یه بازه‌ی دلخواه ازمون پرسیدن، اون بازه رو به همون تیکه‌هایی که طولشون توان دو هست می‌شکنیم، جواب‌های از قبل حساب‌شده رو برمی‌داریم و با هم ترکیب می‌کنیم تا به جواب نهایی برسیم.</p>
 <h2 id="_2">پیش‌محاسبه<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>ما از یک آرایه دو بعدی برای ذخیره پاسخ‌های پرس‌وجوهای پیش‌محاسبه‌شده استفاده خواهیم کرد.
-<span class="arithmatex">$\text{st}[i][j]$</span> پاسخ برای بازه <span class="arithmatex">$[j, j + 2^i - 1]$</span> به طول <span class="arithmatex">$2^i$</span> را ذخیره می‌کند.
-اندازه آرایه دو بعدی <span class="arithmatex">$(K + 1) \times \text{MAXN}$</span> خواهد بود، که در آن <span class="arithmatex">$\text{MAXN}$</span> بزرگ‌ترین طول ممکن برای آرایه است.
-مقدار <span class="arithmatex">$\text{K}$</span> باید در شرط <span class="arithmatex">$\text{K} \ge \lfloor \log_2 \text{MAXN} \rfloor$</span> صدق کند، زیرا <span class="arithmatex">$2^{\lfloor \log_2 \text{MAXN} \rfloor}$</span> بزرگ‌ترین بازه با طول توانی از دو است که باید پشتیبانی کنیم.
-برای آرایه‌هایی با طول معقول (تا <span class="arithmatex">$10^7$</span> عنصر)، <span class="arithmatex">$K = 25$</span> مقدار مناسبی است.</p>
-<p>بعدِ <span class="arithmatex">$\text{MAXN}$</span> به عنوان بعد دوم قرار داده شده تا دسترسی‌های متوالی به حافظه (سازگار با حافظه پنهان) امکان‌پذیر باشد.</p>
+<p>ما از یه آرایه‌ی دو بعدی استفاده می‌کنیم تا جواب‌های از قبل حساب‌شده رو توش ذخیره کنیم.
+خونه‌ی <span class="arithmatex">$\text{st}[i][j]$</span> جواب سؤال برای بازه‌ای به طول <span class="arithmatex">$2^i$</span> که از خونه‌ی <span class="arithmatex">$j$</span> شروع می‌شه (یعنی بازه‌ی <span class="arithmatex">$[j, j + 2^i - 1]$</span>) رو نگه می‌داره.
+اندازه‌ی این آرایه‌ی دو بعدی <span class="arithmatex">$(K + 1) \times \text{MAXN}$</span> خواهد بود، که <span class="arithmatex">$\text{MAXN}$</span> بزرگ‌ترین طول ممکن برای آرایه است.
+مقدار <span class="arithmatex">$\text{K}$</span> باید توی شرط <span class="arithmatex">$\text{K} \ge \lfloor \log_2 \text{MAXN} \rfloor$</span> صدق کنه، چون <span class="arithmatex">$2^{\lfloor \log_2 \text{MAXN} \rfloor}$</span> بزرگ‌ترین بازه‌ایه که طولش توانی از دو هست و ما باید پشتیبانیش کنیم.
+برای آرایه‌هایی با طول منطقی (مثلاً تا <span class="arithmatex">$10^7$</span> تا عضو)، <span class="arithmatex">$K = 25$</span> یه گزینه‌ی خوبه.</p>
+<p>بعدِ <span class="arithmatex">$\text{MAXN}$</span> رو به عنوان بعد دوم گذاشتیم تا دسترسی به حافظه پشت سر هم و سریع‌تر (سازگار با کش) باشه.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">K</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">MAXN</span><span class="p">];</span>
 </code></pre></div>
-<p>از آنجا که بازه <span class="arithmatex">$[j, j + 2^i - 1]$</span> به طول <span class="arithmatex">$2^i$</span> به خوبی به دو بازه <span class="arithmatex">$[j, j + 2^{i-1} - 1]$</span> و <span class="arithmatex">$[j + 2^{i-1}, j + 2^i - 1]$</span>، که هر دو طولی برابر با <span class="arithmatex">$2^{i-1}$</span> دارند، تقسیم می‌شود، می‌توانیم جدول را با استفاده از برنامه‌ریزی پویا (dynamic programming) به طور بهینه بسازیم:</p>
+<p>از اونجایی که یه بازه به طول <span class="arithmatex">$2^i$</span> مثل <span class="arithmatex">$[j, j + 2^i - 1]$</span> خیلی خوشگل به دو تا بازه‌ی کوچیک‌تر به طول <span class="arithmatex">$2^{i-1}$</span> (یعنی <span class="arithmatex">$[j, j + 2^{i-1} - 1]$</span> و <span class="arithmatex">$[j + 2^{i-1}, j + 2^i - 1]$</span>) تقسیم می‌شه، می‌تونیم با روش برنامه‌نویسی پویا (dynamic programming) این جدول رو خیلی بهینه بسازیم:</p>
 <div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">array</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">array</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
 
 <span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">K</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
 <span class="w">        </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))]);</span>
 </code></pre></div>
-<p>تابع <span class="arithmatex">$f$</span> به نوع پرس‌وجو بستگی دارد.
-برای پرس‌وجوهای مجموع بازه‌ای، این تابع مجموع را محاسبه می‌کند و برای پرس‌وجوهای کمینه بازه‌ای، کمینه را محاسبه می‌کند.</p>
-<p>پیچیدگی زمانی پیش‌محاسبه <span class="arithmatex">$O(\text{N} \log \text{N})$</span> است.</p>
-<h2 id="_3">پرس‌وجوهای مجموع بازه‌ای<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>برای این نوع پرس‌وجوها، می‌خواهیم مجموع تمام مقادیر در یک بازه را پیدا کنیم.
-بنابراین، تعریف طبیعی برای تابع <span class="arithmatex">$f$</span> به صورت <span class="arithmatex">$f(x, y) = x + y$</span> است.
-می‌توانیم ساختمان داده را به این صورت بسازیم:</p>
+<p>تابع <span class="arithmatex">$f$</span> بستگی به این داره که سؤال ما از چه نوعیه.
+مثلاً اگه بخوایم جمع یه بازه رو حساب کنیم، این تابع جمع می‌کنه و اگه بخوایم کمترین مقدار رو پیدا کنیم، مینیمم رو حساب می‌کنه.</p>
+<p>پیچیدگی زمانی این پیش‌محاسبه هم <span class="arithmatex">$O(\text{N} \log \text{N})$</span> هست.</p>
+<h2 id="_3">سؤال در مورد مجموع یه بازه<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>تو این مدل سؤالا، می‌خوایم مجموع کل عددهای توی یه بازه رو پیدا کنیم.
+برای همین، تعریف طبیعی برای تابع <span class="arithmatex">$f$</span> می‌شه <span class="arithmatex">$f(x, y) = x + y$</span>.
+می‌تونیم ساختار داده رو این‌جوری بسازیم:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">K</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">MAXN</span><span class="p">];</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">array</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">array</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
@@ -6802,8 +6802,8 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
 <span class="w">        </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))];</span>
 </code></pre></div>
-<p>برای پاسخ به پرس‌وجوی مجموع برای بازه <span class="arithmatex">$[L, R]$</span>، ما روی تمام توان‌های دو، از بزرگ‌ترین آن‌ها شروع کرده و پیمایش می‌کنیم.
-هرگاه توان دویی مانند <span class="arithmatex">$2^i$</span> کوچک‌تر یا مساوی طول بازه (<span class="arithmatex">$= R - L + 1$</span>) باشد، بخش اول بازه یعنی <span class="arithmatex">$[L, L + 2^i - 1]$</span> را پردازش کرده و با بازه باقیمانده یعنی <span class="arithmatex">$[L + 2^i, R]$</span> ادامه می‌دهیم.</p>
+<p>خب، برای اینکه به سؤال «جمع بازه‌ی <span class="arithmatex">$[L, R]$</span> چقدر می‌شه؟» جواب بدیم، میایم روی همه‌ی توان‌های دو، از بزرگ به کوچیک، حرکت می‌کنیم.
+هر وقت یه توانی از دو مثل <span class="arithmatex">$2^i$</span> از طول بازه‌ی ما (<span class="arithmatex">$= R - L + 1$</span>) کوچیک‌تر یا مساوی بود، تیکه‌ی اول بازه یعنی <span class="arithmatex">$[L, L + 2^i - 1]$</span> رو پردازش می‌کنیم و با بقیه‌ی بازه یعنی <span class="arithmatex">$[L + 2^i, R]$</span> ادامه می‌دیم.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">K</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">L</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -6812,23 +6812,23 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>پیچیدگی زمانی برای یک پرس‌وجوی مجموع بازه‌ای <span class="arithmatex">$O(K) = O(\log \text{MAXN})$</span> است.</p>
-<h2 id="rmq">پرس‌وجوهای کمینه بازه‌ای (RMQ)<a class="headerlink" href="#rmq" title="Permanent link">&para;</a></h2>
-<p>این‌ها پرس‌وجوهایی هستند که Sparse Table در آن‌ها می‌درخشد.
-هنگام محاسبه کمینه یک بازه، مهم نیست که یک مقدار را یک بار یا دو بار پردازش کنیم.
-بنابراین، به جای تقسیم یک بازه به چندین بازه، می‌توانیم آن را فقط به دو بازه همپوشان با طول توانی از دو تقسیم کنیم.
-مثلاً، می‌توانیم بازه <span class="arithmatex">$[1, 6]$</span> را به بازه‌های <span class="arithmatex">$[1, 4]$</span> و <span class="arithmatex">$[3, 6]$</span> تقسیم کنیم.
-کمینه بازه <span class="arithmatex">$[1, 6]$</span> به وضوح با کمینهِ «کمینه بازه <span class="arithmatex">$[1, 4]$</span>» و «کمینه بازه <span class="arithmatex">$[3, 6]$</span>» برابر است.
-پس می‌توانیم کمینه بازه <span class="arithmatex">$[L, R]$</span> را با فرمول زیر محاسبه کنیم:</p>
-<div class="arithmatex">$$\min(\text{st}[i][L], \text{st}[i][R - 2^i + 1]) \quad \text{ که در آن } i = \log_2(R - L + 1)$$</div>
-<p>این کار مستلزم آن است که بتوانیم <span class="arithmatex">$\log_2(R - L + 1)$</span> را سریع محاسبه کنیم.
-می‌توانید این کار را با پیش‌محاسبه تمام لگاریتم‌ها انجام دهید:</p>
+<p>پیچیدگی زمانی برای یه سؤال مجموع بازه <span class="arithmatex">$O(K) = O(\log \text{MAXN})$</span> هست.</p>
+<h2 id="rmq">سؤال در مورد کمترین مقدار در بازه (RMQ)<a class="headerlink" href="#rmq" title="Permanent link">&para;</a></h2>
+<p>این همون جاییه که اسپارس تیبل قدرت واقعی‌شو نشون می‌ده.
+وقتی می‌خوایم کمترین مقدار توی یه بازه رو حساب کنیم، خیلی مهم نیست که یه عدد رو یه بار حساب کنیم یا دو بار (چون کمینه فرقی نمی‌کنه).
+واسه همین، به جای اینکه بازه رو به چند تا تیکه‌ی جدا از هم بشکنیم، می‌تونیم خیلی راحت اونو فقط به دو تا بازه‌ی <em>هم‌پوشان</em> با طول توانی از دو تقسیم کنیم.
+مثلاً، بازه‌ی <span class="arithmatex">$[1,6]$</span> رو می‌تونیم به بازه‌های <span class="arithmatex">$[1,4]$</span> و <span class="arithmatex">$[3,6]$</span> تقسیم کنیم.
+کمترین مقدار بازه‌ی <span class="arithmatex">$[1,6]$</span>، دقیقاً با کمینه‌ی «کمترین مقدار بازه‌ی <span class="arithmatex">$[1,4]$</span>» و «کمترین مقدار بازه‌ی <span class="arithmatex">$[3,6]$</span>» برابره.
+پس می‌تونیم کمترین مقدار بازه‌ی <span class="arithmatex">$[L, R]$</span> رو با این فرمول حساب کنیم:</p>
+<div class="arithmatex">$$\min(\text{st}[i][L], \text{st}[i][R - 2^i + 1]) \quad \text{ where } i = \log_2(R - L + 1)$$</div>
+<p>این روش به این احتیاج داره که بتونیم <span class="arithmatex">$\log_2(R - L + 1)$</span> رو سریع حساب کنیم.
+می‌تونید این کار رو با پیش‌محاسبه کردن همه‌ی لگاریتم‌ها انجام بدید:</p>
 <p><div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">lg</span><span class="p">[</span><span class="n">MAXN</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
 <span class="n">lg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">MAXN</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
 <span class="w">    </span><span class="n">lg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lg</span><span class="p">[</span><span class="n">i</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 </code></pre></div>
-به طور جایگزین، لگاریتم را می‌توان به صورت درلحظه (on the fly) با فضا و زمان ثابت محاسبه کرد:
+یه راه دیگه اینه که لگاریتم رو همون لحظه (on the fly) با فضا و زمان ثابت حساب کنی:
 <div class="highlight"><pre><span></span><code><span class="c1">// C++20</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;bit&gt;</span>
 <span class="kt">int</span><span class="w"> </span><span class="nf">log2_floor</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -6840,8 +6840,8 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">__builtin_clzll</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">__builtin_clzll</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<a href="https://quick-bench.com/q/Zghbdj_TEkmw4XG2nqOpD3tsJ8U">این بنچمارک</a> نشان می‌دهد که استفاده از آرایه <code>lg</code> به دلیل خطاهای حافظه پنهان (cache misses) کندتر است.</p>
-<p>سپس باید ساختار Sparse Table را پیش‌محاسبه کنیم. این بار <span class="arithmatex">$f$</span> را با <span class="arithmatex">$f(x, y) = \min(x, y)$</span> تعریف می‌کنیم.</p>
+<a href="https://quick-bench.com/q/Zghbdj_TEkmw4XG2nqOpD3tsJ8U">این بنچمارک</a> نشون می‌ده که استفاده از آرایه‌ی <code>lg</code> به خاطر خطاهای حافظه کش (cache misses) کندتره.</p>
+<p>بعدش باید ساختار اسپارس تیبل رو پیش‌محاسبه کنیم. این بار <span class="arithmatex">$f$</span> رو با <span class="arithmatex">$f(x, y) = \min(x, y)$</span> تعریف می‌کنیم.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">K</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">MAXN</span><span class="p">];</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">array</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">array</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
@@ -6850,17 +6850,17 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
 <span class="w">        </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))]);</span>
 </code></pre></div>
-<p>و کمینه بازه <span class="arithmatex">$[L, R]$</span> را می‌توان به این صورت محاسبه کرد:</p>
+<p>و کمترین مقدار بازه‌ی <span class="arithmatex">$[L, R]$</span> رو می‌شه این‌جوری حساب کرد:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lg</span><span class="p">[</span><span class="n">R</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">L</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">L</span><span class="p">],</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">R</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]);</span>
 </code></pre></div>
-<p>پیچیدگی زمانی برای یک پرس‌وجوی کمینه بازه‌ای <span class="arithmatex">$O(1)$</span> است.</p>
-<h2 id="_4">ساختمان داده‌های مشابه با پشتیبانی از انواع بیشتری از پرس‌وجوها<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>یکی از ضعف‌های اصلی رویکرد <span class="arithmatex">$O(1)$</span> که در بخش قبل بحث شد این است که این رویکرد تنها از پرس‌وجوهایی با <a href="https://en.wikipedia.org/wiki/Idempotence">توابع خودتوان (idempotent)</a> پشتیبانی می‌کند.
-یعنی برای پرس‌وجوهای کمینه بازه‌ای عالی عمل می‌کند، اما پاسخ به پرس‌وجوهای مجموع بازه‌ای با این رویکرد ممکن نیست.</p>
-<p>ساختمان داده‌های مشابهی وجود دارند که می‌توانند هر نوع تابع شرکت‌پذیری را مدیریت کرده و به پرس‌وجوهای بازه‌ای در زمان <span class="arithmatex">$O(1)$</span> پاسخ دهند.
-یکی از آن‌ها <a href="https://discuss.codechef.com/questions/117696/tutorial-disjoint-sparse-table">Disjoint Sparse Table</a> نام دارد.
-مورد دیگر <a href="sqrt-tree.html">Sqrt Tree</a> است.</p>
+<p>پیچیدگی زمانی برای یه سؤال کمینه بازه‌ای، <span class="arithmatex">$O(1)$</span> هست.</p>
+<h2 id="_4">ساختار داده‌های مشابه با پشتیبانی از سؤالای بیشتر<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>یکی از ضعف‌های اصلی اون روش <span class="arithmatex">$O(1)$</span> که بالا گفتیم اینه که فقط برای سؤال‌هایی کار می‌کنه که تابعشون <a href="https://en.wikipedia.org/wiki/Idempotence">خودتوان (idempotent)</a> باشه.
+یعنی برای پیدا کردن کمترین و بیشترین مقدار توی بازه عالیه، اما نمی‌شه باهاش جمع اعضای یه بازه رو حساب کرد.</p>
+<p>ساختار داده‌های مشابه‌ای هستن که می‌تونن هر نوع تابع شرکت‌پذیری رو مدیریت کنن و به سؤالای بازه‌ای تو زمان <span class="arithmatex">$O(1)$</span> جواب بدن.
+یکی از اونا اسمش <a href="https://discuss.codechef.com/questions/117696/tutorial-disjoint-sparse-table">Disjoint Sparse Table</a> هست.
+یه مورد دیگه هم <a href="sqrt-tree.html">Sqrt Tree</a> هست.</p>
 <h2 id="_5">مسائل تمرینی<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="http://www.spoj.com/problems/RMQSQ/">SPOJ - RMQSQ</a></li>

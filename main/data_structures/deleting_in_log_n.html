@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#data-structure-otnlog-n" class="md-skip">
+        <a href="#otnlog-n" class="md-skip">
           پرش به محتویات
         </a>
       
@@ -6612,7 +6612,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 ژوئیهٔ 2025 19:17:38 UTC">12 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6638,143 +6638,141 @@ Describe the issue of this article in detail.
 </ul>
 
 
-<h1 id="data-structure-otnlog-n">حذف از یک data structure در زمان <span class="arithmatex">$O(T(n)\log n)$</span><a class="headerlink" href="#data-structure-otnlog-n" title="Permanent link">&para;</a></h1>
-<p>فرض کنید یک data structure دارید که امکان اضافه کردن عناصر را در زمان <strong>واقعی</strong> <span class="arithmatex">$O(T(n))$</span> فراهم می‌کند.
-این مقاله تکنیکی را توصیف می‌کند که امکان حذف را به صورت offline در زمان <span class="arithmatex">$O(T(n)\log n)$</span> فراهم می‌کند.</p>
+<h1 id="otnlog-n">حذف از یک داده ساختار در زمان <span class="arithmatex">$O(T(n)\log n)$</span><a class="headerlink" href="#otnlog-n" title="Permanent link">&para;</a></h1>
+<p>فرض کنید یک ساختار داده دارید که امکان اضافه کردن عناصر را در زمان <span class="arithmatex">$O(T(n))$</span> فراهم می‌کند.</p>
+<p>این مقاله تکنیکی را توصیف می‌کند که امکان حذف را به صورت offline در زمان <span class="arithmatex">$O(T(n)\log n)$</span> فراهم می‌کند.</p>
 <h2 id="_1">الگوریتم<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>هر عنصر برای بازه‌های زمانی مشخصی بین عملیات اضافه کردن و حذف، در data structure زنده است.
-یک segment tree روی کوئری‌ها می‌سازیم.
-هر بازه‌ای که در آن یک عنصر زنده است، به <span class="arithmatex">$O(\log n)$</span> گره از درخت تقسیم می‌شود.
-هر کوئری که در آن وضعیت ساختار را جویا می‌شویم، در برگ متناظر آن قرار می‌دهیم.
-حال برای پردازش تمام کوئری‌ها، یک DFS روی segment tree اجرا می‌کنیم.
-هنگام ورود به یک گره، تمام عناصری را که در آن گره قرار دارند اضافه می‌کنیم.
-سپس به سراغ فرزندان آن گره می‌رویم یا (اگر گره برگ باشد) به کوئری‌ها پاسخ می‌دهیم.
-هنگام خروج از گره، باید عملیات اضافه کردن را لغو (undo) کنیم.
-توجه داشته باشید که اگر ساختار را در زمان <span class="arithmatex">$O(T(n))$</span> تغییر دهیم، می‌توانیم با نگهداری یک stack از تغییرات، این تغییرات را در زمان <span class="arithmatex">$O(T(n))$</span> به حالت قبل بازگردانیم (roll back).
-توجه داشته باشید که عملیات بازگردانی (rollback) پیچیدگی زمانی سرشکن (amortized complexity) را نامعتبر می‌کند.</p>
+<p>هر عنصر برای بازه‌های زمانی مشخصی بین عملیات اضافه کردن و حذف، در data structure زنده است.</p>
+<p>یک segment tree روی کوئری‌ها می‌سازیم.</p>
+<p>هر بازه‌ای که در آن یک عنصر زنده است، به <span class="arithmatex">$O(\log n)$</span> گره از درخت تقسیم می‌شود.</p>
+<p>هر کوئری که در آن وضعیت ساختار را جویا می‌شویم، در برگ متناظر آن قرار می‌دهیم.</p>
+<p>حال برای پردازش تمام کوئری‌ها، یک DFS روی segment tree اجرا می‌کنیم.</p>
+<p>هنگام ورود به یک گره، تمام عناصری را که در آن گره قرار دارند اضافه می‌کنیم.</p>
+<p>سپس به سراغ فرزندان آن گره می‌رویم یا (اگر گره برگ باشد) به کوئری‌ها پاسخ می‌دهیم.</p>
+<p>هنگام خروج از گره، باید عملیات اضافه کردن را لغو (undo) کنیم.</p>
+<p>توجه داشته باشید که اگر ساختار را در زمان <span class="arithmatex">$O(T(n))$</span> تغییر دهیم، می‌توانیم با نگهداری یک stack از تغییرات، این تغییرات را در زمان <span class="arithmatex">$O(T(n))$</span> به حالت قبل بازگردانیم (roll back).</p>
+<p>توجه داشته باشید که عملیات بازگردانی (rollback) پیچیدگی زمانی سرشکن (amortized complexity) را نامعتبر می‌کند.</p>
 <h2 id="_2">نکات<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>ایده ساختن segment tree روی بازه‌های زمانی که یک موجودیت در آن فعال است، می‌تواند برای مسائلی غیر از مسائل data structure نیز به کار رود.
-برای نمونه، مسائل زیر را ببینید.</p>
+<p>ایده ساختن segment tree روی بازه‌های زمانی که یک موجودیت در آن فعال است، می‌تواند برای مسائلی غیر از مسائل data structure نیز به کار رود.</p>
+<p>برای نمونه، مسائل زیر را ببینید.</p>
 <h2 id="_3">پیاده‌سازی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>این پیاده‌سازی برای مسئله‌ی <a href="https://en.wikipedia.org/wiki/Dynamic_connectivity">همبندی پویا (dynamic connectivity)</a> است.
-این پیاده‌سازی می‌تواند یال اضافه کند، یال حذف کند و تعداد مؤلفه‌های همبند را بشمارد.</p>
-<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">dsu_save</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">rnkv</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">rnku</span><span class="p">;</span>
+<p>این پیاده‌سازی برای مسئله‌ی <a href="https://en.wikipedia.org/wiki/Dynamic_connectivity">همبندی پویا (dynamic connectivity)</a> است.</p>
+<p>این پیاده‌سازی می‌تواند یال اضافه کند، یال حذف کند و تعداد مؤلفه‌های همبند را بشمارد.</p>
+<p>```{.cpp
+struct dsu_save {
+    int v, rnkv, u, rnku;</p>
+<div class="highlight"><pre><span></span><code>dsu_save() {}
 
-<span class="w">    </span><span class="n">dsu_save</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
-
-<span class="w">    </span><span class="n">dsu_save</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">_v</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">_rnkv</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">_u</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">_rnku</span><span class="p">)</span>
-<span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">_v</span><span class="p">),</span><span class="w"> </span><span class="n">rnkv</span><span class="p">(</span><span class="n">_rnkv</span><span class="p">),</span><span class="w"> </span><span class="n">u</span><span class="p">(</span><span class="n">_u</span><span class="p">),</span><span class="w"> </span><span class="n">rnku</span><span class="p">(</span><span class="n">_rnku</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
-<span class="p">};</span>
-
-<span class="k">struct</span><span class="w"> </span><span class="nc">dsu_with_rollbacks</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">rnk</span><span class="p">;</span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">comps</span><span class="p">;</span>
-<span class="w">    </span><span class="n">stack</span><span class="o">&lt;</span><span class="n">dsu_save</span><span class="o">&gt;</span><span class="w"> </span><span class="n">op</span><span class="p">;</span>
-
-<span class="w">    </span><span class="n">dsu_with_rollbacks</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
-
-<span class="w">    </span><span class="n">dsu_with_rollbacks</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-<span class="w">        </span><span class="n">rnk</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
-<span class="w">            </span><span class="n">rnk</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="n">comps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">find_set</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p</span><span class="p">[</span><span class="n">v</span><span class="p">])</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">find_set</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">v</span><span class="p">]);</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">unite</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">u</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_set</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
-<span class="w">        </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_set</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">u</span><span class="p">)</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
-<span class="w">        </span><span class="n">comps</span><span class="o">--</span><span class="p">;</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rnk</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">rnk</span><span class="p">[</span><span class="n">u</span><span class="p">])</span>
-<span class="w">            </span><span class="n">swap</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">);</span>
-<span class="w">        </span><span class="n">op</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">dsu_save</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">rnk</span><span class="p">[</span><span class="n">v</span><span class="p">],</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">rnk</span><span class="p">[</span><span class="n">u</span><span class="p">]));</span>
-<span class="w">        </span><span class="n">p</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">;</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rnk</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rnk</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
-<span class="w">            </span><span class="n">rnk</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">rollback</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">op</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
-<span class="w">            </span><span class="k">return</span><span class="p">;</span>
-<span class="w">        </span><span class="n">dsu_save</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">op</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
-<span class="w">        </span><span class="n">op</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-<span class="w">        </span><span class="n">comps</span><span class="o">++</span><span class="p">;</span>
-<span class="w">        </span><span class="n">p</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">v</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">v</span><span class="p">;</span>
-<span class="w">        </span><span class="n">rnk</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">v</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">rnkv</span><span class="p">;</span>
-<span class="w">        </span><span class="n">p</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">u</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">u</span><span class="p">;</span>
-<span class="w">        </span><span class="n">rnk</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">u</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">rnku</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">};</span>
-
-<span class="k">struct</span><span class="w"> </span><span class="nc">query</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">;</span>
-<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">united</span><span class="p">;</span>
-<span class="w">    </span><span class="n">query</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">_v</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">_u</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">_v</span><span class="p">),</span><span class="w"> </span><span class="n">u</span><span class="p">(</span><span class="n">_u</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">};</span>
-
-<span class="k">struct</span><span class="w"> </span><span class="nc">QueryTree</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">query</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
-<span class="w">    </span><span class="n">dsu_with_rollbacks</span><span class="w"> </span><span class="n">dsu</span><span class="p">;</span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">T</span><span class="p">;</span>
-
-<span class="w">    </span><span class="n">QueryTree</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
-
-<span class="w">    </span><span class="n">QueryTree</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">_T</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">T</span><span class="p">(</span><span class="n">_T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">dsu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dsu_with_rollbacks</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-<span class="w">        </span><span class="n">t</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">add_to_tree</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ul</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ur</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="o">&amp;</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ul</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ur</span><span class="p">)</span>
-<span class="w">            </span><span class="k">return</span><span class="p">;</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ul</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ur</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">t</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
-<span class="w">            </span><span class="k">return</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
-<span class="w">        </span><span class="n">add_to_tree</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="n">ul</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">ur</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="p">),</span><span class="w"> </span><span class="n">q</span><span class="p">);</span>
-<span class="w">        </span><span class="n">add_to_tree</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">ul</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">ur</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">add_query</span><span class="p">(</span><span class="n">query</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">add_to_tree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">dfs</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">ans</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">query</span><span class="o">&amp;</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">t</span><span class="p">[</span><span class="n">v</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">q</span><span class="p">.</span><span class="n">united</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dsu</span><span class="p">.</span><span class="n">unite</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">u</span><span class="p">);</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">r</span><span class="p">)</span>
-<span class="w">            </span><span class="n">ans</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dsu</span><span class="p">.</span><span class="n">comps</span><span class="p">;</span>
-<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
-<span class="w">            </span><span class="n">dfs</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="n">ans</span><span class="p">);</span>
-<span class="w">            </span><span class="n">dfs</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">ans</span><span class="p">);</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">query</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">t</span><span class="p">[</span><span class="n">v</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">united</span><span class="p">)</span>
-<span class="w">                </span><span class="n">dsu</span><span class="p">.</span><span class="n">rollback</span><span class="p">();</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">solve</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ans</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
-<span class="w">        </span><span class="n">dfs</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ans</span><span class="p">);</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ans</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">};</span>
+dsu_save(int _v, int _rnkv, int _u, int _rnku)
+    : v(_v), rnkv(_rnkv), u(_u), rnku(_rnku) {}
 </code></pre></div>
+<p>};</p>
+<p>struct dsu_with_rollbacks {
+    vector<int> p, rnk;
+    int comps;
+    stack<dsu_save> op;</p>
+<div class="highlight"><pre><span></span><code>dsu_with_rollbacks() {}
+
+dsu_with_rollbacks(int n) {
+    p.resize(n);
+    rnk.resize(n);
+    for (int i = 0; i &lt; n; i++) {
+        p[i] = i;
+        rnk[i] = 0;
+    }
+    comps = n;
+}
+
+int find_set(int v) {
+    return (v == p[v]) ? v : find_set(p[v]);
+}
+
+bool unite(int v, int u) {
+    v = find_set(v);
+    u = find_set(u);
+    if (v == u)
+        return false;
+    comps--;
+    if (rnk[v] &gt; rnk[u])
+        swap(v, u);
+    op.push(dsu_save(v, rnk[v], u, rnk[u]));
+    p[v] = u;
+    if (rnk[u] == rnk[v])
+        rnk[u]++;
+    return true;
+}
+
+void rollback() {
+    if (op.empty())
+        return;
+    dsu_save x = op.top();
+    op.pop();
+    comps++;
+    p[x.v] = x.v;
+    rnk[x.v] = x.rnkv;
+    p[x.u] = x.u;
+    rnk[x.u] = x.rnku;
+}
+</code></pre></div>
+<p>};</p>
+<p>struct query {
+    int v, u;
+    bool united;
+    query(int _v, int _u) : v(_v), u(_u) {
+    }
+};</p>
+<p>struct QueryTree {
+    vector<vector\<query>> t;
+    dsu_with_rollbacks dsu;
+    int T;</p>
+<div class="highlight"><pre><span></span><code>QueryTree() {}
+
+QueryTree(int _T, int n) : T(_T) {
+    dsu = dsu_with_rollbacks(n);
+    t.resize(4 * T + 4);
+}
+
+void add_to_tree(int v, int l, int r, int ul, int ur, query&amp; q) {
+    if (ul &gt; ur)
+        return;
+    if (l == ul &amp;&amp; r == ur) {
+        t[v].push_back(q);
+        return;
+    }
+    int mid = (l + r) / 2;
+    add_to_tree(2 * v, l, mid, ul, min(ur, mid), q);
+    add_to_tree(2 * v + 1, mid + 1, r, max(ul, mid + 1), ur, q);
+}
+
+void add_query(query q, int l, int r) {
+    add_to_tree(1, 0, T - 1, l, r, q);
+}
+
+void dfs(int v, int l, int r, vector&lt;int&gt;&amp; ans) {
+    for (query&amp; q : t[v]) {
+        q.united = dsu.unite(q.v, q.u);
+    }
+    if (l == r)
+        ans[l] = dsu.comps;
+    else {
+        int mid = (l + r) / 2;
+        dfs(2 * v, l, mid, ans);
+        dfs(2 * v + 1, mid + 1, r, ans);
+    }
+    for (query q : t[v]) {
+        if (q.united)
+            dsu.rollback();
+    }
+}
+
+vector&lt;int&gt; solve() {
+    vector&lt;int&gt; ans(T);
+    dfs(1, 0, T - 1, ans);
+    return ans;
+}
+</code></pre></div>
+<p>};
+```</p>
 <h2 id="_4">مسائل<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://codeforces.com/gym/100551/problem/A">Codeforces - Connect and Disconnect</a></li>
@@ -6784,7 +6782,7 @@ Describe the issue of this article in detail.
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/SYury" title="SYury" data-bi-name="contributorprofile" target="_blank">SYury</a> (81.65%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (15.19%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (2.53%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (0.63%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/SYury" title="SYury" data-bi-name="contributorprofile" target="_blank">SYury</a> (75.88%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (21.76%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (1.76%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (0.59%)</li></ul>
 </ul>
                 
               </article>
