@@ -74,7 +74,209 @@
     
     
     
-  </head>
+  <script>(function() {
+    const customDynamicStyle = document.createElement("style");
+    // We must put it outside of the head and body, since they are replaced by the instant navigation feature in the Material theme
+    document.documentElement.appendChild(customDynamicStyle);
+
+    const TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING = "[mkdocs-toggle-sidebar-plugin] Reference element for inserting 'toggle_button' not found. This version of the plugin may not be compatible with this version of the theme. Try updating both to the latest version. If that fails, you can open an GitHub issue.";
+
+    const loadBool = (name, default_value) => {
+        const value = localStorage.getItem(`TOGGLE_SIDEBAR_${name}`);
+        if (value == null) {
+            return default_value;
+        } else {
+            return value == "1";
+        }
+    }
+
+    const loadNavigationState = () => loadBool("NAVIGATION", true);
+    const loadTocState = () => loadBool("TOC", true);
+
+    const saveBool = (name, value) => {
+        localStorage.setItem(`TOGGLE_SIDEBAR_${name}`, value ? "1" : "0");
+    }
+
+    const toggleVisibility = (toggleNavigation, toggleTOC) => {
+        let newNavigation = loadNavigationState();
+        let newTOC = loadTocState();
+        
+        if (toggleNavigation) {
+            newNavigation = !newNavigation;
+            saveBool("NAVIGATION", newNavigation);
+        }
+        if (toggleTOC) {
+            newTOC = !newTOC;
+            saveBool("TOC", newTOC);
+        }
+        
+        _setVisibility(newNavigation, newTOC);
+    }
+
+    const _setVisibility = (newNavigation, newTOC) => {
+        console.debug(`Setting new visibility: navigation=${newNavigation}, TOC=${newTOC}`);
+        // combine this into one operation, so that it is more efficient (for toggling both) and easier to code with dynamic CSS generation
+        customDynamicStyle.innerHTML = setCombinedVisibility(newNavigation, newTOC);
+    }
+
+    // START OF INCLUDE
+    // This gets replaced with the definitions of: 
+    // - setCombinedVisibility(showNavigation: bool, showTOC: bool) -> string (dynamic CSS)
+    // - registerKeyboardEventHandler() -> void
+    const setCombinedVisibility = (showNavigation, showTOC) => {
+    // Hide the button when on mobile (and menu us shown as hamburger menu anyways).
+    // The exact max-width is taken from the styling of the 'body > header > nav > a' element
+    
+    let style = `
+.mkdocs-toggle-sidebar-button {
+    cursor: pointer;
+    margin-right: 5px;
+    margin-left: 1rem;
+}
+
+@media screen and (max-width: 76.1875em) {
+    .mkdocs-toggle-sidebar-button {
+        display: none;
+    }
+}
+`;
+// The TOC has a different break point than the navigation.
+// It can be seen on the nav.md-nav--secondary:nth-child(1) element (60em)
+// If the screen is smaller, it is shown in the navigation section if you click the nested hamburger menu
+if (!showTOC) {
+    style += `
+@media screen and (min-width: 60em) {
+    div.md-sidebar.md-sidebar--secondary {
+        display: none;
+    }
+}
+`;
+        }
+        
+    // We always have to show the navigation in mobile view, otherwise the hamburger menu is broken
+    if (!showNavigation) {
+        style += `
+@media screen and (min-width: 76.1875em) {
+    div.md-sidebar.md-sidebar--primary {
+        display: none;
+    }
+}
+`;
+    }
+
+    return style;
+}
+
+const addToggleButton = (toggleNavigation, toggleTOC) => {
+    const toggleBtn = createDefaultToggleButton(toggleNavigation, toggleTOC);
+    toggleBtn.classList.add("md-icon");
+  
+    const titleElement = document.querySelector(".md-header__title");
+    if (titleElement) {
+        titleElement.parentNode.insertBefore(toggleBtn, titleElement.nextSibling);  
+    } else {
+        console.warn(TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING);
+    }
+}
+
+const registerKeyboardEventHandler = () => {
+    // Custom key handlers: SEE https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/?h=key+bind#docsjavascriptsshortcutsjs
+    keyboard$.subscribe(key => {
+        if (key.mode === "global") {
+            if (coreEventListenerLogic(key.type)) {
+                // event handled, stop propagation
+                key.claim();
+            }
+        }
+    });
+}
+
+    // END OF INCLUDE
+
+    // argument: string, returns true if the key was handled and the event should be marked as already handled
+    const coreEventListenerLogic = (keyChar) => {
+        if (keyChar === "t") {
+            toggleVisibility(false, true);
+            return true;
+        } else if (keyChar === "m") {
+            toggleVisibility(true, false);
+            return true;
+        } else if (keyChar === "b") {
+            toggleVisibility(true, true);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const onPageLoadedAction = () => {
+        console.log("The mkdocs-toggle-sidebar-plugin is installed. It adds the following key bindings:\n T -> toggle table of contents sidebar\n M -> toggle navigation menu sidebar\n B -> toggle both sidebars (TOC and navigation)");
+
+        const toggle_button = "all";
+        if (toggle_button == "none") {
+            // do nothing
+        } else if (toggle_button == "navigation") {
+            addToggleButton(true, false);
+        } else if (toggle_button == "toc") {
+            addToggleButton(false, true);
+        } else if (toggle_button == "all") {
+            addToggleButton(true, true);
+        } else {
+            console.error(`[mkdocs-toggle-sidebar-plugin] Unknown value for toggle_button: '${toggleButtonType}'`);
+        }
+
+        registerKeyboardEventHandler();
+    }
+
+    const createDefaultToggleButton = (toggleNavigation, toggleTOC) => {
+        const toggleBtn = document.createElement("div");
+        toggleBtn.className = "mkdocs-toggle-sidebar-button";
+        toggleBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>`;
+        if (toggleNavigation && toggleTOC) {
+            toggleBtn.title = "Toggle Navigation and Table of Contents";
+        } else if (toggleNavigation) {
+            toggleBtn.title = "Toggle Navigation";
+        } else if (toggleTOC) {
+            toggleBtn.title = "Toggle Table of Contents";
+        }
+        toggleBtn.addEventListener("click", () => toggleVisibility(toggleNavigation, toggleTOC));
+        return toggleBtn;
+    };
+
+    // Export functions that the user can call to modify the state
+    window.MkdocsToggleSidebarPlugin = {
+        setNavigationVisibility: (show) => {
+            saveBool("NAVIGATION", show);
+            _setVisibility(show, loadTocState());
+        },
+        setTocVisibility: (show) => {
+            saveBool("TOC", show);
+            _setVisibility(loadNavigationState(), show);
+        },
+        setAllVisibility: (showNavigation, showTOC) => {
+            saveBool("NAVIGATION", showNavigation);
+            saveBool("TOC", showTOC);
+            _setVisibility(showNavigation, showTOC);
+        },
+        toggleNavigationVisibility: () => toggleVisibility(true, false),
+        toggleTocVisibility: () => toggleVisibility(false, true),
+        toggleAllVisibility: () => toggleVisibility(true, true)
+    };
+
+    // Run this immediately instead of waiting for page.onload to prevent page flicker
+    customDynamicStyle.innerHTML = setCombinedVisibility(loadNavigationState(), loadTocState());
+    // console.log("Debug: hide sidebar completed");
+
+    // SEE https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#checking_whether_loading_is_already_complete
+    if (document.readyState === "loading") {
+        // console.debug("Registering DOMContentLoaded event listener");
+        document.addEventListener("DOMContentLoaded", onPageLoadedAction);
+    } else {
+        // console.debug("DOMContentLoaded has already fired");
+        onPageLoadedAction();
+    }
+}());
+</script></head>
   
   
     
@@ -6811,7 +7013,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="14 ژوئیهٔ 2025 20:15:25 UTC">14 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6823,8 +7025,8 @@ Describe the issue of this article in detail.
 
 
   
-    <a href="../tags.html#tag:ai-translated" class="md-tag">
-      AI Translated
+    <a href="../tags.html#tag:fully-translated" class="md-tag">
+      Fully Translated
     </a>
   
 
@@ -6838,28 +7040,27 @@ Describe the issue of this article in detail.
 
 
 <h1 id="sqrt-decomposition">تجزیه جذر (Sqrt Decomposition)<a class="headerlink" href="#sqrt-decomposition" title="Permanent link">&para;</a></h1>
-<p>تجزیه جذر (Sqrt Decomposition) یک روش (یا یک ساختمان داده) است که به شما امکان می‌دهد برخی عملیات رایج (مانند یافتن مجموع عناصر یک زیرآرایه، یافتن عنصر کمینه/بیشینه و غیره) را در <span class="arithmatex">$O(\sqrt n)$</span> عملیات انجام دهید، که بسیار سریع‌تر از <span class="arithmatex">$O(n)$</span> در الگوریتم بدیهی است.</p>
-<p>ابتدا، ساختمان داده را برای یکی از ساده‌ترین کاربردهای این ایده توصیف می‌کنیم، سپس نشان می‌دهیم که چگونه آن را برای حل مسائل دیگر تعمیم دهیم، و در نهایت به یک کاربرد کمی متفاوت از این ایده نگاهی می‌اندازیم: تقسیم درخواست‌های ورودی به بلاک‌های جذری.</p>
+<p>ببین، «تجزیه جذر» یا Sqrt Decomposition یه تکنیک (یا میشه گفت یه نوع ساختمان داده) خیلی باحاله که بهت اجازه میده یه سری کارهای پرتکرار (مثل پیدا کردن جمع یه تیکه از آرایه، یا پیدا کردن مینیمم/ماکزیمم و اینجور چیزا) رو توی <span class="arithmatex">$O(\sqrt n)$</span> انجام بدی. این سرعتش خیلی از راه حل ساده و دم‌دستی <span class="arithmatex">$O(n)$</span> بیشتره.</p>
+<p>اول از همه، با یکی از ساده‌ترین کاربردهای این ایده شروع می‌کنیم و ساختمان داده‌ش رو توضیح میدیم. بعدش بهت نشون میدم چطوری میشه این روش رو برای حل مسئله‌های دیگه هم به کار برد. آخر سر هم یه نگاهی به یه کاربرد یه کم متفاوت‌تر از این ایده می‌ندازیم: اینکه چطوری میشه درخواست‌ها (queries) رو به بلاک‌های جذری تقسیم کرد.</p>
 <h2 id="_1">ساختمان داده مبتنی بر تجزیه جذر<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>با داشتن یک آرایه <span class="arithmatex">$a[0 \dots n-1]$</span>، یک ساختمان داده پیاده‌سازی کنید که امکان یافتن مجموع عناصر <span class="arithmatex">$a[l \dots r]$</span> برای <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> دلخواه را در <span class="arithmatex">$O(\sqrt n)$</span> عملیات فراهم کند.</p>
+<p>فرض کن یه آرایه <span class="arithmatex">$a[0 \dots n-1]$</span> داریم. می‌خوایم یه ساختمان داده درست کنیم که بتونه جمع عناصر توی یه بازه دلخواه <span class="arithmatex">$a[l \dots r]$</span> رو توی زمان <span class="arithmatex">$O(\sqrt n)$</span> برامون حساب کنه.</p>
 <h3 id="_2">شرح<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>ایده اصلی تجزیه جذر، پیش‌پردازش است. ما آرایه <span class="arithmatex">$a$</span> را به بلاک‌هایی با طول تقریبی <span class="arithmatex">$\sqrt n$</span> تقسیم می‌کنیم و برای هر بلاک <span class="arithmatex">$i$</span>، مجموع عناصر آن یعنی <span class="arithmatex">$b[i]$</span> را پیش‌محاسبه می‌کنیم.</p>
-<p>می‌توانیم فرض کنیم که هم اندازه بلاک و هم تعداد بلاک‌ها برابر با <span class="arithmatex">$\sqrt n$</span> گردشده به بالا است:</p>
+<p>کلک اصلیِ تجزیه جذر، توی پیش‌پردازشه. ما میایم آرایه <span class="arithmatex">$a$</span> رو به یه سری بلاک با طول تقریباً <span class="arithmatex">$\sqrt n$</span> تقسیم می‌کنیم. بعد برای هر بلاک <span class="arithmatex">$i$</span>، جمع کل عنصرهای توش رو حساب می‌کنیم و توی <span class="arithmatex">$b[i]$</span> ذخیره می‌کنیم.</p>
+<p>می‌تونیم فرض کنیم که هم سایز هر بلاک و هم تعداد بلاک‌ها، <span class="arithmatex">$\sqrt n$</span> گرد شده به بالاست:</p>
 <div class="arithmatex">$$ s = \lceil \sqrt n \rceil $$</div>
-<p>سپس آرایه <span class="arithmatex">$a$</span> به روش زیر به بلاک‌ها تقسیم می‌شود:</p>
-<div class="arithmatex">$$ \underbrace{a[0], a[1], \dots, a[s-1]}_{\text{b[0]}}, \underbrace{a[s], \dots, a[2s-1]}_{\text{b[1]}}, \dots, \underbrace{a[(s-1) \cdot s], \dots, a[n-1]}_{\text{b[s-1]}} $$</div>
-<p>بلاک آخر ممکن است عناصر کمتری نسبت به بقیه داشته باشد (اگر <span class="arithmatex">$n$</span> مضربی از <span class="arithmatex">$s$</span> نباشد)، این موضوع برای بحث ما اهمیتی ندارد (زیرا به راحتی قابل مدیریت است).
-بنابراین، برای هر بلاک <span class="arithmatex">$k$</span>، ما مجموع عناصر آن یعنی <span class="arithmatex">$b[k]$</span> را می‌دانیم:</p>
+<p>اونوقت آرایه <span class="arithmatex">$a$</span> اینجوری به بلاک‌ها تقسیم میشه:</p>
+<div class="arithmatex">$$ \underbrace{a, a, \dots, a[s-1]}_{\text{b}}, \underbrace{a[s], \dots, a[2s-1]}_{\text{b}}, \dots, \underbrace{a[(s-1) \cdot s], \dots, a[n-1]}_{\text{b[s-1]}} $$</div>
+<p>ممکنه بلاک آخری تعداد عناصرش کمتر از بقیه باشه (اگه <span class="arithmatex">$n$</span> به <span class="arithmatex">$s$</span> بخش‌پذیر نباشه)، که اصلاً مهم نیست و خیلی راحت میشه مدیریتش کرد.
+خلاصه، ما برای هر بلاک <span class="arithmatex">$k$</span>، جمع عناصرش یعنی <span class="arithmatex">$b[k]$</span> رو داریم:</p>
 <div class="arithmatex">$$ b[k] = \sum\limits_{i=k\cdot s}^{\min {(n-1,(k+1)\cdot s - 1})} a[i] $$</div>
-<p>خب، ما مقادیر <span class="arithmatex">$b[k]$</span> را محاسبه کرده‌ایم (این کار به <span class="arithmatex">$O(n)$</span> عملیات نیاز داشت). این مقادیر چگونه می‌توانند به ما در پاسخ به هر پرس‌وجوی <span class="arithmatex">$[l, r]$</span> کمک کنند؟
-توجه کنید که اگر بازه <span class="arithmatex">$[l, r]$</span> به اندازه کافی طولانی باشد، شامل چندین بلاک کامل خواهد بود و برای آن بلاک‌ها می‌توانیم مجموع عناصر را در یک عملیات واحد پیدا کنیم. در نتیجه، بازه <span class="arithmatex">$[l, r]$</span> تنها شامل بخش‌هایی از دو بلاک خواهد بود و ما باید مجموع عناصر این بخش‌ها را به صورت بدیهی محاسبه کنیم.</p>
-<p>بنابراین، برای محاسبه مجموع عناصر در بازه <span class="arithmatex">$[l, r]$</span>، فقط باید عناصر دو "دنباله" را جمع کنیم:
-<span class="arithmatex">$[l\dots (k + 1)\cdot s-1]$</span> و <span class="arithmatex">$[p\cdot s\dots r]$</span>، و مقادیر <span class="arithmatex">$b[i]$</span> را در تمام بلاک‌ها از <span class="arithmatex">$k + 1$</span> تا <span class="arithmatex">$p-1$</span> جمع کنیم:</p>
+<p>خب، ما الان مقدارهای <span class="arithmatex">$b[k]$</span> رو حساب کردیم (که <span class="arithmatex">$O(n)$</span> طول کشید). حالا این مقدارها چطوری به ما کمک می‌کنن که به هر کوئری <span class="arithmatex">$[l, r]$</span> جواب بدیم؟
+دقت کن که اگه بازه <span class="arithmatex">$[l, r]$</span> به اندازه کافی بزرگ باشه، حتماً یه سری بلاک کامل رو شامل میشه. برای این بلاک‌های کامل، ما میتونیم جمع‌شون رو یهویی و توی یه حرکت حساب کنیم (چون از قبل تو <span class="arithmatex">$b$</span> ذخیره کردیم). در نتیجه، بازه <span class="arithmatex">$[l, r]$</span> فقط شامل یه تیکه از دوتا بلاک (یکی اولی، یکی آخری) میشه که باید جمع عنصراشون رو دونه به دونه حساب کنیم.</p>
+<p>پس برای حساب کردن جمع کل توی بازه <span class="arithmatex">$[l, r]$</span>، کافیه عناصر دوتا تیکه "دم و سر" بازه رو جمع کنیم: یعنی تیکه اول از بازه <span class="arithmatex">$[l\dots (k + 1)\cdot s-1]$</span> و تیکه آخر از بازه <span class="arithmatex">$[p\cdot s\dots r]$</span>. بعدش هم مقادیر <span class="arithmatex">$b[i]$</span> رو برای تمام بلاک‌های وسطی، یعنی از <span class="arithmatex">$k + 1$</span> تا <span class="arithmatex">$p-1$</span> با هم جمع کنیم:</p>
 <div class="arithmatex">$$ \sum\limits_{i=l}^r a[i] = \sum\limits_{i=l}^{(k+1) \cdot s-1} a[i] + \sum\limits_{i=k+1}^{p-1} b[i] + \sum\limits_{i=p\cdot s}^r a[i] $$</div>
-<p><em>نکته: وقتی <span class="arithmatex">$k = p$</span> باشد، یعنی <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> به یک بلاک تعلق داشته باشند، فرمول بالا قابل استفاده نیست و مجموع باید به صورت بدیهی محاسبه شود.</em></p>
-<p>این رویکرد به ما امکان می‌دهد تعداد عملیات را به طور قابل توجهی کاهش دهیم. در واقع، اندازه هر "دنباله" از طول بلاک <span class="arithmatex">$s$</span> تجاوز نمی‌کند و تعداد بلاک‌ها در مجموع نیز از <span class="arithmatex">$s$</span> بیشتر نیست. از آنجایی که ما <span class="arithmatex">$s \approx \sqrt n$</span> را انتخاب کرده‌ایم، تعداد کل عملیات مورد نیاز برای یافتن مجموع عناصر در بازه <span class="arithmatex">$[l, r]$</span> برابر با <span class="arithmatex">$O(\sqrt n)$</span> است.</p>
+<p><em>یه نکته: اگه <span class="arithmatex">$k = p$</span> باشه، یعنی <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> هر دو توی یه بلاک باشن، فرمول بالا دیگه کار نمی‌کنه و باید جمع رو خیلی عادی و دونه به دونه حساب کنیم.</em></p>
+<p>این روش باعث میشه تعداد عملیات‌مون خیلی کمتر بشه. در واقع، طول هر کدوم از اون تیکه‌های "دم و سر" از طول بلاک یعنی <span class="arithmatex">$s$</span> بیشتر نمیشه و تعداد بلاک‌های وسطی هم از <span class="arithmatex">$s$</span> بیشتر نیست. از اونجایی که ما <span class="arithmatex">$s \approx \sqrt n$</span> رو انتخاب کردیم، کل عملیات لازم برای پیدا کردن جمع توی بازه <span class="arithmatex">$[l, r]$</span> میشه <span class="arithmatex">$O(\sqrt n)$</span>.</p>
 <h3 id="_3">پیاده‌سازی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p>بیایید با ساده‌ترین پیاده‌سازی شروع کنیم:</p>
+<p>بریم سراغ ساده‌ترین پیاده‌سازیش:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// داده‌های ورودی</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
 <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
@@ -6887,7 +7088,7 @@ Describe the issue of this article in detail.
 <span class="w">        </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>این پیاده‌سازی تعداد نامعقولی عملیات تقسیم دارد (که بسیار کندتر از سایر عملیات حسابی هستند). به جای آن، می‌توانیم اندیس بلاک‌هایی که شامل اندیس‌های <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> هستند یعنی <span class="arithmatex">$c_l$</span> و <span class="arithmatex">$c_r$</span> را محاسبه کنیم، و روی بلاک‌های <span class="arithmatex">$c_l+1 \dots c_r-1$</span> حلقه بزنیم و "دنباله‌ها" را در بلاک‌های <span class="arithmatex">$c_l$</span> و <span class="arithmatex">$c_r$</span> به طور جداگانه پردازش کنیم. این رویکرد با آخرین فرمول در بخش شرح مطابقت دارد و حالت <span class="arithmatex">$c_l = c_r$</span> را به یک حالت خاص تبدیل می‌کند.</p>
+<p>این پیاده‌سازی یه عالمه عمل تقسیم داره (که خیلی کندتر از بقیه حساب‌کتاب‌هاست). به جای این کار، میتونیم شماره بلاک‌هایی که <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> توشون هستن رو حساب کنیم (مثلاً <span class="arithmatex">$c_l$</span> و <span class="arithmatex">$c_r$</span>)، بعد روی بلاک‌های وسطی (<span class="arithmatex">$c_l+1$</span> تا <span class="arithmatex">$c_r-1$</span>) یه حلقه بزنیم و اون تیکه‌های "دم و سر" توی بلاک‌های <span class="arithmatex">$c_l$</span> و <span class="arithmatex">$c_r$</span> رو جداگونه پردازش کنیم. این روش دقیقاً همون فرمول آخریه که گفتیم و باعث میشه حالت <span class="arithmatex">$c_l = c_r$</span> یه حالت خاص و جدا در نظر گرفته بشه.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="kt">int</span><span class="w"> </span><span class="n">c_l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">len</span><span class="p">,</span><span class="w">   </span><span class="n">c_r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">len</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c_l</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">c_r</span><span class="p">)</span>
@@ -6903,34 +7104,34 @@ Describe the issue of this article in detail.
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="_4">مسائل دیگر<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>تا اینجا ما در مورد مسئله یافتن مجموع عناصر یک زیرآرایه پیوسته صحبت کردیم. این مسئله را می‌توان گسترش داد تا امکان <strong>به‌روزرسانی عناصر تکی آرایه</strong> را نیز فراهم کند. اگر یک عنصر <span class="arithmatex">$a[i]$</span> تغییر کند، کافی است مقدار <span class="arithmatex">$b[k]$</span> را برای بلاکی که این عنصر به آن تعلق دارد (<span class="arithmatex">$k = i / s$</span>) در یک عملیات به‌روزرسانی کنیم:</p>
+<p>خب تا الان ما فقط داشتیم در مورد جمع عناصر یه تیکه از آرایه حرف میزدیم. میشه این مسئله رو یه کم پیشرفته‌تر کرد و قابلیت <strong>به‌روزرسانی یه عنصر تکی توی آرایه</strong> رو هم بهش اضافه کنیم. اگه یه عنصر <span class="arithmatex">$a[i]$</span> عوض بشه، فقط کافیه مقدار <span class="arithmatex">$b[k]$</span> مربوط به همون بلاکی که <span class="arithmatex">$a[i]$</span> توشه (<span class="arithmatex">$k = i / s$</span>) رو توی یه حرکت آپدیت کنیم:</p>
 <div class="arithmatex">$$ b[k] += a_{new}[i] - a_{old}[i] $$</div>
-<p>از طرف دیگر، وظیفه یافتن مجموع عناصر را می‌توان با وظیفه یافتن عنصر کمینه/بیشینه یک زیرآرایه جایگزین کرد. اگر این مسئله نیاز به مدیریت به‌روزرسانی عناصر تکی نیز داشته باشد، به‌روزرسانی مقدار <span class="arithmatex">$b[k]$</span> نیز ممکن است، اما این کار نیازمند پیمایش تمام مقادیر بلاک <span class="arithmatex">$k$</span> در <span class="arithmatex">$O(s) = O(\sqrt{n})$</span> عملیات خواهد بود.</p>
-<p>تجزیه جذر را می‌توان به روشی مشابه برای دسته وسیعی از مسائل دیگر به کار برد: یافتن تعداد عناصر صفر، یافتن اولین عنصر غیر صفر، شمردن عناصری که ویژگی خاصی را برآورده می‌کنند و غیره.</p>
-<p>دسته دیگری از مسائل زمانی به وجود می‌آیند که نیاز به <strong>به‌روزرسانی عناصر آرایه در بازه‌ها</strong> داریم: افزایش عناصر موجود یا جایگزینی آنها با یک مقدار داده شده.</p>
-<p>به عنوان مثال، فرض کنید می‌توانیم دو نوع عملیات روی یک آرایه انجام دهیم: اضافه کردن مقدار داده شده <span class="arithmatex">$\delta$</span> به تمام عناصر آرایه در بازه <span class="arithmatex">$[l, r]$</span> یا پرس‌وجو در مورد مقدار عنصر <span class="arithmatex">$a[i]$</span>. بیایید مقداری را که باید به تمام عناصر بلاک <span class="arithmatex">$k$</span> اضافه شود در <span class="arithmatex">$b[k]$</span> ذخیره کنیم (در ابتدا تمام <span class="arithmatex">$b[k] = 0$</span> هستند). در طول هر عملیات "اضافه کردن"، باید <span class="arithmatex">$\delta$</span> را به <span class="arithmatex">$b[k]$</span> برای تمام بلاک‌هایی که به بازه <span class="arithmatex">$[l, r]$</span> تعلق دارند اضافه کنیم و <span class="arithmatex">$\delta$</span> را به <span class="arithmatex">$a[i]$</span> برای تمام عناصری که به "دنباله"‌های بازه تعلق دارند، اضافه کنیم. پاسخ به پرس‌وجوی <span class="arithmatex">$i$</span> به سادگی <span class="arithmatex">$a[i] + b[i/s]$</span> است. به این ترتیب، عملیات "اضافه کردن" پیچیدگی <span class="arithmatex">$O(\sqrt{n})$</span> و پاسخ به یک پرس‌وجو پیچیدگی <span class="arithmatex">$O(1)$</span> دارد.</p>
-<p>در نهایت، این دو دسته از مسائل را می‌توان با هم ترکیب کرد اگر مسئله نیازمند انجام <strong>هم</strong> به‌روزرسانی عناصر در یک بازه و <strong>هم</strong> پرس‌وجو در یک بازه باشد. هر دو عملیات را می‌توان با پیچیدگی <span class="arithmatex">$O(\sqrt{n})$</span> انجام داد. این کار به دو آرایه بلاکی <span class="arithmatex">$b$</span> و <span class="arithmatex">$c$</span> نیاز دارد: یکی برای پیگیری به‌روزرسانی عناصر و دیگری برای پیگیری پاسخ‌های پرس‌وجو.</p>
-<p>مسائل دیگری نیز وجود دارند که می‌توان با استفاده از تجزیه جذر حل کرد، به عنوان مثال، مسئله‌ای در مورد نگهداری مجموعه‌ای از اعداد که امکان اضافه/حذف کردن اعداد، بررسی تعلق یک عدد به مجموعه و یافتن <span class="arithmatex">$k$</span>-امین عدد بزرگتر را فراهم می‌کند. برای حل آن، باید اعداد را به ترتیب صعودی ذخیره کرد و به چندین بلاک با <span class="arithmatex">$\sqrt{n}$</span> عدد در هر کدام تقسیم کرد. هر بار که یک عدد اضافه/حذف می‌شود، بلاک‌ها باید با جابجایی اعداد بین ابتدا و انتهای بلاک‌های مجاور، مجدداً متعادل شوند.</p>
+<p>از اون طرف، میشه به جای جمع عناصر، مسئله رو برای پیدا کردن عنصر مینیمم/ماکزیمم توی یه بازه هم استفاده کرد. اگه تو این حالت هم بخوایم آپدیت‌های تکی رو هندل کنیم، آپدیت کردن مقدار <span class="arithmatex">$b[k]$</span> باز هم ممکنه، ولی این دفعه برای پیدا کردن مینیمم/ماکزیمم جدید باید کل عناصر بلاک <span class="arithmatex">$k$</span> رو یه دور از اول تا آخر ببینیم که هزینه‌ش میشه <span class="arithmatex">$O(s) = O(\sqrt{n})$</span>.</p>
+<p>تجزیه جذر رو میشه به همین شکل برای یه عالمه مسئله دیگه هم استفاده کرد: مثلاً پیدا کردن تعداد صفرهای یه بازه، پیدا کردن اولین عنصر غیرصفر، شمردن عناصری که یه شرط خاصی دارن و کلی چیز دیگه.</p>
+<p>یه سری مسائل دیگه هم هستن که توشون باید <strong>عناصر آرایه رو توی یه بازه آپدیت کنیم</strong>: مثلاً به همشون یه مقداری اضافه کنیم یا مقدارشون رو با یه چیز جدید عوض کنیم.</p>
+<p>برای مثال، فرض کن دو جور عملیات داریم: یکی اینکه یه مقدار <span class="arithmatex">$\delta$</span> رو به همه عناصر توی بازه <span class="arithmatex">$[l, r]$</span> اضافه کنیم، و یکی دیگه اینکه مقدار یه عنصر خاص <span class="arithmatex">$a[i]$</span> رو بپرسیم. بیاید برای هر بلاک <span class="arithmatex">$k$</span> یه متغیر <span class="arithmatex">$b[k]$</span> بذاریم که مقداری که باید به کل اون بلاک اضافه بشه رو توش نگه داریم (اولش همه <span class="arithmatex">$b[k]$</span> ها صفرن). حالا هر بار که یه عملیات «اضافه کردن» داریم، <span class="arithmatex">$\delta$</span> رو به <span class="arithmatex">$b[k]$</span> برای همه بلاک‌های وسطی بازه <span class="arithmatex">$[l, r]$</span> اضافه می‌کنیم و برای عناصر توی اون تیکه‌های "دم و سر" هم <span class="arithmatex">$\delta$</span> رو دونه دونه به خود <span class="arithmatex">$a[i]$</span> ها اضافه می‌کنیم. جواب دادن به کوئریِ مقدار <span class="arithmatex">$a[i]$</span> هم خیلی ساده میشه: <span class="arithmatex">$a[i] + b[i/s]$</span>. اینطوری، عملیات «اضافه کردن» <span class="arithmatex">$O(\sqrt{n})$</span> و جواب دادن به کوئری <span class="arithmatex">$O(1)$</span> طول میکشه.</p>
+<p>آخرش هم میشه این دوتا دسته مسئله رو با هم قاطی کرد. یعنی مسائلی که هم <strong>آپدیت روی بازه</strong> دارن و هم <strong>کوئری روی بازه</strong>. هر دوی این عملیات رو میشه با پیچیدگی <span class="arithmatex">$O(\sqrt{n})$</span> انجام داد. برای این کار به دوتا آرایه برای بلاک‌ها نیاز داریم، مثلاً <span class="arithmatex">$b$</span> و <span class="arithmatex">$c$</span>: یکی برای دنبال کردن آپدیت‌ها و اون یکی برای نگه داشتن جواب کوئری‌ها.</p>
+<p>باز هم مسئله‌های دیگه‌ای هستن که با تجزیه جذر حل میشن. مثلاً فرض کن یه مسئله داریم که باید یه مجموعه‌ای از عددها رو نگه داریم و بتونیم بهش عدد اضافه/حذف کنیم، چک کنیم یه عدد توش هست یا نه، و <span class="arithmatex">$k$</span>-امین عدد بزرگتر رو پیدا کنیم. برای حل این، باید عددها رو مرتب‌شده نگه داریم و اون‌ها رو به چندتا بلاک <span class="arithmatex">$\sqrt{n}$</span> تایی تقسیم کنیم. هر بار که یه عدد اضافه یا حذف میشه، باید با جابجا کردن عددها بین اول و آخر بلاک‌های بغل‌دستی، بلاک‌ها رو دوباره بالانس کنیم.</p>
 <h2 id="mos-algorithm">الگوریتم مو (Mo's algorithm)<a class="headerlink" href="#mos-algorithm" title="Permanent link">&para;</a></h2>
-<p>یک ایده مشابه، مبتنی بر تجزیه جذر، می‌تواند برای پاسخ به پرس‌وجوهای بازه‌ای (<span class="arithmatex">$Q$</span>) به صورت آفلاین در <span class="arithmatex">$O((N+Q)\sqrt{N})$</span> استفاده شود.
-این ممکن است بسیار بدتر از روش‌های بخش قبل به نظر برسد، زیرا پیچیدگی آن کمی بدتر از چیزی است که قبلاً داشتیم و نمی‌تواند مقادیر را بین دو پرس‌وجو به‌روزرسانی کند.
-اما در بسیاری از موقعیت‌ها این روش مزایایی دارد.
-در تجزیه جذر معمولی، ما باید پاسخ‌ها را برای هر بلاک پیش‌محاسبه کنیم و در هنگام پاسخ به پرس‌وجوها آنها را ادغام کنیم.
-در برخی مسائل، این مرحله ادغام می‌تواند کاملاً مشکل‌ساز باشد.
-برای مثال، وقتی هر پرس‌وجو می‌خواهد <strong>مد</strong> بازه خود (عددی که بیشترین تکرار را دارد) را پیدا کند.
-برای این کار، هر بلاک باید تعداد هر عدد در خود را در نوعی ساختمان داده ذخیره کند و دیگر نمی‌توانیم مرحله ادغام را به اندازه کافی سریع انجام دهیم.
-<strong>الگوریتم مو</strong> از یک رویکرد کاملاً متفاوت استفاده می‌کند که می‌تواند به این نوع پرس‌وجوها سریع پاسخ دهد، زیرا تنها یک ساختمان داده را نگهداری می‌کند و تنها عملیات با آن آسان و سریع هستند.</p>
-<p>ایده این است که به پرس‌وجوها با ترتیب خاصی بر اساس اندیس‌ها پاسخ دهیم.
-ابتدا به تمام پرس‌وجوهایی که اندیس چپ آنها در بلاک 0 است پاسخ می‌دهیم، سپس به پرس‌وجوهایی که اندیس چپ آنها در بلاک 1 است و به همین ترتیب.
-و همچنین باید به پرس‌وجوهای یک بلاک با ترتیب خاصی پاسخ دهیم، یعنی مرتب شده بر اساس اندیس راست پرس‌وجوها.</p>
-<p>همانطور که گفته شد، از یک ساختمان داده واحد استفاده خواهیم کرد.
-این ساختمان داده اطلاعات مربوط به بازه را ذخیره می‌کند.
-در ابتدا این بازه خالی خواهد بود.
-وقتی می‌خواهیم به پرس‌وجوی بعدی (با ترتیب خاص) پاسخ دهیم، به سادگی بازه را با اضافه/حذف کردن عناصر از دو طرف بازه فعلی، گسترش یا کاهش می‌دهیم تا آن را به بازه پرس‌وجو تبدیل کنیم.
-به این ترتیب، ما فقط نیاز داریم که هر بار یک عنصر را اضافه یا حذف کنیم، که باید عملیات بسیار آسانی در ساختمان داده ما باشند.</p>
-<p>از آنجایی که ما ترتیب پاسخ به پرس‌وجوها را تغییر می‌دهیم، این کار تنها زمانی ممکن است که مجاز به پاسخ به پرس‌وجوها به صورت آفلاین باشیم.</p>
+<p>یه ایده شبیه به همین، که اونم بر پایه تجزیه جذره، برای جواب دادن به کوئری‌های بازه‌ای (<span class="arithmatex">$Q$</span>) به صورت آفلاین (یعنی وقتی همه کوئری‌ها رو از اول داریم) توی زمان <span class="arithmatex">$O((N+Q)\sqrt{N})$</span> استفاده میشه.
+شاید در نگاه اول به نظر بیاد این روش از روش‌های قبلی خیلی بدتره، چون هم پیچیدگی‌ش یه کم بیشتره و هم نمیتونه بین کوئری‌ها مقادیر رو آپدیت کنه.
+ولی این روش تو خیلی از موارد یه سری مزیت‌ها داره.
+توی تجزیه جذر معمولی، ما باید جواب‌ها رو برای هر بلاک از قبل حساب می‌کردیم و بعد موقع جواب دادن به کوئری‌ها، اون‌ها رو با هم ترکیب (merge) می‌کردیم.
+توی بعضی مسئله‌ها، این مرحله ترکیب کردن خیلی دردسر داره.
+مثلاً فرض کن هر کوئری بخواد <strong>مد</strong> (mode) بازه‌ش رو پیدا کنه (یعنی عددی که از همه بیشتر تکرار شده).
+برای این کار، هر بلاک باید تعداد تکرار هر عدد رو توی یه ساختمان داده‌ای چیزی ذخیره کنه و دیگه نمیشه مرحله ترکیب کردن رو سریع انجام داد.
+<strong>الگوریتم مو</strong> از یه راه کاملاً متفاوت استفاده می‌کنه که میتونه به این جور کوئری‌ها سریع جواب بده، چون فقط یه دونه ساختمان داده نگه میداره و عملیات‌هایی که باهاش انجام میشه ساده و سریع هستن.</p>
+<p>ایده‌ش اینه که به کوئری‌ها با یه ترتیب خاصی که به اندیس‌هاشون ربط داره جواب بدیم.
+اول به همه کوئری‌هایی که اندیس چپ‌شون تو بلاک ۰ هست جواب میدیم، بعد اونایی که اندیس چپ‌شون تو بلاک ۱ هست، و همین‌جوری تا آخر.
+تازه، کوئری‌های مربوط به هر بلاک رو هم باید با یه ترتیب خاصی جواب بدیم، یعنی اون‌ها رو بر اساس اندیس راست‌شون مرتب می‌کنیم.</p>
+<p>همونطور که گفتم، از یه ساختمان داده واحد استفاده می‌کنیم.
+این ساختمان داده اطلاعات مربوط به یه بازه رو ذخیره می‌کنه.
+اولش این بازه خالیه.
+وقتی می‌خوایم به کوئری بعدی (با اون ترتیب خاص خودمون) جواب بدیم، خیلی راحت بازه فعلی‌مون رو با اضافه یا حذف کردن عنصر از دو طرفش، بزرگ و کوچیک می‌کنیم تا دقیقاً به بازه اون کوئری برسیم.
+اینطوری، هر بار فقط لازمه یه عنصر رو اضافه یا حذف کنیم، که باید کارهای خیلی ساده‌ای توی ساختمان داده ما باشن.</p>
+<p>چون داریم ترتیب جواب دادن به کوئری‌ها رو عوض می‌کنیم، این روش فقط وقتی جواب میده که اجازه داشته باشیم به کوئری‌ها به صورت آفلاین (offline) جواب بدیم (یعنی همه رو از اول داشته باشیم).</p>
 <h3 id="_5">پیاده‌سازی<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>در الگوریتم مو، ما از دو تابع برای اضافه کردن یک اندیس و حذف یک اندیس از بازه‌ای که در حال حاضر نگهداری می‌کنیم، استفاده می‌کنیم.</p>
+<p>توی الگوریتم مو، ما از دوتا تابع استفاده می‌کنیم: یکی برای اضافه کردن یه اندیس به بازه‌ای که الان داریم، و یکی برای حذف کردنش.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="n">idx</span><span class="p">);</span><span class="w">  </span><span class="c1">// TODO: مقدار در اندیس idx را از ساختمان داده حذف کن</span>
 <span class="kt">void</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">idx</span><span class="p">);</span><span class="w">     </span><span class="c1">// TODO: مقدار در اندیس idx را به ساختمان داده اضافه کن</span>
 <span class="kt">int</span><span class="w"> </span><span class="nf">get_answer</span><span class="p">();</span><span class="w">  </span><span class="c1">// TODO: پاسخ فعلی را از ساختمان داده استخراج کن</span>
@@ -6977,32 +7178,31 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">answers</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>بسته به مسئله، می‌توانیم از یک ساختمان داده متفاوت استفاده کنیم و توابع <code>add</code>/<code>remove</code>/<code>get_answer</code> را متناسب با آن تغییر دهیم.
-برای مثال، اگر از ما خواسته شود که پرس‌وجوهای مجموع بازه‌ای را پیدا کنیم، از یک عدد صحیح ساده به عنوان ساختمان داده استفاده می‌کنیم که در ابتدا <span class="arithmatex">$0$</span> است.
-تابع <code>add</code> به سادگی مقدار موقعیت را اضافه می‌کند و متعاقباً متغیر پاسخ را به‌روز می‌کند.
-از طرف دیگر، تابع <code>remove</code> مقدار در موقعیت را کم می‌کند و متعاقباً متغیر پاسخ را به‌روز می‌کند.
-و <code>get_answer</code> فقط عدد صحیح را برمی‌گرداند.</p>
-<p>برای پاسخ به پرس‌وجوهای مد، می‌توانیم از یک درخت جستجوی دودویی (مثلاً <code>map&lt;int, int&gt;</code>) برای ذخیره تعداد تکرار هر عدد در بازه فعلی، و یک درخت جستجوی دودویی دوم (مثلاً <code>set&lt;pair&lt;int, int&gt;&gt;</code>) برای نگهداری تعداد تکرار اعداد (مثلاً به صورت زوج‌های تعداد-عدد) به ترتیب استفاده کنیم.
-متد <code>add</code> عدد فعلی را از BST دوم حذف می‌کند، تعداد آن را در اولی افزایش می‌دهد، و عدد را دوباره به دومی وارد می‌کند.
-<code>remove</code> نیز همین کار را انجام می‌دهد، فقط تعداد را کاهش می‌دهد.
-و <code>get_answer</code> فقط به درخت دوم نگاه می‌کند و بهترین مقدار را در <span class="arithmatex">$O(1)$</span> برمی‌گرداند.</p>
+<p>بسته به مسئله، می‌تونیم از یه ساختمان داده متفاوت استفاده کنیم و تابع‌های <code>add</code>/<code>remove</code>/<code>get_answer</code> رو براش تنظیم کنیم.
+مثلاً اگه مسئله ازمون بخواد جمع یه بازه رو پیدا کنیم، از یه عدد صحیح ساده به عنوان ساختمان داده استفاده می‌کنیم که اولش <span class="arithmatex">$0$</span> هست.
+تابع <code>add</code> خیلی راحت مقدار اون موقعیت رو بهش اضافه میکنه و جواب رو آپدیت می‌کنه.
+تابع <code>remove</code> هم برعکس، مقدار اون موقعیت رو کم میکنه و باز جواب رو آپدیت می‌کنه.
+و <code>get_answer</code> هم فقط همون عدده رو برمی‌گردونه.</p>
+<p>برای جواب دادن به کوئری‌های مد (پیدا کردن پرتکرارترین عدد)، میتونیم از یه درخت جستجوی دودویی (مثلاً <code>map&lt;int, int&gt;</code>) استفاده کنیم تا تعداد تکرار هر عدد رو توی بازه فعلی نگه داریم، و یه درخت جستجوی دودویی دوم (مثلاً <code>set&lt;pair&lt;int, int&gt;&gt;</code>) هم برای اینکه تعداد تکرار عددها رو (مثلاً به شکل زوج‌های &lt;تعداد, عدد&gt;) به صورت مرتب داشته باشیم.
+متد <code>add</code> میاد عدد فعلی رو از درخت دوم حذف میکنه، تعدادش رو توی درخت اولی زیاد می‌کنه، و دوباره عدد رو با تعداد جدیدش توی درخت دوم وارد می‌کنه.
+<code>remove</code> هم دقیقاً همین کارو میکنه، فقط تعداد رو کم می‌کنه.
+و <code>get_answer</code> هم فقط یه نگاه به درخت دوم میندازه و بهترین مقدار رو توی <span class="arithmatex">$O(1)$</span> بهمون میده.</p>
 <h3 id="_6">پیچیدگی<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>مرتب‌سازی تمام پرس‌وجوها <span class="arithmatex">$O(Q \log Q)$</span> طول می‌کشد.</p>
-<p>در مورد عملیات دیگر چطور؟
-توابع <code>add</code> و <code>remove</code> چند بار فراخوانی خواهند شد؟</p>
-<p>فرض کنید اندازه بلاک <span class="arithmatex">$S$</span> باشد.</p>
-<p>اگر فقط به تمام پرس‌وجوهایی که اندیس چپ آنها در یک بلاک یکسان است نگاه کنیم، پرس‌وجوها بر اساس اندیس راست مرتب شده‌اند.
-بنابراین، ما <code>add(cur_r)</code> و <code>remove(cur_r)</code> را در مجموع برای تمام این پرس‌وجوها فقط <span class="arithmatex">$O(N)$</span> بار فراخوانی می‌کنیم.
-این برای تمام بلاک‌ها <span class="arithmatex">$O(\frac{N}{S} N)$</span> فراخوانی می‌دهد.</p>
-<p>مقدار <code>cur_l</code> می‌تواند بین دو پرس‌وجو حداکثر <span class="arithmatex">$O(S)$</span> تغییر کند.
-بنابراین، ما <span class="arithmatex">$O(S Q)$</span> فراخوانی اضافی از <code>add(cur_l)</code> و <code>remove(cur_l)</code> داریم.</p>
-<p>برای <span class="arithmatex">$S \approx \sqrt{N}$</span>، این در مجموع <span class="arithmatex">$O((N + Q) \sqrt{N})$</span> عملیات می‌دهد.
-بنابراین پیچیدگی <span class="arithmatex">$O((N+Q)F\sqrt{N})$</span> است که <span class="arithmatex">$O(F)$</span> پیچیدگی توابع <code>add</code> و <code>remove</code> است.</p>
+<p>مرتب کردن همه کوئری‌ها <span class="arithmatex">$O(Q \log Q)$</span> زمان می‌بره.</p>
+<p>خب، بقیه عملیات چی؟ تابع‌های <code>add</code> و <code>remove</code> چند بار صدا زده میشن؟</p>
+<p>فرض کنین اندازه بلاک <span class="arithmatex">$S$</span> باشه.</p>
+<p>اگه فقط به کوئری‌هایی نگاه کنیم که اندیس چپ‌شون توی یه بلاک مشخصه، این کوئری‌ها بر اساس اندیس راست‌شون مرتب شدن.
+پس، برای کل این کوئری‌ها، ما روی هم رفته تابع‌های <code>add(cur_r)</code> و <code>remove(cur_r)</code> رو فقط <span class="arithmatex">$O(N)$</span> بار صدا می‌زنیم.
+این برای کل بلاک‌ها میشه <span class="arithmatex">$O(\frac{N}{S} N)$</span> تا فراخوانی.</p>
+<p>مقدار <code>cur_l</code> بین دوتا کوئری پشت سر هم حداکثر <span class="arithmatex">$O(S)$</span> تغییر می‌کنه.
+پس ما <span class="arithmatex">$O(S Q)$</span> تا فراخوانی اضافه برای <code>add(cur_l)</code> و <code>remove(cur_l)</code> داریم.</p>
+<p>اگه <span class="arithmatex">$S \approx \sqrt{N}$</span> رو در نظر بگیریم، در مجموع <span class="arithmatex">$O((N + Q) \sqrt{N})$</span> عملیات خواهیم داشت.
+پس پیچیدگی کل میشه <span class="arithmatex">$O((N+Q)F\sqrt{N})$</span> که اینجا <span class="arithmatex">$O(F)$</span> پیچیدگی تابع‌های <code>add</code> و <code>remove</code> هست.</p>
 <h3 id="_7">نکاتی برای بهبود زمان اجرا<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <ul>
-<li>اندازه بلاک دقیقاً <span class="arithmatex">$\sqrt{N}$</span> همیشه بهترین زمان اجرا را ارائه نمی‌دهد. به عنوان مثال، اگر <span class="arithmatex">$\sqrt{N}=750$</span> باشد، ممکن است اندازه بلاک <span class="arithmatex">$700$</span> یا <span class="arithmatex">$800$</span> بهتر عمل کند.
-    مهم‌تر از آن، اندازه بلاک را در زمان اجرا محاسبه نکنید - آن را <code>const</code> کنید. تقسیم بر ثوابت توسط کامپایلرها به خوبی بهینه می‌شود.</li>
-<li>در بلاک‌های فرد، اندیس راست را به ترتیب صعودی و در بلاک‌های زوج به ترتیب نزولی مرتب کنید. این کار حرکت اشاره‌گر راست را به حداقل می‌رساند، زیرا مرتب‌سازی معمولی در ابتدای هر بلاک، اشاره‌گر راست را از انتها به ابتدا برمی‌گرداند. با نسخه بهبود یافته، این بازنشانی دیگر لازم نیست.</li>
+<li>سایز بلاک دقیقاً <span class="arithmatex">$\sqrt{N}$</span> همیشه بهترین سرعت رو بهت نمیده. مثلاً اگه <span class="arithmatex">$\sqrt{N}=750$</span> باشه، شاید یه سایز بلاک مثل <span class="arithmatex">$700$</span> یا <span class="arithmatex">$800$</span> بهتر کار کنه.
+    مهم‌تر از اون، سایز بلاک رو موقع اجرای برنامه حساب نکن؛ یه مقدار <code>const</code> براش بذار. کامپایلرها تقسیم بر عددهای ثابت رو خیلی خوب بهینه می‌کنن.</li>
+<li>توی بلاک‌های با شماره فرد، کوئری‌ها رو بر اساس اندیس راست‌شون صعودی مرتب کن و توی بلاک‌های زوج، نزولی. این کلک باعث میشه حرکت اون اشاره‌گر راست <code>cur_r</code> کمتر بشه، چون توی مرتب‌سازی معمولی، اول هر بلاک، اشاره‌گر راست مجبوره از ته آرایه برگرده اول. با این نسخه بهینه‌تر، دیگه لازم نیست این اتفاق بیفته.</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="kt">bool</span><span class="w"> </span><span class="nf">cmp</span><span class="p">(</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">BLOCK_SIZE</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">BLOCK_SIZE</span><span class="p">)</span>
@@ -7010,7 +7210,7 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">BLOCK_SIZE</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">second</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">second</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">second</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>می‌توانید در مورد رویکرد مرتب‌سازی حتی سریع‌تر <a href="https://codeforces.com/blog/entry/61203">اینجا</a> بخوانید.</p>
+<p>اگه دوست داری در مورد یه روش مرتب‌سازی حتی سریع‌تر بخونی، یه نگاه به <a href="https://codeforces.com/blog/entry/61203">این لینک</a> بنداز.</p>
 <h2 id="_8">مسائل تمرینی<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://codeforces.com/problemset/problem/433/B">Codeforces - Kuriyama Mirai's Stones</a></li>
@@ -7028,7 +7228,7 @@ Describe the issue of this article in detail.
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (35.08%)</li><li><a href="https://github.com/madhur4127" title="madhur4127" data-bi-name="contributorprofile" target="_blank">madhur4127</a> (27.82%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (24.19%)</li><li><a href="https://github.com/RodionGork" title="RodionGork" data-bi-name="contributorprofile" target="_blank">RodionGork</a> (4.03%)</li><li><a href="https://github.com/Morass" title="Morass" data-bi-name="contributorprofile" target="_blank">Morass</a> (3.23%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (2.82%)</li><li><a href="https://github.com/gampu" title="gampu" data-bi-name="contributorprofile" target="_blank">gampu</a> (1.21%)</li><li><a href="https://github.com/abirc8010" title="abirc8010" data-bi-name="contributorprofile" target="_blank">abirc8010</a> (0.4%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (0.4%)</li><li><a href="https://github.com/meooow25" title="meooow25" data-bi-name="contributorprofile" target="_blank">meooow25</a> (0.4%)</li><li><a href="https://github.com/algmyr" title="algmyr" data-bi-name="contributorprofile" target="_blank">algmyr</a> (0.4%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (34.96%)</li><li><a href="https://github.com/madhur4127" title="madhur4127" data-bi-name="contributorprofile" target="_blank">madhur4127</a> (28.05%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (24.39%)</li><li><a href="https://github.com/RodionGork" title="RodionGork" data-bi-name="contributorprofile" target="_blank">RodionGork</a> (4.07%)</li><li><a href="https://github.com/Morass" title="Morass" data-bi-name="contributorprofile" target="_blank">Morass</a> (3.25%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (2.44%)</li><li><a href="https://github.com/gampu" title="gampu" data-bi-name="contributorprofile" target="_blank">gampu</a> (1.22%)</li><li><a href="https://github.com/abirc8010" title="abirc8010" data-bi-name="contributorprofile" target="_blank">abirc8010</a> (0.41%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (0.41%)</li><li><a href="https://github.com/meooow25" title="meooow25" data-bi-name="contributorprofile" target="_blank">meooow25</a> (0.41%)</li><li><a href="https://github.com/algmyr" title="algmyr" data-bi-name="contributorprofile" target="_blank">algmyr</a> (0.41%)</li></ul>
 </ul>
                 
               </article>
@@ -7083,8 +7283,6 @@ Describe the issue of this article in detail.
         <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
       
         <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
-      
-        <script src="../assets/javascripts/toggle-sidebar.js" async></script>
       
     
   </body>

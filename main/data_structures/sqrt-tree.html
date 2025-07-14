@@ -74,7 +74,209 @@
     
     
     
-  </head>
+  <script>(function() {
+    const customDynamicStyle = document.createElement("style");
+    // We must put it outside of the head and body, since they are replaced by the instant navigation feature in the Material theme
+    document.documentElement.appendChild(customDynamicStyle);
+
+    const TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING = "[mkdocs-toggle-sidebar-plugin] Reference element for inserting 'toggle_button' not found. This version of the plugin may not be compatible with this version of the theme. Try updating both to the latest version. If that fails, you can open an GitHub issue.";
+
+    const loadBool = (name, default_value) => {
+        const value = localStorage.getItem(`TOGGLE_SIDEBAR_${name}`);
+        if (value == null) {
+            return default_value;
+        } else {
+            return value == "1";
+        }
+    }
+
+    const loadNavigationState = () => loadBool("NAVIGATION", true);
+    const loadTocState = () => loadBool("TOC", true);
+
+    const saveBool = (name, value) => {
+        localStorage.setItem(`TOGGLE_SIDEBAR_${name}`, value ? "1" : "0");
+    }
+
+    const toggleVisibility = (toggleNavigation, toggleTOC) => {
+        let newNavigation = loadNavigationState();
+        let newTOC = loadTocState();
+        
+        if (toggleNavigation) {
+            newNavigation = !newNavigation;
+            saveBool("NAVIGATION", newNavigation);
+        }
+        if (toggleTOC) {
+            newTOC = !newTOC;
+            saveBool("TOC", newTOC);
+        }
+        
+        _setVisibility(newNavigation, newTOC);
+    }
+
+    const _setVisibility = (newNavigation, newTOC) => {
+        console.debug(`Setting new visibility: navigation=${newNavigation}, TOC=${newTOC}`);
+        // combine this into one operation, so that it is more efficient (for toggling both) and easier to code with dynamic CSS generation
+        customDynamicStyle.innerHTML = setCombinedVisibility(newNavigation, newTOC);
+    }
+
+    // START OF INCLUDE
+    // This gets replaced with the definitions of: 
+    // - setCombinedVisibility(showNavigation: bool, showTOC: bool) -> string (dynamic CSS)
+    // - registerKeyboardEventHandler() -> void
+    const setCombinedVisibility = (showNavigation, showTOC) => {
+    // Hide the button when on mobile (and menu us shown as hamburger menu anyways).
+    // The exact max-width is taken from the styling of the 'body > header > nav > a' element
+    
+    let style = `
+.mkdocs-toggle-sidebar-button {
+    cursor: pointer;
+    margin-right: 5px;
+    margin-left: 1rem;
+}
+
+@media screen and (max-width: 76.1875em) {
+    .mkdocs-toggle-sidebar-button {
+        display: none;
+    }
+}
+`;
+// The TOC has a different break point than the navigation.
+// It can be seen on the nav.md-nav--secondary:nth-child(1) element (60em)
+// If the screen is smaller, it is shown in the navigation section if you click the nested hamburger menu
+if (!showTOC) {
+    style += `
+@media screen and (min-width: 60em) {
+    div.md-sidebar.md-sidebar--secondary {
+        display: none;
+    }
+}
+`;
+        }
+        
+    // We always have to show the navigation in mobile view, otherwise the hamburger menu is broken
+    if (!showNavigation) {
+        style += `
+@media screen and (min-width: 76.1875em) {
+    div.md-sidebar.md-sidebar--primary {
+        display: none;
+    }
+}
+`;
+    }
+
+    return style;
+}
+
+const addToggleButton = (toggleNavigation, toggleTOC) => {
+    const toggleBtn = createDefaultToggleButton(toggleNavigation, toggleTOC);
+    toggleBtn.classList.add("md-icon");
+  
+    const titleElement = document.querySelector(".md-header__title");
+    if (titleElement) {
+        titleElement.parentNode.insertBefore(toggleBtn, titleElement.nextSibling);  
+    } else {
+        console.warn(TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING);
+    }
+}
+
+const registerKeyboardEventHandler = () => {
+    // Custom key handlers: SEE https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/?h=key+bind#docsjavascriptsshortcutsjs
+    keyboard$.subscribe(key => {
+        if (key.mode === "global") {
+            if (coreEventListenerLogic(key.type)) {
+                // event handled, stop propagation
+                key.claim();
+            }
+        }
+    });
+}
+
+    // END OF INCLUDE
+
+    // argument: string, returns true if the key was handled and the event should be marked as already handled
+    const coreEventListenerLogic = (keyChar) => {
+        if (keyChar === "t") {
+            toggleVisibility(false, true);
+            return true;
+        } else if (keyChar === "m") {
+            toggleVisibility(true, false);
+            return true;
+        } else if (keyChar === "b") {
+            toggleVisibility(true, true);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const onPageLoadedAction = () => {
+        console.log("The mkdocs-toggle-sidebar-plugin is installed. It adds the following key bindings:\n T -> toggle table of contents sidebar\n M -> toggle navigation menu sidebar\n B -> toggle both sidebars (TOC and navigation)");
+
+        const toggle_button = "all";
+        if (toggle_button == "none") {
+            // do nothing
+        } else if (toggle_button == "navigation") {
+            addToggleButton(true, false);
+        } else if (toggle_button == "toc") {
+            addToggleButton(false, true);
+        } else if (toggle_button == "all") {
+            addToggleButton(true, true);
+        } else {
+            console.error(`[mkdocs-toggle-sidebar-plugin] Unknown value for toggle_button: '${toggleButtonType}'`);
+        }
+
+        registerKeyboardEventHandler();
+    }
+
+    const createDefaultToggleButton = (toggleNavigation, toggleTOC) => {
+        const toggleBtn = document.createElement("div");
+        toggleBtn.className = "mkdocs-toggle-sidebar-button";
+        toggleBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>`;
+        if (toggleNavigation && toggleTOC) {
+            toggleBtn.title = "Toggle Navigation and Table of Contents";
+        } else if (toggleNavigation) {
+            toggleBtn.title = "Toggle Navigation";
+        } else if (toggleTOC) {
+            toggleBtn.title = "Toggle Table of Contents";
+        }
+        toggleBtn.addEventListener("click", () => toggleVisibility(toggleNavigation, toggleTOC));
+        return toggleBtn;
+    };
+
+    // Export functions that the user can call to modify the state
+    window.MkdocsToggleSidebarPlugin = {
+        setNavigationVisibility: (show) => {
+            saveBool("NAVIGATION", show);
+            _setVisibility(show, loadTocState());
+        },
+        setTocVisibility: (show) => {
+            saveBool("TOC", show);
+            _setVisibility(loadNavigationState(), show);
+        },
+        setAllVisibility: (showNavigation, showTOC) => {
+            saveBool("NAVIGATION", showNavigation);
+            saveBool("TOC", showTOC);
+            _setVisibility(showNavigation, showTOC);
+        },
+        toggleNavigationVisibility: () => toggleVisibility(true, false),
+        toggleTocVisibility: () => toggleVisibility(false, true),
+        toggleAllVisibility: () => toggleVisibility(true, true)
+    };
+
+    // Run this immediately instead of waiting for page.onload to prevent page flicker
+    customDynamicStyle.innerHTML = setCombinedVisibility(loadNavigationState(), loadTocState());
+    // console.log("Debug: hide sidebar completed");
+
+    // SEE https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#checking_whether_loading_is_already_complete
+    if (document.readyState === "loading") {
+        // console.debug("Registering DOMContentLoaded event listener");
+        document.addEventListener("DOMContentLoaded", onPageLoadedAction);
+    } else {
+        // console.debug("DOMContentLoaded has already fired");
+        onPageLoadedAction();
+    }
+}());
+</script></head>
   
   
     
@@ -1794,26 +1996,17 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      توضیحات
+      داستان از چه قراره؟
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="توضیحات">
+    <nav class="md-nav" aria-label="داستان از چه قراره؟">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sqrt-decomposition" class="md-nav__link">
-    <span class="md-ellipsis">
-      ساخت تجزیه رادیکالی (sqrt decomposition)
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      ساختن یک درخت
+      اول از همه: یه تجزیه رادیکالی ساده
     </span>
   </a>
   
@@ -1822,7 +2015,16 @@
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      بهینه‌سازی پیچیدگی پرس‌وجو
+      تبدیل به درخت
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o1" class="md-nav__link">
+    <span class="md-ellipsis">
+      بهینه‌سازی کوئری و رسوندنش به $O(1)$
     </span>
   </a>
   
@@ -1856,7 +2058,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      رویکرد ساده‌لوحانه
+      رویکرد ساده و اولیه
     </span>
   </a>
   
@@ -1865,7 +2067,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      یک درخت رادیکالی درون درخت رادیکالی
+      یه درخت رادیکالی تو دل یه درخت رادیکالی دیگه!
     </span>
   </a>
   
@@ -1877,17 +2079,17 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#range-update" class="md-nav__link">
     <span class="md-ellipsis">
-      به‌روزرسانی یک قطعه
+      آپدیت کردن یک بازه (Range Update)
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="به‌روزرسانی یک قطعه">
+    <nav class="md-nav" aria-label="آپدیت کردن یک بازه (Range Update)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       رویکرد اول
     </span>
@@ -1896,7 +2098,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
+  <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
       رویکرد دوم
     </span>
@@ -1915,7 +2117,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       پیاده‌سازی
     </span>
@@ -1924,7 +2126,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
+  <a href="#_11" class="md-nav__link">
     <span class="md-ellipsis">
       مسائل
     </span>
@@ -6741,7 +6943,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="14 ژوئیهٔ 2025 20:15:25 UTC">14 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6768,151 +6970,154 @@ Describe the issue of this article in detail.
 
 
 <h1 id="sqrt-tree">درخت رادیکالی (Sqrt Tree)<a class="headerlink" href="#sqrt-tree" title="Permanent link">&para;</a></h1>
-<p>آرایه <span class="arithmatex">$a$</span> با <span class="arithmatex">$n$</span> عنصر و عملگر <span class="arithmatex">$\circ$</span> با خاصیت شرکت‌پذیری داده شده است: برای هر <span class="arithmatex">$x$</span>، <span class="arithmatex">$y$</span> و <span class="arithmatex">$z$</span>، رابطه <span class="arithmatex">$(x \circ y) \circ z = x \circ (y \circ z)$</span> برقرار است.</p>
-<p>بنابراین، عملگرهایی مانند <span class="arithmatex">$\gcd$</span>، <span class="arithmatex">$\min$</span>، <span class="arithmatex">$\max$</span>، <span class="arithmatex">$+$</span>، <span class="arithmatex">$\text{and}$</span>، <span class="arithmatex">$\text{or}$</span>، <span class="arithmatex">$\text{xor}$</span> و غیره این شرایط را برآورده می‌کنند.</p>
-<p>همچنین تعدادی پرس‌وجو به شکل <span class="arithmatex">$q(l, r)$</span> داریم. برای هر پرس‌وجو، باید حاصل <span class="arithmatex">$a_l \circ a_{l+1} \circ \dots \circ a_r$</span> را محاسبه کنیم.</p>
-<p>درخت رادیکالی (Sqrt Tree) می‌تواند چنین پرس‌وجوهایی را در زمان <span class="arithmatex">$O(1)$</span> با پیش‌پردازش و حافظه <span class="arithmatex">$O(n \cdot \log \log n)$</span> پاسخ دهد.</p>
-<h2 id="_1">توضیحات<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="sqrt-decomposition">ساخت تجزیه رادیکالی (sqrt decomposition)<a class="headerlink" href="#sqrt-decomposition" title="Permanent link">&para;</a></h3>
-<p>بیایید یک <a href="sqrt_decomposition.html">تجزیه رادیکالی</a> بسازیم. آرایه خود را به <span class="arithmatex">$\sqrt{n}$</span> بلاک تقسیم می‌کنیم که هر بلاک اندازه‌ای برابر با <span class="arithmatex">$\sqrt{n}$</span> دارد. برای هر بلاک، موارد زیر را محاسبه می‌کنیم:</p>
+<p>خب رفیق، فرض کن یه آرایه <span class="arithmatex">$a$</span> با <span class="arithmatex">$n$</span> تا عضو داریم و یه عملگر <span class="arithmatex">$\circ$</span> که خاصیت <strong>شرکت‌پذیری</strong> داره. خاصیت شرکت‌پذیری یعنی چی؟ یعنی فرقی نمی‌کنه اول کدوم دوتا رو با هم حساب کنی. مثلاً برای هر <span class="arithmatex">$x$</span>, <span class="arithmatex">$y$</span> و <span class="arithmatex">$z$</span>، این رابطه همیشه درسته: <span class="arithmatex">$(x \circ y) \circ z = x \circ (y \circ z)$</span>.</p>
+<p>خیلی از عملگرهایی که می‌شناسیم اینجوری‌ان. مثلاً <span class="arithmatex">$\gcd$</span> (ب.م.م)، <span class="arithmatex">$\min$</span>، <span class="arithmatex">$\max$</span>، جمع (+)، <code>and</code>، <code>or</code> و <code>xor</code> همشون این خاصیت رو دارن.</p>
+<p>حالا مسئله اینه: یه سری کوئری یا پرس‌وجو به شکل <span class="arithmatex">$q(l, r)$</span> بهمون میدن. برای هر کوئری، باید نتیجه‌ی <span class="arithmatex">$a_l \circ a_{l+1} \circ \dots \circ a_r$</span> رو حساب کنیم.</p>
+<p>اینجاست که «درخت رادیکالی» یا Sqrt Tree وارد میدون میشه. این ساختار داده می‌تونه این کوئری‌ها رو توی زمان ثابت <span class="arithmatex">$O(1)$</span> جواب بده! البته قبلش به یه پیش‌پردازش و حافظه‌ی <span class="arithmatex">$O(n \cdot \log \log n)$</span> نیاز داره.</p>
+<h2 id="_1">داستان از چه قراره؟<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="_2">اول از همه: یه تجزیه رادیکالی ساده<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>اول بیا یه <a href="sqrt_decomposition.html">تجزیه رادیکالی</a> (یا همون sqrt decomposition) بسازیم. کل آرایه رو به <span class="arithmatex">$\sqrt{n}$</span> تا بلاک تقسیم می‌کنیم، که هر بلاک هم اندازه‌اش <span class="arithmatex">$\sqrt{n}$</span> میشه. برای هر بلاک، این موارد رو پیش‌محاسبه می‌کنیم:</p>
 <ol>
-<li>پاسخ پرس‌وجوهایی که در بلاک قرار دارند و از ابتدای بلاک شروع می‌شوند (<span class="arithmatex">$\text{prefixOp}$</span>)</li>
-<li>پاسخ پرس‌وجوهایی که در بلاک قرار دارند و در انتهای بلاک تمام می‌شوند (<span class="arithmatex">$\text{suffixOp}$</span>)</li>
+<li>جواب کوئری‌هایی که داخل خود بلاک هستن و از اول بلاک شروع میشن (<code>prefixOp</code>).</li>
+<li>جواب کوئری‌هایی که داخل خود بلاک هستن و به آخر بلاک ختم میشن (<code>suffixOp</code>).</li>
 </ol>
-<p>و یک آرایه اضافی محاسبه می‌کنیم:</p>
+<p>و یه آرایه کمکی دیگه هم حساب می‌کنیم:</p>
 <ol>
-<li><span class="arithmatex">$\text{between}_{i, j}$</span> (برای <span class="arithmatex">$i \le j$</span>) - پاسخ پرس‌وجویی که از ابتدای بلاک <span class="arithmatex">$i$</span> شروع شده و در انتهای بلاک <span class="arithmatex">$j$</span> تمام می‌شود. توجه کنید که <span class="arithmatex">$\sqrt{n}$</span> بلاک داریم، پس اندازه این آرایه <span class="arithmatex">$O(\sqrt{n}^2) = O(n)$</span> خواهد بود.</li>
+<li><code>between_i,j</code> (برای حالت <span class="arithmatex">$i \le j$</span>): اینم جواب کوئری‌ایه که از اول بلاک <span class="arithmatex">$i$</span> شروع میشه و تا آخر بلاک <span class="arithmatex">$j$</span> ادامه داره. یادت باشه که <span class="arithmatex">$\sqrt{n}$</span> تا بلاک داریم، پس سایز این آرایه میشه <span class="arithmatex">$O(\sqrt{n}^2) = O(n)$</span>.</li>
 </ol>
-<p>بیایید مثال را ببینیم.</p>
-<p>برای مثال، فرض کنید عملگر <span class="arithmatex">$\circ$</span> همان <span class="arithmatex">$+$</span> باشد (جمع روی یک قطعه را محاسبه می‌کنیم) و آرایه <span class="arithmatex">$a$</span> به صورت زیر باشد:</p>
+<p>بزن بریم یه مثال ببینیم که جا بیفته.</p>
+<p>فرض کن عملگر <span class="arithmatex">$\circ$</span> همون جمع (+) باشه (یعنی جمع اعضای یه بازه رو حساب می‌کنیم) و آرایه <span class="arithmatex">$a$</span> این شکلی باشه:</p>
 <p><code>{1, 2, 3, 4, 5, 6, 7, 8, 9}</code></p>
-<p>این آرایه به سه بلاک تقسیم می‌شود: <code>{1, 2, 3}</code>، <code>{4, 5, 6}</code> و <code>{7, 8, 9}</code>.</p>
-<p>برای بلاک اول، <span class="arithmatex">$\text{prefixOp}$</span> برابر با <code>{1, 3, 6}</code> و <span class="arithmatex">$\text{suffixOp}$</span> برابر با <code>{6, 5, 3}</code> است.</p>
-<p>برای بلاک دوم، <span class="arithmatex">$\text{prefixOp}$</span> برابر با <code>{4, 9, 15}</code> و <span class="arithmatex">$\text{suffixOp}$</span> برابر با <code>{15, 11, 6}</code> است.</p>
-<p>برای بلاک سوم، <span class="arithmatex">$\text{prefixOp}$</span> برابر با <code>{7, 15, 24}</code> و <span class="arithmatex">$\text{suffixOp}$</span> برابر با <code>{24, 17, 9}</code> است.</p>
-<p>آرایه <span class="arithmatex">$\text{between}$</span> به این صورت است:</p>
+<p>این آرایه به سه تا بلاک تقسیم میشه: <code>{1, 2, 3}</code>، <code>{4, 5, 6}</code> و <code>{7, 8, 9}</code>.</p>
+<p>برای بلاک اول، <code>prefixOp</code> میشه <code>{1, 3, 6}</code> و <code>suffixOp</code> میشه <code>{6, 5, 3}</code>.</p>
+<p>برای بلاک دوم، <code>prefixOp</code> میشه <code>{4, 9, 15}</code> و <code>suffixOp</code> میشه <code>{15, 11, 6}</code>.</p>
+<p>برای بلاک سوم، <code>prefixOp</code> میشه <code>{7, 15, 24}</code> و <code>suffixOp</code> میشه <code>{24, 17, 9}</code>.</p>
+<p>آرایه <code>between</code> هم این شکلی در میاد:</p>
 <div class="highlight"><pre><span></span><code>{
     {6, 21, 45},
     {0, 15, 39},
     {0, 0,  24}
 }
 </code></pre></div>
-<p>(فرض می‌کنیم که عناصر نامعتبر که در آن‌ها <span class="arithmatex">$i &gt; j$</span> است با صفر پر شده‌اند)</p>
-<p>واضح است که این آرایه‌ها را می‌توان به راحتی در زمان و حافظه <span class="arithmatex">$O(n)$</span> محاسبه کرد.</p>
-<p>با استفاده از این آرایه‌ها، از هم‌اکنون می‌توانیم به برخی پرس‌وجوها پاسخ دهیم. اگر پرس‌وجو در یک بلاک نگنجد، می‌توانیم آن را به سه بخش تقسیم کنیم: پسوند یک بلاک، سپس یک قطعه از بلاک‌های متوالی و در نهایت پیشوند یک بلاک. می‌توانیم با تقسیم پرس‌وجو به این سه بخش و اعمال عملگرمان روی مقداری از <span class="arithmatex">$\text{suffixOp}$</span>، سپس مقداری از <span class="arithmatex">$\text{between}$</span> و در نهایت مقداری از <span class="arithmatex">$\text{prefixOp}$</span>، به آن پاسخ دهیم.</p>
-<p>اما اگر پرس‌وجوهایی داشته باشیم که به طور کامل در یک بلاک قرار می‌گیرند، نمی‌توانیم با استفاده از این سه آرایه به آنها پاسخ دهیم. بنابراین، باید کار دیگری انجام دهیم.</p>
-<h3 id="_2">ساختن یک درخت<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>ما فقط نمی‌توانیم به پرس‌وجوهایی که کاملاً در یک بلاک قرار می‌گیرند پاسخ دهیم. اما چه می‌شود <strong>اگر همین ساختار توصیف شده در بالا را برای هر بلاک بسازیم؟</strong> بله، می‌توانیم این کار را انجام دهیم. و این کار را به صورت بازگشتی انجام می‌دهیم تا به بلاک‌هایی با اندازه <span class="arithmatex">$1$</span> یا <span class="arithmatex">$۲$</span> برسیم. پاسخ برای چنین بلاک‌هایی را می‌توان به راحتی در <span class="arithmatex">$O(1)$</span> محاسبه کرد.</p>
-<p>بنابراین، یک درخت به دست می‌آوریم. هر گره از این درخت نمایانگر یک قطعه از آرایه است. گره‌ای که یک قطعه از آرایه با اندازه <span class="arithmatex">$k$</span> را نشان می‌دهد، <span class="arithmatex">$\sqrt{k}$</span> فرزند دارد -- برای هر بلاک. همچنین هر گره شامل سه آرایه توصیف شده برای قطعه‌ای است که در بر می‌گیرد. ریشه درخت کل آرایه را نشان می‌دهد. گره‌هایی با طول قطعه <span class="arithmatex">$1$</span> یا <span class="arithmatex">$۲$</span> برگ هستند.</p>
-<p>همچنین واضح است که ارتفاع این درخت <span class="arithmatex">$O(\log \log n)$</span> است، زیرا اگر یک رأس از درخت آرایه‌ای به طول <span class="arithmatex">$k$</span> را نشان دهد، فرزندان آن طولی برابر با <span class="arithmatex">$\sqrt{k}$</span> خواهند داشت. <span class="arithmatex">$\log(\sqrt{k}) = \frac{\log{k}}{2}$</span>، بنابراین <span class="arithmatex">$\log k$</span> در هر لایه از درخت نصف می‌شود و در نتیجه ارتفاع آن <span class="arithmatex">$O(\log \log n)$</span> است. زمان ساخت و حافظه مورد نیاز <span class="arithmatex">$O(n \cdot \log \log n)$</span> خواهد بود، زیرا هر عنصر از آرایه دقیقاً یک بار در هر لایه از درخت ظاهر می‌شود.</p>
-<p>اکنون می‌توانیم به پرس‌وجوها در <span class="arithmatex">$O(\log \log n)$</span> پاسخ دهیم. می‌توانیم در درخت به پایین حرکت کنیم تا به قطعه‌ای با طول <span class="arithmatex">$1$</span> یا <span class="arithmatex">$۲$</span> برسیم (پاسخ برای آن در زمان <span class="arithmatex">$O(1)$</span> قابل محاسبه است) یا به اولین قطعه‌ای برسیم که پرس‌وجوی ما به طور کامل در یک بلاک آن قرار نمی‌گیرد. برای نحوه پاسخ به پرس‌وجو در این حالت، به بخش اول مراجعه کنید.</p>
-<p>خوب، اکنون می‌توانیم هر پرس‌وجو را در <span class="arithmatex">$O(\log \log n)$</span> انجام دهیم. آیا می‌توان سریع‌تر این کار را کرد؟</p>
-<h3 id="_3">بهینه‌سازی پیچیدگی پرس‌وجو<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p>یکی از واضح‌ترین بهینه‌سازی‌ها، جستجوی دودویی برای یافتن گره درختی است که به آن نیاز داریم. با استفاده از جستجوی دودویی، می‌توانیم به پیچیدگی <span class="arithmatex">$O(\log \log \log n)$</span> برای هر پرس‌وجو برسیم. آیا می‌توانیم حتی سریع‌تر عمل کنیم؟</p>
-<p>پاسخ مثبت است. بیایید دو فرض زیر را در نظر بگیریم:</p>
+<p>(فرض کردیم که عنصرهای نامعتبر که توشون <span class="arithmatex">$i &gt; j$</span> هست رو با صفر پر کردیم)</p>
+<p>حساب کردن این آرایه‌ها کار سختی نیست و راحت توی زمان و حافظه <span class="arithmatex">$O(n)$</span> جمع میشه.</p>
+<p>با همین چیزایی که تا الان ساختیم، می‌تونیم یه سری از کوئری‌ها رو جواب بدیم. اگه یه کوئری توی یه بلاک جا نشه، میتونیم اون رو به سه تیکه بشکنیم: یه تیکه پسوندی از یه بلاک، یه تیکه که شامل چندتا بلاک کامل وسطه، و یه تیکه پیشوندی از یه بلاک دیگه. جواب نهایی هم میشه ترکیب جواب این سه تیکه: یعنی یه مقدار از <code>suffixOp</code> رو با یه مقدار از <code>between</code> و بعد با یه مقدار از <code>prefixOp</code> با عملگرمون ترکیب می‌کنیم و تمام.</p>
+<p>اما یه مشکل داریم: اگه یه کوئری کلاً داخل <em>یک</em> بلاک بیفته چی؟ این آرایه‌ها به دردمون نمی‌خورن. پس باید یه فکر دیگه بکنیم.</p>
+<h3 id="_3">تبدیل به درخت<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>مشکل ما فقط با کوئری‌هاییه که کاملاً توی یه بلاک جا میشن. حالا اینجا یه ایده خفن مطرح میشه: چی میشه اگه <strong>همین ساختاری که گفتیم رو برای <em>هر بلاک</em> هم به صورت جداگونه بسازیم؟</strong></p>
+<p>آره! می‌تونیم این کار رو بکنیم. و این کار رو بازگشتی ادامه می‌دیم تا برسیم به بلاک‌هایی که اندازه‌شون ۱ یا ۲ هست. جواب کوئری برای این بلاک‌های کوچولو رو میشه خیلی راحت تو زمان <span class="arithmatex">$O(1)$</span> حساب کرد.</p>
+<p>پس اینجوری یه درخت درست می‌کنیم. هر گره (node) تو این درخت، نماینده یه تیکه از آرایه‌ است. گره‌ای که یه بازه به طول <span class="arithmatex">$k$</span> رو نشون میده، <span class="arithmatex">$\sqrt{k}$</span> تا بچه داره – یعنی به ازای هر بلاکش یه بچه. هر گره همون سه تا آرایه‌ای که گفتیم (<code>prefixOp</code>، <code>suffixOp</code> و <code>between</code>) رو برای تیکه خودش نگه می‌داره. ریشه درخت هم کل آرایه رو نشون میده. گره‌هایی که طول بازه‌شون ۱ یا ۲ هست، برگ‌های درخت حساب میشن.</p>
+<p>یه نکته جالب دیگه اینه که ارتفاع این درخت میشه <span class="arithmatex">$O(\log \log n)$</span>. چرا؟ چون اگه یه گره، آرایه‌ای به طول <span class="arithmatex">$k$</span> داشته باشه، بچه‌هاش طولشون میشه <span class="arithmatex">$\sqrt{k}$</span>. لگاریتم <span class="arithmatex">$\sqrt{k}$</span> میشه نصف لگاریتم <span class="arithmatex">$k$</span> (<span class="arithmatex">$\log(\sqrt{k}) = \frac{\log{k}}{2}$</span>). پس تو هر لایه از درخت که پایین میریم، لگاریتم اندازه نصف میشه، و در نتیجه ارتفاع کل درخت میشه <span class="arithmatex">$O(\log \log n)$</span>. زمان ساخت و حافظه‌ی مورد نیاز هم میشه <span class="arithmatex">$O(n \cdot \log \log n)$</span>، چون هر عنصر آرایه دقیقاً یک بار توی هر سطح از درخت ظاهر میشه.</p>
+<p>حالا با این ساختار درختی می‌تونیم کوئری‌ها رو تو <span class="arithmatex">$O(\log \log n)$</span> جواب بدیم. کافیه تو درخت بیایم پایین تا یا به یه بازه با طول ۱ یا ۲ برسیم (که جوابش <span class="arithmatex">$O(1)$</span> هست)، یا به اولین گره‌ای برسیم که کوئری ما کاملاً داخل <em>یکی</em> از بلاک‌هاش قرار <em>نمی‌گیره</em>. اینکه تو این حالت چطوری جواب بدیم رو هم که تو بخش اول دیدیم.</p>
+<p>خب، حالا می‌تونیم از این هم سریع‌تر باشیم؟</p>
+<h3 id="o1">بهینه‌سازی کوئری و رسوندنش به <span class="arithmatex">$O(1)$</span><a class="headerlink" href="#o1" title="Permanent link">&para;</a></h3>
+<p>یه راه بهینه‌سازی واضح اینه که برای پیدا کردن گره‌ای که لازمش داریم، با باینری سرچ تو لایه‌های درخت بگردیم. این کار پیچیدگی کوئری رو به <span class="arithmatex">$O(\log \log \log n)$</span> میرسونه. ولی بازم جا برای بهتر شدن هست؟</p>
+<p>معلومه که هست! بیا این دو تا فرض رو در نظر بگیریم:</p>
 <ol>
-<li>اندازه هر بلاک توانی از دو است.</li>
-<li>تمام بلاک‌ها در هر لایه برابر هستند.</li>
+<li>اندازه هر بلاک یه عدد توانی از ۲ باشه.</li>
+<li>همه بلاک‌ها توی یه لایه مشخص، هم‌اندازه باشن.</li>
 </ol>
-<p>برای رسیدن به این هدف، می‌توانیم تعدادی عنصر صفر به آرایه خود اضافه کنیم تا اندازه آن به توانی از دو تبدیل شود.</p>
-<p>وقتی از این روش استفاده می‌کنیم، اندازه برخی بلاک‌ها ممکن است برای تبدیل شدن به توانی از دو، دو برابر بزرگتر شوند، اما همچنان اندازه آنها <span class="arithmatex">$O(\sqrt{k})$</span> باقی می‌ماند و ما پیچیدگی خطی را برای ساخت آرایه‌ها در یک قطعه حفظ می‌کنیم.</p>
-<p>اکنون، می‌توانیم به راحتی بررسی کنیم که آیا پرس‌وجو به طور کامل در یک بلاک با اندازه <span class="arithmatex">$2^k$</span> قرار می‌گیرد یا خیر. بیایید بازه پرس‌وجو، یعنی <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> (با اندیس‌گذاری از صفر) را به صورت دودویی بنویسیم. برای نمونه، فرض کنید <span class="arithmatex">$k=4, l=39, r=46$</span>. نمایش دودویی <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> به این صورت است:</p>
+<p>برای اینکه به این دو تا شرط برسیم، می‌تونیم آخر آرایه‌مون یه سری عنصر بی‌اثر (identity element) اضافه کنیم تا طولش به نزدیک‌ترین عدد توانی از ۲ برسه.</p>
+<p>وقتی این کار رو می‌کنیم، ممکنه اندازه بعضی بلاک‌ها برای اینکه به توان ۲ برسن تا دو برابر بزرگتر شن، ولی هنوز اندازه‌شون از مرتبه <span class="arithmatex">$O(\sqrt{k})$</span> باقی می‌مونه و پیچیدگی خطی ساختن آرایه‌ها توی هر تیکه حفظ میشه.</p>
+<p>حالا با این شرایط، خیلی راحت می‌تونیم چک کنیم که آیا یه کوئری کامل توی یه بلاک با اندازه <span class="arithmatex">$2^k$</span> جا میشه یا نه. بیا شروع و پایان بازه کوئری، یعنی <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> رو (با اندیس‌گذاری از صفر) به صورت باینری بنویسیم. مثلاً فرض کن <span class="arithmatex">$k=4, l=39, r=46$</span>. نمایش باینری <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> اینطوریه:</p>
 <p><span class="arithmatex">$l = 39_{10} = 100111_2$</span></p>
 <p><span class="arithmatex">$r = 46_{10} = 101110_2$</span></p>
-<p>به یاد داشته باشید که یک لایه شامل قطعه‌هایی با اندازه برابر است و بلاک‌ها در یک لایه نیز اندازه برابری دارند (در مثال ما، اندازه آنها <span class="arithmatex">$2^k = 2^4 = 16$</span> است). بلاک‌ها کل آرایه را پوشش می‌دهند، بنابراین بلاک اول عناصر <span class="arithmatex">$(0 - 15)$</span> (در نمایش دودویی <span class="arithmatex">$000000_2 - 001111_2$</span>) را پوشش می‌دهد، بلاک دوم عناصر <span class="arithmatex">$(16 - 31)$</span> (در نمایش دودویی <span class="arithmatex">$010000_2 - 011111_2$</span>) و به همین ترتیب. می‌بینیم که اندیس‌های موقعیت‌هایی که توسط یک بلاک پوشش داده می‌شوند، ممکن است فقط در <span class="arithmatex">$k$</span> بیت آخر (در مثال ما، ۴ بیت) متفاوت باشند. در مورد ما، <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> به جز چهار بیت کم‌ارزش، بیت‌های برابری دارند، بنابراین در یک بلاک قرار می‌گیرند.</p>
-<p>بنابراین، باید بررسی کنیم که آیا تفاوت آنها در بیش از <span class="arithmatex">$k$</span> بیت کم‌ارزش نیست (یا به عبارتی <span class="arithmatex">$l\ \text{xor}\ r$</span> از <span class="arithmatex">$2^k-1$</span> تجاوز نمی‌کند).</p>
-<p>با استفاده از این مشاهده، می‌توانیم لایه‌ای را پیدا کنیم که برای پاسخ سریع به پرس‌وجو مناسب باشد. روش انجام این کار به شرح زیر است:</p>
+<p>یادت باشه که یه لایه شامل تیکه‌هایی با اندازه برابره و بلاک‌های توی اون لایه هم هم‌اندازه‌ان (تو مثال ما، اندازه‌شون <span class="arithmatex">$2^k = 2^4 = 16$</span> هست). این بلاک‌ها کل آرایه رو می‌پوشونن، پس بلاک اول خونه‌های <span class="arithmatex">$(0 - 15)$</span> (به باینری <span class="arithmatex">$000000_2 - 001111_2$</span>)، بلاک دوم خونه‌های <span class="arithmatex">$(16 - 31)$</span> (به باینری <span class="arithmatex">$010000_2 - 011111_2$</span>) و... رو پوشش میدن. می‌بینی که اندیس‌های خونه‌هایی که توی یه بلاک قرار دارن، فقط تو <span class="arithmatex">$k$</span> بیت کم‌ارزششون (اینجا ۴ بیت) با هم فرق دارن. تو مثال ما، بیت‌های <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> به جز ۴ بیت آخرشون، یکی هستن. این یعنی هر دوتاشون توی یه بلاک قرار می‌گیرن.</p>
+<p>پس کلک کار اینجاست: فقط کافیه چک کنیم که بیت‌های بالاتر از <span class="arithmatex">$k$</span> بیت کم‌ارزش توی <span class="arithmatex">$l$</span> و <span class="arithmatex">$r$</span> یکی باشن (یا به عبارت دیگه، <span class="arithmatex">$l \ \text{xor}\ r$</span> از <span class="arithmatex">$2^k-1$</span> بزرگتر نباشه).</p>
+<p>با این ترفند، می‌تونیم دقیقاً لایه‌ای از درخت رو پیدا کنیم که برای جواب دادن سریع به کوئری ما مناسبه. روش کار اینه:</p>
 <ol>
 <li>
-<p>برای هر <span class="arithmatex">$i$</span> که از اندازه آرایه بزرگتر نیست، پرارزش‌ترین بیتی که برابر با ۱ است را پیدا می‌کنیم. برای انجام سریع این کار، از DP و یک آرایه پیش‌محاسبه شده استفاده می‌کنیم.</p>
+<p>برای هر عدد <span class="arithmatex">$i$</span> (تا سقف اندازه آرایه)، موقعیت پرارزش‌ترین بیت (most significant bit) یکِ اون رو پیدا می‌کنیم. برای اینکه این کار سریع انجام بشه، از یه آرایه پیش‌محاسبه شده و DP استفاده می‌کنیم.</p>
 </li>
 <li>
-<p>اکنون، برای هر <span class="arithmatex">$q(l, r)$</span>، پرارزش‌ترین بیت <span class="arithmatex">$l\ \text{xor}\ r$</span> را پیدا می‌کنیم و با استفاده از این اطلاعات، به راحتی می‌توان لایه‌ای را انتخاب کرد که بتوانیم پرس‌وجو را به سادگی در آن پردازش کنیم. در اینجا نیز می‌توانیم از یک آرایه پیش‌محاسبه شده استفاده کنیم.</p>
+<p>حالا برای هر کوئری <span class="arithmatex">$q(l, r)$</span>، پرارزش‌ترین بیتِ <span class="arithmatex">$l \ \text{xor}\ r$</span> رو پیدا می‌کنیم. با استفاده از این مقدار، خیلی راحت لایه‌ی مناسب درخت رو برای پردازش کوئری پیدا می‌کنیم. اینجا هم می‌تونیم از یه آرایه پیش‌محاسبه شده کمک بگیریم.</p>
 </li>
 </ol>
-<p>برای جزئیات بیشتر، کد زیر را ببینید.</p>
-<p>بنابراین، با استفاده از این روش، می‌توانیم به هر پرس‌وجو در زمان <span class="arithmatex">$O(1)$</span> پاسخ دهیم. هورا! :)</p>
+<p>برای جزئیات بیشتر، یه نگاه به کد پایین بنداز.</p>
+<p>و اینطوری، با این کلک، می‌تونیم هر کوئری رو تو زمان <span class="arithmatex">$O(1)$</span> جواب بدیم. خودشه! :)</p>
 <h2 id="_4">به‌روزرسانی عناصر<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>همچنین می‌توانیم عناصر را در درخت رادیکالی به‌روزرسانی کنیم. هم به‌روزرسانی یک عنصر و هم به‌روزرسانی روی یک قطعه پشتیبانی می‌شود.</p>
+<p>درخت رادیکالی انقدر باحاله که آپدیت کردن عناصر رو هم پشتیبانی می‌کنه. میشه هم یه عنصر تکی رو آپدیت کرد، هم یه بازه از عناصر رو.</p>
 <h3 id="_5">به‌روزرسانی یک عنصر<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>پرس‌وجوی <span class="arithmatex">$\text{update}(x, val)$</span> را در نظر بگیرید که انتساب <span class="arithmatex">$a_x = val$</span> را انجام می‌دهد. باید این پرس‌وجو را به اندازه کافی سریع انجام دهیم.</p>
-<h4 id="_6">رویکرد ساده‌لوحانه<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
-<p>ابتدا، بیایید نگاهی بیندازیم که با تغییر یک عنصر، چه چیزهایی در درخت تغییر می‌کند. یک گره درخت با طول <span class="arithmatex">$l$</span> و آرایه‌های آن: <span class="arithmatex">$\text{prefixOp}$</span>، <span class="arithmatex">$\text{suffixOp}$</span> و <span class="arithmatex">$\text{between}$</span> را در نظر بگیرید. به راحتی می‌توان دید که فقط <span class="arithmatex">$O(\sqrt{l})$</span> عنصر از <span class="arithmatex">$\text{prefixOp}$</span> و <span class="arithmatex">$\text{suffixOp}$</span> تغییر می‌کنند (فقط درون بلاکی که عنصر تغییر یافته در آن است). <span class="arithmatex">$O(l)$</span> عنصر در <span class="arithmatex">$\text{between}$</span> تغییر می‌کنند. بنابراین، <span class="arithmatex">$O(l)$</span> عنصر در گره درخت به‌روزرسانی می‌شوند.</p>
-<p>به یاد داریم که هر عنصر <span class="arithmatex">$x$</span> دقیقاً در یک گره درخت در هر لایه وجود دارد. گره ریشه (لایه <span class="arithmatex">$۰$</span>) طولی برابر با <span class="arithmatex">$O(n)$</span> دارد، گره‌های لایه <span class="arithmatex">$۱$</span> طولی برابر با <span class="arithmatex">$O(\sqrt{n})$</span>، گره‌های لایه <span class="arithmatex">$۲$</span> طولی برابر با <span class="arithmatex">$O(\sqrt{\sqrt{n}})$</span> و غیره دارند. بنابراین پیچیدگی زمانی برای هر به‌روزرسانی <span class="arithmatex">$O(n + \sqrt{n} + \sqrt{\sqrt{n}} + \dots) = O(n)$</span> است.</p>
-<p>اما این خیلی کند است. آیا می‌توان سریع‌تر این کار را کرد؟</p>
-<h4 id="_7">یک درخت رادیکالی درون درخت رادیکالی<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
-<p>توجه داشته باشید که گلوگاه فرآیند به‌روزرسانی، بازسازی آرایه <span class="arithmatex">$\text{between}$</span> در گره ریشه است. برای بهینه‌سازی درخت، بیایید از این آرایه خلاص شویم! به جای آرایه <span class="arithmatex">$\text{between}$</span>، یک درخت رادیکالی دیگر برای گره ریشه ذخیره می‌کنیم. بیایید آن را <span class="arithmatex">$\text{index}$</span> بنامیم. این درخت همان نقش <span class="arithmatex">$\text{between}$</span> را ایفا می‌کند—به پرس‌وجوها روی قطعه‌هایی از بلاک‌ها پاسخ می‌دهد. توجه کنید که بقیه گره‌های درخت <span class="arithmatex">$\text{index}$</span> ندارند و آرایه‌های <span class="arithmatex">$\text{between}$</span> خود را حفظ می‌کنند.</p>
-<p>یک درخت رادیکالی <em>شاخص‌دار</em> (indexed) است اگر گره ریشه‌اش دارای <span class="arithmatex">$\text{index}$</span> باشد. یک درخت رادیکالی با آرایه <span class="arithmatex">$\text{between}$</span> در گره ریشه‌اش <em>بدون شاخص</em> (unindexed) است. توجه داشته باشید که خود <span class="arithmatex">$\text{index}$</span> <strong>یک درخت <em>بدون شاخص</em> است</strong>.</p>
-<p>بنابراین، الگوریتم زیر را برای به‌روزرسانی یک درخت <em>شاخص‌دار</em> داریم:</p>
+<p>کوئری <code>update(x, val)</code> رو در نظر بگیر که کارش اینه: <span class="arithmatex">$a_x = val$</span>. باید این کوئری رو هم به اندازه کافی سریع انجام بدیم.</p>
+<h4 id="_6">رویکرد ساده و اولیه<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<p>اول، بیا ببینیم وقتی یه عنصر عوض میشه، چه چیزایی توی درخت ما باید تغییر کنن. یه گره از درخت با طول <span class="arithmatex">$l$</span> و آرایه‌هاش یعنی <code>prefixOp</code>، <code>suffixOp</code> و <code>between</code> رو در نظر بگیر. خیلی راحت میشه دید که فقط <span class="arithmatex">$O(\sqrt{l})$</span> تا از عنصرهای <code>prefixOp</code> و <code>suffixOp</code> عوض میشن (چون تغییر فقط مربوط به بلاکیه که عنصر آپدیت شده توش بوده). اما توی آرایه <code>between</code> اوضاع فرق می‌کنه و <span class="arithmatex">$O(l)$</span> تا عنصر تغییر می‌کنن. در نتیجه، برای آپدیت یه گره، <span class="arithmatex">$O(l)$</span> تا کار باید انجام بدیم.</p>
+<p>یادته که هر عنصر <span class="arithmatex">$x$</span> دقیقاً توی یه گره از هر لایه درخت وجود داره. گره ریشه (لایه ۰) طولش <span class="arithmatex">$O(n)$</span> هست، گره‌های لایه ۱ طولشون <span class="arithmatex">$O(\sqrt{n})$</span>، لایه ۲ <span class="arithmatex">$O(\sqrt{\sqrt{n}})$</span> و الی آخر. پس پیچیدگی زمانی کل برای هر آپدیت میشه <span class="arithmatex">$O(n + \sqrt{n} + \sqrt{\sqrt{n}} + \dots) = O(n)$</span>.</p>
+<p>ولی خب این خیلی کنده. نمیشه سریعتر انجامش داد؟</p>
+<h4 id="_7">یه درخت رادیکالی تو دل یه درخت رادیکالی دیگه!<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<p>حواست باشه که گلوگاه اصلی کندی ما، بازسازی کردن آرایه <code>between</code> توی گره ریشه‌ است. برای اینکه سریع‌ترش کنیم، بیا از شر این آرایه خلاص شیم! به جای آرایه <code>between</code> توی گره ریشه، یه درخت رادیکالی دیگه می‌سازیم و نگهش می‌داریم. اسم این درخت جدیده رو میذاریم <code>index</code>. کار این درخت <code>index</code> دقیقاً همون کار <code>between</code> هست: به کوئری‌هایی که روی بازه‌هایی از بلاک‌ها هستن جواب میده. فقط حواست باشه، بقیه گره‌های درخت <code>index</code> ندارن و همون آرایه‌های <code>between</code> خودشون رو نگه می‌دارن.</p>
+<p>پس یه درخت رادیکالی رو میگیم <em>شاخص‌دار</em> (indexed) اگه گره ریشه‌اش <code>index</code> داشته باشه. و به درختی که گره ریشه‌اش آرایه <code>between</code> داره میگیم <em>بدون شاخص</em> (unindexed). حواست باشه که خودِ درختِ <code>index</code>، <strong>یه درخت <em>بدون شاخص</em> هست</strong>.</p>
+<p>با این تعریف‌ها، الگوریتم آپدیت یه درخت <em>شاخص‌دار</em> اینجوری میشه:</p>
 <ul>
 <li>
-<p>به‌روزرسانی <span class="arithmatex">$\text{prefixOp}$</span> و <span class="arithmatex">$\text{suffixOp}$</span> در <span class="arithmatex">$O(\sqrt{n})$</span>.</p>
+<p>آپدیت <code>prefixOp</code> و <code>suffixOp</code> که هزینه‌اش <span class="arithmatex">$O(\sqrt{n})$</span> هست.</p>
 </li>
 <li>
-<p>به‌روزرسانی <span class="arithmatex">$\text{index}$</span>. این درخت طولی برابر با <span class="arithmatex">$O(\sqrt{n})$</span> دارد و ما فقط باید یک آیتم را در آن به‌روزرسانی کنیم (که نمایانگر بلاک تغییر یافته است). بنابراین، پیچیدگی زمانی برای این مرحله <span class="arithmatex">$O(\sqrt{n})$</span> است. می‌توانیم از الگوریتم توصیف شده در ابتدای این بخش (رویکرد "کند") برای انجام این کار استفاده کنیم.</p>
+<p>آپدیت <code>index</code>. این درخت خودش روی داده‌هایی به طول <span class="arithmatex">$O(\sqrt{n})$</span> ساخته شده و ما فقط یه دونه آیتم (که نماینده بلاک تغییر کرده‌ است) رو توش آپدیت می‌کنیم. پس هزینه این مرحله هم میشه <span class="arithmatex">$O(\sqrt{n})$</span>. برای این کار از همون الگوریتم «کند» که اول این بخش گفتیم استفاده می‌کنیم.</p>
 </li>
 <li>
-<p>به گره فرزند که نمایانگر بلاک تغییر یافته است رفته و آن را با الگوریتم "کند" در <span class="arithmatex">$O(\sqrt{n})$</span> به‌روزرسانی می‌کنیم.</p>
+<p>سراغ گره بچه‌ای میریم که بلاک تغییر کرده رو نشون میده و اون رو هم با الگوریتم «کند» توی <span class="arithmatex">$O(\sqrt{n})$</span> آپدیت می‌کنیم.</p>
 </li>
 </ul>
-<p>توجه داشته باشید که پیچیدگی پرس‌وجو همچنان <span class="arithmatex">$O(1)$</span> است: ما نیاز داریم که از <span class="arithmatex">$\text{index}$</span> در یک پرس‌وجو بیش از یک بار استفاده نکنیم، و این کار <span class="arithmatex">$O(1)$</span> زمان می‌برد.</p>
-<p>بنابراین، پیچیدگی زمانی کل برای به‌روزرسانی یک عنصر <span class="arithmatex">$O(\sqrt{n})$</span> است. هورا! :)</p>
-<h3 id="_8">به‌روزرسانی یک قطعه<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
-<p>درخت رادیکالی همچنین می‌تواند کارهایی مانند تخصیص یک مقدار به یک قطعه را انجام دهد. <span class="arithmatex">$\text{massUpdate}(x, l, r)$</span> به این معنی است که <span class="arithmatex">$a_i = x$</span> برای تمام <span class="arithmatex">$l \le i \le r$</span>.</p>
-<p>دو رویکرد برای انجام این کار وجود دارد: یکی از آنها <span class="arithmatex">$\text{massUpdate}$</span> را در <span class="arithmatex">$O(\sqrt{n}\cdot \log \log n)$</span> انجام می‌دهد و پیچیدگی پرس‌وجو را <span class="arithmatex">$O(1)$</span> نگه می‌دارد. رویکرد دوم <span class="arithmatex">$\text{massUpdate}$</span> را در <span class="arithmatex">$O(\sqrt{n})$</span> انجام می‌دهد، اما پیچیدگی پرس‌وجو به <span class="arithmatex">$O(\log \log n)$</span> تبدیل می‌شود.</p>
-<p>ما از انتشار با تأخیر (lazy propagation) به همان روشی که در درخت‌های قطعه‌ای (segment trees) استفاده می‌شود، بهره می‌بریم: برخی گره‌ها را به عنوان <em>lazy</em> (تنبل) علامت‌گذاری می‌کنیم، به این معنی که در صورت لزوم آنها را push خواهیم کرد. اما یک تفاوت با درخت‌های قطعه‌ای وجود دارد: push کردن یک گره پرهزینه است، بنابراین نمی‌توان آن را در حین پرس‌وجوها انجام داد. در لایه ۰، push کردن یک گره <span class="arithmatex">$O(\sqrt{n})$</span> زمان می‌برد. بنابراین، ما در داخل پرس‌وجوها گره‌ها را push نمی‌کنیم، بلکه فقط بررسی می‌کنیم که آیا گره فعلی یا والد آن <em>lazy</em> است یا خیر، و هنگام انجام پرس‌وجوها این موضوع را در نظر می‌گیریم.</p>
-<h4 id="_9">رویکرد اول<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
-<p>در رویکرد اول، می‌گوییم که فقط گره‌های لایه ۱ (با طول <span class="arithmatex">$O(\sqrt{n})$</span>) می‌توانند <em>lazy</em> باشند. هنگام push کردن چنین گرهی، کل زیردرخت آن شامل خودش در <span class="arithmatex">$O(\sqrt{n}\cdot \log \log n)$</span> به‌روزرسانی می‌شود. فرآیند <span class="arithmatex">$\text{massUpdate}$</span> به شرح زیر انجام می‌شود:</p>
+<p>یه نکته مهم اینه که پیچیدگی کوئری هنوز هم <span class="arithmatex">$O(1)$</span> باقی می‌مونه: چون توی یه کوئری لازم نیست بیشتر از یه بار از <code>index</code> استفاده کنیم، و یه کوئری روی <code>index</code> هم خودش <span class="arithmatex">$O(1)$</span> طول می‌کشه.</p>
+<p>در نتیجه، پیچیدگی زمانی کل برای آپدیت یه عنصر میشه <span class="arithmatex">$O(\sqrt{n})$</span>. عالی شد! :)</p>
+<h3 id="range-update">آپدیت کردن یک بازه (Range Update)<a class="headerlink" href="#range-update" title="Permanent link">&para;</a></h3>
+<p>درخت رادیکالی همچنین می‌تونه کارهایی مثل مقداردهی به یک بازه کامل رو هم انجام بده. <code>massUpdate(x, l, r)</code> یعنی برای تمام <span class="arithmatex">$i$</span> ها از <span class="arithmatex">$l$</span> تا <span class="arithmatex">$r$</span>، قرار بده <span class="arithmatex">$a_i = x$</span>.</p>
+<p>برای این کار دو تا راه داریم که یه بده‌بستان (trade-off) با هم دارن:
+*   <strong>راه اول</strong> <code>massUpdate</code> رو توی <span class="arithmatex">$O(\sqrt{n}\cdot \log \log n)$</span> انجام میده و پیچیدگی کوئری رو همون <span class="arithmatex">$O(1)$</span> نگه میداره.
+*   <strong>راه دوم</strong> <code>massUpdate</code> رو توی <span class="arithmatex">$O(\sqrt{n})$</span> انجام میده، ولی در عوض پیچیدگی کوئری میشه <span class="arithmatex">$O(\log \log n)$</span>.</p>
+<p>ایده اصلی اینجا استفاده از <em>انتشار با تأخیر</em> (lazy propagation) هست، خیلی شبیه کاری که توی درخت بازه‌ای (segment tree) می‌کنیم: بعضی گره‌ها رو به عنوان <em>تنبل</em> (lazy) علامت می‌زنیم، یعنی آپدیت‌هاشون رو بعداً هر وقت لازم شد اعمال (push) می‌کنیم. اما یه فرق مهم با درخت بازه‌ای وجود داره: اینجا <code>push</code> کردن یه گره هزینه زیادی داره و نمی‌تونیم وسط کوئری انجامش بدیم. مثلاً تو لایه ۰، <code>push</code> کردن یه گره <span class="arithmatex">$O(\sqrt{n})$</span> طول می‌کشه. برای همین، ما وسط کوئری‌ها گره‌ها رو <code>push</code> نمی‌کنیم، فقط چک می‌کنیم که گره فعلی یا پدرش <em>lazy</em> هست یا نه و این موضوع رو تو محاسباتمون لحاظ می‌کنیم.</p>
+<h4 id="_8">رویکرد اول<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<p>تو این روش، قرار می‌ذاریم که فقط گره‌های لایه ۱ (که طولشون <span class="arithmatex">$O(\sqrt{n})$</span> هست) می‌تونن <em>lazy</em> بشن. وقتی یه همچین گرهی رو <code>push</code> می‌کنیم، کل زیردرختش، به اضافه‌ی خودش، توی <span class="arithmatex">$O(\sqrt{n}\cdot \log \log n)$</span> آپدیت میشه. فرآیند <code>massUpdate</code> اینطوریه:</p>
 <ul>
 <li>
-<p>گره‌های لایه ۱ و بلاک‌های متناظر با آنها را در نظر بگیرید.</p>
+<p>گره‌های لایه ۱ و بلاک‌های مربوط بهشون رو در نظر بگیر.</p>
 </li>
 <li>
-<p>برخی بلاک‌ها به طور کامل توسط <span class="arithmatex">$\text{massUpdate}$</span> پوشش داده می‌شوند. آنها را در <span class="arithmatex">$O(\sqrt{n})$</span> به عنوان <em>lazy</em> علامت‌گذاری کنید.</p>
+<p>بعضی بلاک‌ها کامل توسط <code>massUpdate</code> پوشش داده میشن. اونا رو تو زمان <span class="arithmatex">$O(\sqrt{n})$</span> به عنوان <em>lazy</em> علامت بزن.</p>
 </li>
 <li>
-<p>برخی بلاک‌ها به طور جزئی پوشش داده می‌شوند. توجه داشته باشید که حداکثر دو بلاک از این نوع وجود دارد. آنها را در <span class="arithmatex">$O(\sqrt{n}\cdot \log \log n)$</span> بازسازی کنید. اگر <em>lazy</em> بودند، این موضوع را در نظر بگیرید.</p>
+<p>بعضی بلاک‌ها ناقص پوشش داده میشن. حواست باشه که حداکثر دو تا از این بلاک‌ها وجود داره. اونا رو توی <span class="arithmatex">$O(\sqrt{n}\cdot \log \log n)$</span> بازسازی کن. اگه <em>lazy</em> بودن، حواست به این قضیه باشه.</p>
 </li>
 <li>
-<p><span class="arithmatex">$\text{prefixOp}$</span> و <span class="arithmatex">$\text{suffixOp}$</span> را برای بلاک‌های پوشش داده شده جزئی در <span class="arithmatex">$O(\sqrt{n})$</span> به‌روزرسانی کنید (زیرا فقط دو بلاک از این نوع وجود دارد).</p>
+<p>برای اون بلاک‌هایی که ناقص پوشش داده شدن، <code>prefixOp</code> و <code>suffixOp</code> رو توی <span class="arithmatex">$O(\sqrt{n})$</span> آپدیت کن (چون فقط دو تا از این بلاک‌ها داریم).</p>
 </li>
 <li>
-<p><span class="arithmatex">$\text{index}$</span> را در <span class="arithmatex">$O(\sqrt{n}\cdot \log \log n)$</span> بازسازی کنید.</p>
+<p><code>index</code> رو در <span class="arithmatex">$O(\sqrt{n}\cdot \log \log n)$</span> بازسازی کن.</p>
 </li>
 </ul>
-<p>بنابراین می‌توانیم <span class="arithmatex">$\text{massUpdate}$</span> را سریع انجام دهیم. اما انتشار با تأخیر چگونه بر پرس‌وجوها تأثیر می‌گذارد؟ آنها تغییرات زیر را خواهند داشت:</p>
+<p>اینطوری <code>massUpdate</code> سریع انجام میشه. اما این lazy propagation چه تأثیری روی کوئری‌ها داره؟</p>
 <ul>
 <li>
-<p>اگر پرس‌وجوی ما به طور کامل در یک بلاک <em>lazy</em> قرار گیرد، آن را محاسبه کرده و <em>lazy</em> را در نظر بگیرید. <span class="arithmatex">$O(1)$</span>.</p>
+<p>اگه کوئری ما کامل توی یه بلاک <em>lazy</em> جا بشه، جوابش رو با در نظر گرفتن اون آپدیت تنبل حساب می‌کنیم. این کار <span class="arithmatex">$O(1)$</span> طول میکشه.</p>
 </li>
 <li>
-<p>اگر پرس‌وجوی ما از چندین بلاک تشکیل شده باشد که برخی از آنها <em>lazy</em> هستند، فقط باید به <em>lazy</em> در بلاک‌های چپ‌ترین و راست‌ترین توجه کنیم. بقیه بلاک‌ها با استفاده از <span class="arithmatex">$\text{index}$</span> محاسبه می‌شوند، که از قبل پاسخ روی بلاک‌های <em>lazy</em> را می‌داند (چون بعد از هر تغییر بازسازی می‌شود). <span class="arithmatex">$O(1)$</span>.</p>
+<p>اگه کوئری ما شامل چندتا بلاک بشه که بعضیاشون <em>lazy</em> هستن، فقط باید حواسمون به آپدیت تنبل چپ‌ترین و راست‌ترین بلاک باشه. جواب بقیه بلاک‌های وسط با <code>index</code> حساب میشه که از قبل جواب بلاک‌های <em>lazy</em> رو می‌دونه (چون بعد از هر تغییری بازسازی میشه). این هم <span class="arithmatex">$O(1)$</span> میشه.</p>
 </li>
 </ul>
-<p>پیچیدگی پرس‌وجو همچنان <span class="arithmatex">$O(1)$</span> باقی می‌ماند.</p>
-<h4 id="_10">رویکرد دوم<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
-<p>در این رویکرد، هر گره (به جز ریشه) می‌تواند <em>lazy</em> باشد. حتی گره‌های درون <span class="arithmatex">$\text{index}$</span> نیز می‌توانند <em>lazy</em> باشند. بنابراین، هنگام پردازش یک پرس‌وجو، باید به دنبال تگ‌های <em>lazy</em> در تمام گره‌های والد بگردیم، یعنی پیچیدگی پرس‌وجو <span class="arithmatex">$O(\log \log n)$</span> خواهد بود.</p>
-<p>اما <span class="arithmatex">$\text{massUpdate}$</span> سریع‌تر می‌شود. این فرآیند به شکل زیر است:</p>
+<p>پس پیچیدگی کوئری همون <span class="arithmatex">$O(1)$</span> باقی می‌مونه.</p>
+<h4 id="_9">رویکرد دوم<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<p>تو این روش، هر گرهی (به جز ریشه) می‌تونه <em>lazy</em> باشه. حتی گره‌های داخل <code>index</code> هم می‌تونن <em>lazy</em> باشن. برای همین، وقتی یه کوئری رو پردازش می‌کنیم، باید تمام گره‌های پدر رو برای پیدا کردن تگ‌های <em>lazy</em> چک کنیم، که این باعث میشه پیچیدگی کوئری بشه <span class="arithmatex">$O(\log \log n)$</span>.</p>
+<p>اما <code>massUpdate</code> سریع‌تر میشه. فرآیندش این شکلیه:</p>
 <ul>
 <li>
-<p>برخی بلاک‌ها به طور کامل با <span class="arithmatex">$\text{massUpdate}$</span> پوشش داده می‌شوند. بنابراین، تگ‌های <em>lazy</em> به آنها اضافه می‌شود. این کار <span class="arithmatex">$O(\sqrt{n})$</span> است.</p>
+<p>بعضی بلاک‌ها کامل توسط <code>massUpdate</code> پوشش داده میشن. پس تگ <em>lazy</em> بهشون اضافه میشه. این کار <span class="arithmatex">$O(\sqrt{n})$</span> هزینه داره.</p>
 </li>
 <li>
-<p><span class="arithmatex">$\text{prefixOp}$</span> و <span class="arithmatex">$\text{suffixOp}$</span> را برای بلاک‌های پوشش داده شده جزئی در <span class="arithmatex">$O(\sqrt{n})$</span> به‌روزرسانی کنید (زیرا فقط دو بلاک از این نوع وجود دارد).</p>
+<p>برای بلاک‌هایی که ناقص پوشش داده شدن، <code>prefixOp</code> و <code>suffixOp</code> رو توی <span class="arithmatex">$O(\sqrt{n})$</span> آپدیت کن (چون حداکثر دوتا از این نوع بلاک داریم).</p>
 </li>
 <li>
-<p>فراموش نکنید که index را به‌روزرسانی کنید. این کار <span class="arithmatex">$O(\sqrt{n})$</span> است (از همان الگوریتم <span class="arithmatex">$\text{massUpdate}$</span> استفاده می‌کنیم).</p>
+<p>یادت نره که <code>index</code> رو هم آپدیت کنی. این کار هم <span class="arithmatex">$O(\sqrt{n})$</span> طول میکشه (با همون الگوریتم <code>massUpdate</code>).</p>
 </li>
 <li>
-<p>آرایه <span class="arithmatex">$\text{between}$</span> را برای زیردرخت‌های <em>بدون شاخص</em> به‌روزرسانی کنید.</p>
+<p>برای زیردرخت‌های <em>بدون شاخص</em>، آرایه <code>between</code> رو آپدیت کن.</p>
 </li>
 <li>
-<p>به گره‌های نمایانگر بلاک‌های پوشش داده شده جزئی بروید و <span class="arithmatex">$\text{massUpdate}$</span> را به صورت بازگشتی فراخوانی کنید.</p>
+<p>به گره‌هایی برو که نماینده بلاک‌های ناقص پوشش داده شده هستن و <code>massUpdate</code> رو به صورت بازگشتی براشون صدا بزن.</p>
 </li>
 </ul>
-<p>توجه داشته باشید که وقتی فراخوانی بازگشتی را انجام می‌دهیم، یک <span class="arithmatex">$\text{massUpdate}$</span> پیشوندی یا پسوندی انجام می‌دهیم. اما برای به‌روزرسانی‌های پیشوندی و پسوندی می‌توانیم حداکثر یک فرزند پوشش داده شده جزئی داشته باشیم. بنابراین، یک گره در لایه ۱، دو گره در لایه ۲ و دو گره در هر سطح عمیق‌تر را بازدید می‌کنیم. پس، پیچیدگی زمانی <span class="arithmatex">$O(\sqrt{n} + \sqrt{\sqrt{n}} + \dots) = O(\sqrt{n})$</span> است. رویکرد در اینجا شبیه به به‌روزرسانی گروهی در درخت قطعه‌ای است.</p>
-<h2 id="_11">پیاده‌سازی<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
-<p>پیاده‌سازی زیر از درخت رادیکالی می‌تواند عملیات زیر را انجام دهد: ساخت در <span class="arithmatex">$O(n \cdot \log \log n)$</span>، پاسخ به پرس‌وجوها در <span class="arithmatex">$O(1)$</span> و به‌روزرسانی یک عنصر در <span class="arithmatex">$O(\sqrt{n})$</span>.</p>
+<p>توجه کن که وقتی بازگشتی صدا می‌زنیم، یه آپدیت پیشوندی یا پسوندی انجام می‌دیم. ولی برای آپدیت‌های پیشوندی و پسوندی حداکثر یه فرزند داریم که ناقص پوشش داده میشه. پس توی هر مرحله بازگشتی، تو لایه ۱ یه گره، تو لایه ۲ دو تا گره، و تو هر لایه عمیق‌تر هم دوتا گره رو بازدید می‌کنیم. در نتیجه، پیچیدگی زمانی میشه <span class="arithmatex">$O(\sqrt{n} + \sqrt{\sqrt{n}} + \dots) = O(\sqrt{n})$</span>. این روش خیلی شبیه آپدیت گروهی توی درخت بازه‌ایه.</p>
+<h2 id="_10">پیاده‌سازی<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<p>این پیاده‌سازی از درخت رادیکالی می‌تونه کارهای زیر رو انجام بده: ساختن درخت در <span class="arithmatex">$O(n \cdot \log \log n)$</span>، جواب دادن به کوئری‌ها در <span class="arithmatex">$O(1)$</span> و آپدیت یک عنصر در <span class="arithmatex">$O(\sqrt{n})$</span>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">SqrtTreeItem</span><span class="w"> </span><span class="nf">op</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">SqrtTreeItem</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">SqrtTreeItem</span><span class="w"> </span><span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
 
 <span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">log2Up</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -7067,12 +7272,12 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="p">}</span>
 <span class="p">};</span>
 </code></pre></div>
-<h2 id="_12">مسائل<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<h2 id="_11">مسائل<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
 <p><a href="https://www.codechef.com/NOV17/problems/SEGPROD">CodeChef - SEGPROD</a></p>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/alex65536" title="alex65536" data-bi-name="contributorprofile" target="_blank">alex65536</a> (73.01%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (25.57%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.14%)</li><li><a href="https://github.com/algmyr" title="algmyr" data-bi-name="contributorprofile" target="_blank">algmyr</a> (0.28%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/alex65536" title="alex65536" data-bi-name="contributorprofile" target="_blank">alex65536</a> (72.19%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (26.4%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.12%)</li><li><a href="https://github.com/algmyr" title="algmyr" data-bi-name="contributorprofile" target="_blank">algmyr</a> (0.28%)</li></ul>
 </ul>
                 
               </article>
@@ -7127,8 +7332,6 @@ Describe the issue of this article in detail.
         <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
       
         <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
-      
-        <script src="../assets/javascripts/toggle-sidebar.js" async></script>
       
     
   </body>

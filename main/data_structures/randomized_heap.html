@@ -74,7 +74,209 @@
     
     
     
-  </head>
+  <script>(function() {
+    const customDynamicStyle = document.createElement("style");
+    // We must put it outside of the head and body, since they are replaced by the instant navigation feature in the Material theme
+    document.documentElement.appendChild(customDynamicStyle);
+
+    const TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING = "[mkdocs-toggle-sidebar-plugin] Reference element for inserting 'toggle_button' not found. This version of the plugin may not be compatible with this version of the theme. Try updating both to the latest version. If that fails, you can open an GitHub issue.";
+
+    const loadBool = (name, default_value) => {
+        const value = localStorage.getItem(`TOGGLE_SIDEBAR_${name}`);
+        if (value == null) {
+            return default_value;
+        } else {
+            return value == "1";
+        }
+    }
+
+    const loadNavigationState = () => loadBool("NAVIGATION", true);
+    const loadTocState = () => loadBool("TOC", true);
+
+    const saveBool = (name, value) => {
+        localStorage.setItem(`TOGGLE_SIDEBAR_${name}`, value ? "1" : "0");
+    }
+
+    const toggleVisibility = (toggleNavigation, toggleTOC) => {
+        let newNavigation = loadNavigationState();
+        let newTOC = loadTocState();
+        
+        if (toggleNavigation) {
+            newNavigation = !newNavigation;
+            saveBool("NAVIGATION", newNavigation);
+        }
+        if (toggleTOC) {
+            newTOC = !newTOC;
+            saveBool("TOC", newTOC);
+        }
+        
+        _setVisibility(newNavigation, newTOC);
+    }
+
+    const _setVisibility = (newNavigation, newTOC) => {
+        console.debug(`Setting new visibility: navigation=${newNavigation}, TOC=${newTOC}`);
+        // combine this into one operation, so that it is more efficient (for toggling both) and easier to code with dynamic CSS generation
+        customDynamicStyle.innerHTML = setCombinedVisibility(newNavigation, newTOC);
+    }
+
+    // START OF INCLUDE
+    // This gets replaced with the definitions of: 
+    // - setCombinedVisibility(showNavigation: bool, showTOC: bool) -> string (dynamic CSS)
+    // - registerKeyboardEventHandler() -> void
+    const setCombinedVisibility = (showNavigation, showTOC) => {
+    // Hide the button when on mobile (and menu us shown as hamburger menu anyways).
+    // The exact max-width is taken from the styling of the 'body > header > nav > a' element
+    
+    let style = `
+.mkdocs-toggle-sidebar-button {
+    cursor: pointer;
+    margin-right: 5px;
+    margin-left: 1rem;
+}
+
+@media screen and (max-width: 76.1875em) {
+    .mkdocs-toggle-sidebar-button {
+        display: none;
+    }
+}
+`;
+// The TOC has a different break point than the navigation.
+// It can be seen on the nav.md-nav--secondary:nth-child(1) element (60em)
+// If the screen is smaller, it is shown in the navigation section if you click the nested hamburger menu
+if (!showTOC) {
+    style += `
+@media screen and (min-width: 60em) {
+    div.md-sidebar.md-sidebar--secondary {
+        display: none;
+    }
+}
+`;
+        }
+        
+    // We always have to show the navigation in mobile view, otherwise the hamburger menu is broken
+    if (!showNavigation) {
+        style += `
+@media screen and (min-width: 76.1875em) {
+    div.md-sidebar.md-sidebar--primary {
+        display: none;
+    }
+}
+`;
+    }
+
+    return style;
+}
+
+const addToggleButton = (toggleNavigation, toggleTOC) => {
+    const toggleBtn = createDefaultToggleButton(toggleNavigation, toggleTOC);
+    toggleBtn.classList.add("md-icon");
+  
+    const titleElement = document.querySelector(".md-header__title");
+    if (titleElement) {
+        titleElement.parentNode.insertBefore(toggleBtn, titleElement.nextSibling);  
+    } else {
+        console.warn(TOGGLE_BUTTON_REFERENCE_ELEMENT_NOT_FOUND_WARNING);
+    }
+}
+
+const registerKeyboardEventHandler = () => {
+    // Custom key handlers: SEE https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/?h=key+bind#docsjavascriptsshortcutsjs
+    keyboard$.subscribe(key => {
+        if (key.mode === "global") {
+            if (coreEventListenerLogic(key.type)) {
+                // event handled, stop propagation
+                key.claim();
+            }
+        }
+    });
+}
+
+    // END OF INCLUDE
+
+    // argument: string, returns true if the key was handled and the event should be marked as already handled
+    const coreEventListenerLogic = (keyChar) => {
+        if (keyChar === "t") {
+            toggleVisibility(false, true);
+            return true;
+        } else if (keyChar === "m") {
+            toggleVisibility(true, false);
+            return true;
+        } else if (keyChar === "b") {
+            toggleVisibility(true, true);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const onPageLoadedAction = () => {
+        console.log("The mkdocs-toggle-sidebar-plugin is installed. It adds the following key bindings:\n T -> toggle table of contents sidebar\n M -> toggle navigation menu sidebar\n B -> toggle both sidebars (TOC and navigation)");
+
+        const toggle_button = "all";
+        if (toggle_button == "none") {
+            // do nothing
+        } else if (toggle_button == "navigation") {
+            addToggleButton(true, false);
+        } else if (toggle_button == "toc") {
+            addToggleButton(false, true);
+        } else if (toggle_button == "all") {
+            addToggleButton(true, true);
+        } else {
+            console.error(`[mkdocs-toggle-sidebar-plugin] Unknown value for toggle_button: '${toggleButtonType}'`);
+        }
+
+        registerKeyboardEventHandler();
+    }
+
+    const createDefaultToggleButton = (toggleNavigation, toggleTOC) => {
+        const toggleBtn = document.createElement("div");
+        toggleBtn.className = "mkdocs-toggle-sidebar-button";
+        toggleBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>`;
+        if (toggleNavigation && toggleTOC) {
+            toggleBtn.title = "Toggle Navigation and Table of Contents";
+        } else if (toggleNavigation) {
+            toggleBtn.title = "Toggle Navigation";
+        } else if (toggleTOC) {
+            toggleBtn.title = "Toggle Table of Contents";
+        }
+        toggleBtn.addEventListener("click", () => toggleVisibility(toggleNavigation, toggleTOC));
+        return toggleBtn;
+    };
+
+    // Export functions that the user can call to modify the state
+    window.MkdocsToggleSidebarPlugin = {
+        setNavigationVisibility: (show) => {
+            saveBool("NAVIGATION", show);
+            _setVisibility(show, loadTocState());
+        },
+        setTocVisibility: (show) => {
+            saveBool("TOC", show);
+            _setVisibility(loadNavigationState(), show);
+        },
+        setAllVisibility: (showNavigation, showTOC) => {
+            saveBool("NAVIGATION", showNavigation);
+            saveBool("TOC", showTOC);
+            _setVisibility(showNavigation, showTOC);
+        },
+        toggleNavigationVisibility: () => toggleVisibility(true, false),
+        toggleTocVisibility: () => toggleVisibility(false, true),
+        toggleAllVisibility: () => toggleVisibility(true, true)
+    };
+
+    // Run this immediately instead of waiting for page.onload to prevent page flicker
+    customDynamicStyle.innerHTML = setCombinedVisibility(loadNavigationState(), loadTocState());
+    // console.log("Debug: hide sidebar completed");
+
+    // SEE https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#checking_whether_loading_is_already_complete
+    if (document.readyState === "loading") {
+        // console.debug("Registering DOMContentLoaded event listener");
+        document.addEventListener("DOMContentLoaded", onPageLoadedAction);
+    } else {
+        // console.debug("DOMContentLoaded has already fired");
+        onPageLoadedAction();
+    }
+}());
+</script></head>
   
   
     
@@ -6629,7 +6831,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="14 ژوئیهٔ 2025 20:15:25 UTC">14 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6641,8 +6843,8 @@ Describe the issue of this article in detail.
 
 
   
-    <a href="../tags.html#tag:ai-translated" class="md-tag">
-      AI Translated
+    <a href="../tags.html#tag:fully-translated" class="md-tag">
+      Fully Translated
     </a>
   
 
@@ -6656,54 +6858,50 @@ Describe the issue of this article in detail.
 
 
 <h1 id="randomized-heap">هیپ تصادفی (Randomized Heap)<a class="headerlink" href="#randomized-heap" title="Permanent link">&para;</a></h1>
-<p>هیپ تصادفی یک هیپ است که با استفاده از تصادفی‌سازی، امکان انجام تمام عملیات را در زمان لگاریتمی مورد انتظار فراهم می‌کند.</p>
-<p>یک <strong>هیپ کمینه</strong> (min heap) یک درخت دودویی است که در آن مقدار هر رأس کمتر یا مساوی مقادیر فرزندانش است.
-بنابراین، کمترین مقدار درخت همیشه در رأس ریشه قرار دارد.</p>
-<p>یک هیپ بیشینه (max heap) را نیز می‌توان به روشی مشابه تعریف کرد: با جایگزین کردن «کمتر» با «بیشتر».</p>
-<p>عملیات پیش‌فرض یک هیپ عبارتند از:</p>
+<p>هیپ تصادفی یه نوع هیپ خیلی باحاله که با کمک گرفتن از شانس و تصادف، کاری می‌کنه که همه‌ی عملیات‌هاش توی زمان لگاریتمیِ مورد انتظار (expected logarithmic time) انجام بشن.</p>
+<p>خب، بیا اول ببینیم <strong>هیپ کمینه</strong> (min heap) چیه. هیپ کمینه یه درخت دودوییه که توش مقدار هر گره (node)، از مقدار بچه‌هاش کوچیکتر یا مساویه. خیلی ساده! نتیجه‌اش اینه که کوچیک‌ترین مقدار کل درخت، همیشه تو ریشه (root) پیدا میشه.</p>
+<p>هیپ بیشینه (max heap) هم دقیقا همینه، فقط برعکس: کافیه هرجا گفتیم «کمتر»، تو جاش بگی «بیشتر».</p>
+<p>عملیات اصلی و استانداردی که روی یه هیپ انجام میدیم این‌ها هستن:</p>
 <ul>
-<li>افزودن یک مقدار</li>
-<li>پیدا کردن کمینه</li>
-<li>حذف کمینه</li>
-<li>ادغام دو هیپ (بدون حذف موارد تکراری)</li>
-<li>حذف یک عنصر دلخواه (اگر موقعیت آن در درخت مشخص باشد)</li>
+<li>اضافه کردن یه مقدار جدید</li>
+<li>پیدا کردن کوچیک‌ترین مقدار</li>
+<li>حذف کردن کوچیک‌ترین مقدار</li>
+<li>ادغام دوتا هیپ (بدون اینکه مقادیر تکراری رو حذف کنیم)</li>
+<li>حذف یه عنصر دلخواه (البته اگه جاش رو توی درخت بدونیم)</li>
 </ul>
-<p>یک هیپ تصادفی می‌تواند تمام این عملیات را در زمان مورد انتظار <span class="arithmatex">$O(\log n)$</span> با یک پیاده‌سازی بسیار ساده انجام دهد.</p>
+<p>خبر خوب اینه که هیپ تصادفی می‌تونه همه‌ی این کارها رو با یه پیاده‌سازی خیلی ساده و سرراست، در زمان مورد انتظار <span class="arithmatex">$O(\log n)$</span> انجام بده.</p>
 <h2 id="_1">ساختار داده<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>می‌توانیم بلافاصله ساختار هیپ دودویی را توصیف کنیم:</p>
+<p>بریم سراغ ساختار داد‌ه‌اش. می‌تونیم ساختار هیپ دودویی رو خیلی راحت اینطوری تعریف کنیم:</p>
 <p>```cpp file=randomized_heap_structure
 struct Tree {
     int value;
     Tree * l = nullptr;
     Tree * r = nullptr;
 };
-<div class="highlight"><pre><span></span><code>در هر رأس یک مقدار ذخیره می‌کنیم.
-علاوه بر آن، اشاره‌گرهایی به فرزندان چپ و راست داریم که اگر فرزند مربوطه وجود نداشته باشد، به `null` اشاره می‌کنند.
+<div class="highlight"><pre><span></span><code>همونطور که می‌بینی، توی هر گره یه `value` ذخیره می‌کنیم. به علاوه، دوتا اشاره‌گر (pointer) هم داریم به بچه‌های چپ و راستش، که اگه اون بچه وجود نداشته باشه، مقدارشون `null` میشه.
 
 ## عملیات
 
-به‌راحتی می‌توان دید که تمام عملیات را می‌توان به یک عملیات واحد کاهش داد: **ادغام** دو هیپ در یک هیپ.
-در واقع، افزودن یک مقدار جدید به هیپ معادل ادغام آن هیپ با هیپی است که تنها از یک رأس با همان مقدار تشکیل شده است.
-پیدا کردن کمینه به هیچ عملیاتی نیاز ندارد - کمینه به سادگی مقدار موجود در ریشه است.
-حذف کمینه معادل نتیجه‌ی ادغام فرزندان چپ و راست رأس ریشه است.
-و حذف یک عنصر دلخواه نیز مشابه است.
-فرزندان آن رأس را با هم ادغام کرده و رأس را با نتیجه‌ی ادغام جایگزین می‌کنیم.
+اینجاش جالبه! خیلی راحت میشه فهمید که همه‌ی اون عملیات‌ها رو میشه به یه عملیات اصلی و کلیدی خلاصه کرد: **ادغام (merge)** کردن دو تا هیپ توی یه هیپ.
 
-بنابراین، در واقع فقط لازم است عملیات ادغام دو هیپ را پیاده‌سازی کنیم.
-سایر عملیات به سادگی به این عملیات کاهش می‌یابند.
+بذار ببینیم چطوری:
 
-فرض کنید دو هیپ $T_1$ و $T_2$ داده شده‌اند.
-واضح است که ریشه‌ی هر یک از این هیپ‌ها، کمینه‌ی آن را در خود دارد.
-بنابراین، ریشه‌ی هیپ حاصل، کمینه‌ی این دو مقدار خواهد بود.
-پس هر دو مقدار را مقایسه کرده و مقدار کوچکتر را به عنوان ریشه‌ی جدید استفاده می‌کنیم.
-اکنون باید فرزندان رأس انتخاب‌شده را با هیپ باقیمانده ترکیب کنیم.
-برای این کار، یکی از فرزندان را انتخاب کرده و آن را با هیپ باقیمانده ادغام می‌کنیم.
-به این ترتیب، دوباره با عملیات ادغام دو هیپ مواجه می‌شویم.
-این فرآیند دیر یا زود به پایان می‌رسد (تعداد این مراحل با مجموع ارتفاع دو هیپ محدود می‌شود).
+-   **اضافه کردن یه مقدار جدید؟** انگار داری خودِ هیپ رو با یه هیپ جدید که فقط همین یه مقدار رو داره، ادغام می‌کنی.
+-   **پیدا کردن کمینه؟** این که کاری نداره! کمینه همیشه مقدار توی ریشه است.
+-   **حذف کمینه؟** کافیه بچه‌های چپ و راستِ ریشه رو با هم ادغام کنی و هیپ جدید حاصل میشه.
+-   **حذف یه عنصر دلخواه؟** اینم شبیه قبلیه. بچه‌های اون گره رو با هم ادغام می‌کنی و خود گره رو با نتیجه‌ی این ادغام جایگزین می‌کنی.
 
-برای رسیدن به پیچیدگی لگاریتمی به طور متوسط، باید روشی برای انتخاب یکی از دو فرزند مشخص کنیم تا متوسط طول مسیر لگاریتمی باشد.
-حدس زدن اینکه این تصمیم را به صورت **تصادفی** خواهیم گرفت، دشوار نیست.
-بنابراین، پیاده‌سازی عملیات ادغام به شرح زیر است:
+پس نتیجه‌گیری چیه؟ اینکه ما فقط کافیه تابع ادغام دوتا هیپ رو پیاده‌سازی کنیم. بقیه‌ی عملیات‌ها خودشون با همین یه تابع درست میشن.
+
+خب، حالا چطوری دوتا هیپ $T_1$ و $T_2$ رو با هم ادغام کنیم؟
+واضحه که ریشه‌ی هر کدوم از این هیپ‌ها، کوچیک‌ترین مقدارِ همون هیپ رو داره. پس، ریشه‌ی هیپِ حاصل هم باید کوچیک‌ترین مقدار بین این دو تا ریشه باشه.
+پس خیلی راحت دو تا ریشه رو مقایسه می‌کنیم و اونی که کوچیکتره رو به عنوان ریشه‌ی جدید انتخاب می‌کنیم.
+حالا باید بچه‌های اون گره‌ای که انتخاب شد رو با هیپِ باقی‌مونده (اون یکی هیپ) قاطی کنیم. چطوری؟ یکی از بچه‌ها رو انتخاب می‌کنیم و اون رو با هیپِ باقی‌مونده ادغام می‌کنیم.
+اینجوری، دوباره به همون مسئله‌ی ادغام دو تا هیپ می‌رسیم. این فرآیند بازگشتی هم بالاخره یه جایی تموم میشه (تعداد مراحلش از مجموع ارتفاع دو تا هیپ بیشتر نمیشه).
+
+خب، برای اینکه به طور میانگین به همون پیچیدگی لگاریتمی خفنه برسیم، باید یه راهی برای انتخاب «یکی از دو فرزند» پیدا کنیم که باعث بشه میانگین طول مسیرها لگاریتمی بشه.
+حدس زدنش سخت نیست که قراره این تصمیم رو **کاملاً شانسی** بگیریم!
+بنابراین، پیاده‌سازی تابع ادغام این شکلی میشه:
 
 ```cpp file=randomized_heap_merge
 Tree* merge(Tree* t1, Tree* t2) {
@@ -6717,43 +6915,40 @@ Tree* merge(Tree* t1, Tree* t2) {
     return t1;
 }
 </code></pre></div></p>
-<p>در اینجا ابتدا بررسی می‌کنیم که آیا یکی از هیپ‌ها خالی است یا خیر؛ در این صورت، اصلاً نیازی به انجام عمل ادغام نیست.
-در غیر این صورت، هیپ <code>t1</code> را هیپی قرار می‌دهیم که مقدار کمتری دارد (در صورت لزوم با جابجا کردن <code>t1</code> و <code>t2</code>).
-می‌خواهیم فرزند چپ <code>t1</code> را با <code>t2</code> ادغام کنیم، بنابراین به طور تصادفی فرزندان <code>t1</code> را جابجا کرده و سپس عمل ادغام را انجام می‌دهیم.</p>
+<p>توی این کد، اول چک می‌کنیم ببینیم آیا یکی از هیپ‌ها خالیه یا نه؛ اگه خالی بود، که خب ادغامی در کار نیست و اون یکی هیپ رو برمی‌گردونیم.
+در غیر این صورت، کاری می‌کنیم که <code>t1</code> همیشه اون هیپی باشه که ریشه‌ش کوچیکتره (اگه لازم باشه <code>t1</code> و <code>t2</code> رو جابجا می‌کنیم).
+اینجاست که جادوی تصادفی‌سازی اتفاق میفته: ما می‌خوایم بچه چپِ <code>t1</code> رو با <code>t2</code> ادغام کنیم، پس با احتمال ۵۰-۵۰ (با استفاده از <code>rand() &amp; 1</code>) بچه‌های چپ و راست <code>t1</code> رو با هم جابجا می‌کنیم و بعدش فراخوانی بازگشتی ادغام رو انجام میدیم.</p>
 <h2 id="_2">پیچیدگی<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>متغیر تصادفی <span class="arithmatex">$h(T)$</span> را معرفی می‌کنیم که نشان‌دهنده‌ی <strong>طول مسیر تصادفی</strong> از ریشه تا برگ است (طول بر حسب تعداد یال‌ها).
-واضح است که الگوریتم <code>merge</code> به تعداد <span class="arithmatex">$O(h(T_1) + h(T_2))$</span> مرحله انجام می‌شود.
-بنابراین، برای درک پیچیدگی عملیات، باید متغیر تصادفی <span class="arithmatex">$h(T)$</span> را بررسی کنیم.</p>
+<p>برای تحلیل پیچیدگی، یه متغیر تصادفی به اسم <span class="arithmatex">$h(T)$</span> تعریف می‌کنیم. این متغیر نشون‌دهنده‌ی <strong>طول یه مسیر تصادفی</strong> از ریشه تا یه برگه (منظور از طول، تعداد یال‌هاست).
+واضحه که الگوریتم <code>merge</code> ما توی <span class="arithmatex">$O(h(T_1) + h(T_2))$</span> مرحله تموم میشه. پس اگه بخوایم پیچیدگی رو بفهمیم، باید همین متغیر <span class="arithmatex">$h(T)$</span> رو تحلیل کنیم.</p>
 <h3 id="_3">مقدار مورد انتظار<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p>فرض می‌کنیم که مقدار مورد انتظار <span class="arithmatex">$h(T)$</span> را می‌توان با لگاریتم تعداد رئوس در هیپ از بالا تخمین زد:</p>
+<p>مقدار مورد انتظار (Expected Value) <span class="arithmatex">$h(T)$</span> رو میشه با لگاریتم تعداد گره‌های توی هیپ از بالا کران‌دار کرد (upper bound). یعنی:</p>
 <div class="arithmatex">$$\mathbf{E} h(T) \le \log(n+1)$$</div>
-<p>این موضوع را می‌توان به راحتی با استقرا اثبات کرد.
-فرض کنید <span class="arithmatex">$L$</span> و <span class="arithmatex">$R$</span> زیردرخت‌های چپ و راست ریشه‌ی <span class="arithmatex">$T$</span> باشند و <span class="arithmatex">$n_L$</span> و <span class="arithmatex">$n_R$</span> تعداد رئوس در آنها باشند (<span class="arithmatex">$n = n_L + n_R + 1$</span>).</p>
-<p>ادامه‌ی مطلب، گام استقرا را نشان می‌دهد:</p>
-<div class="arithmatex">$$\begin{align}
+<p>اثباتش هم خیلی ساده‌ است و با استقرا انجام میشه.
+فرض کن <span class="arithmatex">$L$</span> و <span class="arithmatex">$R$</span> زیردرخت‌های چپ و راست ریشه‌ی <span class="arithmatex">$T$</span> باشن و تعداد گره‌هاشون هم <span class="arithmatex">$n_L$</span> و <span class="arithmatex">$n_R$</span> باشه (<span class="arithmatex">$n = n_L + n_R + 1$</span>).</p>
+<p>اینم ادامه‌ی گام استقرایی اثبات:</p>
+<p><span class="arithmatex">$<span class="arithmatex">$\begin{align}
 \mathbf{E} h(T) &amp;= 1 + \frac{\mathbf{E} h(L) + \mathbf{E} h(R)}{2} 
 \le 1 + \frac{\log(n_L + 1) \log(n_R + 1)}{2} \\\\
 &amp;= 1 + \log\sqrt{(n_L + 1)(n_R + 1)} = \log 2\sqrt{(n_L + 1)(n_R + 1)} \\\\
 &amp;\le \log \frac{2\left((n_L + 1) + (n_R + 1)\right)}{2} = \log(n_L + n_R + 2) = \log(n+1)
-\end{align}$$</div>
+\end{align}$</span>$</span>
+(اون قسمتی که از <span class="arithmatex">$\le$</span> استفاده کردیم، از نامساوی معروف میانگین حسابی-هندسی یا AM-GM میاد).</p>
 <h3 id="_4">فراتر رفتن از مقدار مورد انتظار<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>البته ما هنوز راضی نیستیم.
-مقدار مورد انتظار <span class="arithmatex">$h(T)$</span> چیزی در مورد بدترین حالت نمی‌گوید.
-هنوز ممکن است برای یک درخت خاص، مسیرها از ریشه به رئوس به طور متوسط بسیار بیشتر از <span class="arithmatex">$\log(n + 1)$</span> باشند.</p>
-<p>بیایید ثابت کنیم که احتمال فراتر رفتن از مقدار مورد انتظار در واقع بسیار کم است:</p>
+<p>خب، مقدار میانگین رو درآوردیم، ولی این هنوز کافی نیست. چرا؟ چون مقدار مورد انتظار چیزی در مورد بدترین حالت به ما نمیگه. هنوز این احتمال وجود داره که برای یه درخت خاص، مسیرهای از ریشه به برگ به طور متوسط خیلی طولانی‌تر از <span class="arithmatex">$\log(n+1)$</span> بشن.</p>
+<p>بیا ثابت کنیم که احتمال اینکه از این میانگین خیلی دور بشیم، واقعا خیلی کمه:</p>
 <div class="arithmatex">$$P\{h(T) &gt; (c+1) \log n\} &lt; \frac{1}{n^c}$$</div>
-<p>برای هر ثابت مثبت <span class="arithmatex">$c$</span>.</p>
-<p>در اینجا <span class="arithmatex">$P$</span> را مجموعه‌ی مسیرهایی از ریشه‌ی هیپ به برگ‌ها در نظر می‌گیریم که طول آنها از <span class="arithmatex">$(c+1) \log n$</span> بیشتر است.
-توجه داشته باشید که برای هر مسیر <span class="arithmatex">$p$</span> به طول <span class="arithmatex">$|p|$</span>، احتمال اینکه به عنوان مسیر تصادفی انتخاب شود <span class="arithmatex">$2^{-|p|}$</span> است.
-بنابراین به دست می‌آوریم:</p>
+<p>این فرمول برای هر ثابت مثبت <span class="arithmatex">$c$</span> برقراره.</p>
+<p>برای اثبات، <span class="arithmatex">$P$</span> رو بگیر مجموعه‌ی همه‌ی اون مسیرهایی از ریشه به برگ که طولشون از <span class="arithmatex">$(c+1) \log n$</span> بیشتره.
+یادت باشه که احتمال اینکه یه مسیر خاص <span class="arithmatex">$p$</span> با طول <span class="arithmatex">$|p|$</span> به عنوان مسیر تصادفی انتخاب بشه، دقیقاً <span class="arithmatex">$2^{-|p|}$</span> هست. پس می‌تونیم بنویسیم:</p>
 <div class="arithmatex">$$P\{h(T) &gt; (c+1) \log n\} = \sum_{p \in P} 2^{-|p|} &lt; \sum_{p \in P} 2^{-(c+1) \log n} = |P| n^{-(c+1)} \le n^{-c}$$</div>
 <h3 id="_5">پیچیدگی الگوریتم<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>بنابراین، الگوریتم <code>merge</code> و در نتیجه تمام عملیات دیگری که با آن بیان می‌شوند، می‌توانند به طور متوسط در زمان <span class="arithmatex">$O(\log n)$</span> انجام شوند.</p>
-<p>علاوه بر این، برای هر ثابت مثبت <span class="arithmatex">$\epsilon$</span>، یک ثابت مثبت <span class="arithmatex">$c$</span> وجود دارد، به طوری که احتمال اینکه عملیات به بیش از <span class="arithmatex">$c \log n$</span> مرحله نیاز داشته باشد، کمتر از <span class="arithmatex">$n^{-\epsilon}$</span> است (این موضوع به نوعی رفتار الگوریتم در بدترین حالت را توصیف می‌کند).</p>
+<p>پس، نتیجه‌ی نهایی اینه: الگوریتم <code>merge</code> و در نتیجه، بقیه‌ی عملیات‌ها که باهاش تعریف میشن، به طور میانگین توی زمان <span class="arithmatex">$O(\log n)$</span> انجام میشن.</p>
+<p>حتی از این بهتر! برای هر عدد مثبت <span class="arithmatex">$\epsilon$</span> که فکرشو بکنی، میشه یه عدد مثبت <span class="arithmatex">$c$</span> پیدا کرد، طوری که احتمال اینکه عملیاتمون بیشتر از <span class="arithmatex">$c \log n$</span> طول بکشه، از <span class="arithmatex">$n^{-\epsilon}$</span> هم کمتر باشه. (این جمله آخر یه جورایی داره رفتار الگوریتم توی بدترین حالت رو توصیف می‌کنه و بهمون اطمینان میده که خیلی بعیده بدشانسی بیاریم).</p>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (48.84%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (45.74%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (3.88%)</li><li><a href="https://github.com/Kakalinn" title="Kakalinn" data-bi-name="contributorprofile" target="_blank">Kakalinn</a> (1.55%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (48.36%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (45.9%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (4.1%)</li><li><a href="https://github.com/Kakalinn" title="Kakalinn" data-bi-name="contributorprofile" target="_blank">Kakalinn</a> (1.64%)</li></ul>
 </ul>
                 
               </article>
@@ -6808,8 +7003,6 @@ Tree* merge(Tree* t1, Tree* t2) {
         <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
       
         <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
-      
-        <script src="../assets/javascripts/toggle-sidebar.js" async></script>
       
     
   </body>
