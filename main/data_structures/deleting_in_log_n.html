@@ -2088,7 +2088,7 @@ const registerKeyboardEventHandler = () => {
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      الگوریتم
+      الگوریتم چطوری کار می‌کنه؟
     </span>
   </a>
   
@@ -2097,7 +2097,7 @@ const registerKeyboardEventHandler = () => {
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      نکات
+      نکات تکمیلی
     </span>
   </a>
   
@@ -2106,7 +2106,7 @@ const registerKeyboardEventHandler = () => {
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      پیاده‌سازی
+      نمونه کد
     </span>
   </a>
   
@@ -2115,7 +2115,7 @@ const registerKeyboardEventHandler = () => {
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      مسائل
+      مسائل برای تمرین
     </span>
   </a>
   
@@ -6814,7 +6814,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 ژوئیهٔ 2025 19:17:38 UTC">12 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="20 ژوئیهٔ 2025 07:24:56 UTC">20 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6826,8 +6826,8 @@ Describe the issue of this article in detail.
 
 
   
-    <a href="../tags.html#tag:ai-translated" class="md-tag">
-      AI Translated
+    <a href="../tags.html#tag:fully-translated" class="md-tag">
+      Fully Translated
     </a>
   
 
@@ -6840,26 +6840,27 @@ Describe the issue of this article in detail.
 </ul>
 
 
-<h1 id="otnlog-n">حذف از یک داده ساختار در زمان <span class="arithmatex">$O(T(n)\log n)$</span><a class="headerlink" href="#otnlog-n" title="Permanent link">&para;</a></h1>
-<p>فرض کنید یک ساختار داده دارید که امکان اضافه کردن عناصر را در زمان <span class="arithmatex">$O(T(n))$</span> فراهم می‌کند.</p>
-<p>این مقاله تکنیکی را توصیف می‌کند که امکان حذف را به صورت offline در زمان <span class="arithmatex">$O(T(n)\log n)$</span> فراهم می‌کند.</p>
-<h2 id="_1">الگوریتم<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>هر عنصر برای بازه‌های زمانی مشخصی بین عملیات اضافه کردن و حذف، در data structure زنده است.</p>
-<p>یک segment tree روی کوئری‌ها می‌سازیم.</p>
-<p>هر بازه‌ای که در آن یک عنصر زنده است، به <span class="arithmatex">$O(\log n)$</span> گره از درخت تقسیم می‌شود.</p>
-<p>هر کوئری که در آن وضعیت ساختار را جویا می‌شویم، در برگ متناظر آن قرار می‌دهیم.</p>
-<p>حال برای پردازش تمام کوئری‌ها، یک DFS روی segment tree اجرا می‌کنیم.</p>
-<p>هنگام ورود به یک گره، تمام عناصری را که در آن گره قرار دارند اضافه می‌کنیم.</p>
-<p>سپس به سراغ فرزندان آن گره می‌رویم یا (اگر گره برگ باشد) به کوئری‌ها پاسخ می‌دهیم.</p>
-<p>هنگام خروج از گره، باید عملیات اضافه کردن را لغو (undo) کنیم.</p>
-<p>توجه داشته باشید که اگر ساختار را در زمان <span class="arithmatex">$O(T(n))$</span> تغییر دهیم، می‌توانیم با نگهداری یک stack از تغییرات، این تغییرات را در زمان <span class="arithmatex">$O(T(n))$</span> به حالت قبل بازگردانیم (roll back).</p>
-<p>توجه داشته باشید که عملیات بازگردانی (rollback) پیچیدگی زمانی سرشکن (amortized complexity) را نامعتبر می‌کند.</p>
-<h2 id="_2">نکات<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>ایده ساختن segment tree روی بازه‌های زمانی که یک موجودیت در آن فعال است، می‌تواند برای مسائلی غیر از مسائل data structure نیز به کار رود.</p>
-<p>برای نمونه، مسائل زیر را ببینید.</p>
-<h2 id="_3">پیاده‌سازی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>این پیاده‌سازی برای مسئله‌ی <a href="https://en.wikipedia.org/wiki/Dynamic_connectivity">همبندی پویا (dynamic connectivity)</a> است.</p>
-<p>این پیاده‌سازی می‌تواند یال اضافه کند، یال حذف کند و تعداد مؤلفه‌های همبند را بشمارد.</p>
+<h1 id="otnlog-n">چطوری توی دیتا استراکچرها با هزینه <span class="arithmatex">$O(T(n)\log n)$</span> حذف کنیم؟<a class="headerlink" href="#otnlog-n" title="Permanent link">&para;</a></h1>
+<p>رفیق، فرض کن یه دیتا استراکچر داری که اضافه کردن یه عنصر جدید توش <span class="arithmatex">$O(T(n))$</span> طول می‌کشه. خیلی هم عالی. حالا اگه بخوایم حذف کردن رو هم بهش اضافه کنیم چی؟</p>
+<p>اینجا می‌خوام یه تکنیک خیلی خفن رو بهت یاد بدم که باهاش می‌تونی عملیات حذف رو به صورت آفلاین (offline) و با پیچیدگی زمانی <span class="arithmatex">$O(T(n)\log n)$</span> انجام بدی.</p>
+<h2 id="_1">الگوریتم چطوری کار می‌کنه؟<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>ببین، هر عنصری که اضافه می‌کنی، یه «دوره زندگی» داره. از وقتی که اضافه‌اش می‌کنی تا وقتی که حذفش می‌کنی، می‌گیم اون عنصر «زنده» است. این بازه‌ی زمانی، کلید حل مسئله است.</p>
+<p>حالا، کلک کار اینجاست: ما میایم روی تایم‌لاینِ کوئری‌هامون یه سگمنت تری (segment tree) می‌سازیم.</p>
+<p>اون بازه‌ی زمانی که هر عنصر زنده بود رو یادت میاد؟ حالا اون بازه رو روی این سگمنت تری میندازیم. این کار باعث میشه هر بازه به <span class="arithmatex">$O(\log n)$</span> تا نود توی درخت تقسیم بشه.</p>
+<p>هر کوئری‌ای هم که داشتیم (مثلاً بپرسیم "الان وضعیت دیتا استراکچر چطوره؟")، می‌ذاریمش توی برگِ مربوط به زمانِ خودش توی سگمنت تری.</p>
+<p>خب، حالا برای اینکه به همه‌ی کوئری‌ها جواب بدیم، یه DFS ساده روی این سگمنت تری می‌زنیم.</p>
+<ul>
+<li>وقتی با DFS وارد یه گره (node) میشیم، تمام عناصری که به اون گره تعلق دارن (یعنی بازه‌ی زندگیشون این گره رو پوشش میده) رو به دیتا استراکچرمون <strong>اضافه</strong> می‌کنیم.</li>
+<li>بعدش، میریم سراغ بچه‌های اون گره. اگه به برگ رسیدیم، یعنی به یه زمان خاص رسیدیم، پس به کوئری‌هایی که توی اون برگ منتظر بودن جواب میدیم.</li>
+<li>و نکته‌ی کلیدی آخر: وقتی کارمون با یه گره و بچه‌هاش تموم شد و داشتیم ازش برمی‌گشتیم (موقع خروج از تابع DFS)، باید اون تغییراتی که اول کار داده بودیم رو <strong>لغو (undo)</strong> کنیم.</li>
+</ul>
+<p>یه نکته‌ی باحال اینه که اگه تغییر دادن دیتا استراکچرت <span class="arithmatex">$O(T(n))$</span> طول می‌کشه، می‌تونی همه‌ی تغییرات رو توی یه استک (stack) از تغییرات نگه داری و بعداً با همون هزینه، یعنی <span class="arithmatex">$O(T(n))$</span>، تغییرات رو به عقب برگردونی (roll back کنی).</p>
+<p>فقط حواست باشه، این تکنیک rollback با پیچیدگی زمانی سرشکن (amortized complexity) خیلی جور در نمیاد و معمولاً خرابش می‌کنه. پس اگه دیتا استراکچرت پیچیدگی سرشکن داره، باید با احتیاط از این روش استفاده کنی.</p>
+<h2 id="_2">نکات تکمیلی<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>این ایده‌ی ساختن سگمنت تری روی بازه‌های زمانی خیلی قویه و فقط برای دیتا استراکچرها نیست. برای خیلی مسائل دیگه هم که یه چیزی برای یه مدتی «فعال» یا «معتبر» هست، می‌تونی ازش استفاده کنی.</p>
+<p>مثلاً، یه نگاهی به مسائل زیر بنداز تا دستت بیاد.</p>
+<h2 id="_3">نمونه کد<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>اینجا یه پیاده‌سازی برای مسئله‌ی معروف <a href="https://en.wikipedia.org/wiki/Dynamic_connectivity">همبندی پویا (dynamic connectivity)</a> داریم. با این کد می‌تونی یال اضافه کنی، یال حذف کنی و تعداد مؤلفه‌های همبند گراف رو هم بشماری.</p>
 <p>```{.cpp
 struct dsu_save {
     int v, rnkv, u, rnku;</p>
@@ -6975,7 +6976,8 @@ vector&lt;int&gt; solve() {
 </code></pre></div>
 <p>};
 ```</p>
-<h2 id="_4">مسائل<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">مسائل برای تمرین<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>اگه دوست داری دستت رو با این تکنیک گرم کنی، این چند تا مسئله برای تمرین عالین:</p>
 <ul>
 <li><a href="https://codeforces.com/gym/100551/problem/A">Codeforces - Connect and Disconnect</a></li>
 <li><a href="https://codeforces.com/contest/981/problem/E">Codeforces - Addition on Segments</a></li>
@@ -6984,7 +6986,7 @@ vector&lt;int&gt; solve() {
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/SYury" title="SYury" data-bi-name="contributorprofile" target="_blank">SYury</a> (75.88%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (21.76%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (1.76%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (0.59%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/SYury" title="SYury" data-bi-name="contributorprofile" target="_blank">SYury</a> (76.19%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (21.43%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (1.79%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (0.6%)</li></ul>
 </ul>
                 
               </article>

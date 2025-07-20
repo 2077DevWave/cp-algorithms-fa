@@ -1973,7 +1973,7 @@ const registerKeyboardEventHandler = () => {
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      مزایای چنین سازماندهی داده‌ای
+      این مدل سازماندهی داده به چه دردی می‌خوره؟
     </span>
   </a>
   
@@ -1982,7 +1982,7 @@ const registerKeyboardEventHandler = () => {
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      عملیات
+      عملیات‌ها
     </span>
   </a>
   
@@ -2096,7 +2096,7 @@ const registerKeyboardEventHandler = () => {
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      ادبیات
+      منابع برای مطالعه بیشتر
     </span>
   </a>
   
@@ -7001,7 +7001,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="20 ژوئیهٔ 2025 07:24:56 UTC">20 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -7013,8 +7013,8 @@ Describe the issue of this article in detail.
 
 
   
-    <a href="../tags.html#tag:ai-translated" class="md-tag">
-      AI Translated
+    <a href="../tags.html#tag:fully-translated" class="md-tag">
+      Fully Translated
     </a>
   
 
@@ -7028,78 +7028,78 @@ Describe the issue of this article in detail.
 
 
 <h1 id="treap">تریپ (Treap) (درخت دکارتی)<a class="headerlink" href="#treap" title="Permanent link">&para;</a></h1>
-<p>تریپ (Treap) یک ساختمان داده است که درخت دودویی (binary tree) و هرم دودویی (binary heap) را با هم ترکیب می‌کند (و نام آن نیز از همین ترکیب گرفته شده است: tree + heap <span class="arithmatex">$\Rightarrow$</span> Treap).</p>
-<p>به طور مشخص‌تر، تریپ ساختمان داده‌ای است که زوج‌های <span class="arithmatex">$(X, Y)$</span> را در یک درخت دودویی به گونه‌ای ذخیره می‌کند که نسبت به <span class="arithmatex">$X$</span> یک درخت جستجوی دودویی (binary search tree) و نسبت به <span class="arithmatex">$Y$</span> یک هرم دودویی (binary heap) باشد.
-اگر گره‌ای از درخت حاوی مقادیر <span class="arithmatex">$(X_0, Y_0)$</span> باشد، تمام گره‌ها در زیردرخت چپ دارای <span class="arithmatex">$X \leq X_0$</span> و تمام گره‌ها در زیردرخت راست دارای <span class="arithmatex">$X_0 \leq X$</span> هستند، و تمام گره‌ها در هر دو زیردرخت چپ و راست دارای <span class="arithmatex">$Y \leq Y_0$</span> هستند.</p>
-<p>تریپ اغلب به عنوان «درخت دکارتی» (cartesian tree) نیز شناخته می‌شود، زیرا به راحتی می‌توان آن را در یک صفحه دکارتی ترسیم کرد:</p>
+<p>تریپ (Treap) یه ساختمان داده‌ست که «درخت دودویی» (binary tree) و «هرم دودویی» (binary heap) رو با هم قاطی می‌کنه (اسمش هم از همین ترکیب باحال اومده: tree + heap <span class="arithmatex">$\Rightarrow$</span> Treap).</p>
+<p>اگه بخوایم دقیق‌تر بگیم، تریپ یه ساختمان داده‌ست که جفت‌های <span class="arithmatex">$(X, Y)$</span> رو توی یه درخت دودویی ذخیره می‌کنه. جوری که نسبت به <span class="arithmatex">$X$</span> یه «درخت جستجوی دودویی» (binary search tree) باشه و نسبت به <span class="arithmatex">$Y$</span> یه «هرم دودویی» (binary heap).
+یعنی اگه یه گره توی درخت مقادیر <span class="arithmatex">$(X_0, Y_0)$</span> رو داشته باشه، تمام گره‌های توی زیردرخت چپش <span class="arithmatex">$X \leq X_0$</span> هستن و تمام گره‌های زیردرخت راستش <span class="arithmatex">$X_0 \leq X$</span> هستن. از طرفی، همه‌ی گره‌های توی هر دو زیردرخت چپ و راست، <span class="arithmatex">$Y \leq Y_0$</span> دارن.</p>
+<p>به تریپ «درخت دکارتی» (cartesian tree) هم میگن، چون خیلی راحت میشه اون رو روی یه صفحه دکارتی کشید و تصورش کرد:</p>
 <center>
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Treap.svg" width="350px"/>
 </center>
 
-<p>تریپ‌ها توسط Raimund Siedel و Cecilia Aragon در سال ۱۹۸۹ پیشنهاد شدند.</p>
-<h2 id="_1">مزایای چنین سازماندهی داده‌ای<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>در چنین پیاده‌سازی، مقادیر <span class="arithmatex">$X$</span> کلیدها (و در عین حال مقادیر ذخیره شده در تریپ) هستند و مقادیر <span class="arithmatex">$Y$</span> <strong>اولویت</strong> (priority) نامیده می‌شوند. بدون اولویت‌ها، تریپ یک درخت جستجوی دودویی معمولی بر اساس <span class="arithmatex">$X$</span> خواهد بود و یک مجموعه از مقادیر <span class="arithmatex">$X$</span> می‌توانست به درختان بسیار متفاوتی منجر شود که برخی از آن‌ها تبهگن (degenerate) هستند (مثلاً به شکل یک لیست پیوندی) و در نتیجه بسیار کند عمل می‌کنند (عملیات اصلی پیچیدگی <span class="arithmatex">$O(N)$</span> خواهند داشت).</p>
-<p>در عین حال، <strong>اولویت‌ها</strong> (وقتی یکتا باشند) این امکان را می‌دهند که درختی که ساخته می‌شود به طور <strong>منحصر به فرد</strong> مشخص شود (البته این موضوع به ترتیب اضافه شدن مقادیر بستگی ندارد)، که با استفاده از قضیه مربوطه قابل اثبات است. بدیهی است که اگر <strong>اولویت‌ها را به صورت تصادفی انتخاب کنید</strong>، به طور متوسط درختان غیرتبهگن به دست می‌آورید که پیچیدگی <span class="arithmatex">$O(\log N)$</span> را برای عملیات اصلی تضمین می‌کند. از این رو نام دیگر این ساختمان داده <strong>درخت جستجوی دودویی تصادفی</strong> (randomized binary search tree) است.</p>
-<h2 id="_2">عملیات<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>یک تریپ عملیات زیر را ارائه می‌دهد:</p>
+<p>تریپ‌ها رو Raimund Siedel و Cecilia Aragon سال ۱۹۸۹ معرفی کردن.</p>
+<h2 id="_1">این مدل سازماندهی داده به چه دردی می‌خوره؟<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>توی این مدل پیاده‌سازی، به مقادیر <span class="arithmatex">$X$</span> میگیم کلید (و در واقع همون مقادیری هستن که توی تریپ ذخیره می‌شن) و به مقادیر <span class="arithmatex">$Y$</span> میگیم <strong>اولویت</strong> (priority). اگه این اولویت‌ها رو نداشتیم، تریپ ما میشد یه درخت جستجوی دودویی معمولی بر اساس <span class="arithmatex">$X$</span>. در این حالت، یه مجموعه از مقادیر <span class="arithmatex">$X$</span> می‌تونست به درخت‌های خیلی متفاوتی ختم بشه که بعضی‌هاشون «تبهگن» (degenerate) هستن (مثلاً شبیه یه لیست پیوندی دراز و لاغر میشن) و در نتیجه خیلی کند عمل می‌کنن (عملیات اصلی پیچیدگی <span class="arithmatex">$O(N)$</span> پیدا می‌کنن).</p>
+<p>اما اینجاست که <strong>اولویت‌ها</strong> وارد بازی میشن. (وقتی که یکتا باشن) کاری می‌کنن که شکل درختی که ساخته میشه، به طور <strong>منحصر به فردی</strong> مشخص بشه (البته این موضوع به ترتیب اضافه شدن مقادیر بستگی نداره). اینو میشه با یه قضیه‌ی ریاضی هم ثابت کرد. حالا نکته‌ی باحالش اینجاست: اگه <strong>اولویت‌ها رو شانسی انتخاب کنی</strong>، به طور میانگین درخت‌هایی گیرت میاد که تبهگن نیستن و پیچیدگی <span class="arithmatex">$O(\log N)$</span> رو برای عملیات اصلی تضمین می‌کنن. به خاطر همینه که به این ساختمان داده «درخت جستجوی دودویی تصادفی» (randomized binary search tree) هم میگن.</p>
+<h2 id="_2">عملیات‌ها<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>یه تریپ این عملیات‌ها رو در اختیارت میذاره:</p>
 <ul>
 <li><strong>Insert (X,Y)</strong> با پیچیدگی <span class="arithmatex">$O(\log N)$</span>.
-  یک گره جدید به درخت اضافه می‌کند. یک روش ممکن این است که فقط <span class="arithmatex">$X$</span> را به عنوان ورودی بگیریم و <span class="arithmatex">$Y$</span> را به صورت تصادفی داخل تابع تولید کنیم.</li>
+  یه گره جدید به درخت اضافه می‌کنه. یه راه ممکن اینه که فقط <span class="arithmatex">$X$</span> رو به عنوان ورودی بگیری و <span class="arithmatex">$Y$</span> رو به صورت تصادفی داخل تابع بسازی.</li>
 <li><strong>Search (X)</strong> با پیچیدگی <span class="arithmatex">$O(\log N)$</span>.
-  به دنبال گره‌ای با مقدار کلید مشخص <span class="arithmatex">$X$</span> می‌گردد. پیاده‌سازی آن همانند یک درخت جستجوی دودویی معمولی است.</li>
+  دنبال یه گره با کلید مشخص <span class="arithmatex">$X$</span> می‌گرده. پیاده‌سازیش دقیقاً مثل یه درخت جستجوی دودویی معمولیه.</li>
 <li><strong>Erase (X)</strong> با پیچیدگی <span class="arithmatex">$O(\log N)$</span>.
-  به دنبال گره‌ای با مقدار کلید مشخص <span class="arithmatex">$X$</span> می‌گردد و آن را از درخت حذف می‌کند.</li>
+  دنبال یه گره با کلید مشخص <span class="arithmatex">$X$</span> می‌گرده و از درخت حذفش می‌کنه.</li>
 <li><strong>Build (<span class="arithmatex">$X_1$</span>, ..., <span class="arithmatex">$X_N$</span>)</strong> با پیچیدگی <span class="arithmatex">$O(N)$</span>.
-  یک درخت از لیستی از مقادیر می‌سازد. این کار را می‌توان در زمان خطی انجام داد (با فرض اینکه <span class="arithmatex">$X_1, ..., X_N$</span> مرتب باشند).</li>
+  از روی یه لیست از مقادیر، یه درخت کامل می‌سازه. این کار رو میشه در زمان خطی انجام داد (به شرطی که <span class="arithmatex">$X_1, ..., X_N$</span> مرتب باشن).</li>
 <li><strong>Union (<span class="arithmatex">$T_1$</span>, <span class="arithmatex">$T_2$</span>)</strong> با پیچیدگی <span class="arithmatex">$O(M \log (N/M))$</span>.
-  دو درخت را با هم ادغام می‌کند، با این فرض که تمام عناصر متفاوت هستند. اگر عناصر تکراری باید در حین ادغام حذف شوند، می‌توان به همین پیچیدگی دست یافت.</li>
+  دو تا درخت رو با هم ادغام می‌کنه، با این فرض که همه‌ی عناصرشون متفاوتن. اگه لازم باشه عناصر تکراری حین ادغام حذف بشن، باز هم میشه به همین پیچیدگی رسید.</li>
 <li><strong>Intersect (<span class="arithmatex">$T_1$</span>, <span class="arithmatex">$T_2$</span>)</strong> با پیچیدگی <span class="arithmatex">$O(M \log (N/M))$</span>.
-  اشتراک دو درخت (یعنی عناصر مشترک آنها) را پیدا می‌کند. ما در اینجا پیاده‌سازی این عملیات را بررسی نخواهیم کرد.</li>
+  اشتراک دو تا درخت رو پیدا می‌کنه (یعنی عناصری که تو هر دوتاشون هستن). ما اینجا پیاده‌سازی این عملیات رو بررسی نمی‌کنیم.</li>
 </ul>
-<p>علاوه بر این، به دلیل اینکه تریپ یک درخت جستجوی دودویی است، می‌تواند عملیات دیگری مانند یافتن <span class="arithmatex">$K$</span>-امین عنصر بزرگتر یا یافتن اندیس یک عنصر را نیز پیاده‌سازی کند.</p>
+<p>علاوه بر اینا، چون تریپ یه جور درخت جستجوی دودوییه، می‌تونه عملیات‌های دیگه‌ای مثل پیدا کردن <span class="arithmatex">$K$</span>-امین عنصر بزرگتر یا پیدا کردن اندیس یه عنصر رو هم پیاده‌سازی کنه.</p>
 <h2 id="_3">توضیحات پیاده‌سازی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>از نظر پیاده‌سازی، هر گره شامل <span class="arithmatex">$X$</span>، <span class="arithmatex">$Y$</span> و اشاره‌گرهایی به فرزندان چپ (<span class="arithmatex">$L$</span>) و راست (<span class="arithmatex">$R$</span>) است.</p>
-<p>ما تمام عملیات مورد نیاز را فقط با استفاده از دو عملیات کمکی پیاده‌سازی خواهیم کرد: Split و Merge.</p>
+<p>از نظر پیاده‌سازی، هر گره شامل <span class="arithmatex">$X$</span>، <span class="arithmatex">$Y$</span> و دو تا اشاره‌گر به بچه‌های چپ (<span class="arithmatex">$L$</span>) و راست (<span class="arithmatex">$R$</span>) خودشه.</p>
+<p>ما تمام عملیات‌های لازم رو فقط با استفاده از دو تا تابع کمکی خیلی خفن پیاده‌سازی می‌کنیم: Split و Merge.</p>
 <h3 id="split">Split<a class="headerlink" href="#split" title="Permanent link">&para;</a></h3>
 <center>
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Treap_split.svg" width="450px"/>
 </center>
 
-<p><strong>Split (<span class="arithmatex">$T$</span>, <span class="arithmatex">$X$</span>)</strong> درخت <span class="arithmatex">$T$</span> را به ۲ زیردرخت <span class="arithmatex">$L$</span> و <span class="arithmatex">$R$</span> (که مقادیر بازگشتی تابع split هستند) تقسیم می‌کند، به طوری که <span class="arithmatex">$L$</span> شامل تمام عناصری با کلید <span class="arithmatex">$X_L \le X$</span> و <span class="arithmatex">$R$</span> شامل تمام عناصری با کلید <span class="arithmatex">$X_R &gt; X$</span> است. این عملیات پیچیدگی <span class="arithmatex">$O (\log N)$</span> دارد و با استفاده از یک بازگشت تمیز پیاده‌سازی می‌شود:</p>
+<p><strong>Split (<span class="arithmatex">$T$</span>, <span class="arithmatex">$X$</span>)</strong> کارش اینه که درخت <span class="arithmatex">$T$</span> رو به دو تا زیردرخت <span class="arithmatex">$L$</span> و <span class="arithmatex">$R$</span> می‌شکافه (که این دوتا مقدار بازگشتی تابع split هستن)، جوری که <span class="arithmatex">$L$</span> شامل همه‌ی عناصری با کلید <span class="arithmatex">$X_L \le X$</span> باشه و <span class="arithmatex">$R$</span> شامل همه‌ی عناصری با کلید <span class="arithmatex">$X_R &gt; X$</span> باشه. این عملیات پیچیدگی <span class="arithmatex">$O (\log N)$</span> داره و با یه بازگشت خیلی تمیز و شیک پیاده‌سازی میشه:</p>
 <ol>
-<li>اگر مقدار گره ریشه (R) کوچکتر یا مساوی <span class="arithmatex">$X$</span> باشد، آنگاه <code>L</code> حداقل شامل <code>R-&gt;L</code> و خود <code>R</code> خواهد بود. سپس ما split را بر روی <code>R-&gt;R</code> فراخوانی می‌کنیم و نتیجه تقسیم آن را به عنوان <code>L'</code> و <code>R'</code> در نظر می‌گیریم. در نهایت، <code>L</code> شامل <code>L'</code> نیز خواهد بود، در حالی که <code>R = R'</code> می‌شود.</li>
-<li>اگر مقدار گره ریشه (R) بزرگتر از <span class="arithmatex">$X$</span> باشد، آنگاه <code>R</code> حداقل شامل خود <code>R</code> و <code>R-&gt;R</code> خواهد بود. سپس ما split را بر روی <code>R-&gt;L</code> فراخوانی می‌کنیم و نتیجه تقسیم آن را به عنوان <code>L'</code> و <code>R'</code> در نظر می‌گیریم. در نهایت، <code>L=L'</code> می‌شود، در حالی که <code>R</code> شامل <code>R'</code> نیز خواهد بود.</li>
+<li>اگه مقدار گره ریشه (R) کوچیک‌تر یا مساوی <span class="arithmatex">$X$</span> باشه، پس <code>L</code> حداقل شامل خود <code>R</code> و کل زیردرخت چپش (<code>R-&gt;L</code>) میشه. بعدش، میریم سراغ زیردرخت راستش (<code>R-&gt;R</code>) و <code>split</code> رو روی اون صدا می‌زنیم. نتیجه‌ی این تقسیم رو می‌گیریم و اسمشو میذاریم <code>L'</code> و <code>R'</code>. در نهایت، <code>L</code> ما شامل <code>L'</code> هم میشه، و <code>R</code> همون <code>R'</code> خواهد بود.</li>
+<li>اگه مقدار گره ریشه (R) بزرگ‌تر از <span class="arithmatex">$X$</span> باشه، پس <code>R</code> حداقل شامل خود <code>R</code> و کل زیردرخت راستش (<code>R-&gt;R</code>) میشه. بعدش، <code>split</code> رو روی زیردرخت چپش (<code>R-&gt;L</code>) صدا می‌زنیم و نتیجه‌ی تقسیم رو می‌گیریم و اسمشو میذاریم <code>L'</code> و <code>R'</code>. در نهایت، <code>L</code> ما همون <code>L'</code> خواهد بود و <code>R</code> شامل <code>R'</code> هم میشه.</li>
 </ol>
-<p>بنابراین، الگوریتم split به این صورت است:</p>
+<p>پس الگوریتم split اینجوریه:</p>
 <ol>
-<li>تصمیم بگیرید که گره ریشه به کدام زیردرخت (چپ یا راست) تعلق دارد.</li>
-<li>به صورت بازگشتی split را بر روی یکی از فرزندانش فراخوانی کنید.</li>
-<li>با استفاده مجدد از فراخوانی بازگشتی split، نتیجه نهایی را ایجاد کنید.</li>
+<li>تصمیم بگیر که گره ریشه به کدوم زیردرخت (چپ یا راست) تعلق داره.</li>
+<li>به صورت بازگشتی <code>split</code> رو روی یکی از بچه‌هاش صدا بزن.</li>
+<li>با استفاده از نتیجه‌ی بازگشتی، جواب نهایی رو بساز.</li>
 </ol>
 <h3 id="merge">Merge<a class="headerlink" href="#merge" title="Permanent link">&para;</a></h3>
 <center>
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Treap_merge.svg" width="500px"/>
 </center>
 
-<p><strong>Merge (<span class="arithmatex">$T_1$</span>, <span class="arithmatex">$T_2$</span>)</strong> دو زیردرخت <span class="arithmatex">$T_1$</span> و <span class="arithmatex">$T_2$</span> را ترکیب کرده و درخت جدید را برمی‌گرداند. این عملیات نیز پیچیدگی <span class="arithmatex">$O (\log N)$</span> دارد. این تابع با این فرض کار می‌کند که <span class="arithmatex">$T_1$</span> و <span class="arithmatex">$T_2$</span> مرتب هستند (تمام کلیدهای <span class="arithmatex">$X$</span> در <span class="arithmatex">$T_1$</span> کوچکتر از کلیدها در <span class="arithmatex">$T_2$</span> هستند). بنابراین، باید این دو درخت را بدون نقض ترتیب اولویت‌های <span class="arithmatex">$Y$</span> ترکیب کنیم. برای انجام این کار، درختی را به عنوان ریشه انتخاب می‌کنیم که اولویت <span class="arithmatex">$Y$</span> بالاتری در گره ریشه خود دارد و به صورت بازگشتی Merge را برای درخت دیگر و زیردرخت متناظر از گره ریشه انتخاب شده فراخوانی می‌کنیم.</p>
+<p><strong>Merge (<span class="arithmatex">$T_1$</span>, <span class="arithmatex">$T_2$</span>)</strong> دو تا زیردرخت <span class="arithmatex">$T_1$</span> و <span class="arithmatex">$T_2$</span> رو با هم ترکیب می‌کنه و درخت جدید رو برمی‌گردونه. این عملیات هم پیچیدگی <span class="arithmatex">$O (\log N)$</span> داره. این تابع با این فرض کار می‌کنه که <span class="arithmatex">$T_1$</span> و <span class="arithmatex">$T_2$</span> مرتب هستن (یعنی همه‌ی کلیدهای <span class="arithmatex">$X$</span> توی <span class="arithmatex">$T_1$</span> از کلیدهای توی <span class="arithmatex">$T_2$</span> کوچیک‌ترن). پس ما باید این دو تا درخت رو طوری ترکیب کنیم که ترتیب اولویت‌های <span class="arithmatex">$Y$</span> به هم نریزه. برای این کار، اون درختی رو به عنوان ریشه انتخاب می‌کنیم که اولویت <span class="arithmatex">$Y$</span> توی ریشه‌ش بیشتره و به صورت بازگشتی Merge رو برای درخت دیگه و زیردرخت متناظر از گره ریشه‌ی انتخاب شده، صدا می‌زنیم.</p>
 <h3 id="insert">Insert<a class="headerlink" href="#insert" title="Permanent link">&para;</a></h3>
 <center>
 <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/Treap_insert.svg" width="500px"/>
 </center>
 
-<p>اکنون پیاده‌سازی <strong>Insert (<span class="arithmatex">$X$</span>, <span class="arithmatex">$Y$</span>)</strong> واضح می‌شود. ابتدا در درخت پایین می‌رویم (مانند یک درخت جستجوی دودویی معمولی بر اساس X) و در اولین گره‌ای که مقدار اولویت آن کمتر از <span class="arithmatex">$Y$</span> است، متوقف می‌شویم. ما مکانی را که عنصر جدید را در آن درج خواهیم کرد، پیدا کرده‌ایم. سپس، <strong>Split (T, X)</strong> را بر روی زیردرختی که از گره یافت شده شروع می‌شود فراخوانی می‌کنیم و از زیردرخت‌های بازگشتی <span class="arithmatex">$L$</span> و <span class="arithmatex">$R$</span> به عنوان فرزندان چپ و راست گره جدید استفاده می‌کنیم.</p>
-<p>به طور جایگزین، می‌توان عملیات insert را با تقسیم کردن (split) تریپ اولیه بر اساس <span class="arithmatex">$X$</span> و انجام ۲ عمل ادغام (merge) با گره جدید انجام داد (تصویر را ببینید).</p>
+<p>حالا پیاده‌سازی <strong>Insert (<span class="arithmatex">$X$</span>, <span class="arithmatex">$Y$</span>)</strong> خیلی واضح میشه. اول مثل یه درخت جستجوی دودویی معمولی بر اساس X توی درخت پایین میریم و به محض رسیدن به اولین گره‌ای که اولویتش از <span class="arithmatex">$Y$</span> کمتره، وامیستیم. اینجا همون جاییه که باید عنصر جدید رو اضافه کنیم. بعد، روی زیردرختی که از این گره پیدا شده شروع میشه، <strong>Split (T, X)</strong> رو صدا می‌زنیم و از زیردرخت‌های بازگشتی <span class="arithmatex">$L$</span> و <span class="arithmatex">$R$</span> به عنوان بچه‌های چپ و راست گره جدید استفاده می‌کنیم.</p>
+<p>یه راه دیگه‌ هم اینه که تریپ اصلی رو با کلید <span class="arithmatex">$X$</span> به دو قسمت تقسیم (split) کنی و بعد با دو تا عمل ادغام (merge)، گره جدید رو بینشون قرار بدی (به عکس نگاه کن).</p>
 <h3 id="erase">Erase<a class="headerlink" href="#erase" title="Permanent link">&para;</a></h3>
 <center>
 <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Treap_erase.svg" width="500px"/>
 </center>
 
-<p>پیاده‌سازی <strong>Erase (<span class="arithmatex">$X$</span>)</strong> نیز واضح است. ابتدا در درخت پایین می‌رویم (مانند یک درخت جستجوی دودویی معمولی بر اساس <span class="arithmatex">$X$</span>) و به دنبال عنصری که می‌خواهیم حذف کنیم، می‌گردیم. هنگامی که گره پیدا شد، <strong>Merge</strong> را بر روی فرزندان آن فراخوانی می‌کنیم و مقدار بازگشتی این عملیات را در جای عنصری که حذف می‌کنیم، قرار می‌دهیم.</p>
-<p>به طور جایگزین، می‌توانیم زیردرخت حاوی <span class="arithmatex">$X$</span> را با ۲ عملیات split جدا کرده و تریپ‌های باقی‌مانده را با هم ادغام کنیم (تصویر را ببینید).</p>
+<p>پیاده‌سازی <strong>Erase (<span class="arithmatex">$X$</span>)</strong> هم واضحه. اول مثل یه درخت جستجوی دودویی معمولی بر اساس <span class="arithmatex">$X$</span> توی درخت پایین میریم و دنبال عنصری که می‌خوایم حذف کنیم می‌گردیم. وقتی گره رو پیدا کردیم، بچه‌هاش رو با هم <strong>Merge</strong> می‌کنیم و نتیجه‌ی این عملیات رو جایگزین عنصری که حذف کردیم، می‌کنیم.</p>
+<p>یه راه جایگزین دیگه اینه که با دو تا عملیات split، زیردرخت حاوی <span class="arithmatex">$X$</span> رو جدا کنیم و تریپ‌های باقی‌مونده رو با هم ادغام کنیم (به عکس نگاه کن).</p>
 <h3 id="build">Build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h3>
-<p>ما عملیات <strong>Build</strong> را با پیچیدگی <span class="arithmatex">$O (N \log N)$</span> با استفاده از <span class="arithmatex">$N$</span> فراخوانی <strong>Insert</strong> پیاده‌سازی می‌کنیم.</p>
+<p>عملیات <strong>Build</strong> رو با <span class="arithmatex">$N$</span> بار صدا زدن <strong>Insert</strong> پیاده‌سازی می‌کنیم که پیچیدگیش میشه <span class="arithmatex">$O (N \log N)$</span>.</p>
 <h3 id="union">Union<a class="headerlink" href="#union" title="Permanent link">&para;</a></h3>
-<p><strong>Union (<span class="arithmatex">$T_1$</span>, <span class="arithmatex">$T_2$</span>)</strong> دارای پیچیدگی نظری <span class="arithmatex">$O (M \log (N / M))$</span> است، اما در عمل بسیار خوب کار می‌کند، احتمالاً با یک ثابت پنهان بسیار کوچک. بدون از دست دادن کلیت، فرض کنیم <span class="arithmatex">$T_1 \rightarrow Y &gt; T_2 \rightarrow Y$</span> باشد، یعنی ریشه <span class="arithmatex">$T_1$</span> ریشه نتیجه خواهد بود. برای به دست آوردن نتیجه، باید درختان <span class="arithmatex">$T_1 \rightarrow L$</span>، <span class="arithmatex">$T_1 \rightarrow R$</span> و <span class="arithmatex">$T_2$</span> را در دو درخت ادغام کنیم که می‌توانند فرزندان ریشه <span class="arithmatex">$T_1$</span> باشند. برای این کار، Split (<span class="arithmatex">$T_2$</span>, <span class="arithmatex">$T_1\rightarrow X$</span>) را فراخوانی می‌کنیم، و بدین ترتیب <span class="arithmatex">$T_2$</span> را به دو بخش L و R تقسیم می‌کنیم، که سپس آنها را به صورت بازگشتی با فرزندان <span class="arithmatex">$T_1$</span> ترکیب می‌کنیم: Union (<span class="arithmatex">$T_1 \rightarrow L$</span>, <span class="arithmatex">$L$</span>) و Union (<span class="arithmatex">$T_1 \rightarrow R$</span>, <span class="arithmatex">$R$</span>)، و در نتیجه زیردرخت‌های چپ و راست نتیجه را به دست می‌آوریم.</p>
+<p><strong>Union (<span class="arithmatex">$T_1$</span>, <span class="arithmatex">$T_2$</span>)</strong> پیچیدگی نظری <span class="arithmatex">$O (M \log (N / M))$</span> داره، ولی در عمل خیلی خوب کار می‌کنه و احتمالاً ثابت پنهان خیلی کوچیکی داره. بدون اینکه کلیت مسئله رو از دست بدیم، فرض می‌کنیم <span class="arithmatex">$T_1 \rightarrow Y &gt; T_2 \rightarrow Y$</span> باشه، یعنی ریشه‌ی <span class="arithmatex">$T_1$</span>، ریشه‌ی درخت نهایی هم خواهد بود. برای اینکه به نتیجه برسیم، باید درخت‌های <span class="arithmatex">$T_1 \rightarrow L$</span>، <span class="arithmatex">$T_1 \rightarrow R$</span> و <span class="arithmatex">$T_2$</span> رو طوری توی دو تا درخت ادغام کنیم که بتونن بچه‌های ریشه‌ی <span class="arithmatex">$T_1$</span> بشن. برای این کار، <span class="arithmatex">$Split (T_2, T_1\rightarrow X)$</span> رو صدا می‌زنیم و <span class="arithmatex">$T_2$</span> رو به دو بخش L و R می‌شکافیم. بعد این‌ها رو به صورت بازگشتی با بچه‌های <span class="arithmatex">$T_1$</span> ترکیب می‌کنیم: Union (<span class="arithmatex">$T_1 \rightarrow L$</span>, <span class="arithmatex">$L$</span>) و Union (<span class="arithmatex">$T_1 \rightarrow R$</span>, <span class="arithmatex">$R$</span>)، و اینجوری زیردرخت‌های چپ و راست نهایی رو به دست میاریم.</p>
 <h2 id="_4">پیاده‌سازی<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">item</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">prior</span><span class="p">;</span>
@@ -7110,7 +7110,7 @@ Describe the issue of this article in detail.
 <span class="p">};</span>
 <span class="k">typedef</span><span class="w"> </span><span class="n">item</span><span class="o">*</span><span class="w"> </span><span class="n">pitem</span><span class="p">;</span>
 </code></pre></div>
-<p>این تعریف <code>item</code> ما است. توجه داشته باشید که دو اشاره‌گر به فرزندان، یک کلید صحیح (برای BST) و یک اولویت صحیح (برای هرم) وجود دارد. اولویت با استفاده از یک مولد اعداد تصادفی اختصاص داده می‌شود.</p>
+<p>این تعریف <code>item</code> ماست. دقت کن که دو تا اشاره‌گر به بچه‌ها، یه کلید صحیح (برای BST) و یه اولویت صحیح (برای هرم) داریم. اولویت با استفاده از یه مولد عدد تصادفی (<code>rand()</code>) اختصاص داده میشه.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">split</span><span class="w"> </span><span class="p">(</span><span class="n">pitem</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">pitem</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">pitem</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">t</span><span class="p">)</span>
 <span class="w">        </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
@@ -7120,18 +7120,18 @@ Describe the issue of this article in detail.
 <span class="w">        </span><span class="n">split</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="o">-&gt;</span><span class="n">l</span><span class="p">),</span><span class="w">  </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><code>t</code> تریپی است که باید تقسیم شود و <code>key</code> مقدار BST است که بر اساس آن تقسیم انجام می‌شود. توجه داشته باشید که ما مقادیر نتیجه را در هیچ‌کجا <code>return</code> نمی‌کنیم، بلکه به این صورت از آنها استفاده می‌کنیم:</p>
+<p><code>t</code> تریپیه که قراره تقسیم بشه و <code>key</code> همون مقدار کلیدیه که تقسیم بر اساس اون انجام میشه. حواست باشه که ما مقادیر نتیجه رو جایی <code>return</code> نمی‌کنیم، بلکه اینجوری ازشون استفاده می‌کنیم:</p>
 <div class="highlight"><pre><span></span><code><span class="n">pitem</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
 <span class="n">split</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">);</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Left subtree size: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Right subtree size: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
 </code></pre></div>
-<p>درک تابع <code>split</code> می‌تواند کمی دشوار باشد، زیرا هم اشاره‌گر (<code>pitem</code>) و هم ارجاع به آن اشاره‌گرها (<code>pitem &amp;l</code>) را دارد. بیایید با کلمات بفهمیم که فراخوانی تابع <code>split(t, k, l, r)</code> چه قصدی دارد: «تریپ <code>t</code> را بر اساس مقدار <code>k</code> به دو تریپ تقسیم کن و تریپ چپ را در <code>l</code> و تریپ راست را در <code>r</code> ذخیره کن». عالی! حال، بیایید این تعریف را برای دو فراخوانی بازگشتی به کار ببریم، با استفاده از تحلیل موردی که در بخش قبل انجام دادیم: (شرط if اول یک حالت پایه پیش پا افتاده برای یک تریپ خالی است)</p>
+<p>درک تابع <code>split</code> می‌تونه یه کم قلق داشته باشه، چون هم با اشاره‌گر (<code>pitem</code>) کار می‌کنه و هم با ارجاع به اون اشاره‌گرها (<code>pitem &amp;l</code>). بیا با هم کلمه به کلمه ببینیم فراخوانی <code>split(t, k, l, r)</code> چی میگه: «تریپ <code>t</code> رو بر اساس مقدار <code>k</code> به دو تا تریپ بشکن و تریپ چپ رو توی <code>l</code> و تریپ راست رو توی <code>r</code> ذخیره کن». عالیه! حالا بیا همین تعریف رو برای دو تا فراخوانی بازگشتی هم به کار ببریم، با استفاده از تحلیل موردی که قبلاً داشتیم: (شرط if اول یه حالت پایه‌ی ساده برای یه تریپ خالیه)</p>
 <ol>
-<li>هنگامی که مقدار گره ریشه <span class="arithmatex">$\le$</span> کلید است، ما <code>split (t-&gt;r, key, t-&gt;r, r)</code> را فراخوانی می‌کنیم، که به این معنی است: «تریپ <code>t-&gt;r</code> (زیردرخت راست <code>t</code>) را بر اساس مقدار <code>key</code> تقسیم کن و زیردرخت چپ را در <code>t-&gt;r</code> و زیردرخت راست را در <code>r</code> ذخیره کن». پس از آن، ما <code>l = t</code> را قرار می‌دهیم. توجه داشته باشید که اکنون مقدار نتیجه <code>l</code> شامل <code>t-&gt;l</code>، خود <code>t</code> و همچنین <code>t-&gt;r</code> (که نتیجه فراخوانی بازگشتی ما است) است که همگی قبلاً به ترتیب صحیح ادغام شده‌اند! باید مکث کنید تا مطمئن شوید که این نتیجه برای <code>l</code> و <code>r</code> دقیقاً با آنچه قبلاً در بخش «توضیحات پیاده‌سازی» بحث کردیم، مطابقت دارد.</li>
-<li>هنگامی که مقدار گره ریشه بزرگتر از کلید است، ما <code>split (t-&gt;l, key, l, t-&gt;l)</code> را فراخوانی می‌کنیم، که به این معنی است: «تریپ <code>t-&gt;l</code> (زیردرخت چپ <code>t</code>) را بر اساس مقدار <code>key</code> تقسیم کن و زیردرخت چپ را در <code>l</code> و زیردرخت راست را در <code>t-&gt;l</code> ذخیره کن». پس از آن، ما <code>r = t</code> را قرار می‌دهیم. توجه داشته باشید که اکنون مقدار نتیجه <code>r</code> شامل <code>t-&gt;l</code> (که نتیجه فراخوانی بازگشتی ما است)، خود <code>t</code> و همچنین <code>t-&gt;r</code> است که همگی قبلاً به ترتیب صحیح ادغام شده‌اند! باید مکث کنید تا مطمئن شوید که این نتیجه برای <code>l</code> و <code>r</code> دقیقاً با آنچه قبلاً در بخش «توضیحات پیاده‌سازی» بحث کردیم، مطابقت دارد.</li>
+<li>وقتی مقدار گره ریشه <span class="arithmatex">$\le$</span> کلید باشه، ما <code>split (t-&gt;r, key, t-&gt;r, r)</code> رو صدا می‌زنیم، که یعنی: «تریپ <code>t-&gt;r</code> (زیردرخت راست <code>t</code>) رو بر اساس مقدار <code>key</code> بشکن و زیردرخت چپش رو توی <code>t-&gt;r</code> و زیردرخت راستش رو توی <code>r</code> ذخیره کن». بعد از اون، <code>l = t</code> رو قرار میدیم. دقت کن که حالا مقدار نتیجه <code>l</code> شامل <code>t-&gt;l</code>، خود <code>t</code> و همچنین <code>t-&gt;r</code> (که نتیجه‌ی فراخوانی بازگشتی ماست) میشه که همه‌شون قبلاً به ترتیب درست ادغام شدن! یه لحظه مکث کن تا مطمئن بشی که این نتیجه برای <code>l</code> و <code>r</code> دقیقاً با چیزی که قبلاً توی بخش «توضیحات پیاده‌سازی» گفتیم، جور درمیاد.</li>
+<li>وقتی مقدار گره ریشه بزرگتر از کلید باشه، ما <code>split (t-&gt;l, key, l, t-&gt;l)</code> رو صدا می‌زنیم، که یعنی: «تریپ <code>t-&gt;l</code> (زیردرخت چپ <code>t</code>) رو بر اساس مقدار <code>key</code> بشکن و زیردرخت چپش رو توی <code>l</code> و زیردرخت راستش رو توی <code>t-&gt;l</code> ذخیره کن». بعد از اون، <code>r = t</code> رو قرار میدیم. دقت کن که حالا مقدار نتیجه <code>r</code> شامل <code>t-&gt;l</code> (که نتیجه‌ی فراخوانی بازگشتی ماست)، خود <code>t</code> و همچنین <code>t-&gt;r</code> میشه که همه‌شون قبلاً به ترتیب درست ادغام شدن! یه لحظه مکث کن تا مطمئن بشی که این نتیجه برای <code>l</code> و <code>r</code> دقیقاً با چیزی که قبلاً توی بخش «توضیحات پیاده‌سازی» گفتیم، جور درمیاد.</li>
 </ol>
-<p>اگر هنوز در درک این پیاده‌سازی مشکل دارید، باید به آن به صورت <em>استقرایی</em> نگاه کنید، یعنی: سعی <em>نکنید</em> فراخوانی‌های بازگشتی را بارها و بارها تجزیه کنید. فرض کنید پیاده‌سازی split برای تریپ خالی به درستی کار می‌کند، سپس سعی کنید آن را برای یک تریپ تک‌گره‌ای، سپس یک تریپ دو گره‌ای و غیره اجرا کنید، و هر بار از دانش خود مبنی بر اینکه split روی تریپ‌های کوچکتر کار می‌کند، دوباره استفاده کنید.</p>
+<p>اگه هنوز تو درک این پیاده‌سازی مشکل داری، باید بهش به صورت <em>استقرایی</em> نگاه کنی. یعنی سعی <em>نکن</em> فراخوانی‌های بازگشتی رو هی توی ذهنت باز کنی. فرض کن پیاده‌سازی <code>split</code> برای تریپ خالی درست کار می‌کنه، بعد سعی کن برای یه تریپ تک‌گره‌ای، بعد دو گره‌ای و... اجراش کنی و هر بار از این دانشت که <code>split</code> روی تریپ‌های کوچیک‌تر درست کار می‌کنه، استفاده کن.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">insert</span><span class="w"> </span><span class="p">(</span><span class="n">pitem</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">pitem</span><span class="w"> </span><span class="n">it</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">t</span><span class="p">)</span>
 <span class="w">        </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">it</span><span class="p">;</span>
@@ -7171,8 +7171,8 @@ Describe the issue of this article in detail.
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="_5">نگهداری اندازه زیردرخت‌ها<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>برای گسترش عملکرد تریپ، اغلب لازم است که تعداد گره‌ها در زیردرخت هر گره را ذخیره کنیم - فیلد <code>int cnt</code> در ساختار <code>item</code>. به عنوان مثال، می‌توان از آن برای یافتن K-امین عنصر بزرگتر درخت با پیچیدگی <span class="arithmatex">$O (\log N)$</span> یا برای یافتن اندیس عنصر در لیست مرتب شده با همان پیچیدگی استفاده کرد. پیاده‌سازی این عملیات مشابه درخت جستجوی دودویی معمولی خواهد بود.</p>
-<p>هنگامی که یک درخت تغییر می‌کند (گره‌ها اضافه یا حذف می‌شوند و غیره)، <code>cnt</code> برخی از گره‌ها باید به روز شود. ما دو تابع ایجاد خواهیم کرد: <code>cnt()</code> مقدار فعلی <code>cnt</code> را برمی‌گرداند یا اگر گره وجود نداشته باشد ۰ را برمی‌گرداند، و <code>upd_cnt()</code> مقدار <code>cnt</code> را برای این گره به‌روز می‌کند با این فرض که برای فرزندان L و R آن مقادیر <code>cnt</code> قبلاً به‌روز شده‌اند. واضح است که کافی است فراخوانی‌های <code>upd_cnt()</code> را به انتهای توابع <code>insert</code>، <code>erase</code>، <code>split</code> و <code>merge</code> اضافه کنیم تا مقادیر <code>cnt</code> را به‌روز نگه داریم.</p>
+<p>برای اینکه قابلیت‌های تریپ رو بیشتر کنیم، خیلی وقتا لازمه که تعداد گره‌های توی زیردرخت هر گره رو هم ذخیره کنیم. برای این کار یه فیلد <code>int cnt</code> توی ساختار <code>item</code> اضافه می‌کنیم. مثلاً با این فیلد میشه K-امین عنصر بزرگتر درخت رو با پیچیدگی <span class="arithmatex">$O (\log N)$</span> پیدا کرد یا اندیس یه عنصر رو توی لیست مرتب شده با همون پیچیدگی به دست آورد. پیاده‌سازی این عملیات‌ها شبیه درخت جستجوی دودویی معمولیه.</p>
+<p>وقتی یه درخت تغییر می‌کنه (گره‌ها اضافه یا حذف میشن و...)، <code>cnt</code> بعضی از گره‌ها باید آپدیت بشه. ما دو تا تابع می‌سازیم: <code>cnt()</code> که مقدار فعلی <code>cnt</code> رو برمی‌گردونه (یا اگه گره وجود نداشته باشه ۰ برمی‌گردونه)، و <code>upd_cnt()</code> که مقدار <code>cnt</code> رو برای یه گره آپدیت می‌کنه، با این فرض که برای بچه‌های L و R اون، مقادیر <code>cnt</code> از قبل آپدیت شدن. واضحه که کافیه فراخوانی‌های <code>upd_cnt()</code> رو به انتهای توابع <code>insert</code>، <code>erase</code>، <code>split</code> و <code>merge</code> اضافه کنیم تا مقادیر <code>cnt</code> همیشه به‌روز بمونن.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">cnt</span><span class="w"> </span><span class="p">(</span><span class="n">pitem</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">t</span><span class="o">-&gt;</span><span class="n">cnt</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
@@ -7183,7 +7183,7 @@ Describe the issue of this article in detail.
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="on">ساختن تریپ با پیچیدگی <span class="arithmatex">$O(N)$</span> به صورت آفلاین<a class="headerlink" href="#on" title="Permanent link">&para;</a></h2>
-<p>با داشتن یک لیست مرتب از کلیدها، می‌توان یک تریپ را سریع‌تر از درج یک به یک کلیدها که <span class="arithmatex">$O(N \log N)$</span> زمان می‌برد، ساخت. از آنجایی که کلیدها مرتب هستند، یک درخت جستجوی دودویی متوازن را می‌توان به راحتی در زمان خطی ساخت. مقادیر هرم <span class="arithmatex">$Y$</span> به صورت تصادفی مقداردهی اولیه می‌شوند و سپس می‌توانند مستقل از کلیدهای <span class="arithmatex">$X$</span> برای <a href="https://en.wikipedia.org/wiki/Binary_heap#Building_a_heap">ساختن هرم</a> در زمان <span class="arithmatex">$O(N)$</span> به حالت هرم (heapify) درآیند.</p>
+<p>اگه یه لیست مرتب از کلیدها داشته باشی، می‌تونی یه تریپ رو سریع‌تر از حالت عادی بسازی. به جای اینکه کلیدها رو دونه دونه با پیچیدگی <span class="arithmatex">$O(N \log N)$</span> درج کنی، میشه بهتر عمل کرد. چون کلیدها مرتب هستن، میشه یه درخت جستجوی دودویی متوازن رو خیلی راحت در زمان خطی ساخت. مقادیر هرم <span class="arithmatex">$Y$</span> به صورت تصادفی مقداردهی میشن و بعد میشه اونا رو مستقل از کلیدهای <span class="arithmatex">$X$</span> در زمان <span class="arithmatex">$O(N)$</span> به حالت هرم درآورد (heapify) (<a href="https://en.wikipedia.org/wiki/Binary_heap#Building_a_heap">اطلاعات بیشتر در مورد ساختن هرم</a>).</p>
 <div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">heapify</span><span class="w"> </span><span class="p">(</span><span class="n">pitem</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
 <span class="w">    </span><span class="n">pitem</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
@@ -7209,15 +7209,15 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>توجه: فراخوانی <code>upd_cnt(t)</code> تنها در صورتی ضروری است که به اندازه‌های زیردرخت نیاز داشته باشید.</p>
-<p>رویکرد بالا همیشه یک درخت کاملاً متوازن ارائه می‌دهد، که به طور کلی برای اهداف عملی خوب است، اما به قیمت حفظ نکردن اولویت‌هایی که در ابتدا به هر گره اختصاص داده شده بود. بنابراین، این رویکرد برای حل مسئله زیر عملی نیست:</p>
+<p>نکته: فراخوانی <code>upd_cnt(t)</code> فقط وقتی لازمه که به اندازه‌ی زیردرخت‌ها احتیاج داشته باشی.</p>
+<p>این روش بالا همیشه یه درخت کاملاً متوازن بهت میده، که برای کارهای عملی معمولاً خوبه، ولی به قیمت حفظ نکردن اولویت‌هایی که از اول به هر گره اختصاص داده بودی تموم میشه. به خاطر همین، این روش برای حل مسئله‌ی زیر کاربردی نیست:</p>
 <div class="admonition example">
 <p class="admonition-title"><a href="https://codeforces.com/problemsets/acmsguru/problem/99999/155">acmsguru - Cartesian Tree</a></p>
 <p>با داشتن دنباله‌ای از زوج‌های <span class="arithmatex">$(x_i, y_i)$</span>، یک درخت دکارتی بر روی آنها بسازید. تمام <span class="arithmatex">$x_i$</span> ها و تمام <span class="arithmatex">$y_i$</span> ها یکتا هستند.</p>
 </div>
-<p>توجه داشته باشید که در این مسئله اولویت‌ها تصادفی نیستند، از این رو صرفاً درج رأس‌ها به صورت یک به یک می‌تواند به یک راه حل با پیچیدگی درجه دو منجر شود.</p>
-<p>یکی از راه حل‌های ممکن در اینجا این است که برای هر عنصر، نزدیک‌ترین عناصر در سمت چپ و راست را که اولویت کمتری نسبت به این عنصر دارند، پیدا کنیم. از بین این دو عنصر، آنکه اولویت بزرگتری دارد باید والد عنصر فعلی باشد.</p>
-<p>این مسئله با یک تغییر در <a href="stack_queue_modification.html">پشته مینیمم</a> در زمان خطی قابل حل است:</p>
+<p>دقت کن که توی این مسئله اولویت‌ها تصادفی نیستن، برای همین اگه رأس‌ها رو دونه دونه درج کنی، ممکنه به یه راه حل با پیچیدگی درجه دو برسی.</p>
+<p>یکی از راه‌حل‌های ممکن اینجا اینه که برای هر عنصر، نزدیک‌ترین عناصر در سمت چپ و راستش رو که اولویت کمتری نسبت به این عنصر دارن پیدا کنیم. از بین این دو عنصر، اونی که اولویت بزرگتری داره، باید والد عنصر فعلی باشه.</p>
+<p>این مسئله با یه تغییر کوچیک توی الگوریتم <a href="stack_queue_modification.html">پشته مینیمم</a> در زمان خطی قابل حله:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">to</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">pitem</span><span class="o">&gt;</span><span class="w"> </span><span class="n">st</span><span class="p">;</span>
 <span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">it</span><span class="o">:</span><span class="w"> </span><span class="n">ranges</span><span class="o">::</span><span class="n">subrange</span><span class="p">(</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
@@ -7253,18 +7253,18 @@ Describe the issue of this article in detail.
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="implicit-treaps">تریپ‌های ضمنی (Implicit Treaps)<a class="headerlink" href="#implicit-treaps" title="Permanent link">&para;</a></h2>
-<p>تریپ ضمنی (Implicit treap) یک تغییر ساده از تریپ معمولی است که یک ساختمان داده بسیار قدرتمند محسوب می‌شود. در واقع، تریپ ضمنی را می‌توان به عنوان یک آرایه در نظر گرفت که رویه‌های زیر بر روی آن پیاده‌سازی شده‌اند (همه با پیچیدگی <span class="arithmatex">$O (\log N)$</span> در حالت آنلاین):</p>
+<p>تریپ ضمنی (Implicit treap) یه تغییر ساده روی همون تریپ معمولیه که یهو تبدیلش می‌کنه به یه ساختمان داده‌ی فوق‌العاده قدرتمند. جدی میگم، تریپ ضمنی رو می‌تونی مثل یه آرایه در نظر بگیری که این کارها رو میشه روش انجام داد (همه‌شون با پیچیدگی <span class="arithmatex">$O (\log N)$</span> به صورت آنلاین):</p>
 <ul>
-<li>درج یک عنصر در هر مکانی از آرایه</li>
-<li>حذف یک عنصر دلخواه</li>
-<li>یافتن مجموع، عنصر کمینه / بیشینه و غیره در یک بازه دلخواه</li>
-<li>افزودن، رنگ‌آمیزی در یک بازه دلخواه</li>
-<li>معکوس کردن عناصر در یک بازه دلخواه</li>
+<li>درج یه عنصر در هر جای دلخواه آرایه</li>
+<li>حذف یه عنصر دلخواه</li>
+<li>پیدا کردن مجموع، عنصر کمینه / بیشینه و... روی یه بازه‌ی دلخواه</li>
+<li>عملیات جمع یا رنگ‌آمیزی روی یه بازه‌ی دلخواه</li>
+<li>معکوس کردن عناصر در یه بازه‌ی دلخواه</li>
 </ul>
-<p>ایده این است که کلیدها باید <strong>اندیس‌های</strong> صفر-مبنای عناصر در آرایه باشند. اما ما این مقادیر را به طور صریح ذخیره نخواهیم کرد (در غیر این صورت، به عنوان مثال، درج یک عنصر باعث تغییر کلید در <span class="arithmatex">$O (N)$</span> گره از درخت می‌شود).</p>
-<p>توجه داشته باشید که کلید یک گره، تعداد گره‌های کمتر از آن است (چنین گره‌هایی می‌توانند نه تنها در زیردرخت چپ آن بلکه در زیردرخت‌های چپ اجداد آن نیز وجود داشته باشند). به طور مشخص‌تر، <strong>کلید ضمنی</strong> برای یک گره T برابر است با تعداد رأس‌های <span class="arithmatex">$cnt (T \rightarrow L)$</span> در زیردرخت چپ این گره به علاوه مقادیر مشابه <span class="arithmatex">$cnt (P \rightarrow L) + 1$</span> برای هر جد P از گره T، اگر T در زیردرخت راست P باشد.</p>
-<p>اکنون مشخص است که چگونه کلید ضمنی گره فعلی را به سرعت محاسبه کنیم. از آنجا که در تمام عملیات با پایین رفتن در درخت به هر گره می‌رسیم، می‌توانیم این مجموع را انباشته کرده و آن را به تابع منتقل کنیم. اگر به زیردرخت چپ برویم، مجموع انباشته شده تغییر نمی‌کند، اگر به زیردرخت راست برویم، به اندازه <span class="arithmatex">$cnt (T \rightarrow L) +1$</span> افزایش می‌یابد.</p>
-<p>در اینجا پیاده‌سازی‌های جدید <strong>Split</strong> و <strong>Merge</strong> آمده است:</p>
+<p>ایده‌ش اینه که کلیدها، همون <strong>ایندکس‌های</strong> صفر-مبنای عناصر توی آرایه باشن. ولی ما این مقادیر رو به صورت مستقیم ذخیره نمی‌کنیم (وگرنه مثلاً برای درج یه عنصر، مجبور می‌شدیم کلید <span class="arithmatex">$O(N)$</span> تا گره رو عوض کنیم که فاجعه‌ست).</p>
+<p>یادت باشه که کلید یه گره، تعداد گره‌های کوچیک‌تر از اونه (این گره‌ها می‌تونن نه فقط توی زیردرخت چپش، بلکه توی زیردرخت‌های چپ اجدادش هم باشن). اگه بخوایم دقیق‌تر بگیم، <strong>کلید ضمنی</strong> برای یه گره T، میشه تعداد گره‌های توی زیردرخت چپش یعنی <span class="arithmatex">$cnt (T \rightarrow L)$</span> به علاوه‌ی همین مقدار <span class="arithmatex">$cnt (P \rightarrow L) + 1$</span> برای هر جد P از گره T، به شرطی که T توی زیردرخت راست P باشه.</p>
+<p>حالا دیگه واضحه که چطوری میشه کلید ضمنی گره فعلی رو سریع حساب کرد. از اونجایی که توی همه‌ی عملیات‌ها با پایین رفتن در درخت به هر گره می‌رسیم، می‌تونیم این مجموع رو مرحله به مرحله حساب کنیم و به تابع پاس بدیم. اگه به زیردرخت چپ بریم، این مجموع انباشته شده تغییری نمی‌کنه، ولی اگه به زیردرخت راست بریم، به اندازه‌ی <span class="arithmatex">$cnt (T \rightarrow L) +1$</span> زیاد میشه.</p>
+<p>اینم از پیاده‌سازی‌های جدید <strong>Split</strong> و <strong>Merge</strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">merge</span><span class="w"> </span><span class="p">(</span><span class="n">pitem</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">pitem</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">pitem</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">l</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">r</span><span class="p">)</span>
 <span class="w">        </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">r</span><span class="p">;</span>
@@ -7286,23 +7286,23 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="n">upd_cnt</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>در پیاده‌سازی بالا، پس از فراخوانی <span class="arithmatex">$split(T, T_1, T_2, k)$</span>, درخت <span class="arithmatex">$T_1$</span> شامل <span class="arithmatex">$k$</span> عنصر اول <span class="arithmatex">$T$</span> خواهد بود (یعنی عناصری که کلید ضمنی آنها کمتر از <span class="arithmatex">$k$</span> است) و <span class="arithmatex">$T_2$</span> شامل بقیه عناصر خواهد بود.</p>
-<p>حال بیایید پیاده‌سازی عملیات مختلف بر روی تریپ‌های ضمنی را بررسی کنیم:</p>
+<p>توی پیاده‌سازی بالا، بعد از صدا زدن <span class="arithmatex">$split(T, T_1, T_2, k)$</span>، درخت <span class="arithmatex">$T_1$</span> شامل <span class="arithmatex">$k$</span> عنصر اول <span class="arithmatex">$T$</span> میشه (یعنی عناصری که کلید ضمنی‌شون کمتر از <span class="arithmatex">$k$</span> هست) و <span class="arithmatex">$T_2$</span> شامل بقیه عناصر میشه.</p>
+<p>حالا بیا پیاده‌سازی عملیات‌های مختلف روی تریپ‌های ضمنی رو ببینیم:</p>
 <ul>
 <li><strong>درج عنصر</strong>.
-  فرض کنید باید یک عنصر را در موقعیت <span class="arithmatex">$pos$</span> درج کنیم. ما تریپ را به دو بخش تقسیم می‌کنیم که متناظر با آرایه‌های <span class="arithmatex">$[0..pos-1]$</span> و <span class="arithmatex">$[pos..sz]$</span> هستند؛ برای این کار <span class="arithmatex">$split(T, T_1, T_2, pos)$</span> را فراخوانی می‌کنیم. سپس درخت <span class="arithmatex">$T_1$</span> را با گره جدید ادغام می‌کنیم (با فراخوانی <span class="arithmatex">$merge(T_1, T_1, \text{new item})$</span>). در نهایت، درخت <span class="arithmatex">$T_1$</span> (که اکنون شامل عنصر جدید است) و <span class="arithmatex">$T_2$</span> را دوباره با هم ادغام می‌کنیم تا تریپ نهایی را بسازیم.</li>
+    فرض کن می‌خوای یه عنصر رو توی موقعیت <code>pos</code> درج کنی. تریپ رو به دو بخش تقسیم می‌کنیم که متناظر با آرایه‌های <span class="arithmatex">$[0..pos-1]$</span> و <span class="arithmatex">$[pos..sz]$</span> هستن؛ برای این کار <code>split(T, T_1, T_2, pos)</code> رو صدا می‌زنیم. بعدش، درخت <span class="arithmatex">$T_1$</span> رو با گره جدید ادغام می‌کنیم (با صدا زدن <code>merge(T_1, T_1, new_item)</code>). در نهایت، درخت <span class="arithmatex">$T_1$</span> (که حالا شامل عنصر جدیده) و <span class="arithmatex">$T_2$</span> رو دوباره با هم ادغام می‌کنیم تا تریپ نهایی رو بسازیم.</li>
 <li><strong>حذف عنصر</strong>.
- این عملیات حتی ساده‌تر است: گره‌ای که باید حذف شود (<span class="arithmatex">$T$</span>) را پیدا کنید، فرزندان آن (<span class="arithmatex">$L$</span> و <span class="arithmatex">$R$</span>) را با هم ادغام کنید، و عنصر <span class="arithmatex">$T$</span> را با نتیجه این ادغام جایگزین کنید. در واقع، حذف عنصر در تریپ ضمنی دقیقاً همانند تریپ معمولی است.</li>
-<li><strong>یافتن مجموع / کمینه</strong>، و غیره در یک بازه.
- اولاً، یک فیلد اضافی <span class="arithmatex">$F$</span> در ساختار <code>item</code> ایجاد کنید تا مقدار تابع هدف را برای زیردرخت این گره ذخیره کند. نگهداری این فیلد مشابه نگهداری اندازه زیردرخت‌ها آسان است: یک تابع ایجاد کنید که این مقدار را برای یک گره بر اساس مقادیر فرزندانش محاسبه کند و فراخوانی‌های این تابع را به انتهای تمام توابعی که درخت را تغییر می‌دهند اضافه کنید.
- ثانیاً، باید بدانیم چگونه یک پرس‌وجو برای یک بازه دلخواه <span class="arithmatex">$[A; B]$</span> را پردازش کنیم.
- برای به دست آوردن بخشی از درخت که متناظر با بازه <span class="arithmatex">$[A; B]$</span> است، باید <span class="arithmatex">$split(T, T_2, T_3, B+1)$</span> و سپس <span class="arithmatex">$split(T_2, T_1, T_2, A)$</span> را فراخوانی کنیم: پس از این، <span class="arithmatex">$T_2$</span> شامل تمام عناصر در بازه <span class="arithmatex">$[A; B]$</span> و فقط آنها خواهد بود. بنابراین، پاسخ به پرس‌وجو در فیلد <span class="arithmatex">$F$</span> ریشه <span class="arithmatex">$T_2$</span> ذخیره می‌شود. پس از پاسخ به پرس‌وجو، درخت باید با ادغام مجدد سه بخش بازیابی شود: ابتدا <span class="arithmatex">$T_1$</span> و <span class="arithmatex">$T_2$</span> را ادغام کرده و سپس نتیجه را با <span class="arithmatex">$T_3$</span> ادغام می‌کنیم.</li>
+    این عملیات حتی ساده‌تره: گره‌ای که باید حذف بشه (<span class="arithmatex">$T$</span>) رو پیدا کن، بچه‌هاش (<span class="arithmatex">$L$</span> و <span class="arithmatex">$R$</span>) رو با هم ادغام کن، و عنصر <span class="arithmatex">$T$</span> رو با نتیجه‌ی این ادغام جایگزین کن. در واقع، حذف عنصر توی تریپ ضمنی دقیقاً مثل تریپ معمولیه.</li>
+<li><strong>پیدا کردن مجموع / کمینه</strong> و... در یک بازه.
+    اولاً، یه فیلد اضافی <span class="arithmatex">$F$</span> توی ساختار <code>item</code> درست کن تا مقدار تابع هدفت رو برای زیردرخت این گره ذخیره کنه. نگهداری این فیلد هم مثل نگهداری اندازه‌ی زیردرخت‌ها آسونه: یه تابع بساز که این مقدار رو برای یه گره بر اساس مقادیر بچه‌هاش حساب کنه و فراخوانی‌های این تابع رو به انتهای همه‌ی توابعی که درخت رو تغییر میدن، اضافه کن.
+    ثانیاً، باید بدونیم چطوری یه کوئری برای یه بازه‌ی دلخواه <span class="arithmatex">$[A; B]$</span> رو پردازش کنیم.
+    برای اینکه اون تیکه از درخت که متناظر با بازه‌ی <span class="arithmatex">$[A; B]$</span> هست رو به دست بیاریم، باید <code>split(T, T_2, T_3, B+1)</code> و بعدش <code>split(T_2, T_1, T_2, A)</code> رو صدا بزنیم. بعد از این کار، <span class="arithmatex">$T_2$</span> شامل همه‌ی عناصر توی بازه‌ی <span class="arithmatex">$[A; B]$</span> و فقط همون‌ها میشه. پس، جواب کوئری توی فیلد <span class="arithmatex">$F$</span> ریشه‌ی <span class="arithmatex">$T_2$</span> ذخیره شده. بعد از جواب دادن به کوئری، باید درخت رو با ادغام مجدد سه بخش، به حالت اول برگردونیم: اول <span class="arithmatex">$T_1$</span> و <span class="arithmatex">$T_2$</span> رو ادغام می‌کنیم و بعد نتیجه رو با <span class="arithmatex">$T_3$</span> ادغام می‌کنیم.</li>
 <li><strong>افزودن / رنگ‌آمیزی</strong> در یک بازه.
- ما مشابه پاراگراف قبلی عمل می‌کنیم، اما به جای فیلد F، یک فیلد <code>add</code> ذخیره می‌کنیم که حاوی مقدار اضافه‌شده برای زیردرخت (یا مقداری که زیردرخت با آن رنگ‌آمیزی شده) خواهد بود. قبل از انجام هر عملیاتی باید این مقدار را به درستی "push" کنیم - یعنی <span class="arithmatex">$T \rightarrow L \rightarrow add$</span> و <span class="arithmatex">$T \rightarrow R \rightarrow add$</span> را تغییر دهیم و <code>add</code> را در گره والد پاک کنیم. به این ترتیب پس از هر تغییری در درخت، اطلاعات از بین نخواهد رفت.</li>
+    اینجا هم مثل پاراگراف قبلی عمل می‌کنیم، ولی به جای فیلد F، یه فیلد <code>add</code> ذخیره می‌کنیم که حاوی مقدار اضافه‌شده برای زیردرخته (یا مقداری که زیردرخت باهاش رنگ‌آمیزی شده). قبل از انجام هر عملیاتی باید این مقدار رو به درستی "push" کنیم. یعنی <span class="arithmatex">$T \rightarrow L \rightarrow add$</span> و <span class="arithmatex">$T \rightarrow R \rightarrow add$</span> رو تغییر بدیم و <code>add</code> رو توی گره والد پاک کنیم. اینجوری بعد از هر تغییری توی درخت، اطلاعات از بین نمیره.</li>
 <li><strong>معکوس کردن</strong> در یک بازه.
- این عملیات نیز مشابه عملیات قبلی است: باید یک پرچم بولین <code>rev</code> اضافه کنیم و زمانی که زیردرخت گره فعلی باید معکوس شود، آن را true کنیم. "Push" کردن این مقدار کمی پیچیده‌تر است - ما فرزندان این گره را با هم تعویض می‌کنیم و این پرچم را برای آنها true می‌کنیم.</li>
+    این عملیات هم شبیه قبلیه: باید یه پرچم بولین <code>rev</code> اضافه کنیم و وقتی زیردرخت گره فعلی باید معکوس بشه، اون رو <code>true</code> کنیم. "Push" کردن این مقدار یه کم پیچیده‌تره؛ ما بچه‌های این گره رو با هم جابجا می‌کنیم و این پرچم رو برای اونا <code>true</code> می‌کنیم.</li>
 </ul>
-<p>در اینجا یک پیاده‌سازی نمونه از تریپ ضمنی با قابلیت معکوس کردن در یک بازه آورده شده است. برای هر گره، فیلدی به نام <code>value</code> ذخیره می‌کنیم که مقدار واقعی عنصر آرایه در موقعیت فعلی است. ما همچنین پیاده‌سازی تابع <code>output()</code> را ارائه می‌دهیم که آرایه‌ای متناظر با وضعیت فعلی تریپ ضمنی را خروجی می‌دهد.</p>
+<p>اینم یه نمونه پیاده‌سازی از تریپ ضمنی با قابلیت معکوس کردن روی بازه. برای هر گره، یه فیلد به نام <code>value</code> ذخیره می‌کنیم که مقدار واقعی عنصر آرایه توی اون موقعیت هست. پیاده‌سازی تابع <code>output()</code> رو هم آوردیم که آرایه‌ی متناظر با وضعیت فعلی تریپ ضمنی رو چاپ می‌کنه.</p>
 <div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">item</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pitem</span><span class="p">;</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">item</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">prior</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">cnt</span><span class="p">;</span>
@@ -7369,7 +7369,7 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="n">output</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">r</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_6">ادبیات<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_6">منابع برای مطالعه بیشتر<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://www.cs.cmu.edu/~scandal/papers/treaps-spaa98.pdf">Blelloch, Reid-Miller "Fast Set Operations Using Treaps"</a></li>
 </ul>
