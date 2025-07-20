@@ -86,9 +86,9 @@ jobs:
           github_token: ${{ github.token }}
           user_name: github-actions[bot]
           user_email: github-actions[bot]@users.noreply.github.com
-          publish_dir: public/
-          destination_dir: ${{ steps.get-source-name.outputs.source_name == 'main' && '.' || steps.get-source-name.outputs.source_name }}
-          full_commit_message: "Deploy for ${{ steps.get-source-name.outputs.source_name != 'main' && 'preview #' || '' }}${{ steps.get-source-name.outputs.source_name }} (${{ github.event.workflow_run.head_sha }})"
+          publish_dir: public/${{ steps.get-pr-number.outputs.pr_number }}
+          destination_dir: ./
+          full_commit_message: "Preview for ${{ steps.get-pr-number.outputs.pr_number != 'main' && '#' || '' }}${{ steps.get-pr-number.outputs.pr_number }} (${{ github.event.workflow_run.head_sha }}) at https://gh.cp-algorithms.com/${{ steps.get-pr-number.outputs.pr_number }}/"
 
       - name: Set final commit status
         uses: ./.github/actions/set-commit-status
