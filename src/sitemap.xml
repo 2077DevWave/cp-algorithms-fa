@@ -8,842 +8,837 @@
 
 
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/</loc>
+  <loc>https://cp-algorithm.sideco.ir/</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/.</loc>
+  <loc>https://cp-algorithm.sideco.ir/index.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/index.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/navigation.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/navigation.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/tags.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/tags.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/contrib.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/contrib.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/code_of_conduct.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/code_of_conduct.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/preview.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/preview.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/binary-exp.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/binary-exp.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/euclid-algorithm.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/euclid-algorithm.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/extended-euclid-algorithm.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/extended-euclid-algorithm.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/linear-diophantine-equation.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/linear-diophantine-equation.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/fibonacci-numbers.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/fibonacci-numbers.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/sieve-of-eratosthenes.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/sieve-of-eratosthenes.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/prime-sieve-linear.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/prime-sieve-linear.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/primality_tests.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/primality_tests.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/factorization.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/factorization.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/phi-function.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/phi-function.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/divisors.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/divisors.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/module-inverse.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/module-inverse.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/linear_congruence_equation.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/linear_congruence_equation.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/chinese-remainder-theorem.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/chinese-remainder-theorem.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/garners-algorithm.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/garners-algorithm.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/factorial-modulo.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/factorial-modulo.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/discrete-log.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/discrete-log.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/primitive-root.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/primitive-root.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/discrete-root.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/discrete-root.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/montgomery_multiplication.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/montgomery_multiplication.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/balanced-ternary.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/balanced-ternary.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/gray-code.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/gray-code.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/bit-manipulation.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/bit-manipulation.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/all-submasks.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/all-submasks.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/big-integer.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/big-integer.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/fft.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/fft.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/polynomial.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/polynomial.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/continued-fractions.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/continued-fractions.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/factoring-exp.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/factoring-exp.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/data_structures/stack_queue_modification.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/data_structures/stack_queue_modification.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/data_structures/sparse-table.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/data_structures/sparse-table.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/data_structures/disjoint_set_union.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/data_structures/disjoint_set_union.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/data_structures/fenwick.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/data_structures/fenwick.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/data_structures/sqrt_decomposition.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/data_structures/sqrt_decomposition.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/data_structures/segment_tree.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/data_structures/segment_tree.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/data_structures/treap.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/data_structures/treap.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/data_structures/sqrt-tree.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/data_structures/sqrt-tree.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/data_structures/randomized_heap.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/data_structures/randomized_heap.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/data_structures/deleting_in_log_n.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/data_structures/deleting_in_log_n.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/dynamic_programming/intro-to-dp.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/dynamic_programming/intro-to-dp.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/dynamic_programming/knapsack.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/dynamic_programming/knapsack.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/dynamic_programming/divide-and-conquer-dp.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/dynamic_programming/divide-and-conquer-dp.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/dynamic_programming/knuth-optimization.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/dynamic_programming/knuth-optimization.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/dynamic_programming/profile-dynamics.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/dynamic_programming/profile-dynamics.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/dynamic_programming/zero_matrix.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/dynamic_programming/zero_matrix.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/string-hashing.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/string-hashing.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/rabin-karp.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/rabin-karp.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/prefix-function.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/prefix-function.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/z-function.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/z-function.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/suffix-array.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/suffix-array.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/aho_corasick.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/aho_corasick.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/suffix-tree-ukkonen.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/suffix-tree-ukkonen.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/suffix-automaton.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/suffix-automaton.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/lyndon_factorization.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/lyndon_factorization.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/expression_parsing.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/expression_parsing.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string/manacher.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/manacher.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/string_lorentz.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/string/main_lorentz.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/linear_algebra/linear-system-gauss.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/linear_algebra/linear-system-gauss.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/linear_algebra/determinant-gauss.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/linear_algebra/determinant-gauss.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/linear_algebra/determinant-kraut.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/linear_algebra/determinant-kraut.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/linear_algebra/rank-matrix.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/linear_algebra/rank-matrix.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/algebra/factorial-divisors.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/algebra/factorial-divisors.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/combinatorics/binomial-coefficients.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/combinatorics/binomial-coefficients.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/combinatorics/catalan-numbers.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/combinatorics/catalan-numbers.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/combinatorics/inclusion-exclusion.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/combinatorics/inclusion-exclusion.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/combinatorics/burnside.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/combinatorics/burnside.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/combinatorics/stars_and_bars.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/combinatorics/stars_and_bars.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/combinatorics/generating_combinations.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/combinatorics/generating_combinations.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/combinatorics/bishops-on-chessboard.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/combinatorics/bishops-on-chessboard.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/combinatorics/bracket_sequences.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/combinatorics/bracket_sequences.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/combinatorics/counting_labeled_graphs.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/combinatorics/counting_labeled_graphs.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/num_methods/binary_search.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/num_methods/binary_search.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/num_methods/ternary_search.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/num_methods/ternary_search.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/num_methods/roots_newton.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/num_methods/roots_newton.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/num_methods/simulated_annealing.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/num_methods/simulated_annealing.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/num_methods/simpson-integration.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/num_methods/simpson-integration.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/basic-geometry.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/basic-geometry.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/segment-to-line.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/segment-to-line.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/lines-intersection.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/lines-intersection.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/check-segments-intersection.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/check-segments-intersection.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/segments-intersection.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/segments-intersection.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/circle-line-intersection.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/circle-line-intersection.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/circle-circle-intersection.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/circle-circle-intersection.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/tangents-to-two-circles.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/tangents-to-two-circles.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/length-of-segments-union.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/length-of-segments-union.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/oriented-triangle-area.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/oriented-triangle-area.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/area-of-simple-polygon.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/area-of-simple-polygon.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/point-in-convex-polygon.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/point-in-convex-polygon.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/minkowski.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/minkowski.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/picks-theorem.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/picks-theorem.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/lattice-points.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/lattice-points.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/convex-hull.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/convex-hull.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/convex_hull_trick.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/convex_hull_trick.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/intersecting_segments.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/intersecting_segments.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/planar.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/planar.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/point-location.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/point-location.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/nearest_points.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/nearest_points.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/delaunay.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/delaunay.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/vertical_decomposition.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/vertical_decomposition.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/halfplane-intersection.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/halfplane-intersection.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/geometry/manhattan-distance.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/geometry/manhattan-distance.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/breadth-first-search.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/breadth-first-search.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/depth-first-search.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/depth-first-search.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/search-for-connected-components.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/search-for-connected-components.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/bridge-searching.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/bridge-searching.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/bridge-searching-online.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/bridge-searching-online.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/cutpoints.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/cutpoints.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/strongly-connected-components.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/strongly-connected-components.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/strong-orientation.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/strong-orientation.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/dijkstra.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/dijkstra.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/dijkstra_sparse.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/dijkstra_sparse.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/bellman_ford.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/bellman_ford.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/01_bfs.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/01_bfs.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/desopo_pape.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/desopo_pape.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/all-pair-shortest-path-floyd-warshall.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/all-pair-shortest-path-floyd-warshall.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/fixed_length_paths.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/fixed_length_paths.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/mst_prim.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/mst_prim.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/mst_kruskal.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/mst_kruskal.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/mst_kruskal_with_dsu.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/mst_kruskal_with_dsu.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/second_best_mst.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/second_best_mst.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/kirchhoff-theorem.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/kirchhoff-theorem.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/pruefer_code.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/pruefer_code.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/finding-cycle.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/finding-cycle.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/finding-negative-cycle-in-graph.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/finding-negative-cycle-in-graph.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/euler_path.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/euler_path.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/lca.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/lca.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/lca_binary_lifting.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/lca_binary_lifting.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/lca_farachcoltonbender.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/lca_farachcoltonbender.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/rmq_linear.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/rmq_linear.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/lca_tarjan.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/lca_tarjan.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/edmonds_karp.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/edmonds_karp.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/push-relabel.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/push-relabel.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/push-relabel-faster.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/push-relabel-faster.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/dinic.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/dinic.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/mpm.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/mpm.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/flow_with_demands.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/flow_with_demands.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/min_cost_flow.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/min_cost_flow.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/Assignment-problem-min-flow.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/Assignment-problem-min-flow.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/bipartite-check.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/bipartite-check.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/kuhn_maximum_bipartite_matching.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/kuhn_maximum_bipartite_matching.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/hungarian-algorithm.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/hungarian-algorithm.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/topological-sort.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/topological-sort.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/edge_vertex_connectivity.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/edge_vertex_connectivity.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/tree_painting.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/tree_painting.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/2SAT.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/2SAT.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/graph/hld.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/graph/hld.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/sequences/rmq.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/sequences/rmq.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/sequences/longest_increasing_subsequence.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/sequences/longest_increasing_subsequence.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/others/maximum_average_segment.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/others/maximum_average_segment.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/sequences/k-th.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/sequences/k-th.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/sequences/mex.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/sequences/mex.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/game_theory/games_on_graphs.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/game_theory/games_on_graphs.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/game_theory/sprague-grundy-nim.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/game_theory/sprague-grundy-nim.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/schedules/schedule_one_machine.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/schedules/schedule_one_machine.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/schedules/schedule_two_machines.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/schedules/schedule_two_machines.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/schedules/schedule-with-completion-duration.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/schedules/schedule-with-completion-duration.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/others/tortoise_and_hare.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/others/tortoise_and_hare.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/others/josephus_problem.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/others/josephus_problem.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/others/15-puzzle.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://cp-algorithm.sideco.ir/main/others/15-puzzle.html</loc>
-  <lastmod>2025-07-14T20:17:24+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://cp-algorithm.sideco.ir/main/others/stern_brocot_tree_farey_sequences.html</loc>
+  <loc>https://cp-algorithm.sideco.ir/others/stern_brocot_tree_farey_sequences.html</loc>
   <lastmod>2025-07-14T20:17:24+00:00</lastmod>
   <priority>0.80</priority>
 </url>
