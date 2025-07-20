@@ -1,6 +1,6 @@
 ---
 tags:
-  - AI Translated
+  - Fully Translated
 e_maxx_link: sqrt-tree
 ---
 

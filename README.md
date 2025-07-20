@@ -14,7 +14,7 @@
 و افزودن مقالات جدید به این مجموعه بهبود دهیم.
 
 
-صفحات گردآوری‌شده در [http://cp-algorithm.sideco.ir](http://cp-algorithm.sideco.ir) منتشر شده‌اند.
+صفحات گردآوری‌شده در [http://cp-algorithm.sideco.ir](http://cp-algorithm.sideco.ir/main/) منتشر شده‌اند.
 
 صفحات ابتدا توسط هوش مصنوعی ترجمه و سپس توسط افراد بازبینی و ویرایش می شوند.
 
@@ -32,10 +32,10 @@ Fully Translated: مقالاتی که بازبینی و به صورت کامل �
 
 لیست تمام آپدیت ها: [Commit History](https://github.com/2077DevWave/cp-algorithms-fa/commits/main)
 
-لیست تمام مقالات: [Navigation](https://cp-algorithm.sideco.ir/navigation.html)
+لیست تمام مقالات: [Navigation](https://cp-algorithm.sideco.ir/main/navigation.html)
 
 ## Contributing
 
-- [Information for contributors](https://cp-algorithm.sideco.ir/contrib.html)
-- [Code of conduct](https://cp-algorithm.sideco.ir/code_of_conduct.html)
-- [Test-Your-Page form](https://cp-algorithm.sideco.ir/preview.html)
+- [Information for contributors](https://cp-algorithm.sideco.ir/main/contrib.html)
+- [Code of conduct](https://cp-algorithm.sideco.ir/main/code_of_conduct.html)
+- [Test-Your-Page form](https://cp-algorithm.sideco.ir/main/preview.html)
