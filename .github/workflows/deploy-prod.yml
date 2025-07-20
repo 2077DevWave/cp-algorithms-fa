@@ -86,8 +86,8 @@ jobs:
           github_token: ${{ github.token }}
           user_name: github-actions[bot]
           user_email: github-actions[bot]@users.noreply.github.com
-          publish_dir: public/${{ steps.get-source-name.outputs.source_name }}
-          destination_dir: ${{ steps.get-source-name.outputs.source_name == 'main' && '.' || steps.get-source-name.outputs.source_name }}
+          publish_dir: public/
+          destination_dir: ./
           full_commit_message: "Deploy for ${{ steps.get-source-name.outputs.source_name != 'main' && 'preview #' || '' }}${{ steps.get-source-name.outputs.source_name }} (${{ github.event.workflow_run.head_sha }})"
 
       - name: Set final commit status
