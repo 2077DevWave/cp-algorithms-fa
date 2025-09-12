@@ -1100,7 +1100,7 @@
         <li class="md-nav__item">
   <a href="#p_1" class="md-nav__link">
     <span class="md-ellipsis">
-      چند بار عامل $p$ تکرار شده؟
+      تعداد تکرار عامل $p$
     </span>
   </a>
   
@@ -6621,7 +6621,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 سپتامبر 2025 18:55:35 UTC">12 سپتامبر 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6647,43 +6647,49 @@ Describe the issue of this article in detail.
 </ul>
 
 
-<h1 id="p">محاسبه فاکتوریل به پیمانه <span class="arithmatex">$p$</span><a class="headerlink" href="#p" title="Permanent link">&para;</a></h1>
-<p>بعضی وقتا پیش میاد که باید یه سری فرمول‌های پیچیده رو به پیمانه یه عدد اول <span class="arithmatex">$p$</span> حساب کنیم. منظورم فرمول‌هاییه که تو صورت و مخرجشون فاکتوریل دارن، مثل فرمول ضریب دو جمله‌ای.</p>
-<p>ما اینجا حالتی رو در نظر می‌گیریم که <span class="arithmatex">$p$</span> نسبتاً کوچیک باشه.
-ببین، این مسئله فقط وقتی معنی پیدا می‌کنه که فاکتوریل‌ها هم توی صورت کسر باشن و هم توی مخرجش. چرا؟ چون اگه اینطور نباشه، از <span class="arithmatex">$p!$</span> به بعد، همه چی به پیمانه <span class="arithmatex">$p$</span> صفر میشه. ولی وقتی کسر داریم، عامل‌های <span class="arithmatex">$p$</span> می‌تونن با هم ساده بشن و جواب نهایی به پیمانه <span class="arithmatex">$p$</span> یه عدد غیرصفر باشه.</p>
-<p>خب، پس اگه بخوایم رسمی‌تر بگیم، کار ما اینه: می‌خوایم <span class="arithmatex">$n! \bmod p$</span> رو حساب کنیم، ولی با این شرط که تمام عامل‌هایی که مضرب <span class="arithmatex">$p$</span> هستن رو نادیده بگیریم.
-فکر کن داری <span class="arithmatex">$n!$</span> رو به عامل‌های اولش تجزیه می‌کنی، بعد میای هرچی عامل <span class="arithmatex">$p$</span> هست رو از توش حذف می‌کنی و باقی‌مونده رو به پیمانه <span class="arithmatex">$p$</span> حساب می‌کنی.
-ما به این فاکتوریل <em>دستکاری شده</em> یا <em>اصلاح‌شده</em> میگیم <span class="arithmatex">$n!_{\%p}$</span>.
-مثلاً <span class="arithmatex">$7!_{\%3}$</span> اینجوری میشه: <span class="arithmatex">$7!_{\%3} \equiv 1 \cdot 2 \cdot \underbrace{1}_{3} \cdot 4 \cdot 5 \cdot \underbrace{2}_{6} \cdot 7 \equiv 2 \bmod 3$</span>.</p>
-<p>اگه یاد بگیریم چطوری این فاکتوریل اصلاح‌شده رو سریع حساب کنیم، اون‌وقت می‌تونیم مقدار یه عالمه فرمول ترکیبیاتی دیگه (مثلاً <a href="../combinatorics/binomial-coefficients.html">ضریب‌های دوجمله‌ای</a>) رو هم با سرعت بالا به دست بیاریم.</p>
+<h1 id="p">فاکتوریل به پیمانه‌ی <span class="arithmatex">$p$</span><a class="headerlink" href="#p" title="Permanent link">&para;</a></h1>
+<p>در برخی موارد لازم است فرمول‌های پیچیده‌ای را به پیمانه‌ی یک عدد اول <span class="arithmatex">$p$</span> در نظر بگیریم، فرمول‌هایی که حاوی فاکتوریل در صورت و مخرج کسر هستند، مانند آنچه در فرمول ضرایب دوجمله‌ای با آن مواجه می‌شویم.
+ما حالتی را در نظر می‌گیریم که <span class="arithmatex">$p$</span> نسبتاً کوچک باشد.
+این مسئله تنها زمانی معنا پیدا می‌کند که فاکتوریل‌ها هم در صورت و هم در مخرج کسرها ظاهر شوند.
+در غیر این صورت، <span class="arithmatex">$!p$</span> و جملات بعدی آن به صفر کاهش می‌یابند.
+اما در کسرها، عوامل <span class="arithmatex">$p$</span> می‌توانند با هم ساده شوند و عبارت حاصل به پیمانه‌ی <span class="arithmatex">$p$</span> غیرصفر خواهد بود.</p>
+<p>بنابراین، به طور رسمی، وظیفه این است: می‌خواهیم <span class="arithmatex">$!n \bmod p$</span> را محاسبه کنیم، بدون اینکه تمام عوامل مضرب <span class="arithmatex">$p$</span> را که در فاکتوریل ظاهر می‌شوند در نظر بگیریم.
+تصور کنید که تجزیه به عوامل اول <span class="arithmatex">$!n$</span> را می‌نویسید، تمام عوامل <span class="arithmatex">$p$</span> را حذف می‌کنید و حاصل‌ضرب را به پیمانه‌ی <span class="arithmatex">$p$</span> محاسبه می‌کنید.
+ما این فاکتوریل <em>اصلاح‌شده</em> را با <span class="arithmatex">$n!_{\%p}$</span> نشان خواهیم داد.
+برای مثال، <span class="arithmatex">$7!_{\%p} \equiv 1 \cdot 2 \cdot \underbrace{1}_{3} \cdot 4 \cdot 5 \underbrace{2}_{6} \cdot 7 \equiv 2 \bmod 3$</span>.</p>
+<p>یادگیری چگونگی محاسبه‌ی مؤثر این فاکتوریل اصلاح‌شده به ما امکان می‌دهد تا به سرعت مقدار فرمول‌های ترکیبیاتی مختلف (به عنوان مثال، <a href="../combinatorics/binomial-coefficients.html">ضرایب دوجمله‌ای</a>) را محاسبه کنیم.</p>
 <h2 id="_1">الگوریتم<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>بیا این فاکتوریل اصلاح‌شده رو با جزئیات بنویسیم تا ببینیم چی به چیه.</p>
+<p>بیایید این فاکتوریل اصلاح‌شده را به صراحت بنویسیم.</p>
 <div class="arithmatex">$$\begin{eqnarray}
 n!_{\%p} &amp;=&amp; 1 \cdot 2 \cdot 3 \cdot \ldots \cdot (p-2) \cdot (p-1) \cdot \underbrace{1}_{p} \cdot (p+1) \cdot (p+2) \cdot \ldots \cdot (2p-1) \cdot \underbrace{2}_{2p} \\\
  &amp; &amp;\quad \cdot (2p+1) \cdot \ldots \cdot (p^2-1) \cdot \underbrace{1}_{p^2} \cdot (p^2 +1) \cdot \ldots \cdot n \pmod{p} \\\\
 &amp;=&amp; 1 \cdot 2 \cdot 3 \cdot \ldots \cdot (p-2) \cdot (p-1) \cdot \underbrace{1}_{p} \cdot 1 \cdot 2 \cdot \ldots \cdot (p-1) \cdot \underbrace{2}_{2p} \cdot 1 \cdot 2 \\\
 &amp; &amp;\quad \cdot \ldots \cdot (p-1) \cdot \underbrace{1}_{p^2} \cdot 1 \cdot 2 \cdot \ldots \cdot (n \bmod p) \pmod{p}
 \end{eqnarray}$$</div>
-<p>همونطور که می‌بینی، فاکتوریل ما به چندتا بلوک با طول یکسان تقسیم شده، البته به جز بلوک آخری که ممکنه ناقص باشه.</p>
+<p>به وضوح می‌توان دید که فاکتوریل به چندین بلوک با طول یکسان تقسیم می‌شود، به جز بلوک آخر.</p>
 <div class="arithmatex">$$\begin{eqnarray}
 n!_{\%p}&amp;=&amp; \underbrace{1 \cdot 2 \cdot 3 \cdot \ldots \cdot (p-2) \cdot (p-1) \cdot 1}_{\text{بلوک اول}} \cdot \underbrace{1 \cdot 2 \cdot 3 \cdot \ldots \cdot (p-2) \cdot (p-1) \cdot 2}_{\text{بلوک دوم}} \cdot \ldots \\\\
 &amp; &amp; \cdot \underbrace{1 \cdot 2 \cdot 3 \cdot \ldots \cdot (p-2) \cdot (p-1) \cdot 1}_{\text{بلوک p-ام}} \cdot \ldots \cdot \quad \underbrace{1 \cdot 2 \cdot \cdot \ldots \cdot (n \bmod p)}_{\text{بخش انتهایی}} \pmod{p}.
 \end{eqnarray}$$</div>
-<p>حساب کردن بخش اصلی هر بلوک خیلی راحته. این بخش در واقع همون <span class="arithmatex">$(p-1)! \pmod p$</span> خودمونه.
-می‌تونیم اینو با کد حساب کنیم، یا خیلی راحت‌تر، از قضیه ویلسون (Wilson's theorem) استفاده کنیم. این قضیه میگه برای هر عدد اول <span class="arithmatex">$p$</span>، داریم: <span class="arithmatex">$(p-1)! \equiv -1 \pmod p$</span>.</p>
-<p>ما دقیقاً <span class="arithmatex">$\lfloor \frac{n}{p} \rfloor$</span> تا از این بلوک‌های کامل داریم، پس باید <span class="arithmatex">$(p-1)!$</span> رو <span class="arithmatex">$\lfloor \frac{n}{p} \rfloor$</span> بار در هم ضرب کنیم، که یعنی همون <span class="arithmatex">$(-1)^{\lfloor n/p \rfloor}$</span>.
-این توان رو میشه با <a href="binary-exp.html">توان‌رسانی سریع (Binary Exponentiation)</a> توی زمان لگاریتمی حساب کرد. ولی یه راه ساده‌تر هم هست: نتیجه این توان یا <span class="arithmatex">$1$</span> میشه یا <span class="arithmatex">$-1$</span>. پس کافیه فقط زوج یا فرد بودن توان رو چک کنیم. اگه توان فرد بود، نتیجه رو در <span class="arithmatex">$-1$</span> ضرب می‌کنیم. تازه به جای ضرب در <span class="arithmatex">$-1$</span> هم می‌تونیم نتیجه فعلی رو از <span class="arithmatex">$p$</span> کم کنیم (چون <span class="arithmatex">$x \cdot (-1) \equiv -x \equiv p-x \pmod p$</span>).</p>
-<p>حاصل‌ضرب تیکه‌ی آخر (بلوک ناقص) رو هم می‌تونیم جداگونه توی <span class="arithmatex">$O(p)$</span> حساب کنیم.</p>
-<p>خب، تا اینجا حاصل‌ضرب داخل هر بلوک رو حساب کردیم. حالا چی مونده؟ از هر بلوک، فقط اون عامل آخریش مونده که از تقسیم بر <span class="arithmatex">$p$</span> به دست اومده بود. اگه عددهایی که حساب کردیم رو کنار بذاریم، با یه همچین الگویی روبرو میشیم:</p>
+<p>محاسبه‌ی بخش اصلی بلوک‌ها آسان است — این بخش همان <span class="arithmatex">$(p-1)!\ \mathrm{mod}\ p$</span> است.
+می‌توانیم آن را به صورت برنامه‌نویسی محاسبه کنیم یا فقط از قضیه‌ی ویلسون (Wilson's theorem) استفاده کنیم که بیان می‌کند برای هر عدد اول <span class="arithmatex">$p$</span>، داریم <span class="arithmatex">$(p-1)! \bmod p = -1$</span>.</p>
+<p>ما دقیقاً <span class="arithmatex">$\lfloor \frac{n}{p} \rfloor$</span> بلوک از این نوع داریم، بنابراین باید <span class="arithmatex">$-1$</span> را به توان <span class="arithmatex">$\lfloor \frac{n}{p} \rfloor$</span> برسانیم.
+این کار را می‌توان در زمان لگاریتمی با استفاده از <a href="binary-exp.html">توان‌رسانی دودویی</a> انجام داد؛ با این حال، می‌توانید متوجه شوید که نتیجه بین <span class="arithmatex">$-1$</span> و <span class="arithmatex">$1$</span> تغییر می‌کند، بنابراین فقط باید به زوجیت توان نگاه کنیم و اگر توان فرد بود، در <span class="arithmatex">$-1$</span> ضرب کنیم.
+و به جای ضرب، می‌توانیم نتیجه فعلی را از <span class="arithmatex">$p$</span> کم کنیم.</p>
+<p>مقدار بلوک جزئی آخر را می‌توان به طور جداگانه در <span class="arithmatex">$O(p)$</span> محاسبه کرد.</p>
+<p>با این کار، از هر بلوک تنها آخرین عنصر آن باقی می‌ماند.
+اگر عناصری را که قبلاً پردازش شده‌اند پنهان کنیم، الگوی زیر را مشاهده می‌کنیم:</p>
 <div class="arithmatex">$$n!_{\%p} = \underbrace{ \ldots \cdot 1 } \cdot \underbrace{ \ldots \cdot 2} \cdot \ldots \cdot \underbrace{ \ldots \cdot (p-1)} \cdot \underbrace{ \ldots \cdot 1 } \cdot \underbrace{ \ldots \cdot 1} \cdot \underbrace{ \ldots \cdot 2} \cdots$$</div>
-<p>اینا رو که کنار هم بذاری، می‌بینی که این خودش دوباره یه فاکتوریل <em>اصلاح‌شده</em> است، ولی برای یه عدد خیلی کوچیکتر! در واقع این همون <span class="arithmatex">$\lfloor n / p \rfloor !_{\%p}$</span> خودمونه.</p>
-<p>پس داستان این شد: برای محاسبه <span class="arithmatex">$n!_{\%p}$</span>، ما یه سری محاسبات توی <span class="arithmatex">$O(p)$</span> انجام میدیم و مسئله رو به محاسبه‌ی <span class="arithmatex">$\lfloor n / p \rfloor !_{\%p}$</span> تبدیل می‌کنیم. این یعنی یه فرمول بازگشتی داریم!
-عمق این بازگشت هم <span class="arithmatex">$O(\log_p n)$</span> هست. پس پیچیدگی زمانی کل الگوریتم میشه <span class="arithmatex">$O(p \log_p n)$</span>.</p>
-<p>یه نکته: اگه فاکتوریل‌های <span class="arithmatex">$0!, 1!, 2!, \dots, (p-1)!$</span> رو به پیمانه <span class="arithmatex">$p$</span> از قبل حساب کنی (precompute)، پیچیدگی زمانی الگوریتم خیلی بهتر میشه و به <span class="arithmatex">$O(\log_p n)$</span> میرسه.</p>
+<p>این دوباره یک فاکتوریل <em>اصلاح‌شده</em> است، اما با ابعادی بسیار کوچکتر.
+این همان <span class="arithmatex">$\lfloor n / p \rfloor !_{\%p}$</span> است.</p>
+<p>بنابراین، در حین محاسبه‌ی فاکتوریل <em>اصلاح‌شده</em> <span class="arithmatex">$n\!_{\%p}$</span>، ما <span class="arithmatex">$O(p)$</span> عملیات انجام می‌دهیم و مسئله به محاسبه‌ی <span class="arithmatex">$\lfloor n / p \rfloor !_{\%p}$</span> تقلیل می‌یابد.
+ما یک فرمول بازگشتی داریم.
+عمق بازگشت <span class="arithmatex">$O(\log_p n)$</span> است و بنابراین، پیچیدگی زمانی کامل الگوریتم <span class="arithmatex">$O(p \log_p n)$</span> است.</p>
+<p>توجه داشته باشید که اگر فاکتوریل‌های <span class="arithmatex">$!0, ~!1, ~!2, \dots, !(p-1)$</span> را به پیمانه‌ی <span class="arithmatex">$p$</span> از قبل محاسبه کنید، پیچیدگی زمانی به <span class="arithmatex">$O(\log_p n)$</span> کاهش می‌یابد.</p>
 <h2 id="_2">پیاده‌سازی<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>برای پیاده‌سازی، لازم نیست حتماً از تابع بازگشتی استفاده کنیم. چون این یه مدل بازگشت از انتها (tail recursion) هست، خیلی راحت میشه با یه حلقه <code>while</code> تبدیلش کرد به یه کد غیربازگشتی.
-توی کد زیر، ما فاکتوریل‌های <span class="arithmatex">$0!, 1!, \dots, (p-1)!$</span> رو از قبل حساب می‌کنیم. برای همین، زمان اجرا میشه <span class="arithmatex">$O(p + \log_p n)$</span> (اون <span class="arithmatex">$O(p)$</span> برای پیش‌محاسبه است).
-اگه قرار باشه این تابع رو چند بار صدا بزنی، می‌تونی بخش پیش‌محاسبه رو یه بار بیرون از تابع انجام بدی تا هر بار فراخوانی فقط <span class="arithmatex">$O(\log_p n)$</span> طول بکشه.</p>
+<p>ما به بازگشت نیازی نداریم زیرا این یک مورد بازگشت از انتها (tail recursion) است و بنابراین می‌توان آن را به راحتی با استفاده از حلقه پیاده‌سازی کرد.
+در پیاده‌سازی زیر، ما فاکتوریل‌های <span class="arithmatex">$!0, ~!1, \dots, !(p-1)$</span> را از قبل محاسبه می‌کنیم و در نتیجه زمان اجرا <span class="arithmatex">$O(p + \log_p n)$</span> خواهد بود.
+اگر نیاز دارید تابع را چندین بار فراخوانی کنید، می‌توانید پیش‌محاسبات را خارج از تابع انجام دهید و محاسبه‌ی <span class="arithmatex">$n!_{\%p}$</span> را در زمان <span class="arithmatex">$O(\log_p n)$</span> انجام دهید.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">factmod</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
 <span class="w">    </span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
@@ -6700,13 +6706,13 @@ n!_{\%p}&amp;=&amp; \underbrace{1 \cdot 2 \cdot 3 \cdot \ldots \cdot (p-2) \cdot
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>یه راه حل جایگزین هم هست برای وقتی که حافظه محدوده و نمی‌تونی همه فاکتوریل‌ها رو توی یه آرایه ذخیره کنی. می‌تونی به جای این کار، فقط اون باقی‌مونده‌هایی که لازم داری (<code>n%p</code> توی هر مرحله) رو یه جا یادداشت کنی، بعد مرتبشون کنی و توی یه حلقه، فاکتوریل‌ها رو تا جایی که لازمه حساب کنی و جواب‌ها رو به دست بیاری. اینجوری دیگه نیازی به ذخیره کل آرایه فاکتوریل‌ها نیست.</p>
-<h2 id="p_1">چند بار عامل <span class="arithmatex">$p$</span> تکرار شده؟<a class="headerlink" href="#p_1" title="Permanent link">&para;</a></h2>
-<p>اگه بخوایم یه چیزی مثل ضریب دوجمله‌ای رو به پیمانه <span class="arithmatex">$p$</span> حساب کنیم، علاوه بر فاکتوریل اصلاح‌شده، باید بدونیم خود عامل <span class="arithmatex">$p$</span> چند بار توی <span class="arithmatex">$n!$</span> ظاهر شده. به عبارت دیگه، توان <span class="arithmatex">$p$</span> توی تجزیه <span class="arithmatex">$n!$</span> به عوامل اول چنده؟ یا اگه از زاویه دیگه نگاه کنیم، همون تعداد دفعاتی که ما مضرب‌های <span class="arithmatex">$p$</span> رو موقع حساب کردن فاکتوریل <em>اصلاح‌شده</em> حذف کردیم.</p>
-<p><a href="https://en.wikipedia.org/wiki/Legendre%27s_formula">فرمول لژاندر (Legendre's formula)</a> یه راه خیلی سریع برای حساب کردن این تعداد به ما میده که پیچیدگیش <span class="arithmatex">$O(\log_p n)$</span> هست.
-این فرمول میگه تعداد تکرار <span class="arithmatex">$p$</span> (که با <span class="arithmatex">$\nu_p$</span> نشونش میدیم) اینجوری به دست میاد:</p>
+<p>به عنوان راه حل جایگزین، اگر حافظه محدودی دارید و نمی‌توانید تمام فاکتوریل‌ها را ذخیره کنید، می‌توانید فقط فاکتوریل‌هایی را که نیاز دارید به خاطر بسپارید، آنها را مرتب کنید و سپس با محاسبه فاکتوریل‌های <span class="arithmatex">$!0, ~!1, ~!2, \dots, !(p-1)$</span> در یک حلقه و بدون ذخیره‌سازی صریح، آنها را در یک مرحله محاسبه کنید.</p>
+<h2 id="p_1">تعداد تکرار عامل <span class="arithmatex">$p$</span><a class="headerlink" href="#p_1" title="Permanent link">&para;</a></h2>
+<p>اگر بخواهیم یک ضریب دوجمله‌ای را به پیمانه‌ی <span class="arithmatex">$p$</span> محاسبه کنیم، به تعداد تکرار <span class="arithmatex">$p$</span> در <span class="arithmatex">$!n$</span> نیز نیاز داریم، یعنی تعداد دفعاتی که <span class="arithmatex">$p$</span> در تجزیه به عوامل اول <span class="arithmatex">$!n$</span> ظاهر می‌شود، یا تعداد دفعاتی که ما <span class="arithmatex">$p$</span> را در حین محاسبه‌ی فاکتوریل <em>اصلاح‌شده</em> حذف کردیم.</p>
+<p><a href="https://en.wikipedia.org/wiki/Legendre%27s_formula">فرمول لژاندر (Legendre's formula)</a> راهی برای محاسبه‌ی این مقدار در زمان <span class="arithmatex">$O(\log_p n)$</span> به ما می‌دهد.
+این فرمول تعداد تکرار <span class="arithmatex">$\nu_p$</span> را به این صورت می‌دهد:</p>
 <div class="arithmatex">$$\nu_p(n!) = \sum_{i=1}^{\infty} \left\lfloor \frac{n}{p^i} \right\rfloor$$</div>
-<p>پس پیاده‌سازیش میشه یه همچین چیزی:</p>
+<p>بنابراین، به پیاده‌سازی زیر می‌رسیم:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">multiplicity_factorial</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="w">    </span><span class="k">do</span><span class="w"> </span><span class="p">{</span>
@@ -6716,12 +6722,14 @@ n!_{\%p}&amp;=&amp; \underbrace{1 \cdot 2 \cdot 3 \cdot \ldots \cdot (p-2) \cdot
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>اثبات این فرمول هم خیلی ساده‌ است و دقیقاً از همون ایده‌هایی استفاده می‌کنه که بالاتر دیدیم.
-فکر کن تمام عددهایی که به <span class="arithmatex">$p$</span> بخش‌پذیر نیستن رو حذف می‌کنی. چی می‌مونه؟ <span class="arithmatex">$p, 2p, 3p, \dots, \lfloor n/p \rfloor \cdot p$</span>. تعداد اینا <span class="arithmatex">$\lfloor n/p \rfloor$</span> تاست. حالا اگه از همشون یه عامل <span class="arithmatex">$p$</span> فاکتور بگیریم، به حاصل‌ضرب <span class="arithmatex">$1 \cdot 2 \cdot 3 \cdots \lfloor n/p \rfloor$</span> می‌رسیم که همون <span class="arithmatex">$\lfloor n/p \rfloor !$</span> خودمونه. اینجوری دوباره به یه رابطه بازگشتی می‌رسیم که همون فرمول لژاندر رو نتیجه میده.</p>
+<p>این فرمول را می‌توان به راحتی با استفاده از همان ایده‌هایی که در بخش‌های قبل به کار بردیم، اثبات کرد.
+تمام عناصری را که عامل <span class="arithmatex">$p$</span> را ندارند حذف کنید.
+با این کار، <span class="arithmatex">$\lfloor n/p \rfloor$</span> عنصر باقی می‌ماند.
+اگر عامل <span class="arithmatex">$p$</span> را از هر یک از آنها حذف کنیم، به حاصل‌ضرب <span class="arithmatex">$1 \cdot 2 \cdots \lfloor n/p \rfloor = \lfloor n/p \rfloor !$</span> می‌رسیم و دوباره با یک رابطه‌ی بازگشتی مواجه می‌شویم.</p>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (37.38%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (34.58%)</li><li><a href="https://github.com/madhur4127" title="madhur4127" data-bi-name="contributorprofile" target="_blank">madhur4127</a> (24.3%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (3.74%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (40.35%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (33.33%)</li><li><a href="https://github.com/madhur4127" title="madhur4127" data-bi-name="contributorprofile" target="_blank">madhur4127</a> (22.81%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (3.51%)</li></ul>
 </ul>
                 
               </article>

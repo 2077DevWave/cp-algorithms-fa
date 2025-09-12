@@ -661,18 +661,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#iterative" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      نسخه تکراری (Iterative)
+      نسخه تکراری
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      چند تا مسئله برای تمرین
+      مسائل تمرینی
     </span>
   </a>
   
@@ -6670,7 +6670,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 سپتامبر 2025 18:55:35 UTC">12 سپتامبر 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6697,25 +6697,25 @@ Describe the issue of this article in detail.
 
 
 <h1 id="_1">الگوریتم اقلیدسی تعمیم‌یافته<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>خب، ببین، <a href="euclid-algorithm.html">الگوریتم اقلیدس</a> معمولی فقط میاد بزرگترین مقسوم‌علیه مشترک (ب.م.م) دو تا عدد صحیح <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> رو حساب می‌کنه. اما این نسخه‌ی «تعمیم‌یافته» یا «پیشرفته» یه کار باحال‌تر هم انجام میده: میاد ب.م.م رو بر حسب خود <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> هم بهت میده. یعنی دو تا ضریب <span class="arithmatex">$x$</span> و <span class="arithmatex">$y$</span> پیدا می‌کنه که توی این معادله صدق کنن:</p>
+<p>در حالی که <a href="euclid-algorithm.html">الگوریتم اقلیدسی</a> فقط بزرگترین مقسوم‌علیه مشترک (ب.م.م) دو عدد صحیح <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> را محاسبه می‌کند، نسخه تعمیم‌یافته‌ی آن راهی برای نمایش ب.م.م بر حسب <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> نیز پیدا می‌کند، یعنی ضرایب <span class="arithmatex">$x$</span> و <span class="arithmatex">$y$</span> را طوری می‌یابد که:</p>
 <div class="arithmatex">$$a \cdot x + b \cdot y = \gcd(a, b)$$</div>
-<p>یه نکته‌ی مهم اینه که طبق <a href="https://en.wikipedia.org/wiki/B%C3%A9zout%27s_identity">اتحاد بزو</a>، همیشه میشه همچین ضریب‌هایی رو پیدا کرد، پس خیالت راحت باشه. مثلاً، <span class="arithmatex">$\gcd(55, 80) = 5$</span> هست، پس می‌تونیم <span class="arithmatex">$5$</span> رو به صورت یه ترکیب خطی از <span class="arithmatex">$55$</span> و <span class="arithmatex">$80$</span> بنویسیم: <span class="arithmatex">$55 \cdot 3 + 80 \cdot (-2) = 5$</span>.</p>
-<p>اگه دوست داری شکل کلی‌تری از این مسئله رو ببینی، یه نگاهی به مقاله‌ی <a href="linear-diophantine-equation.html">معادلات سیاله خطی</a> بنداز. اونجا کل داستان بر پایه‌ی همین الگوریتمیه که الان می‌خوایم یاد بگیریم.</p>
+<p>توجه به این نکته مهم است که طبق <a href="https://en.wikipedia.org/wiki/B%C3%A9zout%27s_identity">اتحاد بزو</a> همیشه می‌توان چنین نمایشی را پیدا کرد. به عنوان مثال، <span class="arithmatex">$\gcd(55, 80) = 5$</span>، بنابراین می‌توانیم <span class="arithmatex">$5$</span> را به صورت یک ترکیب خطی از <span class="arithmatex">$55$</span> و <span class="arithmatex">$80$</span> نمایش دهیم: <span class="arithmatex">$55 \cdot 3 + 80 \cdot (-2) = 5$</span></p>
+<p>شکل کلی‌تری از این مسئله در مقاله <a href="linear-diophantine-equation.html">معادلات سیاله خطی</a> مورد بحث قرار گرفته است. آن مقاله بر پایه این الگوریتم بنا شده است.</p>
 <h2 id="_2">الگوریتم<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>خب، بریم سراغ خود الگوریتم. از این به بعد، برای راحتی کار، ب.م.م <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> رو با <span class="arithmatex">$g$</span> نشون میدیم.</p>
-<p>تغییراتی که باید به الگوریتم اصلی بدیم خیلی ساده‌ست. اگه یادت باشه، الگوریتم اقلیدس معمولی وقتی تموم میشه که <span class="arithmatex">$b=0$</span> باشه. تو این حالت، <span class="arithmatex">$a$</span> همون ب.م.م یا <span class="arithmatex">$g$</span> ماست. پیدا کردن ضریب‌ها برای این حالت پایه (base case) مثل آب خوردنه: <span class="arithmatex">$g \cdot 1 + 0 \cdot 0 = g$</span>.</p>
-<p>حالا با داشتن این ضریب‌های حالت پایه، یعنی <span class="arithmatex">$(x, y) = (1, 0)$</span>، می‌تونیم توی فراخوانی‌های بازگشتی برگردیم عقب و ضریب‌های مراحل قبل رو هم حساب کنیم. تنها کاری که باید بکنیم اینه که بفهمیم وقتی از حالت <span class="arithmatex">$(a, b)$</span> به حالت بعدی یعنی <span class="arithmatex">$(b, a \bmod b)$</span> میریم، ضریب‌های <span class="arithmatex">$x$</span> و <span class="arithmatex">$y$</span> چطوری تغییر می‌کنن.</p>
-<p>فرض کن ما یه جوری ضریب‌های <span class="arithmatex">$(x_1, y_1)$</span> رو برای مرحله‌ی بعدی، یعنی برای <span class="arithmatex">$(b, a \bmod b)$</span> پیدا کردیم:</p>
+<p>در این بخش، ب.م.م <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> را با <span class="arithmatex">$g$</span> نمایش می‌دهیم.</p>
+<p>تغییرات نسبت به الگوریتم اصلی بسیار ساده است. اگر الگوریتم را به یاد بیاورید، می‌بینید که الگوریتم با <span class="arithmatex">$b = 0$</span> و <span class="arithmatex">$a = g$</span> به پایان می‌رسد. برای این پارامترها به راحتی می‌توان ضرایب را پیدا کرد، یعنی <span class="arithmatex">$g \cdot 1 + 0 \cdot 0 = g$</span>.</p>
+<p>با شروع از این ضرایب <span class="arithmatex">$(x, y) = (1, 0)$</span>، می‌توانیم در فراخوانی‌های بازگشتی به عقب برگردیم. تنها کاری که باید انجام دهیم این است که بفهمیم ضرایب <span class="arithmatex">$x$</span> و <span class="arithmatex">$y$</span> در حین انتقال از <span class="arithmatex">$(a, b)$</span> به <span class="arithmatex">$(b, a \bmod b)$</span> چگونه تغییر می‌کنند.</p>
+<p>فرض کنیم ضرایب <span class="arithmatex">$(x_1, y_1)$</span> را برای <span class="arithmatex">$(b, a \bmod b)$</span> پیدا کرده‌ایم:</p>
 <div class="arithmatex">$$b \cdot x_1 + (a \bmod b) \cdot y_1 = g$$</div>
-<p>و حالا می‌خوایم با استفاده از اونا، ضریب‌های <span class="arithmatex">$(x, y)$</span> رو برای مرحله‌ی فعلی، یعنی برای <span class="arithmatex">$(a, b)$</span>، به دست بیاریم:</p>
+<p>و می‌خواهیم زوج <span class="arithmatex">$(x, y)$</span> را برای <span class="arithmatex">$(a, b)$</span> پیدا کنیم:</p>
 <div class="arithmatex">$$ a \cdot x + b \cdot y = g$$</div>
-<p>خب، بیا اول <span class="arithmatex">$a \bmod b$</span> رو بازنویسی کنیم:</p>
+<p>می‌توانیم <span class="arithmatex">$a \bmod b$</span> را به صورت زیر نمایش دهیم:</p>
 <div class="arithmatex">$$ a \bmod b = a - \left\lfloor \frac{a}{b} \right\rfloor \cdot b$$</div>
-<p>حالا این عبارت رو توی معادله‌ی اولمون (همونی که برای <span class="arithmatex">$x_1$</span> و <span class="arithmatex">$y_1$</span> بود) جایگزین می‌کنیم:</p>
+<p>با جایگذاری این عبارت در معادله ضرایب <span class="arithmatex">$(x_1, y_1)$</span> خواهیم داشت:</p>
 <div class="arithmatex">$$ g = b \cdot x_1 + (a \bmod b) \cdot y_1 = b \cdot x_1 + \left(a - \left\lfloor \frac{a}{b} \right\rfloor \cdot b \right) \cdot y_1$$</div>
-<p>و اگه یه کم مرتبش کنیم و بر حسب <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> فاکتور بگیریم، به این می‌رسیم:</p>
+<p>و پس از مرتب‌سازی جملات:</p>
 <div class="arithmatex">$$g = a \cdot y_1 + b \cdot \left( x_1 - y_1 \cdot \left\lfloor \frac{a}{b} \right\rfloor \right)$$</div>
-<p>عالی شد! حالا اگه این معادله رو با معادله‌ی اصلیمون یعنی <span class="arithmatex">$a \cdot x + b \cdot y = g$</span> مقایسه کنیم، <span class="arithmatex">$x$</span> و <span class="arithmatex">$y$</span> به راحتی پیدا میشن:</p>
+<p>مقادیر <span class="arithmatex">$x$</span> و <span class="arithmatex">$y$</span> را پیدا کردیم:</p>
 <div class="arithmatex">$$\begin{cases}
 x = y_1 \\
 y = x_1 - y_1 \cdot \left\lfloor \frac{a}{b} \right\rfloor
@@ -6734,10 +6734,10 @@ y = x_1 - y_1 \cdot \left\lfloor \frac{a}{b} \right\rfloor
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">d</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>این تابع بازگشتی، هم ب.م.م رو برمی‌گردونه و هم ضریب‌ها رو توی متغیرهای <code>x</code> و <code>y</code> (که به صورت رفرنس بهش دادیم) می‌ریزه.</p>
-<p>یه نکته‌ی خوب اینه که این پیاده‌سازی برای عددهای منفی هم درست کار می‌کنه.</p>
-<h2 id="iterative">نسخه تکراری (Iterative)<a class="headerlink" href="#iterative" title="Permanent link">&para;</a></h2>
-<p>میشه الگوریتم اقلیدسی تعمیم‌یافته رو به صورت تکراری هم نوشت. چون دیگه خبری از سربار فراخوانی‌های بازگشتی نیست، این نسخه معمولاً یه کم سریع‌تره.</p>
+<p>تابع بازگشتی بالا ب.م.م و مقادیر ضرایب را به <code>x</code> و <code>y</code> (که با ارجاع به تابع پاس داده شده‌اند) برمی‌گرداند.</p>
+<p>این پیاده‌سازی الگوریتم اقلیدسی تعمیم‌یافته برای اعداد صحیح منفی نیز نتایج صحیحی تولید می‌کند.</p>
+<h2 id="_4">نسخه تکراری<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>همچنین می‌توان الگوریتم اقلیدسی تعمیم‌یافته را به روش تکراری نوشت. از آنجا که این روش از بازگشت استفاده نمی‌کند، کد کمی سریع‌تر از نسخه بازگشتی اجرا می‌شود.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">gcd</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&amp;</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&amp;</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
@@ -6750,26 +6750,23 @@ y = x_1 - y_1 \cdot \left\lfloor \frac{a}{b} \right\rfloor
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a1</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>اگه به متغیرهای <code>a1</code> و <code>b1</code> دقت کنی، می‌بینی که دقیقاً همون مقادیری رو می‌گیرن که توی نسخه‌ی تکراری <a href="euclid-algorithm.html">الگوریتم اقلیدس</a> معمولی داشتیم. پس خیالمون راحته که حداقل ب.م.م رو درست حساب می‌کنه.</p>
-<p>حالا برای اینکه بفهمیم چرا ضریب‌ها هم درست در میان، باید از یه چیزی به اسم «نامتغیر» (invariant) کمک بگیریم. نامتغیرها یه سری عبارت هستن که مقدارشون در طول اجرای حلقه ثابت می‌مونه. توی این الگوریتم، این دو تا عبارت همیشه (هم قبل از شروع حلقه و هم بعد از هر بار تکرار) برقرارن:</p>
+<p>اگر با دقت به متغیرهای <code>a1</code> و <code>b1</code> نگاه کنید، متوجه می‌شوید که آنها دقیقاً همان مقادیری را می‌گیرند که در نسخه تکراری <a href="euclid-algorithm.html">الگوریتم اقلیدسی</a> معمولی وجود دارد. بنابراین، الگوریتم حداقل ب.م.م صحیح را محاسبه خواهد کرد.</p>
+<p>برای اینکه ببینیم چرا الگوریتم ضرایب صحیح را محاسبه می‌کند، در نظر بگیرید که نامتغیرهای (invariants) زیر در هر لحظه (قبل از شروع حلقه while و در پایان هر تکرار) برقرار هستند:</p>
 <div class="arithmatex">$$x \cdot a + y \cdot b = a_1$$</div>
 <div class="arithmatex">$$x_1 \cdot a + y_1 \cdot b = b_1$$</div>
-<p>فرض کن مقادیر متغیرها رو بعد از یک بار اجرای حلقه با یه پرایم (<span class="arithmatex">$'$</span>) نشون بدیم و <span class="arithmatex">$q$</span> هم همون خارج قسمت <span class="arithmatex">$a_1$</span> بر <span class="arithmatex">$b_1$</span> باشه. از خود <a href="euclid-algorithm.html">الگوریتم اقلیدس</a> می‌دونیم که:</p>
+<p>فرض کنید مقادیر در انتهای یک تکرار با یک پرایم (<span class="arithmatex">$'$</span>) مشخص شوند و فرض کنید <span class="arithmatex">$q = \frac{a_1}{b_1}$</span> باشد. از <a href="euclid-algorithm.html">الگوریتم اقلیدسی</a> داریم:</p>
 <div class="arithmatex">$$a_1' = b_1$$</div>
 <div class="arithmatex">$$b_1' = a_1 - q \cdot b_1$$</div>
-<p>خب، برای اینکه نامتغیر اولمون بعد از آپدیت شدن متغیرها هم برقرار بمونه، باید این رابطه درست باشه:</p>
+<p>برای اینکه نامتغیر اول برقرار بماند، باید موارد زیر درست باشد:</p>
 <div class="arithmatex">$$x' \cdot a + y' \cdot b = a_1' = b_1$$</div>
-<p>با توجه به نامتغیر دوم (قبل از آپدیت)، می‌دونیم که <span class="arithmatex">$b_1 = x_1 \cdot a + y_1 \cdot b$</span>. پس:</p>
 <div class="arithmatex">$$x' \cdot a + y' \cdot b = x_1 \cdot a + y_1 \cdot b$$</div>
-<p>به طور مشابه، برای نامتغیر دوم هم باید این رابطه برقرار باشه:</p>
-<div class="arithmatex">$$x_1' \cdot a + y_1' \cdot b = b_1' = a_1 - q \cdot b_1$$</div>
-<p>با جایگزین کردن مقدار <span class="arithmatex">$a_1$</span> و <span class="arithmatex">$b_1$</span> از نامتغیرهای اصلی، به این می‌رسیم:</p>
-<div class="arithmatex">$$x_1' \cdot a + y_1' \cdot b = (x \cdot a + y \cdot b) - q \cdot (x_1 \cdot a + y_1 \cdot b)$$</div>
+<p>به طور مشابه برای نامتغیر دوم، باید موارد زیر برقرار باشد:</p>
+<div class="arithmatex">$$x_1' \cdot a + y_1' \cdot b = a_1 - q \cdot b_1$$</div>
 <div class="arithmatex">$$x_1' \cdot a + y_1' \cdot b = (x - q \cdot x_1) \cdot a + (y - q \cdot y_1) \cdot b$$</div>
-<p>اگه ضریب‌های <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> رو دو طرف تساوی‌ها مقایسه کنی، دقیقاً به همون فرمول‌های آپدیتی می‌رسی که توی کد داریم. این یعنی نامتغیرهای ما در طول اجرای الگوریتم حفظ میشن.</p>
-<p>در نهایت، وقتی حلقه تموم میشه، می‌دونیم که <span class="arithmatex">$a_1$</span> همون ب.م.م ماست (<span class="arithmatex">$g$</span>). با توجه به نامتغیر اول، داریم: <span class="arithmatex">$x \cdot a + y \cdot b = a_1 = g$</span>. این یعنی دقیقاً همون ضریب‌هایی که دنبالشون بودیم رو پیدا کردیم!</p>
-<p>حتی می‌تونی کد رو یه کم بهینه‌تر کنی و متغیرهای کمکی <code>a1</code> و <code>b1</code> رو حذف کنی و از خود <code>a</code> و <code>b</code> استفاده کنی. ولی اگه این کار رو بکنی، دیگه نمی‌تونی به این راحتی با نامتغیرها درستی الگوریتم رو ثابت کنی.</p>
-<h2 id="_4">چند تا مسئله برای تمرین<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>با مقایسه ضرایب <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span>، معادلات به‌روزرسانی برای هر متغیر به دست می‌آید و این تضمین می‌کند که نامتغیرها در طول الگوریتم حفظ می‌شوند.</p>
+<p>در پایان می‌دانیم که <span class="arithmatex">$a_1$</span> حاوی ب.م.م است، بنابراین <span class="arithmatex">$x \cdot a + y \cdot b = g$</span>. این بدان معناست که ضرایب مورد نیاز را پیدا کرده‌ایم.</p>
+<p>حتی می‌توانید کد را بیشتر بهینه کنید و متغیرهای <span class="arithmatex">$a_1$</span> و <span class="arithmatex">$b_1$</span> را از کد حذف کرده و فقط از <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> دوباره استفاده کنید. با این حال، اگر این کار را انجام دهید، توانایی استدلال در مورد نامتغیرها را از دست می‌دهید.</p>
+<h2 id="_5">مسائل تمرینی<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;page=show_problem&amp;problem=1045">UVA - 10104 - مسئله اقلیدس</a></li>
 <li><a href="http://codeforces.com/gym/100963">GYM - (J) Once Upon A Time</a></li>
@@ -6778,7 +6775,7 @@ y = x_1 - y_1 \cdot \left\lfloor \frac{a}{b} \right\rfloor
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (30.08%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (29.32%)</li><li><a href="https://github.com/s9v" title="s9v" data-bi-name="contributorprofile" target="_blank">s9v</a> (20.3%)</li><li><a href="https://github.com/meetthehorizon" title="meetthehorizon" data-bi-name="contributorprofile" target="_blank">meetthehorizon</a> (14.29%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (3.01%)</li><li><a href="https://github.com/algmyr" title="algmyr" data-bi-name="contributorprofile" target="_blank">algmyr</a> (1.5%)</li><li><a href="https://github.com/Morass" title="Morass" data-bi-name="contributorprofile" target="_blank">Morass</a> (1.5%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (31.5%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (25.2%)</li><li><a href="https://github.com/s9v" title="s9v" data-bi-name="contributorprofile" target="_blank">s9v</a> (21.26%)</li><li><a href="https://github.com/meetthehorizon" title="meetthehorizon" data-bi-name="contributorprofile" target="_blank">meetthehorizon</a> (15.75%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (3.15%)</li><li><a href="https://github.com/algmyr" title="algmyr" data-bi-name="contributorprofile" target="_blank">algmyr</a> (1.57%)</li><li><a href="https://github.com/Morass" title="Morass" data-bi-name="contributorprofile" target="_blank">Morass</a> (1.57%)</li></ul>
 </ul>
                 
               </article>
