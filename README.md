@@ -34,7 +34,7 @@ Fully Translated: مقالاتی که بازبینی و به صورت کامل �
 
 لیست تمام مقالات: [Navigation](https://cp-algorithm.sideco.ir/navigation.html)
 
-## Contributing
+## همکاری در پروژه
 
 - [Information for contributors](https://cp-algorithm.sideco.ir/contrib.html)
 - [Code of conduct](https://cp-algorithm.sideco.ir/code_of_conduct.html)
