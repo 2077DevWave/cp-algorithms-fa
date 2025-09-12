@@ -1133,7 +1133,7 @@
           <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      ساده‌ترین پیاده‌سازی
+      یه پیاده‌سازی ساده و سرراست
     </span>
   </a>
   
@@ -1147,7 +1147,7 @@
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      پیاده‌سازی بهبودیافته
+      یه پیاده‌سازی بهینه‌تر
     </span>
   </a>
   
@@ -1165,7 +1165,7 @@
         <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      مسائل تمرینی
+      چند تا مسئله برای تمرین
     </span>
   </a>
   
@@ -1174,7 +1174,7 @@
         <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      منابع
+      منابع بیشتر
     </span>
   </a>
   
@@ -6758,7 +6758,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 سپتامبر 2025 18:55:35 UTC">12 سپتامبر 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6785,42 +6785,41 @@ Describe the issue of this article in detail.
 
 
 <h1 id="_1">لگاریتم گسسته<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>لگاریتم گسسته، عدد صحیح <span class="arithmatex">$x$</span> است که در معادله زیر صدق می‌کند:</p>
+<p>لگاریتم گسسته، اون عدد صحیح <span class="arithmatex">$x$</span>ـه که توی معادله‌ی زیر صدق می‌کنه:</p>
 <div class="arithmatex">$$a^x \equiv b \pmod m$$</div>
-<p>به ازای اعداد صحیح داده شده <span class="arithmatex">$a$</span>، <span class="arithmatex">$b$</span> و <span class="arithmatex">$m$</span>.</p>
-<p>لگاریتم گسسته همیشه وجود ندارد، برای مثال هیچ جوابی برای <span class="arithmatex">$2^x \equiv 3 \pmod 7$</span> وجود ندارد. شرط ساده‌ای برای تعیین اینکه آیا لگاریتم گسسته وجود دارد یا نه، موجود نیست.</p>
-<p>در این مقاله، الگوریتم <strong>گام کودک گام غول (Baby-step giant-step)</strong> را شرح می‌دهیم که الگوریتمی برای محاسبه لگاریتم گسسته است که در سال ۱۹۷۱ توسط Shanks پیشنهاد شد و دارای پیچیدگی زمانی <span class="arithmatex">$O(\sqrt{m})$</span> است. این یک الگوریتم <strong>ملاقات در میانه (meet-in-the-middle)</strong> است زیرا از تکنیک تقسیم وظایف به دو نیم استفاده می‌کند.</p>
+<p>که توش <span class="arithmatex">$a$</span>، <span class="arithmatex">$b$</span> و <span class="arithmatex">$m$</span> رو به عنوان ورودی بهمون دادن.</p>
+<p>لگاریتم گسسته همیشه هم وجود نداره. مثلاً برای <span class="arithmatex">$2^x \equiv 3 \pmod 7$</span> هیچ جوابی پیدا نمی‌شه. راستش، هیچ راه ساده و سرراستی هم وجود نداره که بفهمیم اصلاً جوابی هست یا نه.</p>
+<p>توی این مقاله، می‌خوایم الگوریتم <strong>گام کودک گام غول (Baby-step giant-step)</strong> رو با هم یاد بگیریم. این یه الگوریتم باحاله برای حساب کردن لگاریتم گسسته که سال ۱۹۷۱ توسط یه بنده خدایی به اسم Shanks معرفی شد و پیچیدگی زمانیش <span class="arithmatex">$O(\sqrt{m})$</span> هست. این الگوریتم در واقع یه جورایی از تکنیک <strong>ملاقات در میانه (meet-in-the-middle)</strong> استفاده می‌کنه، یعنی مسئله رو به دو قسمت تقسیم می‌کنه و از دو طرف بهش حمله می‌کنه تا وسط راه به هم برسن.</p>
 <h2 id="_2">الگوریتم<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>معادله زیر را در نظر بگیرید:</p>
+<p>خب، بیا این معادله رو در نظر بگیریم:</p>
 <div class="arithmatex">$$a^x \equiv b \pmod m,$$</div>
-<p>که در آن <span class="arithmatex">$a$</span> و <span class="arithmatex">$m$</span> نسبت به هم اول هستند.</p>
-<p>فرض کنید <span class="arithmatex">$x = np - q$</span>، که در آن <span class="arithmatex">$n$</span> یک ثابت از پیش انتخاب شده است (در ادامه نحوه انتخاب <span class="arithmatex">$n$</span> را توضیح خواهیم داد). <span class="arithmatex">$p$</span> به عنوان <strong>گام غول (giant step)</strong> شناخته می‌شود، زیرا افزایش آن به اندازه یک، <span class="arithmatex">$x$</span> را به اندازه <span class="arithmatex">$n$</span> افزایش می‌دهد. به طور مشابه، <span class="arithmatex">$q$</span> به عنوان <strong>گام کودک (baby step)</strong> شناخته می‌شود.</p>
-<p>بدیهی است که هر عدد <span class="arithmatex">$x$</span> در بازه <span class="arithmatex">$[0; m)$</span> می‌تواند به این شکل نمایش داده شود، که در آن <span class="arithmatex">$p \in [1; \lceil \frac{m}{n} \rceil ]$</span> و <span class="arithmatex">$q \in [0; n]$</span> است.</p>
-<p>سپس، معادله به شکل زیر در می‌آید:</p>
+<p>که توش فرض می‌کنیم <span class="arithmatex">$a$</span> و <span class="arithmatex">$m$</span> نسبت به هم اول هستن (یعنی ب.م.م شون یکه).</p>
+<p>حالا یه کلک می‌زنیم. فرض کن <span class="arithmatex">$x = np - q$</span> باشه. اینجا <span class="arithmatex">$n$</span> یه عدد ثابته که خودمون انتخابش می‌کنیم (بعداً می‌گم چطوری بهترین مقدار رو براش پیدا کنیم). <span class="arithmatex">$p$</span> رو بهش می‌گیم <strong>«گام غول» (giant step)</strong>، چون هر یه دونه که بهش اضافه کنیم، <span class="arithmatex">$x$</span> به اندازه‌ی <span class="arithmatex">$n$</span> تا زیاد می‌شه. به همین ترتیب، به <span class="arithmatex">$q$</span> هم می‌گیم <strong>«گام کودک» (baby step)</strong>.</p>
+<p>واضحه که هر عدد <span class="arithmatex">$x$</span> توی بازه‌ی <span class="arithmatex">$[0; m)$</span> رو می‌شه به این شکل نوشت، به شرطی که <span class="arithmatex">$p$</span> توی بازه‌ی <span class="arithmatex">$[1; \lceil \frac{m}{n} \rceil ]$</span> و <span class="arithmatex">$q$</span> توی بازه‌ی <span class="arithmatex">$[0; n]$</span> باشه.</p>
+<p>با این جایگذاری، معادله‌مون این شکلی می‌شه:</p>
 <div class="arithmatex">$$a^{np - q} \equiv b \pmod m.$$</div>
-<p>با استفاده از این واقعیت که <span class="arithmatex">$a$</span> و <span class="arithmatex">$m$</span> نسبت به هم اول هستند، به دست می‌آوریم:</p>
+<p>حالا چون گفتیم <span class="arithmatex">$a$</span> و <span class="arithmatex">$m$</span> نسبت به هم اولن، می‌تونیم یه کم معادله رو دستکاری کنیم و به این برسیم:</p>
 <div class="arithmatex">$$a^{np} \equiv ba^q \pmod m$$</div>
-<p>این معادله جدید می‌تواند به شکل ساده‌شده زیر بازنویسی شود:</p>
+<p>این معادله‌ی جدید رو می‌تونیم خیلی شیک و مجلسی اینطوری بنویسیم:</p>
 <div class="arithmatex">$$f_1(p) = f_2(q).$$</div>
-<p>این مسئله را می‌توان با استفاده از روش ملاقات در میانه به صورت زیر حل کرد:</p>
+<p>این دقیقاً همون جاییه که تکنیک «ملاقات در میانه» وارد می‌شه. قضیه اینه:</p>
 <ul>
-<li><span class="arithmatex">$f_1$</span> را برای تمام آرگومان‌های ممکن <span class="arithmatex">$p$</span> محاسبه کنید. آرایه‌ای از زوج‌های مقدار-آرگومان را مرتب کنید.</li>
-<li>برای تمام آرگومان‌های ممکن <span class="arithmatex">$q$</span>، مقدار <span class="arithmatex">$f_2$</span> را محاسبه کرده و با استفاده از جستجوی دودویی، به دنبال <span class="arithmatex">$p$</span> متناظر در آرایه مرتب‌شده بگردید.</li>
+<li>برای همه‌ی مقدارهای ممکن <span class="arithmatex">$p$</span>، میایم <span class="arithmatex">$f_1(p)$</span> رو حساب می‌کنیم. بعد این زوج‌های (مقدار، آرگومان) یعنی <span class="arithmatex">$(f_1(p), p)$</span> رو توی یه لیست می‌ریزیم و مرتبش می‌کنیم.</li>
+<li>حالا برای همه‌ی مقدارهای ممکن <span class="arithmatex">$q$</span>، میایم <span class="arithmatex">$f_2(q)$</span> رو حساب می‌کنیم و بعد با جستجوی دودویی (binary search) توی اون لیست مرتب شده‌مون می‌گردیم ببینیم آیا مقداری برابر باهاش پیدا می‌کنیم یا نه. اگه پیدا کردیم، یعنی یه <span class="arithmatex">$p$</span> و <span class="arithmatex">$q$</span> پیدا کردیم که با هم جور در میان و مسئله حله!</li>
 </ul>
 <h2 id="_3">پیچیدگی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>می‌توانیم <span class="arithmatex">$f_1(p)$</span> را در <span class="arithmatex">$O(\log m)$</span> با استفاده از <a href="binary-exp.html">الگوریتم توان‌یابی سریع</a> محاسبه کنیم. به طور مشابه برای <span class="arithmatex">$f_2(q)$</span>.</p>
-<p>در مرحله اول الگوریتم، باید <span class="arithmatex">$f_1$</span> را برای هر آرگومان ممکن <span class="arithmatex">$p$</span> محاسبه کرده و سپس مقادیر را مرتب کنیم. بنابراین، این مرحله دارای پیچیدگی زیر است:</p>
+<p>خب، هم <span class="arithmatex">$f_1(p)$</span> و هم <span class="arithmatex">$f_2(q)$</span> رو می‌تونیم با <a href="binary-exp.html">الگوریتم توان‌رسانی سریع</a> توی زمان <span class="arithmatex">$O(\log m)$</span> حساب کنیم.</p>
+<p>توی مرحله اول الگوریتم، باید برای هر <span class="arithmatex">$p$</span> ممکن، <span class="arithmatex">$f_1$</span> رو حساب کنیم و بعدش هم نتایج رو مرتب کنیم. پس پیچیدگی این مرحله می‌شه:</p>
 <div class="arithmatex">$$O\left(\left\lceil \frac{m}{n} \right\rceil \left(\log m + \log \left\lceil \frac{m}{n} \right\rceil \right)\right) = O\left( \left\lceil \frac {m}{n} \right\rceil \log m\right)$$</div>
-<p>در مرحله دوم الگوریتم، باید <span class="arithmatex">$f_2(q)$</span> را برای هر آرگومان ممکن <span class="arithmatex">$q$</span> محاسبه کرده و سپس یک جستجوی دودویی روی آرایه مقادیر <span class="arithmatex">$f_1$</span> انجام دهیم، بنابراین این مرحله دارای پیچیدگی زیر است:</p>
+<p>توی مرحله دوم، برای هر <span class="arithmatex">$q$</span> ممکن، <span class="arithmatex">$f_2(q)$</span> رو حساب می‌کنیم و یه جستجوی دودویی روی لیست مقادیر <span class="arithmatex">$f_1$</span> می‌زنیم. پس پیچیدگی این قسمت هم می‌شه:</p>
 <div class="arithmatex">$$O\left(n \left(\log m + \log \frac{m}{n} \right) \right) = O\left(n \log m\right).$$</div>
-<p>حال، وقتی این دو پیچیدگی را با هم جمع می‌کنیم، به <span class="arithmatex">$\log m$</span> ضرب در مجموع <span class="arithmatex">$n$</span> و <span class="arithmatex">$m/n$</span> می‌رسیم، که زمانی کمینه می‌شود که <span class="arithmatex">$n = m/n$</span> باشد، یعنی برای دستیابی به عملکرد بهینه، <span class="arithmatex">$n$</span> باید به گونه‌ای انتخاب شود که:</p>
+<p>حالا اگه این دو تا پیچیدگی رو با هم جمع کنیم، می‌رسیم به یه چیزی حدود <span class="arithmatex">$\log m$</span> ضربدر <span class="arithmatex">$(n + m/n)$</span>. این عبارت وقتی به کمترین مقدار خودش می‌رسه که <span class="arithmatex">$n$</span> و <span class="arithmatex">$m/n$</span> تقریباً با هم برابر باشن. یعنی برای اینکه بهترین عملکرد رو داشته باشیم، باید <span class="arithmatex">$n$</span> رو اینجوری انتخاب کنیم:</p>
 <div class="arithmatex">$$n = \sqrt{m}.$$</div>
-<p>در این صورت، پیچیدگی الگوریتم به صورت زیر خواهد بود:</p>
+<p>با این انتخاب، پیچیدگی کل الگوریتم می‌شه:</p>
 <div class="arithmatex">$$O(\sqrt {m} \log m).$$</div>
 <h2 id="_4">پیاده‌سازی<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<h3 id="_5">ساده‌ترین پیاده‌سازی<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>در کد زیر، تابع <code>powmod</code> مقدار <span class="arithmatex">$a^b \pmod m$</span> را محاسبه می‌کند و تابع <code>solve</code> یک جواب مناسب برای مسئله پیدا می‌کند.
-اگر جوابی وجود نداشته باشد، ۱- برمی‌گرداند و در غیر این صورت یکی از جواب‌های ممکن را برمی‌گرداند.</p>
+<h3 id="_5">یه پیاده‌سازی ساده و سرراست<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>توی کد زیر، تابع <code>powmod</code> همون کار توان‌رسانی به پیمانه <span class="arithmatex">$m$</span> رو انجام می‌ده و تابع <code>solve</code> هم یه جواب برای مسئله پیدا می‌کنه. اگه جوابی نباشه، ۱- برمی‌گردونه وگرنه یکی از جواب‌های ممکن رو بهت می‌ده.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">powmod</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -6849,28 +6848,16 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>در این کد، ما از <code>map</code> کتابخانه استاندارد C++ برای ذخیره مقادیر <span class="arithmatex">$f_1$</span> استفاده کرده‌ایم.
-در داخل، <code>map</code> از یک درخت قرمز-سیاه برای ذخیره مقادیر استفاده می‌کند.
-بنابراین این کد کمی کندتر از حالتی است که از یک آرایه و جستجوی دودویی استفاده کنیم، اما نوشتن آن بسیار ساده‌تر است.</p>
-<p>توجه داشته باشید که کد ما فرض می‌کند <span class="arithmatex">$0^0 = 1$</span>، یعنی کد برای معادله <span class="arithmatex">$0^x \equiv 1 \pmod m$</span> جواب <span class="arithmatex">$0$</span> را محاسبه می‌کند و همچنین برای <span class="arithmatex">$0^x \equiv 0 \pmod 1$</span> نیز جواب <span class="arithmatex">$0$</span> را محاسبه می‌کند.
-این یک قرارداد رایج در جبر است، اما در همه حوزه‌ها به طور جهانی پذیرفته نشده است.
-گاهی اوقات <span class="arithmatex">$0^0$</span> به سادگی تعریف نشده است.
-اگر این قرارداد را دوست ندارید، باید حالت <span class="arithmatex">$a=0$</span> را به طور جداگانه مدیریت کنید:</p>
+<p>توی این کد، ما از <code>map</code> کتابخونه استاندارد C++ استفاده کردیم تا مقادیر <span class="arithmatex">$f_1$</span> (یعنی <span class="arithmatex">$a^{np}$</span>) رو ذخیره کنیم. <code>map</code> در پشت صحنه از یه درخت قرمز-سیاه استفاده می‌کنه. برای همین این کد یه کوچولو از حالتی که خودمون یه آرایه بسازیم و روش جستجوی دودویی بزنیم کندتره، ولی خب نوشتنش خیلی راحت‌تر و تمیزتره.</p>
+<p>یه نکته‌ای که باید حواست باشه اینه که این کد فرض می‌کنه <span class="arithmatex">$0^0 = 1$</span>. یعنی مثلاً برای معادله‌ی <span class="arithmatex">$0^x \equiv 1 \pmod m$</span> جواب <span class="arithmatex">$0$</span> رو برمی‌گردونه و برای <span class="arithmatex">$0^x \equiv 0 \pmod 1$</span> هم همینطور. این یه قرارداد رایج توی جبره، ولی همه جا قبولش ندارن. بعضی وقتا <span class="arithmatex">$0^0$</span> رو اصلاً تعریف‌نشده در نظر می‌گیرن. اگه با این قرارداد حال نمی‌کنی، باید حالت <span class="arithmatex">$a=0$</span> رو جداگونه مدیریت کنی، مثلاً اینطوری:</p>
 <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
 </code></pre></div>
-<p>نکته دیگر این است که اگر چندین آرگومان <span class="arithmatex">$p$</span> به یک مقدار یکسان از <span class="arithmatex">$f_1$</span> نگاشت شوند، ما فقط یکی از این آرگومان‌ها را ذخیره می‌کنیم.
-این کار در این مورد جواب می‌دهد زیرا ما فقط می‌خواهیم یک جواب ممکن را برگردانیم.
-اگر لازم باشد تمام جواب‌های ممکن را برگردانیم، باید <code>map&lt;int, int&gt;</code> را به چیزی مانند <code>map&lt;int, vector&lt;int&gt;&gt;</code> تغییر دهیم.
-همچنین باید مرحله دوم را نیز متناسب با آن تغییر دهیم.</p>
-<h2 id="_6">پیاده‌سازی بهبودیافته<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>یک بهبود ممکن، خلاص شدن از توان‌یابی سریع است.
-این کار را می‌توان با نگهداری یک متغیر که در هر بار افزایش <span class="arithmatex">$q$</span> در <span class="arithmatex">$a$</span> ضرب می‌شود و یک متغیر که در هر بار افزایش <span class="arithmatex">$p$</span> در <span class="arithmatex">$a^n$</span> ضرب می‌شود، انجام داد.
-با این تغییر، پیچیدگی الگوریتم همچنان یکسان است، اما اکنون عامل <span class="arithmatex">$\log$</span> فقط برای <code>map</code> است.
-به جای <code>map</code>، می‌توانیم از جدول هش (<code>unordered_map</code> در C++) نیز استفاده کنیم که میانگین پیچیدگی زمانی آن برای درج و جستجو <span class="arithmatex">$O(1)$</span> است.</p>
-<p>مسائل اغلب کوچکترین <span class="arithmatex">$x$</span> را که در جواب صدق می‌کند، می‌خواهند.
-می‌توان تمام جواب‌ها را به دست آورد و کوچکترین را انتخاب کرد، یا اولین جواب یافت شده را با استفاده از <a href="phi-function.html#toc-tgt-2">قضیه اویلر</a> کاهش داد، اما می‌توانیم در مورد ترتیبی که مقادیر را محاسبه می‌کنیم هوشمندانه عمل کنیم و اطمینان حاصل کنیم که اولین جوابی که پیدا می‌کنیم کوچکترین است.</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// کوچکترین x را برمی‌گرداند که a ^ x % m = b % m باشد، a و m نسبت به هم اول هستند.</span>
+<p>یه نکته‌ی دیگه: اگه چند تا <span class="arithmatex">$p$</span> مختلف به یه مقدار یکسان برای <span class="arithmatex">$f_1$</span> برسن، <code>map</code> ما فقط یکی‌شون رو نگه می‌داره. اینجا کارمون راه میفته چون فقط دنبال یه جوابیم. ولی اگه لازم بود همه‌ی جواب‌های ممکن رو پیدا کنی، باید <code>map&lt;int, int&gt;</code> رو به یه چیزی مثل <code>map&lt;int, vector&lt;int&gt;&gt;</code> تغییر بدی و مرحله دوم رو هم متناسب باهاش عوض کنی.</p>
+<h2 id="_6">یه پیاده‌سازی بهینه‌تر<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>یه راه برای بهتر کردن کد اینه که از شر توان‌رسانی‌های مکرر خلاص بشیم. چطوری؟ می‌تونیم یه متغیر داشته باشیم که توی هر مرحله از حلقه <span class="arithmatex">$q$</span>، در <span class="arithmatex">$a$</span> ضرب بشه و یه متغیر دیگه که توی هر مرحله از حلقه <span class="arithmatex">$p$</span>، در <span class="arithmatex">$a^n$</span> ضرب بشه. با این تغییر، پیچیدگی کلی الگوریتم همون می‌مونه، ولی اون عامل <span class="arithmatex">$\log$</span> که به خاطر توان‌رسانی بود حذف می‌شه. تازه، به جای <code>map</code> می‌تونیم از جدول هش (همون <code>unordered_map</code> توی C++) استفاده کنیم که میانگین زمان درج و جستجوش <span class="arithmatex">$O(1)$</span> هست و کدمون رو سریع‌تر می‌کنه.</p>
+<p>معمولاً توی مسئله‌ها ازت کوچک‌ترین <span class="arithmatex">$x$</span> رو می‌خوان که جواب معادله باشه. می‌شه همه‌ی جواب‌ها رو پیدا کرد و کوچک‌ترینشون رو انتخاب کرد، یا اولین جوابی که پیدا می‌شه رو با <a href="phi-function.html#toc-tgt-2">قضیه اویلر</a> کوچیک کرد. ولی یه راه باحال‌تر اینه که ترتیب محاسبه‌ها رو طوری بچینیم که مطمئن باشیم اولین جوابی که پیدا می‌کنیم، همون کوچک‌ترین جواب ممکنه.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// کوچکترین x رو برمی‌گردونه که a ^ x % m = b % m باشه، به شرطی که a و m نسبت به هم اول باشن.</span>
 <span class="kt">int</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">%=</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">%=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
@@ -6895,11 +6882,11 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>پیچیدگی با استفاده از <code>unordered_map</code> برابر با <span class="arithmatex">$O(\sqrt{m})$</span> است.</p>
-<h2 id="a-m">وقتی a و m نسبت به هم اول نیستند<a class="headerlink" href="#a-m" title="Permanent link">&para;</a></h2>
-<p>فرض کنید <span class="arithmatex">$g = \gcd(a, m)$</span> و <span class="arithmatex">$g &gt; 1$</span>. واضح است که <span class="arithmatex">$a^x \bmod m$</span> برای هر <span class="arithmatex">$x \ge 1$</span> بر <span class="arithmatex">$g$</span> بخش‌پذیر خواهد بود.</p>
-<p>اگر <span class="arithmatex">$g \nmid b$</span>، هیچ جوابی برای <span class="arithmatex">$x$</span> وجود ندارد.</p>
-<p>اگر <span class="arithmatex">$g \mid b$</span>، فرض کنید <span class="arithmatex">$a = g \alpha, b = g \beta, m = g \nu$</span>.</p>
+<p>پیچیدگی این کد با استفاده از <code>unordered_map</code> می‌شه <span class="arithmatex">$O(\sqrt{m})$</span>.</p>
+<h2 id="a-m">حالا اگه a و m نسبت به هم اول نباشن چی؟<a class="headerlink" href="#a-m" title="Permanent link">&para;</a></h2>
+<p>فرض کن <span class="arithmatex">$g = \gcd(a, m)$</span> و <span class="arithmatex">$g &gt; 1$</span>. خب واضحه که <span class="arithmatex">$a^x \bmod m$</span> برای هر <span class="arithmatex">$x \ge 1$</span> حتماً به <span class="arithmatex">$g$</span> بخش‌پذیره.</p>
+<p>پس اگه <span class="arithmatex">$b$</span> به <span class="arithmatex">$g$</span> بخش‌پذیر نباشه (<span class="arithmatex">$g \nmid b$</span>)، اصلاً جوابی برای <span class="arithmatex">$x$</span> وجود نداره. خلاص!</p>
+<p>اما اگه <span class="arithmatex">$b$</span> به <span class="arithmatex">$g$</span> بخش‌پذیر باشه (<span class="arithmatex">$g \mid b$</span>)، می‌تونیم معادله رو ساده کنیم. فرض کن <span class="arithmatex">$a = g \alpha$</span> و <span class="arithmatex">$b = g \beta$</span> و <span class="arithmatex">$m = g \nu$</span>.</p>
 <div class="arithmatex">$$
 \begin{aligned}
 a^x &amp; \equiv b \mod m \\\
@@ -6907,8 +6894,8 @@ a^x &amp; \equiv b \mod m \\\
 \alpha a^{x-1} &amp; \equiv \beta \mod \nu
 \end{aligned}
 $$</div>
-<p>الگوریتم گام کودک گام غول را می‌توان به راحتی برای حل <span class="arithmatex">$ka^{x} \equiv b \pmod m$</span> برای <span class="arithmatex">$x$</span> تعمیم داد.</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// کوچکترین x را برمی‌گرداند که a ^ x % m = b % m باشد.</span>
+<p>این روند رو اینقدر تکرار می‌کنیم تا ضریب <span class="arithmatex">$a$</span> و پیمانه نسبت به هم اول بشن. بعد مسئله رو با الگوریتم اصلی حل می‌کنیم. الگوریتم گام کودک گام غول رو می‌شه یه کم تغییر داد تا معادله‌ی کلی‌ترِ <span class="arithmatex">$ka^{x} \equiv b \pmod m$</span> رو هم حل کنه.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// کوچکترین x رو برمی‌گردونه که a ^ x % m = b % m باشه.</span>
 <span class="kt">int</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">%=</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">%=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">g</span><span class="p">;</span>
@@ -6942,16 +6929,16 @@ $$</div>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>پیچیدگی زمانی همانند قبل <span class="arithmatex">$O(\sqrt{m})$</span> باقی می‌ماند، زیرا کاهش اولیه به حالت <span class="arithmatex">$a$</span> و <span class="arithmatex">$m$</span> نسبت به هم اول، در <span class="arithmatex">$O(\log^2 m)$</span> انجام می‌شود.</p>
-<h2 id="_7">مسائل تمرینی<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>پیچیدگی زمانی همون <span class="arithmatex">$O(\sqrt{m})$</span> باقی می‌مونه، چون اون مرحله‌ی اول برای ساده‌سازی و رسوندن مسئله به حالتی که <span class="arithmatex">$a$</span> و <span class="arithmatex">$m$</span> نسبت به هم اول باشن، توی زمان <span class="arithmatex">$O(\log^2 m)$</span> انجام می‌شه که در مقابل <span class="arithmatex">$\sqrt{m}$</span> ناچیزه.</p>
+<h2 id="_7">چند تا مسئله برای تمرین<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="http://www.spoj.com/problems/MOD/">Spoj - Power Modulo Inverted</a></li>
 <li><a href="https://community.topcoder.com/stat?c=problem_statement&amp;pm=14386&amp;rd=16801">Topcoder - SplittingFoxes3</a></li>
 <li><a href="https://www.codechef.com/problems/INVXOR/">CodeChef - Inverse of a Function</a></li>
-<li><a href="https://codeforces.com/gym/101853/problem/G">Hard Equation</a> (فرض کنید <span class="arithmatex">$0^0$</span> تعریف نشده است)</li>
+<li><a href="https://codeforces.com/gym/101853/problem/G">Hard Equation</a> (اینجا فرض کن <span class="arithmatex">$0^0$</span> تعریف نشده است)</li>
 <li><a href="https://www.codechef.com/problems/CHEFMOD">CodeChef - Chef and Modular Sequence</a></li>
 </ul>
-<h2 id="_8">منابع<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h2 id="_8">منابع بیشتر<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Baby-step_giant-step">Wikipedia - Baby-step giant-step</a></li>
 <li><a href="https://math.stackexchange.com/a/133054">Answer by Zander on Mathematics StackExchange</a></li>
@@ -6959,7 +6946,7 @@ $$</div>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/thanhtnguyen" title="thanhtnguyen" data-bi-name="contributorprofile" target="_blank">thanhtnguyen</a> (30.84%)</li><li><a href="https://github.com/meooow25" title="meooow25" data-bi-name="contributorprofile" target="_blank">meooow25</a> (28.19%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (26.43%)</li><li><a href="https://github.com/wikku" title="wikku" data-bi-name="contributorprofile" target="_blank">wikku</a> (6.17%)</li><li><a href="https://github.com/akashbhalotia" title="akashbhalotia" data-bi-name="contributorprofile" target="_blank">akashbhalotia</a> (2.64%)</li><li><a href="https://github.com/roll-no-1" title="roll-no-1" data-bi-name="contributorprofile" target="_blank">roll-no-1</a> (2.2%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.76%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (0.88%)</li><li><a href="https://github.com/likecs" title="likecs" data-bi-name="contributorprofile" target="_blank">likecs</a> (0.88%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/thanhtnguyen" title="thanhtnguyen" data-bi-name="contributorprofile" target="_blank">thanhtnguyen</a> (32.71%)</li><li><a href="https://github.com/meooow25" title="meooow25" data-bi-name="contributorprofile" target="_blank">meooow25</a> (29.91%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (21.96%)</li><li><a href="https://github.com/wikku" title="wikku" data-bi-name="contributorprofile" target="_blank">wikku</a> (6.54%)</li><li><a href="https://github.com/akashbhalotia" title="akashbhalotia" data-bi-name="contributorprofile" target="_blank">akashbhalotia</a> (2.8%)</li><li><a href="https://github.com/roll-no-1" title="roll-no-1" data-bi-name="contributorprofile" target="_blank">roll-no-1</a> (2.34%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.87%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (0.93%)</li><li><a href="https://github.com/likecs" title="likecs" data-bi-name="contributorprofile" target="_blank">likecs</a> (0.93%)</li></ul>
 </ul>
                 
               </article>

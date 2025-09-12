@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#discrete-root" class="md-skip">
           پرش به محتویات
         </a>
       
@@ -1149,7 +1149,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       الگوریتم
     </span>
@@ -1158,16 +1158,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      یافتن تمام جواب‌ها با داشتن یک جواب
+      پیدا کردن همه‌ی جواب‌ها با داشتن فقط یکی از اون‌ها
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       پیاده‌سازی
     </span>
@@ -1176,9 +1176,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      مسائل تمرینی
+      چندتا مسئله برای تمرین
     </span>
   </a>
   
@@ -6646,7 +6646,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 سپتامبر 2025 18:55:35 UTC">12 سپتامبر 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6672,32 +6672,32 @@ Describe the issue of this article in detail.
 </ul>
 
 
-<h1 id="_1">ریشه گسسته<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>مسئله‌ی یافتن ریشه گسسته به صورت زیر تعریف می‌شود. با داشتن یک عدد اول <span class="arithmatex">$n$</span> و دو عدد صحیح <span class="arithmatex">$a$</span> و <span class="arithmatex">$k$</span>، تمام مقادیر <span class="arithmatex">$x$</span> را بیابید که در شرط زیر صدق کنند:</p>
+<h1 id="discrete-root">ریشه گسسته (Discrete Root)<a class="headerlink" href="#discrete-root" title="Permanent link">&para;</a></h1>
+<p>ببین، مسئله‌ی «ریشه گسسته» خیلی ساده‌ست. فرض کن یه عدد اول <span class="arithmatex">$n$</span> و دو تا عدد صحیح <span class="arithmatex">$a$</span> و <span class="arithmatex">$k$</span> بهت دادن. حالا ازت می‌خوان تمام مقادیر <span class="arithmatex">$x$</span> رو پیدا کنی که توی این معادله صدق کنن:</p>
 <p><span class="arithmatex">$x^k \equiv a \pmod n$</span></p>
-<h2 id="_2">الگوریتم<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>این مسئله را با کاهش آن به <a href="discrete-log.html">مسئله لگاریتم گسسته</a> حل خواهیم کرد.</p>
-<p>بیایید از مفهوم <a href="primitive-root.html">ریشه اولیه</a> به پیمانه <span class="arithmatex">$n$</span> استفاده کنیم. فرض کنید <span class="arithmatex">$g$</span> یک ریشه اولیه به پیمانه <span class="arithmatex">$n$</span> باشد. توجه داشته باشید که چون <span class="arithmatex">$n$</span> اول است، ریشه اولیه حتماً وجود دارد و می‌توان آن را در زمان <span class="arithmatex">$O(Ans \cdot \log \phi (n) \cdot \log n) = O(Ans \cdot \log^2 n)$</span> به علاوه زمان لازم برای تجزیه <span class="arithmatex">$\phi (n)$</span> پیدا کرد.</p>
-<p>می‌توانیم به راحتی حالتی که <span class="arithmatex">$a = 0$</span> است را نادیده بگیریم. در این حالت، واضح است که تنها یک جواب وجود دارد: <span class="arithmatex">$x = 0$</span>.</p>
-<p>از آنجایی که می‌دانیم <span class="arithmatex">$n$</span> اول است و هر عدد بین ۱ و <span class="arithmatex">$n-1$</span> را می‌توان به صورت توانی از ریشه اولیه نمایش داد، می‌توانیم مسئله ریشه گسسته را به صورت زیر بازنویسی کنیم:</p>
+<h2 id="_1">الگوریتم<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>خب، چطوری حلش کنیم؟ یه راه باحال اینه که مسئله رو به یه مسئله‌ی دیگه که شاید از قبل بلد باشیم، یعنی <a href="discrete-log.html">مسئله لگاریتم گسسته</a>، تبدیل کنیم.</p>
+<p>برای این کار، از یه ابزار قدرتمند به اسم <a href="primitive-root.html">ریشه اولیه (primitive root)</a> به پیمانه <span class="arithmatex">$n$</span> کمک می‌گیریم. فرض کنیم <span class="arithmatex">$g$</span> یه ریشه اولیه به پیمانه <span class="arithmatex">$n$</span> باشه. یه خبر خوب اینه که چون <span class="arithmatex">$n$</span> اوله، خیالمون راحته که ریشه اولیه حتماً وجود داره و می‌تونیم پیداش کنیم. (زمان پیدا کردنش هم چیزی حدود <span class="arithmatex">$O(Ans \cdot \log \phi (n) \cdot \log n) = O(Ans \cdot \log^2 n)$</span> به علاوه‌ی زمان لازم برای تجزیه <span class="arithmatex">$\phi (n)$</span> هست).</p>
+<p>اول یه حالت خاص رو بررسی کنیم و از شرش خلاص شیم: اگه <span class="arithmatex">$a = 0$</span> باشه، جواب خیلی واضحه: فقط <span class="arithmatex">$x = 0$</span> می‌تونه جواب باشه.</p>
+<p>حالا بریم سراغ اصل ماجرا. چون می‌دونیم <span class="arithmatex">$n$</span> اوله، هر عددی بین ۱ تا <span class="arithmatex">$n-1$</span> رو میشه به صورت توانی از ریشه اولیه <span class="arithmatex">$g$</span> نوشت. این ویژگی فوق‌العاده‌ست! پس می‌تونیم مسئله‌مون رو اینطوری بازنویسی کنیم:</p>
 <p><span class="arithmatex">$(g^y)^k \equiv a \pmod n$</span></p>
-<p>که در آن</p>
+<p>که اینجا در واقع داریم:</p>
 <p><span class="arithmatex">$x \equiv g^y \pmod n$</span></p>
-<p>این رابطه را نیز می‌توان به صورت زیر نوشت:</p>
+<p>این رابطه رو با یه کم جابجایی می‌تونیم این شکلی هم بنویسیم:</p>
 <p><span class="arithmatex">$(g^k)^y \equiv a \pmod n$</span></p>
-<p>اکنون یک مجهول <span class="arithmatex">$y$</span> داریم که این خود یک مسئله لگاریتم گسسته است. جواب را می‌توان با استفاده از الگوریتم گام کودک-گام غول Shanks در زمان <span class="arithmatex">$O(\sqrt {n} \log n)$</span> پیدا کرد (یا می‌توانیم بررسی کنیم که آیا جوابی وجود ندارد).</p>
-<p>با پیدا کردن یک جواب <span class="arithmatex">$y_0$</span>، یکی از جواب‌های مسئله ریشه گسسته برابر با <span class="arithmatex">$x_0 = g^{y_0} \pmod n$</span> خواهد بود.</p>
-<h2 id="_3">یافتن تمام جواب‌ها با داشتن یک جواب<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>برای حل کامل مسئله، باید با داشتن یکی از جواب‌ها، یعنی <span class="arithmatex">$x_0 = g^{y_0} \pmod n$</span>، تمام جواب‌های دیگر را پیدا کنیم.</p>
-<p>این واقعیت را به یاد بیاوریم که یک ریشه اولیه همیشه دارای مرتبه <span class="arithmatex">$\phi (n)$</span> است، یعنی کوچک‌ترین توانی از <span class="arithmatex">$g$</span> که برابر با ۱ می‌شود، <span class="arithmatex">$\phi (n)$</span> است. بنابراین، اگر مضربی از <span class="arithmatex">$\phi (n)$</span> را به توان <span class="arithmatex">$y_0 \cdot k$</span> اضافه کنیم، همچنان همان مقدار را به دست می‌آوریم:</p>
+<p>الان فقط یه مجهول داریم و اونم <span class="arithmatex">$y$</span> هست. صبر کن ببینم... این که دقیقاً همون مسئله لگاریتم گسسته‌ست! این مسئله رو هم می‌تونیم با الگوریتم معروف «گام کودک-گام غول» (Baby-step giant-step) مال Shanks توی زمان <span class="arithmatex">$O(\sqrt {n} \log n)$</span> حل کنیم (یا بفهمیم که اصلاً جوابی وجود نداره).</p>
+<p>بعد از اینکه یه جواب مثل <span class="arithmatex">$y_0$</span> رو پیدا کردیم، یکی از جواب‌های مسئله اصلیمون هم به دست میاد: <span class="arithmatex">$x_0 = g^{y_0} \pmod n$</span>.</p>
+<h2 id="_2">پیدا کردن همه‌ی جواب‌ها با داشتن فقط یکی از اون‌ها<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>خب، ما یه جواب پیدا کردیم. ولی مسئله از ما «تمام» جواب‌ها رو خواسته بود. چطوری بقیه‌شون رو پیدا کنیم؟</p>
+<p>یادت باشه که مرتبه‌ی یه ریشه اولیه همیشه <span class="arithmatex">$\phi (n)$</span> هست. یعنی کوچک‌ترین توانی از <span class="arithmatex">$g$</span> که به پیمانه <span class="arithmatex">$n$</span> برابر با ۱ میشه، همین <span class="arithmatex">$\phi (n)$</span> خودمونه. پس اگه مضربی از <span class="arithmatex">$\phi (n)$</span> رو به توان <span class="arithmatex">$y_0 \cdot k$</span> اضافه کنیم، نتیجه نهایی هیچ تغییری نمی‌کنه:</p>
 <p><span class="arithmatex">$x^k \equiv g^{ y_0 \cdot k + l \cdot \phi (n)} \equiv a \pmod n \forall l \in Z$</span></p>
-<p>از این رو، تمام جواب‌ها به شکل زیر هستند:</p>
+<p>با این حساب، همه‌ی جواب‌های <span class="arithmatex">$x$</span> باید این شکلی باشن:</p>
 <p><span class="arithmatex">$x = g^{y_0 + \frac {l \cdot \phi (n)}{k}} \pmod n \forall l \in Z$</span>.</p>
-<p>که در آن <span class="arithmatex">$l$</span> به گونه‌ای انتخاب می‌شود که کسر باید یک عدد صحیح باشد. این شرط منجر به فرمول نهایی زیر برای تمام جواب‌ها می‌شود:</p>
+<p>البته اینجا یه شرطی وجود داره: <span class="arithmatex">$l$</span> باید طوری انتخاب بشه که اون کسر، یعنی <span class="arithmatex">$\frac {l \cdot \phi (n)}{k}$</span>، یه عدد صحیح از آب دربیاد. این شرط ما رو به فرمول نهایی برای پیدا کردن همه‌ی جواب‌ها می‌رسونه:</p>
 <p><span class="arithmatex">$x = g^{y_0 + i \frac {\phi (n)}{\gcd(k, \phi (n))}} \pmod n \forall i \in Z$</span>.</p>
-<p>این فرمول نهایی برای تمام جواب‌های مسئله ریشه گسسته است.</p>
-<h2 id="_4">پیاده‌سازی<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>در ادامه یک پیاده‌سازی کامل آمده است که شامل رویه‌هایی برای یافتن ریشه اولیه، لگاریتم گسسته، و یافتن و چاپ تمام جواب‌ها است.</p>
+<p>و تمام! این فرمول نهایی برای همه‌ی جواب‌های مسئله ریشه گسسته‌ست.</p>
+<h2 id="_3">پیاده‌سازی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>اینم یه پیاده‌سازی کامل که همه‌ی این کارها رو برامون انجام میده: پیدا کردن ریشه اولیه، حل لگاریتم گسسته، و در نهایت پیدا کردن و چاپ همه‌ی جواب‌ها.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">gcd</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">gcd</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
 <span class="p">}</span>
@@ -6714,7 +6714,7 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="c1">// ریشه اولیه به پیمانه p را پیدا می‌کند</span>
+<span class="c1">// یه ریشه اولیه به پیمانه p پیدا می‌کنه</span>
 <span class="kt">int</span><span class="w"> </span><span class="nf">generator</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fact</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">phi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">phi</span><span class="p">;</span>
@@ -6741,7 +6741,7 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="c1">// این برنامه تمام اعداد x را پیدا می‌کند که در رابطه x^k = a (mod n) صدق می‌کنند</span>
+<span class="c1">// این برنامه همه‌ی x هایی رو پیدا می‌کنه که توی معادله x^k = a (mod n) صدق می‌کنن</span>
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
 <span class="w">    </span><span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%d %d %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>
@@ -6772,7 +6772,7 @@ Describe the issue of this article in detail.
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="c1">// چاپ تمام جواب‌های ممکن</span>
+<span class="w">    </span><span class="c1">// چاپ همه‌ی جواب‌های ممکن</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">gcd</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="mi">-1</span><span class="p">);</span>
 <span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ans</span><span class="p">;</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">any_ans</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">delta</span><span class="p">;</span><span class="w"> </span><span class="n">cur</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="mi">-1</span><span class="p">;</span><span class="w"> </span><span class="n">cur</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">delta</span><span class="p">)</span>
@@ -6783,14 +6783,15 @@ Describe the issue of this article in detail.
 <span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">answer</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_5">مسائل تمرینی<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_4">چندتا مسئله برای تمرین<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>اگه دوست داری دستت رو گرم کنی، این مسئله رو یه نگاهی بنداز:</p>
 <ul>
 <li><a href="https://codeforces.com/contest/1106/problem/F">Codeforces - Lunar New Year and a Recursive Sequence</a></li>
 </ul>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/thanhtnguyen" title="thanhtnguyen" data-bi-name="contributorprofile" target="_blank">thanhtnguyen</a> (56.08%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (18.24%)</li><li><a href="https://github.com/wikku" title="wikku" data-bi-name="contributorprofile" target="_blank">wikku</a> (14.86%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (7.43%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (2.7%)</li><li><a href="https://github.com/walidghallab" title="walidghallab" data-bi-name="contributorprofile" target="_blank">walidghallab</a> (0.68%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/thanhtnguyen" title="thanhtnguyen" data-bi-name="contributorprofile" target="_blank">thanhtnguyen</a> (55.33%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (19.33%)</li><li><a href="https://github.com/wikku" title="wikku" data-bi-name="contributorprofile" target="_blank">wikku</a> (14.67%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (7.33%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (2.67%)</li><li><a href="https://github.com/walidghallab" title="walidghallab" data-bi-name="contributorprofile" target="_blank">walidghallab</a> (0.67%)</li></ul>
 </ul>
                 
               </article>

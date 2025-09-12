@@ -6617,7 +6617,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 سپتامبر 2025 18:55:35 UTC">12 سپتامبر 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6643,19 +6643,20 @@ Describe the issue of this article in detail.
 </ul>
 
 
-<h1 id="_1">یافتن توان مقسوم‌علیهِ فاکتوریل<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>دو عدد <code>n</code> و <code>k</code> به شما داده شده است. بزرگ‌ترین توان <code>k</code> یعنی <code>x</code> را بیابید به طوری که <code>!n</code> بر <code>k^x</code> بخش‌پذیر باشد.</p>
-<h2 id="k"><code>k</code> اول<a class="headerlink" href="#k" title="Permanent link">&para;</a></h2>
-<p>ابتدا حالتی را در نظر بگیریم که <code>k</code> عددی اول باشد. عبارت صریح برای فاکتوریل به این صورت است:</p>
+<h1 id="_1">پیدا کردن توانِ یه مقسوم‌علیه توی فاکتوریل<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>فرض کن دو تا عدد <code>n</code> و <code>k</code> بهت دادن. مسئله اینه که بزرگ‌ترین توان <code>k</code>، مثلا <code>x</code>، رو پیدا کنی که <code>!n</code> به <code>k^x</code> بخش‌پذیر باشه.</p>
+<h2 id="k">وقتی <code>k</code> یه عدد اوله<a class="headerlink" href="#k" title="Permanent link">&para;</a></h2>
+<p>اول بیا ساده‌ترین حالت رو در نظر بگیریم: وقتی که <code>k</code> یه عدد اوله. فاکتوریل <code>n</code> رو که یادت هست، اینجوری باز میشه:</p>
 <div class="arithmatex">$$n! = 1 \cdot 2 \cdot 3 \ldots (n-1) \cdot n$$</div>
-<p>توجه داشته باشید که هر عنصر <code>k</code>-اُم در این حاصل‌ضرب بر <code>k</code> بخش‌پذیر است، یعنی ۱+ به جواب اضافه می‌کند؛ تعداد این عناصر برابر با <span class="arithmatex">$\Bigl\lfloor\dfrac{n}{k}\Bigr\rfloor$</span> است.</p>
-<p>سپس، هر عنصر <span class="arithmatex">$k^2$</span>-اُم بر <span class="arithmatex">$k^2$</span> بخش‌پذیر است، یعنی یک ۱+ دیگر به جواب اضافه می‌کند (توان اول <code>k</code> قبلاً در پاراگراف قبل شمرده شده است). تعداد این عناصر برابر با <span class="arithmatex">$\Bigl\lfloor\dfrac{n}{k^2}\Bigr\rfloor$</span> است.</p>
-<p>و به همین ترتیب، برای هر <code>i</code>، هر عنصر <span class="arithmatex">$k^i$</span>-اُم یک ۱+ دیگر به جواب اضافه می‌کند و تعداد این عناصر برابر با <span class="arithmatex">$\Bigl\lfloor\dfrac{n}{k^i}\Bigr\rfloor$</span> است.</p>
-<p>جواب نهایی برابر است با:</p>
+<p>حالا یه نگاه به این ضرب بنداز. هر <code>k</code>اُمین عدد توی این ضرب، به <code>k</code> بخش‌پذیره (مثلاً اگه <code>k=3</code> باشه، عددهای ۳، ۶، ۹ و...). هر کدوم از اینا حداقل یه عامل <code>k</code> به ما میدن. پس به ازای هر کدومشون، یه دونه به جوابمون اضافه میشه. تعداد این عددها چقدره؟ دقیقاً <span class="arithmatex">$\Bigl\lfloor\dfrac{n}{k}\Bigr\rfloor$</span> تا.</p>
+<p>خب، حالا بیا بریم سراغ مضرب‌های <span class="arithmatex">$k^2$</span>. هر <span class="arithmatex">$k^2$</span>-اُمین عدد، به <span class="arithmatex">$k^2$</span> بخش‌پذیره. این یعنی چی؟ یعنی حداقل دو تا عامل <code>k</code> داره. ما یکیش رو توی مرحله قبل شمردیم (چون هر مضرب <span class="arithmatex">$k^2$</span> مضرب <code>k</code> هم هست)، پس الان باید به ازای هر کدوم از اینا، یه دونه <em>دیگه</em> به جواب اضافه کنیم. تعداد این عددها هم میشه <span class="arithmatex">$\Bigl\lfloor\dfrac{n}{k^2}\Bigr\rfloor$</span> تا.</p>
+<p>همین داستان رو ادامه میدیم. برای هر <code>i</code>، هر <span class="arithmatex">$k^i$</span>-اُمین عدد، یه عامل <code>k</code> دیگه به ما میده که قبلاً حسابش نکردیم. تعداد اینا هم میشه <span class="arithmatex">$\Bigl\lfloor\dfrac{n}{k^i}\Bigr\rfloor$</span> تا.</p>
+<p>پس جواب نهایی میشه جمع همه‌ی اینا:</p>
 <div class="arithmatex">$$\Bigl\lfloor\dfrac{n}{k}\Bigr\rfloor + \Bigl\lfloor\dfrac{n}{k^2}\Bigr\rfloor + \ldots + \Bigl\lfloor\dfrac{n}{k^i}\Bigr\rfloor + \ldots$$</div>
-<p>این نتیجه با نام <a href="https://en.wikipedia.org/wiki/Legendre%27s_formula">فرمول لوژاندر</a> نیز شناخته می‌شود.
-این مجموع البته متناهی است، زیرا تقریباً فقط <span class="arithmatex">$\log_k n$</span> جمله اول آن غیر صفر هستند. بنابراین، زمان اجرای این الگوریتم <span class="arithmatex">$O(\log_k n)$</span> است.</p>
+<p>به این فرمول خفن، <a href="https://en.wikipedia.org/wiki/Legendre%27s_formula">فرمول لوژاندر (Legendre's formula)</a> هم میگن.
+این جمعی که نوشتیم البته تا بی‌نهایت ادامه پیدا نمی‌کنه. یه جایی میرسه که <span class="arithmatex">$k^i$</span> از <code>n</code> بزرگتر میشه و حاصل تقسیم‌ها صفر میشه. در واقع فقط حدود <span class="arithmatex">$\log_k n$</span> تا جمله‌ی اول این جمع، غیرصفر هستن. برای همین، پیچیدگی زمانی این الگوریتم میشه <span class="arithmatex">$O(\log_k n)$</span> که خیلی سریعه.</p>
 <h3 id="_2">پیاده‌سازی<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>اینم کدش که دقیقاً همون فرمول رو پیاده‌سازی می‌کنه:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">fact_pow</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -6665,13 +6666,17 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="k_1"><code>k</code> مرکب<a class="headerlink" href="#k_1" title="Permanent link">&para;</a></h2>
-<p>همین ایده را نمی‌توان به طور مستقیم به کار برد. در عوض می‌توانیم <code>k</code> را تجزیه کنیم و آن را به صورت <span class="arithmatex">$k = k_1^{p_1} \cdot \ldots \cdot k_m^{p_m}$</span> نمایش دهیم. برای هر <span class="arithmatex">$k_i$</span>، با استفاده از الگوریتم توصیف‌شده در بالا، تعداد دفعاتی که در <code>!n</code> وجود دارد را پیدا می‌کنیم - این مقدار را <span class="arithmatex">$a_i$</span> می‌نامیم. جواب برای <code>k</code> مرکب برابر خواهد بود با:</p>
+<h2 id="k_1">وقتی <code>k</code> یه عدد مرکبه<a class="headerlink" href="#k_1" title="Permanent link">&para;</a></h2>
+<p>خب، حالا اگه <code>k</code> یه عدد مرکب باشه چی؟ اینجا دیگه نمی‌تونیم مستقیم از همون روش قبلی استفاده کنیم.</p>
+<p>راه حل اینه که اول <code>k</code> رو به عامل‌های اولش تجزیه کنیم. یعنی <code>k</code> رو به این شکل بنویسیم: <span class="arithmatex">$k = k_1^{p_1} \cdot \ldots \cdot k_m^{p_m}$</span>.</p>
+<p>حالا برای هر عامل اول <span class="arithmatex">$k_i$</span>، با همون الگوریتمی که بالا گفتیم حساب می‌کنیم که این عامل اول چند بار توی <code>!n</code> تکرار شده. اسم این تعداد رو میذاریم <span class="arithmatex">$a_i$</span>.</p>
+<p>جواب نهایی برای <code>k</code> مرکب، یه کم فرق داره. باید ببینیم کدوم عامل اول، «عامل محدود کننده» یا گلوگاه ماست. جواب نهایی اینجوری به دست میاد:</p>
 <div class="arithmatex">$$\min_ {i=1 \ldots m} \dfrac{a_i}{p_i}$$</div>
+<p>چرا؟ فکر کن مثلاً <span class="arithmatex">$k = 12 = 2^2 \cdot 3^1$</span> باشه. برای ساختن هر یه دونه ۱۲، ما به دو تا ۲ و یه دونه ۳ نیاز داریم. حالا فرض کن توی <code>!n</code>، صد تا عامل ۲ و پنجاه تا عامل ۳ داریم. با این حساب، ما می‌تونیم <span class="arithmatex">$100/2 = 50$</span> تا <span class="arithmatex">$2^2$</span> بسازیم، ولی فقط ۵۰ تا ۳ داریم. پس در نهایت فقط می‌تونیم ۵۰ تا ۱۲ بسازیم، چون تعداد ۳ ها ما رو محدود کرده. برای همین مینیمم رو می‌گیریم.</p>
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (40.82%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (30.61%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (28.57%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (42.37%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (33.9%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (23.73%)</li></ul>
 </ul>
                 
               </article>

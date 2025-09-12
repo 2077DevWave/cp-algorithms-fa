@@ -6706,7 +6706,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 سپتامبر 2025 18:55:35 UTC">12 سپتامبر 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6732,17 +6732,17 @@ Describe the issue of this article in detail.
 </ul>
 
 
-<h1 id="_1">الگوریتم اقلیدس برای محاسبه بزرگترین مقسوم‌علیه مشترک<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>با داشتن دو عدد صحیح نامنفی <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span>، باید <strong>GCD</strong> (بزرگترین مقسوم‌علیه مشترک) آن‌ها را پیدا کنیم، یعنی بزرگترین عددی که مقسوم‌علیه هر دو عدد <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> باشد.
-این مقدار معمولاً با <span class="arithmatex">$\gcd(a, b)$</span> نمایش داده می‌شود. به صورت ریاضی، به شکل زیر تعریف می‌شود:</p>
+<h1 id="_1">الگوریتم اقلیدس برای پیدا کردن ب.م.م (بزرگترین مقسوم‌علیه مشترک)<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>فرض کن دو تا عدد صحیح نامنفی <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> داریم. می‌خوایم <strong>ب.م.م</strong> (بزرگترین مقسوم‌علیه مشترک) یا همون <strong>GCD</strong> شون رو پیدا کنیم. یعنی بزرگترین عددی که هم <span class="arithmatex">$a$</span> و هم <span class="arithmatex">$b$</span> بهش بخش‌پذیر باشن.
+معمولاً این مقدار رو با <span class="arithmatex">$\gcd(a, b)$</span> نشون میدن. اگه بخوایم خیلی ریاضی‌طور تعریفش کنیم، اینجوری میشه:</p>
 <div class="arithmatex">$$\gcd(a, b) = \max \{k &gt; 0 : (k \mid a) \text{ and } (k \mid b) \}$$</div>
-<p>(در اینجا، نماد "<span class="arithmatex">$\mid$</span>" به معنای بخش‌پذیری است، یعنی "<span class="arithmatex">$k \mid a$</span>" به این معنی است که "<span class="arithmatex">$k$</span> عدد <span class="arithmatex">$a$</span> را می‌شمارد")</p>
-<p>وقتی یکی از اعداد صفر و دیگری غیر صفر باشد، بزرگترین مقسوم‌علیه مشترک آن‌ها، طبق تعریف، همان عدد غیر صفر است. وقتی هر دو عدد صفر باشند، بزرگترین مقسوم‌علیه مشترک آن‌ها تعریف نشده است (می‌تواند هر عدد بزرگی باشد)، اما برای حفظ خاصیت شرکت‌پذیری <span class="arithmatex">$\gcd$</span>، راحت‌تر است که آن را نیز صفر تعریف کنیم. این به ما یک قانون ساده می‌دهد: اگر یکی از اعداد صفر باشد، بزرگترین مقسوم‌علیه مشترک برابر با عدد دیگر است.</p>
-<p>الگوریتم اقلیدس که در ادامه مورد بحث قرار می‌گیرد، به ما اجازه می‌دهد بزرگترین مقسوم‌علیه مشترک دو عدد <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> را در زمان <span class="arithmatex">$O(\log \min(a, b))$</span> پیدا کنیم. از آنجایی که این تابع <strong>شرکت‌پذیر</strong> است، برای پیدا کردن GCD <strong>بیش از دو عدد</strong>، می‌توانیم به این صورت عمل کنیم: <span class="arithmatex">$\gcd(a, b, c) = \gcd(a, \gcd(b, c))$</span> و الی آخر.</p>
-<p>این الگوریتم برای اولین بار در کتاب «اصول» اقلیدس (حدود ۳۰۰ سال قبل از میلاد) توصیف شد، اما ممکن است ریشه‌های قدیمی‌تری نیز داشته باشد.</p>
+<p>(اینجا، این علامت "<span class="arithmatex">$\mid$</span>" یعنی بخش‌پذیری. مثلاً "<span class="arithmatex">$k \mid a$</span>" یعنی "<span class="arithmatex">$a$</span> بر <span class="arithmatex">$k$</span> بخش‌پذیره")</p>
+<p>حالا یه حالت خاص: اگه یکی از عددها صفر باشه و اون یکی نه، ب.م.م شون طبق تعریف میشه همون عدده که صفر نیست. اگه هر دوتاشون صفر باشن چی؟ اون‌وقت ب.م.م تعریف نشده (چون هر عدد گنده‌ای می‌تونه مقسوم‌علیه صفر باشه)، ولی برای اینکه خاصیت شرکت‌پذیری <span class="arithmatex">$\gcd$</span> رو حفظ کنیم، راحت‌تریم که ب.م.م دو تا صفر رو همون صفر در نظر بگیریم. اینجوری یه قانون ساده و خوشگل داریم: اگه یکی از عددها صفر بود، ب.م.م میشه اون یکی عدده.</p>
+<p>الگوریتم اقلیدس که الان می‌خوایم در موردش حرف بزنیم، بهمون اجازه میده ب.م.م دو تا عدد <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> رو توی زمان <span class="arithmatex">$O(\log \min(a, b))$</span> پیدا کنیم. از اونجایی که این تابع <strong>شرکت‌پذیره</strong>، برای پیدا کردن ب.م.م <strong>بیشتر از دو تا عدد</strong> هم کارمون راحته. اینجوری حسابش می‌کنیم: <span class="arithmatex">$\gcd(a, b, c) = \gcd(a, \gcd(b, c))$</span> و همینطور الی آخر.</p>
+<p>این الگوریتم اولین بار تو کتاب «اصول» اقلیدس (حدود ۳۰۰ سال قبل از میلاد مسیح) توضیح داده شده، ولی شاید حتی از اون هم قدیمی‌تر باشه.</p>
 <h2 id="_2">الگوریتم<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>در ابتدا، الگوریتم اقلیدس به این صورت فرمول‌بندی شده بود: عدد کوچکتر را از عدد بزرگتر کم کنید تا زمانی که یکی از اعداد صفر شود. در واقع، اگر <span class="arithmatex">$g$</span> هم <span class="arithmatex">$a$</span> و هم <span class="arithmatex">$b$</span> را بشمارد، <span class="arithmatex">$a-b$</span> را نیز می‌شمارد. از طرف دیگر، اگر <span class="arithmatex">$g$</span> اعداد <span class="arithmatex">$a-b$</span> و <span class="arithmatex">$b$</span> را بشمارد، آنگاه <span class="arithmatex">$a = b + (a-b)$</span> را نیز می‌شمارد، که به این معنی است که مجموعه‌ی مقسوم‌علیه‌های مشترک <span class="arithmatex">$\{a, b\}$</span> و <span class="arithmatex">$\{b,a-b\}$</span> یکسان هستند.</p>
-<p>توجه داشته باشید که <span class="arithmatex">$a$</span> تا زمانی که <span class="arithmatex">$b$</span> حداقل <span class="arithmatex">$\left\lfloor\frac{a}{b}\right\rfloor$</span> بار از آن کم شود، عدد بزرگتر باقی می‌ماند. بنابراین، برای سرعت بخشیدن به کار، <span class="arithmatex">$a-b$</span> با <span class="arithmatex">$a-\left\lfloor\frac{a}{b}\right\rfloor b = a \bmod b$</span> جایگزین می‌شود. در این صورت، الگوریتم به روشی بسیار ساده فرمول‌بندی می‌شود:</p>
+<p>اولش، الگوریتم اقلیدس اینجوری فرمول‌بندی شده بود: هی عدد کوچیکه رو از بزرگه کم کن تا وقتی که یکی از عددها صفر بشه. قضیه اینه که اگه یه عددی مثل <span class="arithmatex">$g$</span> هم <span class="arithmatex">$a$</span> رو بشماره و هم <span class="arithmatex">$b$</span> رو، اون‌وقت <span class="arithmatex">$a-b$</span> رو هم می‌شماره. برعکسش هم درسته. اگه <span class="arithmatex">$g$</span> عددهای <span class="arithmatex">$a-b$</span> و <span class="arithmatex">$b$</span> رو بشماره، اون‌وقت <span class="arithmatex">$a = b + (a-b)$</span> رو هم می‌شماره. این یعنی مجموعه‌ی مقسوم‌علیه‌های مشترک برای جفتِ <span class="arithmatex">$\{a, b\}$</span> و جفتِ <span class="arithmatex">$\{b,a-b\}$</span> دقیقاً یکیه.</p>
+<p>حواست باشه که به جای اینکه دونه دونه <span class="arithmatex">$b$</span> رو از <span class="arithmatex">$a$</span> کم کنیم، می‌تونیم یه دفعه‌ای <span class="arithmatex">$\left\lfloor\frac{a}{b}\right\rfloor$</span> تا <span class="arithmatex">$b$</span> ازش کم کنیم. پس برای اینکه کار رو سریع‌تر کنیم، به جای <span class="arithmatex">$a-b$</span> یه راست میریم سراغ <span class="arithmatex">$a-\left\lfloor\frac{a}{b}\right\rfloor b$</span> که همون <span class="arithmatex">$a \bmod b$</span> (باقیمانده تقسیم <span class="arithmatex">$a$</span> بر <span class="arithmatex">$b$</span>) خودمونه. اینجوری، الگوریتم خیلی ساده و شیک فرمول‌بندی میشه:</p>
 <div class="arithmatex">$$\gcd(a, b) = \begin{cases}a,&amp;\text{if }b = 0 \\ \gcd(b, a \bmod b),&amp;\text{otherwise.}\end{cases}$$</div>
 <h2 id="_3">پیاده‌سازی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">gcd</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -6752,12 +6752,12 @@ Describe the issue of this article in detail.
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">gcd</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>با استفاده از عملگر سه‌تایی در C++، می‌توانیم آن را به صورت یک خطی بنویسیم.</p>
+<p>با عملگر سه‌تایی C++، میشه اینو یه خطی هم نوشت:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">gcd</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">gcd</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>و در نهایت، در اینجا یک پیاده‌سازی غیر بازگشتی آورده شده است:</p>
+<p>و آخر سر هم، این یه پیاده‌سازی غیر بازگشتیشه:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">gcd</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">a</span><span class="w"> </span><span class="o">%=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
@@ -6766,34 +6766,34 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>توجه داشته باشید که از C++17 به بعد، <code>gcd</code> به عنوان یک <a href="https://en.cppreference.com/w/cpp/numeric/gcd">تابع استاندارد</a> در C++ پیاده‌سازی شده است.</p>
+<p>اینم بگم که از C++17 به بعد، خود C++ یه <a href="https://en.cppreference.com/w/cpp/numeric/gcd">تابع استاندارد</a> به اسم <code>gcd</code> داره.</p>
 <h2 id="_4">پیچیدگی زمانی<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>زمان اجرای الگوریتم توسط قضیه Lamé تخمین زده می‌شود، که ارتباط شگفت‌انگیزی بین الگوریتم اقلیدس و دنباله فیبوناچی برقرار می‌کند:</p>
-<p>اگر <span class="arithmatex">$a &gt; b \geq 1$</span> و <span class="arithmatex">$b &lt; F_n$</span> برای یک <span class="arithmatex">$n$</span> برقرار باشد، الگوریتم اقلیدس حداکثر <span class="arithmatex">$n-2$</span> فراخوانی بازگشتی انجام می‌دهد.</p>
-<p>علاوه بر این، می‌توان نشان داد که کران بالای این قضیه بهینه است. وقتی <span class="arithmatex">$a = F_n$</span> و <span class="arithmatex">$b = F_{n-1}$</span> باشند، <code>gcd(a, b)</code> دقیقاً <span class="arithmatex">$n-2$</span> فراخوانی بازگشتی انجام خواهد داد. به عبارت دیگر، اعداد متوالی فیبوناچی بدترین حالت ورودی برای الگوریتم اقلیدس هستند.</p>
-<p>با توجه به اینکه اعداد فیبوناچی به صورت نمایی رشد می‌کنند، نتیجه می‌گیریم که الگوریتم اقلیدس در زمان <span class="arithmatex">$O(\log \min(a, b))$</span> کار می‌کند.</p>
-<p>راه دیگر برای تخمین پیچیدگی این است که توجه کنیم <span class="arithmatex">$a \bmod b$</span> در حالت <span class="arithmatex">$a \geq b$</span> حداقل ۲ برابر کوچکتر از <span class="arithmatex">$a$</span> است، بنابراین عدد بزرگتر در هر تکرار الگوریتم حداقل به نصف کاهش می‌یابد. با به کار بردن این استدلال در موردی که GCD مجموعه‌ای از اعداد <span class="arithmatex">$a_1,\dots,a_n \leq C$</span> را محاسبه می‌کنیم، این امر به ما امکان می‌دهد زمان اجرای کل را به جای <span class="arithmatex">$O(n \log C)$</span> به صورت <span class="arithmatex">$O(n + \log C)$</span> تخمین بزنیم، زیرا هر تکرار غیربدیهی الگوریتم، کاندیدای فعلی GCD را حداقل با ضریب ۲ کاهش می‌دهد.</p>
+<p>پیچیدگی زمانی الگوریتم رو با قضیه‌ی Lamé تخمین می‌زنن. این قضیه یه ربط خیلی خفن بین الگوریتم اقلیدس و دنباله فیبوناچی پیدا می‌کنه:</p>
+<p>اگه <span class="arithmatex">$a &gt; b \geq 1$</span> باشه و <span class="arithmatex">$b$</span> از عدد فیبوناچی <span class="arithmatex">$n$</span>-ام (<span class="arithmatex">$F_n$</span>) کوچیکتر باشه، الگوریتم اقلیدس حداکثر <span class="arithmatex">$n-2$</span> تا فراخوانی بازگشتی لازم داره.</p>
+<p>از این باحال‌تر اینکه میشه نشون داد این کران بالا، بهینه‌ترین حالته (یعنی از این تنگ‌تر نمیشه). وقتی <span class="arithmatex">$a = F_n$</span> و <span class="arithmatex">$b = F_{n-1}$</span> باشه، تابع <code>gcd(a, b)</code> دقیقاً <span class="arithmatex">$n-2$</span> بار بازگشتی صدا زده میشه. به عبارت دیگه، دو تا عدد فیبوناچی پشت سر هم، بدترین ورودی ممکن برای الگوریتم اقلیدس هستن.</p>
+<p>از اونجایی که اعداد فیبوناچی رشد نمایی دارن، نتیجه می‌گیریم که الگوریتم اقلیدس توی زمان <span class="arithmatex">$O(\log \min(a, b))$</span> کارش رو تموم می‌کنه.</p>
+<p>یه راه دیگه برای تحلیل پیچیدگی اینه که حواسمون باشه <span class="arithmatex">$a \bmod b$</span> وقتی <span class="arithmatex">$a \geq b$</span> باشه، حداقل ۲ برابر از <span class="arithmatex">$a$</span> کوچیکتره، پس عدد بزرگتر توی هر تکرار الگوریتم حداقل نصف میشه. اگه از همین استدلال برای محاسبه ب.م.م یه مجموعه عدد مثل <span class="arithmatex">$a_1,\dots,a_n \leq C$</span> استفاده کنیم، می‌تونیم پیچیدگی زمانی کل رو به جای <span class="arithmatex">$O(n \log C)$</span>، به صورت <span class="arithmatex">$O(n + \log C)$</span> تخمین بزنیم. دلیلش اینه که هر مرحله از الگوریتم که الکی نباشه (یعنی باقیمانده صفر نشه)، کاندیدای فعلی ب.م.م رو حداقل نصف می‌کنه.</p>
 <h2 id="_5">کوچکترین مضرب مشترک<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>محاسبه کوچکترین مضرب مشترک (که معمولاً با <strong>LCM</strong> نشان داده می‌شود) را می‌توان با استفاده از فرمول ساده زیر به محاسبه GCD کاهش داد:</p>
+<p>حساب کردن ک.م.م (کوچکترین مضرب مشترک) یا همون <strong>LCM</strong> رو میشه با یه فرمول ساده به همون محاسبه‌ی ب.م.م ربط داد:</p>
 <div class="arithmatex">$$\text{lcm}(a, b) = \frac{a \cdot b}{\gcd(a, b)}$$</div>
-<p>بنابراین، LCM را می‌توان با استفاده از الگوریتم اقلیدس با همان پیچیدگی زمانی محاسبه کرد:</p>
-<p>یک پیاده‌سازی ممکن که با تقسیم اولیه <span class="arithmatex">$a$</span> بر GCD، هوشمندانه از سرریز عدد صحیح (integer overflow) جلوگیری می‌کند، در اینجا آورده شده است:</p>
+<p>پس، ک.م.م رو هم میشه با کمک الگوریتم اقلیدس و با همون پیچیدگی زمانی حساب کرد:</p>
+<p>اینم یه پیاده‌سازی باحال که خیلی هوشمندانه اول <span class="arithmatex">$a$</span> رو بر ب.م.م تقسیم می‌کنه تا جلوی سرریز عدد صحیح (integer overflow) رو بگیره:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">lcm</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="gcd-binary-gcd">الگوریتم GCD دودویی (Binary GCD)<a class="headerlink" href="#gcd-binary-gcd" title="Permanent link">&para;</a></h2>
-<p>الگوریتم Binary GCD یک بهینه‌سازی برای الگوریتم اقلیدس معمولی است.</p>
-<p>بخش کند الگوریتم معمولی، عملیات باقیمانده (modulo) است. عملیات باقیمانده، اگرچه ما آن‌ها را با پیچیدگی <span class="arithmatex">$O(1)$</span> در نظر می‌گیریم، بسیار کندتر از عملیات ساده‌تری مانند جمع، تفریق یا عملیات بیتی (bitwise) هستند.
-بنابراین بهتر است از آن‌ها اجتناب کنیم.</p>
-<p>مشخص شده است که می‌توان یک الگوریتم GCD سریع طراحی کرد که از عملیات باقیمانده استفاده نمی‌کند.
-این الگوریتم بر اساس چند خاصیت بنا شده است:</p>
+<p>الگوریتم ب.م.م دودویی یا Binary GCD یه بهینه‌سازی روی همون الگوریتم اقلیدس معمولیه.</p>
+<p>قسمت کند الگوریتم معمولی، همون عملیات باقیمانده (modulo) گرفتنه. عمل باقیمانده، با اینکه ما معمولاً پیچیدگیش رو <span class="arithmatex">$O(1)$</span> در نظر می‌گیریم، ولی در عمل خیلی کندتر از عملیات ساده‌تری مثل جمع و تفریق یا عملیات بیتی (bitwise) هست.
+پس بهتره اگه میشه ازش استفاده نکنیم.</p>
+<p>معلوم شده که میشه یه الگوریتم ب.م.م سریع طراحی کرد که اصلاً از باقیمانده استفاده نمی‌کنه.
+این الگوریتم روی چندتا خاصیت ساده بنا شده:</p>
 <ul>
-<li>اگر هر دو عدد زوج باشند، می‌توانیم یک فاکتور دو را از هر دو خارج کرده و GCD اعداد باقی‌مانده را محاسبه کنیم: <span class="arithmatex">$\gcd(2a, 2b) = 2 \gcd(a, b)$</span>.</li>
-<li>اگر یکی از اعداد زوج و دیگری فرد باشد، می‌توانیم فاکتور ۲ را از عدد زوج حذف کنیم: <span class="arithmatex">$\gcd(2a, b) = \gcd(a, b)$</span> اگر <span class="arithmatex">$b$</span> فرد باشد.</li>
-<li>اگر هر دو عدد فرد باشند، کم کردن یکی از دیگری، GCD را تغییر نمی‌دهد: <span class="arithmatex">$\gcd(a, b) = \gcd(b, a-b)$</span></li>
+<li>اگه هر دو تا عدد زوج باشن، می‌تونیم یه فاکتور ۲ از هردوشون بکشیم بیرون و ب.م.م عددهای باقی‌مونده رو حساب کنیم: <span class="arithmatex">$\gcd(2a, 2b) = 2 \gcd(a, b)$</span>.</li>
+<li>اگه یکیشون زوج باشه و اون یکی فرد، می‌تونیم فاکتور ۲ رو از عدد زوجه حذف کنیم: <span class="arithmatex">$\gcd(2a, b) = \gcd(a, b)$</span> به شرطی که <span class="arithmatex">$b$</span> فرد باشه.</li>
+<li>اگه هر دو تا عدد فرد باشن، کم کردن یکیشون از اون یکی، ب.م.م رو عوض نمی‌کنه: <span class="arithmatex">$\gcd(a, b) = \gcd(b, a-b)$</span></li>
 </ul>
-<p>با استفاده از این خواص و چند تابع بیتی سریع از GCC، می‌توانیم یک نسخه سریع پیاده‌سازی کنیم:</p>
+<p>با استفاده از این خاصیت‌ها و چندتا تابع بیتی سریع که تو GCC هست، میشه یه نسخه‌ی سریع ازش پیاده‌سازی کرد:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">gcd</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">a</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">b</span><span class="p">)</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
@@ -6808,8 +6808,8 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">shift</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>توجه داشته باشید که چنین بهینه‌سازی‌ای معمولاً ضروری نیست و اکثر زبان‌های برنامه‌نویسی در کتابخانه‌های استاندارد خود تابع GCD دارند.
-به عنوان مثال، C++17 چنین تابعی با نام <code>std::gcd</code> در هدر <code>numeric</code> دارد.</p>
+<p>البته حواست باشه که اینجور بهینه‌سازی‌ها معمولاً لازم نیست و بیشتر زبون‌های برنامه‌نویسی توی کتابخونه استانداردشون تابع GCD رو دارن.
+مثلاً C++17 یه تابع به اسم <code>std::gcd</code> توی هدر <code>numeric</code> داره.</p>
 <h2 id="_6">مسائل تمرینی<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://csacademy.com/contest/archive/task/gcd/">CSAcademy - Greatest Common Divisor</a></li>

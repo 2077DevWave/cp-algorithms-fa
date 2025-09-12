@@ -1500,7 +1500,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      محاسبه جدول لگاریتم
+      چطوری جدول لگاریتم رو بسازیم؟
     </span>
   </a>
   
@@ -1509,7 +1509,7 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      مراجع
+      منابع
     </span>
   </a>
   
@@ -6617,7 +6617,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 سپتامبر 2025 18:55:35 UTC">12 سپتامبر 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6643,30 +6643,30 @@ Describe the issue of this article in detail.
 </ul>
 
 
-<h1 id="_1">توان رسانی دودویی از طریق تجزیه<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>مسئله محاسبه <span class="arithmatex">$ax^y \pmod{2^d}$</span> را به ازای اعداد صحیح <span class="arithmatex">$a$</span>، <span class="arithmatex">$x$</span>، <span class="arithmatex">$y$</span> و <span class="arithmatex">$d \geq 3$</span> در نظر بگیرید، که در آن <span class="arithmatex">$x$</span> فرد است.</p>
-<p>الگوریتم زیر امکان حل این مسئله را با <span class="arithmatex">$O(d)$</span> عمل جمع و عملیات دودویی و تنها یک عمل ضرب در <span class="arithmatex">$y$</span> فراهم می‌کند.</p>
-<p>به دلیل ساختار گروه ضربی به پیمانه <span class="arithmatex">$2^d$</span>، هر عدد <span class="arithmatex">$x$</span> که در شرط <span class="arithmatex">$x \equiv 1 \pmod 4$</span> صدق کند، می‌تواند به صورت زیر نمایش داده شود:</p>
+<h1 id="_1">توان‌رسانی دودویی با کمک تجزیه<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>بیا این مسئله رو در نظر بگیریم: می‌خوایم <span class="arithmatex">$ax^y \pmod{2^d}$</span> رو حساب کنیم. فرض کن که <span class="arithmatex">$a$</span>، <span class="arithmatex">$x$</span>، <span class="arithmatex">$y$</span> و <span class="arithmatex">$d$</span> عدد صحیح هستن، <span class="arithmatex">$d \geq 3$</span> و مهم‌تر از همه، <span class="arithmatex">$x$</span> فرده.</p>
+<p>الگوریتمی که می‌خوایم در موردش حرف بزنیم، این مسئله رو با <span class="arithmatex">$O(d)$</span> تا عمل جمع و عملیات بیتی (دودویی) و فقط یه دونه ضرب در <span class="arithmatex">$y$</span> حل می‌کنه.</p>
+<p>ببین، به خاطر ساختار خاص گروه ضربی به پیمانه <span class="arithmatex">$2^d$</span>، هر عدد فرد <span class="arithmatex">$x$</span> که شرط <span class="arithmatex">$x \equiv 1 \pmod 4$</span> رو داشته باشه، میشه اینجوری نمایشش داد:</p>
 <div class="arithmatex">$$
 x \equiv b^{L(x)} \pmod{2^d},
 $$</div>
-<p>که در آن <span class="arithmatex">$b \equiv 5 \pmod 8$</span> است. بدون از دست دادن کلیت مسئله، فرض می‌کنیم که <span class="arithmatex">$x \equiv 1 \pmod 4$</span> است، زیرا می‌توانیم حالت <span class="arithmatex">$x \equiv 3 \pmod 4$</span> را با جایگزینی <span class="arithmatex">$x \mapsto -x$</span> و <span class="arithmatex">$a \mapsto (-1)^{y} a$</span> به حالت <span class="arithmatex">$x \equiv 1 \pmod 4$</span> کاهش دهیم. با این تعریف، <span class="arithmatex">$ax^y$</span> به صورت زیر نمایش داده می‌شود:</p>
+<p>اینجا <span class="arithmatex">$b$</span> یه عدده که <span class="arithmatex">$b \equiv 5 \pmod 8$</span>. برای اینکه کارمون راحت‌تر بشه و کلیت مسئله هم حفظ بشه، فرض می‌کنیم که <span class="arithmatex">$x \equiv 1 \pmod 4$</span>. چرا؟ چون اگه <span class="arithmatex">$x \equiv 3 \pmod 4$</span> بود، خیلی راحت می‌تونیم با جایگزین کردن <span class="arithmatex">$x$</span> با <span class="arithmatex">$-x$</span> و <span class="arithmatex">$a$</span> با <span class="arithmatex">$(-1)^{y} a$</span>، مسئله رو به همون حالت <span class="arithmatex">$x \equiv 1 \pmod 4$</span> تبدیل کنیم. پس چیزی رو از دست نمیدیم. با این حساب، <span class="arithmatex">$ax^y$</span> این شکلی میشه:</p>
 <div class="arithmatex">$$
 a x^y \equiv a b^{yL(x)} \pmod{2^d}.
 $$</div>
-<p>ایده اصلی الگوریتم، ساده‌سازی محاسبه <span class="arithmatex">$L(x)$</span> و <span class="arithmatex">$b^{y L(x)}$</span> با استفاده از این واقعیت است که ما در پیمانه <span class="arithmatex">$2^d$</span> کار می‌کنیم. به دلایلی که بعداً مشخص خواهد شد، ما به جای <span class="arithmatex">$L(x)$</span> با <span class="arithmatex">$4L(x)$</span> کار خواهیم کرد، اما این مقدار به پیمانه <span class="arithmatex">$2^d$</span> به جای <span class="arithmatex">$2^{d-2}$</span> گرفته می‌شود.</p>
-<p>در این مقاله، پیاده‌سازی برای اعداد صحیح <span class="arithmatex">$32$</span> بیتی را بررسی می‌کنیم. فرض کنید:</p>
+<p>ایده اصلی این الگوریتم اینه که از این حقیقت که داریم به پیمانه <span class="arithmatex">$2^d$</span> کار می‌کنیم، استفاده کنیم تا محاسبه <span class="arithmatex">$L(x)$</span> و <span class="arithmatex">$b^{y L(x)}$</span> رو ساده‌تر کنیم. حالا یه نکته‌ای هست: به دلایلی که جلوتر می‌بینی، ما به جای خود <span class="arithmatex">$L(x)$</span>، با <span class="arithmatex">$4L(x)$</span> کار می‌کنیم. البته این مقدار به پیمانه <span class="arithmatex">$2^d$</span> گرفته میشه، نه <span class="arithmatex">$2^{d-2}$</span>.</p>
+<p>توی این مقاله، پیاده‌سازی رو برای عددهای صحیح ۳۲ بیتی با هم می‌بینیم. فرض کن:</p>
 <ul>
-<li><code>mbin_log_32(r, x)</code> تابعی باشد که <span class="arithmatex">$r+4L(x) \pmod{2^d}$</span> را محاسبه می‌کند؛</li>
-<li><code>mbin_exp_32(r, x)</code> تابعی باشد که <span class="arithmatex">$r b^{\frac{x}{4}} \pmod{2^d}$</span> را محاسبه می‌کند؛</li>
-<li><code>mbin_power_odd_32(a, x, y)</code> تابعی باشد که <span class="arithmatex">$ax^y \pmod{2^d}$</span> را محاسبه می‌کند.</li>
+<li><code>mbin_log_32(r, x)</code> تابعی باشه که <span class="arithmatex">$r+4L(x) \pmod{2^d}$</span> رو حساب می‌کنه؛</li>
+<li><code>mbin_exp_32(r, x)</code> تابعی باشه که <span class="arithmatex">$r b^{\frac{x}{4}} \pmod{2^d}$</span> رو حساب می‌کنه؛</li>
+<li><code>mbin_power_odd_32(a, x, y)</code> تابعی باشه که <span class="arithmatex">$ax^y \pmod{2^d}$</span> رو حساب می‌کنه.</li>
 </ul>
-<p>در این صورت، <code>mbin_power_odd_32</code> به صورت زیر پیاده‌سازی می‌شود:</p>
+<p>با این فرض‌ها، تابع <code>mbin_power_odd_32</code> اینجوری پیاده‌سازی میشه:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">mbin_power_odd_32</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">rem</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">base</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">exp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">base</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="cm">/* مقسوم علیه منفی در نظر گرفته می‌شود */</span>
+<span class="w">        </span><span class="cm">/* پایه رو منفی در نظر می‌گیریم */</span>
 <span class="w">        </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">base</span><span class="p">;</span>
-<span class="w">        </span><span class="cm">/* بررسی اینکه آیا نتیجه باید منفی باشد */</span>
+<span class="w">        </span><span class="cm">/* چک می‌کنیم ببینیم نتیجه باید منفی بشه یا نه */</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">exp</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">rem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">rem</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
@@ -6675,16 +6675,16 @@ $$</div>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="4lx-x">محاسبه 4L(x) از روی x<a class="headerlink" href="#4lx-x" title="Permanent link">&para;</a></h2>
-<p>فرض کنید <span class="arithmatex">$x$</span> یک عدد فرد باشد به طوری که <span class="arithmatex">$x \equiv 1 \pmod 4$</span>. می‌توان آن را به صورت زیر نمایش داد:</p>
+<p>خب، فرض کن <span class="arithmatex">$x$</span> یه عدد فرده که <span class="arithmatex">$x \equiv 1 \pmod 4$</span>. میشه اون رو اینجوری نمایش داد:</p>
 <div class="arithmatex">$$
 x \equiv (2^{a_1}+1)\dots(2^{a_k}+1) \pmod{2^d},
 $$</div>
-<p>که در آن <span class="arithmatex">$1 &lt; a_1 &lt; \dots &lt; a_k &lt; d$</span> است. در اینجا <span class="arithmatex">$L(\cdot)$</span> برای هر ضریب خوش‌تعریف است، زیرا همگی به پیمانه <span class="arithmatex">$4$</span> برابر با <span class="arithmatex">$1$</span> هستند. بنابراین،</p>
+<p>که اینجا <span class="arithmatex">$1 &lt; a_1 &lt; \dots &lt; a_k &lt; d$</span>. تابع <span class="arithmatex">$L(\cdot)$</span> برای هر کدوم از این ضریب‌ها خوش‌تعریفه، چون همه‌شون به پیمانه ۴ برابر با ۱ هستن. در نتیجه:</p>
 <div class="arithmatex">$$
 4L(x) \equiv 4L(2^{a_1}+1)+\dots+4L(2^{a_k}+1) \pmod{2^{d}}.
 $$</div>
-<p>بنابراین، اگر ما <span class="arithmatex">$t_n = 4L(2^n+1)$</span> را برای تمام <span class="arithmatex">$n$</span>هایی که در شرط <span class="arithmatex">$1 &lt; n &lt; d$</span> صدق می‌کنند از پیش محاسبه کنیم، قادر خواهیم بود <span class="arithmatex">$4L(x)$</span> را برای هر عدد <span class="arithmatex">$x$</span> محاسبه کنیم.</p>
-<p>برای اعداد صحیح ۳۲ بیتی، می‌توانیم از جدول زیر استفاده کنیم:</p>
+<p>پس، اگه ما مقدار <span class="arithmatex">$t_n = 4L(2^n+1)$</span> رو برای همه <span class="arithmatex">$n$</span> هایی که بین <span class="arithmatex">$1$</span> و <span class="arithmatex">$d$</span> هستن از قبل حساب کرده باشیم، می‌تونیم <span class="arithmatex">$4L(x)$</span> رو برای هر <span class="arithmatex">$x$</span> دلخواهی حساب کنیم.</p>
+<p>برای عددهای صحیح ۳۲ بیتی، می‌تونیم از این جدول از پیش محاسبه شده استفاده کنیم:</p>
 <div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mbin_log_32_table</span><span class="p">[</span><span class="mi">32</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="mh">0x00000000</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000000</span><span class="p">,</span><span class="w"> </span><span class="mh">0xd3cfd984</span><span class="p">,</span><span class="w"> </span><span class="mh">0x9ee62e18</span><span class="p">,</span>
 <span class="w">    </span><span class="mh">0xe83d9070</span><span class="p">,</span><span class="w"> </span><span class="mh">0xb59e81e0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xa17407c0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xce601f80</span><span class="p">,</span>
@@ -6696,12 +6696,12 @@ $$</div>
 <span class="w">    </span><span class="mh">0xf0000000</span><span class="p">,</span><span class="w"> </span><span class="mh">0xe0000000</span><span class="p">,</span><span class="w"> </span><span class="mh">0xc0000000</span><span class="p">,</span><span class="w"> </span><span class="mh">0x80000000</span><span class="p">,</span>
 <span class="p">};</span>
 </code></pre></div>
-<p>در عمل، رویکردی کمی متفاوت از آنچه در بالا توضیح داده شد استفاده می‌شود. به جای یافتن تجزیه برای <span class="arithmatex">$x$</span>، ما به طور متوالی <span class="arithmatex">$x$</span> را در <span class="arithmatex">$2^n+1$</span> ضرب می‌کنیم تا زمانی که آن را به <span class="arithmatex">$1$</span> به پیمانه <span class="arithmatex">$2^d$</span> تبدیل کنیم. به این ترتیب، ما نمایش <span class="arithmatex">$x^{-1}$</span> را پیدا خواهیم کرد، یعنی:</p>
+<p>در عمل، ما یه رویکرد یه کم متفاوت‌تر از چیزی که بالا گفتم رو به کار می‌بریم. به جای اینکه تجزیه خود <span class="arithmatex">$x$</span> رو پیدا کنیم، میایم <span class="arithmatex">$x$</span> رو پشت سر هم توی <span class="arithmatex">$2^n+1$</span> ضرب می‌کنیم تا وقتی که به پیمانه <span class="arithmatex">$2^d$</span> برابر با <span class="arithmatex">$1$</span> بشه. اینجوری، در واقع ما نمایش <span class="arithmatex">$x^{-1}$</span> رو پیدا می‌کنیم، یعنی:</p>
 <div class="arithmatex">$$
 x (2^{a_1}+1)\dots(2^{a_k}+1) \equiv 1 \pmod {2^d}.
 $$</div>
-<p>برای انجام این کار، ما روی <span class="arithmatex">$n$</span> به طوری که <span class="arithmatex">$1 &lt; n &lt; d$</span> است، تکرار می‌کنیم. اگر بیت <span class="arithmatex">$n$</span>-امِ <span class="arithmatex">$x$</span> فعلی یک باشد، ما <span class="arithmatex">$x$</span> را در <span class="arithmatex">$2^n+1$</span> ضرب می‌کنیم، که این کار در C++ به راحتی با <code>x = x + (x &lt;&lt; n)</code> انجام می‌شود. این کار بیت‌های کمتر از <span class="arithmatex">$n$</span> را تغییر نمی‌دهد، اما بیت <span class="arithmatex">$n$</span>-ام را صفر می‌کند، زیرا <span class="arithmatex">$x$</span> فرد است.</p>
-<p>با در نظر گرفتن همه این موارد، تابع <code>mbin_log_32(r, x)</code> به صورت زیر پیاده‌سازی می‌شود:</p>
+<p>برای این کار، روی <span class="arithmatex">$n$</span> از ۲ تا <span class="arithmatex">$d-1$</span> یه حلقه می‌زنیم. اگه بیت <span class="arithmatex">$n$</span>-امِ <span class="arithmatex">$x$</span> فعلی یک بود، <span class="arithmatex">$x$</span> رو در <span class="arithmatex">$2^n+1$</span> ضرب می‌کنیم. این کار توی C++ خیلی راحت با <code>x = x + (x &lt;&lt; n)</code> انجام میشه. این عملیات بیت‌های کمتر از <span class="arithmatex">$n$</span> رو دست‌نخورده باقی میذاره، ولی بیت <span class="arithmatex">$n$</span>-ام رو صفر می‌کنه (چون <span class="arithmatex">$x$</span> فرده).</p>
+<p>با در نظر گرفتن همه اینا، تابع <code>mbin_log_32(r, x)</code> اینجوری پیاده‌سازی میشه:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">mbin_log_32</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
 
@@ -6715,23 +6715,23 @@ $$</div>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">r</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>توجه داشته باشید که <span class="arithmatex">$4L(x) = -4L(x^{-1})$</span>، بنابراین به جای جمع کردن <span class="arithmatex">$4L(2^n+1)$</span>، آن را از <span class="arithmatex">$r$</span> که در ابتدا برابر با <span class="arithmatex">$0$</span> است، کم می‌کنیم.</p>
+<p>یادت باشه که <span class="arithmatex">$4L(x) = -4L(x^{-1})$</span>، برای همین به جای اینکه <span class="arithmatex">$4L(2^n+1)$</span> رو جمع کنیم، اون رو از <span class="arithmatex">$r$</span> (که اولش صفره) کم می‌کنیم.</p>
 <h2 id="x-4lx">محاسبه x از روی 4L(x)<a class="headerlink" href="#x-4lx" title="Permanent link">&para;</a></h2>
-<p>توجه داشته باشید که برای <span class="arithmatex">$k \geq 1$</span> رابطه زیر برقرار است:</p>
+<p>دقت کن که برای <span class="arithmatex">$k \geq 1$</span> این رابطه برقراره:</p>
 <div class="arithmatex">$$
 (a 2^{k}+1)^2 = a^2 2^{2k} +a 2^{k+1}+1 = b2^{k+1}+1,
 $$</div>
-<p>که از آن (با به توان رساندن مکرر) می‌توان نتیجه گرفت که</p>
+<p>که از این رابطه (با چند بار به توان رسوندن) میشه نتیجه گرفت که:</p>
 <div class="arithmatex">$$
 (2^a+1)^{2^b} \equiv 1 \pmod{2^{a+b}}.
 $$</div>
-<p>با اعمال این نتیجه، می‌توان نتیجه گرفت که مرتبه ضربی <span class="arithmatex">$2^n+1$</span> مقسوم‌علیهی از <span class="arithmatex">$2^{d-n}$</span> است.</p>
-<p>این به نوبه خود به این معناست که <span class="arithmatex">$L(2^n+1)$</span> باید بر <span class="arithmatex">$2^{n}$</span> بخش‌پذیر باشد، زیرا مرتبه <span class="arithmatex">$b$</span> برابر <span class="arithmatex">$2^{d-2}$</span> است و مرتبه <span class="arithmatex">$b^y$</span> برابر <span class="arithmatex">$2^{d-2-v}$</span> است، که در آن <span class="arithmatex">$2^v$</span> بزرگترین توان ۲ است که <span class="arithmatex">$y$</span> را عاد می‌کند، بنابراین لازم است که:</p>
+<p>با استفاده از این نتیجه، میشه فهمید که مرتبه ضربی <span class="arithmatex">$2^n+1$</span> یکی از مقسوم‌علیه‌های <span class="arithmatex">$2^{d-n}$</span> هست.</p>
+<p>این به نوبه خودش یعنی <span class="arithmatex">$L(2^n+1)$</span> باید بر <span class="arithmatex">$2^{n}$</span> بخش‌پذیر باشه. چرا؟ چون مرتبه <span class="arithmatex">$b$</span> برابر <span class="arithmatex">$2^{d-2}$</span> هست و مرتبه <span class="arithmatex">$b^y$</span> میشه <span class="arithmatex">$2^{d-2-v}$</span> (که اینجا <span class="arithmatex">$2^v$</span> بزرگترین توان ۲ هست که <span class="arithmatex">$y$</span> رو عاد می‌کنه). پس باید این شرط برقرار باشه:</p>
 <div class="arithmatex">$$
 2^{d-k} \equiv 0 \pmod{2^{d-2-v}},
 $$</div>
-<p>بنابراین <span class="arithmatex">$v$</span> باید بزرگتر یا مساوی <span class="arithmatex">$k-2$</span> باشد. این موضوع کمی ناخوشایند است و برای رفع این مشکل، در ابتدا گفتیم که <span class="arithmatex">$L(x)$</span> را در <span class="arithmatex">$4$</span> ضرب می‌کنیم. اکنون اگر <span class="arithmatex">$4L(x)$</span> را بدانیم، می‌توانیم با بررسی متوالی بیت‌های آن، آن را به طور یکتا به مجموعی از جملات <span class="arithmatex">$4L(2^n+1)$</span> تجزیه کنیم. اگر بیت <span class="arithmatex">$n$</span>-ام برابر <span class="arithmatex">$1$</span> باشد، نتیجه را در <span class="arithmatex">$2^n+1$</span> ضرب خواهیم کرد و <span class="arithmatex">$4L(x)$</span> فعلی را به اندازه <span class="arithmatex">$4L(2^n+1)$</span> کاهش می‌دهیم.</p>
-<p>بنابراین، <code>mbin_exp_32</code> به صورت زیر پیاده‌سازی می‌شود:</p>
+<p>که یعنی <span class="arithmatex">$v$</span> باید بزرگتر یا مساوی <span class="arithmatex">$k-2$</span> باشه. این قضیه یه کم کار رو سخت می‌کنه. برای همین بود که از اول گفتیم <span class="arithmatex">$L(x)$</span> رو در <span class="arithmatex">$4$</span> ضرب می‌کنیم تا از این مشکل خلاص بشیم. حالا اگه <span class="arithmatex">$4L(x)$</span> رو داشته باشیم، می‌تونیم با چک کردن بیت‌هاش، اون رو به صورت یکتا به مجموعی از جمله‌های <span class="arithmatex">$4L(2^n+1)$</span> تجزیه کنیم. اگه بیت <span class="arithmatex">$n$</span>-ام یک بود، نتیجه رو در <span class="arithmatex">$2^n+1$</span> ضرب می‌کنیم و مقدار <span class="arithmatex">$4L(x)$</span> فعلی رو به اندازه <span class="arithmatex">$4L(2^n+1)$</span> کم می‌کنیم.</p>
+<p>بنابراین، <code>mbin_exp_32</code> این شکلی پیاده‌سازی میشه:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">mbin_exp_32</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
 
@@ -6746,11 +6746,11 @@ $$</div>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="_2">بهینه‌سازی‌های بیشتر<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>اگر توجه داشته باشید که <span class="arithmatex">$4L(2^{d-1}+1)=2^{d-1}$</span> و اینکه برای <span class="arithmatex">$2n \geq d$</span> رابطه زیر برقرار است، می‌توان تعداد تکرارها را به نصف کاهش داد:</p>
+<p>اگه دقت کنی که <span class="arithmatex">$4L(2^{d-1}+1)=2^{d-1}$</span> و برای <span class="arithmatex">$2n \geq d$</span> این رابطه برقراره:</p>
 <div class="arithmatex">$$
 (2^n+1)^2 \equiv 2^{2n} + 2^{n+1}+1 \equiv 2^{n+1}+1 \pmod{2^d},
 $$</div>
-<p>که به ما اجازه می‌دهد نتیجه بگیریم که برای <span class="arithmatex">$2n \geq d$</span> رابطه <span class="arithmatex">$4L(2^n+1)=2^n$</span> برقرار است. بنابراین، می‌توانید الگوریتم را با اجرای حلقه تنها تا <span class="arithmatex">$\frac{d}{2}$</span> ساده کرده و سپس با استفاده از واقعیت فوق، بخش باقی‌مانده را با عملیات بیتی محاسبه کنید:</p>
+<p>که بهمون اجازه میده نتیجه بگیریم برای <span class="arithmatex">$2n \geq d$</span> رابطه <span class="arithmatex">$4L(2^n+1)=2^n$</span> برقراره، میشه تعداد تکرارهای حلقه رو نصف کرد. یعنی می‌تونی الگوریتم رو با اجرای حلقه فقط تا <span class="arithmatex">$\frac{d}{2}$</span> ساده کنی و بعدش با استفاده از همین نکته، بقیه کار رو با چندتا عملیات بیتی ساده انجام بدی:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">mbin_log_32</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
 
@@ -6781,23 +6781,23 @@ $$</div>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">r</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_3">محاسبه جدول لگاریتم<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>برای محاسبه جدول لگاریتم، می‌توان <a href="https://en.wikipedia.org/wiki/Pohlig–Hellman_algorithm">الگوریتم Pohlig–Hellman</a> را برای حالتی که پیمانه توانی از ۲ است، تغییر داد.</p>
-<p>وظیفه اصلی ما در اینجا محاسبه <span class="arithmatex">$x$</span> به طوری است که <span class="arithmatex">$g^x \equiv y \pmod{2^d}$</span>، که در آن <span class="arithmatex">$g=5$</span> و <span class="arithmatex">$y$</span> عددی از نوع <span class="arithmatex">$2^n+1$</span> است.</p>
-<p>با <span class="arithmatex">$k$</span> بار به توان دو رساندن طرفین، به رابطه زیر می‌رسیم:</p>
+<h2 id="_3">چطوری جدول لگاریتم رو بسازیم؟<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>برای ساختن اون جدول لگاریتم، میشه <a href="https://en.wikipedia.org/wiki/Pohlig–Hellman_algorithm">الگوریتم Pohlig–Hellman</a> رو برای حالتی که پیمانه توانی از ۲ هست، یه کم تغییر داد.</p>
+<p>کار اصلی ما اینجا اینه که <span class="arithmatex">$x$</span> رو طوری حساب کنیم که <span class="arithmatex">$g^x \equiv y \pmod{2^d}$</span>، که اینجا <span class="arithmatex">$g=5$</span> و <span class="arithmatex">$y$</span> یه عددی از جنس <span class="arithmatex">$2^n+1$</span> هست.</p>
+<p>اگه دو طرف معادله رو <span class="arithmatex">$k$</span> بار به توان دو برسونیم، به این رابطه می‌رسیم:</p>
 <div class="arithmatex">$$
 g^{2^k x} \equiv y^{2^k} \pmod{2^d}.
 $$</div>
-<p>توجه داشته باشید که مرتبه <span class="arithmatex">$g$</span> بزرگتر از <span class="arithmatex">$2^d$</span> نیست (در واقع، بزرگتر از <span class="arithmatex">$2^{d-2}$</span> نیست، اما برای راحتی کار با <span class="arithmatex">$2^d$</span> ادامه می‌دهیم)، بنابراین با استفاده از <span class="arithmatex">$k=d-1$</span> در سمت چپ یا <span class="arithmatex">$g^1$</span> یا <span class="arithmatex">$g^0$</span> را خواهیم داشت که به ما امکان می‌دهد کم‌ارزش‌ترین بیت <span class="arithmatex">$x$</span> را با مقایسه <span class="arithmatex">$y^{2^k}$</span> با <span class="arithmatex">$g$</span> تعیین کنیم. حال فرض کنید <span class="arithmatex">$x=x_0 + 2^k x_1$</span>، که در آن <span class="arithmatex">$x_0$</span> بخش معلوم و <span class="arithmatex">$x_1$</span> بخش نامعلوم است. آنگاه:</p>
+<p>یادت باشه که مرتبه <span class="arithmatex">$g$</span> از <span class="arithmatex">$2^d$</span> بزرگتر نیست (در واقع، از <span class="arithmatex">$2^{d-2}$</span> هم بزرگتر نیست، ولی برای سادگی با <span class="arithmatex">$2^d$</span> کار می‌کنیم). پس اگه <span class="arithmatex">$k=d-1$</span> رو بذاریم، سمت چپ یا <span class="arithmatex">$g^1$</span> میشه یا <span class="arithmatex">$g^0$</span>. این به ما اجازه میده کم‌ارزش‌ترین بیت <span class="arithmatex">$x$</span> رو با مقایسه <span class="arithmatex">$y^{2^k}$</span> با <span class="arithmatex">$g$</span> پیدا کنیم. حالا فرض کن <span class="arithmatex">$x=x_0 + 2^k x_1$</span>، که <span class="arithmatex">$x_0$</span> بخش معلوم و <span class="arithmatex">$x_1$</span> بخش نامعلوم ماست. اونوقت:</p>
 <div class="arithmatex">$$
 g^{x_0+2^k x_1} \equiv y \pmod{2^d}.
 $$</div>
-<p>با ضرب طرفین در <span class="arithmatex">$g^{-x_0}$</span>، خواهیم داشت:</p>
+<p>اگه دو طرف رو در <span class="arithmatex">$g^{-x_0}$</span> ضرب کنیم، داریم:</p>
 <div class="arithmatex">$$
 g^{2^k x_1} \equiv (g^{-x_0} y) \pmod{2^d}.
 $$</div>
-<p>اکنون، با <span class="arithmatex">$d-k-1$</span> بار به توان دو رساندن طرفین، می‌توانیم بیت بعدی <span class="arithmatex">$x$</span> را به دست آوریم و در نهایت تمام بیت‌های آن را بازیابی کنیم.</p>
-<h2 id="_4">مراجع<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>حالا، با <span class="arithmatex">$d-k-1$</span> بار به توان دو رسوندن دو طرف، می‌تونیم بیت بعدی <span class="arithmatex">$x$</span> رو هم به دست بیاریم و همینطور ادامه بدیم تا در نهایت همه بیت‌هاش رو پیدا کنیم.</p>
+<h2 id="_4">منابع<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://ia601602.us.archive.org/29/items/B-001-001-251/B-001-001-251.pdf#page=640">M30, Hans Petter Selasky, 2009</a></li>
 </ul>
