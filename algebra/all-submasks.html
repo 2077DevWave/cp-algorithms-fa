@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#submasks" class="md-skip">
           پرش به محتویات
         </a>
       
@@ -1356,9 +1356,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      پیمایش تمام زیرماسک‌های یک ماسک معین
+      چطوری روی همه‌ی زیرماسک‌های یه ماسک مشخص بچرخیم؟
     </span>
   </a>
   
@@ -1374,7 +1374,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       مسائل تمرینی
     </span>
@@ -6663,7 +6663,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="4 ژوئیهٔ 2025 18:07:58 UTC">4 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 سپتامبر 2025 18:10:08 UTC">12 سپتامبر 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6689,48 +6689,48 @@ Describe the issue of this article in detail.
 </ul>
 
 
-<h1 id="_1">پیمایش زیرماسک‌ها<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<h2 id="_2">پیمایش تمام زیرماسک‌های یک ماسک معین<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>با داشتن یک بیت‌ماسک <span class="arithmatex">$m$</span>، می‌خواهیم به طور کارآمد تمام زیرماسک‌های آن را پیمایش کنیم؛ یعنی ماسک‌های <span class="arithmatex">$s$</span> که در آن‌ها فقط بیت‌هایی که در ماسک <span class="arithmatex">$m$</span> روشن بوده‌اند، می‌توانند روشن باشند.</p>
-<p>پیاده‌سازی این الگوریتم را در نظر بگیرید که بر اساس ترفندهایی با عملیات بیتی انجام شده است:
+<h1 id="submasks">پیمایش زیرماسک‌ها (Submasks)<a class="headerlink" href="#submasks" title="Permanent link">&para;</a></h1>
+<h2 id="_1">چطوری روی همه‌ی زیرماسک‌های یه ماسک مشخص بچرخیم؟<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>فرض کن یه بیت‌ماسک <span class="arithmatex">$m$</span> داریم و می‌خوایم خیلی بهینه روی تمام زیرماسک‌هاش حرکت کنیم. منظور از زیرماسک چیه؟ یعنی اون ماسک‌هایی (<span class="arithmatex">$s$</span>) که فقط بیت‌هایی توشون روشنه که توی ماسک اصلی (<span class="arithmatex">$m$</span>) هم روشن بودن.</p>
+<p>بیا این پیاده‌سازی رو ببین که با چندتا ترفند باحال بیتی کار می‌کنه:
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
 <span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="n">می</span><span class="err">‌</span><span class="n">توانید</span><span class="w"> </span><span class="n">از</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">استفاده</span><span class="w"> </span><span class="n">کنید</span><span class="w"> </span><span class="p">...</span>
+<span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="n">اینجا</span><span class="w"> </span><span class="n">می</span><span class="err">‌</span><span class="n">تونی</span><span class="w"> </span><span class="n">از</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">استفاده</span><span class="w"> </span><span class="n">کنی</span><span class="w"> </span><span class="p">...</span>
 <span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p>یا با استفاده از یک دستور <code>for</code> فشرده‌تر:</p>
+<p>یا اگه دوست داری کد جمع‌وجورتری داشته باشی، با یه حلقه‌ی <code>for</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="o">=</span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="n">s</span><span class="o">=</span><span class="p">(</span><span class="n">s</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;</span><span class="n">m</span><span class="p">)</span>
-<span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="n">می</span><span class="err">‌</span><span class="n">توانید</span><span class="w"> </span><span class="n">از</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">استفاده</span><span class="w"> </span><span class="n">کنید</span><span class="w"> </span><span class="p">...</span>
+<span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="n">اینجا</span><span class="w"> </span><span class="n">می</span><span class="err">‌</span><span class="n">تونی</span><span class="w"> </span><span class="n">از</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">استفاده</span><span class="w"> </span><span class="n">کنی</span><span class="w"> </span><span class="p">...</span>
 </code></pre></div>
-<p>در هر دو نسخه از کد، زیرماسک برابر با صفر پردازش نخواهد شد. می‌توانیم آن را خارج از حلقه پردازش کنیم، یا از یک طراحی نه‌چندان زیبا استفاده کنیم، برای مثال:</p>
+<p>توی هر دو تا کد بالا، زیرماسک صفر (<code>0</code>) پردازش نمیشه. می‌تونیم صفر رو جدا بیرون حلقه حساب کنیم، یا یه راه یکم کثیف‌تر هم هست که از این ساختار استفاده کنیم:</p>
 <div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="o">=</span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="n">s</span><span class="o">=</span><span class="p">(</span><span class="n">s</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="n">می</span><span class="err">‌</span><span class="n">توانید</span><span class="w"> </span><span class="n">از</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">استفاده</span><span class="w"> </span><span class="n">کنید</span><span class="w"> </span><span class="p">...</span>
+<span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="n">اینجا</span><span class="w"> </span><span class="n">می</span><span class="err">‌</span><span class="n">تونی</span><span class="w"> </span><span class="n">از</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">استفاده</span><span class="w"> </span><span class="n">کنی</span><span class="w"> </span><span class="p">...</span>
 <span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w">  </span><span class="k">break</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>بیایید بررسی کنیم چرا کد بالا تمام زیرماسک‌های <span class="arithmatex">$m$</span> را بدون تکرار و به ترتیب نزولی پیمایش می‌کند.</p>
-<p>فرض کنید بیت‌ماسک فعلی <span class="arithmatex">$s$</span> را داریم و می‌خواهیم به بیت‌ماسک بعدی برویم. با کم کردن یک واحد از ماسک <span class="arithmatex">$s$</span>، راست‌ترین بیت روشن آن را حذف کرده و تمام بیت‌های سمت راست آن را به ۱ تبدیل می‌کنیم. سپس تمام بیت‌های ۱ «اضافی» را که در ماسک <span class="arithmatex">$m$</span> وجود ندارند و بنابراین نمی‌توانند بخشی از یک زیرماسک باشند، حذف می‌کنیم. این حذف را با استفاده از عملیات بیتی <code>(s-1) &amp; m</code> انجام می‌دهیم. در نتیجه، ما ماسک <span class="arithmatex">$s-1$</span> را «برش» می‌دهیم تا بالاترین مقداری را که می‌تواند داشته باشد تعیین کنیم، که همان زیرماسک بعدی پس از <span class="arithmatex">$s$</span> به ترتیب نزولی است.</p>
-<p>بنابراین، این الگوریتم تمام زیرماسک‌های این ماسک را به ترتیب نزولی تولید می‌کند و در هر تکرار تنها دو عملیات انجام می‌دهد.</p>
-<p>یک حالت خاص زمانی است که <span class="arithmatex">$s = 0$</span> باشد. پس از اجرای <span class="arithmatex">$s-1$</span>، ماسکی به دست می‌آید که تمام بیت‌های آن روشن هستند (نمایش بیتی عدد ۱-)، و پس از <code>(s-1) &amp; m</code> مقدار <span class="arithmatex">$s$</span> برابر با <span class="arithmatex">$m$</span> خواهد شد. بنابراین، در مورد ماسک <span class="arithmatex">$s=0$</span> باید مراقب بود — اگر حلقه در صفر به پایان نرسد، الگوریتم ممکن است وارد یک حلقه بی‌نهایت شود.</p>
+<p>حالا بیا ببینیم این کد جادویی چرا کار می‌کنه و چطوری تمام زیرماسک‌های <span class="arithmatex">$m$</span> رو بدون تکرار و به ترتیب از بزرگ به کوچیک پیدا می‌کنه.</p>
+<p>فرض کن ماسک فعلی ما <span class="arithmatex">$s$</span> هست و می‌خوایم بریم سراغ زیرماسک بعدی. وقتی از <span class="arithmatex">$s$</span> یه دونه کم می‌کنیم (<code>s-1</code>)، اتفاقی که میفته اینه که راست‌ترین بیتِ روشنِ <span class="arithmatex">$s$</span> خاموش میشه و تمام بیت‌های سمت راستش روشن (۱) میشن. حالا یه سری بیتِ ۱ «اضافی» داریم که توی ماسک اصلی‌مون یعنی <span class="arithmatex">$m$</span> نبودن، پس نباید توی زیرماسک هم باشن. با عملیات <code>&amp; m</code> این بیت‌های اضافی رو حذف می‌کنیم. در واقع <code>(s-1) &amp; m</code> میاد ماسک <code>s-1</code> رو یه جورایی «هرس» می‌کنه و بزرگترین مقداری که یه زیرماسک می‌تونه داشته باشه و از <span class="arithmatex">$s$</span> کوچیک‌تر باشه رو به ما میده.</p>
+<p>خلاصه که این الگوریتم همه زیرماسک‌ها رو به ترتیب نزولی تولید می‌کنه و توی هر تکرار فقط دوتا عملیات ساده انجام میده.</p>
+<p>یه نکته خیلی مهم در مورد حالت خاص <span class="arithmatex">$s = 0$</span> هست. اگه <code>s</code> صفر باشه، <code>s-1</code> میشه -۱، که نمایش باینری‌ش همه‌ی بیت‌هاش یکه. بعد که با <span class="arithmatex">$m$</span> اَندِش (<code>&amp;</code>) می‌کنیم، نتیجه خود <span class="arithmatex">$m$</span> میشه. پس باید حواست باشه، اگه حلقه‌ت روی صفر تموم نشه، ممکنه بیفتی تو یه لوپ بی‌نهایت!</p>
 <h2 id="o3n">پیمایش تمام ماسک‌ها به همراه زیرماسک‌هایشان. پیچیدگی <span class="arithmatex">$O(3^n)$</span><a class="headerlink" href="#o3n" title="Permanent link">&para;</a></h2>
-<p>در بسیاری از مسائل، به ویژه آن‌هایی که از برنامه‌نویسی پویا با بیت‌ماسک استفاده می‌کنند، نیاز است که تمام بیت‌ماسک‌ها را پیمایش کرده و برای هر ماسک، تمام زیرماسک‌های آن را نیز پیمایش کنید:</p>
+<p>توی خیلی از مسئله‌ها، مخصوصا تو بحث برنامه‌نویسی پویا با بیت‌ماسک (Bitmask DP)، لازمه که روی همه‌ی بیت‌ماسک‌ها بچرخی و بعد به ازای هر کدوم، روی تمام زیرماسک‌هاش هم یه حلقه بزنی. یه چیزی شبیه این:</p>
 <div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">m</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">m</span><span class="o">&lt;</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">n</span><span class="p">);</span><span class="w"> </span><span class="o">++</span><span class="n">m</span><span class="p">)</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="o">=</span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="n">s</span><span class="o">=</span><span class="p">(</span><span class="n">s</span><span class="mi">-1</span><span class="p">)</span><span class="o">&amp;</span><span class="n">m</span><span class="p">)</span>
-<span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">و</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="p">...</span>
+<span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="n">اینجا</span><span class="w"> </span><span class="n">به</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">و</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="n">دسترسی</span><span class="w"> </span><span class="n">داری</span><span class="w"> </span><span class="p">...</span>
 </code></pre></div>
-<p>بیایید ثابت کنیم که حلقه داخلی در مجموع <span class="arithmatex">$O(3^n)$</span> تکرار خواهد داشت.</p>
-<p><strong>اثبات اول</strong>: بیت <span class="arithmatex">$i$</span>-ام را در نظر بگیرید. دقیقاً سه گزینه برای آن وجود دارد:</p>
+<p>حالا بیا ثابت کنیم که حلقه داخلی در مجموع <span class="arithmatex">$O(3^n)$</span> بار اجرا میشه.</p>
+<p><strong>اثبات اول</strong>: بیا یه لحظه فقط روی بیت <span class="arithmatex">$i$</span>-ام تمرکز کنیم. برای این بیت، کلاً سه تا حالت می‌تونه پیش بیاد:</p>
 <ol>
-<li>در ماسک <span class="arithmatex">$m$</span> وجود ندارد (و بنابراین در زیرماسک <span class="arithmatex">$s$</span> نیز وجود ندارد)،</li>
-<li>در <span class="arithmatex">$m$</span> وجود دارد، اما در <span class="arithmatex">$s$</span> وجود ندارد، یا</li>
-<li>هم در <span class="arithmatex">$m$</span> و هم در <span class="arithmatex">$s$</span> وجود دارد.</li>
+<li>نه توی ماسک <span class="arithmatex">$m$</span> هست و نه توی زیرماسک <span class="arithmatex">$s$</span> (یعنی تو هر دو صفره).</li>
+<li>توی <span class="arithmatex">$m$</span> هست ولی توی <span class="arithmatex">$s$</span> نیست (یعنی توی <span class="arithmatex">$m$</span> یکه و توی <span class="arithmatex">$s$</span> صفره).</li>
+<li>هم توی <span class="arithmatex">$m$</span> هست و هم توی <span class="arithmatex">$s$</span> (یعنی تو هر دو یکه).</li>
 </ol>
-<p>از آنجایی که در مجموع <span class="arithmatex">$n$</span> بیت وجود دارد، <span class="arithmatex">$3^n$</span> ترکیب مختلف خواهیم داشت.</p>
-<p><strong>اثبات دوم</strong>: توجه کنید که اگر ماسک <span class="arithmatex">$m$</span> دارای <span class="arithmatex">$k$</span> بیت روشن باشد، آنگاه <span class="arithmatex">$2^k$</span> زیرماسک خواهد داشت. از آنجایی که در مجموع <span class="arithmatex">$\binom{n}{k}$</span> ماسک با <span class="arithmatex">$k$</span> بیت روشن داریم (رجوع کنید به <a href="../combinatorics/binomial-coefficients.html">ضرایب دوجمله‌ای</a>)، تعداد کل ترکیبات برای تمام ماسک‌ها برابر خواهد بود با:</p>
+<p>خب، چون <span class="arithmatex">$n$</span> تا بیت داریم و هر بیت ۳ تا انتخاب داره، در کل <span class="arithmatex">$3^n$</span> تا ترکیب مختلف خواهیم داشت.</p>
+<p><strong>اثبات دوم</strong>: یه جور دیگه هم میشه بهش نگاه کرد. فرض کن ماسک <span class="arithmatex">$m$</span> دقیقاً <span class="arithmatex">$k$</span> تا بیت روشن داشته باشه. خب، این ماسک چند تا زیرماسک داره؟ <span class="arithmatex">$2^k$</span> تا. حالا سوال اینه که ما کلاً چند تا ماسک داریم که <span class="arithmatex">$k$</span> تا بیت روشن دارن؟ جوابش میشه <span class="arithmatex">$\binom{n}{k}$</span> (همون ترکیب خودمون، یادت که نرفته؟ اگه آره یه نگاه به <a href="../combinatorics/binomial-coefficients.html">ضرایب دوجمله‌ای</a> بنداز). پس تعداد کل حالت‌ها میشه جمع این دو تا برای تمام <span class="arithmatex">$k$</span> های ممکن:</p>
 <div class="arithmatex">$$\sum_{k=0}^n \binom{n}{k} \cdot 2^k$$</div>
-<p>برای محاسبه این عدد، توجه کنید که مجموع بالا با بسط <span class="arithmatex">$(1+2)^n$</span> با استفاده از قضیه دوجمله‌ای برابر است. بنابراین، همانطور که می‌خواستیم ثابت کنیم، <span class="arithmatex">$3^n$</span> ترکیب داریم.</p>
-<h2 id="_3">مسائل تمرینی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>این فرمول آشنا نیست؟ این دقیقاً همون بسط دوجمله‌ای برای <span class="arithmatex">$(1+2)^n$</span> هست! پس جواب میشه <span class="arithmatex">$3^n$</span>. به همین سادگی!</p>
+<h2 id="_2">مسائل تمرینی<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://atcoder.jp/contests/abc187/tasks/abc187_f">Atcoder - Close Group</a></li>
 <li><a href="http://codeforces.com/problemset/problem/71/E">Codeforces - Nuclear Fusion</a></li>

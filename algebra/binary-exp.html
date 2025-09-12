@@ -93,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#binary-exponentiation" class="md-skip">
           پرش به محتویات
         </a>
       
@@ -597,16 +597,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      الگوریتم
+      الگوریتم چطوری کار می‌کنه؟
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       پیاده‌سازی
     </span>
@@ -615,7 +615,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       کاربردها
     </span>
@@ -625,18 +625,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      محاسبه موثر توان‌های بزرگ به پیمانه یک عدد
+      محاسبه بهینه توان‌های بزرگ به پیمانه یک عدد
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      محاسبه موثر اعداد فیبوناچی
+      محاسبه بهینه اعداد فیبوناچی
     </span>
   </a>
   
@@ -652,7 +652,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       اعمال سریع مجموعه‌ای از عملیات هندسی بر روی مجموعه‌ای از نقاط
     </span>
@@ -684,7 +684,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       مسائل تمرینی
     </span>
@@ -6884,7 +6884,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="4 ژوئیهٔ 2025 18:07:58 UTC">4 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 سپتامبر 2025 18:10:08 UTC">12 سپتامبر 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6910,38 +6910,38 @@ Describe the issue of this article in detail.
 </ul>
 
 
-<h1 id="_1">توان‌رسانی دودویی<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>توان‌رسانی دودویی (که به عنوان توان‌رسانی با مربع‌سازی نیز شناخته می‌شود) ترفندی است که اجازه می‌دهد <span class="arithmatex">$a^n$</span> را تنها با استفاده از <span class="arithmatex">$O(\log n)$</span> ضرب (به جای <span class="arithmatex">$O(n)$</span> ضرب مورد نیاز در رویکرد ساده) محاسبه کنیم.</p>
-<p>این روش همچنین کاربردهای مهمی در بسیاری از مسائل غیرمرتبط با حساب دارد، زیرا می‌توان آن را با هر عملیاتی که خاصیت <strong>شرکت‌پذیری</strong> دارد، استفاده کرد:</p>
+<h1 id="binary-exponentiation">توان‌رسانی دودویی (Binary Exponentiation)<a class="headerlink" href="#binary-exponentiation" title="Permanent link">&para;</a></h1>
+<p>رفیق، «توان‌رسانی دودویی» (که بهش «توان‌رسانی با مربع‌سازی» یا Exponentiation by Squaring هم میگن) یه تکنیک خیلی باحاله که بهت اجازه میده <span class="arithmatex">$a^n$</span> رو فقط با <span class="arithmatex">$O(\log n)$</span> تا ضرب حساب کنی (به جای <span class="arithmatex">$O(n)$</span> تا ضرب توی روش ساده و معمولی).</p>
+<p>این روش کلی کاربرد خفن دیگه هم توی مسائلی داره که شاید در نگاه اول ربطی به حساب و کتاب نداشته باشن. کل ماجرا اینه که می‌تونی از این تکنیک برای هر عملیاتی که خاصیت <strong>شرکت‌پذیری (associativity)</strong> داشته باشه استفاده کنی:</p>
 <div class="arithmatex">$$(X \cdot Y) \cdot Z = X \cdot (Y \cdot Z)$$</div>
-<p>واضح‌ترین کاربردهای آن در ضرب پیمانه‌ای، ضرب ماتریس‌ها و مسائل دیگری است که در ادامه به آنها خواهیم پرداخت.</p>
-<h2 id="_2">الگوریتم<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>به توان <span class="arithmatex">$n$</span> رساندن <span class="arithmatex">$a$</span> به صورت ساده به عنوان ضرب <span class="arithmatex">$a$</span> در خودش به تعداد <span class="arithmatex">$n-1$</span> بار بیان می‌شود:
-<span class="arithmatex">$a^{n} = a \cdot a \cdot \ldots \cdot a$</span>. با این حال، این رویکرد برای <span class="arithmatex">$a$</span> یا <span class="arithmatex">$n$</span> بزرگ عملی نیست.</p>
-<p><span class="arithmatex">$a^{b+c} = a^b \cdot a^c$</span> و <span class="arithmatex">$a^{2b} = a^b \cdot a^b = (a^b)^2$</span>.</p>
-<p>ایده‌ی توان‌رسانی دودویی این است که ما کار را با استفاده از نمایش دودویی توان، تقسیم می‌کنیم.</p>
-<p>بیایید <span class="arithmatex">$n$</span> را در مبنای ۲ بنویسیم، برای مثال:</p>
+<p>واضح‌ترین کاربردهاش توی ضرب پیمانه‌ای، ضرب ماتریس‌ها و یه سری مسائل دیگه است که جلوتر با هم می‌بینیم.</p>
+<h2 id="_1">الگوریتم چطوری کار می‌کنه؟<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>خب، ساده‌ترین راه برای به توان رسوندن <span class="arithmatex">$a$</span> به توان <span class="arithmatex">$n$</span> اینه که <span class="arithmatex">$a$</span> رو <span class="arithmatex">$n-1$</span> بار توی خودش ضرب کنی:
+<span class="arithmatex">$a^{n} = a \cdot a \cdot \ldots \cdot a$</span>. ولی خب این روش برای <span class="arithmatex">$a$</span> یا <span class="arithmatex">$n$</span> های بزرگ اصلاً به درد نمی‌خوره و خیلی کنده.</p>
+<p>یادت باشه که: <span class="arithmatex">$a^{b+c} = a^b \cdot a^c$</span> و <span class="arithmatex">$a^{2b} = a^b \cdot a^b = (a^b)^2$</span>.</p>
+<p>ایده اصلی توان‌رسانی دودویی اینه که بیایم توان، یعنی <span class="arithmatex">$n$</span>، رو به صورت باینری (دودویی) ببینیم و مسئله رو بشکنیم.</p>
+<p>بذار <span class="arithmatex">$n$</span> رو تو مبنای ۲ بنویسیم، مثلاً برای <span class="arithmatex">$13$</span>:</p>
 <div class="arithmatex">$$3^{13} = 3^{1101_2} = 3^8 \cdot 3^4 \cdot 3^1$$</div>
-<p>از آنجایی که عدد <span class="arithmatex">$n$</span> در مبنای ۲ دقیقاً <span class="arithmatex">$\lfloor \log_2 n \rfloor + 1$</span> رقم دارد، اگر توان‌های <span class="arithmatex">$a^1, a^2, a^4, a^8, \dots, a^{2^{\lfloor \log n \rfloor}}$</span> را بدانیم، تنها به <span class="arithmatex">$O(\log n)$</span> ضرب نیاز داریم.</p>
-<p>بنابراین فقط به یک راه سریع برای محاسبه آن‌ها نیاز داریم.
-خوشبختانه این کار بسیار آسان است، زیرا هر عنصر در دنباله، مربع عنصر قبلی است.</p>
+<p>از اونجایی که عدد <span class="arithmatex">$n$</span> توی مبنای ۲ دقیقاً <span class="arithmatex">$\lfloor \log_2 n \rfloor + 1$</span> تا رقم داره، اگه ما توان‌های <span class="arithmatex">$a^1, a^2, a^4, a^8, \dots, a^{2^{\lfloor \log n \rfloor}}$</span> رو داشته باشیم، فقط به <span class="arithmatex">$O(\log n)$</span> تا ضرب نیاز داریم تا جواب نهایی رو بسازیم.</p>
+<p>خب حالا فقط باید یه راه سریع برای حساب کردن اینا پیدا کنیم.
+خوشبختانه این کار خیلی راحته، چون هر عضو این دنباله، مربع عضو قبلیشه.</p>
 <div class="arithmatex">$$\begin{align}
 3^1 &amp;= 3 \\
 3^2 &amp;= \left(3^1\right)^2 = 3^2 = 9 \\
 3^4 &amp;= \left(3^2\right)^2 = 9^2 = 81 \\
 3^8 &amp;= \left(3^4\right)^2 = 81^2 = 6561
 \end{align}$$</div>
-<p>بنابراین برای به دست آوردن پاسخ نهایی برای <span class="arithmatex">$3^{13}$</span>، فقط باید سه تا از آنها را ضرب کنیم (از <span class="arithmatex">$3^2$</span> صرف‌نظر می‌کنیم چون بیت متناظر آن در <span class="arithmatex">$n$</span> یک نیست):
+<p>پس برای اینکه جواب نهایی <span class="arithmatex">$3^{13}$</span> رو به دست بیاریم، کافیه سه تا از اینا رو توی هم ضرب کنیم (از <span class="arithmatex">$3^2$</span> صرف‌نظر می‌کنیم چون بیت متناظرش توی نمایش باینری <span class="arithmatex">$13$</span> یعنی <span class="arithmatex">$110\underline{1}_2$</span> صفر نیست، بلکه یکه. صبر کن، <span class="arithmatex">$1101_2$</span> هست، پس بیت دوم از راست صفره، پس <span class="arithmatex">$3^2$</span> رو لازم نداریم. آها، متن اصلی درست گفته بود، بیت دوم از راست صفره پس <span class="arithmatex">$3^2$</span> رو لازم نداریم).
 <span class="arithmatex">$3^{13} = 6561 \cdot 81 \cdot 3 = 1594323$</span></p>
-<p>پیچیدگی نهایی این الگوریتم <span class="arithmatex">$O(\log n)$</span> است: ما باید <span class="arithmatex">$\log n$</span> توان از <span class="arithmatex">$a$</span> را محاسبه کنیم و سپس حداکثر <span class="arithmatex">$\log n$</span> ضرب برای به دست آوردن پاسخ نهایی از آن‌ها انجام دهیم.</p>
-<p>رویکرد بازگشتی زیر همین ایده را بیان می‌کند:</p>
+<p>پیچیدگی نهایی این الگوریتم <span class="arithmatex">$O(\log n)$</span> هست: ما باید <span class="arithmatex">$\log n$</span> تا توان از <span class="arithmatex">$a$</span> رو حساب کنیم و بعدش هم حداکثر <span class="arithmatex">$\log n$</span> تا ضرب انجام بدیم تا به جواب نهایی برسیم.</p>
+<p>اگه بخوایم همین ایده رو به صورت بازگشتی (recursive) بنویسیم، یه همچین چیزی میشه:</p>
 <div class="arithmatex">$$a^n = \begin{cases}
 1 &amp;\text{اگر } n == 0 \\
-\left(a^{\frac{n}{2}}\right)^2 &amp;\text{اگر } n &gt; 0 \text{ و } n \text{ زوج باشد}\\
-\left(a^{\frac{n - 1}{2}}\right)^2 \cdot a &amp;\text{اگر } n &gt; 0 \text{ و } n \text{ فرد باشد}\\
+\left(a^{\frac{n}{2}}\right)^2 &amp;\text{اگر } n &gt; 0 \text{ و } n \text{ زوج باشه}\\
+\left(a^{\frac{n - 1}{2}}\right)^2 \cdot a &amp;\text{اگر } n &gt; 0 \text{ و } n \text{ فرد باشه}\\
 \end{cases}$$</div>
-<h2 id="_3">پیاده‌سازی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>ابتدا رویکرد بازگشتی، که ترجمه مستقیمی از فرمول بازگشتی است:</p>
+<h2 id="_2">پیاده‌سازی<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>اول بریم سراغ پیاده‌سازی بازگشتی، که دقیقاً ترجمه‌ی همون فرمول بالاست:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">binpow</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
@@ -6952,9 +6952,9 @@ Describe the issue of this article in detail.
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>رویکرد دوم همین کار را بدون بازگشت انجام می‌دهد.
-این رویکرد تمام توان‌ها را در یک حلقه محاسبه می‌کند و آن‌هایی را که بیت متناظرشان در <span class="arithmatex">$n$</span> یک است، در هم ضرب می‌کند.
-اگرچه پیچیدگی هر دو رویکرد یکسان است، این رویکرد در عمل سریع‌تر خواهد بود زیرا سربار فراخوانی‌های بازگشتی را نداریم.</p>
+<p>حالا بریم سراغ روش دوم که همین کار رو بدون بازگشت (iterative) انجام میده.
+این روش توی یه حلقه، همه توان‌ها رو حساب می‌کنه و اونایی که بیت متناظرشون توی <span class="arithmatex">$n$</span> یک هست رو توی نتیجه ضرب می‌کنه.
+با اینکه پیچیدگی زمانی هر دو روش یکیه، این روش دوم توی عمل سریع‌تره، چون دیگه سربار (overhead) فراخوانی‌های بازگشتی رو نداریم.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">binpow</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -6966,13 +6966,13 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_4">کاربردها<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<h3 id="_5">محاسبه موثر توان‌های بزرگ به پیمانه یک عدد<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h2 id="_3">کاربردها<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">محاسبه بهینه توان‌های بزرگ به پیمانه یک عدد<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p><strong>مسئله:</strong>
-محاسبه <span class="arithmatex">$x^n \bmod m$</span>.
-این یک عملیات بسیار رایج است. به عنوان مثال در محاسبه <a href="module-inverse.html">وارون ضربی پیمانه‌ای</a> استفاده می‌شود.</p>
+می‌خوایم <span class="arithmatex">$x^n \bmod m$</span> رو حساب کنیم.
+این یه عملیات خیلی رایجه. مثلاً برای محاسبه <a href="module-inverse.html">وارون ضربی پیمانه‌ای</a> ازش استفاده میشه.</p>
 <p><strong>راه حل:</strong>
-از آنجا که می‌دانیم عملگر پیمانه با ضرب‌ها تداخلی ندارد (<span class="arithmatex">$a \cdot b \equiv (a \bmod m) \cdot (b \bmod m) \pmod m$</span>)، می‌توانیم مستقیماً از همان کد استفاده کنیم و فقط هر ضرب را با یک ضرب پیمانه‌ای جایگزین کنیم:</p>
+خبر خوب اینه که عملگر مود (پیمانه) با ضرب خیلی خوب کنار میاد (<span class="arithmatex">$a \cdot b \equiv (a \bmod m) \cdot (b \bmod m) \pmod m$</span>). پس می‌تونیم دقیقاً از همون کد بالا استفاده کنیم و فقط هر ضرب رو با یه ضرب پیمانه‌ای عوض کنیم:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">binpow</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">%=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
@@ -6986,21 +6986,20 @@ Describe the issue of this article in detail.
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>نکته:</strong>
-می‌توان این الگوریتم را برای <span class="arithmatex">$b$</span> های بزرگ (<span class="arithmatex">$b &gt;&gt; m$</span>) سریع‌تر کرد.
-اگر <span class="arithmatex">$m$</span> یک عدد اول باشد، <span class="arithmatex">$x^n \equiv x^{n \bmod (m-1)} \pmod{m}$</span> و اگر <span class="arithmatex">$m$</span> مرکب باشد <span class="arithmatex">$x^n \equiv x^{n \bmod{\phi(m)}} \pmod{m}$</span> برقرار است.
-این موضوع مستقیماً از قضیه کوچک فرما و قضیه اویلر نتیجه می‌شود، برای جزئیات بیشتر به مقاله <a href="module-inverse.html#fermat-euler">وارون‌های پیمانه‌ای</a> مراجعه کنید.</p>
-<h3 id="_6">محاسبه موثر اعداد فیبوناچی<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p><strong>مسئله:</strong> محاسبه <span class="arithmatex">$n$</span>-امین عدد فیبوناچی <span class="arithmatex">$F_n$</span>.</p>
-<p><strong>راه حل:</strong> برای جزئیات بیشتر، به مقاله <a href="fibonacci-numbers.html">اعداد فیبوناچی</a> مراجعه کنید.
-ما فقط یک نمای کلی از الگوریتم را مرور خواهیم کرد.
-برای محاسبه عدد فیبوناچی بعدی، تنها دو عدد قبلی مورد نیاز است، زیرا <span class="arithmatex">$F_n = F_{n-1} + F_{n-2}$</span>.
-می‌توانیم یک ماتریس <span class="arithmatex">$2 \times 2$</span> بسازیم که این تبدیل را توصیف کند:
-انتقال از <span class="arithmatex">$F_i$</span> و <span class="arithmatex">$F_{i+1}$</span> به <span class="arithmatex">$F_{i+1}$</span> و <span class="arithmatex">$F_{i+2}$</span>.
-به عنوان مثال، اعمال این تبدیل بر روی زوج <span class="arithmatex">$F_0$</span> و <span class="arithmatex">$F_1$</span> آن را به <span class="arithmatex">$F_1$</span> و <span class="arithmatex">$F_2$</span> تبدیل می‌کند.
-بنابراین، می‌توانیم این ماتریس تبدیل را به توان <span class="arithmatex">$n$</span> برسانیم تا <span class="arithmatex">$F_n$</span> را در پیچیدگی زمانی <span class="arithmatex">$O(\log n)$</span> پیدا کنیم.</p>
+یه نکته باحال: اگه <span class="arithmatex">$b$</span> خیلی بزرگ باشه (مثلاً خیلی بزرگ‌تر از <span class="arithmatex">$m$</span>)، می‌تونی این الگوریتم رو از این هم سریع‌تر کنی.
+اگه <span class="arithmatex">$m$</span> یه عدد اول باشه، <span class="arithmatex">$x^n \equiv x^{n \bmod (m-1)} \pmod{m}$</span> برقراره و اگه <span class="arithmatex">$m$</span> مرکب باشه <span class="arithmatex">$x^n \equiv x^{n \bmod{\phi(m)}} \pmod{m}$</span> برقراره.
+این قضیه مستقیم از قضیه کوچک فرما و قضیه اویلر نتیجه میشه. برای جزئیات بیشتر یه نگاهی به مقاله <a href="module-inverse.html#fermat-euler">وارون‌های پیمانه‌ای</a> بنداز.</p>
+<h3 id="_5">محاسبه بهینه اعداد فیبوناچی<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p><strong>مسئله:</strong> می‌خوایم <span class="arithmatex">$n$</span>-امین عدد فیبوناچی (<span class="arithmatex">$F_n$</span>) رو پیدا کنیم.</p>
+<p><strong>راه حل:</strong> برای جزئیات کامل‌تر، حتماً مقاله <a href="fibonacci-numbers.html">اعداد فیبوناچی</a> رو ببین، ولی اینجا یه خلاصه‌ای از الگوریتم رو با هم مرور می‌کنیم.
+برای حساب کردن عدد فیبوناچی بعدی، فقط به دو تای قبلی نیاز داریم، چون <span class="arithmatex">$F_n = F_{n-1} + F_{n-2}$</span>.
+ایده اینه که می‌تونیم یه ماتریس <span class="arithmatex">$2 \times 2$</span> بسازیم که این تبدیل رو توصیف کنه:
+یعنی انتقال از زوج <span class="arithmatex">$(F_i, F_{i+1})$</span> به زوج <span class="arithmatex">$(F_{i+1}, F_{i+2})$</span>.
+مثلاً، اگه این تبدیل رو روی زوج <span class="arithmatex">$(F_0, F_1)$</span> اعمال کنیم، بهمون <span class="arithmatex">$(F_1, F_2)$</span> رو میده.
+بنابراین، می‌تونیم این ماتریس تبدیل رو به توان <span class="arithmatex">$n$</span> برسونیم تا <span class="arithmatex">$F_n$</span> رو با پیچیدگی زمانی <span class="arithmatex">$O(\log n)$</span> پیدا کنیم.</p>
 <h3 id="k">اعمال یک جایگشت به تعداد <span class="arithmatex">$k$</span> بار<a class="headerlink" href="#k" title="Permanent link">&para;</a></h3>
-<p><strong>مسئله:</strong> به شما یک دنباله به طول <span class="arithmatex">$n$</span> داده شده است. یک جایگشت معین را <span class="arithmatex">$k$</span> بار روی آن اعمال کنید.</p>
-<p><strong>راه حل:</strong> به سادگی جایگشت را با استفاده از توان‌رسانی دودویی به توان <span class="arithmatex">$k$</span> برسانید و سپس آن را روی دنباله اعمال کنید. این کار به شما پیچیدگی زمانی <span class="arithmatex">$O(n \log k)$</span> می‌دهد.</p>
+<p><strong>مسئله:</strong> فرض کن یه دنباله به طول <span class="arithmatex">$n$</span> داری و می‌خوای یه جایگشت (permutation) مشخص رو <span class="arithmatex">$k$</span> بار روش اعمال کنی.</p>
+<p><strong>راه حل:</strong> خیلی ساده‌ست! خودِ جایگشت رو یه جور عملیات در نظر بگیر و با استفاده از توان‌رسانی دودویی، این عملیات رو به توان <span class="arithmatex">$k$</span> برسون و بعد نتیجه رو روی دنباله اعمال کن. این کار پیچیدگی زمانی <span class="arithmatex">$O(n \log k)$</span> بهت میده.</p>
 <div class="highlight"><pre><span></span><code><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">applyPermutation</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sequence</span><span class="p">,</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">permutation</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">newSequence</span><span class="p">(</span><span class="n">sequence</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
 <span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">sequence</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -7020,23 +7019,23 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sequence</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><strong>نکته:</strong> این مسئله را می‌توان با ساختن گراف جایگشت و در نظر گرفتن هر دور به طور مستقل، به طور کارآمدتر و در زمان خطی حل کرد. سپس می‌توانید <span class="arithmatex">$k$</span> را به پیمانه اندازه دور محاسبه کرده و موقعیت نهایی را برای هر عددی که بخشی از این دور است پیدا کنید.</p>
-<h3 id="_7">اعمال سریع مجموعه‌ای از عملیات هندسی بر روی مجموعه‌ای از نقاط<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p><strong>مسئله:</strong> با داشتن <span class="arithmatex">$n$</span> نقطه <span class="arithmatex">$p_i$</span>، <span class="arithmatex">$m$</span> تبدیل را بر روی هر یک از این نقاط اعمال کنید. هر تبدیل می‌تواند یک انتقال، یک مقیاس‌دهی یا یک دوران حول یک محور معین با یک زاویه معین باشد. همچنین یک عملیات "حلقه" وجود دارد که یک لیست معین از تبدیل‌ها را <span class="arithmatex">$k$</span> بار اعمال می‌کند (عملیات "حلقه" می‌توانند تودرتو باشند). شما باید تمام تبدیل‌ها را سریع‌تر از <span class="arithmatex">$O(n \cdot length)$</span> اعمال کنید، که در آن <span class="arithmatex">$length$</span> تعداد کل تبدیل‌هایی است که باید اعمال شوند (پس از باز کردن عملیات "حلقه").</p>
-<p><strong>راه حل:</strong> بیایید ببینیم انواع مختلف تبدیل‌ها چگونه مختصات را تغییر می‌دهند:</p>
+<p><strong>نکته:</strong> این مسئله رو میشه بهینه‌تر و توی زمان خطی هم حل کرد. چطوری؟ گراف جایگشت رو بساز و هر دور (cycle) رو جداگانه بررسی کن. بعد می‌تونی <span class="arithmatex">$k$</span> رو به پیمانه طول اون دور حساب کنی و موقعیت نهایی هر عدد توی اون دور رو پیدا کنی.</p>
+<h3 id="_6">اعمال سریع مجموعه‌ای از عملیات هندسی بر روی مجموعه‌ای از نقاط<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><strong>مسئله:</strong> این یکی خیلی جالبه! فرض کن <span class="arithmatex">$n$</span> تا نقطه <span class="arithmatex">$p_i$</span> داری و می‌خوای <span class="arithmatex">$m$</span> تا تبدیل هندسی رو روی همه‌شون اعمال کنی. هر تبدیل می‌تونه انتقال (translation)، تغییر مقیاس (scaling) یا دوران (rotation) حول یه محور مشخص با یه زاویه مشخص باشه. یه عملیات "حلقه" (loop) هم داریم که یه لیست از تبدیل‌ها رو <span class="arithmatex">$k$</span> بار تکرار می‌کنه (این حلقه‌ها می‌تونن تودرتو باشن). تو باید همه این تبدیل‌ها رو سریع‌تر از <span class="arithmatex">$O(n \cdot length)$</span> انجام بدی، که <code>length</code> تعداد کل تبدیل‌ها بعد از باز کردن حلقه‌هاست.</p>
+<p><strong>راه حل:</strong> بیا ببینیم این تبدیل‌ها چطوری مختصات رو تغییر میدن:</p>
 <ul>
-<li>عملیات انتقال: یک ثابت متفاوت به هر یک از مختصات اضافه می‌کند.</li>
-<li>عملیات مقیاس‌دهی: هر یک از مختصات را در یک ثابت متفاوت ضرب می‌کند.</li>
-<li>عملیات دوران: تبدیل پیچیده‌تر است (در اینجا به جزئیات نمی‌پردازیم)، اما هر یک از مختصات جدید همچنان می‌تواند به عنوان یک ترکیب خطی از مختصات قدیمی نمایش داده شود.</li>
+<li><strong>انتقال:</strong> یه عدد ثابت به هر کدوم از مختصات اضافه می‌کنه.</li>
+<li><strong>تغییر مقیاس:</strong> هر کدوم از مختصات رو توی یه عدد ثابت ضرب می‌کنه.</li>
+<li><strong>دوران:</strong> این یکم پیچیده‌تره (اینجا وارد جزئیاتش نمیشیم)، ولی هر مختصات جدید باز هم یه ترکیب خطی از مختصات قدیمیه.</li>
 </ul>
-<p>همانطور که می‌بینید، هر یک از تبدیل‌ها را می‌توان به عنوان یک عملیات خطی بر روی مختصات نشان داد. بنابراین، یک تبدیل را می‌توان به صورت یک ماتریس <span class="arithmatex">$4 \times 4$</span> به شکل زیر نوشت:</p>
+<p>همونطور که می‌بینی، هر کدوم از این تبدیل‌ها رو میشه به صورت یه عملیات خطی روی مختصات نشون داد. پس، یه تبدیل رو میشه به شکل یه ماتریس <span class="arithmatex">$4 \times 4$</span> نوشت:</p>
 <div class="arithmatex">$$\begin{pmatrix}
 a_{11} &amp; a_ {12} &amp; a_ {13} &amp; a_ {14} \\
 a_{21} &amp; a_ {22} &amp; a_ {23} &amp; a_ {24} \\
 a_{31} &amp; a_ {32} &amp; a_ {33} &amp; a_ {34} \\
 a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 \end{pmatrix}$$</div>
-<p>که وقتی در یک بردار با مختصات قدیمی و یک واحد ضرب شود، یک بردار جدید با مختصات جدید و یک واحد می‌دهد:</p>
+<p>که اگه توی یه بردار با مختصات قدیمی و یه عدد ۱ ضرب بشه، یه بردار جدید با مختصات جدید و یه عدد ۱ بهمون میده:</p>
 <div class="arithmatex">$$\begin{pmatrix} x &amp; y &amp; z &amp; 1 \end{pmatrix} \cdot
 \begin{pmatrix}
 a_{11} &amp; a_ {12} &amp; a_ {13} &amp; a_ {14} \\
@@ -7045,10 +7044,10 @@ a_{31} &amp; a_ {32} &amp; a_ {33} &amp; a_ {34} \\
 a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 \end{pmatrix}
  = \begin{pmatrix} x' &amp; y' &amp; z' &amp; 1 \end{pmatrix}$$</div>
-<p>(شاید بپرسید چرا یک مختصات چهارم ساختگی معرفی کردیم؟ این زیبایی <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">مختصات همگن</a> است که کاربرد زیادی در گرافیک کامپیوتری دارد. بدون آن، پیاده‌سازی عملیات افاین مانند عملیات انتقال به عنوان یک ضرب ماتریسی واحد ممکن نبود، زیرا به ما نیاز دارد که یک ثابت به مختصات <em>اضافه</em> کنیم. تبدیل افاین در بعد بالاتر به یک تبدیل خطی تبدیل می‌شود!)</p>
-<p>در اینجا چند مثال از نحوه نمایش تبدیل‌ها در قالب ماتریس آورده شده است:</p>
+<p>(شاید بپرسی این مختصات چهارم الکی از کجا اومد؟ این همون جادوی <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">مختصات همگن (Homogeneous coordinates)</a> هست که توی گرافیک کامپیوتری خیلی کاربرد داره. بدون اون، نمی‌تونستیم تبدیل‌های آفین (affine) مثل انتقال رو به صورت یه ضرب ماتریسی ساده پیاده‌سازی کنیم، چون انتقال نیاز داره که یه عدد ثابت به مختصات <em>اضافه</em> بشه. با این کار، یه تبدیل آفین توی بعد بالاتر به یه تبدیل خطی تبدیل میشه!)</p>
+<p>اینم چندتا مثال از ماتریس‌های تبدیل:</p>
 <ul>
-<li>عملیات انتقال: انتقال مختصات <span class="arithmatex">$x$</span> به اندازه <span class="arithmatex">$5$</span>، مختصات <span class="arithmatex">$y$</span> به اندازه <span class="arithmatex">$7$</span> و مختصات <span class="arithmatex">$z$</span> به اندازه <span class="arithmatex">$9$</span>.</li>
+<li><strong>انتقال:</strong> مختصات <span class="arithmatex">$x$</span> رو ۵ واحد، <span class="arithmatex">$y$</span> رو ۷ واحد و <span class="arithmatex">$z$</span> رو ۹ واحد جابجا می‌کنه.</li>
 </ul>
 <div class="arithmatex">$$\begin{pmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 \\
@@ -7057,7 +7056,7 @@ a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 5 &amp; 7 &amp; 9 &amp; 1
 \end{pmatrix}$$</div>
 <ul>
-<li>عملیات مقیاس‌دهی: مقیاس‌دهی مختصات <span class="arithmatex">$x$</span> به اندازه <span class="arithmatex">$10$</span> و دو مختصات دیگر به اندازه <span class="arithmatex">$5$</span>.</li>
+<li><strong>تغییر مقیاس:</strong> مختصات <span class="arithmatex">$x$</span> رو ۱۰ برابر و دو تای دیگه رو ۵ برابر می‌کنه.</li>
 </ul>
 <div class="arithmatex">$$\begin{pmatrix}
 10 &amp; 0 &amp; 0 &amp; 0 \\
@@ -7066,7 +7065,7 @@ a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 0 &amp; 0 &amp; 0 &amp; 1
 \end{pmatrix}$$</div>
 <ul>
-<li>عملیات دوران: دوران به اندازه <span class="arithmatex">$\theta$</span> درجه حول محور <span class="arithmatex">$x$</span> طبق قانون دست راست (جهت پادساعتگرد).</li>
+<li><strong>دوران:</strong> دوران به اندازه <span class="arithmatex">$\theta$</span> درجه حول محور <span class="arithmatex">$x$</span> طبق قانون دست راست (پادساعتگرد).</li>
 </ul>
 <div class="arithmatex">$$\begin{pmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 \\
@@ -7074,24 +7073,25 @@ a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 0 &amp; \sin \theta &amp; \cos \theta &amp; 0 \\
 0 &amp; 0 &amp; 0 &amp; 1
 \end{pmatrix}$$</div>
-<p>حال، وقتی هر تبدیل به صورت یک ماتریس توصیف شد، دنباله‌ای از تبدیل‌ها را می‌توان به عنوان حاصلضرب این ماتریس‌ها توصیف کرد، و یک "حلقه" با <span class="arithmatex">$k$</span> تکرار را می‌توان به عنوان ماتریس به توان <span class="arithmatex">$k$</span> توصیف کرد (که می‌توان با استفاده از توان‌رسانی دودویی در <span class="arithmatex">$O(\log{k})$</span> محاسبه کرد). به این ترتیب، ماتریسی که تمام تبدیل‌ها را نشان می‌دهد، ابتدا در <span class="arithmatex">$O(m \log{k})$</span> محاسبه می‌شود و سپس در <span class="arithmatex">$O(n)$</span> به هر یک از <span class="arithmatex">$n$</span> نقطه اعمال می‌شود، که پیچیدگی کل آن <span class="arithmatex">$O(n + m \log{k})$</span> است.</p>
+<p>حالا که هر تبدیل رو به شکل یه ماتریس درآوردیم، یه دنباله از تبدیل‌ها میشه حاصل‌ضرب ماتریس‌هاشون، و یه "حلقه" با <span class="arithmatex">$k$</span> بار تکرار میشه همون ماتریس به توان <span class="arithmatex">$k$</span> (که با توان‌رسانی دودویی توی <span class="arithmatex">$O(\log{k})$</span> حساب میشه). اینطوری، اول ماتریس نهایی که همه تبدیل‌ها رو نشون میده توی <span class="arithmatex">$O(m \log{k})$</span> حساب می‌کنیم و بعدش توی <span class="arithmatex">$O(n)$</span> روی همه <span class="arithmatex">$n$</span> تا نقطه اعمالش می‌کنیم. پیچیدگی کل میشه <span class="arithmatex">$O(n + m \log{k})$</span>.</p>
 <h3 id="k_1">تعداد مسیرهای به طول <span class="arithmatex">$k$</span> در یک گراف<a class="headerlink" href="#k_1" title="Permanent link">&para;</a></h3>
-<p><strong>مسئله:</strong> با داشتن یک گراف جهت‌دار بدون وزن با <span class="arithmatex">$n$</span> رأس، تعداد مسیرهای به طول <span class="arithmatex">$k$</span> از هر رأس <span class="arithmatex">$u$</span> به هر رأس دیگر <span class="arithmatex">$v$</span> را بیابید.</p>
-<p><strong>راه حل:</strong> این مسئله با جزئیات بیشتر در <a href="../graph/fixed_length_paths.html">یک مقاله جداگانه</a> بررسی شده است. الگوریتم شامل به توان <span class="arithmatex">$k$</span> رساندن ماتریس مجاورت <span class="arithmatex">$M$</span> گراف است (ماتریسی که در آن <span class="arithmatex">$m_{ij} = 1$</span> اگر یالی از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span> وجود داشته باشد، و در غیر این صورت <span class="arithmatex">$0$</span> است). اکنون <span class="arithmatex">$m_{ij}$</span> تعداد مسیرهای به طول <span class="arithmatex">$k$</span> از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span> خواهد بود. پیچیدگی زمانی این راه حل <span class="arithmatex">$O(n^3 \log k)$</span> است.</p>
-<p><strong>نکته:</strong> در همان مقاله، نوع دیگری از این مسئله در نظر گرفته شده است: زمانی که یال‌ها وزن‌دار هستند و لازم است مسیر با کمترین وزن که دقیقاً شامل <span class="arithmatex">$k$</span> یال است، پیدا شود. همانطور که در آن مقاله نشان داده شده است، این مسئله نیز با توان‌رسانی ماتریس مجاورت حل می‌شود. ماتریس شامل وزن یال از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span> یا <span class="arithmatex">$\infty$</span> اگر چنین یالی وجود نداشته باشد، خواهد بود.
-به جای عملیات معمول ضرب دو ماتریس، باید از یک عملیات اصلاح شده استفاده شود:
-به جای ضرب، هر دو مقدار با هم جمع می‌شوند و به جای جمع‌بندی، کمینه گرفته می‌شود.
+<p><strong>مسئله:</strong> فرض کن یه گراف جهت‌دار بدون وزن با <span class="arithmatex">$n$</span> تا رأس داری. حالا می‌خوای تعداد مسیرهایی که دقیقاً <span class="arithmatex">$k$</span> تا یال دارن رو از هر رأس <span class="arithmatex">$u$</span> به هر رأس <span class="arithmatex">$v$</span> پیدا کنی.</p>
+<p><strong>راه حل:</strong> این مسئله با جزئیات بیشتر توی <a href="../graph/fixed_length_paths.html">یه مقاله جدا</a> بررسی شده. الگوریتم اینه که ماتریس مجاورت (Adjacency Matrix) گراف یعنی <span class="arithmatex">$M$</span> رو به توان <span class="arithmatex">$k$</span> برسونی (ماتریسی که توش <span class="arithmatex">$m_{ij} = 1$</span> اگه یالی از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span> باشه وگرنه <span class="arithmatex">$0$</span> هست). حالا <span class="arithmatex">$m_{ij}$</span> میشه تعداد مسیرهای به طول <span class="arithmatex">$k$</span> از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span>. پیچیدگی زمانی این راه حل <span class="arithmatex">$O(n^3 \log k)$</span> هست.</p>
+<p><strong>نکته:</strong> توی همون مقاله، یه مدل دیگه از این مسئله هم بررسی شده: وقتی که یال‌ها وزن‌دار هستن و باید مسیری با کمترین وزن پیدا کنی که دقیقاً <span class="arithmatex">$k$</span> تا یال داشته باشه. همونطور که اونجا نشون داده شده، این مسئله هم با به توان رسوندن ماتریس مجاورت حل میشه. ماتریس شامل وزن یال از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span> یا <span class="arithmatex">$\infty$</span> اگه یالی نباشه، خواهد بود.
+فقط به جای عملیات ضرب ماتریسی معمولی، باید از یه عملیات تغییر یافته استفاده کنی:
+به جای ضرب، دو تا مقدار با هم جمع میشن و به جای جمع‌بندی، مینیمم گرفته میشه.
 یعنی: <span class="arithmatex">$result_{ij} = \min\limits_{1\ \leq\ k\ \leq\ n}(a_{ik} + b_{kj})$</span>.</p>
 <h3 id="m">نوعی از توان‌رسانی دودویی: ضرب دو عدد به پیمانه <span class="arithmatex">$m$</span><a class="headerlink" href="#m" title="Permanent link">&para;</a></h3>
-<p><strong>مسئله:</strong> دو عدد <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> را به پیمانه <span class="arithmatex">$m$</span> ضرب کنید. <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> در انواع داده داخلی جا می‌شوند، اما حاصلضرب آنها برای جا شدن در یک عدد صحیح ۶۴ بیتی بسیار بزرگ است. ایده این است که <span class="arithmatex">$a \cdot b \pmod m$</span> را بدون استفاده از حساب اعداد بزرگ (bignum) محاسبه کنیم.</p>
-<p><strong>راه حل:</strong> ما به سادگی الگوریتم ساخت دودویی را که در بالا توضیح داده شد، اعمال می‌کنیم، فقط به جای ضرب، جمع انجام می‌دهیم. به عبارت دیگر، ما ضرب دو عدد را به <span class="arithmatex">$O (\log m)$</span> عملیات جمع و ضرب در دو (که در اصل، یک جمع است) "بسط" داده‌ایم.</p>
+<p><strong>مسئله:</strong> این یه کاربرد یکم متفاوته. فرض کن می‌خوای دو تا عدد <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> رو به پیمانه <span class="arithmatex">$m$</span> ضرب کنی. مشکل اینجاست که <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> توی یه متغیر ۶۴ بیتی جا میشن، ولی حاصل‌ضربشون <span class="arithmatex">$a \cdot b$</span> ممکنه سرریز کنه (overflow) و توی متغیر ۶۴ بیتی جا نشه. ایده اینه که <span class="arithmatex">$a \cdot b \pmod m$</span> رو بدون استفاده از کتابخونه‌های اعداد بزرگ (bignum) حساب کنیم.</p>
+<p><strong>راه حل:</strong> ما خیلی راحت از همون الگوریتم توان‌رسانی دودویی که بالا گفتیم استفاده می‌کنیم، فقط به جای ضرب، از جمع استفاده می‌کنیم. به عبارت دیگه، ما ضرب دو تا عدد رو به <span class="arithmatex">$O(\log b)$</span> تا عملیات جمع و ضرب در دو (که اونم خودش یه جور جمعه) "باز" کردیم.</p>
 <div class="arithmatex">$$a \cdot b = \begin{cases}
-0 &amp;\text{اگر }a = 0 \\
-2 \cdot \frac{a}{2} \cdot b &amp;\text{اگر }a &gt; 0 \text{ و }a \text{ زوج باشد} \\
-2 \cdot \frac{a-1}{2} \cdot b + b &amp;\text{اگر }a &gt; 0 \text{ و }a \text{ فرد باشد}
+0 &amp;\text{اگر }b = 0 \\
+2 \cdot a \cdot \frac{b}{2} &amp;\text{اگر }b &gt; 0 \text{ و }b \text{ زوج باشه} \\
+2 \cdot a \cdot \frac{b-1}{2} + a &amp;\text{اگر }b &gt; 0 \text{ و }b \text{ فرد باشه}
 \end{cases}$$</div>
-<p><strong>نکته:</strong> می‌توانید این مسئله را به روش دیگری با استفاده از عملیات ممیز شناور حل کنید. ابتدا عبارت <span class="arithmatex">$\frac{a \cdot b}{m}$</span> را با استفاده از اعداد ممیز شناور محاسبه کرده و آن را به یک عدد صحیح بدون علامت <span class="arithmatex">$q$</span> تبدیل کنید. <span class="arithmatex">$q \cdot m$</span> را با استفاده از حساب اعداد صحیح بدون علامت از <span class="arithmatex">$a \cdot b$</span> کم کرده و آن را به پیمانه <span class="arithmatex">$m$</span> بگیرید تا پاسخ را پیدا کنید. این راه حل نسبتاً غیرقابل اعتماد به نظر می‌رسد، اما بسیار سریع و پیاده‌سازی آن بسیار آسان است. برای اطلاعات بیشتر به <a href="https://cs.stackexchange.com/questions/77016/modular-multiplication">اینجا</a> مراجعه کنید.</p>
-<h2 id="_8">مسائل تمرینی<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p><strong>نکته:</strong> می‌تونی این مسئله رو با یه روش دیگه با استفاده از اعداد ممیز شناور (floating-point) هم حل کنی. اول عبارت <span class="arithmatex">$\frac{a \cdot b}{m}$</span> رو با استفاده از اعداد ممیز شناور حساب کن و نتیجه رو به یه عدد صحیح بدون علامت <span class="arithmatex">$q$</span> تبدیل کن. بعد <span class="arithmatex">$q \cdot m$</span> رو با استفاده از حساب اعداد صحیح بدون علامت از <span class="arithmatex">$a \cdot b$</span> کم کن و نتیجه رو به پیمانه <span class="arithmatex">$m$</span> بگیر تا به جواب برسی. این راه حل شاید یکم غیرقابل اعتماد به نظر بیاد، ولی خیلی سریعه و پیاده‌سازیش هم خیلی راحته. برای اطلاعات بیشتر <a href="https://cs.stackexchange.com/questions/77016/modular-multiplication">اینجا</a> رو ببین.</p>
+<h2 id="_7">مسائل تمرینی<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>اینم چندتا مسئله برای تمرین بیشتر تا دستت راه بیفته:</p>
 <ul>
 <li><a href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=3671">UVa 1230 - MODEX</a></li>
 <li><a href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=310">UVa 374 - Big Mod</a></li>
@@ -7111,7 +7111,7 @@ a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (29.77%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (25.95%)</li><li><a href="https://github.com/gabrielsimoes" title="gabrielsimoes" data-bi-name="contributorprofile" target="_blank">gabrielsimoes</a> (15.65%)</li><li><a href="https://github.com/back2sqr1" title="back2sqr1" data-bi-name="contributorprofile" target="_blank">back2sqr1</a> (6.11%)</li><li><a href="https://github.com/RodionGork" title="RodionGork" data-bi-name="contributorprofile" target="_blank">RodionGork</a> (5.34%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (3.82%)</li><li><a href="https://github.com/Electron1997" title="Electron1997" data-bi-name="contributorprofile" target="_blank">Electron1997</a> (2.29%)</li><li><a href="#" title="shark_s" data-bi-name="contributorprofile" target="_blank">shark_s</a> (2.29%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.91%)</li><li><a href="https://github.com/Morass" title="Morass" data-bi-name="contributorprofile" target="_blank">Morass</a> (1.91%)</li><li><a href="https://github.com/turfaa" title="turfaa" data-bi-name="contributorprofile" target="_blank">turfaa</a> (1.91%)</li><li><a href="https://github.com/roundspecs" title="roundspecs" data-bi-name="contributorprofile" target="_blank">roundspecs</a> (1.53%)</li><li><a href="https://github.com/rskbansal" title="rskbansal" data-bi-name="contributorprofile" target="_blank">rskbansal</a> (0.38%)</li><li><a href="https://github.com/zhangdavid275" title="zhangdavid275" data-bi-name="contributorprofile" target="_blank">zhangdavid275</a> (0.38%)</li><li><a href="https://github.com/wangwillian0" title="wangwillian0" data-bi-name="contributorprofile" target="_blank">wangwillian0</a> (0.38%)</li><li><a href="https://github.com/algmyr" title="algmyr" data-bi-name="contributorprofile" target="_blank">algmyr</a> (0.38%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (30.04%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (25.86%)</li><li><a href="https://github.com/gabrielsimoes" title="gabrielsimoes" data-bi-name="contributorprofile" target="_blank">gabrielsimoes</a> (15.59%)</li><li><a href="https://github.com/back2sqr1" title="back2sqr1" data-bi-name="contributorprofile" target="_blank">back2sqr1</a> (6.08%)</li><li><a href="https://github.com/RodionGork" title="RodionGork" data-bi-name="contributorprofile" target="_blank">RodionGork</a> (5.32%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (3.8%)</li><li><a href="https://github.com/Electron1997" title="Electron1997" data-bi-name="contributorprofile" target="_blank">Electron1997</a> (2.28%)</li><li><a href="#" title="shark_s" data-bi-name="contributorprofile" target="_blank">shark_s</a> (2.28%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.9%)</li><li><a href="https://github.com/Morass" title="Morass" data-bi-name="contributorprofile" target="_blank">Morass</a> (1.9%)</li><li><a href="https://github.com/turfaa" title="turfaa" data-bi-name="contributorprofile" target="_blank">turfaa</a> (1.9%)</li><li><a href="https://github.com/roundspecs" title="roundspecs" data-bi-name="contributorprofile" target="_blank">roundspecs</a> (1.52%)</li><li><a href="https://github.com/rskbansal" title="rskbansal" data-bi-name="contributorprofile" target="_blank">rskbansal</a> (0.38%)</li><li><a href="https://github.com/zhangdavid275" title="zhangdavid275" data-bi-name="contributorprofile" target="_blank">zhangdavid275</a> (0.38%)</li><li><a href="https://github.com/wangwillian0" title="wangwillian0" data-bi-name="contributorprofile" target="_blank">wangwillian0</a> (0.38%)</li><li><a href="https://github.com/algmyr" title="algmyr" data-bi-name="contributorprofile" target="_blank">algmyr</a> (0.38%)</li></ul>
 </ul>
                 
               </article>
