@@ -1,0 +1,7062 @@
+
+<!doctype html>
+<html lang="fa" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The goal of this project is to translate the wonderful resource http://e-maxx.ru/algo which provides descriptions of many algorithms and data structures especially popular in field of competitive programming. Moreover we want to improve the collected knowledge by extending the articles and adding new articles to the collection.">
+      
+      
+      
+        <link rel="canonical" href="https://cp-algorithm.sideco.ir/string/z-function.html">
+      
+      
+        <link rel="prev" href="prefix-function.html">
+      
+      
+        <link rel="next" href="suffix-array.html">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="خوراک آراس‌اس" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="خوراک آراساس محتویات به‌روز شده" href="../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.19">
+    
+    
+      
+        <title>تابع Z - Algorithms for Competitive Programming</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/rtl.css">
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-Y7FJNDTB9C"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-Y7FJNDTB9C",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-Y7FJNDTB9C",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  <script src="../assets/javascripts/toggle-sidebar.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="rtl" data-md-color-scheme="cpalgo" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#z-function" class="md-skip">
+          پرش به محتویات
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      <!-- overwrite:
+- scroll to top when clicking title
+- go to main page when clicking the site title
+-->
+
+
+<header class="md-header" data-md-component="header">
+  <script>
+    function scrollToTop() {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+  </script>
+  <nav class="md-header__inner md-grid" aria-label="header.title">
+    <a href=".." title="Algorithms for Competitive Programming" class="md-header__button md-logo" aria-label="Algorithms for Competitive Programming" data-md-component="logo">
+      
+  <img src="../favicon.ico" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            <a href=".." title="Algorithms for Competitive Programming" aria-label="Algorithms for Competitive Programming" data-md-component="logo">
+              Algorithms for Competitive Programming
+            </a>
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            <a href="#" onclick="scrollToTop()">
+              
+                تابع Z
+              
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="cpalgo" data-md-color-primary="deep-purple" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="جستجو" placeholder="جستجو" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="جستجو">
+        
+        <button type="reset" class="md-search__icon md-icon" title="بازنشانی" aria-label="بازنشانی" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            راه‌اندازی جستجو
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/2077DevWave/cp-algorithms-fa" title="رفتن به مخزن" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    2077DevWave/cp-algorithms-fa
+  </div>
+</a>
+      </div>
+    
+      <div class="rss icon">
+      <a href="https://cp-algorithm.sideco.ir/feed_rss_created.xml" title="RSS" class="md-content__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M0 64c0-17.7 14.3-32 32-32 229.8 0 416 186.2 416 416 0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96 14.3 96 0 81.7 0 64m0 352a64 64 0 1 1 128 0 64 64 0 1 1-128 0m32-256c159.1 0 288 128.9 288 288 0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224-17.7 0-32-14.3-32-32s14.3-32 32-32"/></svg>
+      </a>
+      </div>
+
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="هدایت" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Algorithms for Competitive Programming" class="md-nav__button md-logo" aria-label="Algorithms for Competitive Programming" data-md-component="logo">
+      
+  <img src="../favicon.ico" alt="logo">
+
+    </a>
+    Algorithms for Competitive Programming
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/2077DevWave/cp-algorithms-fa" title="رفتن به مخزن" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    2077DevWave/cp-algorithms-fa
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    خانه
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            خانه
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    صفحه اصلی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../navigation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ناوبری
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    فهرست برچسب‌ها
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contrib.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    چگونه مشارکت کنیم
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code_of_conduct.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    آیین‌نامه رفتاری
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preview.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    پیش‌نمایش
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    جبر
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            جبر
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    مبانی
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            مبانی
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/binary-exp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    توان‌رسانی دودویی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/euclid-algorithm.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    الگوریتم اقلیدس برای محاسبه بزرگترین مقسوم‌علیه مشترک
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/extended-euclid-algorithm.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    الگوریتم اقلیدس تعمیم‌یافته
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/linear-diophantine-equation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    معادلات سیاله خطی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/fibonacci-numbers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    اعداد فیبوناچی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    اعداد اول
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            اعداد اول
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/sieve-of-eratosthenes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    غربال اراتستن
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/prime-sieve-linear.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    غربال خطی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/primality_tests.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    آزمون‌های اول بودن
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/factorization.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تجزیه اعداد صحیح
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    توابع نظریه اعداد
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            توابع نظریه اعداد
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/phi-function.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تابع فی اویلر
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/divisors.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تعداد مقسوم‌علیه‌ها / جمع مقسوم‌علیه‌ها
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    حساب پیمانه‌ای
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            حساب پیمانه‌ای
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/module-inverse.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    وارون پیمانه‌ای
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/linear_congruence_equation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    معادله همنهشتی خطی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/chinese-remainder-theorem.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    قضیه باقیمانده چینی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/garners-algorithm.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    الگوریتم Garner
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/factorial-modulo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    فاکتوریل به پیمانه p
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/discrete-log.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    لگاریتم گسسته
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/primitive-root.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ریشه اولیه
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/discrete-root.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ریشه گسسته
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/montgomery_multiplication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ضرب Montgomery
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    دستگاه‌های اعداد
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            دستگاه‌های اعداد
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/balanced-ternary.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    سه‌سه‌ای متوازن
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/gray-code.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    کد گِرِی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    متفرقه
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            متفرقه
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/bit-manipulation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    عملیات بیتی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/all-submasks.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    شمارش زیرماسک‌های یک بیت‌ماسک
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/big-integer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    محاسبات با دقت دلخواه
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/fft.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تبدیل سریع فوریه
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/polynomial.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    عملیات روی چندجمله‌ای‌ها و سری‌ها
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/continued-fractions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    کسرهای مسلسل
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/factoring-exp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تجزیه توان
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    ساختمان داده‌ها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            ساختمان داده‌ها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    مبانی
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            مبانی
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_structures/stack_queue_modification.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    پشته کمینه / صف کمینه
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_structures/sparse-table.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    جدول پراکنده
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    درخت‌ها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            درخت‌ها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_structures/disjoint_set_union.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ساختار داده اجتماع-جداگانه
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_structures/fenwick.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    درخت فن‌ویک
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_structures/sqrt_decomposition.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تجزیه رادیکالی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_structures/segment_tree.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    درخت بازه‌ها
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_structures/treap.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تریپ (Treap)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_structures/sqrt-tree.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    درخت رادیکالی (Sqrt Tree)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_structures/randomized_heap.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    هیپ تصادفی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    پیشرفته
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            پیشرفته
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_structures/deleting_in_log_n.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    حذف از یک ساختمان داده در O(T(n) log n)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    برنامه‌نویسی پویا
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            برنامه‌نویسی پویا
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_programming/intro-to-dp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مقدمه‌ای بر برنامه‌نویسی پویا
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_programming/knapsack.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مسئله کوله‌پشتی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    بهینه‌سازی‌های برنامه‌نویسی پویا
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            بهینه‌سازی‌های برنامه‌نویسی پویا
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_programming/divide-and-conquer-dp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    برنامه‌نویسی پویای تقسیم و غلبه
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_programming/knuth-optimization.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    بهینه‌سازی Knuth
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    مسائل
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            مسائل
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_programming/profile-dynamics.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    برنامه‌نویسی پویا روی پروفایل شکسته. مسئله "پارکت"
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic_programming/zero_matrix.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن بزرگترین زیرماتریس صفر
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    پردازش رشته
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            پردازش رشته
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    مبانی
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            مبانی
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="string-hashing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    هشینگ رشته
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rabin-karp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    الگوریتم رابین-کارپ برای تطبیق رشته
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="prefix-function.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تابع پیشوندی - کنوث-موریس-پرت (KMP)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    تابع Z
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="z-function.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    تابع Z
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="فهرست موضوعات">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      فهرست موضوعات
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      مثال‌ها
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      الگوریتم ساده
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#z-function_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      الگوریتم بهینه برای محاسبه Z-function
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      پیاده‌سازی
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="پیاده‌سازی">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      توضیحاتی در مورد این پیاده‌سازی
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      رفتار مجانبی الگوریتم
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      کاربردها
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="کاربردها">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      جستجوی زیررشته
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      تعداد زیررشته‌های متمایز در یک رشته
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      فشرده‌سازی رشته
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      مسائل تمرینی
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="suffix-array.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    آرایه پسوندی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="aho_corasick.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    الگوریتم آهو-کوراسیک
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    پیشرفته
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            پیشرفته
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="suffix-tree-ukkonen.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    درخت پسوندی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="suffix-automaton.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    اتوماتای پسوندی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lyndon_factorization.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تجزیه لیندون
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    مسائل
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            مسائل
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="expression_parsing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تجزیه عبارت
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="manacher.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    الگوریتم ماناکر - یافتن تمام زیرپالیندروم‌ها در O(N)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="main_lorentz.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن تکرارها
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    جبر خطی
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            جبر خطی
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    ماتریس‌ها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            ماتریس‌ها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linear_algebra/linear-system-gauss.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    گاوس و دستگاه معادلات خطی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linear_algebra/determinant-gauss.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    گاوس و دترمینان
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linear_algebra/determinant-kraut.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kraut و دترمینان
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linear_algebra/rank-matrix.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    رتبه ماتریس
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    ترکیبیات
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            ترکیبیات
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    مبانی
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            مبانی
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algebra/factorial-divisors.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن توان مقسوم‌علیه فاکتوریل
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorics/binomial-coefficients.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ضرایب دوجمله‌ای
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorics/catalan-numbers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    اعداد کاتالان
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    تکنیک‌ها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            تکنیک‌ها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorics/inclusion-exclusion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    اصل شمول و عدم شمول
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorics/burnside.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    لم برنساید / قضیه شمارش پولیا
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorics/stars_and_bars.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ستاره‌ها و خطوط
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorics/generating_combinations.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تولید تمام ترکیب‌های Kتایی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    مسائل
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            مسائل
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorics/bishops-on-chessboard.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    قرار دادن فیل‌ها در صفحه شطرنج
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorics/bracket_sequences.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    دنباله‌های پرانتز متوازن
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatorics/counting_labeled_graphs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    شمارش گراف‌های برچسب‌دار
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    روش‌های عددی
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            روش‌های عددی
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    جستجو
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            جستجو
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../num_methods/binary_search.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    جستجوی دودویی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../num_methods/ternary_search.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    جستجوی سه‌سه‌ای
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../num_methods/roots_newton.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    روش نیوتن برای یافتن ریشه‌ها
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../num_methods/simulated_annealing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تبرید شبیه‌سازی‌شده
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    انتگرال‌گیری
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            انتگرال‌گیری
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../num_methods/simpson-integration.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    انتگرال‌گیری با فرمول سیمپسون
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    هندسه
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            هندسه
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_1" id="__nav_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    عملیات مقدماتی
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            عملیات مقدماتی
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/basic-geometry.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    هندسه پایه
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/segment-to-line.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن معادله خط یک پاره‌خط
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/lines-intersection.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    نقطه تقاطع خطوط
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/check-segments-intersection.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    بررسی تقاطع دو پاره‌خط
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/segments-intersection.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تقاطع پاره‌خط‌ها
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/circle-line-intersection.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تقاطع دایره و خط
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/circle-circle-intersection.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تقاطع دو دایره
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/tangents-to-two-circles.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مماس‌های مشترک دو دایره
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/length-of-segments-union.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    طول اجتماع پاره‌خط‌ها
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    چندضلعی‌ها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            چندضلعی‌ها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/oriented-triangle-area.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مساحت جهت‌دار مثلث
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/area-of-simple-polygon.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مساحت چندضلعی ساده
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/point-in-convex-polygon.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    بررسی تعلق نقاط به چندضلعی محدب در O(log N)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/minkowski.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    جمع مینکوفسکی چندضلعی‌های محدب
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/picks-theorem.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    قضیه پیک - مساحت چندضلعی‌های شبکه‌ای
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/lattice-points.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    نقاط شبکه‌ای چندضلعی غیرشبکه‌ای
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_3" id="__nav_9_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    پوش محدب
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_3">
+            <span class="md-nav__icon md-icon"></span>
+            پوش محدب
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/convex-hull.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ساخت پوش محدب
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/convex_hull_trick.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ترفند پوش محدب و درخت Li Chao
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_4" id="__nav_9_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    خط جاروب
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_4">
+            <span class="md-nav__icon md-icon"></span>
+            خط جاروب
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/intersecting_segments.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    جستجوی یک جفت پاره‌خط متقاطع
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_5" id="__nav_9_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    گراف‌های مسطح
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_5">
+            <span class="md-nav__icon md-icon"></span>
+            گراف‌های مسطح
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/planar.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن وجه‌های یک گراف مسطح
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/point-location.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مکان‌یابی نقطه در O(log N)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_6" id="__nav_9_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    متفرقه
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_6">
+            <span class="md-nav__icon md-icon"></span>
+            متفرقه
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/nearest_points.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن نزدیک‌ترین جفت نقاط
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/delaunay.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مثلث‌بندی دلونی و دیاگرام ورونوی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/vertical_decomposition.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تجزیه عمودی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/halfplane-intersection.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تقاطع نیم‌صفحه‌ها - الگوریتم S&amp;I در O(N log N)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../geometry/manhattan-distance.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    فاصله منهتن
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    گراف‌ها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            گراف‌ها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    پیمایش گراف
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            پیمایش گراف
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/breadth-first-search.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    جستجوی اول سطح (BFS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/depth-first-search.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    جستجوی اول عمق (DFS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_2" id="__nav_10_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    مؤلفه‌های همبندی، پل‌ها، نقاط مفصلی
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_2">
+            <span class="md-nav__icon md-icon"></span>
+            مؤلفه‌های همبندی، پل‌ها، نقاط مفصلی
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/search-for-connected-components.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن مؤلفه‌های همبندی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/bridge-searching.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن پل‌ها در O(N+M)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/bridge-searching-online.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن پل‌ها به صورت آنلاین
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/cutpoints.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن نقاط مفصلی در O(N+M)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/strongly-connected-components.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مؤلفه‌های قویاً همبند و گراف انقباضی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/strong-orientation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    جهت‌دهی قوی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_3" id="__nav_10_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    کوتاه‌ترین مسیرهای تک‌مبدأ
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_3">
+            <span class="md-nav__icon md-icon"></span>
+            کوتاه‌ترین مسیرهای تک‌مبدأ
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/dijkstra.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    دایکسترا - یافتن کوتاه‌ترین مسیرها از یک رأس معین
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/dijkstra_sparse.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    دایکسترا روی گراف‌های خلوت
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/bellman_ford.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    بلمن-فورد - یافتن کوتاه‌ترین مسیرها با وزن‌های منفی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/01_bfs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    جستجوی اول سطح صفر و یک (0-1 BFS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/desopo_pape.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    الگوریتم D'Esopo-Pape
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_4" id="__nav_10_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    کوتاه‌ترین مسیرهای بین تمام زوج‌ها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_4">
+            <span class="md-nav__icon md-icon"></span>
+            کوتاه‌ترین مسیرهای بین تمام زوج‌ها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/all-pair-shortest-path-floyd-warshall.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    فلوید-وارشال - یافتن تمام کوتاه‌ترین مسیرها
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/fixed_length_paths.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تعداد مسیرها با طول ثابت / کوتاه‌ترین مسیرها با طول ثابت
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_5" id="__nav_10_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    درخت‌های پوشا
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_5">
+            <span class="md-nav__icon md-icon"></span>
+            درخت‌های پوشا
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/mst_prim.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    درخت پوشای کمینه - الگوریتم پریم
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/mst_kruskal.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    درخت پوشای کمینه - کروسکال
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/mst_kruskal_with_dsu.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    درخت پوشای کمینه - کروسکال با ساختار داده اجتماع-جداگانه
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/second_best_mst.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    دومین درخت پوشای کمینه بهتر - با استفاده از کروسکال و پایین‌ترین جد مشترک
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/kirchhoff-theorem.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    قضیه کیرشهف
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/pruefer_code.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    کد پروفر
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_6" id="__nav_10_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    دورها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_6">
+            <span class="md-nav__icon md-icon"></span>
+            دورها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/finding-cycle.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    بررسی غیرمدور بودن گراف و یافتن دور در O(M)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/finding-negative-cycle-in-graph.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    یافتن دور منفی در گراف
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/euler_path.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مسیر اویلری
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_7" id="__nav_10_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    پایین‌ترین جد مشترک
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_7">
+            <span class="md-nav__icon md-icon"></span>
+            پایین‌ترین جد مشترک
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/lca.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    پایین‌ترین جد مشترک (LCA)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/lca_binary_lifting.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    پایین‌ترین جد مشترک - پرش دودویی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/lca_farachcoltonbender.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    پایین‌ترین جد مشترک - الگوریتم Farach-Colton و Bender
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/rmq_linear.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    حل RMQ با یافتن LCA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/lca_tarjan.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    پایین‌ترین جد مشترک - الگوریتم آفلاین Tarjan
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_8" id="__nav_10_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    شار و مسائل مرتبط
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_8">
+            <span class="md-nav__icon md-icon"></span>
+            شار و مسائل مرتبط
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/edmonds_karp.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    شار بیشینه - فورد-فالکرسون و ادموندز-کارپ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/push-relabel.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    شار بیشینه - الگوریتم Push-relabel
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/push-relabel-faster.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    شار بیشینه - الگوریتم بهبودیافته Push-relabel
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/dinic.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    شار بیشینه - الگوریتم دینیک
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/mpm.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    شار بیشینه - الگوریتم MPM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/flow_with_demands.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    شار با تقاضا
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/min_cost_flow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    شار با کمترین هزینه
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/Assignment-problem-min-flow.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مسئله تخصیص
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_9" id="__nav_10_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    تطابق و مسائل مرتبط
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_9">
+            <span class="md-nav__icon md-icon"></span>
+            تطابق و مسائل مرتبط
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/bipartite-check.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    بررسی دوبخشی بودن گراف
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/kuhn_maximum_bipartite_matching.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    الگوریتم کوهن - تطابق بیشینه در گراف دوبخشی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/hungarian-algorithm.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    الگوریتم مجارستانی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_10" id="__nav_10_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    متفرقه
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_10">
+            <span class="md-nav__icon md-icon"></span>
+            متفرقه
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/topological-sort.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مرتب‌سازی توپولوژیک
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/edge_vertex_connectivity.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    همبندی یالی / همبندی رأسی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/tree_painting.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    رنگ‌آمیزی درخت
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/2SAT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    دو-ارضاپذیری (2-SAT)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../graph/hld.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    تجزیه سنگین-سبک
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    متفرقه
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            متفرقه
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_1" id="__nav_11_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    دنباله‌ها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_1">
+            <span class="md-nav__icon md-icon"></span>
+            دنباله‌ها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sequences/rmq.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مسئله RMQ (پرس‌وجوی کمینه بازه - کوچکترین عنصر در یک بازه)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sequences/longest_increasing_subsequence.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    طولانی‌ترین زیردنباله صعودی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../others/maximum_average_segment.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    جستجوی زیربازه با بیشترین/کمترین مجموع
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sequences/k-th.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    آماره مرتبه K-ام در O(N)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sequences/mex.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مسئله MEX (کمترین عنصر حذف‌شده در یک آرایه)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    نظریه بازی‌ها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            نظریه بازی‌ها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game_theory/games_on_graphs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    بازی‌ها روی گراف‌های دلخواه
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game_theory/sprague-grundy-nim.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    قضیه اسپراگ-گراندی. نیم (Nim)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_3" id="__nav_11_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    زمان‌بندی‌ها
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_3">
+            <span class="md-nav__icon md-icon"></span>
+            زمان‌بندی‌ها
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedules/schedule_one_machine.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    زمان‌بندی کارها روی یک ماشین
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedules/schedule_two_machines.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    زمان‌بندی کارها روی دو ماشین
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schedules/schedule-with-completion-duration.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    زمان‌بندی بهینه کارها با توجه به مهلت‌ها و مدت‌زمانشان
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_4" id="__nav_11_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    متفرقه
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_4">
+            <span class="md-nav__icon md-icon"></span>
+            متفرقه
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../others/tortoise_and_hare.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    الگوریتم لاک‌پشت و خرگوش (تشخیص دور در لیست پیوندی)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../others/josephus_problem.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    مسئله یوسف
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../others/15-puzzle.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    بازی پازل ۱۵: وجود راه‌حل
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../others/stern_brocot_tree_farey_sequences.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    درخت اشترن-بروکوت و دنباله‌های فارِی
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  <script type="text/javascript">
+window.onload = function() {
+	const newIssueURL = "https://github.com/2077DevWave/cp-algorithms-fa/issues/new";
+  const issueTitle = "Problem on article " + "\u062a\u0627\u0628\u0639 Z";
+	const issueBody = `
+ **Article:** [`+ "\u062a\u0627\u0628\u0639 Z" + `](${window.location.href})
+
+**Problem:**
+<!--
+Describe the issue of this article in detail.
+-->
+`;
+  var issue_a = document.getElementById("report_issue_a");
+  issue_a.href = `${newIssueURL}?` + `title=${encodeURIComponent(issueTitle)}&` + `body=${encodeURIComponent(issueBody)}`;
+}
+</script>
+
+<a href="https://github.com/2077DevWave/cp-algorithms-fa/edit/main/src/string/z-function.md" title="این صفحه را ویرایش کنید" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+</a>
+<a id="report_issue_a" href="" title="Report a problem" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14h-2V9h2m0 9h-2v-2h2M1 21h22L12 2z"/></svg>
+</a>
+<a href="https://github.com/2077DevWave/cp-algorithms-fa/commits/main/src/string/z-function.md" title="Page authors" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><rect fill="none" height="24" width="24"/></g><g><g><g><path d="M12,8.5c-0.91,0-2.75,0.46-2.75,1.38v4.62h1.5V19h2.5v-4.5h1.5V9.88C14.75,8.97,12.91,8.5,12,8.5z"/><path d="M12,2C6.47,2,2,6.47,2,12s4.47,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.42,0-8-3.58-8-8s3.58-8,8-8s8,3.58,8,8 S16.42,20,12,20z"/><circle cx="12" cy="6.5" r="1.5"/></g></g></g></svg>
+</a>
+
+
+<!-- Construct the dict of author's contribution percentage -->
+
+
+
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+    
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+  
+  
+  
+    
+  
+    
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+
+
+
+
+<!-- Date of last commit -->
+<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+
+  اخرین بروزرسانی:
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="6 ژوئیهٔ 2025 13:36:29 UTC">6 ژوئیهٔ 2025</span>&emsp;
+
+<!-- Tags -->
+
+  
+  
+  
+    
+  
+
+
+  
+    <a href="../tags.html#tag:ai-translated" class="md-tag">
+      AI Translated
+    </a>
+  
+
+  
+    <a href="https://e-maxx.ru/algo/z-function" class="md-tag">
+      From: e-maxx.ru
+    </a>
+  
+
+</ul>
+
+
+<h1 id="z-function">Z-function و نحوه‌ی محاسبه‌ی آن<a class="headerlink" href="#z-function" title="Permanent link">&para;</a></h1>
+<p>فرض کنید یک رشته <span class="arithmatex">$s$</span> به طول <span class="arithmatex">$n$</span> به ما داده شده است. <strong>Z-function</strong> برای این رشته، یک آرایه به طول <span class="arithmatex">$n$</span> است که در آن، عنصر <span class="arithmatex">$i$</span>-ام برابر با بزرگترین تعداد کاراکترهایی است که از موقعیت <span class="arithmatex">$i$</span> شروع شده و با کاراکترهای ابتدایی رشته <span class="arithmatex">$s$</span> یکسان هستند.</p>
+<p>به عبارت دیگر، <span class="arithmatex">$z[i]$</span> طول بلندترین رشته‌ای است که همزمان پیشوندی از <span class="arithmatex">$s$</span> و پیشوندی از پسوند <span class="arithmatex">$s$</span> که از خانه‌ی <span class="arithmatex">$i$</span> شروع می‌شود، است.</p>
+<p><strong>نکته.</strong> در این مقاله، برای جلوگیری از ابهام، از اندیس‌گذاری ۰-پایه استفاده می‌کنیم؛ یعنی اولین کاراکتر <span class="arithmatex">$s$</span> اندیس ۰ و آخرین کاراکتر اندیس <span class="arithmatex">$n-1$</span> را دارد.</p>
+<p>اولین عنصر Z-function، یعنی <span class="arithmatex">$z[0]$</span>، به طور کلی تعریف مشخصی ندارد. در این مقاله فرض می‌کنیم که مقدار آن صفر است (هرچند این موضوع تغییری در پیاده‌سازی الگوریتم ایجاد نمی‌کند).</p>
+<p>این مقاله الگوریتمی برای محاسبه‌ی Z-function در زمان <span class="arithmatex">$O(n)$</span> و همچنین کاربردهای مختلف آن را ارائه می‌دهد.</p>
+<h2 id="_1">مثال‌ها<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>برای مثال، در اینجا مقادیر Z-function برای رشته‌های مختلف محاسبه شده است:</p>
+<ul>
+<li>"aaaaa" - <span class="arithmatex">$[0, 4, 3, 2, 1]$</span></li>
+<li>"aaabaab" - <span class="arithmatex">$[0, 2, 1, 0, 2, 1, 0]$</span></li>
+<li>"abacaba" - <span class="arithmatex">$[0, 0, 1, 0, 3, 0, 1]$</span></li>
+</ul>
+<h2 id="_2">الگوریتم ساده<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>تعریف رسمی را می‌توان در پیاده‌سازی ساده‌ی زیر با پیچیدگی <span class="arithmatex">$O(n^2)$</span> نمایش داد.</p>
+<div class="highlight"><pre><span></span><code><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">z_function_trivial</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">z</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">z</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>ما به سادگی در تمام موقعیت‌های <span class="arithmatex">$i$</span> پیمایش می‌کنیم و برای هر کدام <span class="arithmatex">$z[i]$</span> را به‌روز می‌کنیم، با شروع از <span class="arithmatex">$z[i] = 0$</span> و افزایش آن تا زمانی که به یک عدم تطابق برخورد کنیم (و تا زمانی که به انتهای خط نرسیم).</p>
+<p>البته، این یک پیاده‌سازی بهینه نیست. اکنون به ساخت یک پیاده‌سازی بهینه خواهیم پرداخت.</p>
+<h2 id="z-function_1">الگوریتم بهینه برای محاسبه Z-function<a class="headerlink" href="#z-function_1" title="Permanent link">&para;</a></h2>
+<p>برای به دست آوردن یک الگوریتم بهینه، مقادیر <span class="arithmatex">$z[i]$</span> را به ترتیب از <span class="arithmatex">$i = 1$</span> تا <span class="arithmatex">$n - 1$</span> محاسبه می‌کنیم، اما همزمان، هنگام محاسبه‌ی یک مقدار جدید، سعی می‌کنیم از مقادیر محاسبه‌شده‌ی قبلی بهترین استفاده‌ی ممکن را ببریم.</p>
+<p>برای اختصار، زیررشته‌هایی که با پیشوندی از <span class="arithmatex">$s$</span> منطبق هستند را <strong>تطابق‌های قطعه‌ای</strong> می‌نامیم. برای مثال، مقدار Z-function مورد نظر، <span class="arithmatex">$z[i]$</span>، طول تطابق قطعه‌ای است که از موقعیت <span class="arithmatex">$i$</span> شروع می‌شود (و در موقعیت <span class="arithmatex">$i + z[i] - 1$</span> پایان می‌یابد).</p>
+<p>برای این کار، ما اندیس‌های <span class="arithmatex">$[l, r)$</span> <strong>راست‌ترین تطابق قطعه‌ای</strong> را نگه می‌داریم. یعنی، در میان تمام قطعات تطابقی که پیدا کرده‌ایم، آنی را نگه می‌داریم که در سمت راست‌ترین نقطه تمام می‌شود. در واقع، اندیس <span class="arithmatex">$r$</span> را می‌توان به عنوان «مرزی» در نظر گرفت که رشته <span class="arithmatex">$s$</span> تا آنجا توسط الگوریتم پیمایش شده است؛ هر چیزی فراتر از آن نقطه هنوز ناشناخته است.</p>
+<p>سپس، اگر اندیس کنونی (که باید مقدار بعدی Z-function را برای آن محاسبه کنیم) برابر با <span class="arithmatex">$i$</span> باشد، یکی از دو گزینه را داریم:</p>
+<ul>
+<li>
+<p><span class="arithmatex">$i \geq r$</span> -- موقعیت کنونی <strong>خارج از</strong> آن چیزی است که قبلاً پردازش کرده‌ایم.</p>
+<p>سپس <span class="arithmatex">$z[i]$</span> را با <strong>الگوریتم ساده</strong> محاسبه می‌کنیم (یعنی فقط مقایسه کاراکتر به کاراکتر). توجه داشته باشید که در پایان، اگر <span class="arithmatex">$z[i] &gt; 0$</span> باشد، باید اندیس‌های راست‌ترین قطعه را به‌روز کنیم، زیرا تضمین می‌شود که <span class="arithmatex">$r$</span> جدید یعنی <span class="arithmatex">$i + z[i]$</span> از <span class="arithmatex">$r$</span> قبلی بهتر است.</p>
+</li>
+<li>
+<p><span class="arithmatex">$i &lt; r$</span> -- موقعیت کنونی داخل تطابق قطعه‌ای فعلی <span class="arithmatex">$[l, r)$</span> است.</p>
+<p>سپس می‌توانیم از مقادیر Z-function محاسبه‌شده برای «مقداردهی اولیه» به <span class="arithmatex">$z[i]$</span> استفاده کنیم (که قطعاً بهتر از «شروع از صفر» است)، شاید حتی با یک عدد بزرگ.</p>
+<p>برای این کار، مشاهده می‌کنیم که زیررشته‌های <span class="arithmatex">$s[l \dots r)$</span> و <span class="arithmatex">$s[0 \dots r-l)$</span> <strong>تطابق دارند</strong>. این بدان معناست که به عنوان یک تقریب اولیه برای <span class="arithmatex">$z[i]$</span> می‌توانیم مقداری را که قبلاً برای قطعه متناظر <span class="arithmatex">$s[0 \dots r-l)$</span> محاسبه شده است، یعنی <span class="arithmatex">$z[i-l]$</span>، در نظر بگیریم.</p>
+<p>با این حال، مقدار <span class="arithmatex">$z[i-l]$</span> ممکن است بیش از حد بزرگ باشد: وقتی برای موقعیت <span class="arithmatex">$i$</span> اعمال شود، ممکن است از اندیس <span class="arithmatex">$r$</span> فراتر رود. این مجاز نیست زیرا ما در مورد کاراکترهای سمت راست <span class="arithmatex">$r$</span> چیزی نمی‌دانیم: آنها ممکن است با آنچه لازم است متفاوت باشند.</p>
+<p>در اینجا <strong>یک مثال</strong> از سناریوی مشابه آورده شده است:</p>
+<div class="arithmatex">$$ s = "aaaabaa" $$</div>
+<p>هنگامی که به آخرین موقعیت (<span class="arithmatex">$i = 6$</span>) می‌رسیم، قطعه تطابق فعلی <span class="arithmatex">$[5, 7)$</span> خواهد بود. موقعیت <span class="arithmatex">$6$</span> با موقعیت <span class="arithmatex">$6 - 5 = 1$</span> مطابقت دارد که مقدار Z-function برای آن <span class="arithmatex">$z[1] = 3$</span> است. واضح است که نمی‌توانیم <span class="arithmatex">$z[6]$</span> را با <span class="arithmatex">$3$</span> مقداردهی اولیه کنیم؛ این کاملاً نادرست خواهد بود. حداکثر مقداری که می‌توانیم با آن مقداردهی اولیه کنیم <span class="arithmatex">$1$</span> است - زیرا این بزرگترین مقداری است که ما را از اندیس <span class="arithmatex">$r$</span> قطعه تطابق <span class="arithmatex">$[l, r)$</span> فراتر نمی‌برد.</p>
+<p>بنابراین، به عنوان یک <strong>تقریب اولیه</strong> برای <span class="arithmatex">$z[i]$</span> می‌توانیم با خیال راحت در نظر بگیریم:</p>
+<div class="arithmatex">$$ z_0[i] = \min(r - i,\; z[i-l]) $$</div>
+<p>پس از مقداردهی اولیه <span class="arithmatex">$z[i]$</span> به <span class="arithmatex">$z_0[i]$</span>، سعی می‌کنیم <span class="arithmatex">$z[i]$</span> را با اجرای <strong>الگوریتم ساده</strong> افزایش دهیم - زیرا به طور کلی، پس از مرز <span class="arithmatex">$r$</span>، نمی‌توانیم بدانیم که آیا تطابق قطعه ادامه خواهد داشت یا نه.</p>
+</li>
+</ul>
+<p>بنابراین، کل الگوریتم به دو حالت تقسیم می‌شود که فقط در <strong>مقدار اولیه</strong> <span class="arithmatex">$z[i]$</span> تفاوت دارند: در حالت اول فرض می‌شود صفر است، در حالت دوم توسط مقادیر محاسبه‌شده‌ی قبلی تعیین می‌شود (با استفاده از فرمول بالا). پس از آن، هر دو شاخه این الگوریتم را می‌توان به پیاده‌سازی <strong>الگوریتم ساده</strong> کاهش داد، که بلافاصله پس از مشخص کردن مقدار اولیه شروع می‌شود.</p>
+<p>الگوریتم بسیار ساده از آب در می‌آید. با وجود اینکه در هر تکرار الگوریتم ساده اجرا می‌شود، ما پیشرفت قابل توجهی داشته‌ایم و الگوریتمی به دست آورده‌ایم که در زمان خطی اجرا می‌شود. در ادامه ثابت خواهیم کرد که زمان اجرا خطی است.</p>
+<h2 id="_3">پیاده‌سازی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>پیاده‌سازی کاملاً مختصر است:</p>
+<div class="highlight"><pre><span></span><code><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">z_function</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">z</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">l</span><span class="p">]);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">while</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">            </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">z</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="_4">توضیحاتی در مورد این پیاده‌سازی<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>کل راه حل به صورت تابعی ارائه شده است که یک آرایه به طول <span class="arithmatex">$n$</span> - یعنی Z-function رشته <span class="arithmatex">$s$</span> - را برمی‌گرداند.</p>
+<p>آرایه <span class="arithmatex">$z$</span> در ابتدا با صفر پر می‌شود. فرض می‌شود که راست‌ترین قطعه تطابق فعلی <span class="arithmatex">$[0; 0)$</span> است (یعنی یک قطعه عمداً کوچک که هیچ <span class="arithmatex">$i$</span> را شامل نمی‌شود).</p>
+<p>داخل حلقه برای <span class="arithmatex">$i = 1 \dots n - 1$</span> ابتدا مقدار اولیه <span class="arithmatex">$z[i]$</span> را تعیین می‌کنیم - این مقدار یا صفر باقی می‌ماند یا با استفاده از فرمول بالا محاسبه می‌شود.</p>
+<p>پس از آن، الگوریتم ساده تلاش می‌کند تا مقدار <span class="arithmatex">$z[i]$</span> را تا حد امکان افزایش دهد.</p>
+<p>در نهایت، اگر لازم باشد (یعنی اگر <span class="arithmatex">$i + z[i] &gt; r$</span> باشد)، راست‌ترین قطعه تطابق <span class="arithmatex">$[l, r)$</span> را به‌روز می‌کنیم.</p>
+<h2 id="_5">رفتار مجانبی الگوریتم<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>ما ثابت خواهیم کرد که الگوریتم بالا زمان اجرای خطی نسبت به طول رشته دارد - یعنی <span class="arithmatex">$O(n)$</span> است.</p>
+<p>اثبات بسیار ساده است.</p>
+<p>تمرکز ما بر روی حلقه تو در توی <code>while</code> است، زیرا بقیه موارد فقط مجموعه‌ای از عملیات با هزینه ثابت هستند که در مجموع <span class="arithmatex">$O(n)$</span> می‌شوند.</p>
+<p>نشان خواهیم داد که <strong>هر تکرار</strong> حلقه <code>while</code> مرز راست <span class="arithmatex">$r$</span> از قطعه تطابق را افزایش می‌دهد.</p>
+<p>برای این کار، هر دو شاخه الگوریتم را در نظر می‌گیریم:</p>
+<ul>
+<li>
+<p><span class="arithmatex">$i \geq r$</span></p>
+<p>در این حالت، یا حلقه <code>while</code> هیچ تکراری نخواهد داشت (اگر <span class="arithmatex">$s[0] \ne s[i]$</span>)، یا چند تکرار خواهد داشت که از موقعیت <span class="arithmatex">$i$</span> شروع شده و هر بار یک کاراکتر به سمت راست حرکت می‌کند. پس از آن، مرز راست <span class="arithmatex">$r$</span> لزوماً به‌روز خواهد شد.</p>
+<p>بنابراین متوجه شدیم که وقتی <span class="arithmatex">$i \geq r$</span> است، هر تکرار حلقه <code>while</code> مقدار اندیس <span class="arithmatex">$r$</span> جدید را افزایش می‌دهد.</p>
+</li>
+<li>
+<p><span class="arithmatex">$i &lt; r$</span></p>
+<p>در این حالت، <span class="arithmatex">$z[i]$</span> را با مقدار مشخص <span class="arithmatex">$z_0$</span> که از فرمول بالا به دست آمده، مقداردهی اولیه می‌کنیم. بیایید این مقدار اولیه <span class="arithmatex">$z_0$</span> را با مقدار <span class="arithmatex">$r - i$</span> مقایسه کنیم. سه حالت خواهیم داشت:</p>
+<ul>
+<li>
+<p><span class="arithmatex">$z_0 &lt; r - i$</span></p>
+<p>ثابت می‌کنیم که در این حالت هیچ تکراری از حلقه <code>while</code> رخ نخواهد داد.</p>
+<p>اثبات آن آسان است، برای مثال با برهان خلف: اگر حلقه <code>while</code> حداقل یک تکرار داشته باشد، به این معنی است که تقریب اولیه <span class="arithmatex">$z[i] = z_0$</span> نادرست بوده (کمتر از طول واقعی تطابق). اما از آنجا که <span class="arithmatex">$s[l \dots r)$</span> و <span class="arithmatex">$s[0 \dots r-l)$</span> یکسان هستند، این امر به این معنی است که <span class="arithmatex">$z[i-l]$</span> مقدار اشتباهی را در خود نگه داشته است (کمتر از آنچه باید باشد).</p>
+<p>بنابراین، از آنجا که <span class="arithmatex">$z[i-l]$</span> صحیح و کمتر از <span class="arithmatex">$r - i$</span> است، نتیجه می‌شود که این مقدار با مقدار مورد نیاز <span class="arithmatex">$z[i]$</span> منطبق است.</p>
+</li>
+<li>
+<p><span class="arithmatex">$z_0 = r - i$</span></p>
+<p>در این حالت، حلقه <code>while</code> ممکن است چند تکرار داشته باشد، اما هر یک از آنها منجر به افزایش مقدار اندیس <span class="arithmatex">$r$</span> خواهد شد، زیرا ما مقایسه را از <span class="arithmatex">$s[r]$</span> شروع خواهیم کرد که از بازه <span class="arithmatex">$[l, r)$</span> فراتر خواهد رفت.</p>
+</li>
+<li>
+<p><span class="arithmatex">$z_0 &gt; r - i$</span></p>
+<p>این گزینه، طبق تعریف <span class="arithmatex">$z_0$</span>، غیرممکن است.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>بنابراین، ثابت کردیم که هر تکرار حلقه داخلی باعث می‌شود که اشاره‌گر <span class="arithmatex">$r$</span> به سمت راست حرکت کند. از آنجا که <span class="arithmatex">$r$</span> نمی‌تواند بیشتر از <span class="arithmatex">$n-1$</span> باشد، این بدان معناست که حلقه داخلی بیش از <span class="arithmatex">$n-1$</span> تکرار نخواهد داشت.</p>
+<p>از آنجا که بقیه الگوریتم به وضوح در <span class="arithmatex">$O(n)$</span> کار می‌کند، ثابت کردیم که کل الگوریتم محاسبه Z-function در زمان خطی اجرا می‌شود.</p>
+<h2 id="_6">کاربردها<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>اکنون به بررسی برخی از کاربردهای Z-function برای وظایف خاص می‌پردازیم.</p>
+<p>این کاربردها تا حد زیادی شبیه به کاربردهای <a href="prefix-function.html">prefix function</a> هستند.</p>
+<h3 id="_7">جستجوی زیررشته<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>برای جلوگیری از سردرگمی، <span class="arithmatex">$t$</span> را <strong>رشته متن</strong> و <span class="arithmatex">$p$</span> را <strong>الگو</strong> می‌نامیم. مسئله این است: تمام رخدادهای الگوی <span class="arithmatex">$p$</span> را در متن <span class="arithmatex">$t$</span> پیدا کنید.</p>
+<p>برای حل این مسئله، رشته جدیدی به صورت <span class="arithmatex">$s = p + \diamond + t$</span> می‌سازیم، یعنی رشته‌های <span class="arithmatex">$p$</span> و <span class="arithmatex">$t$</span> را به هم می‌چسبانیم اما یک کاراکتر جداکننده <span class="arithmatex">$\diamond$</span> نیز در وسط قرار می‌دهیم (ما <span class="arithmatex">$\diamond$</span> را طوری انتخاب می‌کنیم که مطمئناً در هیچ کجای رشته‌های <span class="arithmatex">$p$</span> یا <span class="arithmatex">$t$</span> وجود نداشته باشد).</p>
+<p>Z-function را برای <span class="arithmatex">$s$</span> محاسبه کنید. سپس برای هر <span class="arithmatex">$i$</span> در بازه <span class="arithmatex">$[0; \; \operatorname{length}(t) - 1]$</span>، مقدار متناظر <span class="arithmatex">$k = z[i + \operatorname{length}(p) + 1]$</span> را در نظر می‌گیریم. اگر <span class="arithmatex">$k$</span> برابر با <span class="arithmatex">$\operatorname{length}(p)$</span> باشد، می‌دانیم که یک رخداد از <span class="arithmatex">$p$</span> در موقعیت <span class="arithmatex">$i$</span>-ام از <span class="arithmatex">$t$</span> وجود دارد، در غیر این صورت هیچ رخدادی از <span class="arithmatex">$p$</span> در موقعیت <span class="arithmatex">$i$</span>-ام از <span class="arithmatex">$t$</span> وجود ندارد.</p>
+<p>زمان اجرا (و مصرف حافظه) <span class="arithmatex">$O(\operatorname{length}(t) + \operatorname{length}(p))$</span> است.</p>
+<h3 id="_8">تعداد زیررشته‌های متمایز در یک رشته<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>با داشتن یک رشته <span class="arithmatex">$s$</span> به طول <span class="arithmatex">$n$</span>، تعداد زیررشته‌های متمایز <span class="arithmatex">$s$</span> را بشمارید.</p>
+<p>این مسئله را به صورت تکراری حل خواهیم کرد. یعنی: با دانستن تعداد فعلی زیررشته‌های متمایز، این مقدار را پس از افزودن یک کاراکتر به انتهای <span class="arithmatex">$s$</span> دوباره محاسبه می‌کنیم.</p>
+<p>بنابراین، فرض کنید <span class="arithmatex">$k$</span> تعداد فعلی زیررشته‌های متمایز <span class="arithmatex">$s$</span> باشد. ما یک کاراکتر جدید <span class="arithmatex">$c$</span> را به انتهای <span class="arithmatex">$s$</span> اضافه می‌کنیم. بدیهی است که ممکن است زیررشته‌های جدیدی وجود داشته باشند که به این کاراکتر جدید <span class="arithmatex">$c$</span> ختم می‌شوند (یعنی تمام آن رشته‌هایی که با این نماد تمام می‌شوند و ما قبلاً با آنها روبرو نشده‌ایم).</p>
+<p>رشته <span class="arithmatex">$t = s + c$</span> را برداشته و آن را معکوس کنید (کاراکترهای آن را به ترتیب معکوس بنویسید). وظیفه ما اکنون شمارش تعداد پیشوندهایی از <span class="arithmatex">$t$</span> است که در هیچ جای دیگری از <span class="arithmatex">$t$</span> یافت نمی‌شوند. Z-function رشته <span class="arithmatex">$t$</span> را محاسبه کرده و مقدار بیشینه آن <span class="arithmatex">$z_{max}$</span> را پیدا می‌کنیم. بدیهی است که پیشوند <span class="arithmatex">$t$</span> به طول <span class="arithmatex">$z_{max}$</span> در جای دیگری در وسط <span class="arithmatex">$t$</span> نیز رخ می‌دهد. واضح است که پیشوندهای کوتاه‌تر نیز رخ می‌دهند.</p>
+<p>بنابراین، متوجه شدیم که تعداد زیررشته‌های جدیدی که هنگام اضافه شدن نماد <span class="arithmatex">$c$</span> به <span class="arithmatex">$s$</span> ظاهر می‌شوند برابر است با <span class="arithmatex">$\operatorname{length}(t) - z_{max}$</span>.</p>
+<p>در نتیجه، زمان اجرای این راه حل برای یک رشته به طول <span class="arithmatex">$n$</span> برابر با <span class="arithmatex">$O(n^2)$</span> است.</p>
+<p>شایان ذکر است که دقیقاً به همین روش می‌توانیم، باز هم در زمان <span class="arithmatex">$O(n)$</span>، تعداد زیررشته‌های متمایز را هنگام اضافه کردن یک کاراکتر به ابتدای رشته و همچنین هنگام حذف آن (از انتها یا ابتدا) دوباره محاسبه کنیم.</p>
+<h3 id="_9">فشرده‌سازی رشته<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>یک رشته <span class="arithmatex">$s$</span> به طول <span class="arithmatex">$n$</span> داده شده است. کوتاه‌ترین نمایش «فشرده» آن را پیدا کنید، یعنی: کوتاه‌ترین رشته <span class="arithmatex">$t$</span> را پیدا کنید به طوری که <span class="arithmatex">$s$</span> بتواند به صورت الحاق یک یا چند کپی از <span class="arithmatex">$t$</span> نمایش داده شود.</p>
+<p>یک راه حل این است: Z-function رشته <span class="arithmatex">$s$</span> را محاسبه کنید، در تمام <span class="arithmatex">$i$</span> هایی که <span class="arithmatex">$i$</span> بر <span class="arithmatex">$n$</span> بخش‌پذیر است، حلقه بزنید. در اولین <span class="arithmatex">$i$</span> که <span class="arithmatex">$i + z[i] = n$</span> باشد، متوقف شوید. سپس، رشته <span class="arithmatex">$s$</span> می‌تواند به طول <span class="arithmatex">$i$</span> فشرده شود.</p>
+<p>اثبات این واقعیت همانند راه حلی است که از <a href="prefix-function.html">prefix function</a> استفاده می‌کند.</p>
+<h2 id="_10">مسائل تمرینی<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://www.eolymp.com/en/problems/1309">eolymp - Blocks of string</a></li>
+<li><a href="http://codeforces.com/problemset/problem/126/B">Codeforces - Password [Difficulty: Easy]</a></li>
+<li><a href="http://uva.onlinejudge.org/index.php?option=onlinejudge&amp;page=show_problem&amp;problem=396">UVA # 455 "Periodic Strings" [Difficulty: Medium]</a></li>
+<li><a href="http://uva.onlinejudge.org/index.php?option=onlinejudge&amp;page=show_problem&amp;problem=1963">UVA # 11022 "String Factoring" [Difficulty: Medium]</a></li>
+<li><a href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=2470">UVa 11475 - Extend to Palindrome</a></li>
+<li><a href="https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=588&amp;page=show_problem&amp;problem=4450">LA 6439 - Pasti Pas!</a></li>
+<li><a href="https://www.codechef.com/problems/CHSTR">Codechef - Chef and Strings</a></li>
+<li><a href="http://codeforces.com/problemset/problem/432/D">Codeforces - Prefixes and Suffixes</a></li>
+</ul>
+
+<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+  <span class="contributors-text">Contributors:</span>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/wil93" title="wil93" data-bi-name="contributorprofile" target="_blank">wil93</a> (42.52%)</li><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (35.51%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (12.62%)</li><li><a href="https://github.com/likecs" title="likecs" data-bi-name="contributorprofile" target="_blank">likecs</a> (4.21%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (1.87%)</li><li><a href="https://github.com/huggin" title="huggin" data-bi-name="contributorprofile" target="_blank">huggin</a> (0.93%)</li><li><a href="https://github.com/anthony-huang" title="anthony-huang" data-bi-name="contributorprofile" target="_blank">anthony-huang</a> (0.93%)</li><li><a href="https://github.com/km6102" title="km6102" data-bi-name="contributorprofile" target="_blank">km6102</a> (0.47%)</li><li><a href="https://github.com/madhur4127" title="madhur4127" data-bi-name="contributorprofile" target="_blank">madhur4127</a> (0.47%)</li><li><a href="https://github.com/joaquingx" title="joaquingx" data-bi-name="contributorprofile" target="_blank">joaquingx</a> (0.47%)</li></ul>
+</ul>
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+
+<footer class="md-footer">
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Text is available under the <a href="https://github.com/2077DevWave/cp-algorithms-fa/blob/main/LICENSE">Creative Commons Attribution Share Alike 4.0 International</a> License<br/>Copyright &copy; 2014 - 2025 by <a href="https://github.com/2077DevWave/cp-algorithms-fa/graphs/contributors">cp-algorithms contributors</a>
+          </div>
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+<div class="md-social">
+  
+</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u06a9\u067e\u06cc \u0634\u062f", "clipboard.copy": "\u06a9\u067e\u06cc \u06a9\u0631\u062f\u0646", "search.result.more.one": "1 \u0645\u0648\u0631\u062f \u062f\u06cc\u06af\u0631 \u062f\u0631 \u0627\u06cc\u0646 \u0635\u0641\u062d\u0647", "search.result.more.other": "# \u0645\u0648\u0631\u062f \u062f\u06cc\u06af\u0631 \u062f\u0631 \u0627\u06cc\u0646 \u0635\u0641\u062d\u0647", "search.result.none": "\u0633\u0646\u062f\u06cc \u06cc\u0627\u0641\u062a \u0646\u0634\u062f", "search.result.one": "1 \u0633\u0646\u062f \u06cc\u0627\u0641\u062a \u0634\u062f", "search.result.other": "# \u0633\u0646\u062f \u06cc\u0627\u0641\u062a \u0634\u062f", "search.result.placeholder": "\u0628\u0631\u0627\u06cc \u0634\u0631\u0648\u0639 \u062c\u0633\u062a\u062c\u0648 \u062a\u0627\u06cc\u067e \u06a9\u0646\u06cc\u062f", "search.result.term.missing": "\u0645\u0648\u062c\u0648\u062f \u0646\u06cc\u0633\u062a", "select.version": "\u0627\u0646\u062a\u062e\u0627\u0628 \u0648\u06cc\u0631\u0627\u06cc\u0634"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../javascript/google.js"></script>
+      
+        <script src="../javascript/config.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
