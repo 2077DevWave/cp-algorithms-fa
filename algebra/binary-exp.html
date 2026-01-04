@@ -19,11 +19,14 @@
         <link rel="next" href="euclid-algorithm.html">
       
       
+        
+      
+      
         <link rel="alternate" type="application/rss+xml" title="خوراک آراس‌اس" href="../feed_rss_created.xml">
         <link rel="alternate" type="application/rss+xml" title="خوراک آراساس محتویات به‌روز شده" href="../feed_rss_updated.xml">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.19">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -31,10 +34,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -73,7 +76,6 @@
 
     
     
-    
   <script src="../assets/javascripts/toggle-sidebar.js"></script></head>
   
   
@@ -93,7 +95,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#binary-exponentiation" class="md-skip">
           پرش به محتویات
         </a>
       
@@ -213,7 +215,7 @@
         <a href="https://github.com/2077DevWave/cp-algorithms-fa" title="رفتن به مخزن" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
     2077DevWave/cp-algorithms-fa
@@ -223,7 +225,7 @@
     
       <div class="rss icon">
       <a href="https://cp-algorithm.sideco.ir/feed_rss_created.xml" title="RSS" class="md-content__button md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M0 64c0-17.7 14.3-32 32-32 229.8 0 416 186.2 416 416 0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96 14.3 96 0 81.7 0 64m0 352a64 64 0 1 1 128 0 64 64 0 1 1-128 0m32-256c159.1 0 288 128.9 288 288 0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224-17.7 0-32-14.3-32-32s14.3-32 32-32"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M0 64c0-17.7 14.3-32 32-32 229.8 0 416 186.2 416 416 0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96 14.3 96 0 81.7 0 64m0 352a64 64 0 1 1 128 0 64 64 0 1 1-128 0m32-256c159.1 0 288 128.9 288 288 0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224-17.7 0-32-14.3-32-32s14.3-32 32-32"/></svg>
       </a>
       </div>
 
@@ -267,7 +269,7 @@
       <a href="https://github.com/2077DevWave/cp-algorithms-fa" title="رفتن به مخزن" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
     2077DevWave/cp-algorithms-fa
@@ -300,9 +302,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     خانه
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -311,7 +318,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
             <span class="md-nav__icon md-icon"></span>
-            خانه
+            
+  
+    خانه
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -327,9 +338,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     صفحه اصلی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -350,9 +366,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ناوبری
+  
+
     
   </span>
+  
   
 
       </a>
@@ -373,9 +394,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     فهرست برچسب‌ها
+  
+
     
   </span>
+  
   
 
       </a>
@@ -396,9 +422,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     چگونه مشارکت کنیم
+  
+
     
   </span>
+  
   
 
       </a>
@@ -419,9 +450,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     آیین‌نامه رفتاری
+  
+
     
   </span>
+  
   
 
       </a>
@@ -442,9 +478,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پیش‌نمایش
+  
+
     
   </span>
+  
   
 
       </a>
@@ -485,9 +526,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جبر
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -496,7 +542,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
-            جبر
+            
+  
+    جبر
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -525,9 +575,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مبانی
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -536,7 +591,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_1">
             <span class="md-nav__icon md-icon"></span>
-            مبانی
+            
+  
+    مبانی
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -561,9 +620,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     توان‌رسانی دودویی
+  
+
     
   </span>
+  
   
 
           <span class="md-nav__icon md-icon"></span>
@@ -574,9 +638,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     توان‌رسانی دودویی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -597,9 +666,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        الگوریتم چطوری کار می‌کنه؟
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      الگوریتم
+      
+        پیاده‌سازی
+      
     </span>
   </a>
   
@@ -608,16 +690,9 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      پیاده‌سازی
-    </span>
-  </a>
-  
-</li>
       
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      کاربردها
+        کاربردها
+      
     </span>
   </a>
   
@@ -625,18 +700,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      محاسبه موثر توان‌های بزرگ به پیمانه یک عدد
+      
+        محاسبه بهینه توان‌های بزرگ به پیمانه یک عدد
+      
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      محاسبه موثر اعداد فیبوناچی
+      
+        محاسبه بهینه اعداد فیبوناچی
+      
     </span>
   </a>
   
@@ -645,16 +724,20 @@
           <li class="md-nav__item">
   <a href="#k" class="md-nav__link">
     <span class="md-ellipsis">
-      اعمال یک جایگشت به تعداد k بار
+      
+        اعمال یک جایگشت به تعداد k بار
+      
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      اعمال سریع مجموعه‌ای از عملیات هندسی بر روی مجموعه‌ای از نقاط
+      
+        اعمال سریع مجموعه‌ای از عملیات هندسی بر روی مجموعه‌ای از نقاط
+      
     </span>
   </a>
   
@@ -663,7 +746,9 @@
           <li class="md-nav__item">
   <a href="#k_1" class="md-nav__link">
     <span class="md-ellipsis">
-      تعداد مسیرهای به طول k در یک گراف
+      
+        تعداد مسیرهای به طول k در یک گراف
+      
     </span>
   </a>
   
@@ -672,7 +757,9 @@
           <li class="md-nav__item">
   <a href="#m" class="md-nav__link">
     <span class="md-ellipsis">
-      نوعی از توان‌رسانی دودویی: ضرب دو عدد به پیمانه m
+      
+        نوعی از توان‌رسانی دودویی: ضرب دو عدد به پیمانه m
+      
     </span>
   </a>
   
@@ -684,9 +771,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      مسائل تمرینی
+      
+        مسائل تمرینی
+      
     </span>
   </a>
   
@@ -713,9 +802,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     الگوریتم اقلیدس برای محاسبه بزرگترین مقسوم‌علیه مشترک
+  
+
     
   </span>
+  
   
 
       </a>
@@ -736,9 +830,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     الگوریتم اقلیدس تعمیم‌یافته
+  
+
     
   </span>
+  
   
 
       </a>
@@ -759,9 +858,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     معادلات سیاله خطی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -782,9 +886,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     اعداد فیبوناچی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -824,9 +933,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     اعداد اول
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -835,7 +949,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
-            اعداد اول
+            
+  
+    اعداد اول
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -851,9 +969,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     غربال اراتستن
+  
+
     
   </span>
+  
   
 
       </a>
@@ -874,9 +997,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     غربال خطی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -897,9 +1025,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     آزمون‌های اول بودن
+  
+
     
   </span>
+  
   
 
       </a>
@@ -920,9 +1053,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تجزیه اعداد صحیح
+  
+
     
   </span>
+  
   
 
       </a>
@@ -962,9 +1100,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     توابع نظریه اعداد
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -973,7 +1116,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
-            توابع نظریه اعداد
+            
+  
+    توابع نظریه اعداد
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -989,9 +1136,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تابع فی اویلر
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1012,9 +1164,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تعداد مقسوم‌علیه‌ها / جمع مقسوم‌علیه‌ها
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1054,9 +1211,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     حساب پیمانه‌ای
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1065,7 +1227,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_4">
             <span class="md-nav__icon md-icon"></span>
-            حساب پیمانه‌ای
+            
+  
+    حساب پیمانه‌ای
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1081,9 +1247,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     وارون پیمانه‌ای
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1104,9 +1275,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     معادله همنهشتی خطی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1127,9 +1303,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     قضیه باقیمانده چینی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1150,9 +1331,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     الگوریتم Garner
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1173,9 +1359,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     فاکتوریل به پیمانه p
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1196,9 +1387,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     لگاریتم گسسته
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1219,9 +1415,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ریشه اولیه
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1242,9 +1443,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ریشه گسسته
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1265,9 +1471,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ضرب Montgomery
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1307,9 +1518,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     دستگاه‌های اعداد
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1318,7 +1534,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
-            دستگاه‌های اعداد
+            
+  
+    دستگاه‌های اعداد
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1334,9 +1554,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     سه‌سه‌ای متوازن
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1357,9 +1582,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     کد گِرِی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1399,9 +1629,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     متفرقه
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1410,7 +1645,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_6">
             <span class="md-nav__icon md-icon"></span>
-            متفرقه
+            
+  
+    متفرقه
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1426,9 +1665,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     عملیات بیتی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1449,9 +1693,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     شمارش زیرماسک‌های یک بیت‌ماسک
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1472,9 +1721,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     محاسبات با دقت دلخواه
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1495,9 +1749,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تبدیل سریع فوریه
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1518,9 +1777,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     عملیات روی چندجمله‌ای‌ها و سری‌ها
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1541,9 +1805,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     کسرهای مسلسل
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1564,9 +1833,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تجزیه توان
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1613,9 +1887,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ساختمان داده‌ها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1624,7 +1903,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            ساختمان داده‌ها
+            
+  
+    ساختمان داده‌ها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1651,9 +1934,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مبانی
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1662,7 +1950,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_1">
             <span class="md-nav__icon md-icon"></span>
-            مبانی
+            
+  
+    مبانی
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1678,9 +1970,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پشته کمینه / صف کمینه
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1701,9 +1998,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جدول پراکنده
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1743,9 +2045,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     درخت‌ها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1754,7 +2061,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
-            درخت‌ها
+            
+  
+    درخت‌ها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1770,9 +2081,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ساختار داده اجتماع-جداگانه
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1793,9 +2109,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     درخت فن‌ویک
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1816,9 +2137,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تجزیه رادیکالی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1839,9 +2165,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     درخت بازه‌ها
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1862,9 +2193,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تریپ (Treap)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1885,9 +2221,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     درخت رادیکالی (Sqrt Tree)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1908,9 +2249,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     هیپ تصادفی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -1950,9 +2296,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پیشرفته
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -1961,7 +2312,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
-            پیشرفته
+            
+  
+    پیشرفته
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1977,9 +2332,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     حذف از یک ساختمان داده در O(T(n) log n)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2026,9 +2386,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     برنامه‌نویسی پویا
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2037,7 +2402,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            برنامه‌نویسی پویا
+            
+  
+    برنامه‌نویسی پویا
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2053,9 +2422,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مقدمه‌ای بر برنامه‌نویسی پویا
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2076,9 +2450,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مسئله کوله‌پشتی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2110,9 +2489,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     بهینه‌سازی‌های برنامه‌نویسی پویا
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2121,7 +2505,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_3">
             <span class="md-nav__icon md-icon"></span>
-            بهینه‌سازی‌های برنامه‌نویسی پویا
+            
+  
+    بهینه‌سازی‌های برنامه‌نویسی پویا
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2137,9 +2525,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     برنامه‌نویسی پویای تقسیم و غلبه
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2160,9 +2553,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     بهینه‌سازی Knuth
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2202,9 +2600,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مسائل
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2213,7 +2616,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_4">
             <span class="md-nav__icon md-icon"></span>
-            مسائل
+            
+  
+    مسائل
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2229,9 +2636,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     برنامه‌نویسی پویا روی پروفایل شکسته. مسئله "پارکت"
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2252,9 +2664,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن بزرگترین زیرماتریس صفر
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2301,9 +2718,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پردازش رشته
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2312,7 +2734,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            پردازش رشته
+            
+  
+    پردازش رشته
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2339,9 +2765,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مبانی
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2350,7 +2781,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_1">
             <span class="md-nav__icon md-icon"></span>
-            مبانی
+            
+  
+    مبانی
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2366,9 +2801,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     هشینگ رشته
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2389,9 +2829,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     الگوریتم رابین-کارپ برای تطبیق رشته
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2412,9 +2857,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تابع پیشوندی - کنوث-موریس-پرت (KMP)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2435,9 +2885,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تابع Z
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2458,9 +2913,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     آرایه پسوندی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2481,9 +2941,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     الگوریتم آهو-کوراسیک
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2523,9 +2988,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پیشرفته
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2534,7 +3004,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_2">
             <span class="md-nav__icon md-icon"></span>
-            پیشرفته
+            
+  
+    پیشرفته
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2550,9 +3024,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     درخت پسوندی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2573,9 +3052,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     اتوماتای پسوندی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2596,9 +3080,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تجزیه لیندون
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2638,9 +3127,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مسائل
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2649,7 +3143,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_3">
             <span class="md-nav__icon md-icon"></span>
-            مسائل
+            
+  
+    مسائل
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2665,9 +3163,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تجزیه عبارت
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2688,9 +3191,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     الگوریتم ماناکر - یافتن تمام زیرپالیندروم‌ها در O(N)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2711,9 +3219,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن تکرارها
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2760,9 +3273,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جبر خطی
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2771,7 +3289,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            جبر خطی
+            
+  
+    جبر خطی
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2798,9 +3320,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ماتریس‌ها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2809,7 +3336,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6_1">
             <span class="md-nav__icon md-icon"></span>
-            ماتریس‌ها
+            
+  
+    ماتریس‌ها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2825,9 +3356,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     گاوس و دستگاه معادلات خطی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2848,9 +3384,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     گاوس و دترمینان
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2871,9 +3412,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     Kraut و دترمینان
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2894,9 +3440,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     رتبه ماتریس
+  
+
     
   </span>
+  
   
 
       </a>
@@ -2943,9 +3494,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ترکیبیات
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2954,7 +3510,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
-            ترکیبیات
+            
+  
+    ترکیبیات
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2981,9 +3541,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مبانی
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -2992,7 +3557,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_1">
             <span class="md-nav__icon md-icon"></span>
-            مبانی
+            
+  
+    مبانی
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3008,9 +3577,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن توان مقسوم‌علیه فاکتوریل
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3031,9 +3605,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ضرایب دوجمله‌ای
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3054,9 +3633,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     اعداد کاتالان
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3096,9 +3680,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تکنیک‌ها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -3107,7 +3696,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_2">
             <span class="md-nav__icon md-icon"></span>
-            تکنیک‌ها
+            
+  
+    تکنیک‌ها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3123,9 +3716,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     اصل شمول و عدم شمول
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3146,9 +3744,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     لم برنساید / قضیه شمارش پولیا
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3169,9 +3772,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ستاره‌ها و خطوط
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3192,9 +3800,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تولید تمام ترکیب‌های Kتایی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3234,9 +3847,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مسائل
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -3245,7 +3863,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_3">
             <span class="md-nav__icon md-icon"></span>
-            مسائل
+            
+  
+    مسائل
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3261,9 +3883,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     قرار دادن فیل‌ها در صفحه شطرنج
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3284,9 +3911,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     دنباله‌های پرانتز متوازن
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3307,9 +3939,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     شمارش گراف‌های برچسب‌دار
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3356,9 +3993,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     روش‌های عددی
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -3367,7 +4009,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
-            روش‌های عددی
+            
+  
+    روش‌های عددی
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3394,9 +4040,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جستجو
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -3405,7 +4056,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8_1">
             <span class="md-nav__icon md-icon"></span>
-            جستجو
+            
+  
+    جستجو
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3421,9 +4076,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جستجوی دودویی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3444,9 +4104,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جستجوی سه‌سه‌ای
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3467,9 +4132,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     روش نیوتن برای یافتن ریشه‌ها
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3490,9 +4160,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تبرید شبیه‌سازی‌شده
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3532,9 +4207,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     انتگرال‌گیری
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -3543,7 +4223,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8_2">
             <span class="md-nav__icon md-icon"></span>
-            انتگرال‌گیری
+            
+  
+    انتگرال‌گیری
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3559,9 +4243,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     انتگرال‌گیری با فرمول سیمپسون
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3608,9 +4297,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     هندسه
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -3619,7 +4313,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
-            هندسه
+            
+  
+    هندسه
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3646,9 +4344,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     عملیات مقدماتی
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -3657,7 +4360,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9_1">
             <span class="md-nav__icon md-icon"></span>
-            عملیات مقدماتی
+            
+  
+    عملیات مقدماتی
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3673,9 +4380,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     هندسه پایه
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3696,9 +4408,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن معادله خط یک پاره‌خط
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3719,9 +4436,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     نقطه تقاطع خطوط
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3742,9 +4464,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     بررسی تقاطع دو پاره‌خط
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3765,9 +4492,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تقاطع پاره‌خط‌ها
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3788,9 +4520,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تقاطع دایره و خط
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3811,9 +4548,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تقاطع دو دایره
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3834,9 +4576,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مماس‌های مشترک دو دایره
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3857,9 +4604,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     طول اجتماع پاره‌خط‌ها
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3899,9 +4651,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     چندضلعی‌ها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -3910,7 +4667,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9_2">
             <span class="md-nav__icon md-icon"></span>
-            چندضلعی‌ها
+            
+  
+    چندضلعی‌ها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -3926,9 +4687,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مساحت جهت‌دار مثلث
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3949,9 +4715,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مساحت چندضلعی ساده
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3972,9 +4743,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     بررسی تعلق نقاط به چندضلعی محدب در O(log N)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -3995,9 +4771,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جمع مینکوفسکی چندضلعی‌های محدب
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4018,9 +4799,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     قضیه پیک - مساحت چندضلعی‌های شبکه‌ای
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4041,9 +4827,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     نقاط شبکه‌ای چندضلعی غیرشبکه‌ای
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4083,9 +4874,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پوش محدب
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -4094,7 +4890,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9_3">
             <span class="md-nav__icon md-icon"></span>
-            پوش محدب
+            
+  
+    پوش محدب
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4110,9 +4910,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ساخت پوش محدب
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4133,9 +4938,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     ترفند پوش محدب و درخت Li Chao
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4175,9 +4985,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     خط جاروب
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -4186,7 +5001,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9_4">
             <span class="md-nav__icon md-icon"></span>
-            خط جاروب
+            
+  
+    خط جاروب
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4202,9 +5021,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جستجوی یک جفت پاره‌خط متقاطع
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4244,9 +5068,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     گراف‌های مسطح
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -4255,7 +5084,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9_5">
             <span class="md-nav__icon md-icon"></span>
-            گراف‌های مسطح
+            
+  
+    گراف‌های مسطح
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4271,9 +5104,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن وجه‌های یک گراف مسطح
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4294,9 +5132,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مکان‌یابی نقطه در O(log N)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4336,9 +5179,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     متفرقه
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -4347,7 +5195,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9_6">
             <span class="md-nav__icon md-icon"></span>
-            متفرقه
+            
+  
+    متفرقه
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4363,9 +5215,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن نزدیک‌ترین جفت نقاط
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4386,9 +5243,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مثلث‌بندی دلونی و دیاگرام ورونوی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4409,9 +5271,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تجزیه عمودی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4432,9 +5299,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تقاطع نیم‌صفحه‌ها - الگوریتم S&amp;I در O(N log N)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4455,9 +5327,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     فاصله منهتن
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4504,9 +5381,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     گراف‌ها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -4515,7 +5397,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
-            گراف‌ها
+            
+  
+    گراف‌ها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4542,9 +5428,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پیمایش گراف
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -4553,7 +5444,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_1">
             <span class="md-nav__icon md-icon"></span>
-            پیمایش گراف
+            
+  
+    پیمایش گراف
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4569,9 +5464,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جستجوی اول سطح (BFS)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4592,9 +5492,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جستجوی اول عمق (DFS)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4634,9 +5539,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مؤلفه‌های همبندی، پل‌ها، نقاط مفصلی
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -4645,7 +5555,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_2">
             <span class="md-nav__icon md-icon"></span>
-            مؤلفه‌های همبندی، پل‌ها، نقاط مفصلی
+            
+  
+    مؤلفه‌های همبندی، پل‌ها، نقاط مفصلی
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4661,9 +5575,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن مؤلفه‌های همبندی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4684,9 +5603,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن پل‌ها در O(N+M)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4707,9 +5631,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن پل‌ها به صورت آنلاین
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4730,9 +5659,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن نقاط مفصلی در O(N+M)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4753,9 +5687,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مؤلفه‌های قویاً همبند و گراف انقباضی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4776,9 +5715,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جهت‌دهی قوی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4818,9 +5762,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     کوتاه‌ترین مسیرهای تک‌مبدأ
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -4829,7 +5778,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_3">
             <span class="md-nav__icon md-icon"></span>
-            کوتاه‌ترین مسیرهای تک‌مبدأ
+            
+  
+    کوتاه‌ترین مسیرهای تک‌مبدأ
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -4845,9 +5798,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     دایکسترا - یافتن کوتاه‌ترین مسیرها از یک رأس معین
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4868,9 +5826,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     دایکسترا روی گراف‌های خلوت
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4891,9 +5854,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     بلمن-فورد - یافتن کوتاه‌ترین مسیرها با وزن‌های منفی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4914,9 +5882,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جستجوی اول سطح صفر و یک (0-1 BFS)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4937,9 +5910,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     الگوریتم D'Esopo-Pape
+  
+
     
   </span>
+  
   
 
       </a>
@@ -4979,9 +5957,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     کوتاه‌ترین مسیرهای بین تمام زوج‌ها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -4990,7 +5973,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_4">
             <span class="md-nav__icon md-icon"></span>
-            کوتاه‌ترین مسیرهای بین تمام زوج‌ها
+            
+  
+    کوتاه‌ترین مسیرهای بین تمام زوج‌ها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -5006,9 +5993,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     فلوید-وارشال - یافتن تمام کوتاه‌ترین مسیرها
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5029,9 +6021,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تعداد مسیرها با طول ثابت / کوتاه‌ترین مسیرها با طول ثابت
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5071,9 +6068,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     درخت‌های پوشا
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -5082,7 +6084,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_5">
             <span class="md-nav__icon md-icon"></span>
-            درخت‌های پوشا
+            
+  
+    درخت‌های پوشا
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -5098,9 +6104,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     درخت پوشای کمینه - الگوریتم پریم
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5121,9 +6132,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     درخت پوشای کمینه - کروسکال
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5144,9 +6160,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     درخت پوشای کمینه - کروسکال با ساختار داده اجتماع-جداگانه
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5167,9 +6188,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     دومین درخت پوشای کمینه بهتر - با استفاده از کروسکال و پایین‌ترین جد مشترک
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5190,9 +6216,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     قضیه کیرشهف
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5213,9 +6244,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     کد پروفر
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5255,9 +6291,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     دورها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -5266,7 +6307,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_6">
             <span class="md-nav__icon md-icon"></span>
-            دورها
+            
+  
+    دورها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -5282,9 +6327,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     بررسی غیرمدور بودن گراف و یافتن دور در O(M)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5305,9 +6355,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     یافتن دور منفی در گراف
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5328,9 +6383,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مسیر اویلری
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5370,9 +6430,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پایین‌ترین جد مشترک
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -5381,7 +6446,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_7">
             <span class="md-nav__icon md-icon"></span>
-            پایین‌ترین جد مشترک
+            
+  
+    پایین‌ترین جد مشترک
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -5397,9 +6466,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پایین‌ترین جد مشترک (LCA)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5420,9 +6494,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پایین‌ترین جد مشترک - پرش دودویی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5443,9 +6522,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پایین‌ترین جد مشترک - الگوریتم Farach-Colton و Bender
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5466,9 +6550,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     حل RMQ با یافتن LCA
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5489,9 +6578,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     پایین‌ترین جد مشترک - الگوریتم آفلاین Tarjan
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5531,9 +6625,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     شار و مسائل مرتبط
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -5542,7 +6641,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_8">
             <span class="md-nav__icon md-icon"></span>
-            شار و مسائل مرتبط
+            
+  
+    شار و مسائل مرتبط
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -5558,9 +6661,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     شار بیشینه - فورد-فالکرسون و ادموندز-کارپ
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5581,9 +6689,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     شار بیشینه - الگوریتم Push-relabel
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5604,9 +6717,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     شار بیشینه - الگوریتم بهبودیافته Push-relabel
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5627,9 +6745,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     شار بیشینه - الگوریتم دینیک
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5650,9 +6773,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     شار بیشینه - الگوریتم MPM
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5673,9 +6801,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     شار با تقاضا
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5696,9 +6829,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     شار با کمترین هزینه
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5719,9 +6857,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مسئله تخصیص
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5761,9 +6904,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تطابق و مسائل مرتبط
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -5772,7 +6920,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_9">
             <span class="md-nav__icon md-icon"></span>
-            تطابق و مسائل مرتبط
+            
+  
+    تطابق و مسائل مرتبط
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -5788,9 +6940,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     بررسی دوبخشی بودن گراف
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5811,9 +6968,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     الگوریتم کوهن - تطابق بیشینه در گراف دوبخشی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5834,9 +6996,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     الگوریتم مجارستانی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5876,9 +7043,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     متفرقه
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -5887,7 +7059,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_10">
             <span class="md-nav__icon md-icon"></span>
-            متفرقه
+            
+  
+    متفرقه
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -5903,9 +7079,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مرتب‌سازی توپولوژیک
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5926,9 +7107,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     همبندی یالی / همبندی رأسی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5949,9 +7135,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     رنگ‌آمیزی درخت
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5972,9 +7163,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     دو-ارضاپذیری (2-SAT)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -5995,9 +7191,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     تجزیه سنگین-سبک
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6044,9 +7245,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     متفرقه
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -6055,7 +7261,11 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
-            متفرقه
+            
+  
+    متفرقه
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -6082,9 +7292,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     دنباله‌ها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -6093,7 +7308,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11_1">
             <span class="md-nav__icon md-icon"></span>
-            دنباله‌ها
+            
+  
+    دنباله‌ها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -6109,9 +7328,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مسئله RMQ (پرس‌وجوی کمینه بازه - کوچکترین عنصر در یک بازه)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6132,9 +7356,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     طولانی‌ترین زیردنباله صعودی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6155,9 +7384,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     جستجوی زیربازه با بیشترین/کمترین مجموع
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6178,9 +7412,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     آماره مرتبه K-ام در O(N)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6201,9 +7440,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مسئله MEX (کمترین عنصر حذف‌شده در یک آرایه)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6243,9 +7487,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     نظریه بازی‌ها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -6254,7 +7503,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11_2">
             <span class="md-nav__icon md-icon"></span>
-            نظریه بازی‌ها
+            
+  
+    نظریه بازی‌ها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -6270,9 +7523,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     بازی‌ها روی گراف‌های دلخواه
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6293,9 +7551,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     قضیه اسپراگ-گراندی. نیم (Nim)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6335,9 +7598,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     زمان‌بندی‌ها
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -6346,7 +7614,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11_3">
             <span class="md-nav__icon md-icon"></span>
-            زمان‌بندی‌ها
+            
+  
+    زمان‌بندی‌ها
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -6362,9 +7634,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     زمان‌بندی کارها روی یک ماشین
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6385,9 +7662,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     زمان‌بندی کارها روی دو ماشین
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6408,9 +7690,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     زمان‌بندی بهینه کارها با توجه به مهلت‌ها و مدت‌زمانشان
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6450,9 +7737,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     متفرقه
+  
+
     
   </span>
+  
   
 
             <span class="md-nav__icon md-icon"></span>
@@ -6461,7 +7753,11 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11_4">
             <span class="md-nav__icon md-icon"></span>
-            متفرقه
+            
+  
+    متفرقه
+  
+
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -6477,9 +7773,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     الگوریتم لاک‌پشت و خرگوش (تشخیص دور در لیست پیوندی)
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6500,9 +7801,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     مسئله یوسف
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6523,9 +7829,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     بازی پازل ۱۵: وجود راه‌حل
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6546,9 +7857,14 @@
   
   
   <span class="md-ellipsis">
+    
+  
     درخت اشترن-بروکوت و دنباله‌های فارِی
+  
+
     
   </span>
+  
   
 
       </a>
@@ -6582,6 +7898,7 @@
           
           
             <div class="md-content" data-md-component="content">
+              
               <article class="md-content__inner md-typeset">
                 
                   <script type="text/javascript">
@@ -6884,7 +8201,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   اخرین بروزرسانی:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="4 ژوئیهٔ 2025 18:07:58 UTC">4 ژوئیهٔ 2025</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="12 سپتامبر 2025 18:17:49 UTC">12 سپتامبر 2025</span>&emsp;
 
 <!-- Tags -->
 
@@ -6910,38 +8227,38 @@ Describe the issue of this article in detail.
 </ul>
 
 
-<h1 id="_1">توان‌رسانی دودویی<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>توان‌رسانی دودویی (که به عنوان توان‌رسانی با مربع‌سازی نیز شناخته می‌شود) ترفندی است که اجازه می‌دهد <span class="arithmatex">$a^n$</span> را تنها با استفاده از <span class="arithmatex">$O(\log n)$</span> ضرب (به جای <span class="arithmatex">$O(n)$</span> ضرب مورد نیاز در رویکرد ساده) محاسبه کنیم.</p>
-<p>این روش همچنین کاربردهای مهمی در بسیاری از مسائل غیرمرتبط با حساب دارد، زیرا می‌توان آن را با هر عملیاتی که خاصیت <strong>شرکت‌پذیری</strong> دارد، استفاده کرد:</p>
+<h1 id="binary-exponentiation">توان‌رسانی دودویی (Binary Exponentiation)<a class="headerlink" href="#binary-exponentiation" title="Permanent link">&para;</a></h1>
+<p>رفیق، «توان‌رسانی دودویی» (که بهش «توان‌رسانی با مربع‌سازی» یا Exponentiation by Squaring هم میگن) یه تکنیک خیلی باحاله که بهت اجازه میده <span class="arithmatex">$a^n$</span> رو فقط با <span class="arithmatex">$O(\log n)$</span> تا ضرب حساب کنی (به جای <span class="arithmatex">$O(n)$</span> تا ضرب توی روش ساده و معمولی).</p>
+<p>این روش کلی کاربرد خفن دیگه هم توی مسائلی داره که شاید در نگاه اول ربطی به حساب و کتاب نداشته باشن. کل ماجرا اینه که می‌تونی از این تکنیک برای هر عملیاتی که خاصیت <strong>شرکت‌پذیری (associativity)</strong> داشته باشه استفاده کنی:</p>
 <div class="arithmatex">$$(X \cdot Y) \cdot Z = X \cdot (Y \cdot Z)$$</div>
-<p>واضح‌ترین کاربردهای آن در ضرب پیمانه‌ای، ضرب ماتریس‌ها و مسائل دیگری است که در ادامه به آنها خواهیم پرداخت.</p>
-<h2 id="_2">الگوریتم<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>به توان <span class="arithmatex">$n$</span> رساندن <span class="arithmatex">$a$</span> به صورت ساده به عنوان ضرب <span class="arithmatex">$a$</span> در خودش به تعداد <span class="arithmatex">$n-1$</span> بار بیان می‌شود:
-<span class="arithmatex">$a^{n} = a \cdot a \cdot \ldots \cdot a$</span>. با این حال، این رویکرد برای <span class="arithmatex">$a$</span> یا <span class="arithmatex">$n$</span> بزرگ عملی نیست.</p>
-<p><span class="arithmatex">$a^{b+c} = a^b \cdot a^c$</span> و <span class="arithmatex">$a^{2b} = a^b \cdot a^b = (a^b)^2$</span>.</p>
-<p>ایده‌ی توان‌رسانی دودویی این است که ما کار را با استفاده از نمایش دودویی توان، تقسیم می‌کنیم.</p>
-<p>بیایید <span class="arithmatex">$n$</span> را در مبنای ۲ بنویسیم، برای مثال:</p>
+<p>واضح‌ترین کاربردهاش توی ضرب پیمانه‌ای، ضرب ماتریس‌ها و یه سری مسائل دیگه است که جلوتر با هم می‌بینیم.</p>
+<h2 id="_1">الگوریتم چطوری کار می‌کنه؟<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>خب، ساده‌ترین راه برای به توان رسوندن <span class="arithmatex">$a$</span> به توان <span class="arithmatex">$n$</span> اینه که <span class="arithmatex">$a$</span> رو <span class="arithmatex">$n-1$</span> بار توی خودش ضرب کنی:
+<span class="arithmatex">$a^{n} = a \cdot a \cdot \ldots \cdot a$</span>. ولی خب این روش برای <span class="arithmatex">$a$</span> یا <span class="arithmatex">$n$</span> های بزرگ اصلاً به درد نمی‌خوره و خیلی کنده.</p>
+<p>یادت باشه که: <span class="arithmatex">$a^{b+c} = a^b \cdot a^c$</span> و <span class="arithmatex">$a^{2b} = a^b \cdot a^b = (a^b)^2$</span>.</p>
+<p>ایده اصلی توان‌رسانی دودویی اینه که بیایم توان، یعنی <span class="arithmatex">$n$</span>، رو به صورت باینری (دودویی) ببینیم و مسئله رو بشکنیم.</p>
+<p>بذار <span class="arithmatex">$n$</span> رو تو مبنای ۲ بنویسیم، مثلاً برای <span class="arithmatex">$13$</span>:</p>
 <div class="arithmatex">$$3^{13} = 3^{1101_2} = 3^8 \cdot 3^4 \cdot 3^1$$</div>
-<p>از آنجایی که عدد <span class="arithmatex">$n$</span> در مبنای ۲ دقیقاً <span class="arithmatex">$\lfloor \log_2 n \rfloor + 1$</span> رقم دارد، اگر توان‌های <span class="arithmatex">$a^1, a^2, a^4, a^8, \dots, a^{2^{\lfloor \log n \rfloor}}$</span> را بدانیم، تنها به <span class="arithmatex">$O(\log n)$</span> ضرب نیاز داریم.</p>
-<p>بنابراین فقط به یک راه سریع برای محاسبه آن‌ها نیاز داریم.
-خوشبختانه این کار بسیار آسان است، زیرا هر عنصر در دنباله، مربع عنصر قبلی است.</p>
+<p>از اونجایی که عدد <span class="arithmatex">$n$</span> توی مبنای ۲ دقیقاً <span class="arithmatex">$\lfloor \log_2 n \rfloor + 1$</span> تا رقم داره، اگه ما توان‌های <span class="arithmatex">$a^1, a^2, a^4, a^8, \dots, a^{2^{\lfloor \log n \rfloor}}$</span> رو داشته باشیم، فقط به <span class="arithmatex">$O(\log n)$</span> تا ضرب نیاز داریم تا جواب نهایی رو بسازیم.</p>
+<p>خب حالا فقط باید یه راه سریع برای حساب کردن اینا پیدا کنیم.
+خوشبختانه این کار خیلی راحته، چون هر عضو این دنباله، مربع عضو قبلیشه.</p>
 <div class="arithmatex">$$\begin{align}
 3^1 &amp;= 3 \\
 3^2 &amp;= \left(3^1\right)^2 = 3^2 = 9 \\
 3^4 &amp;= \left(3^2\right)^2 = 9^2 = 81 \\
 3^8 &amp;= \left(3^4\right)^2 = 81^2 = 6561
 \end{align}$$</div>
-<p>بنابراین برای به دست آوردن پاسخ نهایی برای <span class="arithmatex">$3^{13}$</span>، فقط باید سه تا از آنها را ضرب کنیم (از <span class="arithmatex">$3^2$</span> صرف‌نظر می‌کنیم چون بیت متناظر آن در <span class="arithmatex">$n$</span> یک نیست):
+<p>پس برای اینکه جواب نهایی <span class="arithmatex">$3^{13}$</span> رو به دست بیاریم، کافیه سه تا از اینا رو توی هم ضرب کنیم (از <span class="arithmatex">$3^2$</span> صرف‌نظر می‌کنیم چون بیت متناظرش در نمایش باینری <span class="arithmatex">$13$</span> یعنی <span class="arithmatex">$1101_2$</span> صفر است).
 <span class="arithmatex">$3^{13} = 6561 \cdot 81 \cdot 3 = 1594323$</span></p>
-<p>پیچیدگی نهایی این الگوریتم <span class="arithmatex">$O(\log n)$</span> است: ما باید <span class="arithmatex">$\log n$</span> توان از <span class="arithmatex">$a$</span> را محاسبه کنیم و سپس حداکثر <span class="arithmatex">$\log n$</span> ضرب برای به دست آوردن پاسخ نهایی از آن‌ها انجام دهیم.</p>
-<p>رویکرد بازگشتی زیر همین ایده را بیان می‌کند:</p>
+<p>پیچیدگی نهایی این الگوریتم <span class="arithmatex">$O(\log n)$</span> هست: ما باید <span class="arithmatex">$\log n$</span> تا توان از <span class="arithmatex">$a$</span> رو حساب کنیم و بعدش هم حداکثر <span class="arithmatex">$\log n$</span> تا ضرب انجام بدیم تا به جواب نهایی برسیم.</p>
+<p>اگه بخوایم همین ایده رو به صورت بازگشتی (recursive) بنویسیم، یه همچین چیزی میشه:</p>
 <div class="arithmatex">$$a^n = \begin{cases}
 1 &amp;\text{اگر } n == 0 \\
-\left(a^{\frac{n}{2}}\right)^2 &amp;\text{اگر } n &gt; 0 \text{ و } n \text{ زوج باشد}\\
-\left(a^{\frac{n - 1}{2}}\right)^2 \cdot a &amp;\text{اگر } n &gt; 0 \text{ و } n \text{ فرد باشد}\\
+\left(a^{\frac{n}{2}}\right)^2 &amp;\text{اگر } n &gt; 0 \text{ و } n \text{ زوج باشه}\\
+\left(a^{\frac{n - 1}{2}}\right)^2 \cdot a &amp;\text{اگر } n &gt; 0 \text{ و } n \text{ فرد باشه}\\
 \end{cases}$$</div>
-<h2 id="_3">پیاده‌سازی<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>ابتدا رویکرد بازگشتی، که ترجمه مستقیمی از فرمول بازگشتی است:</p>
+<h2 id="_2">پیاده‌سازی<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>اول بریم سراغ پیاده‌سازی بازگشتی، که دقیقاً ترجمه‌ی همون فرمول بالاست:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">binpow</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
@@ -6952,9 +8269,9 @@ Describe the issue of this article in detail.
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>رویکرد دوم همین کار را بدون بازگشت انجام می‌دهد.
-این رویکرد تمام توان‌ها را در یک حلقه محاسبه می‌کند و آن‌هایی را که بیت متناظرشان در <span class="arithmatex">$n$</span> یک است، در هم ضرب می‌کند.
-اگرچه پیچیدگی هر دو رویکرد یکسان است، این رویکرد در عمل سریع‌تر خواهد بود زیرا سربار فراخوانی‌های بازگشتی را نداریم.</p>
+<p>حالا بریم سراغ روش دوم که همین کار رو بدون بازگشت (iterative) انجام میده.
+این روش توی یه حلقه، همه توان‌ها رو حساب می‌کنه و اونایی که بیت متناظرشون توی <span class="arithmatex">$n$</span> یک هست رو توی نتیجه ضرب می‌کنه.
+با اینکه پیچیدگی زمانی هر دو روش یکیه، این روش دوم توی عمل سریع‌تره، چون دیگه سربار (overhead) فراخوانی‌های بازگشتی رو نداریم.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">binpow</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -6966,13 +8283,13 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_4">کاربردها<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<h3 id="_5">محاسبه موثر توان‌های بزرگ به پیمانه یک عدد<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h2 id="_3">کاربردها<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">محاسبه بهینه توان‌های بزرگ به پیمانه یک عدد<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p><strong>مسئله:</strong>
-محاسبه <span class="arithmatex">$x^n \bmod m$</span>.
-این یک عملیات بسیار رایج است. به عنوان مثال در محاسبه <a href="module-inverse.html">وارون ضربی پیمانه‌ای</a> استفاده می‌شود.</p>
+می‌خوایم <span class="arithmatex">$x^n \bmod m$</span> رو حساب کنیم.
+این یه عملیات خیلی رایجه. مثلاً برای محاسبه <a href="module-inverse.html">وارون ضربی پیمانه‌ای</a> ازش استفاده میشه.</p>
 <p><strong>راه حل:</strong>
-از آنجا که می‌دانیم عملگر پیمانه با ضرب‌ها تداخلی ندارد (<span class="arithmatex">$a \cdot b \equiv (a \bmod m) \cdot (b \bmod m) \pmod m$</span>)، می‌توانیم مستقیماً از همان کد استفاده کنیم و فقط هر ضرب را با یک ضرب پیمانه‌ای جایگزین کنیم:</p>
+خبر خوب اینه که عملگر مود (پیمانه) با ضرب خیلی خوب کنار میاد (<span class="arithmatex">$a \cdot b \equiv (a \bmod m) \cdot (b \bmod m) \pmod m$</span>). پس می‌تونیم دقیقاً از همون کد بالا استفاده کنیم و فقط هر ضرب رو با یه ضرب پیمانه‌ای عوض کنیم:</p>
 <div class="highlight"><pre><span></span><code><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">binpow</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">%=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
@@ -6986,21 +8303,20 @@ Describe the issue of this article in detail.
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>نکته:</strong>
-می‌توان این الگوریتم را برای <span class="arithmatex">$b$</span> های بزرگ (<span class="arithmatex">$b &gt;&gt; m$</span>) سریع‌تر کرد.
-اگر <span class="arithmatex">$m$</span> یک عدد اول باشد، <span class="arithmatex">$x^n \equiv x^{n \bmod (m-1)} \pmod{m}$</span> و اگر <span class="arithmatex">$m$</span> مرکب باشد <span class="arithmatex">$x^n \equiv x^{n \bmod{\phi(m)}} \pmod{m}$</span> برقرار است.
-این موضوع مستقیماً از قضیه کوچک فرما و قضیه اویلر نتیجه می‌شود، برای جزئیات بیشتر به مقاله <a href="module-inverse.html#fermat-euler">وارون‌های پیمانه‌ای</a> مراجعه کنید.</p>
-<h3 id="_6">محاسبه موثر اعداد فیبوناچی<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p><strong>مسئله:</strong> محاسبه <span class="arithmatex">$n$</span>-امین عدد فیبوناچی <span class="arithmatex">$F_n$</span>.</p>
-<p><strong>راه حل:</strong> برای جزئیات بیشتر، به مقاله <a href="fibonacci-numbers.html">اعداد فیبوناچی</a> مراجعه کنید.
-ما فقط یک نمای کلی از الگوریتم را مرور خواهیم کرد.
-برای محاسبه عدد فیبوناچی بعدی، تنها دو عدد قبلی مورد نیاز است، زیرا <span class="arithmatex">$F_n = F_{n-1} + F_{n-2}$</span>.
-می‌توانیم یک ماتریس <span class="arithmatex">$2 \times 2$</span> بسازیم که این تبدیل را توصیف کند:
-انتقال از <span class="arithmatex">$F_i$</span> و <span class="arithmatex">$F_{i+1}$</span> به <span class="arithmatex">$F_{i+1}$</span> و <span class="arithmatex">$F_{i+2}$</span>.
-به عنوان مثال، اعمال این تبدیل بر روی زوج <span class="arithmatex">$F_0$</span> و <span class="arithmatex">$F_1$</span> آن را به <span class="arithmatex">$F_1$</span> و <span class="arithmatex">$F_2$</span> تبدیل می‌کند.
-بنابراین، می‌توانیم این ماتریس تبدیل را به توان <span class="arithmatex">$n$</span> برسانیم تا <span class="arithmatex">$F_n$</span> را در پیچیدگی زمانی <span class="arithmatex">$O(\log n)$</span> پیدا کنیم.</p>
+یه نکته باحال: اگه <span class="arithmatex">$b$</span> خیلی بزرگ باشه (مثلاً خیلی بزرگ‌تر از <span class="arithmatex">$m$</span>)، می‌تونی این الگوریتم رو از این هم سریع‌تر کنی.
+اگه <span class="arithmatex">$m$</span> یه عدد اول باشه، <span class="arithmatex">$x^n \equiv x^{n \bmod (m-1)} \pmod{m}$</span> برقراره و اگه <span class="arithmatex">$m$</span> مرکب باشه <span class="arithmatex">$x^n \equiv x^{n \bmod{\phi(m)}} \pmod{m}$</span> برقراره.
+این قضیه مستقیم از قضیه کوچک فرما و قضیه اویلر نتیجه میشه. برای جزئیات بیشتر یه نگاهی به مقاله <a href="module-inverse.html#fermat-euler">وارون‌های پیمانه‌ای</a> بنداز.</p>
+<h3 id="_5">محاسبه بهینه اعداد فیبوناچی<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p><strong>مسئله:</strong> می‌خوایم <span class="arithmatex">$n$</span>-امین عدد فیبوناچی (<span class="arithmatex">$F_n$</span>) رو پیدا کنیم.</p>
+<p><strong>راه حل:</strong> برای جزئیات کامل‌تر، حتماً مقاله <a href="fibonacci-numbers.html">اعداد فیبوناچی</a> رو ببین، ولی اینجا یه خلاصه‌ای از الگوریتم رو با هم مرور می‌کنیم.
+برای حساب کردن عدد فیبوناچی بعدی، فقط به دو تای قبلی نیاز داریم، چون <span class="arithmatex">$F_n = F_{n-1} + F_{n-2}$</span>.
+ایده اینه که می‌تونیم یه ماتریس <span class="arithmatex">$2 \times 2$</span> بسازیم که این تبدیل رو توصیف کنه:
+یعنی انتقال از زوج <span class="arithmatex">$(F_i, F_{i+1})$</span> به زوج <span class="arithmatex">$(F_{i+1}, F_{i+2})$</span>.
+مثلاً، اگه این تبدیل رو روی زوج <span class="arithmatex">$(F_0, F_1)$</span> اعمال کنیم، بهمون <span class="arithmatex">$(F_1, F_2)$</span> رو میده.
+بنابراین، می‌تونیم این ماتریس تبدیل رو به توان <span class="arithmatex">$n$</span> برسونیم تا <span class="arithmatex">$F_n$</span> رو با پیچیدگی زمانی <span class="arithmatex">$O(\log n)$</span> پیدا کنیم.</p>
 <h3 id="k">اعمال یک جایگشت به تعداد <span class="arithmatex">$k$</span> بار<a class="headerlink" href="#k" title="Permanent link">&para;</a></h3>
-<p><strong>مسئله:</strong> به شما یک دنباله به طول <span class="arithmatex">$n$</span> داده شده است. یک جایگشت معین را <span class="arithmatex">$k$</span> بار روی آن اعمال کنید.</p>
-<p><strong>راه حل:</strong> به سادگی جایگشت را با استفاده از توان‌رسانی دودویی به توان <span class="arithmatex">$k$</span> برسانید و سپس آن را روی دنباله اعمال کنید. این کار به شما پیچیدگی زمانی <span class="arithmatex">$O(n \log k)$</span> می‌دهد.</p>
+<p><strong>مسئله:</strong> فرض کن یه دنباله به طول <span class="arithmatex">$n$</span> داری و می‌خوای یه جایگشت (permutation) مشخص رو <span class="arithmatex">$k$</span> بار روش اعمال کنی.</p>
+<p><strong>راه حل:</strong> خیلی ساده‌ست! خودِ جایگشت رو یه جور عملیات در نظر بگیر و با استفاده از توان‌رسانی دودویی، این عملیات رو به توان <span class="arithmatex">$k$</span> برسون و بعد نتیجه رو روی دنباله اعمال کن. این کار پیچیدگی زمانی <span class="arithmatex">$O(n \log k)$</span> بهت میده.</p>
 <div class="highlight"><pre><span></span><code><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">applyPermutation</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sequence</span><span class="p">,</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">permutation</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">newSequence</span><span class="p">(</span><span class="n">sequence</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
 <span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">sequence</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -7020,23 +8336,23 @@ Describe the issue of this article in detail.
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sequence</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><strong>نکته:</strong> این مسئله را می‌توان با ساختن گراف جایگشت و در نظر گرفتن هر دور به طور مستقل، به طور کارآمدتر و در زمان خطی حل کرد. سپس می‌توانید <span class="arithmatex">$k$</span> را به پیمانه اندازه دور محاسبه کرده و موقعیت نهایی را برای هر عددی که بخشی از این دور است پیدا کنید.</p>
-<h3 id="_7">اعمال سریع مجموعه‌ای از عملیات هندسی بر روی مجموعه‌ای از نقاط<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p><strong>مسئله:</strong> با داشتن <span class="arithmatex">$n$</span> نقطه <span class="arithmatex">$p_i$</span>، <span class="arithmatex">$m$</span> تبدیل را بر روی هر یک از این نقاط اعمال کنید. هر تبدیل می‌تواند یک انتقال، یک مقیاس‌دهی یا یک دوران حول یک محور معین با یک زاویه معین باشد. همچنین یک عملیات "حلقه" وجود دارد که یک لیست معین از تبدیل‌ها را <span class="arithmatex">$k$</span> بار اعمال می‌کند (عملیات "حلقه" می‌توانند تودرتو باشند). شما باید تمام تبدیل‌ها را سریع‌تر از <span class="arithmatex">$O(n \cdot length)$</span> اعمال کنید، که در آن <span class="arithmatex">$length$</span> تعداد کل تبدیل‌هایی است که باید اعمال شوند (پس از باز کردن عملیات "حلقه").</p>
-<p><strong>راه حل:</strong> بیایید ببینیم انواع مختلف تبدیل‌ها چگونه مختصات را تغییر می‌دهند:</p>
+<p><strong>نکته:</strong> این مسئله رو میشه بهینه‌تر و توی زمان خطی هم حل کرد. چطوری؟ گراف جایگشت رو بساز و هر دور (cycle) رو جداگانه بررسی کن. بعد می‌تونی <span class="arithmatex">$k$</span> رو به پیمانه طول اون دور حساب کنی و موقعیت نهایی هر عدد توی اون دور رو پیدا کنی.</p>
+<h3 id="_6">اعمال سریع مجموعه‌ای از عملیات هندسی بر روی مجموعه‌ای از نقاط<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><strong>مسئله:</strong> این یکی خیلی جالبه! فرض کن <span class="arithmatex">$n$</span> تا نقطه <span class="arithmatex">$p_i$</span> داری و می‌خوای <span class="arithmatex">$m$</span> تا تبدیل هندسی رو روی همه‌شون اعمال کنی. هر تبدیل می‌تونه انتقال (translation)، تغییر مقیاس (scaling) یا دوران (rotation) حول یه محور مشخص با یه زاویه مشخص باشه. یه عملیات "حلقه" (loop) هم داریم که یه لیست از تبدیل‌ها رو <span class="arithmatex">$k$</span> بار تکرار می‌کنه (این حلقه‌ها می‌تونن تودرتو باشن). تو باید همه این تبدیل‌ها رو سریع‌تر از <span class="arithmatex">$O(n \cdot length)$</span> انجام بدی، که <code>length</code> تعداد کل تبدیل‌ها بعد از باز کردن حلقه‌هاست.</p>
+<p><strong>راه حل:</strong> بیا ببینیم این تبدیل‌ها چطوری مختصات رو تغییر میدن:</p>
 <ul>
-<li>عملیات انتقال: یک ثابت متفاوت به هر یک از مختصات اضافه می‌کند.</li>
-<li>عملیات مقیاس‌دهی: هر یک از مختصات را در یک ثابت متفاوت ضرب می‌کند.</li>
-<li>عملیات دوران: تبدیل پیچیده‌تر است (در اینجا به جزئیات نمی‌پردازیم)، اما هر یک از مختصات جدید همچنان می‌تواند به عنوان یک ترکیب خطی از مختصات قدیمی نمایش داده شود.</li>
+<li><strong>انتقال:</strong> یه عدد ثابت به هر کدوم از مختصات اضافه می‌کنه.</li>
+<li><strong>تغییر مقیاس:</strong> هر کدوم از مختصات رو توی یه عدد ثابت ضرب می‌کنه.</li>
+<li><strong>دوران:</strong> این یکم پیچیده‌تره (اینجا وارد جزئیاتش نمیشیم)، ولی هر مختصات جدید باز هم یه ترکیب خطی از مختصات قدیمیه.</li>
 </ul>
-<p>همانطور که می‌بینید، هر یک از تبدیل‌ها را می‌توان به عنوان یک عملیات خطی بر روی مختصات نشان داد. بنابراین، یک تبدیل را می‌توان به صورت یک ماتریس <span class="arithmatex">$4 \times 4$</span> به شکل زیر نوشت:</p>
+<p>همونطور که می‌بینی، هر کدوم از این تبدیل‌ها رو میشه به صورت یه عملیات خطی روی مختصات نشون داد. پس، یه تبدیل رو میشه به شکل یه ماتریس <span class="arithmatex">$4 \times 4$</span> نوشت:</p>
 <div class="arithmatex">$$\begin{pmatrix}
 a_{11} &amp; a_ {12} &amp; a_ {13} &amp; a_ {14} \\
 a_{21} &amp; a_ {22} &amp; a_ {23} &amp; a_ {24} \\
 a_{31} &amp; a_ {32} &amp; a_ {33} &amp; a_ {34} \\
 a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 \end{pmatrix}$$</div>
-<p>که وقتی در یک بردار با مختصات قدیمی و یک واحد ضرب شود، یک بردار جدید با مختصات جدید و یک واحد می‌دهد:</p>
+<p>که اگه توی یه بردار با مختصات قدیمی و یه عدد ۱ ضرب بشه، یه بردار جدید با مختصات جدید و یه عدد ۱ بهمون میده:</p>
 <div class="arithmatex">$$\begin{pmatrix} x &amp; y &amp; z &amp; 1 \end{pmatrix} \cdot
 \begin{pmatrix}
 a_{11} &amp; a_ {12} &amp; a_ {13} &amp; a_ {14} \\
@@ -7045,10 +8361,10 @@ a_{31} &amp; a_ {32} &amp; a_ {33} &amp; a_ {34} \\
 a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 \end{pmatrix}
  = \begin{pmatrix} x' &amp; y' &amp; z' &amp; 1 \end{pmatrix}$$</div>
-<p>(شاید بپرسید چرا یک مختصات چهارم ساختگی معرفی کردیم؟ این زیبایی <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">مختصات همگن</a> است که کاربرد زیادی در گرافیک کامپیوتری دارد. بدون آن، پیاده‌سازی عملیات افاین مانند عملیات انتقال به عنوان یک ضرب ماتریسی واحد ممکن نبود، زیرا به ما نیاز دارد که یک ثابت به مختصات <em>اضافه</em> کنیم. تبدیل افاین در بعد بالاتر به یک تبدیل خطی تبدیل می‌شود!)</p>
-<p>در اینجا چند مثال از نحوه نمایش تبدیل‌ها در قالب ماتریس آورده شده است:</p>
+<p>(شاید بپرسی این مختصات چهارم الکی از کجا اومد؟ این همون جادوی <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">مختصات همگن (Homogeneous coordinates)</a> هست که توی گرافیک کامپیوتری خیلی کاربرد داره. بدون اون، نمی‌تونستیم تبدیل‌های آفین (affine) مثل انتقال رو به صورت یه ضرب ماتریسی ساده پیاده‌سازی کنیم، چون انتقال نیاز داره که یه عدد ثابت به مختصات <em>اضافه</em> بشه. با این کار، یه تبدیل آفین توی بعد بالاتر به یه تبدیل خطی تبدیل میشه!)</p>
+<p>اینم چندتا مثال از ماتریس‌های تبدیل:</p>
 <ul>
-<li>عملیات انتقال: انتقال مختصات <span class="arithmatex">$x$</span> به اندازه <span class="arithmatex">$5$</span>، مختصات <span class="arithmatex">$y$</span> به اندازه <span class="arithmatex">$7$</span> و مختصات <span class="arithmatex">$z$</span> به اندازه <span class="arithmatex">$9$</span>.</li>
+<li><strong>انتقال:</strong> مختصات <span class="arithmatex">$x$</span> رو ۵ واحد، <span class="arithmatex">$y$</span> رو ۷ واحد و <span class="arithmatex">$z$</span> رو ۹ واحد جابجا می‌کنه.</li>
 </ul>
 <div class="arithmatex">$$\begin{pmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 \\
@@ -7057,7 +8373,7 @@ a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 5 &amp; 7 &amp; 9 &amp; 1
 \end{pmatrix}$$</div>
 <ul>
-<li>عملیات مقیاس‌دهی: مقیاس‌دهی مختصات <span class="arithmatex">$x$</span> به اندازه <span class="arithmatex">$10$</span> و دو مختصات دیگر به اندازه <span class="arithmatex">$5$</span>.</li>
+<li><strong>تغییر مقیاس:</strong> مختصات <span class="arithmatex">$x$</span> رو ۱۰ برابر و دو تای دیگه رو ۵ برابر می‌کنه.</li>
 </ul>
 <div class="arithmatex">$$\begin{pmatrix}
 10 &amp; 0 &amp; 0 &amp; 0 \\
@@ -7066,7 +8382,7 @@ a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 0 &amp; 0 &amp; 0 &amp; 1
 \end{pmatrix}$$</div>
 <ul>
-<li>عملیات دوران: دوران به اندازه <span class="arithmatex">$\theta$</span> درجه حول محور <span class="arithmatex">$x$</span> طبق قانون دست راست (جهت پادساعتگرد).</li>
+<li><strong>دوران:</strong> دوران به اندازه <span class="arithmatex">$\theta$</span> درجه حول محور <span class="arithmatex">$x$</span> طبق قانون دست راست (پادساعتگرد).</li>
 </ul>
 <div class="arithmatex">$$\begin{pmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 \\
@@ -7074,24 +8390,25 @@ a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 0 &amp; \sin \theta &amp; \cos \theta &amp; 0 \\
 0 &amp; 0 &amp; 0 &amp; 1
 \end{pmatrix}$$</div>
-<p>حال، وقتی هر تبدیل به صورت یک ماتریس توصیف شد، دنباله‌ای از تبدیل‌ها را می‌توان به عنوان حاصلضرب این ماتریس‌ها توصیف کرد، و یک "حلقه" با <span class="arithmatex">$k$</span> تکرار را می‌توان به عنوان ماتریس به توان <span class="arithmatex">$k$</span> توصیف کرد (که می‌توان با استفاده از توان‌رسانی دودویی در <span class="arithmatex">$O(\log{k})$</span> محاسبه کرد). به این ترتیب، ماتریسی که تمام تبدیل‌ها را نشان می‌دهد، ابتدا در <span class="arithmatex">$O(m \log{k})$</span> محاسبه می‌شود و سپس در <span class="arithmatex">$O(n)$</span> به هر یک از <span class="arithmatex">$n$</span> نقطه اعمال می‌شود، که پیچیدگی کل آن <span class="arithmatex">$O(n + m \log{k})$</span> است.</p>
+<p>حالا که هر تبدیل رو به شکل یه ماتریس درآوردیم، یه دنباله از تبدیل‌ها میشه حاصل‌ضرب ماتریس‌هاشون، و یه "حلقه" با <span class="arithmatex">$k$</span> بار تکرار میشه همون ماتریس به توان <span class="arithmatex">$k$</span> (که با توان‌رسانی دودویی توی <span class="arithmatex">$O(\log{k})$</span> حساب میشه). اینطوری، اول ماتریس نهایی که همه تبدیل‌ها رو نشون میده توی <span class="arithmatex">$O(m \log{k})$</span> حساب می‌کنیم و بعدش توی <span class="arithmatex">$O(n)$</span> روی همه <span class="arithmatex">$n$</span> تا نقطه اعمالش می‌کنیم. پیچیدگی کل میشه <span class="arithmatex">$O(n + m \log{k})$</span>.</p>
 <h3 id="k_1">تعداد مسیرهای به طول <span class="arithmatex">$k$</span> در یک گراف<a class="headerlink" href="#k_1" title="Permanent link">&para;</a></h3>
-<p><strong>مسئله:</strong> با داشتن یک گراف جهت‌دار بدون وزن با <span class="arithmatex">$n$</span> رأس، تعداد مسیرهای به طول <span class="arithmatex">$k$</span> از هر رأس <span class="arithmatex">$u$</span> به هر رأس دیگر <span class="arithmatex">$v$</span> را بیابید.</p>
-<p><strong>راه حل:</strong> این مسئله با جزئیات بیشتر در <a href="../graph/fixed_length_paths.html">یک مقاله جداگانه</a> بررسی شده است. الگوریتم شامل به توان <span class="arithmatex">$k$</span> رساندن ماتریس مجاورت <span class="arithmatex">$M$</span> گراف است (ماتریسی که در آن <span class="arithmatex">$m_{ij} = 1$</span> اگر یالی از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span> وجود داشته باشد، و در غیر این صورت <span class="arithmatex">$0$</span> است). اکنون <span class="arithmatex">$m_{ij}$</span> تعداد مسیرهای به طول <span class="arithmatex">$k$</span> از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span> خواهد بود. پیچیدگی زمانی این راه حل <span class="arithmatex">$O(n^3 \log k)$</span> است.</p>
-<p><strong>نکته:</strong> در همان مقاله، نوع دیگری از این مسئله در نظر گرفته شده است: زمانی که یال‌ها وزن‌دار هستند و لازم است مسیر با کمترین وزن که دقیقاً شامل <span class="arithmatex">$k$</span> یال است، پیدا شود. همانطور که در آن مقاله نشان داده شده است، این مسئله نیز با توان‌رسانی ماتریس مجاورت حل می‌شود. ماتریس شامل وزن یال از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span> یا <span class="arithmatex">$\infty$</span> اگر چنین یالی وجود نداشته باشد، خواهد بود.
-به جای عملیات معمول ضرب دو ماتریس، باید از یک عملیات اصلاح شده استفاده شود:
-به جای ضرب، هر دو مقدار با هم جمع می‌شوند و به جای جمع‌بندی، کمینه گرفته می‌شود.
+<p><strong>مسئله:</strong> فرض کن یه گراف جهت‌دار بدون وزن با <span class="arithmatex">$n$</span> تا رأس داری. حالا می‌خوای تعداد مسیرهایی که دقیقاً <span class="arithmatex">$k$</span> تا یال دارن رو از هر رأس <span class="arithmatex">$u$</span> به هر رأس <span class="arithmatex">$v$</span> پیدا کنی.</p>
+<p><strong>راه حل:</strong> این مسئله با جزئیات بیشتر توی <a href="../graph/fixed_length_paths.html">یه مقاله جدا</a> بررسی شده. الگوریتم اینه که ماتریس مجاورت (Adjacency Matrix) گراف یعنی <span class="arithmatex">$M$</span> رو به توان <span class="arithmatex">$k$</span> برسونی (ماتریسی که توش <span class="arithmatex">$m_{ij} = 1$</span> اگه یالی از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span> باشه وگرنه <span class="arithmatex">$0$</span> هست). حالا <span class="arithmatex">$m_{ij}$</span> میشه تعداد مسیرهای به طول <span class="arithmatex">$k$</span> از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span>. پیچیدگی زمانی این راه حل <span class="arithmatex">$O(n^3 \log k)$</span> هست.</p>
+<p><strong>نکته:</strong> توی همون مقاله، یه مدل دیگه از این مسئله هم بررسی شده: وقتی که یال‌ها وزن‌دار هستن و باید مسیری با کمترین وزن پیدا کنی که دقیقاً <span class="arithmatex">$k$</span> تا یال داشته باشه. همونطور که اونجا نشون داده شده، این مسئله هم با به توان رسوندن ماتریس مجاورت حل میشه. ماتریس شامل وزن یال از <span class="arithmatex">$i$</span> به <span class="arithmatex">$j$</span> یا <span class="arithmatex">$\infty$</span> اگه یالی نباشه، خواهد بود.
+فقط به جای عملیات ضرب ماتریسی معمولی، باید از یه عملیات تغییر یافته استفاده کنی:
+به جای ضرب، دو تا مقدار با هم جمع میشن و به جای جمع‌بندی، مینیمم گرفته میشه.
 یعنی: <span class="arithmatex">$result_{ij} = \min\limits_{1\ \leq\ k\ \leq\ n}(a_{ik} + b_{kj})$</span>.</p>
 <h3 id="m">نوعی از توان‌رسانی دودویی: ضرب دو عدد به پیمانه <span class="arithmatex">$m$</span><a class="headerlink" href="#m" title="Permanent link">&para;</a></h3>
-<p><strong>مسئله:</strong> دو عدد <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> را به پیمانه <span class="arithmatex">$m$</span> ضرب کنید. <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> در انواع داده داخلی جا می‌شوند، اما حاصلضرب آنها برای جا شدن در یک عدد صحیح ۶۴ بیتی بسیار بزرگ است. ایده این است که <span class="arithmatex">$a \cdot b \pmod m$</span> را بدون استفاده از حساب اعداد بزرگ (bignum) محاسبه کنیم.</p>
-<p><strong>راه حل:</strong> ما به سادگی الگوریتم ساخت دودویی را که در بالا توضیح داده شد، اعمال می‌کنیم، فقط به جای ضرب، جمع انجام می‌دهیم. به عبارت دیگر، ما ضرب دو عدد را به <span class="arithmatex">$O (\log m)$</span> عملیات جمع و ضرب در دو (که در اصل، یک جمع است) "بسط" داده‌ایم.</p>
+<p><strong>مسئله:</strong> این یه کاربرد یکم متفاوته. فرض کن می‌خوای دو تا عدد <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> رو به پیمانه <span class="arithmatex">$m$</span> ضرب کنی. مشکل اینجاست که <span class="arithmatex">$a$</span> و <span class="arithmatex">$b$</span> توی یه متغیر ۶۴ بیتی جا میشن، ولی حاصل‌ضربشون <span class="arithmatex">$a \cdot b$</span> ممکنه سرریز کنه (overflow) و توی متغیر ۶۴ بیتی جا نشه. ایده اینه که <span class="arithmatex">$a \cdot b \pmod m$</span> رو بدون استفاده از کتابخونه‌های اعداد بزرگ (bignum) حساب کنیم.</p>
+<p><strong>راه حل:</strong> ما خیلی راحت از همون الگوریتم توان‌رسانی دودویی که بالا گفتیم استفاده می‌کنیم، فقط به جای ضرب، از جمع استفاده می‌کنیم. به عبارت دیگه، ما ضرب دو تا عدد رو به <span class="arithmatex">$O(\log b)$</span> تا عملیات جمع و ضرب در دو (که اونم خودش یه جور جمعه) "باز" کردیم.</p>
 <div class="arithmatex">$$a \cdot b = \begin{cases}
-0 &amp;\text{اگر }a = 0 \\
-2 \cdot \frac{a}{2} \cdot b &amp;\text{اگر }a &gt; 0 \text{ و }a \text{ زوج باشد} \\
-2 \cdot \frac{a-1}{2} \cdot b + b &amp;\text{اگر }a &gt; 0 \text{ و }a \text{ فرد باشد}
+0 &amp;\text{اگر }b = 0 \\
+2 \cdot a \cdot \frac{b}{2} &amp;\text{اگر }b &gt; 0 \text{ و }b \text{ زوج باشه} \\
+2 \cdot a \cdot \frac{b-1}{2} + a &amp;\text{اگر }b &gt; 0 \text{ و }b \text{ فرد باشه}
 \end{cases}$$</div>
-<p><strong>نکته:</strong> می‌توانید این مسئله را به روش دیگری با استفاده از عملیات ممیز شناور حل کنید. ابتدا عبارت <span class="arithmatex">$\frac{a \cdot b}{m}$</span> را با استفاده از اعداد ممیز شناور محاسبه کرده و آن را به یک عدد صحیح بدون علامت <span class="arithmatex">$q$</span> تبدیل کنید. <span class="arithmatex">$q \cdot m$</span> را با استفاده از حساب اعداد صحیح بدون علامت از <span class="arithmatex">$a \cdot b$</span> کم کرده و آن را به پیمانه <span class="arithmatex">$m$</span> بگیرید تا پاسخ را پیدا کنید. این راه حل نسبتاً غیرقابل اعتماد به نظر می‌رسد، اما بسیار سریع و پیاده‌سازی آن بسیار آسان است. برای اطلاعات بیشتر به <a href="https://cs.stackexchange.com/questions/77016/modular-multiplication">اینجا</a> مراجعه کنید.</p>
-<h2 id="_8">مسائل تمرینی<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p><strong>نکته:</strong> می‌تونی این مسئله رو با یه روش دیگه با استفاده از اعداد ممیز شناور (floating-point) هم حل کنی. اول عبارت <span class="arithmatex">$\frac{a \cdot b}{m}$</span> رو با استفاده از اعداد ممیز شناور حساب کن و نتیجه رو به یه عدد صحیح بدون علامت <span class="arithmatex">$q$</span> تبدیل کن. بعد <span class="arithmatex">$q \cdot m$</span> رو با استفاده از حساب اعداد صحیح بدون علامت از <span class="arithmatex">$a \cdot b$</span> کم کن و نتیجه رو به پیمانه <span class="arithmatex">$m$</span> بگیر تا به جواب برسی. این راه حل شاید یکم غیرقابل اعتماد به نظر بیاد، ولی خیلی سریعه و پیاده‌سازیش هم خیلی راحته. برای اطلاعات بیشتر <a href="https://cs.stackexchange.com/questions/77016/modular-multiplication">اینجا</a> رو ببین.</p>
+<h2 id="_7">مسائل تمرینی<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>اینم چندتا مسئله برای تمرین بیشتر تا دستت راه بیفته:</p>
 <ul>
 <li><a href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=3671">UVa 1230 - MODEX</a></li>
 <li><a href="http://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=24&amp;page=show_problem&amp;problem=310">UVa 374 - Big Mod</a></li>
@@ -7111,7 +8428,7 @@ a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (29.77%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (25.95%)</li><li><a href="https://github.com/gabrielsimoes" title="gabrielsimoes" data-bi-name="contributorprofile" target="_blank">gabrielsimoes</a> (15.65%)</li><li><a href="https://github.com/back2sqr1" title="back2sqr1" data-bi-name="contributorprofile" target="_blank">back2sqr1</a> (6.11%)</li><li><a href="https://github.com/RodionGork" title="RodionGork" data-bi-name="contributorprofile" target="_blank">RodionGork</a> (5.34%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (3.82%)</li><li><a href="https://github.com/Electron1997" title="Electron1997" data-bi-name="contributorprofile" target="_blank">Electron1997</a> (2.29%)</li><li><a href="#" title="shark_s" data-bi-name="contributorprofile" target="_blank">shark_s</a> (2.29%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.91%)</li><li><a href="https://github.com/Morass" title="Morass" data-bi-name="contributorprofile" target="_blank">Morass</a> (1.91%)</li><li><a href="https://github.com/turfaa" title="turfaa" data-bi-name="contributorprofile" target="_blank">turfaa</a> (1.91%)</li><li><a href="https://github.com/roundspecs" title="roundspecs" data-bi-name="contributorprofile" target="_blank">roundspecs</a> (1.53%)</li><li><a href="https://github.com/rskbansal" title="rskbansal" data-bi-name="contributorprofile" target="_blank">rskbansal</a> (0.38%)</li><li><a href="https://github.com/zhangdavid275" title="zhangdavid275" data-bi-name="contributorprofile" target="_blank">zhangdavid275</a> (0.38%)</li><li><a href="https://github.com/wangwillian0" title="wangwillian0" data-bi-name="contributorprofile" target="_blank">wangwillian0</a> (0.38%)</li><li><a href="https://github.com/algmyr" title="algmyr" data-bi-name="contributorprofile" target="_blank">algmyr</a> (0.38%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/2077DevWave" title="2077DevWave" data-bi-name="contributorprofile" target="_blank">2077DevWave</a> (30.04%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (25.86%)</li><li><a href="https://github.com/gabrielsimoes" title="gabrielsimoes" data-bi-name="contributorprofile" target="_blank">gabrielsimoes</a> (15.59%)</li><li><a href="https://github.com/back2sqr1" title="back2sqr1" data-bi-name="contributorprofile" target="_blank">back2sqr1</a> (6.08%)</li><li><a href="https://github.com/RodionGork" title="RodionGork" data-bi-name="contributorprofile" target="_blank">RodionGork</a> (5.32%)</li><li><a href="https://github.com/tcNickolas" title="tcNickolas" data-bi-name="contributorprofile" target="_blank">tcNickolas</a> (3.8%)</li><li><a href="https://github.com/Electron1997" title="Electron1997" data-bi-name="contributorprofile" target="_blank">Electron1997</a> (2.28%)</li><li><a href="#" title="shark_s" data-bi-name="contributorprofile" target="_blank">shark_s</a> (2.28%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.9%)</li><li><a href="https://github.com/Morass" title="Morass" data-bi-name="contributorprofile" target="_blank">Morass</a> (1.9%)</li><li><a href="https://github.com/turfaa" title="turfaa" data-bi-name="contributorprofile" target="_blank">turfaa</a> (1.9%)</li><li><a href="https://github.com/roundspecs" title="roundspecs" data-bi-name="contributorprofile" target="_blank">roundspecs</a> (1.52%)</li><li><a href="https://github.com/rskbansal" title="rskbansal" data-bi-name="contributorprofile" target="_blank">rskbansal</a> (0.38%)</li><li><a href="https://github.com/zhangdavid275" title="zhangdavid275" data-bi-name="contributorprofile" target="_blank">zhangdavid275</a> (0.38%)</li><li><a href="https://github.com/wangwillian0" title="wangwillian0" data-bi-name="contributorprofile" target="_blank">wangwillian0</a> (0.38%)</li><li><a href="https://github.com/algmyr" title="algmyr" data-bi-name="contributorprofile" target="_blank">algmyr</a> (0.38%)</li></ul>
 </ul>
                 
               </article>
@@ -7157,10 +8474,11 @@ a_{41} &amp; a_ {42} &amp; a_ {43} &amp; a_ {44}
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u06a9\u067e\u06cc \u0634\u062f", "clipboard.copy": "\u06a9\u067e\u06cc \u06a9\u0631\u062f\u0646", "search.result.more.one": "1 \u0645\u0648\u0631\u062f \u062f\u06cc\u06af\u0631 \u062f\u0631 \u0627\u06cc\u0646 \u0635\u0641\u062d\u0647", "search.result.more.other": "# \u0645\u0648\u0631\u062f \u062f\u06cc\u06af\u0631 \u062f\u0631 \u0627\u06cc\u0646 \u0635\u0641\u062d\u0647", "search.result.none": "\u0633\u0646\u062f\u06cc \u06cc\u0627\u0641\u062a \u0646\u0634\u062f", "search.result.one": "1 \u0633\u0646\u062f \u06cc\u0627\u0641\u062a \u0634\u062f", "search.result.other": "# \u0633\u0646\u062f \u06cc\u0627\u0641\u062a \u0634\u062f", "search.result.placeholder": "\u0628\u0631\u0627\u06cc \u0634\u0631\u0648\u0639 \u062c\u0633\u062a\u062c\u0648 \u062a\u0627\u06cc\u067e \u06a9\u0646\u06cc\u062f", "search.result.term.missing": "\u0645\u0648\u062c\u0648\u062f \u0646\u06cc\u0633\u062a", "select.version": "\u0627\u0646\u062a\u062e\u0627\u0628 \u0648\u06cc\u0631\u0627\u06cc\u0634"}, "version": null}</script>
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["toc.integrate", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u06a9\u067e\u06cc \u0634\u062f", "clipboard.copy": "\u06a9\u067e\u06cc \u06a9\u0631\u062f\u0646", "search.result.more.one": "1 \u0645\u0648\u0631\u062f \u062f\u06cc\u06af\u0631 \u062f\u0631 \u0627\u06cc\u0646 \u0635\u0641\u062d\u0647", "search.result.more.other": "# \u0645\u0648\u0631\u062f \u062f\u06cc\u06af\u0631 \u062f\u0631 \u0627\u06cc\u0646 \u0635\u0641\u062d\u0647", "search.result.none": "\u0633\u0646\u062f\u06cc \u06cc\u0627\u0641\u062a \u0646\u0634\u062f", "search.result.one": "1 \u0633\u0646\u062f \u06cc\u0627\u0641\u062a \u0634\u062f", "search.result.other": "# \u0633\u0646\u062f \u06cc\u0627\u0641\u062a \u0634\u062f", "search.result.placeholder": "\u0628\u0631\u0627\u06cc \u0634\u0631\u0648\u0639 \u062c\u0633\u062a\u062c\u0648 \u062a\u0627\u06cc\u067e \u06a9\u0646\u06cc\u062f", "search.result.term.missing": "\u0645\u0648\u062c\u0648\u062f \u0646\u06cc\u0633\u062a", "select.version": "\u0627\u0646\u062a\u062e\u0627\u0628 \u0648\u06cc\u0631\u0627\u06cc\u0634"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../javascript/google.js"></script>
       
